@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SISTEMA CURRICULAR</title>
+    <title>SISTEMA_SAFCI</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                             <div class="p-5">
-                            <img src="img/fondo_login.png" alt="400" class="img-rounded">
+                            <img src="img/fondo_login_safci.png" alt="400" class="img-rounded">
                             </div>
                             </div>
                             <div class="col-lg-6">
@@ -68,11 +68,11 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="index.php">IR A LA PAGINA DE INICIO</a>
+                                        <a class="small" href="index.php">IR A LA PÁGINA DE INICIO</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="#">GERENCIA DE CAPACITACIÓN</a>
-                                        <a class="small" href="#">Contraloria General del Estado </a>
+                                        <a class="small" href="#">PROGRAMA SAFCI-MI SALUD</a></br>
+                                        <a class="small" href="#">Ministerio de Salud y Deportes</a>
                                     </div>
                                 </div>
                             </div>

@@ -5,6 +5,5 @@ $_SESSION = array();
 //	SE DESTRUYE LA SESION
 session_destroy();
 // 	SE REDIRECCIONA A LA PAGINA DE LOGUEO
-header ("Location:login_cge.php");
+header ("Location:index.php");
 ?>
-

@@ -1,24 +1,27 @@
-<?php include("inc.config.php");?>
+<?php 
+include("inc.config.php");?>
 <?php
-date_default_timezone_set('America/La_Paz');
-
 //	SE INICIA LA SESION Y SE CREAN VARIABLES DE SESION PARA EL USUARIO QUE INGRESA AL SISTEMA
 session_start();
 
 $ip		 	= $_SERVER['REMOTE_ADDR'];
 $fecha 		= date("Y-m-d H:i:s");
 
-$usuario 	= $_POST['usuario'];
-$password 	= $_POST['password'];
+$usuario_f 	= $_POST['usuario'];
+$pass_f   	= $_POST['password'];
+
+$usuario    = $link->real_escape_string($usuario_f);
+$password   = $link->real_escape_string($pass_f);
 
 if($usuario == "" or $password == ""){
 
-header("Location:login.php");
+header("Location:index.php");
 
 }else{
-  	$sql = "  SELECT idusuario, idnombre, usuario, password, fecha, condicion, perfil, idarea ";
-	$sql.= "  FROM usuarios WHERE usuarios.usuario = '$usuario'  ";
-	$sql.= "  AND usuarios.password = '$password' AND usuarios.condicion = 'ACTIVO' ";
+	
+  	$sql = " SELECT idusuario, idnombre, usuario, password, fecha, condicion, perfil ";
+	$sql.= " FROM usuarios WHERE usuario = '$usuario' ";
+	$sql.= " AND password = '$password' AND condicion = 'ACTIVO' ";
 	$result = mysqli_query($link,$sql);
 	if ($row = mysqli_fetch_array($result)){
 	mysqli_field_seek($result,0);
@@ -32,7 +35,6 @@ header("Location:login.php");
 		$_SESSION['fecha_ss'] 	    	= $row[4];
 		$_SESSION['condicion_ss'] 	    = $row[5];
 		$_SESSION['perfil_ss'] 	        = $row[6];
-		$_SESSION['idarea_ss'] 	        = $row[7];
 
 		$idusuario	= $row[0];
 		$user       = $row[2];
@@ -59,8 +61,9 @@ header("Location:login.php");
 		$result_i = mysqli_query($link,$sql_i);
 
 		//	SE REDIRECCION AL LOGIN DEL SISTEMA
-		header("Location:login.php");
-	}
 
+		header("Location:index.php");
+		
+	}
 }
 ?>

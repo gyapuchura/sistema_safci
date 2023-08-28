@@ -7,15 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SISTEMA CURRICULAR</title>
+    <title>SISTEMA_SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+  
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
@@ -46,7 +42,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <img src="img/banner_inicio.png" class="d-block w-100" alt="100">
+                    <img src="img/banner_safci_index2.jpg" class="d-block w-100" alt="100">
                 </div>
                 <div class="container-fluid">
 <br>
@@ -56,13 +52,13 @@
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="img/slide1.png" class="d-block w-100" alt="100">
+      <img src="img/slide_1.png" class="d-block w-100" alt="100">
     </div>
     <div class="carousel-item">
-      <img src="img/slide2.png" class="d-block w-100" alt="100">
+      <img src="img/slide_2.png" class="d-block w-100" alt="100">
     </div>
     <div class="carousel-item">
-      <img src="img/slide3.png" class="d-block w-100" alt="100">
+      <img src="img/slide_3.png" class="d-block w-100" alt="100">
     </div>
   </div>
 </div>
@@ -77,7 +73,7 @@
 
 <ul class="nav nav-pills nav-fill">
   <li class="nav-item">
-    <a class="nav-link active" href="panel_consulta.php">PANEL DE CONSULTA</a>
+    <a class="nav-link active" href="recursos_humanos/registro_safci.php">REGISTRO SAFCI</a>
   </li>
   <li class="nav-item">
     <a class="nav-link " href="#"> </a>
@@ -97,7 +93,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Centro de Capacitación &copy; CENCAP 2021</span>
+                        <span>Ministerio de Salud y Deportes &copy; MSYD 2023</span>
                     </div>
                 </div>
             </footer>

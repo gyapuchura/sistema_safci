@@ -1,7 +1,7 @@
 <?php include("cabf.php"); ?>
 <?php include("inc.config.php"); ?>
 <?php
-date_default_timezone_set('UTC');
+date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 
@@ -9,7 +9,7 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$sqlus =" SELECT nombres, paterno, materno FROM nombres WHERE idnombre='$idnombre_ss'";
+$sqlus =" SELECT nombre, paterno, materno FROM nombre WHERE idnombre='$idnombre_ss'";
 $resultus = mysqli_query($link,$sqlus);
 $rowus = mysqli_fetch_array($resultus);
 ?>
@@ -23,13 +23,10 @@ $rowus = mysqli_fetch_array($resultus);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SISTEMA CURRICULAR</title>
+    <title>SISTEMA SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -69,7 +66,7 @@ $rowus = mysqli_fetch_array($resultus);
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img src="img/fondo_inicio.jpg" class="rounded" alt="Eniun">
+                                        <img src="img/fondo_inicio_safci.jpg" class="rounded" alt="Eniun">
                                     </div>
                                     <p>
                                         
