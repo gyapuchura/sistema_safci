@@ -1,10 +1,9 @@
+
+<?php include("../inc.config.php");
+$iddepartamento = $_POST["departamento"];
+?>
 <option value="0">Elegir RED DE SALUD</option>
 <?php
-include("../inc.config.php");
-$options="";
-
-$iddepartamento = $_POST["departamento"];
-
 $numero = 1;
 $sql2 = " SELECT idred_salud, red_salud FROM red_salud WHERE iddepartamento='$iddepartamento' ORDER BY idred_salud";
 $result2 = mysqli_query($link,$sql2);

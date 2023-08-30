@@ -1,6 +1,5 @@
 
-<?php
-include("../inc.config.php");
+<?php include("../inc.config.php");
 $idprofesion  = $_POST['profesion'];
 if ($idprofesion != '1') {
 

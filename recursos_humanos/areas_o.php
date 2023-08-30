@@ -1,10 +1,9 @@
-<option value="0">Elegir UNIDAD ORGANIZACIONAL</option>
-<?php
-include("../inc.config.php");
-$options="";
 
+<?php include("../inc.config.php");
 $iddireccion = $_POST["direccion"];
-
+?>
+<option value="">Elegir UNIDAD ORGANIZACIONAL</option>
+<?php
 $sql2 = "SELECT idarea, area FROM area WHERE iddireccion='$iddireccion' ORDER BY idarea";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){

@@ -1,10 +1,10 @@
+
+<?php include("../inc.config.php");
+$idred_salud = $_POST["red_salud"];
+?>
+
 <option value="0">MUNICIPIO - ESTABLECIMIENTO DE SALUD</option>
 <?php
-include("../inc.config.php");
-$options="";
-
-$idred_salud = $_POST["red_salud"];
-
 $numero = 1;
 $sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.codigo_establecimiento, establecimiento_salud.establecimiento_salud, ";
 $sql2.= " municipios.municipio FROM establecimiento_salud, municipios WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND ";

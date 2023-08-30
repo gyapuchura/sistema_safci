@@ -1,8 +1,8 @@
 <?php 
 include("../inc.config.php"); 
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	 = date("Ymd");
-$fecha 		   = date("Y-m-d");
+$fecha_ram = date("Ymd");
+$fecha 	   = date("Y-m-d");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -69,12 +69,10 @@ $fecha 		   = date("Y-m-d");
                 <h4 class="text-primary">1.- DATOS PERSONALES:</h4>
                 </div>   
 
-               
+                <form name="FORMREG" action="guarda_registroh_o.php" method="post">               
                  <!--- begin registro personal safci -----> 
                 <div class="card-body"> 
                 <div class="form-group row">
-
-                <form name="FORMREG" action="guarda_registroh_o.php" method="post">
                     <div class="col-sm-3 mb-3 mb-sm-0">
                     <h5 class="text-primary">NOMBRES:</h5>
                     <input type="text" class="form-control" name="nombre" placeholder="Nombres" 
@@ -280,12 +278,8 @@ $fecha 		   = date("Y-m-d");
                     <div class="row">
                     <div class="col-md-12"><h5> </h5></div>
                     </div>
-
                     <div id="dependencia_mds"></div>
-
-                    </div>   
-
-                                   
+                    </div>                                      
                     <div class="row">
                         <div class="col-md-4"><h4></h4></div>
                         <div class="col-md-8">    
@@ -323,8 +317,6 @@ $fecha 		   = date("Y-m-d");
 
                         </form>
                     <!-- Modal -->
-
-
                     </div>
                     </div> 
                 </div>
@@ -387,7 +379,6 @@ $fecha 		   = date("Y-m-d");
     <script>
     $("#fecha1").datepicker($.datepicker.regional[ "es" ]);
     </script>
-
     <script language="javascript">
     $(document).ready(function(){
     $("#idprofesion").change(function () {
@@ -413,9 +404,5 @@ $fecha 		   = date("Y-m-d");
     })
     });
     </script>
-
-
-
 </body>
-
 </html>
