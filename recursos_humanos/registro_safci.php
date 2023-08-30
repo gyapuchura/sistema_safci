@@ -62,14 +62,19 @@ $fecha 		   = date("Y-m-d");
 
                 <div class="card shadow mb-4">
                 <div class="card-header py-3">  
+
             <form name="FORMREG" action="guarda_registroh_o.php" method="post">
+
                 <div class="card-body">                              
                 <h4 class="text-primary">1.- DATOS PERSONALES:</h4>
                 </div>   
 
+               
                  <!--- begin registro personal safci -----> 
                 <div class="card-body"> 
                 <div class="form-group row">
+
+                <form name="FORMREG" action="guarda_registroh_o.php" method="post">
                     <div class="col-sm-3 mb-3 mb-sm-0">
                     <h5 class="text-primary">NOMBRES:</h5>
                     <input type="text" class="form-control" name="nombre" placeholder="Nombres" 
@@ -202,7 +207,7 @@ $fecha 		   = date("Y-m-d");
                         <select name="idprofesion"  id="idprofesion" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = "SELECT idprofesion, profesion FROM profesion ";
+                            $sql1 = "SELECT idprofesion, profesion FROM profesion ORDER BY idprofesion ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -280,7 +285,7 @@ $fecha 		   = date("Y-m-d");
 
                     </div>   
 
-                    <div class="card-body">                    
+                                   
                     <div class="row">
                         <div class="col-md-4"><h4></h4></div>
                         <div class="col-md-8">    
