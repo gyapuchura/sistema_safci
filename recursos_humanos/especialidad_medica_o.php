@@ -1,38 +1,37 @@
 
-<?php include("../inc.config.php");
-$idprofesion  = $_POST['profesion'];
-if ($idprofesion != '1') {
-
-} else {
-    ?>  
-     <div class="row">
-            <div class="col-md-12"><h5> </h5></div>
-            </div>
-            <div class="row">
-            <div class="col-md-12"><h5> </h5></div>
-            </div>
-            <div class="row">
-            <div class="col-md-3"><h5 class="text-primary">ESPECIALIDAD MÉDICA:</h5></div>
-            <div class="col-md-9">
+<?php 
+include("../inc.config.php");
+$idprofesion = $_POST['profesion'];
+if ($idprofesion == '1') {
+    ?>
+        <div class="form-group row"> 
+            <div class="col-sm-3">
+            <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6> 
+            </div>                              
+            <div class="col-sm-9">
                 <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required>
                     <option value="">ELEGIR</option>
                     <?php
-                    $sql1 = "SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica ORDER BY idespecialidad_medica ";
+                    $sql1 = "SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica !='45' ORDER BY especialidad_medica ";
                     $result1 = mysqli_query($link,$sql1);
                     if ($row1 = mysqli_fetch_array($result1)){
                     mysqli_field_seek($result1,0);
                     while ($field1 = mysqli_fetch_field($result1)){
                     } do {
-                    echo "<option value=". $row1[0]. ">". $row1[1]. "</option>";
+                    echo "<option value=".$row1[0].">".$row1[1]."</option>";
                     } while ($row1 = mysqli_fetch_array($result1));
                     } else {
                     echo "No se encontraron resultados!";
                     }
                     ?>
-                    </select>
-                    </div>
-            </div>
-        <?php    
-        }
+                </select>
+            </div>                              
+        </div>
+    <?php
+    } else {  
         ?>
-
+<input type="hidden" name="idespecialidad_medica" value="45">
+        <?php
+     }
+        ?>
+        

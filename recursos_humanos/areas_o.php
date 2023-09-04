@@ -10,7 +10,7 @@ if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
 while ($field2 = mysqli_fetch_field($result2)){
 } do {
-    echo "<option value=". $row2[0]. ">".$row2[1]."</option>";
+    echo "<option value=".$row2[0].">".$row2[1]."</option>";
 } while ($row2 = mysqli_fetch_array($result2));
 } else {
 echo "No se encontraron resultados!";
