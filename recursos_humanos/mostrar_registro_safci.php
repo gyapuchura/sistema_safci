@@ -1,10 +1,13 @@
-<?php include("../cabf_o.php"); ?>
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
-$hora       = date("h:i");
+$fecha_ram				= date("Ymd");
+$fecha 					= date("Y-m-d");
+
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idpersonal_ss = $_SESSION['idpersonal_ss'];
 $codigo_ss     = $_SESSION['codigo_ss'];
@@ -25,6 +28,7 @@ $sql_l.= "  iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salu
 $sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ";
 $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,7 +58,7 @@ $row_l = mysqli_fetch_array($result_l);
     <div id="wrapper">
 
         <!-- Sidebar -->
-
+        <?php include("../menu.php");?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -64,7 +68,7 @@ $row_l = mysqli_fetch_array($result_l);
             <div id="content">
 
                 <!-- Topbar -->
-                <img src="../img/banner_safci_index2.jpg" alt="10" class="img-thumbnail">
+                <?php include("../top_bar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -73,22 +77,24 @@ $row_l = mysqli_fetch_array($result_l);
 
     <div class="container">
     </br>
-        <div class="text-center">          
-            <h6 class="text-primary"><a href="registro_safci.php">VOLVER</a></h6>
-        </div>
-        <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card o-hidden border-0 shadow-lg my-2">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h4 class="text-success">REGISTRO SATISFACTORIO !!!</h4>
-                                <h4 class="text-success">VERIFIQUE LOS DATOS!!!</h4>
-                                <h4 class="text-primary">REGISTRO SAFCI</h4>
-                                <h4><?php echo $codigo_ss;?></h4>
-                            </div>
-                            </br>
+                        <div class="p-5">                       
+                        <div class="text-center">   
+                        <a href="mostrar_registro_safci.php">VOLVER</a> 
+                        <hr>                    
+                        <h4 class="text-primary">REGISTRO SAFCI</h4>
+                        <h4><?php echo $codigo_ss;?></h4>
+                        </div>
+<!-- END aqui va el TITULO de la pagina ---->
+
+<!-- BEGIN aqui va el comntenido de la pagina ---->
+                                <div class="col-lg-12">  
+                                <div class="p-5"> 
+
                                 <div class="form-group row">
                                     <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
                                 </div>
@@ -136,7 +142,7 @@ $row_l = mysqli_fetch_array($result_l);
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">GÉNERO</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[10];?>" disabled> 
+                                    <input type="text" class="form-control"  value="<?php echo $row[11];?>" disabled> 
                                     </div>                          
                                 </div>
 
@@ -425,6 +431,15 @@ $row_l = mysqli_fetch_array($result_l);
               
                 <?php } } ?>
 
+                </br>
+                <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                    <a class="btn btn-warning" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
+                    </div>
+                </div>
+                </div>
+
                 <div class="form-group row">
                     <div class="col-sm-6">
 
@@ -432,25 +447,34 @@ $row_l = mysqli_fetch_array($result_l);
                     <div class="col-sm-6">
 
                     </div>
-                </div>
+                </div>                  
 
-                    <!--  -->
-                    <div class="text-center">    
-                        <div class="form-group row">
-                            <div class="col-sm-12"> 
-                                <a class="btn btn-success" href="registro_safci.php">FINALIZAR REGISTRO SAFCI</a>
-                            </div>                              
-                        </div>
-                    </div>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="#">Ministerio de Salud y Deportes</a>
-                            </div>
-                        </div>
-                    </div>
+
+                    
+<!-- END aqui va el comntenido de la pagina ---->
+                </div>
+                <div class="text-center">
+                    <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
+                </div>
+                <div class="text-center">
+                    <a class="small" href="#">Ministerio de Salud y Deportes</a>
+                </div>
+            </div>   
+        </div>   
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="../salir.php">Salir de Sistema</a>
                 </div>
             </div>
         </div>
@@ -466,9 +490,18 @@ $row_l = mysqli_fetch_array($result_l);
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
-        <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-    </body>
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+
+ 
+
+    <!-- scripts para calendario -->
+   
+
+
+
+</body>
+
 </html>

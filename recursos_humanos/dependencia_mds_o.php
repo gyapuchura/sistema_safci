@@ -147,10 +147,10 @@ $iddependencia  = $_POST['dependencia'];
     <?php } else { ?>
 
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                     <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
                         <option value="">ELEGIR</option>
                         <?php
@@ -171,36 +171,36 @@ $iddependencia  = $_POST['dependencia'];
                 </div>
    
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                     <h6 class="text-primary">RED DE SALUD:</h6>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                     <select name="idred_salud" id="idred_salud" class="form-control" required></select>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                     <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                     <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-6">
-                    <h6 class="text-primary">CARGO:</h6>
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">CARGO:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                     <textarea class="form-control" rows="2" name="cargo_red_salud" required></textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                     <h6 class="text-primary">NÚMERO DE ÍTEM:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                     <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
                     required pattern="[A-Z0-9_-]{5,12}$" 
                     title="El numero de ÍTEM solo puede contener DIGITOS numéricos." >

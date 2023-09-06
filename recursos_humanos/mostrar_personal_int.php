@@ -1,4 +1,4 @@
-<?php include("../cabf_o.php"); ?>
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -54,7 +54,7 @@ $row_l = mysqli_fetch_array($result_l);
     <div id="wrapper">
 
         <!-- Sidebar -->
-
+        <?php include("../menu.php");?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -64,7 +64,7 @@ $row_l = mysqli_fetch_array($result_l);
             <div id="content">
 
                 <!-- Topbar -->
-                <img src="../img/banner_safci_index2.jpg" alt="10" class="img-thumbnail">
+                <?php include("../top_bar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -73,9 +73,6 @@ $row_l = mysqli_fetch_array($result_l);
 
     <div class="container">
     </br>
-        <div class="text-center">          
-            <h6 class="text-primary"><a href="registro_safci.php">VOLVER</a></h6>
-        </div>
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
@@ -85,7 +82,7 @@ $row_l = mysqli_fetch_array($result_l);
                             <div class="text-center">
                                 <h4 class="text-success">REGISTRO SATISFACTORIO !!!</h4>
                                 <h4 class="text-success">VERIFIQUE LOS DATOS!!!</h4>
-                                <h4 class="text-primary">REGISTRO SAFCI</h4>
+                                <h4 class="text-primary">REGISTRO SAFCI <?php echo $idpersonal_ss;; ?></h4>
                                 <h4><?php echo $codigo_ss;?></h4>
                             </div>
                             </br>
@@ -424,6 +421,12 @@ $row_l = mysqli_fetch_array($result_l);
                 </div>             
               
                 <?php } } ?>
+
+                <div class="form-group row">
+                    <div class="text-center">
+                    <a class="btn btn-primary" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
+                    </div>
+                </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">

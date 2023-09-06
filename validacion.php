@@ -48,7 +48,7 @@ header("Location:index.php");
 
 		//	SE REDIRECCIONA A LA PAGINA DE INICIO DEL SISTEMA
 
-		 header("Location:inicio.php");
+		 header("Location:administrar_sistema/inicio.php");
 
 
 	} while ($row = mysqli_fetch_array($result));

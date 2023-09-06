@@ -1,4 +1,4 @@
-<?php include("../cabf_o.php");?>
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -8,6 +8,7 @@ $hora    = date("h:i");
 $gestion = date("Y");
 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
+
 $nombre      = $link->real_escape_string($_POST['nombre']);
 $paterno     = $link->real_escape_string($_POST['paterno']);
 $materno     = $link->real_escape_string($_POST['materno']);
@@ -48,8 +49,6 @@ $item_red_salud = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
 
-
-
 //verificamos existencia del número de cedula de identidad y rescatamos los datos en sesion.
     $sql9 = " SELECT idnombre, paterno, materno, nombre, ci FROM nombre WHERE ci='$ci' ";
     $result9 = mysqli_query($link,$sql9);
@@ -61,7 +60,7 @@ $item_red_salud = $link->real_escape_string($_POST['item_red_salud']);
             $_SESSION['materno_inscrito_ss']  = $row9[2]; 
             $_SESSION['ci_inscrito_ss']       = $row9[4];  
 
-            header("Location:usuario_existe_o.php");
+            header("Location:personal_existe.php");
       }  
       else {
 
@@ -118,7 +117,7 @@ if ($iddependencia == '1') {
     $idpersonal = mysqli_insert_id($link);
     $_SESSION['idpersonal_ss'] = $idpersonal; 
 
-    header("Location:mostrar_personal.php");
+    header("Location:mostrar_personal_int.php");
 
 } else {
     if ($iddependencia == '2') {
@@ -146,7 +145,7 @@ if ($iddependencia == '1') {
         $_SESSION['idpersonal_ss'] = $idpersonal; 
         $_SESSION['codigo_ss'] = $codigo; 
 
-        header("Location:mostrar_personal.php");
+        header("Location:mostrar_personal_int.php");
 
     } else {
         if ($iddependencia == '3') {
@@ -175,7 +174,7 @@ if ($iddependencia == '1') {
         $sql9.= " VALUES ('$idred_salud','$idestablecimiento_salud','$cargo_red_salud','$item_red_salud' )";
         $result9 = mysqli_query($link,$sql9);  
     
-        header("Location:mostrar_personal.php");
+        header("Location:mostrar_personal_int.php");
 
         } else {
 //------ En caso de existir otro tipo de dependencia laboral del interesado ------//           

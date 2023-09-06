@@ -13,7 +13,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <a class="nav-link" href="inicio.php">
+    <a class="nav-link" href="../administrar_sistema/inicio.php">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>ADMINISTRACION DE SISTEMA</span></a>
 </li>
@@ -36,9 +36,9 @@
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">ELEGIR:</h6>
-            <a class="collapse-item" href="areas_conocimiento.php">AREAS DE <BR> CONOCIMIENTO</a>
-            <a class="collapse-item" href="nueva_area_conocimiento.php">NUEVA ÁREA <BR> DE CONOCIMIENTO</a>
-            <a class="collapse-item" href="nueva_tematica.php">NUEVA TEMÁTICA</a>
+            <a class="collapse-item" href="../recursos_humanos/recursos_humanos.php">RECURSOS HUMANOS</a>
+            <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
+            <a class="collapse-item" href="#">REDES DE SALUD</a>
         </div>
     </div>
 </li>
@@ -53,9 +53,11 @@
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">MACROCURRICULA:</h6>
-            <a class="collapse-item" href="macrocurriculas.php">MACROCURRÍCULAS</a>
-            <a class="collapse-item" href="nueva_macrocurricula.php">NUEVA<BR>MACROCURRÍCULA</a>
+            <h6 class="collapse-header">SALAS:</h6>
+            <a class="collapse-item" href="#">NACIONAL</a>
+            <a class="collapse-item" href="#">DEPARTAMENTAL</a>
+            <a class="collapse-item" href="#">MUNICIPAL</a>
+            <a class="collapse-item" href="#">VECINAL</a>
         </div>
     </div>
 </li>
@@ -69,9 +71,9 @@
     <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">MICROCURRÍCULA:</h6>
-            <a class="collapse-item" href="microcurriculas.php">MICROCURRICULAS</a>
-            <a class="collapse-item" href="nueva_microcurricula.php">NUEVA<BR>MICROCURRICULA</a>
+            <h6 class="collapse-header">SAFCI:</h6>
+            <a class="collapse-item" href="#">CARPETAS FAMILIARES</a>
+            <a class="collapse-item" href="#">REGISTRO FAMILIAR</a>
         </div>
     </div>
 </li>

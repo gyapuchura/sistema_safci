@@ -1,5 +1,5 @@
-<?php include("cabf.php"); ?>
-<?php include("inc.config.php"); ?>
+<?php include("../cabf.php"); ?>
+<?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
@@ -26,13 +26,13 @@ $rowus = mysqli_fetch_array($resultus);
     <title>SISTEMA SAFCI</title>
 
     <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -43,7 +43,7 @@ $rowus = mysqli_fetch_array($resultus);
 
         <!-- Sidebar -->
 
-        <?php include("menu.php");?>
+        <?php include("../menu.php");?>
 
         <!-- End of Sidebar -->
 
@@ -54,7 +54,7 @@ $rowus = mysqli_fetch_array($resultus);
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include("top_bar.php"); ?>
+                <?php include("../top_bar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -66,7 +66,7 @@ $rowus = mysqli_fetch_array($resultus);
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img src="img/fondo_inicio_safci.jpg" class="rounded" alt="Eniun">
+                                        <img src="../img/fondo_inicio_safci.jpg" class="rounded" alt="Eniun">
                                     </div>
                                     <p>
                                         
@@ -94,27 +94,21 @@ $rowus = mysqli_fetch_array($resultus);
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-
- 
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
    
-
-
-
 </body>
 
 </html>

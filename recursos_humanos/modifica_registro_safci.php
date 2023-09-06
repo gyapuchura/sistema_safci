@@ -1,17 +1,20 @@
-<?php include("../cabf_o.php"); ?>
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
-$hora       = date("h:i");
+$fecha_ram				= date("Ymd");
+$fecha 					= date("Y-m-d");
+
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idpersonal_ss = $_SESSION['idpersonal_ss'];
 $codigo_ss     = $_SESSION['codigo_ss'];
 
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
-$sql.= " nombre.ci, nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, ";
-$sql.= " profesion.profesion, especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral ";
+$sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, ";
+$sql.= " nombre_datos.idprofesion, nombre_datos.idespecialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos ";
 $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
@@ -21,10 +24,11 @@ $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
 $sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddependencia, entidad, cargo_entidad, idministerio, iddireccion, idarea, cargo_mds,";
-$sql_l.= "  iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud ";
+$sql_l.= " iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud ";
 $sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ";
 $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,7 +58,7 @@ $row_l = mysqli_fetch_array($result_l);
     <div id="wrapper">
 
         <!-- Sidebar -->
-
+        <?php include("../menu.php");?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -64,7 +68,7 @@ $row_l = mysqli_fetch_array($result_l);
             <div id="content">
 
                 <!-- Topbar -->
-                <img src="../img/banner_safci_index2.jpg" alt="10" class="img-thumbnail">
+                <?php include("../top_bar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -73,39 +77,43 @@ $row_l = mysqli_fetch_array($result_l);
 
     <div class="container">
     </br>
-        <div class="text-center">          
-            <h6 class="text-primary"><a href="registro_safci.php">VOLVER</a></h6>
-        </div>
-        <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card o-hidden border-0 shadow-lg my-2">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h4 class="text-success">REGISTRO SATISFACTORIO !!!</h4>
-                                <h4 class="text-success">VERIFIQUE LOS DATOS!!!</h4>
-                                <h4 class="text-primary">REGISTRO SAFCI</h4>
-                                <h4><?php echo $codigo_ss;?></h4>
-                            </div>
-                            </br>
-                                <div class="form-group row">
+                        <div class="p-3">               
+                    <div class="text-center">   
+                    <a href="recursos_humanos.php"><h6>VOLVER</h6></a>
+                    <hr>                     
+                    <h4 class="text-primary">ACTUALIZAR REGISTRO SAFCI</h4>
+                    <h4><?php echo $codigo_ss;?></h4>
+                    </div>
+<!-- END aqui va el TITULO de la pagina ---->
+
+<!-- BEGIN aqui va el comntenido de la pagina ---->
+                    <div class="col-lg-12">  
+                    <div class="p-5"> 
+
+                    <div class="form-group row">
                                     <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
                                 </div>
                                 <hr>
-                        <form name="FORMREG" action="guarda_personal.php" method="post">  
+                        <form name="FORMREG" action="guarda_personal_mod.php" method="post">  
+
+                        <input type="hidden" name="idnombre_mod" value="<?php echo $row[2];?>">
                                 <div class="form-group row">                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[3];?>" disabled>                       
+                                    <input type="text" class="form-control" name="nombre" value="<?php echo $row[3];?>" required>                       
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[4];?>" disabled>                                     
+                                    <input type="text" class="form-control" name="paterno" value="<?php echo $row[4];?>" required>                                     
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[5];?>" disabled>                                    
+                                    <input type="text" class="form-control" name="materno" value="<?php echo $row[5];?>" required>                                    
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
@@ -113,80 +121,234 @@ $row_l = mysqli_fetch_array($result_l);
                                         $fecha_n = explode('-',$row[6]);
                                         $fecha_nac = $fecha_n[2].'/'.$fecha_n[1].'/'.$fecha_n[0];
                                         echo $fecha_nac;
-                                        ?>" disabled>    
+                                        ?>" >    
                                     </div>                              
                                 </div>
 
                                 <div class="form-group row">                            
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">CÉDULA DE ID:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[7];?>" disabled> 
+                                    <input type="text" class="form-control" name="ci" value="<?php echo $row[7];?>" required> 
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">COMPLEMENTO:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[8];?>" disabled> 
+                                    <input type="text" class="form-control" name="complemento" value="<?php echo $row[8];?>" > 
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">EXPEDICIÓN:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[9];?>" disabled> 
+                                    <select name="exp"  id="exp" class="form-control" required >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = "SELECT iddepartamento, departamento, sigla FROM departamento ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[2];?>" <?php if ($rowv[2]==$row[9]) echo "selected";?> ><?php echo $rowv[2];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                    </select>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NACIONALIDAD</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[10];?>" disabled> 
+                                    <select name="idnacionalidad"  id="idnacionalidad" class="form-control" required >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = "SELECT idnacionalidad, nacionalidad FROM nacionalidad ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[10]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                    </select>
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">GÉNERO</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[10];?>" disabled> 
+                                    <select name="idgenero"  id="idgenero" class="form-control" required >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = " SELECT idgenero, genero FROM genero ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[11]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                    </select>
                                     </div>                          
                                 </div>
 
-                                <hr>
+                                </br>
+                                <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="text-center">
+                                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#personales">
+                                        ACTUALIZAR DATOS PERSONALES                                
+                                    </a>                                    
+                                    </div>
+                                </div>
+                                </div>
+
+                                <!-- BEGIN Datos Personales Modal-->
+                                <div class="modal fade" id="personales" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE MODIFICAR LOS DATOS PERSONALES?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Seleccione la opción para confirmar la modificación.</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <button class="btn btn-primary" type="submit">Confirmar Cambios</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+                                <!-- END Datos Personales Modal-->
                                 </br>
                 <div class="form-group row">
                     <h5 class="text-primary">2.- DATOS COMPLEMENTARIOS:</h5>                                 
                 </div>
                                 <hr>
+                    <form name="COMPLEMENTARIOS" action="guarda_complementarios_mod.php" method="post"> 
+                    <input type="hidden" name="idnombre_datos" value="<?php echo $row[20];?>">
                                 <div class="form-group row">
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">FORMACIÓN ACADÉMICA:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[12];?>" disabled> 
+                                    <select name="idformacion_academica"  id="idformacion_academica" class="form-control" required >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = "SELECT idformacion_academica, formacion_academica FROM formacion_academica ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[12]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                    </select>
+                                     
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PROFESIÓN/OCUPACIÓN:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[13];?>" disabled> 
+                                    <select name="idprofesion"  id="idprofesion" class="form-control" required >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = " SELECT idprofesion, profesion FROM profesion ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[13]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                    </select>
                                     </div>                              
                                 </div>
                                 
-                           <?php
-                           if ($row[18] =='1') {
-                            ?>
                                 <div class="form-group row">                                
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[14];?>" disabled>
+                                    <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = " SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[14]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                    </select>
                                     </div>
                                 </div>
-                            <?php
-                           } else {
-                            
-                           }
-                           ?>
+
                                 <div class="form-group row">                                
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">CORREO ELECTRÓNICO:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[15];?>" disabled>
+                                    <input type="text" class="form-control" name="correo" value="<?php echo $row[15];?>" >
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">TELÉFONO CELULAR/WHATSAPP:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[16];?>" disabled>
+                                    <input type="text" class="form-control" name="celular" value="<?php echo $row[16];?>" >
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">DIRECCIÓN/DOMICILIO:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[17];?>" disabled>
+                                    <input type="text" class="form-control" name="direccion_dom" value="<?php echo $row[17];?>" >
                                     </div>
                                 </div>      
-       <!-- Begin datos laborales -->
-                <hr>
+                                <!-- end datos laborales -->
+                                <hr>
+                                </br>
+                                <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <div class="text-center">
+                                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#complementarios">
+                                        ACTUALIZAR DATOS COMPLEMENTARIOS                                
+                                    </a>                                    
+                                    </div>
+                                </div>
+                                </div>
+
+                                <!-- BEGIN Datos Personales Modal-->
+                                <div class="modal fade" id="complementarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE MODIFICAR LOS DATOS COMPLEMENTARIOS?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">Seleccione la opcion para confirmar la modificación.</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                <button class="btn btn-primary" type="submit">Confirmar Cambios</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </form>
+                                <!-- END Datos Personales Modal-->
+
                 </br>
                 <div class="form-group row">
                     <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
@@ -426,36 +588,54 @@ $row_l = mysqli_fetch_array($result_l);
                 <?php } } ?>
 
                 <div class="form-group row">
-                    <div class="col-sm-6">
-
-                    </div>
-                    <div class="col-sm-6">
-
+                <div class="col-sm-12">
+                    <div class="text-center">
+                    <a class="btn btn-primary" href="datos_laborales.php" >
+                        ACTUALIZAR DATOS LABORALES                                
+                    </a>                                    
                     </div>
                 </div>
+                </div>
 
-                    <!--  -->
-                    <div class="text-center">    
-                        <div class="form-group row">
-                            <div class="col-sm-12"> 
-                                <a class="btn btn-success" href="registro_safci.php">FINALIZAR REGISTRO SAFCI</a>
-                            </div>                              
-                        </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
                     </div>
-                            <hr>
-                            <div class="text-center">
-                                <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="#">Ministerio de Salud y Deportes</a>
-                            </div>
-                        </div>
+                    <div class="col-sm-6">
                     </div>
+                </div>                  
+                    
+<!-- END aqui va el comntenido de la pagina ---->
+                </div>
+                <div class="text-center">
+                    <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
+                </div>
+                <div class="text-center">
+                    <a class="small" href="#">Ministerio de Salud y Deportes</a>
+                </div>
+            </div>   
+        </div> 
+        
+    </div>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="../salir.php">Salir de Sistema</a>
                 </div>
             </div>
         </div>
     </div>
 
+   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -466,9 +646,12 @@ $row_l = mysqli_fetch_array($result_l);
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
-        <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-    </body>
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- scripts para calendario -->
+   
+</body>
+
 </html>

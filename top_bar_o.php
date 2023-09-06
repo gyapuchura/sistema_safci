@@ -7,7 +7,7 @@
 </form>
 
 <!-- Topbar Search -->
-<img src="../img/banner_medisafci.png" alt="10" class="img-thumbnail">
+<img src="img/banner_medisafci.png" alt="10" class="img-thumbnail">
 
 <!-- Topbar Navbar -->
 <ul class="navbar-nav ml-auto">
@@ -17,13 +17,13 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="mr-2 d-none d-lg-inline text-gray-600 small">                                
             <?php
-$sqlus =" SELECT nombre, paterno, materno FROM nombre WHERE idnombre='$idnombre_ss'";
-$resultus = mysqli_query($link,$sqlus);
-$rowus = mysqli_fetch_array($resultus);?>
-<?php echo $rowus[0];?> <?php echo $rowus[1];?> <?php echo $rowus[2];?> - <?php echo $perfil_ss;?>
+                $sqlus =" SELECT nombre, paterno, materno FROM nombre WHERE idnombre='$idnombre_ss'";
+                $resultus = mysqli_query($link,$sqlus);
+                $rowus = mysqli_fetch_array($resultus);?>
+                <?php echo $rowus[0];?> <?php echo $rowus[1];?> <?php echo $rowus[2];?> - <?php echo $perfil_ss;?>
             </span>
             <img class="img-profile rounded-circle"
-                src="../img/undraw_profile.svg">
+                src="img/undraw_profile.svg">
         </a>
         <!-- Dropdown - informacion de usuario -->
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -66,7 +66,7 @@ $rowus = mysqli_fetch_array($resultus);?>
                 <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../salir.php">Salir de Sistema</a>
+                    <a class="btn btn-primary" href="salir.php">Salir de Sistema</a>
                 </div>
             </div>
         </div>
