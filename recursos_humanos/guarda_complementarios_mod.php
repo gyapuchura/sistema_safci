@@ -25,6 +25,6 @@ $sql8 =" UPDATE nombre_datos SET idformacion_academica='$idformacion_academica',
 $sql8.=" correo='$correo', celular='$celular', direccion_dom='$direccion_dom' WHERE idnombre_datos='$idnombre_datos' ";
 $result8 = mysqli_query($link,$sql8); 
 
-header("Location:modifica_registro_safci.php");
+header("Location:mensaje_complementarios_mod.php");
 
 ?>

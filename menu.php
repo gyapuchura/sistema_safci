@@ -38,7 +38,9 @@
             <h6 class="collapse-header">ELEGIR:</h6>
             <a class="collapse-item" href="../recursos_humanos/recursos_humanos.php">RECURSOS HUMANOS</a>
             <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
-            <a class="collapse-item" href="#">REDES DE SALUD</a>
+            <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
+            <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
+            <a class="collapse-item" href="../recursos_humanos/nuevo_establecimiento.php">NUEVO</br>ESTABLECIMIENTO</br>DE SALUD</a>
         </div>
     </div>
 </li>

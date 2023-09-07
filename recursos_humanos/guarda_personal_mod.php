@@ -36,6 +36,6 @@ $idgenero       = $_POST['idgenero'];
     $sql8 =" UPDATE nombre SET nombre='$nombre', paterno='$paterno', materno='$materno', fecha_nac='$fecha_nac', ci='$ci', ";
     $sql8.=" complemento='$complemento', exp='$exp', idnacionalidad='$idnacionalidad', idgenero='$idgenero' WHERE idnombre='$idnombre_mod' ";
     $result8 = mysqli_query($link,$sql8);
-    header("Location:modifica_registro_safci.php");
+    header("Location:mensaje_personal_mod.php");
 
 ?>

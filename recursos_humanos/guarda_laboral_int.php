@@ -10,6 +10,9 @@ $idusuario_ss = $_SESSION['idusuario_ss'];
 $idnombre_ss  = $_SESSION['idnombre_ss'];
 $perfil_ss    = $_SESSION['perfil_ss'];
 
+$idpersonal_ss = $_SESSION['idpersonal_ss'];
+$codigo_ss     = $_SESSION['codigo_ss'];
+
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
 
 $iddependencia = $_POST['iddependencia'];
@@ -45,6 +48,11 @@ if ($iddependencia == '1') {
     $sql2.= " '0','0','0','','$iddepartamento','0','0','','','') ";
     $result2 = mysqli_query($link,$sql2);
 
+    $iddato_laboral = mysqli_insert_id($link);
+
+    $sql3.= " UPDATE personal SET iddato_laboral='$iddato_laboral' WHERE idpersonal='$idpersonal_ss' ";
+    $result3 = mysqli_query($link,$sql3);
+
     header("Location:mensaje_laboral_personal.php");
 
 } else {
@@ -58,6 +66,11 @@ if ($iddependencia == '1') {
         $sql2.= " '$idministerio','$iddireccion','$idarea','$cargo_mds','$iddepartamento','0','0','','$item_mds','') ";
         $result2 = mysqli_query($link,$sql2);
 
+        $iddato_laboral = mysqli_insert_id($link);
+
+        $sql3.= " UPDATE personal SET iddato_laboral='$iddato_laboral' WHERE idpersonal='$idpersonal_ss' ";
+        $result3 = mysqli_query($link,$sql3);
+
         header("Location:mensaje_laboral_personal.php");
 
     } else {
@@ -70,6 +83,11 @@ if ($iddependencia == '1') {
         $sql2.= " VALUES ('$idnombre_per','$idusuario_per','$iddependencia','','',";
         $sql2.= "  '0','0','0','','$iddepartamento','$idred_salud','$idestablecimiento_salud','$cargo_red_salud','','$item_red_salud' ) ";
         $result2 = mysqli_query($link,$sql2);
+
+        $iddato_laboral = mysqli_insert_id($link);
+
+        $sql3.= " UPDATE personal SET iddato_laboral='$iddato_laboral' WHERE idpersonal='$idpersonal_ss' ";
+        $result3 = mysqli_query($link,$sql3);
 
         header("Location:mensaje_laboral_personal.php");
 

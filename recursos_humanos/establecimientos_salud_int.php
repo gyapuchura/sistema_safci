@@ -9,6 +9,8 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idred_salud_ss  =  $_SESSION['idred_salud_ss'];
+
 $sqlus =" SELECT nombres, paterno, materno FROM nombres WHERE idnombre='$idnombre_ss'";
 $resultus = mysqli_query($link,$sqlus);
 $rowus = mysqli_fetch_array($resultus);
@@ -61,76 +63,77 @@ $rowus = mysqli_fetch_array($resultus);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">RECURSOS HUMANOS SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el regsitro de recusos humanos del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                        </br>
+                    <div class="text-center"> 
+                            <a href="redes_salud.php"><h6>VOLVER</h6></a>
+                    </div>
 
+                    <h1 class="h3 mb-2 text-gray-800">ESTABLECIMIENTOS DE SALUD</h1>
+                    <p class="mb-4">En esta seccion se puede encontrar el regsitro de REDES DE SALUD del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+
+                    
                     <!-- DataTales Example -->
+
                     <div class="card shadow mb-4">
+
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">PERSONAL SAFCI</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTOS DE SALUD</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="example" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>  
-                                            <th>N°</th>                                     
-                                            <th>CÓDIGO PERSONAL</th>
-                                            <th>CÉDULA DE IDENTIDAD</th>
-                                            <th>PATERNO</th>
-                                            <th>MATERNO</th>
-                                            <th>NOMBRES</th>
-                                            <th>DEPARTAMENTO</th>
+                                            <th>N°</th>                                    
+                                            <th>CÓDIGO</th>
+                                            <th>MUNICIPIO</th>
+                                            <th>ESTABLECIMIENTO DE SALUD</th>
+                                            <th>NIVEL</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, ";
-                        $sql.=" nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, ";
-                        $sql.=" especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento ";
-                        $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento ";
-                        $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
-                        $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento ";
-                        $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY personal.idpersonal DESC ";
+                        $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.codigo_establecimiento, municipios.municipio,  ";
+                        $sql.=" establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento  ";
+                        $sql.=" FROM establecimiento_salud, municipios, nivel_establecimiento WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio ";
+                        $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento  ";
+                        $sql.=" AND establecimiento_salud.idred_salud='$idred_salud_ss' ORDER BY establecimiento_salud.idestablecimiento_salud ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
                         while ($field = mysqli_fetch_field($result)){
                         } do {
                         ?>
-                                        <tr>
-                                            <td><?php echo $numero;?></td>
-                                            <td><?php echo $row[3];?></td>
-                                            <td><?php echo $row[8];?></td>
-                                            <td><?php echo $row[5];?></td>
-                                            <td><?php echo $row[6];?></td>
-                                            <td><?php echo $row[4];?></td>
-                                            <td><?php echo $row[21];?></td>
-                                            <td>
-                                            <form name="FORM_P" action="valida_personal.php" method="post">
-                                            <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">
-                                            <input name="codigo" type="hidden" value="<?php echo $row[3];?>">
-	                                        <button type="submit" class="btn btn-primary btn-user btn-block">VER</button></form>
-                                                                          
-                                        </td>
-                                        </tr>
+                            <tr>
+                                <td><?php echo $numero;?></td>
+                                <td><?php echo $row[1];?></td>
+                                <td><?php echo $row[2];?></td>
+                                <td><?php echo $row[3];?></td>
+                                <td><?php echo $row[4];?></td>
+                                <td>
+                                <form name="FORM_RED" action="valida_establecimiento_salud.php" method="post">
+                                <input name="idred_salud" type="hidden" value="<?php echo $row[0];?>">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR ESTABLECIMIENTOS</button>
+                                </form>                                                                          
+                            </td>
+                            </tr>
                                      
-                                <?php
-                                $numero=$numero+1;
-                                }
-                                while ($row = mysqli_fetch_array($result));
-                                } else {
-                                }
-                                ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <?php
+                        $numero=$numero+1;
+                        }
+                        while ($row = mysqli_fetch_array($result));
+                        } else {
+                        }
+                        ?>
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
+            </div>
+
+        </div>
                 <!-- /.container-fluid -->
 
             </div>

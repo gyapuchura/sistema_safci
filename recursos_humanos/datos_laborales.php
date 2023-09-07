@@ -23,11 +23,6 @@ $sql.= " AND personal.idpersonal='$idpersonal_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
-$sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddependencia, entidad, cargo_entidad, idministerio, iddireccion, idarea, cargo_mds,";
-$sql_l.= " iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud ";
-$sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ";
-$result_l = mysqli_query($link,$sql_l);
-$row_l = mysqli_fetch_array($result_l);
 
 ?>
 <!DOCTYPE html>
@@ -93,9 +88,120 @@ $row_l = mysqli_fetch_array($result_l);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 </br> 
-                    <div class="text-center">  
-                    <h6 class="text-primary">ACTUALIZAR DATOS LABORALES:</h6>  
-                    </div>                                 
+            <div class="text-center">  
+                <h6 class="text-primary">DATOS LABORALES EN EL MINISTERIO DE SALUD</h6>  
+            </div>   
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                <div class="table-responsive">
+                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nª</th>
+                                            <th>DEPENDENCIA MSYD</th>
+                                            <th>DIRECCIÓN</th>
+                                            <th>UNIDAD</th>
+                                            <th>CARGO MSYD</th>
+                                            <th>ITEM MSYD</th>
+                                            <th>DEPARTAMENTO</th>
+                                        </tr>
+                                    </thead>
+                                   <tbody>
+                                    <?php
+                                $numero=1;
+                                $sql0 =" SELECT dato_laboral.iddato_laboral, dato_laboral.idusuario, dato_laboral.idnombre, ministerio.ministerio, direccion.direccion, area.area, dato_laboral.cargo_mds, dato_laboral.item_mds,";
+                                $sql0.=" departamento.departamento FROM dato_laboral, ministerio, direccion, area, departamento WHERE dato_laboral.idministerio=ministerio.idministerio AND  ";
+                                $sql0.=" dato_laboral.iddireccion=direccion.iddireccion AND dato_laboral.idarea=area.idarea AND dato_laboral.iddepartamento=departamento.iddepartamento AND ";
+                                $sql0.=" dato_laboral.idnombre='$row[2]' AND dato_laboral.iddependencia='2' ";
+                                $result0 = mysqli_query($link,$sql0);
+                                if ($row0 = mysqli_fetch_array($result0)){
+                                mysqli_field_seek($result0,0);
+                                while ($field0 = mysqli_fetch_field($result0)){
+                                } do {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $numero;?></td>
+                                        <td><?php echo $row0[3];?></td>
+                                        <td><?php echo $row0[4];?></td>
+                                        <td><?php echo $row0[5];?></td>
+                                        <td><?php echo $row0[6];?></td>
+                                        <td><?php echo $row0[7];?></td>
+                                        <td><?php echo $row0[8];?></td>
+                                    </tr>                                    
+                            <?php
+                            $numero=$numero+1;
+                            }
+                            while ($row0 = mysqli_fetch_array($result0));
+                            } else {
+                            }
+                            ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                </div>
+            </div>   
+<!-------- datos laborales RED DE SALUD --------->
+
+<div class="text-center">  
+                <h6 class="text-primary">DATOS LABORALES EN REDES DE SALUD</h6>  
+            </div>   
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                <div class="table-responsive">
+                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nª</th>
+                                            <th>RED DE SALUD</th>
+                                            <th>ESTABLECIMIENTO</th>
+                                            <th>CARGO</th>
+                                            <th>ITEM </th>
+                                            <th>DEPARTAMENTO</th>
+                                        </tr>
+                                    </thead>
+                                   <tbody>
+                                    <?php
+                                    $numerodos=1;
+                                    $sql0 =" SELECT dato_laboral.iddato_laboral, dato_laboral.idusuario, dato_laboral.idnombre, departamento.departamento, red_salud.red_salud, establecimiento_salud.establecimiento_salud,  ";
+                                    $sql0.=" dato_laboral.cargo_red_salud, dato_laboral.item_red_salud FROM dato_laboral, red_salud, establecimiento_salud, departamento WHERE dato_laboral.idred_salud=red_salud.idred_salud AND  ";
+                                    $sql0.=" dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND dato_laboral.iddepartamento=departamento.iddepartamento AND ";
+                                    $sql0.=" dato_laboral.idnombre='$row[2]' AND dato_laboral.iddependencia='3' ";
+                                    $result0 = mysqli_query($link,$sql0);
+                                    if ($row0 = mysqli_fetch_array($result0)){
+                                    mysqli_field_seek($result0,0);
+                                    while ($field0 = mysqli_fetch_field($result0)){
+                                    } do {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $numerodos;?></td>
+                                            <td><?php echo $row0[4];?></td>
+                                            <td><?php echo $row0[5];?></td>
+                                            <td><?php echo $row0[6];?></td>
+                                            <td><?php echo $row0[7];?></td>
+                                            <td><?php echo $row0[3];?></td>
+                                        </tr>
+                                     
+                                        <?php
+                                        $numerodos = $numerodos+1;
+   }
+  while ($row0 = mysqli_fetch_array($result0));
+} else {
+}
+?>
+                                    </tbody>
+                                </table>
+                            </div>
+                </div>
+            </div>   
+
+
+
+
+                <div class="text-center">  
+                <h6 class="text-primary">ACTUALIZAR DATOS LABORALES:</h6>  
+                </div>                                 
           
                 </br> 
                 <form name="LABORALES" action="guarda_laboral_int.php" method="post">  

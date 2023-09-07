@@ -84,10 +84,13 @@ $row_l = mysqli_fetch_array($result_l);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">   
-                    <a href="#"><h6>VOLVER</h6></a>
+                    
                     <hr>                     
-                    <h4 class="text-primary">TITULO DEL MODULO</h4>
-                    <h4><?php echo "DATO CONSTANTE"?></h4>
+                    <h4 class="text-success">Los Datos Complementarios</h4>
+                    <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
+                    </br>
+                    <a href="modifica_registro_safci.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    <h4><?php echo "";?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 

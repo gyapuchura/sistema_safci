@@ -1,10 +1,10 @@
 <?php include("../inc.config.php");
 $iddepartamento = $_POST["departamento"];
 ?>
-<option value="">Elegir RED DE SALUD</option>
+<option value="">Elegir MUNICIPIO</option>
 <?php
 $numero = 1;
-$sql2 = " SELECT idred_salud, red_salud FROM red_salud WHERE iddepartamento='$iddepartamento' ORDER BY idred_salud";
+$sql2 = " SELECT idmunicipio, municipio FROM municipios WHERE iddepartamento='$iddepartamento' ORDER BY municipio";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
