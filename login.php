@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                             <div class="p-5">
-                            <img src="img/fondo_login_safci.png" alt="400" class="img-rounded">
+                            <img src="img/fondo_login.png" alt="400" class="img-rounded">
                             </div>
                             </div>
                             <div class="col-lg-6">

@@ -4,11 +4,7 @@ include("../inc.config.php");
 $idprofesion = $_POST['profesion'];
 if ($idprofesion == '1') {
     ?>
-        <div class="form-group row"> 
-            <div class="col-sm-3">
             <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6> 
-            </div>                              
-            <div class="col-sm-9">
                 <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required>
                     <option value="">ELEGIR</option>
                     <?php
@@ -25,13 +21,11 @@ if ($idprofesion == '1') {
                     }
                     ?>
                 </select>
-            </div>                              
-        </div>
     <?php
     } else {  
         ?>
 <input type="hidden" name="idespecialidad_medica" value="45">
         <?php
      }
-        ?>
+        ?> 
         

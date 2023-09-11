@@ -96,7 +96,7 @@
 
 <!-- Nav Item - Tables -->
 <li class="nav-item active">
-    <a class="nav-link" href="salir.php">
+    <a class="nav-link" href="../salir.php">
         <i class="fas fa-fw fa-out"></i>
         <span>Cerrar Sesion</span></a>
 </li>

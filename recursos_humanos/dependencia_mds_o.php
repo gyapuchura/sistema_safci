@@ -4,8 +4,7 @@ include("../inc.config.php");
 $iddependencia  = $_POST['dependencia'];
 
     if ($iddependencia == '1') {
-  ?>
-
+?>
     <!----- begin departamento donde se inscribio ----->
 
     <div class="form-group row">
@@ -250,7 +249,7 @@ $(document).ready(function(){
         });
    })
 });
-</script>
+</script> 
 
 <script language="javascript">
 $(document).ready(function(){

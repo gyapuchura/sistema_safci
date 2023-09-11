@@ -176,7 +176,7 @@ $hora       = date("h:i");
                 </div>
                                 <hr>
                                 <div class="form-group row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">FORMACIÓN ACADÉMICA:</h6>
                                     <select name="idformacion_academica"  id="idformacion_academica" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
@@ -195,6 +195,10 @@ $hora       = date("h:i");
                                         ?>
                                     </select>
                                     </div>
+                                    <div class="col-sm-8" id="posgrado"></div>                              
+                                </div>
+                                
+                                <div class="form-group row">                                
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PROFESIÓN/OCUPACIÓN:</h6>
                                     <select name="idprofesion"  id="idprofesion" class="form-control" required>
@@ -213,10 +217,9 @@ $hora       = date("h:i");
                                         }
                                         ?>
                                     </select>
-                                    </div>                              
+                                    </div>    
+                                    <div class="col-sm-6" id="especialidad_medica"></div>                                                                            
                                 </div>
-                                
-                                <div id="especialidad_medica"> </div>
 
                                 <div class="form-group row">                                
                                     <div class="col-sm-4">
@@ -238,7 +241,7 @@ $hora       = date("h:i");
                 <hr>
                 </br>
                 <div class="form-group row">
-                    <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
+                    <h5 class="text-primary">3.- LUGAR DE TRABAJO:</h5>                                 
                 </div>   
 
                 <div class="form-group row">
@@ -275,7 +278,7 @@ $hora       = date("h:i");
 
                     </div>
                 </div>
-
+ 
                     <!-- Begin formulario microcurricular -->
                           
                             <div class="form-group row">
@@ -341,6 +344,18 @@ $hora       = date("h:i");
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        <script language="javascript">
+            $(document).ready(function(){
+            $("#idformacion_academica").change(function () {
+                    $("#idformacion_academica option:selected").each(function () {
+                        formacion_academica=$(this).val();
+                        $.post("posgrado.php", {formacion_academica:formacion_academica}, function(data){
+                        $("#posgrado").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
         <script language="javascript">
             $(document).ready(function(){
             $("#idprofesion").change(function () {

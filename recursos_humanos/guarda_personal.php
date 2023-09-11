@@ -28,14 +28,17 @@ $fecha_nac   = $fecha_n[2].'-'.$fecha_n[1].'-'.$fecha_n[0];
 
 $idnacionalidad        = $_POST['idnacionalidad'];
 $idgenero              = $_POST['idgenero'];
+
 $idformacion_academica = $_POST['idformacion_academica'];
 $idprofesion           = $_POST['idprofesion'];
-$idespecialidad_medica = $_POST['idespecialidad_medica'];   
+$idespecialidad_medica = $_POST['idespecialidad_medica'];  
+$descripcion_academica = $link->real_escape_string($_POST['descripcion_academica']);
+$entidad_academica     = $link->real_escape_string($_POST['entidad_academica']);
+$gestion_ac  = $link->real_escape_string($_POST['gestion_ac']);
 
 $correo  = $link->real_escape_string($_POST['correo']);
 $celular = $link->real_escape_string($_POST['celular']);
 $direccion_dom = $link->real_escape_string($_POST['direccion_dom']);
-
 
 $iddependencia = $_POST['iddependencia'];
 
@@ -54,8 +57,6 @@ $cargo_red_salud = $link->real_escape_string($_POST['cargo_red_salud']);
 $item_red_salud = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
-
-
 
 //verificamos existencia del número de cedula de identidad y rescatamos los datos en sesion.
     $sql9 = " SELECT idnombre, paterno, materno, nombre, ci FROM nombre WHERE ci='$ci' ";
@@ -92,6 +93,10 @@ $item_red_salud = $link->real_escape_string($_POST['item_red_salud']);
 
   $idnombre_datos = mysqli_insert_id($link);
 
+  $sql1 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion ) ";
+  $sql1.= " VALUES ('$idusuario_in','$idnombre','$idprofesion','$idespecialidad_medica','$idformacion_academica','$descripcion_academica','$entidad_academica','$gestion_ac') ";
+  $result1 = mysqli_query($link,$sql1);
+
 //----- Obtenemos el codigo y correlativo de inscripcion ------//
 
 $sqlm="SELECT MAX(correlativo) FROM personal WHERE gestion='$gestion' ";
@@ -101,7 +106,6 @@ $rowm=mysqli_fetch_array($resultm);
 $correlativo=$rowm[0]+1;
 
 $codigo="PS/MSYD-".$correlativo."-".$ci."-".$gestion;
-
 
 //----- Realizamos la seleccion de tipo de dependencias ------//
 

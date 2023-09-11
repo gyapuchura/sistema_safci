@@ -189,7 +189,7 @@ $row_l = mysqli_fetch_array($result_l);
                 <hr>
                 </br>
                 <div class="form-group row">
-                    <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
+                    <h5 class="text-primary">3.- LUGAR DE TRABAJO:</h5>                                 
                 </div>   
                 <div class="form-group row">
                     <div class="col-sm-3">
