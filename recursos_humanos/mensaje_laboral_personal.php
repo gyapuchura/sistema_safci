@@ -89,7 +89,7 @@ $row_l = mysqli_fetch_array($result_l);
                     <h4 class="text-success">Los Datos Laborales</h4>
                     <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
                     </br>
-                    <a href="modifica_registro_safci.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    <a href="datos_laborales.php"><h6>IR A MODIFICACIÓN</h6></a>
                     <h4><?php echo "";?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->

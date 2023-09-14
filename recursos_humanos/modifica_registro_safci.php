@@ -84,7 +84,7 @@ $row_l = mysqli_fetch_array($result_l);
                     <div class="col-lg-12">
                         <div class="p-3">               
                     <div class="text-center">   
-                    <a href="recursos_humanos.php"><h6>VOLVER</h6></a>
+                    <a href="mostrar_registro_safci.php"><h6>VOLVER</h6></a>
                     <hr>                     
                     <h4 class="text-primary">ACTUALIZAR REGISTRO SAFCI</h4>
                     <h4><?php echo $codigo_ss;?></h4>
@@ -349,6 +349,146 @@ $row_l = mysqli_fetch_array($result_l);
                     </form>
                                 <!-- END Datos Personales Modal-->
 
+                <div class="form-group row">
+                    <h5 class="text-primary">2.1 DATOS DE POSGRADO:</h5>                                 
+                </div> 
+                
+                <div class="form-group row">
+                <div class="col-sm-3">
+                <h6 class="text-primary">FORMACIÓN POSGRADO: </h6>
+                </div>
+                <div class="col-sm-4">
+                <h6 class="text-primary">DESCRIPCIÓN DEL POSGRADO:</h6>
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-primary">ENTIDAD EN POSGRADO:</h6>
+                </div>
+                <div class="col-sm-2">
+                <h6 class="text-primary">AÑO:</h6>
+                </div> 
+                </div>
+
+            <?php
+                $sql_ac = " SELECT idnombre_academico, idformacion_academica, descripcion_academica, entidad_academica, gestion, ";
+                $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p ";
+                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]' ORDER BY idnombre_academico";
+                $result_ac = mysqli_query($link,$sql_ac);
+                if ($row_ac = mysqli_fetch_array($result_ac)){
+                mysqli_field_seek($result_ac,0);
+                while ($field_ac = mysqli_fetch_field($result_ac)){
+                } do {
+            ?>
+
+                <div class="form-group row">
+                <div class="col-sm-3">
+                <select name="formacion_academica_p"  id="formacion_academica_p" class="form-control" required disabled>
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idformacion_academica, formacion_academica FROM formacion_academica  ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ac[5]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+                </div>
+                <div class="col-sm-4">
+                <textarea name="" rows="3" class="form-control" disabled><?php echo $row_ac[6];?></textarea>
+                </div>
+                <div class="col-sm-3">
+                <textarea name="" rows="3" class="form-control" disabled><?php echo $row_ac[7];?></textarea>
+                </div>
+                <div class="col-sm-2">
+                <input type="text" class="form-control" value="<?php echo $row_ac[8];?>" disabled> 
+                </div> 
+                </div>
+
+                <?php
+                }
+                while ($row_ac = mysqli_fetch_array($result_ac));
+                } else {
+                }
+                ?>
+ 
+            <form name="POSGRADO" action="guarda_posgrado_mod.php" method="post"> 
+
+                <input type="hidden" name="idnombre_mod" value="<?php echo $row[2];?>">
+                <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
+                <input type="hidden" name="idprofesion" value="<?php echo $row[13] ;?>">
+                <input type="hidden" name="idespecialidad_medica" value="<?php echo $row[14];?>">
+                <input type="hidden" name="idformacion_academica" value="<?php echo $row[12];?>">
+                <input type="hidden" name="descripcion_academica" value="FORMACIÓN DE GRADO">
+                <input type="hidden" name="entidad_academica" value="ENTIDAD DE FORMACIÓN DE GRADO ">
+                <input type="hidden" name="gestion_ac" value="GESTION">
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <select name="idformacion_academica_p"  id="idformacion_academica_p" class="form-control" required>
+                        <option value="">-SELECCIONE-</option>
+                        <?php
+                        $sql1 = "SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE etapa_academica='POSGRADO' ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>
+                    </div>
+                    <div class="col-sm-4">
+                    <textarea name="descripcion_academica_p" rows="3" class="form-control" required placeholder="Descripción"></textarea>
+                    </div>
+                    <div class="col-sm-3">
+                    <textarea name="entidad_academica_p" rows="3" class="form-control" required placeholder="Entidad de Formación"></textarea>
+                    </div>
+                    <div class="col-sm-2">
+                    <input type="text" name="gestion_p" class="form-control" required placeholder="Gestion">
+                    </div>
+                </div>  
+
+                <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                    <a class="btn btn-warning" href="#" data-toggle="modal" data-target="#posgrado">
+                        ACTUALIZAR DATOS DE POSGRADO                                
+                    </a>                                    
+                    </div>
+                </div>
+                </div>
+
+                <!-- BEGIN Datos Posgrado Modal-->
+                <div class="modal fade" id="posgrado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE MODIFICAR LOS DATOS ACADÉMICOA?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Seleccione la opcion para confirmar la modificación.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-warning" type="submit">Confirmar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+                                <!-- END Datos Posgrado Modal-->  
+
                 </br>
                 <div class="form-group row">
                     <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
@@ -358,7 +498,7 @@ $row_l = mysqli_fetch_array($result_l);
                     <h6 class="text-primary">TIPO DE DEPENDENCIA:</h6>  
                     </div>
                     <div class="col-sm-9">                  
-                    <select name="iddependencia"  id="iddependencia" class="form-control" required disabled>
+                    <select name="iddependencia" id="iddependencia" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT iddependencia, dependencia FROM dependencia ";

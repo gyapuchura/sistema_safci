@@ -88,11 +88,11 @@ $row = mysqli_fetch_array($result);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 </br> 
-            <div class="text-center">  
+<!---       <div class="text-center">  
                 <h6 class="text-primary">DATOS LABORALES EN EL MINISTERIO DE SALUD</h6>  
             </div>   
 
-            <div class="form-group row">
+        <div class="form-group row">
                 <div class="col-sm-12">
                 <div class="table-responsive">
                                 <table class="table table-bordered" id="example" width="100%" cellspacing="0">
@@ -141,12 +141,12 @@ $row = mysqli_fetch_array($result);
                             </div>
                 </div>
             </div>   
-<!-------- datos laborales RED DE SALUD --------->
+---- datos laborales RED DE SALUD --------->
 
-<div class="text-center">  
-                <h6 class="text-primary">DATOS LABORALES EN REDES DE SALUD</h6>  
+            <div class="text-center">  
+                <h4 class="text-primary">LUGARES DE TRABAJO </h4>  
             </div>   
-
+            <hr>
             <div class="form-group row">
                 <div class="col-sm-12">
                 <div class="table-responsive">
@@ -200,7 +200,7 @@ $row = mysqli_fetch_array($result);
 
 
                 <div class="text-center">  
-                <h6 class="text-primary">ACTUALIZAR DATOS LABORALES:</h6>  
+                <h6 class="text-primary">ACTUALIZAR LUGAR DE TRABAJO:</h6>  
                 </div>                                 
           
                 </br> 
@@ -208,67 +208,140 @@ $row = mysqli_fetch_array($result);
 
                 <input type="hidden" name="idusuario_per" value="<?php echo $row[1]?>">
                 <input type="hidden" name="idnombre_per" value="<?php echo $row[2]?>">
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">TIPO DE DEPENDENCIA:</h6>  
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="iddependencia"  id="iddependencia" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = "SELECT iddependencia, dependencia FROM dependencia WHERE iddependencia !='1' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=". $row1[0].">". $row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>  
-                    </div>
+               
+                <input type="hidden" name="iddependencia" value="3">
+
+<div class="form-group row">
+    <div class="col-sm-3">
+    <h6 class="text-primary">DEPARTAMENTO:</h6>
+    </div>
+    <div class="col-sm-9">
+    <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+    </select>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-3">
+    <h6 class="text-primary">RED DE SALUD:</h6>
+    </div>
+    <div class="col-sm-9">
+    <select name="idred_salud" id="idred_salud" class="form-control" required></select>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-3">
+    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+    </div>
+    <div class="col-sm-9">
+    <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-4">
+    <h6 class="text-primary">CARGO:</h6><h6 class="text-primary">(DE ACUERDO A ORGANIGRAMA):</h6>
+    </div>
+    <div class="col-sm-8">
+    <select name="idcargo_organigrama"  id="idcargo_organigrama" class="form-control" required>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT idcargo_organigrama, cargo_organigrama FROM cargo_organigrama ORDER BY cargo_organigrama DESC ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+    </select>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-4">
+    <h6 class="text-primary">CARGO:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
+    </div>
+    <div class="col-sm-8">
+    <textarea class="form-control" rows="2" name="cargo_red_salud" required></textarea>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-4">
+    <h6 class="text-primary">NÚMERO DE ÍTEM:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
+    </div>
+    <div class="col-sm-8">
+    <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
+    required pattern="[A-Z0-9_-]{5,12}$" 
+    title="El numero de ÍTEM solo puede contener DIGITOS numéricos." >
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-6">
+
+    </div>
+    <div class="col-sm-6">
+
+    </div>
+</div>
+
+    <!-- Begin formulario microcurricular -->
+<div class="text-center">   
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            REGISTRAR PERSONAL
+            </button>  
+        </div>                              
+    </div>                            
+</div>
+   <!-- modal de confirmacion de envio de datos-->
+   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR PERSONAL</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
+                <div class="modal-body">
+                    
+                    Esta seguro de Registrarse?
+                    posteriormenete no se podran realizar cambios.
 
-                <div id="dependencia_mds"></div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
+                </div>
+            </div>
+        </div>
+    </div>
+        </form>
+    <!-- Modal -->
 
-                            <div class="form-group row">
-                                <div class="col-sm-12">
-                                <div class="text-center">  
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    REGISTRAR PERSONAL
-                                    </button>  
-                                </div> 
-                                </div>                              
-                            </div>     
-
-                   <!-- modal de confirmacion de envio de datos-->
-                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR PERSONAL</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-                                    
-                                    Esta seguro de Registrarse?
-                                    posteriormenete no se podran realizar cambios.
-
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        </form>
-                    <!-- Modal -->
 
                 <div class="form-group row">
                     <div class="col-sm-6">
@@ -327,19 +400,33 @@ $row = mysqli_fetch_array($result);
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
+
     <script language="javascript">
-            $(document).ready(function(){
-            $("#iddependencia").change(function () {
-                    $("#iddependencia option:selected").each(function () {
-                        dependencia=$(this).val();
-                        $.post("dependencia_mds_o.php", {dependencia:dependencia}, function(data){
-                        $("#dependencia_mds").html(data);
-                        });
+        $(document).ready(function(){
+        $("#iddepartamento").change(function () {
+                    $("#iddepartamento option:selected").each(function () {
+                        departamento=$(this).val();
+                    $.post("red_salud_o.php", {departamento:departamento}, function(data){
+                    $("#idred_salud").html(data);
                     });
-            })
-            });
-        
-    </script>
+                });
+        })
+        });
+        </script> 
+
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#idred_salud").change(function () {
+                    $("#idred_salud option:selected").each(function () {
+                        red_salud=$(this).val();
+                    $.post("establecimiento_salud_o.php", {red_salud:red_salud}, function(data){
+                    $("#idestablecimiento_salud").html(data);
+                    });
+                });
+        })
+        });
+        </script>
+
    
 </body>
 

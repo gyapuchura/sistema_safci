@@ -9,30 +9,9 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idpersonal_ss = $_SESSION['idpersonal_ss'];
-$codigo_ss     = $_SESSION['codigo_ss'];
-
-$sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
-$sql.= " nombre.ci, nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, ";
-$sql.= " profesion.profesion, especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral ";
-$sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
-$sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
-$sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
-$sql.= " AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica  ";
-$sql.= " AND personal.idpersonal='$idpersonal_ss' ";
-$result = mysqli_query($link,$sql);
-$row = mysqli_fetch_array($result);
-
-$sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddependencia, entidad, cargo_entidad, idministerio, iddireccion, idarea, cargo_mds,";
-$sql_l.= "  iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud ";
-$sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ";
-$result_l = mysqli_query($link,$sql_l);
-$row_l = mysqli_fetch_array($result_l);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,11 +19,10 @@ $row_l = mysqli_fetch_array($result_l);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SISTEMA SAFCI</title>
+    <title>SISTEMA MEDI-SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
     <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -60,9 +38,7 @@ $row_l = mysqli_fetch_array($result_l);
     <div id="wrapper">
 
         <!-- Sidebar -->
-
         <?php include("../menu.php");?>
-
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -77,32 +53,32 @@ $row_l = mysqli_fetch_array($result_l);
 
                 <!-- Begin Page Content -->
   
+                <body class="bg-gradient-primary">
 
-                <div class="card shadow mb-8">
-                    <div class="card-header py-6">
-                        <h6 class="m-0 font-weight-bold text-primary"></h6>
-                    </div>
-<!-- BEGIN aqui va el TITULO de la pagina ---->
-                    <div class="card-body">
+    <div class="container">
+    </br>
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="p-5">
                         <div class="text-center">                        
                         <h4 class="text-primary">NUEVO REGISTRO SAFCI</h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
-        <div class="col-lg-12">  
-            <div class="p-5"> 
 
-            <div class="form-group row">
+<div class="form-group row">
                                     <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
                                 </div>
                                 <hr>
-                            <form name="FORMREG" action="guarda_personal_int.php" method="post">  
+                            <form name="FORMREG" action="guarda_personal_safci.php" method="post">  
                                 <div class="form-group row">
                                 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES</h6>
-                                    <input type="hidden" name="gestion" value="<?php echo $row[4];?>">
                                         <input type="text" class="form-control" 
                                          placeholder="Nombre Completo" name="nombre" required>
                                     </div>
@@ -208,7 +184,7 @@ $row_l = mysqli_fetch_array($result_l);
                                     <select name="idformacion_academica"  id="idformacion_academica" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
-                                        $sql1 = "SELECT idformacion_academica, formacion_academica FROM formacion_academica ";
+                                        $sql1 = "SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE etapa_academica='GRADO' ";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -222,7 +198,14 @@ $row_l = mysqli_fetch_array($result_l);
                                         ?>
                                     </select>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6"></div>                              
+                                </div>
+
+                                <div class="form-group row" id="grado">  
+                                </div>
+
+                                <div class="form-group row">                                
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">PROFESIÓN/OCUPACIÓN:</h6>
                                     <select name="idprofesion"  id="idprofesion" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
@@ -240,23 +223,51 @@ $row_l = mysqli_fetch_array($result_l);
                                         }
                                         ?>
                                     </select>
-                                    </div>                              
+                                    </div>    
+                                    <div class="col-sm-8" id="especialidad_medica"></div>                                                                            
                                 </div>
-                                
-                                <div id="especialidad_medica"> </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                    <h6 class="text-primary">POSGRADO:</h6>
+                                    <select name="idformacion_academica_p"  id="idformacion_academica_p" class="form-control" required>
+                                        <option value="">-SELECCIONE-</option>
+                                        <?php
+                                        $sql1 = "SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE etapa_academica='POSGRADO' ";
+                                        $result1 = mysqli_query($link,$sql1);
+                                        if ($row1 = mysqli_fetch_array($result1)){
+                                        mysqli_field_seek($result1,0);
+                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        } do {
+                                        echo "<option value=". $row1[0].">". $row1[1]."</option>";
+                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        } else {
+                                        echo "No se encontraron resultados!";
+                                        }
+                                        ?>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-6"></div>                              
+                                </div>
+                                <div class="form-group row" id="posgrado">  
+                                </div>
 
                                 <div class="form-group row">                                
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">CORREO ELECTRÓNICO:</h6>
                                     <input type="mail" class="form-control" name="correo" required>
                                     </div>
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">TELÉFONO CELULAR/WHATSAPP:</h6>
+                                    <div class="col-sm-3">
+                                    <h6 class="text-primary">CELULAR/WHATSAPP:</h6>
                                     <input type="text" class="form-control" name="celular" required>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">DIRECCIÓN/DOMICILIO:</h6>
                                     <textarea class="form-control" rows="2" name="direccion_dom" required></textarea>
+                                    </div>
+                                    <div class="col-sm-3">
+                                    <h6 class="text-primary">CELULAR EN CASO DE EMERGENCIA:</h6>
+                                    <input type="text" class="form-control" name="celular_emergencia" required>
                                     </div>
                                 </div>
 
@@ -265,34 +276,96 @@ $row_l = mysqli_fetch_array($result_l);
                 <hr>
                 </br>
                 <div class="form-group row">
-                    <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
+                    <h5 class="text-primary">3.- LUGAR DE TRABAJO:</h5>                                 
                 </div>   
+
+                <input type="hidden" name="iddependencia" value="3">
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">TIPO DE DEPENDENCIA:</h6>  
+                    <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <select name="iddependencia"  id="iddependencia" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = "SELECT iddependencia, dependencia FROM dependencia WHERE iddependencia !='1' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=". $row1[0].">". $row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>  
+                    <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
+                        <option value="">-SELECCIONE-</option>
+                        <?php
+                        $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>
                     </div>
                 </div>
 
-                <div id="dependencia_mds"></div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">RED DE SALUD:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idred_salud" id="idred_salud" class="form-control" required></select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">CARGO:</h6><h6 class="text-primary">(DE ACUERDO A ORGANIGRAMA):</h6>
+                    </div>
+                    <div class="col-sm-8">
+                    <select name="idcargo_organigrama"  id="idcargo_organigrama" class="form-control" required>
+                        <option value="">-SELECCIONE-</option>
+                        <?php
+                        $sql1 = "SELECT idcargo_organigrama, cargo_organigrama FROM cargo_organigrama ORDER BY cargo_organigrama DESC ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">CARGO:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
+                    </div>
+                    <div class="col-sm-8">
+                    <textarea class="form-control" rows="2" name="cargo_red_salud" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">NÚMERO DE ÍTEM:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
+                    </div>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
+                    required pattern="[A-Z0-9_-]{5,12}$" 
+                    title="El numero de ÍTEM solo puede contener DIGITOS numéricos." >
+                    </div>
+                </div>
 
                 <div class="form-group row">
                     <div class="col-sm-6">
@@ -302,15 +375,17 @@ $row_l = mysqli_fetch_array($result_l);
 
                     </div>
                 </div>
-                          
-                            <div class="form-group row">
-                                <div class="col-sm-12">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    REGISTRAR PERSONAL
-                                    </button>  
-                                </div>                              
-                                
-
+ 
+                    <!-- Begin formulario microcurricular -->
+                <div class="text-center">   
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            REGISTRAR PERSONAL
+                            </button>  
+                        </div>                              
+                    </div>                            
+                </div>
                    <!-- modal de confirmacion de envio de datos-->
                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -336,19 +411,19 @@ $row_l = mysqli_fetch_array($result_l);
                     </div>
                         </form>
                     <!-- Modal -->
-                    </div>
-                    <hr>                  
-                   
+
+        </div>       
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>
-                <div class="text-center">
-                    <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
-                </div>
-                <div class="text-center">
-                    <a class="small" href="#">Ministerio de Salud y Deportes</a>
-                </div>
-            </div>   
-        </div>   
+        
+        <div class="text-center">
+            <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
+        </div>
+        <div class="text-center">
+            <a class="small" href="#">Ministerio de Salud y Deportes</a>
+        </div>
+    </div>   
+</div>  
+</br> 
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -387,6 +462,31 @@ $row_l = mysqli_fetch_array($result_l);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+
+        <script language="javascript">
+            $(document).ready(function(){
+            $("#idformacion_academica").change(function () {
+                    $("#idformacion_academica option:selected").each(function () {
+                        formacion_academica=$(this).val();
+                        $.post("grado.php", {formacion_academica:formacion_academica}, function(data){
+                        $("#grado").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+        <script language="javascript">
+            $(document).ready(function(){
+            $("#idformacion_academica_p").change(function () {
+                    $("#idformacion_academica_p option:selected").each(function () {
+                        formacion_academica_p=$(this).val();
+                        $.post("posgrado.php", {formacion_academica_p:formacion_academica_p}, function(data){
+                        $("#posgrado").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
         <script language="javascript">
             $(document).ready(function(){
             $("#idprofesion").change(function () {
@@ -400,17 +500,30 @@ $row_l = mysqli_fetch_array($result_l);
             });
         </script>
         <script language="javascript">
-            $(document).ready(function(){
-            $("#iddependencia").change(function () {
-                    $("#iddependencia option:selected").each(function () {
-                        dependencia=$(this).val();
-                        $.post("dependencia_mds_o.php", {dependencia:dependencia}, function(data){
-                        $("#dependencia_mds").html(data);
-                        });
+        $(document).ready(function(){
+        $("#iddepartamento").change(function () {
+                    $("#iddepartamento option:selected").each(function () {
+                        departamento=$(this).val();
+                    $.post("red_salud_o.php", {departamento:departamento}, function(data){
+                    $("#idred_salud").html(data);
                     });
-            })
-            });
-        
+                });
+        })
+        });
+        </script> 
+
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#idred_salud").change(function () {
+                    $("#idred_salud option:selected").each(function () {
+                        red_salud=$(this).val();
+                    $.post("establecimiento_salud_o.php", {red_salud:red_salud}, function(data){
+                    $("#idestablecimiento_salud").html(data);
+                    });
+                });
+        })
+        });
         </script>
+
 </body>
 </html>
