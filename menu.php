@@ -41,6 +41,7 @@
             <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
             <a class="collapse-item" href="../recursos_humanos/nuevo_establecimiento.php">NUEVO</br>ESTABLECIMIENTO</br>DE SALUD</a>
+            <a class="collapse-item" href="../recursos_humanos/nueva_area_influencia.php">NUEVA ÁREA</br>INFLUENCIA</a>
         </div>
     </div>
 </li>
@@ -74,7 +75,8 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SAFCI:</h6>
-            <a class="collapse-item" href="#">CARPETAS FAMILIARES</a>
+            <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
+            <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
             <a class="collapse-item" href="#">REGISTRO FAMILIAR</a>
         </div>
     </div>
@@ -108,5 +110,4 @@
 <div class="text-center d-none d-md-inline">
     <button class="rounded-circle border-0" id="sidebarToggle"></button>
 </div>
-
 </ul>

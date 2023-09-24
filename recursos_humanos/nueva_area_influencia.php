@@ -85,13 +85,13 @@ $row_l = mysqli_fetch_array($result_l);
                     <div class="p-3">               
                     <div class="text-center">                     
                     <hr>                     
-                    <h4 class="text-primary">NUEVO ESTABLECIMIENTO DE SALUD</h4>
+                    <h4 class="text-primary">NUEVA ÁREA DE INFLUENCIA</h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-<form name="ESTABLECIMIENTO" action="guarda_establecimiento.php" method="post">  
+        <form name="INFLUENCIA" action="guarda_area_influencia.php" method="post">  
                 <div class="col-lg-12">  
                     <div class="p-5"> 
 
@@ -130,116 +130,81 @@ $row_l = mysqli_fetch_array($result_l);
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">MUNICIPIO:</h6>
+                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <select name="idmunicipio" id="idmunicipio" class="form-control" required></select>
+                    <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
                     </div>
-                </div>
+                </div>z
+
                 <hr>
                 <div class="form-group row">                               
                     <div class="col-sm-4">
-                    <h6 class="text-primary">CÓDIGO DE ESTABLECIMIENTO:</h6>
+                    <h6 class="text-primary">TIPO DE ÁREA DE INFLUENCIA:</h6>
+                    <select name="idtipo_area_influencia"  id="idtipo_area_influencia" class="form-control" required>
+                        <option value="">ELEGIR</option>
+                        <?php
+                        $sql1 = "SELECT idtipo_area_influencia, tipo_area_influencia FROM tipo_area_influencia ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>                    
+                    </div>
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">NOMBRE O DENOMINACIÓN:</h6>
+                    <textarea class="form-control" rows="2" name="area_influencia" required></textarea>
+                    </div>
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">NACIÓN:</h6>
+                    <select name="idnacion"  id="idnacion" class="form-control" required>
+                        <option value="">ELEGIR</option>
+                        <?php
+                        $sql1 = "SELECT idnacion, nacion FROM nacion ORDER BY nacion";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>                    
+                    </div>
+                </div>
+                <hr>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-4">
+                    <h6 class="text-primary">CANTIDAD DE HABITANTES (Según lista de afiliados):</h6>
                         <input type="text" class="form-control" 
-                        placeholder="Codigo Establecimiento" name="codigo_establecimiento" required>
-                    </div>
-                    <div class="col-sm-8">
-                    <h6 class="text-primary">NOMBRE DEL ESTABLECIMIENTO DE SALUD:</h6>
-                    <textarea class="form-control" rows="2" name="establecimiento_salud" required></textarea>
-                    </div>
-                </div>
-                <hr>
-                <div class="form-group row">                               
-                    <div class="col-sm-4">
-                    <h6 class="text-primary">NIVEL DE ESTABLECIMIENTO:</h6>
-                    <select name="idnivel_establecimiento"  id="idnivel_establecimiento" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento WHERE nivel_oficial='NIVEL'";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>                    
+                        placeholder="Cantidad de habitantes" name="habitantes" required>
                     </div>
                     <div class="col-sm-4">
-                    <h6 class="text-primary">TIPO DE ESTABLECIMIENTO:</h6>
-                    <select name="idtipo_establecimiento"  id="idtipo_establecimiento" class="form-control" required></select>
-                    
+                    <h6 class="text-primary">NUMERO DE FAMILIAS (Según lista de afiliados):</h6>
+                        <input type="text" class="form-control" 
+                        placeholder="Cantidad de Familias" name="familias" required>                
                     </div>
                     <div class="col-sm-4">
-                    <h6 class="text-primary">SUB-SECTOR SALUD:</h6>
-                    <select name="idsubsector_salud"  id="idsubsector_salud" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT idsubsector_salud, subsector_salud FROM subsector_salud";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>                   
+                    <h6 class="text-primary">DISTANCIA HACIA EL ESTABLECIMIENTO DE SALUD EN Km (Vía Terrestre):</h6>
+                        <input type="text" class="form-control" 
+                        placeholder="Kilometros" name="distancia" required>                
                     </div>
                 </div>
-<hr>
-                <div class="form-group row">                               
-                    <div class="col-sm-6">
-                    <h6 class="text-primary">DEPENDENCIA INSTITUCIONAL:</h6>
-                    <select name="iddependencia_institucion"  id="iddependencia_institucion" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT iddependencia_institucion, dependencia_institucion FROM dependencia_institucion";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>                    
-                    </div>
-                    <div class="col-sm-6">
-                    <h6 class="text-primary">ÁMBITO LOCAL:</h6>
-                    <select name="idambito_local"  id="idambito_local" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT idambito_local, ambito_local, descripcion FROM ambito_local";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1].".- ".$row1[2]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select> 
-                    
-                    </div>
-                </div>
-<hr>
+
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <h4 class="text-primary">UBICACIÓN GEOGRÁFICA DEL ESTABLECIMIENTO</h4>
+                        <h4 class="text-primary">UBICACIÓN GEOGRÁFICA DE LA COMUNIDAD</h4>
                     </div>
                 </div>   
                 <div class="form-group row">
@@ -276,7 +241,7 @@ $row_l = mysqli_fetch_array($result_l);
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                REGISTRAR ESTABLECIMIENTO
+                                REGISTRAR ÁREA DE INFLUENCIA
                                 </button>  
                             </div>                              
                                 
@@ -286,15 +251,15 @@ $row_l = mysqli_fetch_array($result_l);
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR ESTABLECIMIENTO</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR ÁREA DE INFLUENCIA</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
                                     
-                                    Esta seguro de Registrar el Establecimiento de Salud?
-                                    posteriormenete no se podran realizar cambios.
+                                    Esta seguro de Registrar el Área de Influencia?
+                                    posteriormenete no se podrán realizar cambios.
 
                                 </div>
                                 <div class="modal-footer">
@@ -388,28 +353,18 @@ $row_l = mysqli_fetch_array($result_l);
         </script>
         <script language="javascript">
         $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("municipios.php", {departamento:departamento}, function(data){
-                    $("#idmunicipio").html(data);
-                    });
-                });
-        })
-        });
-        </script>        
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idnivel_establecimiento").change(function () {
-                    $("#idnivel_establecimiento option:selected").each(function () {
-                        nivel_establecimiento=$(this).val();
-                    $.post("tipo_establecimiento.php", {nivel_establecimiento:nivel_establecimiento}, function(data){
-                    $("#idtipo_establecimiento").html(data);
+        $("#idred_salud").change(function () {
+                    $("#idred_salud option:selected").each(function () {
+                        red_salud=$(this).val();
+                    $.post("establecimiento_salud_o.php", {red_salud:red_salud}, function(data){
+                    $("#idestablecimiento_salud").html(data);
                     });
                 });
         })
         });
         </script>
+      
+
    
 </body>
 

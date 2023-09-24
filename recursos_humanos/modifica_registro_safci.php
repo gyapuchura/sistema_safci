@@ -206,6 +206,7 @@ $row_l = mysqli_fetch_array($result_l);
                                     </div>
                                 </div>
                                 </div>
+                               
 
                                 <!-- BEGIN Datos Personales Modal-->
                                 <div class="modal fade" id="personales" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -228,6 +229,7 @@ $row_l = mysqli_fetch_array($result_l);
                         </form>
                                 <!-- END Datos Personales Modal-->
                                 </br>
+                                <hr>
                 <div class="form-group row">
                     <h5 class="text-primary">2.- DATOS COMPLEMENTARIOS:</h5>                                 
                 </div>
@@ -348,7 +350,7 @@ $row_l = mysqli_fetch_array($result_l);
                                 </div>
                     </form>
                                 <!-- END Datos Personales Modal-->
-
+                                <hr>
                 <div class="form-group row">
                     <h5 class="text-primary">2.1 DATOS DE POSGRADO:</h5>                                 
                 </div> 
@@ -490,6 +492,7 @@ $row_l = mysqli_fetch_array($result_l);
                                 <!-- END Datos Posgrado Modal-->  
 
                 </br>
+                <hr>
                 <div class="form-group row">
                     <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
                 </div>   

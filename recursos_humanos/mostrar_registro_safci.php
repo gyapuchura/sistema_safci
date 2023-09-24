@@ -224,6 +224,7 @@ $row_ac    = mysqli_fetch_array($result_ac);
                                     <input type="text" class="form-control"  value="<?php echo $row_ac[8];?>" disabled> 
                                     </div>                     
                                 </div>
+                                <hr>
                                     </br>
                                 <div class="form-group row">                                
                                     <div class="col-sm-3">
