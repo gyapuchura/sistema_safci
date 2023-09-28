@@ -155,7 +155,7 @@ $row_l = mysqli_fetch_array($result_l);
                     <select name="idnivel_establecimiento"  id="idnivel_establecimiento" class="form-control" required>
                         <option value="">ELEGIR</option>
                         <?php
-                        $sql1 = "SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento WHERE nivel_oficial='NIVEL'";
+                        $sql1 = "SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento ";
                         $result1 = mysqli_query($link,$sql1);
                         if ($row1 = mysqli_fetch_array($result1)){
                         mysqli_field_seek($result1,0);

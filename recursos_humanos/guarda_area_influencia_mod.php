@@ -7,6 +7,8 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idarea_influencia_ss = $_SESSION['idarea_influencia_ss'];
+
 $fecha 	 = date("Y-m-d");
 $hora    = date("h:i");
 $gestion = date("Y");
@@ -27,20 +29,20 @@ $longitud                = $_POST['longitud'];
 
 if ($latitud == '' || $longitud == '') {
     
-    header("Location:mensaje_sin_coordenadas_influencia.php");
+    header("Location:mensaje_sin_coordenadas_ai.php");
 }  
 else {
-        $sql8 = " INSERT INTO area_influencia (iddepartamento, idred_salud, idestablecimiento_salud, idtipo_area_influencia, area_influencia, idnacion, habitantes, ";
-        $sql8.= " familias, distancia, latitud, longitud, fecha_registro, idusuario)";
-        $sql8.= " VALUES ('$iddepartamento','$idred_salud','$idestablecimiento_salud','$idtipo_area_influencia','$area_influencia','$idnacion','$habitantes', ";
-        $sql8.= " '$familias','$distancia','$latitud','$longitud','$fecha','$idusuario_ss')";
-        $result8 = mysqli_query($link,$sql8);  
-        $idarea_influencia = mysqli_insert_id($link);
-
-        $_SESSION['idarea_influencia_ss'] = $idarea_influencia;  
-    
-        header("Location:mostrar_area_influencia.php");
+        $sql8 =" UPDATE area_influencia SET iddepartamento='$iddepartamento', idred_salud='$idred_salud', idestablecimiento_salud='$idestablecimiento_salud', ";
+        $sql8.=" idtipo_area_influencia='$idtipo_area_influencia', area_influencia='$area_influencia', idnacion='$idnacion', ";
+        $sql8.=" habitantes='$habitantes', familias='$familias', distancia='$distancia', ";
+        $sql8.=" latitud='$latitud', longitud='$longitud', idusuario='$idusuario_ss', fecha_registro='$fecha' ";
+        $sql8.=" WHERE idarea_influencia='$idarea_influencia_ss' ";
+             
+        $result8 = mysqli_query($link,$sql8); 
+        
+        header("Location:mensaje_actualiza_area_influencia.php");
     }
 
+?>
 
 ?>

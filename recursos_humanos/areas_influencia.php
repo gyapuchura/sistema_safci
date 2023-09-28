@@ -9,8 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idred_salud_ss  =  $_SESSION['idred_salud_ss'];
-
 $sqlus =" SELECT nombres, paterno, materno FROM nombres WHERE idnombre='$idnombre_ss'";
 $resultus = mysqli_query($link,$sqlus);
 $rowus = mysqli_fetch_array($resultus);
@@ -64,12 +62,9 @@ $rowus = mysqli_fetch_array($resultus);
 
                     <!-- Page Heading -->
                         </br>
-                    <div class="text-center"> 
-                            <a href="redes_salud.php"><h6>VOLVER</h6></a>
-                    </div>
 
-                    <h1 class="h3 mb-2 text-gray-800">ESTABLECIMIENTOS DE SALUD</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el regsitro de REDES DE SALUD del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <h1 class="h3 mb-2 text-gray-800">ÁREAS DE INFLUENCIA</h1>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     
                     <!-- DataTales Example -->
@@ -77,7 +72,7 @@ $rowus = mysqli_fetch_array($resultus);
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTOS DE SALUD</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">ÁREAS DE INFLUENCIA</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -85,21 +80,22 @@ $rowus = mysqli_fetch_array($resultus);
                                 <thead>
                                     <tr>  
                                         <th>N°</th>                                    
-                                        <th>CÓDIGO</th>
-                                        <th>MUNICIPIO</th>
+                                        <th>DEPARTAMENTO</th>
+                                        <th>RED DE SALUD</th>
                                         <th>ESTABLECIMIENTO DE SALUD</th>
-                                        <th>NIVEL</th>
+                                        <th>TIPO DE ÁREA DE INFLUENCIA</th>
+                                        <th>DENOMINACIÓN DEL ÁREA DE INFLUENCIA</th>
                                         <th>ACCIÓN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                         <?php
-                        $numero=1;
-                        $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.codigo_establecimiento, municipios.municipio,  ";
-                        $sql.=" establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento  ";
-                        $sql.=" FROM establecimiento_salud, municipios, nivel_establecimiento WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio ";
-                        $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento  ";
-                        $sql.=" AND establecimiento_salud.idred_salud='$idred_salud_ss' ORDER BY establecimiento_salud.idestablecimiento_salud ";
+                        $numero=1; 
+                        $sql =" SELECT area_influencia.idarea_influencia, departamento.departamento, red_salud.red_salud, establecimiento_salud.establecimiento_salud, ";
+                        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, departamento, red_salud, tipo_area_influencia, ";
+                        $sql.=" establecimiento_salud WHERE area_influencia.iddepartamento=departamento.iddepartamento AND area_influencia.idred_salud=red_salud.idred_salud ";
+                        $sql.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                        $sql.=" ORDER BY area_influencia.idarea_influencia DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -112,12 +108,13 @@ $rowus = mysqli_fetch_array($resultus);
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
+                                <td><?php echo $row[5];?></td>
                                 <td>
-                                <form name="FORM_RED" action="valida_establecimiento_salud_int.php" method="post">
-                                <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[0];?>">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR ESTABLECIMIENTOS</button>
+                                <form name="FORM_RED" action="valida_area_influencia.php" method="post">
+                                <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR DETALLES</button>
                                 </form>                                                                          
-                            </td>
+                                </td>
                             </tr>
                                      
                         <?php

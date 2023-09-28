@@ -41,6 +41,7 @@
             <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
             <a class="collapse-item" href="../recursos_humanos/nuevo_establecimiento.php">NUEVO</br>ESTABLECIMIENTO</br>DE SALUD</a>
+            <a class="collapse-item" href="../recursos_humanos/areas_influencia.php">ÁREAS DE INFLUENCIA</a>
             <a class="collapse-item" href="../recursos_humanos/nueva_area_influencia.php">NUEVA ÁREA</br>INFLUENCIA</a>
         </div>
     </div>
@@ -61,6 +62,7 @@
             <a class="collapse-item" href="#">DEPARTAMENTAL</a>
             <a class="collapse-item" href="#">MUNICIPAL</a>
             <a class="collapse-item" href="#">VECINAL</a>
+            <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
         </div>
     </div>
 </li>
