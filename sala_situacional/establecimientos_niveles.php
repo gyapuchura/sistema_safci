@@ -168,8 +168,8 @@ Si no se encontraron resultados
 <table width="806" border="1" align="center" cellspacing="0">
   <tbody>
     <tr>
-      <td width="58" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #205332;"><strong>nivel_establecimiento </strong></td>
-      <td width="732" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #284A1F; text-align: center;"><strong>departamento DE SISTEMA</strong></td>
+      <td width="58" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #205332;"><strong>NIVEL DEL ESTABLECIMIENTO</strong></td>
+      <td width="732" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #284A1F; text-align: center;"><strong>ESTABLECIMIENTOS POR DEPARTAMENTO</strong></td>
     </tr>
     <?php 
 
@@ -192,7 +192,7 @@ while ($field4 = mysqli_fetch_field($result4)){
           <tr>
           <?php 
 $numero5 = 0;
-$sql5 = " SELECT iddepartamento, departamento FROM departamento ORDER BY iddepartamento";
+$sql5 = " SELECT iddepartamento, sigla FROM departamento ORDER BY iddepartamento";
 $result5 = mysqli_query($link,$sql5);
 $total5 = mysqli_num_rows($result5);
  if ($row5 = mysqli_fetch_array($result5)){
@@ -200,10 +200,9 @@ mysqli_field_seek($result5,0);
 while ($field5 = mysqli_fetch_field($result5)){
 } do {
 	?>
-            <td width="726">
-              
+            <td width="726">              
               <span style="font-family: Arial; font-size: 12px;"><?php
-$sql_s =" SELECT idestablecimiento_salud FROM establecimiento_salud WHERE iddepartamentod='$row5[0]' AND idnivel_establecimiento ='$row4[0]'  GROUP BY idestablecimiento_salud ";
+$sql_s =" SELECT idestablecimiento_salud FROM establecimiento_salud WHERE iddepartamento='$row5[0]' AND idnivel_establecimiento ='$row4[0]'  GROUP BY idestablecimiento_salud ";
 $result_s = mysqli_query($link,$sql_s);
 $row_s = mysqli_num_rows($result_s);
 ?>

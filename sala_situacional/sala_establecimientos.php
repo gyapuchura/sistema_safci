@@ -121,7 +121,7 @@ $row_l = mysqli_fetch_array($result_l);
                         <h6 class="text-primary">3.- NÚMERO DE ESTABLECIMIENTOS DE SALUD SEGÚN TIPO, TODOS LOS SUBSECTORES BOLIVIA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="establecimientos_subsector.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES'); return false;">
+                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=550,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
