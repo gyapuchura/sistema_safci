@@ -112,11 +112,11 @@ Si no se encontraron resultados
 <table width="646" border="1" align="center" bordercolor="#009999">
 
     <tr>
-        <td width="10" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> N° </span></td>
-        <td width="434" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2">SUBSECTOR SALUD</span></td>
-        <td bgcolor="#FFFFFF" align="center"><span class="Estilo7">CANTIDAD</span></td>
-        <td colspan="2" bgcolor="#FFFFFF" align="center"><span class="Estilo7">  %
-        </span></td>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">SUBSECTOR SALUD</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD</span></td>
+        <td width="73" align="center" bgcolor="#FFFFFF" style="font-family: Arial"><span class="Estilo7" style="font-size: 12px">  %</span></td>
+        <td width="88" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">VER</span></td>
     </tr>
 
 <?php
@@ -147,11 +147,15 @@ $porcentajea = number_format($p_conteoa, 2, '.', '');
 
 ?>
         <tr>
-          <td width="10" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> <?php echo $numeroa;?> </span></td>
-          <td width="434" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> <?php echo $row_ta[1];?> </span></td>
+          <td width="21" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> <?php echo $numeroa;?> </span></td>
+          <td width="315" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> <?php echo $row_ta[1];?> </span></td>
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $conteoa;?> </span></td>
-          <td colspan="2" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $porcentajea;?> %
-          </span></td>
+          <td width="73" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $porcentajea;?> %</span></td>
+          <td bgcolor="#FFFFFF" align="center">
+
+          <a href="detalle_establecimientos_subsector.php?idsubsector_salud=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=850,scrollbars=YES,top=50,left=200'); return false;">VER EE.SS.</a>  
+
+        </td>
         </tr>   
         <?php
         $numeroa=$numeroa+1;
@@ -163,16 +167,14 @@ Si no se encontraron resultados
 }
 ?>
         <tr>
-          <td width="10" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2">  </span></td>
-          <td width="434" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> </span></td>
+          <td width="21" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2">  </span></td>
+          <td width="315" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> </span></td>
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"><?php echo $total;?></span></td>
-          <td colspan="2" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> 100 %
-          </span></td>
+          <td width="73" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> 100 %</span></td>
+          <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"></span></td>
         </tr>
     </table>
-
-</br>
-</br>
-   
+    </br>
+    </br>   
 	</body>
 </html>
