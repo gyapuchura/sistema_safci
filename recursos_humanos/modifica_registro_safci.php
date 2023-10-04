@@ -740,12 +740,140 @@ $row_l = mysqli_fetch_array($result_l);
                 </div>
                 </div>
 
+                <hr>
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <h5 class="text-primary">4.- CONDICIÓN Y PERFIL ACTUAL:</h5>                                 
+                </div>  
+
+                <?php
+                $sql_c = " SELECT idusuario, idnombre, usuario, password, fecha, condicion, perfil";
+                $sql_c.= " FROM usuarios WHERE idusuario = '$row[1]' ";
+                $result_c = mysqli_query($link,$sql_c);
+                $row_c = mysqli_fetch_array($result_c);
+                ?>
+
+            <div class="form-group row">
+                <div class="col-sm-3">
+                <h6 class="text-primary">CONDICIÓN ACTUAL:</h6>
+                </div>
+                <div class="col-sm-3">
+                <input type="text" class="form-control" name="estado_personal" value="<?php echo $row_c[5];?>" disabled>
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-primary">PERFIL ACTUAL:</h6>
+                </div>
+                <div class="col-sm-3">
+                <input type="text" class="form-control" name="estado_personal" value="<?php echo $row_c[6];?>" disabled>
+                </div>
+            </div>  
+            <hr>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h4 class="text-primary">OPCIONES:</h4>
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div> 
+
+
+        <form name="POSGRADO" action="guarda_estado_mod.php" method="post">
+        <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
+            <div class="form-group row">
+                <div class="col-sm-3">
+                <h6 class="text-primary">ACTUALIZAR CONDICIÓN A:</h6>
+                </div>
+                <div class="col-sm-3">
+
+                <select name="condicion_mod"  id="condicion_mod" class="form-control" required >
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idcondicion, condicion FROM condicion ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[1];?>" <?php if ($rowv[1]==$row_c[5]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-primary">ACTUALIZAR PERFIL A:</h6>
+                </div>
+                <div class="col-sm-3">
+
+                <select name="perfil_mod"  id="perfil_mod" class="form-control" required >
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idperfil, perfil FROM perfil ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[1];?>" <?php if ($rowv[1]==$row_c[6]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+    
+                </div>
+            </div>  
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>   
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                    <a class="btn btn-info" href="#" data-toggle="modal" data-target="#estado">
+                        ACTUALIZAR ESTADO DE PERSONAL                                
+                    </a>                                    
                     </div>
-                    <div class="col-sm-6">
+                </div>
+                </div>
+
+                <!-- BEGIN Datos ESTADO PERSONAL Modal-->
+                <div class="modal fade" id="estado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE MODIFICAR EL ESTADO DEL USUARIO PERSONAL?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Seleccione la opcion para confirmar la modificación.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-info" type="submit">Confirmar Cambios</button>
+                            </div>
+                        </div>
                     </div>
-                </div>                  
+                </div>
+            </form>
+                                <!-- END Datos ESTADO PERSONAL Modal-->  
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>     
+            
+            <hr>
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>

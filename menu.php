@@ -5,7 +5,7 @@
     <div class="sidebar-brand-icon rotate-n-15">
     <i class="fas fa-fw fa-folder"></i>   
     </div>
-    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA</div>
+    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA-SAFCI</div>
 </a>
 
 <!-- Divider -->
@@ -14,7 +14,7 @@
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
     <a class="nav-link" href="../administrar_sistema/inicio.php">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <i class="fas fa-bahai"></i>
         <span>ADMINISTRACION DE SISTEMA</span></a>
 </li>
 
@@ -30,7 +30,7 @@
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
         aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-folder"></i>
+        <i class="fas fa-fw fa-users"></i>
         <span>RECURSOS HUMANOS SAFCI</span>
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -38,6 +38,20 @@
             <h6 class="collapse-header">ELEGIR:</h6>
             <a class="collapse-item" href="../recursos_humanos/recursos_humanos.php">RECURSOS HUMANOS</a>
             <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
+        </div>
+    </div>
+</li>
+
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#coberturaSafci"
+        aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-hospital"></i>
+        <span>COBERTURA SAFCI</span>
+    </a>
+    <div id="coberturaSafci" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">ELEGIR:</h6>
             <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
             <a class="collapse-item" href="../recursos_humanos/nuevo_establecimiento.php">NUEVO</br>ESTABLECIMIENTO</br>DE SALUD</a>
@@ -49,12 +63,12 @@
 
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#salaSituacional"
         aria-expanded="true" aria-controls="collapseUtilities">
-        <i class="fas fa-fw fa-book"></i>   
+        <i class="fas fa-laptop-medical"></i>   
         <span>SALA SITUACIONAL</span>
     </a>
-    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+    <div id="salaSituacional" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SALAS:</h6>
@@ -70,7 +84,7 @@
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
         aria-expanded="true" aria-controls="collapseUtilities2">
-        <i class="fas fa-fw fa-book"></i>   
+        <i class="fas fa-clinic-medical"></i>   
         <span>SALUD FAMILIAR</span>
     </a>
     <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"

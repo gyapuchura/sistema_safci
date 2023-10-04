@@ -69,7 +69,7 @@ $codigo_ss     = $_SESSION['codigo_ss'];
                     <div class="text-center">   
                     
                     <hr>                     
-                    <h4 class="text-success">Los Datos Personales</h4>
+                    <h4 class="text-success">Los Datos de Condición y Perfil</h4>
                     <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
                     </br>
                     <a href="modifica_registro_safci.php"><h6>IR A MODIFICACIÓN</h6></a>

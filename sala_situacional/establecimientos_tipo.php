@@ -152,8 +152,66 @@ Si no se encontraron resultados
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="height: 500px"></div>
+<div id="container" style="height: 500px "></div>
 
+<table width="128" border="1" align="center">
+  <tbody>
+    <tr>
+<?php  
+$numero = 0;
+$sql = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento ORDER BY idtipo_establecimiento ";
+$result = mysqli_query($link,$sql);
+ if ($row = mysqli_fetch_array($result)){
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do { ?>
+
+      <td width="56" style="font-size: 10px; font-family: Arial; text-align: center;"><?php echo $row[1]?></td>
+
+      <?php       
+} while ($row = mysqli_fetch_array($result));
+} else {
+/*
+Si no se encontraron resultados
+**/
+}
+?>
+    </tr>
+    <tr>
+      <?php  
+$numero = 0;
+$sql = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento ORDER BY idtipo_establecimiento ";
+$result = mysqli_query($link,$sql);
+ if ($row = mysqli_fetch_array($result)){
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do { 
+    
+    $sql_s =" SELECT idestablecimiento_salud FROM establecimiento_salud WHERE idtipo_establecimiento='$row[0]' ";
+    $result_s = mysqli_query($link,$sql_s);
+    $row_s = mysqli_num_rows($result_s);
+
+    ?>
+
+      <td width="56" style="font-size: 10px; font-family: Arial; text-align: center;">
+
+
+
+        <span style="font-size: 12px; font-family: Arial;"><span style="text-align: center"><a href="detalle_establecimientos_tipo.php?idtipo_establecimiento=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=850,scrollbars=YES,top=50,left=200'); return false;"></a></span><a href="detalle_establecimientos_tipo.php?idtipo_establecimiento=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=850,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a></span></td>
+
+      <?php       
+} while ($row = mysqli_fetch_array($result));
+} else {
+/*
+Si no se encontraron resultados
+**/
+}
+?>
+      
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
 </br>
 	</body>
 </html>

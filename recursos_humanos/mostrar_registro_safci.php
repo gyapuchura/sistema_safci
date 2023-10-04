@@ -364,18 +364,21 @@ $row_ac    = mysqli_fetch_array($result_ac);
                     <input type="text" class="form-control" name="item_mds" value="<?php echo $row_l[15];?>" disabled>
                     </div>
                 </div>             
-              
-
-
             </br>
-                <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-center">
-                    <a class="btn btn-warning" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
-                    </div>
+<?php
+if ($perfil_ss == 'ADMINISTRADOR') {
+?>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="text-center">
+                <a class="btn btn-warning" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
                 </div>
-                </div>
-
+            </div>
+        </div>
+<?php
+} else {
+}
+?>
                 <div class="form-group row">
                     <div class="col-sm-6">
 

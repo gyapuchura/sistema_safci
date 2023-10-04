@@ -84,7 +84,6 @@ $row_l = mysqli_fetch_array($result_l);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">   
-                    <a href="#"><h6>VOLVER</h6></a>
                     <hr>                     
                     <h4 class="text-primary">SALA DE ESTABLECIMIENTOS EN SALUD</h4>
                     </div>
@@ -99,7 +98,7 @@ $row_l = mysqli_fetch_array($result_l);
                         <h6 class="text-primary">1.- ESTRUCTURA DE ESTABLECIMIENTOS DE SALUD SEGÚN SUBSECTOR BOLIVIA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="establecimientos_subsector.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES'); return false;">
+                    <a href="establecimientos_subsector.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="fas fa-chart-pie"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div>    
@@ -121,22 +120,11 @@ $row_l = mysqli_fetch_array($result_l);
                         <h6 class="text-primary">3.- NÚMERO DE ESTABLECIMIENTOS DE SALUD SEGÚN TIPO, TODOS LOS SUBSECTORES BOLIVIA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=550,scrollbars=YES'); return false;">
+                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                    </div>
-                    <div class="col-sm-6">
-                    </div>
-                </div> 
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                    </div>
-                    <div class="col-sm-6">
-                    </div>
-                </div>               
+         
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
@@ -160,7 +148,7 @@ $row_l = mysqli_fetch_array($result_l);
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
                 <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
