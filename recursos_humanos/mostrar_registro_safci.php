@@ -365,20 +365,30 @@ $row_ac    = mysqli_fetch_array($result_ac);
                     </div>
                 </div>             
             </br>
-<?php
-if ($perfil_ss == 'ADMINISTRADOR') {
-?>
-        <div class="form-group row">
-            <div class="col-sm-12">
-                <div class="text-center">
-                <a class="btn btn-warning" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
+            <div class="text-center">  
+            <div class="form-group row">
+                <div class="col-sm-6"> 
+                        <a class="btn btn-primary" href="imprime_ficha_personal.php?idpersonal=<?php echo $idpersonal_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
+                        IMPRIMIR FICHA DE PERSONAL</a>
+                </div>                              
+                <?php
+                if ($perfil_ss == 'ADMINISTRADOR') {
+                ?>                                    
+                <div class="col-sm-6">
+                    <div class="text-center">
+                        <a class="btn btn-warning" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
+                    </div>
+                </div>
+                <?php
+                } else {
+                }
+                ?>
                 </div>
             </div>
-        </div>
-<?php
-} else {
-}
-?>
+
+
+
+
                 <div class="form-group row">
                     <div class="col-sm-6">
 

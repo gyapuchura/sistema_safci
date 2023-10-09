@@ -197,7 +197,7 @@ while ($field = mysqli_fetch_field($result)){
 
 
 
-        <span style="font-size: 12px; font-family: Arial;"><span style="text-align: center"><a href="detalle_establecimientos_tipo.php?idtipo_establecimiento=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=850,scrollbars=YES,top=50,left=200'); return false;"></a></span><a href="detalle_establecimientos_tipo.php?idtipo_establecimiento=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=850,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a></span></td>
+        <span style="font-size: 12px; font-family: Arial;"><span style="text-align: center"><a href="detalle_establecimientos_tipo.php?idtipo_establecimiento=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=750,height=650,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a></span></td>
 
       <?php       
 } while ($row = mysqli_fetch_array($result));

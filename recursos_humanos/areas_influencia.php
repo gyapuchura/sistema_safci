@@ -86,6 +86,7 @@ $rowus = mysqli_fetch_array($resultus);
                                         <th>TIPO DE ÁREA DE INFLUENCIA</th>
                                         <th>DENOMINACIÓN DEL ÁREA DE INFLUENCIA</th>
                                         <th>ACCIÓN</th>
+                                        <th>CARPETAS FAMILIARES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -113,6 +114,13 @@ $rowus = mysqli_fetch_array($resultus);
                                 <form name="FORM_RED" action="valida_area_influencia.php" method="post">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                                 <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR DETALLES</button>
+                                </form>                                                                          
+                                </td>
+                                <td>
+                                <form name="FORM_RED" action="valida_area_influencia_cf.php" method="post">
+                                <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
+                                <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">CARPETAS FAMILIARES</button>
                                 </form>                                                                          
                                 </td>
                             </tr>

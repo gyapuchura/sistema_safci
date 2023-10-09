@@ -373,13 +373,21 @@ $row_ac    = mysqli_fetch_array($result_ac);
                 </div>
 
                     <!--  -->
-                    <div class="text-center">    
+
+                    <div class="text-center">  
                         <div class="form-group row">
-                            <div class="col-sm-12"> 
+                            <div class="col-sm-6"> 
+
+                            <a class="btn btn-primary" href="imprime_ficha_personal.php?idpersonal=<?php echo $idpersonal_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
+                            IMPRIMIR FICHA DE PERSONAL</a>
+
+                            </div>                              
+                            <div class="col-sm-6"> 
                                 <a class="btn btn-success" href="registro_safci.php">FINALIZAR REGISTRO SAFCI</a>
                             </div>                              
                         </div>
                     </div>
+
                             <hr>
                             <div class="text-center">
                                 <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>

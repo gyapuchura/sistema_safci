@@ -153,7 +153,7 @@ $porcentajea = number_format($p_conteoa, 2, '.', '');
           <td width="73" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $porcentajea;?> %</span></td>
           <td bgcolor="#FFFFFF" align="center">
 
-          <a href="detalle_establecimientos_subsector.php?idsubsector_salud=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=850,scrollbars=YES,top=50,left=200'); return false;">VER EE.SS.</a>  
+          <a href="detalle_establecimientos_subsector.php?idsubsector_salud=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;">VER EE.SS.</a>  
 
         </td>
         </tr>   
