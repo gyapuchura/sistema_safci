@@ -28,20 +28,13 @@ $idambito_local = $_POST['idambito_local'];
 $latitud   = $_POST['latitud']; 
 $longitud  = $_POST['longitud']; 
 
-if ($latitud == '' || $longitud == '') {
-    
-    header("Location:mensaje_sin_coordenadas.php");
-}  
-else {
         $sql8 =" UPDATE establecimiento_salud SET iddepartamento='$iddepartamento', idred_salud='$idred_salud', idmunicipio='$idmunicipio', ";
         $sql8.=" codigo_establecimiento='$codigo_establecimiento', establecimiento_salud='$establecimiento_salud', idtipo_establecimiento='$idtipo_establecimiento', ";
         $sql8.=" idnivel_establecimiento='$idnivel_establecimiento', idsubsector_salud='$idsubsector_salud', iddependencia_institucion='$iddependencia_institucion', ";
         $sql8.=" idambito_local='$idambito_local', latitud='$latitud', longitud='$longitud', idusuario='$idusuario_ss', fecha_registro='$fecha' ";
-        $sql8.=" WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
-             
+        $sql8.=" WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";             
         $result8 = mysqli_query($link,$sql8); 
         
         header("Location:mensaje_actualiza_establecimiento.php");
-    }
-
+    
 ?>
