@@ -84,7 +84,7 @@ $row_l = mysqli_fetch_array($result_l);
                     <div class="col-lg-12">
                         <div class="p-3">               
                     <div class="text-center">   
-                    <a href="mostrar_registro_safci.php"><h6>VOLVER</h6></a>
+                    <a href="mostrar_registro_safci.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>
                     <hr>                     
                     <h4 class="text-primary">ACTUALIZAR REGISTRO SAFCI</h4>
                     <h4><?php echo $codigo_ss;?></h4>
@@ -355,20 +355,23 @@ $row_l = mysqli_fetch_array($result_l);
                     <h5 class="text-primary">2.1 DATOS DE POSGRADO:</h5>                                 
                 </div> 
                 
-                <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-sm-3">
                 <h6 class="text-primary">FORMACIÓN POSGRADO: </h6>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                 <h6 class="text-primary">DESCRIPCIÓN DEL POSGRADO:</h6>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                 <h6 class="text-primary">ENTIDAD EN POSGRADO:</h6>
                 </div>
                 <div class="col-sm-2">
                 <h6 class="text-primary">AÑO:</h6>
                 </div> 
-                </div>
+                <div class="col-sm-2">
+                <h6 class="text-primary">ACCIÓN:</h6>
+                </div> 
+            </div>
 
             <?php
                 $sql_ac = " SELECT idnombre_academico, idformacion_academica, descripcion_academica, entidad_academica, gestion, ";
@@ -401,14 +404,25 @@ $row_l = mysqli_fetch_array($result_l);
                     ?>
                 </select>
                 </div>
-                <div class="col-sm-4">
-                <textarea name="" rows="3" class="form-control" disabled><?php echo $row_ac[6];?></textarea>
-                </div>
                 <div class="col-sm-3">
+                <textarea name="" rows="4" class="form-control" disabled><?php echo $row_ac[6];?></textarea>
+                </div>
+                <div class="col-sm-2">
                 <textarea name="" rows="3" class="form-control" disabled><?php echo $row_ac[7];?></textarea>
                 </div>
                 <div class="col-sm-2">
                 <input type="text" class="form-control" value="<?php echo $row_ac[8];?>" disabled> 
+                </div> 
+                <div class="col-sm-2">
+                    <form name="FORM11" action="elimina_academico.php" method="post">
+                      <input name="idnombre_academico" type="hidden" value="<?php echo $row_ac[0];?>">
+                        <button class="btn btn-danger btn-icon-split" type="submit">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span class="text">Eliminar</span>
+                        </button>
+                    </form>
                 </div> 
                 </div>
 

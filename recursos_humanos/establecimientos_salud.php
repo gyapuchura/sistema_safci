@@ -115,7 +115,12 @@ $rowus = mysqli_fetch_array($resultus);
                                 <td>
                                 <form name="FORM_RED" action="valida_establecimiento_salud.php" method="post">
                                 <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[0];?>">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR ESTABLECIMIENTOS</button>
+                                    <button type="submit" class="btn btn-secondary btn-icon-split">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-hospital"></i>
+                                    </span>
+                                    <span class="text">VER ESTABLECIMIENTO</span>    
+                                    </button>
                                 </form>                                                                          
                             </td>
                             </tr>

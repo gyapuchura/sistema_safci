@@ -303,7 +303,7 @@ $hora       = date("h:i");
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">RED DE SALUD:</h6>
+                    <h6 class="text-primary">RED DE SALUD/COORDINACIÓN:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idred_salud" id="idred_salud" class="form-control" required></select>
@@ -312,7 +312,7 @@ $hora       = date("h:i");
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD/OFICINA:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>

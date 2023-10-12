@@ -89,9 +89,10 @@ $row_ac    = mysqli_fetch_array($result_ac);
                     <div class="col-lg-12">
                         <div class="p-5">                       
                         <div class="text-center">   
-                        <a href="recursos_humanos.php">VOLVER</a> 
+                        <a href="recursos_humanos.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a> 
                         <hr>                    
-                        <h4 class="text-primary">REGISTRO SAFCI</h4>
+                        <h4 class="text-primary"><i class="fas fa-fw fa-user"></i> REGISTRO SAFCI</h4>
+                        <hr>  
                         <h4><?php echo $codigo_ss;?></h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
@@ -278,7 +279,7 @@ $row_ac    = mysqli_fetch_array($result_ac);
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">RED DE SALUD:</h6>
+                    <h6 class="text-primary">RED DE SALUD/COORDINACIÓN:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idred_salud"  id="idred_salud" class="form-control" required disabled>
@@ -302,7 +303,7 @@ $row_ac    = mysqli_fetch_array($result_ac);
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD/OFICINA:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" required disabled>
@@ -368,15 +369,24 @@ $row_ac    = mysqli_fetch_array($result_ac);
             <div class="text-center">  
             <div class="form-group row">
                 <div class="col-sm-6"> 
-                        <a class="btn btn-primary" href="imprime_ficha_personal.php?idpersonal=<?php echo $idpersonal_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
-                        IMPRIMIR FICHA DE PERSONAL</a>
+                    <a class="btn btn-info btn-icon-split" href="imprime_ficha_personal.php?idpersonal=<?php echo $idpersonal_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span class="text">IMPRIMIR FICHA DE PERSONAL</span>
+                    </a>
                 </div>                              
                 <?php
                 if ($perfil_ss == 'ADMINISTRADOR') {
                 ?>                                    
                 <div class="col-sm-6">
                     <div class="text-center">
-                        <a class="btn btn-warning" href="modifica_registro_safci.php">ACTUALIZAR REGISTRO</a>
+                        <a class="btn btn-warning btn-icon-split" href="modifica_registro_safci.php">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+                        <span class="text">ACTUALIZAR REGISTRO</span>
+                        </a>
                     </div>
                 </div>
                 <?php
