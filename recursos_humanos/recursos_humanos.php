@@ -115,8 +115,8 @@ $rowus = mysqli_fetch_array($resultus);
 	                                        <button type="submit" class="btn btn-secondary btn-icon-split">
                                             <span class="icon text-white-50">
                                             <i class="fas fa-fw fa-user"></i>
-                                                </span>
-                                                <span class="text">REGISTRO PERSONAL</span>    
+                                            </span>
+                                            <span class="text">REGISTRO PERSONAL</span>    
                                             </button></form>                                                                          
                                             </td>
                                             </tr>
