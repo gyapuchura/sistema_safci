@@ -112,10 +112,14 @@ $rowus = mysqli_fetch_array($resultus);
                                             <form name="FORM_P" action="valida_personal.php" method="post">
                                             <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">
                                             <input name="codigo" type="hidden" value="<?php echo $row[3];?>">
-	                                        <button type="submit" class="btn btn-primary btn-user btn-block">VER</button></form>
-                                                                          
-                                        </td>
-                                        </tr>
+	                                        <button type="submit" class="btn btn-secondary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-fw fa-user"></i>
+                                            </span>
+                                            <span class="text">REGISTRO PERSONAL</span>    
+                                            </button></form>                                                                          
+                                            </td>
+                                            </tr>
                                      
                                 <?php
                                 $numero=$numero+1;

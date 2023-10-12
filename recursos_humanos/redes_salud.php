@@ -98,7 +98,12 @@ $rowus = mysqli_fetch_array($resultus);
                                 <td>
                                 <form name="FORM_RED" action="valida_red_salud.php" method="post">
                                 <input name="idred_salud" type="hidden" value="<?php echo $row[0];?>">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR ESTABLECIMIENTOS</button>
+                                <button type="submit" class="btn btn-info btn-icon-split">                                    
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                                <span class="text">MOSTRAR ESTABLECIMIENTOS</span>
+                                </button>
                                 </form>                                                                          
                             </td>
                             </tr>

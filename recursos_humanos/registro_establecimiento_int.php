@@ -74,7 +74,7 @@ $row = mysqli_fetch_array($result);
                     <div class="text-center">  
                     <a href="establecimientos_salud.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                      
                     <hr>      
-                    <h5 class="text-primary"><i class="fas fa-fw fa-home"> </i> ESTABLECIMIENTO DE SALUD</h5>  
+                    <h5 class="text-primary"><i class="fas fa-hospital"> </i> ESTABLECIMIENTO DE SALUD</h5>  
                     <hr>                
                     <h4 class="text-secundary"><?php echo $row[5]; ?></h4>
                     <hr>   

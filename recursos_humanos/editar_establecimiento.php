@@ -92,7 +92,7 @@ $row = mysqli_fetch_array($result);
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
-
+ 
                     <select name="iddepartamento"  id="iddepartamento" class="form-control" required >
                         <option selected>Seleccione</option>
                         <?php

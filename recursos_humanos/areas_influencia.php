@@ -113,14 +113,24 @@ $rowus = mysqli_fetch_array($resultus);
                                 <td>
                                 <form name="FORM_RED" action="valida_area_influencia.php" method="post">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">MOSTRAR DETALLES</button>
+                                <button type="submit" class="btn btn-secondary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                                <span class="text">VER DETALLES</span>
+                                </button>
                                 </form>                                                                          
                                 </td>
                                 <td>
                                 <form name="FORM_RED" action="valida_area_influencia_cf.php" method="post">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">CARPETAS FAMILIARES</button>
+                                <button type="submit" class="btn btn-warning btn-icon-split">
+                                <span class="icon text-yellow-600">
+                                <i class="fas fa-fw fa-folder"></i>
+                                </span>
+                                <span class="text">CARPETAS FAMILIARES</span>
+                                </button>
                                 </form>                                                                          
                                 </td>
                             </tr>
