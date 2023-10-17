@@ -13,8 +13,8 @@ $idpersonal_ss = $_SESSION['idpersonal_ss'];
 $codigo_ss     = $_SESSION['codigo_ss'];
 
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
-$sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, ";
-$sql.= " nombre_datos.idprofesion, nombre_datos.idespecialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos ";
+$sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, nombre_datos.idprofesion, nombre_datos.idespecialidad_medica,";
+$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos, nombre_datos.celular_emergencia ";
 $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
@@ -56,7 +56,7 @@ $row_l = mysqli_fetch_array($result_l);
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-
+ 
         <!-- Sidebar -->
         <?php include("../menu.php");?>
         <!-- End of Sidebar -->
@@ -304,15 +304,19 @@ $row_l = mysqli_fetch_array($result_l);
                                 </div>
 
                                 <div class="form-group row">                                
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">CORREO ELECTRÓNICO:</h6>
                                     <input type="text" class="form-control" name="correo" value="<?php echo $row[15];?>" >
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">TELÉFONO CELULAR/WHATSAPP:</h6>
                                     <input type="text" class="form-control" name="celular" value="<?php echo $row[16];?>" >
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
+                                    <h6 class="text-primary">TELÉFONO EMERGENCIA:</h6>
+                                    <input type="text" class="form-control" name="celular_emergencia" value="<?php echo $row[21];?>" >
+                                    </div>
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">DIRECCIÓN/DOMICILIO:</h6>
                                     <input type="text" class="form-control" name="direccion_dom" value="<?php echo $row[17];?>" >
                                     </div>
