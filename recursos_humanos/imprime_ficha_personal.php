@@ -56,7 +56,7 @@ $row_l = mysqli_fetch_array($result_l);
 
 $sql_ac = " SELECT idnombre_academico, idformacion_academica, descripcion_academica, entidad_academica, gestion, ";
 $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p ";
-$sql_ac.= " FROM nombre_academico WHERE idnombre='$row_n[3]' ORDER BY idnombre_academico LIMIT 1 ";
+$sql_ac.= " FROM nombre_academico WHERE idnombre='$row_n[3]' ORDER BY idnombre_academico DESC LIMIT 1 ";
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac    = mysqli_fetch_array($result_ac);
 
