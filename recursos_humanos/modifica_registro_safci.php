@@ -24,7 +24,7 @@ $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
 $sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddependencia, entidad, cargo_entidad, idministerio, iddireccion, idarea, cargo_mds,";
-$sql_l.= " iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud ";
+$sql_l.= " iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud, idcargo_organigrama ";
 $sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ORDER BY iddato_laboral DESC LIMIT 1 ";
 $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
@@ -639,9 +639,34 @@ $row_l = mysqli_fetch_array($result_l);
                     </select>
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">CARGO:</h6>
+                    <h6 class="text-primary">CARGO (DE ACUERDO A ORGANIGRAMA):</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idcargo_organigrama"  id="idcargo_organigrama" class="form-control" required disabled>
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idcargo_organigrama, cargo_organigrama FROM cargo_organigrama  ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_l[16]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">CARGO (DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
                     </div>
                     <div class="col-sm-9">
                     <textarea class="form-control" rows="2" name="cargo_mds" required disabled><?php echo $row_l[9];?></textarea>
@@ -731,7 +756,31 @@ $row_l = mysqli_fetch_array($result_l);
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">CARGO:</h6>
+                    <h6 class="text-primary">CARGO (DE ACUERDO A ORGANIGRAMA):</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idcargo_organigrama"  id="idcargo_organigrama" class="form-control" required disabled>
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idcargo_organigrama, cargo_organigrama FROM cargo_organigrama  ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_l[16]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">CARGO (DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
                     </div>
                     <div class="col-sm-9">
                     <textarea class="form-control" rows="2" name="cargo_red_salud" required disabled><?php echo $row_l[13];?></textarea>

@@ -201,8 +201,8 @@ $pdf->SetFont('Arial','',9);
 $sql_dep =" SELECT iddependencia, dependencia FROM dependencia WHERE iddependencia = '$row_l[3]' ";
 $result_dep = mysqli_query($link,$sql_dep);
 $row_dep = mysqli_fetch_array($result_dep);
-$pdf->Cell(86,5,mb_convert_encoding('TIPO DE DEPENDENCIA:','iso-8859-1','utf-8'),1,0,'L');
-$pdf->Cell(106,5,mb_convert_encoding($row_dep[1],'iso-8859-1','utf-8'),1,1,'L');
+//* $pdf->Cell(86,5,mb_convert_encoding('TIPO DE DEPENDENCIA:','iso-8859-1','utf-8'),1,0,'L');  ****//
+//* $pdf->Cell(106,5,mb_convert_encoding($row_dep[1],'iso-8859-1','utf-8'),1,1,'L'); *****//
 
 if ($row_l[3] == '1') {
     $pdf->Cell(64,5,mb_convert_encoding('DEPARTAMENTO:','iso-8859-1','utf-8'),1,0,'L');
