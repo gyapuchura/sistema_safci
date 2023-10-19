@@ -358,8 +358,7 @@ $hora       = date("h:i");
                     </div>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
-                    required pattern="[A-Z0-9_-]{5,12}$" 
-                    title="El numero de ÍTEM solo puede contener DIGITOS numéricos." >
+                    required >
                     </div>
                 </div>
 
