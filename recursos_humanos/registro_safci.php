@@ -354,7 +354,7 @@ $hora       = date("h:i");
 
                 <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary">NÚMERO DE ÍTEM:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
+                    <h6 class="text-primary">NÚMERO DE ÍTEM/N° CONTRATO:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN Ó CONTRATO):</h6>
                     </div>
                     <div class="col-sm-8">
                     <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
