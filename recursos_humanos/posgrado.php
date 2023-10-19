@@ -1,6 +1,16 @@
 <?php 
 include("../inc.config.php");
 $idformacion_academica_p = $_POST['formacion_academica_p'];
+
+if ($idformacion_academica_p == '9') {
+?>
+ 
+ <input type="hidden" name="descripcion_academica_p" value="NO CORRESPONDE">
+ <input type="hidden" name="entidad_academica_p" value="NO CORRESPONDE">
+ <input type="hidden" name="gestion_p" value="NO CORRESPONDE">
+
+<?php
+} else {
 ?>
     <div class="col-sm-6">
         <h6 class="text-primary">DESCRIPCIÓN  
@@ -24,5 +34,7 @@ $idformacion_academica_p = $_POST['formacion_academica_p'];
     <h6 class="text-primary">GESTIÓN:</h6>
     <input type="text" class="form-control" name="gestion_p" required>
     </div>
-
+<?php
+}
+?>
      
