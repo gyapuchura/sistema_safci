@@ -53,33 +53,37 @@ $item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
 
+if ($nombre=='' || $paterno=='' || $materno=='' || $ci=='' || $exp=='') 
+{
+    header("Location:registro_safci.php");
+
+} else {
+
 //verificamos existencia del número de cedula de identidad y rescatamos los datos en sesion.
     $sql9 = " SELECT idnombre, paterno, materno, nombre, ci FROM nombre WHERE ci='$ci' ";
     $result9 = mysqli_query($link,$sql9);
 if ($row9 = mysqli_fetch_array($result9)) {
     
     header("Location:personal_existe.php");
+    
 }  
 else {
 
     /* Primero Insertamos los datos en la tabla de nombres */
-    $sql0 = " INSERT INTO nombre ( paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad , idgenero ) ";
+    $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
     $sql0.= " VALUES ('$paterno','$materno','$nombre','$ci','$exp','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
-    $result0 = mysqli_query($link,$sql0);
-    
+    $result0 = mysqli_query($link,$sql0);   
     $idnombre = mysqli_insert_id($link);
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
     $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','PERSONAL')";
     $result7 = mysqli_query($link,$sql7);  
-
     $idusuario_in = mysqli_insert_id($link);
 
     $sql1 = " INSERT INTO nombre_datos (idnombre, idusuario, idformacion_academica, idprofesion, idespecialidad_medica, correo, celular, iddepartamento, direccion_dom, celular_emergencia ) ";
     $sql1.= " VALUES ('$idnombre','$idusuario_in','$idformacion_academica','$idprofesion','$idespecialidad_medica','$correo','$celular','$iddepartamento','$direccion_dom','$celular_emergencia' ) ";
     $result1 = mysqli_query($link,$sql1);
-
     $idnombre_datos = mysqli_insert_id($link);
 
     $sql1 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion, idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p) ";
@@ -124,4 +128,8 @@ else {
     
         header("Location:mostrar_personal.php");
     }
+        
+}
+
+
 ?>
