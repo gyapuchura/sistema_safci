@@ -3,10 +3,6 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 
-$idusuario_ss  =  $_SESSION['idusuario_ss'];
-$idnombre_ss   =  $_SESSION['idnombre_ss'];
-$perfil_ss     =  $_SESSION['perfil_ss'];
-
 $fecha 	 = date("Y-m-d");
 $hora    = date("h:i");
 $gestion = date("Y");

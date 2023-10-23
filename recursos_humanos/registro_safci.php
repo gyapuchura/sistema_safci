@@ -76,24 +76,26 @@ $hora       = date("h:i");
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES</h6>
                                         <input type="text" class="form-control" 
-                                         placeholder="Nombre Completo" name="nombre" required>
+                                         placeholder="Nombre Completo" name="nombre" required
+                                         pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El nombre con Mayúscula al inicio y minúsculas después.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
                                         <input type="text" class="form-control"
-                                            placeholder="Primer Apellido" name="paterno" required>
+                                        placeholder="Primer Apellido" name="paterno" required
+                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido paterno con Mayúscula al inicio y minúsculas después.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
                                         <input type="text" class="form-control"
-                                            placeholder="Segundo Apellido" name="materno" required>
+                                        placeholder="Segundo Apellido" name="materno" required
+                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido materno con Mayúscula al inicio y minúsculas despues.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
                                         <input type="text" id="fecha1" class="form-control" 
                                          placeholder="ingresar fecha" name="fecha_nac" required>
-                                    </div>
-                              
+                                    </div>                              
                                 </div>
 
                                 <div class="form-group row">
@@ -106,7 +108,7 @@ $hora       = date("h:i");
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">COMPLEMENTO:</h6>
-                                    <input type="text" class="form-control" name="complemento" placeholder="COMPLEMENTO">
+                                    <input type="text" class="form-control" name="complemento" placeholder="">
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">EXPEDICIÓN:</h6>
@@ -370,7 +372,6 @@ $hora       = date("h:i");
 
                     </div>
                 </div>
- 
                     <!-- Begin formulario microcurricular -->
                 <div class="text-center">   
                     <div class="form-group row">
