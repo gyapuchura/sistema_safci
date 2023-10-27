@@ -1,9 +1,14 @@
-<?php include("../cabf_o.php"); ?>
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,7 +38,7 @@ $fecha 					= date("Y-m-d");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        
+        <?php include("../menu.php");?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -59,24 +64,69 @@ $fecha 					= date("Y-m-d");
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">   
-                    
                     <hr>                     
-                    <h4 class="text-danger">El número de Cedula de Identidad</h4>
-                    <h4 class="text-danger">ya existe en sistema !!!</h4>
-                    </br>
-                    <a href="../login.php"><h6>SALIR A INICIO DE SESIÓN</h6></a>
-                    <h4><?php echo "";?></h4>
+                    <h4 class="text-primary">SALA SITUACIONAL PERSONAL SAFCI</h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
-
+<hr> 
                 <div class="form-group row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
+                        <h6 class="text-primary">1.- SITUACIÓN DE GÉNERO</h6>
                     </div>
-                </div>                  
+                    <div class="col-sm-4">
+                    <a href="personal_genero.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=600,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="fas fa-chart-pie"></i>   MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div>    
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">2.- FORMACIÓN ACADÉMICA</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="personal_formacion_academica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="fas fa-chart-bar"></i> MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div>  
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">3.- ESPECIALIDAD MÉDICAS</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">4.- PERSONAL POR DEPARTAMENTO</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">4.- PERSONAL POR DEPARTAMENTO Y RED DE SALUD</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
+         
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
@@ -100,7 +150,7 @@ $fecha 					= date("Y-m-d");
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
                 <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>

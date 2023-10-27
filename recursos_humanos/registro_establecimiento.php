@@ -332,7 +332,16 @@ $row = mysqli_fetch_array($result);
                         <div class="col-sm-3">                       
                        </div>
                         <div class="col-sm-3">
+
+                        <?php
+                            if ($perfil_ss == 'ADMINISTRADOR') {
+                            ?>  
                         <a href="editar_establecimiento.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
+                        <?php
+                            } else {
+                            }
+                            ?>
+
                         </div>
                     </div>                               
                 </div>                 

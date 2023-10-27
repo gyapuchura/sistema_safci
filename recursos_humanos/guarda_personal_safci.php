@@ -3,16 +3,14 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 
-$idusuario_ss  =  $_SESSION['idusuario_ss'];
-$idnombre_ss   =  $_SESSION['idnombre_ss'];
-$perfil_ss     =  $_SESSION['perfil_ss'];
+$idusuario_ss = $_SESSION['idusuario_ss'];
+$idnombre_ss  = $_SESSION['idnombre_ss'];
+$perfil_ss    = $_SESSION['perfil_ss'];
 
-$idpersonal_ss =  $_SESSION['idpersonal_ss'];
-$codigo_ss     =  $_SESSION['codigo_ss'];
+$fecha 	      = date("Y-m-d");
+$hora         = date("h:i");
+$gestion      = date("Y");
 
-$fecha 	 = date("Y-m-d");
-$hora    = date("h:i");
-$gestion = date("Y");
 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
 $nombre      = $link->real_escape_string($_POST['nombre']);
@@ -60,38 +58,44 @@ $item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
 
+if ($nombre=='' || $paterno=='' || $materno=='' || $ci=='' || $exp=='') 
+{
+    header("Location:nuevo_personal.php");
+
+} else {
+
 //verificamos existencia del número de cedula de identidad y rescatamos los datos en sesion.
     $sql9 = " SELECT idnombre, paterno, materno, nombre, ci FROM nombre WHERE ci='$ci' ";
     $result9 = mysqli_query($link,$sql9);
 if ($row9 = mysqli_fetch_array($result9)) {
     
     header("Location:personal_existe_int.php");
+    
 }  
 else {
 
     /* Primero Insertamos los datos en la tabla de nombres */
-    $sql0 = " INSERT INTO nombre ( paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad , idgenero ) ";
+    $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
     $sql0.= " VALUES ('$paterno','$materno','$nombre','$ci','$exp','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
-    $result0 = mysqli_query($link,$sql0);
-    
+    $result0 = mysqli_query($link,$sql0);   
     $idnombre = mysqli_insert_id($link);
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
     $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','PERSONAL')";
     $result7 = mysqli_query($link,$sql7);  
-
     $idusuario_in = mysqli_insert_id($link);
 
     $sql1 = " INSERT INTO nombre_datos (idnombre, idusuario, idformacion_academica, idprofesion, idespecialidad_medica, correo, celular, iddepartamento, direccion_dom, celular_emergencia ) ";
     $sql1.= " VALUES ('$idnombre','$idusuario_in','$idformacion_academica','$idprofesion','$idespecialidad_medica','$correo','$celular','$iddepartamento','$direccion_dom','$celular_emergencia' ) ";
     $result1 = mysqli_query($link,$sql1);
-
     $idnombre_datos = mysqli_insert_id($link);
 
     $sql1 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion, idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p) ";
     $sql1.= " VALUES ('$idusuario_in','$idnombre','$idprofesion','$idespecialidad_medica','$idformacion_academica','$descripcion_academica','$entidad_academica','$gestion_ac','$idformacion_academica_p','$descripcion_academica_p','$entidad_academica_p','$gestion_p') ";
     $result1 = mysqli_query($link,$sql1);
+
+    $idnombre_academico = mysqli_insert_id($link);
 
 //----- Obtenemos el codigo y correlativo de PERSONAL ------//
 
@@ -113,9 +117,9 @@ else {
 
         $iddato_laboral = mysqli_insert_id($link);
 
-        $sql8 = " INSERT INTO personal (idusuario, idnombre, idnombre_datos, iddato_laboral, correlativo, codigo, ";
+        $sql8 = " INSERT INTO personal (idusuario, idnombre, idnombre_datos, idnombre_academico, iddato_laboral, correlativo, codigo, ";
         $sql8.= " idestado_personal,fecha_registro, hora_registro, gestion)";
-        $sql8.= " VALUES ('$idusuario_in','$idnombre','$idnombre_datos','$iddato_laboral','$correlativo','$codigo', ";
+        $sql8.= " VALUES ('$idusuario_in','$idnombre','$idnombre_datos','$idnombre_academico','$iddato_laboral','$correlativo','$codigo', ";
         $sql8.= " '1','$fecha','$hora','$gestion')";
         $result8 = mysqli_query($link,$sql8);  
         $idpersonal = mysqli_insert_id($link);
@@ -128,5 +132,7 @@ else {
         $result9 = mysqli_query($link,$sql9);  
     
         header("Location:mostrar_personal_int.php");
-    }
+    }       
+}
 ?>
+

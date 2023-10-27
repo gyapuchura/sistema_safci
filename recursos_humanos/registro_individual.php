@@ -9,9 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idpersonal_ss = $_SESSION['idpersonal_ss'];
-$codigo_ss     = $_SESSION['codigo_ss'];
-
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, nombre.complemento, ";
 $sql.= " nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica,";
 $sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, nombre_datos.celular_emergencia ";
@@ -19,7 +16,7 @@ $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_ac
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
 $sql.= " AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica  ";
-$sql.= " AND personal.idpersonal='$idpersonal_ss' ";
+$sql.= " AND personal.idnombre='$idnombre_ss' AND personal.idusuario='$idusuario_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
@@ -89,7 +86,6 @@ $row_ac    = mysqli_fetch_array($result_ac);
                     <div class="col-lg-12">
                         <div class="p-5">                       
                         <div class="text-center">   
-                        <a href="recursos_humanos.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a> 
                         <hr>                    
                         <h4 class="text-primary"><i class="fas fa-fw fa-user"></i> REGISTRO SAFCI</h4>
                         <hr>  
@@ -377,7 +373,7 @@ $row_ac    = mysqli_fetch_array($result_ac);
                     </a>
                 </div>                              
                 <?php
-                if ($perfil_ss == 'ADMINISTRADOR') {
+                if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'PERSONAL' || $perfil_ss == 'PARTICIPANTE') {
                 ?>                                    
                 <div class="col-sm-6">
                     <div class="text-center">
