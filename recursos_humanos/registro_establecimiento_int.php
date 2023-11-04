@@ -308,7 +308,6 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>   
                 <hr>
-
                 
     <!-------- begin rejilla --------->   
                 <div class="form-group row">
@@ -319,7 +318,6 @@ $row = mysqli_fetch_array($result);
 
                     </div>
                 </div>
-
 
     <!-------- end rejilla --------->                      
                 <div class="text-center">
@@ -333,14 +331,14 @@ $row = mysqli_fetch_array($result);
                        </div>
                         <div class="col-sm-3">
                         <?php
-                            if ($perfil_ss == 'ADMINISTRADOR') {
-                            ?>  
+                            if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'ADM-MUNICIPAL' || $perfil_ss == 'ADM-ESTABLECIMIENTO') {
+                        ?>  
                         <a href="editar_establecimiento_int.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
                         <?php
                             } else {
                             }
-                            ?>
-                        </div>
+                        ?> 
+                        </div>                        
                     </div>                               
                 </div>                 
 

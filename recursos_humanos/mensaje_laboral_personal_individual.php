@@ -70,9 +70,9 @@ $codigo_ss     = $_SESSION['codigo_ss'];
                     
                     <hr>                     
                     <h4 class="text-success">Los Datos Laborales</h4>
-                    <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
+                    <h4 class="text-success">Fueron actualizados correctamente !!!</h4>
                     </br>
-                    <a href="datos_laborales.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    <a href="datos_laborales_individual.php"><h6>IR A MODIFICACIÓN</h6></a>
                     <h4><?php echo "";?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -138,5 +138,4 @@ $codigo_ss     = $_SESSION['codigo_ss'];
     <!-- scripts para calendario -->
    
 </body>
-
 </html>
