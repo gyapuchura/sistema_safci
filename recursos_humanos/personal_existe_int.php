@@ -1,9 +1,14 @@
-<?php include("../cabf_o.php"); ?>
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,7 +38,7 @@ $fecha 					= date("Y-m-d");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        
+        <?php include("../menu.php");?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -64,8 +69,7 @@ $fecha 					= date("Y-m-d");
                     <h4 class="text-danger">El número de Cedula de Identidad</h4>
                     <h4 class="text-danger">ya existe en sistema !!!</h4>
                     </br>
-                    <a href="../login.php"><h6>SALIR A INICIO DE SESIÓN</h6></a>
-                    <h4><?php echo "";?></h4>
+                    <a href="nuevo_personal.php"><h6>SALIR A NUEVO REGISTRO DE PERSONAL</h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -130,5 +134,4 @@ $fecha 					= date("Y-m-d");
     <!-- scripts para calendario -->
    
 </body>
-
 </html>

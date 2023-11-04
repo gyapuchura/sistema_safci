@@ -57,7 +57,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
     <div class="container">
     </br>
-        <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card o-hidden border-0 shadow-lg my-2">
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
@@ -80,17 +80,20 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES</h6>
                                         <input type="text" class="form-control" 
-                                         placeholder="Nombre Completo" name="nombre" required>
+                                         placeholder="Nombre Completo" name="nombre" required
+                                         pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El nombre con Mayúscula al inicio y minúsculas después.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
                                         <input type="text" class="form-control"
-                                            placeholder="Primer Apellido" name="paterno" required>
+                                        placeholder="Primer Apellido" name="paterno" required
+                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido paterno con Mayúscula al inicio y minúsculas después.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
                                         <input type="text" class="form-control"
-                                            placeholder="Segundo Apellido" name="materno" required>
+                                        placeholder="Segundo Apellido" name="materno" required
+                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido materno con Mayúscula al inicio y minúsculas despues.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>

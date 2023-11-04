@@ -60,7 +60,7 @@ $gestion  =  date("Y");
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[3];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?></td>
-	    <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
+	      <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[7];?></td>
         </tr>
 

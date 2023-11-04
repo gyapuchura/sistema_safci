@@ -12,23 +12,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $idpersonal_ss = $_SESSION['idpersonal_ss'];
 $codigo_ss     = $_SESSION['codigo_ss'];
 
-$sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
-$sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, ";
-$sql.= " nombre_datos.idprofesion, nombre_datos.idespecialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos ";
-$sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
-$sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
-$sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
-$sql.= " AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica  ";
-$sql.= " AND personal.idpersonal='$idpersonal_ss' ";
-$result = mysqli_query($link,$sql);
-$row = mysqli_fetch_array($result);
-
-$sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddependencia, entidad, cargo_entidad, idministerio, iddireccion, idarea, cargo_mds,";
-$sql_l.= " iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud ";
-$sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ";
-$result_l = mysqli_query($link,$sql_l);
-$row_l = mysqli_fetch_array($result_l);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
