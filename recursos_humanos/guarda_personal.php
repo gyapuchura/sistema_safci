@@ -6,7 +6,7 @@ date_default_timezone_set('America/La_Paz');
 $fecha 	 = date("Y-m-d");
 $hora    = date("h:i");
 $gestion = date("Y");
-
+ 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
 $nombre      = $link->real_escape_string($_POST['nombre']);
 $paterno     = $link->real_escape_string($_POST['paterno']);
@@ -87,10 +87,9 @@ else {
     $result1 = mysqli_query($link,$sql1);
     $idnombre_datos = mysqli_insert_id($link);
 
-    $sql1 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion, idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p) ";
-    $sql1.= " VALUES ('$idusuario_in','$idnombre','$idprofesion','$idespecialidad_medica','$idformacion_academica','$descripcion_academica','$entidad_academica','$gestion_ac','$idformacion_academica_p','$descripcion_academica_p','$entidad_academica_p','$gestion_p') ";
-    $result1 = mysqli_query($link,$sql1);
-
+    $sql10 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion, idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p) ";
+    $sql10.= " VALUES ('$idusuario_in','$idnombre','$idprofesion','$idespecialidad_medica','$idformacion_academica','$descripcion_academica','$entidad_academica','$gestion_ac','$idformacion_academica_p','$descripcion_academica_p','$entidad_academica_p','$gestion_p') ";
+    $result10 = mysqli_query($link,$sql10);
     $idnombre_academico = mysqli_insert_id($link);
 
 //----- Obtenemos el codigo y correlativo de PERSONAL ------//
@@ -123,9 +122,9 @@ else {
         $_SESSION['idpersonal_ss'] = $idpersonal; 
         $_SESSION['codigo_ss'] = $codigo;  
 
-        $sql9 = " INSERT INTO cargo_red_salud (idred_salud, idestablecimiento_salud, cargo_red_salud, item_red_salud)";
-        $sql9.= " VALUES ('$idred_salud','$idestablecimiento_salud','$cargo_red_salud','$item_red_salud' )";
-        $result9 = mysqli_query($link,$sql9);  
+        $sql11 = " INSERT INTO cargo_red_salud (idred_salud, idestablecimiento_salud, cargo_red_salud, item_red_salud)";
+        $sql11.= " VALUES ('$idred_salud','$idestablecimiento_salud','$cargo_red_salud','$item_red_salud' )";
+        $result11 = mysqli_query($link,$sql11);  
     
         header("Location:mostrar_personal.php");
     }
