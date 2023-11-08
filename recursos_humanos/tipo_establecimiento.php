@@ -4,7 +4,7 @@ $idnivel_establecimiento = $_POST["nivel_establecimiento"];
 ?>
 <option value="">Elegir TIPO DE ESTABLECIMIENTO</option>
 <?php
-$sql2 = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento WHERE idnivel_establecimiento='$idnivel_establecimiento' ";
+$sql2 = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento WHERE idnivel_establecimiento='$idnivel_establecimiento' AND indice='SI' ";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);

@@ -141,7 +141,7 @@ $row_ac    = mysqli_fetch_array($result_ac);
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">GÉNERO</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row[10];?>" disabled> 
+                                    <input type="text" class="form-control"  value="<?php echo $row[11];?>" disabled> 
                                     </div>                          
                                 </div>
 

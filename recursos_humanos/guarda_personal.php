@@ -22,6 +22,7 @@ $fecha_nac   = $fecha_n[2].'-'.$fecha_n[1].'-'.$fecha_n[0];
 $idnacionalidad        = $_POST['idnacionalidad'];
 $idgenero              = $_POST['idgenero'];
 
+
 $idformacion_academica = $_POST['idformacion_academica'];
 $idprofesion           = $_POST['idprofesion'];
 $idespecialidad_medica = $_POST['idespecialidad_medica'];  
@@ -53,7 +54,7 @@ $item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
 
-if ($nombre=='' || $paterno=='' || $ci=='' || $exp=='') 
+if ($nombre=='' || $paterno=='' || $ci=='') 
 {
     header("Location:registro_safci.php");
 
