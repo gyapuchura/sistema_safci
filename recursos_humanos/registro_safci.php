@@ -112,7 +112,7 @@ $hora       = date("h:i");
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">EXPEDICIÓN:</h6>
-                                    <select name="exp"  id="exp" class="form-control" required>
+                                    <select name="exp" id="exp" class="form-control" required>
                                     <option value="">-SELECCIONE-</option>
                                     <?php
                                     $sql1 = "SELECT iddepartamento, departamento, sigla FROM departamento ";
@@ -121,7 +121,7 @@ $hora       = date("h:i");
                                     mysqli_field_seek($result1,0);
                                     while ($field1 = mysqli_fetch_field($result1)){
                                     } do {
-                                    echo "<option value=". $row1[2].">". $row1[2]."</option>";
+                                    echo "<option value=".$row1[2].">".$row1[2]."</option>";
                                     } while ($row1 = mysqli_fetch_array($result1));
                                     } else {
                                     echo "No se encontraron resultados!";
@@ -140,7 +140,7 @@ $hora       = date("h:i");
                                     mysqli_field_seek($result1,0);
                                     while ($field1 = mysqli_fetch_field($result1)){
                                     } do {
-                                    echo "<option value=". $row1[0].">". $row1[1]."</option>";
+                                    echo "<option value=".$row1[0].">".$row1[1]."</option>";
                                     } while ($row1 = mysqli_fetch_array($result1));
                                     } else {
                                     echo "No se encontraron resultados!";
@@ -159,7 +159,7 @@ $hora       = date("h:i");
                                     mysqli_field_seek($result1,0);
                                     while ($field1 = mysqli_fetch_field($result1)){
                                     } do {
-                                    echo "<option value=". $row1[0].">". $row1[1]."</option>";
+                                    echo "<option value=".$row1[0].">".$row1[1]."</option>";
                                     } while ($row1 = mysqli_fetch_array($result1));
                                     } else {
                                     echo "No se encontraron resultados!";
@@ -179,7 +179,7 @@ $hora       = date("h:i");
                                 <div class="form-group row">
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">FORMACIÓN ACADÉMICA:</h6>
-                                    <select name="idformacion_academica"  id="idformacion_academica" class="form-control" required>
+                                    <select name="idformacion_academica" id="idformacion_academica" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $sql1 = "SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE etapa_academica='GRADO' ";
@@ -188,7 +188,7 @@ $hora       = date("h:i");
                                         mysqli_field_seek($result1,0);
                                         while ($field1 = mysqli_fetch_field($result1)){
                                         } do {
-                                        echo "<option value=". $row1[0].">". $row1[1]."</option>";
+                                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
                                         } while ($row1 = mysqli_fetch_array($result1));
                                         } else {
                                         echo "No se encontraron resultados!";
@@ -205,7 +205,7 @@ $hora       = date("h:i");
                                 <div class="form-group row">                                
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">PROFESIÓN/OCUPACIÓN:</h6>
-                                    <select name="idprofesion"  id="idprofesion" class="form-control" required>
+                                    <select name="idprofesion" id="idprofesion" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $sql1 = "SELECT idprofesion, profesion FROM profesion ORDER BY idprofesion ";
@@ -237,7 +237,7 @@ $hora       = date("h:i");
                                         mysqli_field_seek($result1,0);
                                         while ($field1 = mysqli_fetch_field($result1)){
                                         } do {
-                                        echo "<option value=". $row1[0].">". $row1[1]."</option>";
+                                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
                                         } while ($row1 = mysqli_fetch_array($result1));
                                         } else {
                                         echo "No se encontraron resultados!";
@@ -284,7 +284,7 @@ $hora       = date("h:i");
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
+                    <select name="iddepartamento" id="iddepartamento" class="form-control" required>
                         <option value="">-SELECCIONE-</option>
                         <?php
                         $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
