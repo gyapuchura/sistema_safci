@@ -15,12 +15,10 @@ $ci          = $link->real_escape_string($_POST['ci']);
 $complemento = $link->real_escape_string($_POST['complemento']);
 $exp         = $link->real_escape_string($_POST['exp']);
 
-$nacimiento  = $_POST['fecha_nac'];
-$fecha_n     = explode('/',$nacimiento);
-$fecha_nac   = $fecha_n[2].'-'.$fecha_n[1].'-'.$fecha_n[0];
+$fecha_nac   = $_POST['fecha_nac'];
 
-$idnacionalidad        = $_POST['idnacionalidad'];
-$idgenero              = $_POST['idgenero'];
+$idnacionalidad = $_POST['idnacionalidad'];
+$idgenero       = $_POST['idgenero'];
 
 
 $idformacion_academica = $_POST['idformacion_academica'];

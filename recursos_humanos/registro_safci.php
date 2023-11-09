@@ -93,7 +93,7 @@ $hora       = date("h:i");
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
-                                        <input type="text" id="fecha1" class="form-control" 
+                                        <input type="date"  class="form-control" 
                                          placeholder="ingresar fecha" name="fecha_nac" required>
                                     </div>                              
                                 </div>
@@ -102,9 +102,8 @@ $hora       = date("h:i");
                                 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">CÉDULA DE ID:</h6>
-                                    <input type="text" class="form-control" name="ci" placeholder="N° de CI"
-                                    required pattern="[A-Z0-9_-]{5,12}$" 
-                                    title="El numero de CI solo puede contener DIGITOS numéricos." >
+                                    <input type="text" class="form-control" name="ci" placeholder="N° de CI" required
+                                    pattern="^[0-9]+" title="El numero de CI solo puede contener DIGITOS numéricos." >
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">COMPLEMENTO:</h6>

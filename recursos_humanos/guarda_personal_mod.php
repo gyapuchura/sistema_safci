@@ -18,16 +18,16 @@ $gestion       = date("Y");
 $idnombre_mod   = $_POST['idnombre_mod'];
 $idusuario_mod  = $_POST['idusuario_mod'];
 
-$nombre         = $link->real_escape_string(htmlentities($_POST['nombre']));
-$paterno        = $link->real_escape_string(htmlentities($_POST['paterno']));
-$materno        = $link->real_escape_string(htmlentities($_POST['materno']));
+$nombre         = $link->real_escape_string($_POST['nombre']);
+$paterno        = $link->real_escape_string($_POST['paterno']);
+$materno        = $link->real_escape_string($_POST['materno']);
 
 $nacimiento  = $_POST['fecha_nac'];
 $fecha_n     = explode('/',$nacimiento);
 $fecha_nac   = $fecha_n[2].'-'.$fecha_n[1].'-'.$fecha_n[0];
 
-$ci             = $link->real_escape_string(htmlentities($_POST['ci']));
-$complemento    = $link->real_escape_string(htmlentities($_POST['complemento']));
+$ci             = $link->real_escape_string($_POST['ci']);
+$complemento    = $link->real_escape_string($_POST['complemento']);
 $exp            = $_POST['exp'];
 $idnacionalidad = $_POST['idnacionalidad'];
 $idgenero       = $_POST['idgenero'];
