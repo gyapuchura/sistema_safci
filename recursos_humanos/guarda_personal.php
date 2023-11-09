@@ -52,7 +52,7 @@ $item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
 
-if ($nombre=='' || $paterno=='' || $ci=='') 
+if ($nombre=='' || $materno=='' || $ci=='') 
 {
     header("Location:registro_safci.php");
 
