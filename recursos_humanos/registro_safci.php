@@ -77,7 +77,7 @@ $hora       = date("h:i");
                                     <h6 class="text-primary">NOMBRES</h6>
                                         <input type="text" class="form-control" 
                                          placeholder="Nombre Completo" name="nombre" required
-                                         pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El nombre con Mayúscula al inicio y minúsculas después.">
+                                          title="El nombre con Mayúscula al inicio y minúsculas después.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
@@ -89,7 +89,7 @@ $hora       = date("h:i");
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
                                         <input type="text" class="form-control"
                                         placeholder="Segundo Apellido" name="materno" required
-                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido materno con Mayúscula al inicio y minúsculas despues.">
+                                         title="El apellido materno con Mayúscula al inicio y minúsculas despues.">
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
