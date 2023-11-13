@@ -60,6 +60,11 @@ $sql_ac.= " FROM nombre_academico WHERE idnombre='$row_n[3]' ORDER BY idnombre_a
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac    = mysqli_fetch_array($result_ac);
 
+$sql_ad = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_academico ";
+$sql_ad.= " WHERE idnombre='$row_n[3]' AND idusuario='$row_n[2]' ORDER BY idnombre_academico LIMIT 1";
+$result_ad = mysqli_query($link,$sql_ad);
+$row_ad = mysqli_fetch_array($result_ad);
+
 /*
  * Algoritmo para codificacion QR
  *
@@ -172,9 +177,9 @@ if ($row_n[19] == '1') {
     $pdf->Cell(106,5,mb_convert_encoding($row_n[15],'iso-8859-1','utf-8'),1,1,'L');
 } else {  }
 $pdf->Cell(86,5,mb_convert_encoding('ENTIDAD DE FORMACIÓN:','iso-8859-1','utf-8'),1,0,'L');
-$pdf->MultiCell(106,5,mb_convert_encoding($row_ac[3],'iso-8859-1','utf-8'),'LTRB','L',false);
+$pdf->MultiCell(106,5,mb_convert_encoding($row_ad[1],'iso-8859-1','utf-8'),'LTRB','L',false);
 $pdf->Cell(86,5,mb_convert_encoding('AÑO DE TIULACIÓN:','iso-8859-1','utf-8'),1,0,'L');
-$pdf->MultiCell(106,5,mb_convert_encoding($row_ac[4],'iso-8859-1','utf-8'),'LTRB','L',false);
+$pdf->MultiCell(106,5,mb_convert_encoding($row_ad[2],'iso-8859-1','utf-8'),'LTRB','L',false);
 $pdf->Cell(86,5,mb_convert_encoding('FORMACIÓN POSGRADO:','iso-8859-1','utf-8'),1,0,'L');
 
 $sqlf =" SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE idformacion_academica='$row_ac[5]' ";

@@ -31,6 +31,14 @@ $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_
 $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]' ORDER BY idnombre_academico DESC LIMIT 1 ";
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac    = mysqli_fetch_array($result_ac);
+
+$sql_ad = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_academico ";
+$sql_ad.= " WHERE idnombre='$idnombre_ss' AND idusuario='$idusuario_ss'  ORDER BY idnombre_academico LIMIT 1";
+$result_ad = mysqli_query($link,$sql_ad);
+$row_ad = mysqli_fetch_array($result_ad);
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -158,11 +166,11 @@ $row_ac    = mysqli_fetch_array($result_ac);
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ENTIDAD DE FORMACIÓN:</h6>
-                                    <textarea name="" rows="3" class="form-control" disabled><?php echo $row_ac[3];?></textarea>
+                                    <textarea name="" rows="3" class="form-control" disabled><?php echo $row_ad[1];?></textarea>
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">AÑO DE TIULACIÓN:</h6>
-                                    <input type="text" class="form-control"  value="<?php echo $row_ac[4];?>" disabled> 
+                                    <input type="text" class="form-control"  value="<?php echo $row_ad[2];?>" disabled> 
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PROFESIÓN/OCUPACIÓN:</h6>

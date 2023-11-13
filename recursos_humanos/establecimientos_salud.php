@@ -1,7 +1,7 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
-date_default_timezone_set('America?La_Paz');
+date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 
@@ -9,11 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idred_salud_ss  =  $_SESSION['idred_salud_ss'];
-
-$sqlus =" SELECT nombres, paterno, materno FROM nombres WHERE idnombre='$idnombre_ss'";
-$resultus = mysqli_query($link,$sqlus);
-$rowus = mysqli_fetch_array($resultus);
 ?>
 <!DOCTYPE html>
 <html lang="es">
