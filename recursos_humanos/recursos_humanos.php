@@ -1,7 +1,7 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
-date_default_timezone_set('America?La_Paz');
+date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 
@@ -9,9 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$sqlus =" SELECT nombres, paterno, materno FROM nombres WHERE idnombre='$idnombre_ss'";
-$resultus = mysqli_query($link,$sqlus);
-$rowus = mysqli_fetch_array($resultus);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -62,7 +59,7 @@ $rowus = mysqli_fetch_array($resultus);
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">RECURSOS HUMANOS SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el regsitro de recusos humanos del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de recusos humanos del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">

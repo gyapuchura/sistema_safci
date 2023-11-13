@@ -26,6 +26,11 @@ $sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ORDER BY iddato_lab
 $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
 
+$sql_ac = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_academico ";
+$sql_ac.= " WHERE idnombre='$idnombre_ss' AND idusuario='$idusuario_ss' ";
+$result_ac = mysqli_query($link,$sql_ac);
+$row_ac = mysqli_fetch_array($result_ac);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -229,9 +234,10 @@ $row_l = mysqli_fetch_array($result_l);
                 <div class="form-group row">
                     <h5 class="text-primary">2.- DATOS COMPLEMENTARIOS:</h5>                                 
                 </div>
-                                <hr>
+                    <hr>
                     <form name="COMPLEMENTARIOS" action="guarda_complementarios_mod_individual.php" method="post"> 
                     <input type="hidden" name="idnombre_datos" value="<?php echo $row[20];?>">
+                    <input type="hidden" name="idnombre_academico" value="<?php echo $row_ac[0];?>">
                                 <div class="form-group row">
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">FORMACIÓN ACADÉMICA:</h6>
@@ -296,6 +302,17 @@ $row_l = mysqli_fetch_array($result_l);
                                         }
                                         ?>
                                     </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">   
+                                    <div class="col-sm-8">
+                                    <h6 class="text-primary">NOMBRE DE LA ENTIDAD DE FORMACIÓN:</h6> 
+                                    <textarea class="form-control" rows="2" name="entidad_academica" required><?php echo $row_ac[1]; ?></textarea>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">GESTIÓN:</h6>
+                                    <input type="text" class="form-control" name="gestion_ac" value="<?php echo $row_ac[2]; ?>" required>
                                     </div>
                                 </div>
 
