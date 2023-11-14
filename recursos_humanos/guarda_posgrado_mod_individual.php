@@ -27,8 +27,8 @@ $gestion_p               = $link->real_escape_string($_POST['gestion_p']);
 
 /****** actualizamos los datos personales *******/
 
-$sql1 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion, idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p) ";
-$sql1.= " VALUES ('$idusuario_ss','$idnombre_ss','$idprofesion','$idespecialidad_medica','$idformacion_academica','$descripcion_academica','$entidad_academica','$gestion_ac','$idformacion_academica_p','$descripcion_academica_p','$entidad_academica_p','$gestion_p') ";
+$sql1 = " INSERT INTO nombre_academico (idusuario, idnombre, idprofesion, idespecialidad_medica, idformacion_academica, descripcion_academica, entidad_academica, gestion, idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p, posgrado) ";
+$sql1.= " VALUES ('$idusuario_ss','$idnombre_ss','$idprofesion','$idespecialidad_medica','$idformacion_academica','$descripcion_academica','$entidad_academica','$gestion_ac','$idformacion_academica_p','$descripcion_academica_p','$entidad_academica_p','$gestion_p','POSGRADO') ";
 $result1 = mysqli_query($link,$sql1);
 
 $idnombre_academico = mysqli_insert_id($link);

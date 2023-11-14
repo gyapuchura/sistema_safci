@@ -79,7 +79,7 @@ $row = mysqli_fetch_array($result);
                     <a href="modifica_registro_safci_individual.php"><h6>VOLVER</h6></a>
                     <hr>                     
                     <h4 class="text-primary">ACTUALIZAR REGISTRO SAFCI</h4>
-                    <h4><?php echo $codigo_ss;?></h4>
+                    <h4></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -295,8 +295,7 @@ $row = mysqli_fetch_array($result);
     </div>
     <div class="col-sm-8">
     <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
-    required pattern="[A-Z0-9_-]{5,12}$" 
-    title="El numero de ÍTEM solo puede contener DIGITOS numéricos." >
+    required >
     </div>
 </div>
 

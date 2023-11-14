@@ -392,8 +392,8 @@ $row_ac = mysqli_fetch_array($result_ac);
 
             <?php
                 $sql_ac = " SELECT idnombre_academico, idformacion_academica, descripcion_academica, entidad_academica, gestion, ";
-                $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p ";
-                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]' ORDER BY idnombre_academico";
+                $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p, posgrado ";
+                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]' AND posgrado !='' ORDER BY idnombre_academico";
                 $result_ac = mysqli_query($link,$sql_ac);
                 if ($row_ac = mysqli_fetch_array($result_ac)){
                 mysqli_field_seek($result_ac,0);
@@ -433,12 +433,14 @@ $row_ac = mysqli_fetch_array($result_ac);
                 <div class="col-sm-2">
                     <form name="FORM11" action="elimina_academico_individual.php" method="post">
                       <input name="idnombre_academico" type="hidden" value="<?php echo $row_ac[0];?>">
+
                         <button class="btn btn-danger btn-icon-split" type="submit">
                             <span class="icon text-white-50">
                                 <i class="fas fa-trash"></i>
                             </span>
                             <span class="text">Eliminar</span>
                         </button>
+
                     </form>
                 </div> 
                 </div>
