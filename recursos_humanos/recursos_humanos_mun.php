@@ -9,6 +9,11 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
+$idred_salud_ss             = $_SESSION['idred_salud_ss'];
+$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
+$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -77,7 +82,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>PATERNO</th>
                                             <th>MATERNO</th>
                                             <th>NOMBRES</th>
-                                            <th>DEPARTAMENTO</th>
+                                            <th>DEPARTAMENTO</br>MUNICIPIO</th>
                                             <th>PERFIL</th>
                                             <th>ACCIÓN</th>
                                         </tr>
@@ -86,12 +91,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                         $numero=1;
                         $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, ";
-                        $sql.=" nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, ";
-                        $sql.=" especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil ";
-                        $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, usuarios ";
+                        $sql.=" nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica, ";
+                        $sql.=" nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil, municipios.municipio ";
+                        $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, usuarios, dato_laboral, establecimiento_salud, municipios ";
                         $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario ";
                         $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento ";
-                        $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY personal.idpersonal DESC ";
+                        $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND personal.iddato_laboral=dato_laboral.iddato_laboral  ";
+                        $sql.=" AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idmunicipio='$idmunicipio_ss' ORDER BY personal.idpersonal DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -105,10 +111,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <td><?php echo mb_strtoupper($row[5]);?></td>
                             <td><?php echo mb_strtoupper($row[6]);?></td>
                             <td><?php echo mb_strtoupper($row[4]);?></td>
-                            <td><?php echo $row[21];?></td>
+                            <td><?php echo $row[21];?></br>Mun: <?php echo $row[23];?></td>
                             <td><?php echo $row[22];?></td>
                             <td>
-                            <form name="FORM_P" action="valida_personal.php" method="post">
+                            <form name="FORM_P" action="valida_personal_mun.php" method="post">
                             <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">
                             <input name="codigo" type="hidden" value="<?php echo $row[3];?>">
                             <button type="submit" class="btn btn-secondary btn-icon-split">

@@ -9,9 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idpersonal_ss = $_SESSION['idpersonal_ss'];
-$codigo_ss     = $_SESSION['codigo_ss'];
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -120,7 +117,6 @@ $codigo_ss     = $_SESSION['codigo_ss'];
         </div>
     </div>
 
-   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -40,7 +40,7 @@ $idnombre_academico = mysqli_insert_id($link);
 $sql3.= " UPDATE personal SET idnombre_academico='$idnombre_academico' WHERE idpersonal='$idpersonal_ss'";
 $result3 = mysqli_query($link,$sql3);
 
-    header("Location:modifica_registro_safci.php");
+    header("Location:modifica_registro_safci_mun.php");
 
 ?>
 

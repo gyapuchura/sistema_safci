@@ -66,11 +66,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="text-center">   
                     
                     <hr>                     
-                    <h4 class="text-success">Los Datos del Área de Influencia</h4>
-                    <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
+                    <h4 class="text-danger">El número de Cedula de Identidad</h4>
+                    <h4 class="text-danger">ya existe en sistema !!!</h4>
                     </br>
-                    <a href="editar_area_influencia.php"><h6>IR A MODIFICACIÓN</h6></a>
-                    <h4><?php echo "";?></h4>
+                    <a href="nuevo_personal_mun.php"><h6>SALIR A NUEVO REGISTRO DE PERSONAL</h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -135,5 +134,4 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     <!-- scripts para calendario -->
    
 </body>
-
 </html>
