@@ -5,18 +5,21 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 
-$idusuario_ss  = $_SESSION['idusuario_ss'];
-$idnombre_ss   = $_SESSION['idnombre_ss'];
-$perfil_ss     = $_SESSION['perfil_ss'];
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
+
+$idpersonal_ss = $_SESSION['idpersonal_ss'];
+$codigo_ss     = $_SESSION['codigo_ss'];
 
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
 $sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, nombre_datos.idprofesion, nombre_datos.idespecialidad_medica,";
-$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos, nombre_datos.celular_emergencia, personal.codigo  ";
+$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos, nombre_datos.celular_emergencia, personal.codigo ";
 $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
-$sql.= " AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
-$sql.= " AND personal.idnombre='$idnombre_ss' AND personal.idusuario='$idusuario_ss'";
+$sql.= " AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica  ";
+$sql.= " AND personal.idpersonal='$idpersonal_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
@@ -27,7 +30,7 @@ $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
 
 $sql_ac = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_academico ";
-$sql_ac.= " WHERE idnombre='$idnombre_ss' AND idusuario='$idusuario_ss' ";
+$sql_ac.= " WHERE idnombre='$row[2]' AND idusuario='$row[1]' ";
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac = mysqli_fetch_array($result_ac);
 
@@ -86,7 +89,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                     <div class="col-lg-12">
                         <div class="p-3">               
                     <div class="text-center">   
-                    <a href="registro_individual.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>
+                    <a href="mostrar_registro_safci_mun.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>
                     <hr>                     
                     <h4 class="text-primary">ACTUALIZAR REGISTRO SAFCI</h4>
                     <h4><?php echo $row[22];?></h4>
@@ -101,8 +104,10 @@ $row_ac = mysqli_fetch_array($result_ac);
                                     <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
                                 </div>
                                 <hr>
-                        <form name="FORMREG" action="guarda_personal_mod_individual.php" method="post">  
-                        <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
+                        <form name="FORMREG" action="guarda_personal_mod_mun.php" method="post">  
+
+                        <input type="hidden" name="idnombre_mod" value="<?php echo $row[2];?>">
+                        <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
                                 <div class="form-group row">                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES</h6>
@@ -234,8 +239,8 @@ $row_ac = mysqli_fetch_array($result_ac);
                 <div class="form-group row">
                     <h5 class="text-primary">2.- DATOS COMPLEMENTARIOS:</h5>                                 
                 </div>
-                    <hr>
-                    <form name="COMPLEMENTARIOS" action="guarda_complementarios_mod_individual.php" method="post"> 
+                                <hr>
+                    <form name="COMPLEMENTARIOS" action="guarda_complementarios_mod_mun.php" method="post"> 
                     <input type="hidden" name="idnombre_datos" value="<?php echo $row[20];?>">
                     <input type="hidden" name="idnombre_academico" value="<?php echo $row_ac[0];?>">
                                 <div class="form-group row">
@@ -281,7 +286,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                                     </select>
                                     </div>                              
                                 </div>
-                                
+                                 
                                 <div class="form-group row">                                
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6>
@@ -304,7 +309,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                                     </select>
                                     </div>
                                 </div>
-
+                               
                                 <div class="form-group row">   
                                     <div class="col-sm-8">
                                     <h6 class="text-primary">NOMBRE DE LA ENTIDAD DE FORMACIÓN:</h6> 
@@ -330,8 +335,8 @@ $row_ac = mysqli_fetch_array($result_ac);
                                     <input type="text" class="form-control" name="celular_emergencia" value="<?php echo $row[21];?>" >
                                     </div>
                                     <div class="col-sm-3">
-                                    <h6 class="text-primary">DIRECCIÓN/DOMICILIO:</h6> 
-                                    <textarea name="direccion_dom" rows="3" class="form-control" ><?php echo $row[17];?></textarea>
+                                    <h6 class="text-primary">DIRECCIÓN/DOMICILIO:</h6>
+                                    <input type="text" class="form-control" name="direccion_dom" value="<?php echo $row[17];?>" >
                                     </div>
                                 </div>      
                                 <!-- end datos laborales -->
@@ -392,8 +397,8 @@ $row_ac = mysqli_fetch_array($result_ac);
 
             <?php
                 $sql_ac = " SELECT idnombre_academico, idformacion_academica, descripcion_academica, entidad_academica, gestion, ";
-                $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p, posgrado ";
-                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]' AND posgrado !='' ORDER BY idnombre_academico";
+                $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p ";
+                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]'  AND posgrado !='' ORDER BY idnombre_academico";
                 $result_ac = mysqli_query($link,$sql_ac);
                 if ($row_ac = mysqli_fetch_array($result_ac)){
                 mysqli_field_seek($result_ac,0);
@@ -431,7 +436,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                 <input type="text" class="form-control" value="<?php echo $row_ac[8];?>" disabled> 
                 </div> 
                 <div class="col-sm-2">
-                    <form name="FORM11" action="elimina_academico_individual.php" method="post">
+                    <form name="FORM11" action="elimina_academico.php" method="post">
                       <input name="idnombre_academico" type="hidden" value="<?php echo $row_ac[0];?>">
                         <button class="btn btn-danger btn-icon-split" type="submit">
                             <span class="icon text-white-50">
@@ -450,8 +455,8 @@ $row_ac = mysqli_fetch_array($result_ac);
                 }
                 ?>
  
-            <form name="POSGRADO" action="guarda_posgrado_mod_individual.php" method="post"> 
-               
+            <form name="POSGRADO" action="guarda_posgrado_mod_mun.php" method="post"> 
+                <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
                 <input type="hidden" name="idnombre_mod" value="<?php echo $row[2];?>">
                 <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
                 <input type="hidden" name="idprofesion" value="<?php echo $row[13] ;?>">
@@ -525,7 +530,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                 </br>
                 <hr>
                 <div class="form-group row">
-                    <h5 class="text-primary">3.- LUGAR DE TRABAJO:</h5>                                 
+                    <h5 class="text-primary">3.- DATOS LABORALES:</h5>                                 
                 </div>   
                 <div class="form-group row">
                     <div class="col-sm-3">
@@ -813,14 +818,138 @@ $row_ac = mysqli_fetch_array($result_ac);
                 <div class="form-group row">
                 <div class="col-sm-12">
                     <div class="text-center">
-                    <a class="btn btn-primary" href="datos_laborales_individual.php" >
+                    <a class="btn btn-primary" href="datos_laborales_mun.php" >
                         ACTUALIZAR DATOS LABORALES                                
                     </a>                                    
                     </div>
                 </div>
                 </div>
 
-                <hr>  
+                <hr>
+                <div class="form-group row">
+                    <h5 class="text-primary">4.- CONDICIÓN Y PERFIL ACTUAL:</h5>                                 
+                </div>  
+
+                <?php
+                $sql_c = " SELECT idusuario, idnombre, usuario, password, fecha, condicion, perfil";
+                $sql_c.= " FROM usuarios WHERE idusuario = '$row[1]' ";
+                $result_c = mysqli_query($link,$sql_c);
+                $row_c = mysqli_fetch_array($result_c);
+                ?>
+
+            <div class="form-group row">
+                <div class="col-sm-3">
+                <h6 class="text-primary">CONDICIÓN ACTUAL:</h6>
+                </div>
+                <div class="col-sm-3">
+                <input type="text" class="form-control" name="estado_personal" value="<?php echo $row_c[5];?>" disabled>
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-primary">PERFIL ACTUAL:</h6>
+                </div>
+                <div class="col-sm-3">
+                <input type="text" class="form-control" name="estado_personal" value="<?php echo $row_c[6];?>" disabled>
+                </div>
+            </div>  
+            <hr>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h4 class="text-primary">OPCIONES:</h4>
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div> 
+
+        <form name="POSGRADO" action="guarda_estado_mod.php" method="post">
+        <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
+            <div class="form-group row">
+                <div class="col-sm-3">
+                <h6 class="text-primary">ACTUALIZAR CONDICIÓN A:</h6>
+                </div>
+                <div class="col-sm-3">
+
+                <select name="condicion_mod"  id="condicion_mod" class="form-control" required >
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idcondicion, condicion FROM condicion ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[1];?>" <?php if ($rowv[1]==$row_c[5]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-primary">ACTUALIZAR PERFIL A:</h6>
+                </div>
+                <div class="col-sm-3">
+
+                <select name="perfil_mod"  id="perfil_mod" class="form-control" required >
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idperfil, perfil FROM perfil ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[1];?>" <?php if ($rowv[1]==$row_c[6]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+    
+                </div>
+            </div>  
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>   
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                    <a class="btn btn-info" href="#" data-toggle="modal" data-target="#estado">
+                        ACTUALIZAR ESTADO DE PERSONAL                                
+                    </a>                                    
+                    </div>
+                </div>
+                </div>
+
+                <!-- BEGIN Datos ESTADO PERSONAL Modal-->
+                <div class="modal fade" id="estado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE MODIFICAR EL ESTADO DEL USUARIO PERSONAL?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Seleccione la opcion para confirmar la modificación.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-info" type="submit">Confirmar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+                                <!-- END Datos ESTADO PERSONAL Modal-->  
+
             <div class="form-group row">
                 <div class="col-sm-6">
                 </div>
@@ -828,7 +957,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                 </div>
             </div>     
             
-
+            <hr>
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>

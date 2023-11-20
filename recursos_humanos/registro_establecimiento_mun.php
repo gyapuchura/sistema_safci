@@ -72,9 +72,9 @@ $row = mysqli_fetch_array($result);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">  
-                    <a href="establecimientos_salud.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                      
+                    <a href="establecimientos_salud_municipio.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                      
                     <hr>      
-                    <h5 class="text-primary"><i class="fas fa-hospital"></i> ESTABLECIMIENTO DE SALUD</h5>  
+                    <h5 class="text-primary"><i class="fas fa-hospital"></i>ESTABLECIMIENTO DE SALUD</h5>  
                     <hr>                
                     <h4 class="text-secundary"><?php echo $row[5]; ?></h4>
                     <hr>   
@@ -325,7 +325,7 @@ $row = mysqli_fetch_array($result);
                 <div class="text-center">
                     <div class="form-group row">
                         <div class="col-sm-3">
-                        <a href="establecimientos_salud.php" class="btn btn-success">SALIR DE REGISTRO </a>
+                        <a href="establecimientos_salud_municipio.php" class="btn btn-success">SALIR DE REGISTRO </a>
                         </div>
                         <div class="col-sm-3">                       
                         </div>
@@ -334,9 +334,9 @@ $row = mysqli_fetch_array($result);
                         <div class="col-sm-3">
 
                         <?php
-                            if ($perfil_ss == 'ADMINISTRADOR') {
+                            if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'ADM-MUNICIPAL') {
                             ?>  
-                        <a href="editar_establecimiento.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
+                        <a href="editar_establecimiento_mun.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
                         <?php
                             } else {
                             }

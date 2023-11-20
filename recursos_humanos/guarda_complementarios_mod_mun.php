@@ -9,10 +9,10 @@ $perfil_ss    = $_SESSION['perfil_ss'];
 
 $gestion      = date("Y");
 
-/* ingresamos los datos personales */
+/* ingresamos los datos personales */ 
 
-$idnombre_datos        = $_POST['idnombre_datos'];
-$idnombre_academico    = $_POST['idnombre_academico'];
+$idnombre_datos     = $_POST['idnombre_datos'];
+$idnombre_academico = $_POST['idnombre_academico'];
 
 $idformacion_academica = $_POST['idformacion_academica'];
 $idprofesion           = $_POST['idprofesion'];
@@ -28,11 +28,11 @@ $gestion_ac         = $link->real_escape_string($_POST['gestion_ac']);
 
 $sql8 =" UPDATE nombre_datos SET idformacion_academica='$idformacion_academica', idprofesion='$idprofesion', idespecialidad_medica='$idespecialidad_medica', ";
 $sql8.=" correo='$correo', celular='$celular', celular_emergencia='$celular_emergencia', direccion_dom='$direccion_dom' WHERE idnombre_datos='$idnombre_datos' ";
-$result8 = mysqli_query($link,$sql8); 
+$result8 = mysqli_query($link,$sql8);
 
 $sql9 =" UPDATE nombre_academico SET entidad_academica ='$entidad_academica', gestion ='$gestion_ac' WHERE idnombre_academico='$idnombre_academico' ";
 $result9 = mysqli_query($link,$sql9); 
 
-header("Location:mensaje_complementarios_mod_individual.php");
+header("Location:mensaje_complementarios_mod_mun.php");
 
 ?>

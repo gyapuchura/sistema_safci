@@ -29,6 +29,11 @@ $sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ORDER BY iddato_lab
 $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
 
+$sql_ac = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_academico ";
+$sql_ac.= " WHERE idnombre='$row[2]' AND idusuario='$row[1]' ";
+$result_ac = mysqli_query($link,$sql_ac);
+$row_ac = mysqli_fetch_array($result_ac);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -237,6 +242,7 @@ $row_l = mysqli_fetch_array($result_l);
                                 <hr>
                     <form name="COMPLEMENTARIOS" action="guarda_complementarios_mod.php" method="post"> 
                     <input type="hidden" name="idnombre_datos" value="<?php echo $row[20];?>">
+                    <input type="hidden" name="idnombre_academico" value="<?php echo $row_ac[0];?>">
                                 <div class="form-group row">
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">FORMACIÓN ACADÉMICA:</h6>
@@ -280,7 +286,7 @@ $row_l = mysqli_fetch_array($result_l);
                                     </select>
                                     </div>                              
                                 </div>
-                                
+                                 
                                 <div class="form-group row">                                
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6>
@@ -301,6 +307,17 @@ $row_l = mysqli_fetch_array($result_l);
                                         }
                                         ?>
                                     </select>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-group row">   
+                                    <div class="col-sm-8">
+                                    <h6 class="text-primary">NOMBRE DE LA ENTIDAD DE FORMACIÓN:</h6> 
+                                    <textarea class="form-control" rows="2" name="entidad_academica" required><?php echo $row_ac[1]; ?></textarea>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">GESTIÓN:</h6>
+                                    <input type="text" class="form-control" name="gestion_ac" value="<?php echo $row_ac[2]; ?>" required>
                                     </div>
                                 </div>
 
@@ -381,7 +398,7 @@ $row_l = mysqli_fetch_array($result_l);
             <?php
                 $sql_ac = " SELECT idnombre_academico, idformacion_academica, descripcion_academica, entidad_academica, gestion, ";
                 $sql_ac.= " idformacion_academica_p, descripcion_academica_p, entidad_academica_p, gestion_p ";
-                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]' ORDER BY idnombre_academico";
+                $sql_ac.= " FROM nombre_academico WHERE idnombre='$row[2]'  AND posgrado !='' ORDER BY idnombre_academico";
                 $result_ac = mysqli_query($link,$sql_ac);
                 if ($row_ac = mysqli_fetch_array($result_ac)){
                 mysqli_field_seek($result_ac,0);
@@ -439,7 +456,7 @@ $row_l = mysqli_fetch_array($result_l);
                 ?>
  
             <form name="POSGRADO" action="guarda_posgrado_mod.php" method="post"> 
-
+                <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
                 <input type="hidden" name="idnombre_mod" value="<?php echo $row[2];?>">
                 <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
                 <input type="hidden" name="idprofesion" value="<?php echo $row[13] ;?>">

@@ -59,7 +59,7 @@ $item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
 
 if ($nombre=='' || $paterno=='' || $materno=='' || $ci=='' || $exp=='') 
 {
-    header("Location:nuevo_personal.php");
+    header("Location:nuevo_personal_mun.php");
 
 } else {
 
@@ -68,7 +68,7 @@ if ($nombre=='' || $paterno=='' || $materno=='' || $ci=='' || $exp=='')
     $result9 = mysqli_query($link,$sql9);
 if ($row9 = mysqli_fetch_array($result9)) {
     
-    header("Location:personal_existe_int.php");
+    header("Location:personal_existe_int_mun.php");
     
 }  
 else {
@@ -130,7 +130,7 @@ else {
         $sql9.= " VALUES ('$idred_salud','$idestablecimiento_salud','$cargo_red_salud','$item_red_salud' )";
         $result9 = mysqli_query($link,$sql9);  
     
-        header("Location:mostrar_personal_int.php");
+        header("Location:mostrar_personal_int_mun.php");
     }       
 }
 ?>

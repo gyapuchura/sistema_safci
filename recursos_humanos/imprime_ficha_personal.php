@@ -160,7 +160,7 @@ $pdf->Cell(86,5,mb_convert_encoding('Nº DE CELULAR (EN CASO DE EMERGENCIA):','i
 $pdf->Cell(106,5,mb_convert_encoding($row_n[21],'iso-8859-1','utf-8'),1,1,'L');
 
 $pdf->Cell(86,5,mb_convert_encoding('DIRECCIÓN DOMICILIO:','iso-8859-1','utf-8'),1,0,'L');
-$pdf->MultiCell(106,5,mb_convert_encoding($row_n[18],'iso-8859-1','utf-8'),'LTRB','L',false);
+$pdf->MultiCell(106,5,mb_convert_encoding(mb_strtoupper($row_n[18]),'iso-8859-1','utf-8'),'LTRB','L',false);
 
 $pdf->SetFont('Arial','B',10);
 $pdf->Cell(192,8,mb_convert_encoding('II. DATOS COMPLEMENTARIOS','iso-8859-1','utf-8'),0,1,'L');
@@ -177,7 +177,7 @@ if ($row_n[19] == '1') {
     $pdf->Cell(106,5,mb_convert_encoding($row_n[15],'iso-8859-1','utf-8'),1,1,'L');
 } else {  }
 $pdf->Cell(86,5,mb_convert_encoding('ENTIDAD DE FORMACIÓN:','iso-8859-1','utf-8'),1,0,'L');
-$pdf->MultiCell(106,5,mb_convert_encoding($row_ad[1],'iso-8859-1','utf-8'),'LTRB','L',false);
+$pdf->MultiCell(106,5,mb_convert_encoding(mb_strtoupper($row_ad[1]),'iso-8859-1','utf-8'),'LTRB','L',false);
 $pdf->Cell(86,5,mb_convert_encoding('AÑO DE TIULACIÓN:','iso-8859-1','utf-8'),1,0,'L');
 $pdf->MultiCell(106,5,mb_convert_encoding($row_ad[2],'iso-8859-1','utf-8'),'LTRB','L',false);
 $pdf->Cell(86,5,mb_convert_encoding('FORMACIÓN POSGRADO:','iso-8859-1','utf-8'),1,0,'L');
@@ -193,9 +193,6 @@ $pdf->Cell(86,5,mb_convert_encoding('ENTIDAD DE FORMACIÓN EN POSGRADO:','iso-88
 $pdf->MultiCell(106,5,mb_convert_encoding($row_ac[7],'iso-8859-1','utf-8'),'LTRB','L',false);
 $pdf->Cell(86,5,mb_convert_encoding('GESTIÓN:','iso-8859-1','utf-8'),1,0,'L');
 $pdf->MultiCell(106,5,mb_convert_encoding($row_ac[8],'iso-8859-1','utf-8'),'LTRB','L',false);
-
-
-
 
 
 $pdf->SetFont('Arial','B',10);
