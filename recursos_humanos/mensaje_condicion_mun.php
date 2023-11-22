@@ -64,72 +64,28 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">   
+                    
                     <hr>                     
-                    <h4 class="text-primary">SALA SITUACIONAL PERSONAL SAFCI</h4>
+                    <h4 class="text-success">Los Datos de Condición y Perfil</h4>
+                    <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
+                    </br>
+                    <a href="modifica_registro_safci_mun.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    <h4><?php echo "";?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
-<hr> 
+
                 <div class="form-group row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">1.- PERSONAL A NIVEL NACIONAL</h6>
                     </div>
-                    <div class="col-sm-4">
-                    <a href="personal_genero.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="fas fa-chart-pie"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div>    
-                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">2.- FORMACIÓN ACADÉMICA</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="personal_formacion_academica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="fas fa-chart-bar"></i> MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div>  
-      <!--                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">3.- ESPECIALIDAD MÉDICAS</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div> 
-         <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">4.- PERSONAL POR DEPARTAMENTO</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div> 
-                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">5.- PERSONAL POR DEPARTAMENTO Y RED DE SALUD</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div> 
--->
-</div>                    
+                </div>                  
+                    
 <!-- END aqui va el comntenido de la pagina ---->
-            
+                </div>
+               
                 <div class="text-center">
                 <hr>
                     <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
@@ -149,7 +105,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
@@ -161,7 +117,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         </div>
     </div>
 
-   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

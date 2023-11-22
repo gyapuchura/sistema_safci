@@ -119,7 +119,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 </form>                                                                          
                                 </td>
                                 <td>
-                                <form name="FORM_RED" action="valida_area_influencia_cf.php" method="post">
+                      <!--          <form name="FORM_RED" action="#valida_area_influencia_cf.php" method="post"> --->
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                                 <button type="submit" class="btn btn-warning btn-icon-split">

@@ -860,7 +860,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                 </div>
             </div> 
 
-        <form name="POSGRADO" action="guarda_estado_mod.php" method="post">
+        <form name="POSGRADO" action="guarda_estado_mod_mun.php" method="post">
         <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
             <div class="form-group row">
                 <div class="col-sm-3">

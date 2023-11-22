@@ -71,19 +71,16 @@ $row = mysqli_fetch_array($result);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">   
-                <a href="registro_establecimiento_mun.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                   
-                    <hr>   
-                    <h4 class="text-info">MODIFICAR REGISTRO </h4>                  
-                    <h4 class="text-info">ESTABLECIMIENTO DE SALUD</h4>
-                    <hr>  
-                    <h4 class="text-secundary"><?php echo $row[5]; ?></h4>
+                    <div class="text-center">                     
+                    <hr>                     
+                    <h4 class="text-success">EL NUEVO ESTABLECIMIENTO DE SALUD</h4>
+                    <h4 class="text-success">FUE REGISTRADO CORRECTAMENTE !!!</h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-<form name="ESTABLECIMIENTO" action="guarda_establecimiento_mod_mun.php" method="post">  
+<form name="ESTABLECIMIENTO" action="guarda_establecimiento.php" method="post">  
                 <div class="col-lg-12">  
                     <div class="p-5"> 
 
@@ -92,8 +89,8 @@ $row = mysqli_fetch_array($result);
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
- 
-                    <select name="iddepartamento"  id="iddepartamento" class="form-control" required >
+
+                    <select name="iddepartamento"  id="iddepartamento" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT iddepartamento, departamento FROM departamento ";
@@ -120,7 +117,7 @@ $row = mysqli_fetch_array($result);
                     </div>
                     <div class="col-sm-9">
 
-                    <select name="idred_salud"  id="idred_salud" class="form-control" required >
+                    <select name="idred_salud"  id="idred_salud" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT idred_salud, red_salud FROM red_salud ";
@@ -145,7 +142,7 @@ $row = mysqli_fetch_array($result);
                     <h6 class="text-primary">MUNICIPIO:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <select name="idmunicipio"  id="idmunicipio" class="form-control" required >
+                    <select name="idmunicipio"  id="idmunicipio" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
@@ -168,11 +165,11 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group row">                               
                     <div class="col-sm-4">
                     <h6 class="text-primary">CÓDIGO DE ESTABLECIMIENTO:</h6>
-                        <input type="text" class="form-control" name="codigo_establecimiento" value="<?php echo $row[4];?>" required >
+                        <input type="text" class="form-control" name="codigo_establecimiento" value="<?php echo $row[4];?>" required disabled>
                     </div>
                     <div class="col-sm-8">
                     <h6 class="text-primary">NOMBRE DEL ESTABLECIMIENTO DE SALUD:</h6>
-                    <textarea class="form-control" rows="2" name="establecimiento_salud" required ><?php echo $row[5];?></textarea>
+                    <textarea class="form-control" rows="2" name="establecimiento_salud" required disabled><?php echo $row[5];?></textarea>
                     </div>
                 </div>
                 <hr>
@@ -180,7 +177,7 @@ $row = mysqli_fetch_array($result);
                     <div class="col-sm-4">
                     <h6 class="text-primary">NIVEL DE ESTABLECIMIENTO:</h6>
 
-                    <select name="idnivel_establecimiento"  id="idnivel_establecimiento" class="form-control" required >
+                    <select name="idnivel_establecimiento"  id="idnivel_establecimiento" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento WHERE nivel_oficial='NIVEL' ";
@@ -202,10 +199,10 @@ $row = mysqli_fetch_array($result);
                     <div class="col-sm-4">
                     <h6 class="text-primary">TIPO DE ESTABLECIMIENTO:</h6>
 
-                    <select name="idtipo_establecimiento"  id="idtipo_establecimiento" class="form-control" required >
+                    <select name="idtipo_establecimiento"  id="idtipo_establecimiento" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento WHERE indice='SI'";
+                        $sqlv = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
@@ -224,10 +221,10 @@ $row = mysqli_fetch_array($result);
                     <div class="col-sm-4">
                     <h6 class="text-primary">SUB-SECTOR SALUD:</h6>
 
-                    <select name="idsubsector_salud"  id="idsubsector_salud" class="form-control" required >
+                    <select name="idsubsector_salud"  id="idsubsector_salud" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idsubsector_salud, subsector_salud FROM subsector_salud WHERE indice='SI'";
+                        $sqlv = " SELECT idsubsector_salud, subsector_salud FROM subsector_salud ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
@@ -249,7 +246,7 @@ $row = mysqli_fetch_array($result);
                     <div class="col-sm-6">
                     <h6 class="text-primary">DEPENDENCIA INSTITUCIONAL:</h6>
 
-                    <select name="iddependencia_institucion"  id="iddependencia_institucion" class="form-control" required >
+                    <select name="iddependencia_institucion"  id="iddependencia_institucion" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT iddependencia_institucion, dependencia_institucion FROM dependencia_institucion ";
@@ -271,7 +268,7 @@ $row = mysqli_fetch_array($result);
                     <div class="col-sm-6">
                     <h6 class="text-primary">ÁMBITO LOCAL:</h6>
 
-                    <select name="idambito_local"  id="idambito_local" class="form-control" required >
+                    <select name="idambito_local"  id="idambito_local" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT idambito_local, ambito_local, descripcion FROM ambito_local ";
@@ -294,30 +291,20 @@ $row = mysqli_fetch_array($result);
                 <hr>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <h4 class="text-primary">ACTUALIZAR UBICACIÓN GEOGRÁFICA DEL ESTABLECIMIENTO</h4>
+                        <h4 class="text-primary">UBICACIÓN GEOGRÁFICA DEL ESTABLECIMIENTO</h4>
                     </div>
                 </div>   
-
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <h6 class="text-primary">LATITUD</h6>
-                        <input type="NUMBER" name="latitud" class="form-control" id="LAT" placeholder=" Seleccione LATITUD en el mapa" value="<?php echo $row[11];?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
+                        <input type="text" value="<?php echo $row[11]?>" class="form-control" disabled>
                     </div>
                     <div class="col-sm-6">
                         <h6 class="text-primary">LONGITUD</h6>
-                        <input type="number"  name="longitud" class="form-control" id="LONGI" placeholder="Seleccione LONGITUD en el mapa" value="<?php echo $row[12];?>" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>
+                        <input type="text" value="<?php echo $row[12]?>" class="form-control" disabled>
                        <!-- <input type="number" style="display:none" id="COD_MUN" readonly="readonly" > --->
                     </div>
                 </div>   
-                <hr>
-                <div class="form-group row">
-                    <div class="col-sm-9" id="safci" style="width: 660px; height: 250px;">
-                    </div>
-                    <div class="col-sm-3">
-                    <h6>Arrastre el marcador rojo para seleccionar la ubicacion de su Establecimiento de salud</h6>
-                    </div>
-                </div>  
-                 
                 <hr>
 
                 
@@ -333,48 +320,24 @@ $row = mysqli_fetch_array($result);
 
 
     <!-------- end rejilla --------->                      
- 
-    <div class="text-center">
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    MODIFICAR REGISTRO
-                    </button>  
-                </div> 
-            </div>                              
-                            
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR ESTABLECIMIENTO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
+                <div class="text-center">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                        <a href="nuevo_establecimiento_mun.php" class="btn btn-success">SALIR DE REGISTRO </a>
                         </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de Registrar el Establecimiento de Salud?
-                            posteriormenete no se podran realizar cambios.
+                    </div>                               
+                </div>                 
 
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>         
                    <!-- modal de confirmacion de envio de datos-->
+
+                    <!-- Modal -->
                 
-        <div class="form-group row">
-            <div class="col-sm-6">
-            </div>
-            <div class="col-sm-6">
-            </div>    
-        </div>                  
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>                  
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
@@ -438,4 +401,3 @@ $row = mysqli_fetch_array($result);
 </body>
 
 </html>
-

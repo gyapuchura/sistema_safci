@@ -114,7 +114,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                             <td><?php echo $row[21];?></br>Mun: <?php echo $row[23];?></td>
                             <td><?php echo $row[22];?></td>
                             <td>
-                            <form name="FORM_P" action="valida_personal_mun.php" method="post">
+                            <form name="FORM_P" action="valida_personal_mun_reg.php" method="post">
                             <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">
                             <input name="codigo" type="hidden" value="<?php echo $row[3];?>">
                             <button type="submit" class="btn btn-secondary btn-icon-split">
