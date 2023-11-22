@@ -74,6 +74,7 @@
     } else {
     }
     ?>
+    
        <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
     $result_menu = mysqli_query($link,$sql_menu);
@@ -113,11 +114,10 @@
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
     /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADM-ESTABLECIMIENTO' ){
+    if ($row_menu[0] == 'ADMINISTRADOR' ){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>             
-            <a class="collapse-item" href="../recursos_humanos/valida_establecimientos_municipio.php">ESTABLECIMIENTOS</br>MUNICIPIO</a>
             <a class="collapse-item" href="../recursos_humanos/nuevo_establecimiento.php">NUEVO</br>ESTABLECIMIENTO</br>DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/nueva_area_influencia.php">NUEVA ÁREA</br>INFLUENCIA</a>
     <?php
@@ -125,6 +125,26 @@
     } else {
     }
     ?>
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' ){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>             
+            <a class="collapse-item" href="../recursos_humanos/valida_establecimientos_municipio.php">ESTABLECIMIENTOS</br>MUNICIPIO</a>
+            <a class="collapse-item" href="../recursos_humanos/valida_nuevo_establecimiento_mun.php">NUEVO</br>ESTABLECIMIENTO</br>MUNICIPIO</a>
+            <a class="collapse-item" href="../recursos_humanos/valida_areas_influencia_municipio.php">ÁREAS DE INFLUENCIA</br>MUNICIPIO</a>
+            <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA MUNICIPIO</a>
+            
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
         </div>
     </div>
 </li>

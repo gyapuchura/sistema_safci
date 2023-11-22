@@ -29,7 +29,7 @@ $longitud                = $_POST['longitud'];
 
 if ($latitud == '' || $longitud == '') {
     
-    header("Location:mensaje_sin_coordenadas_ai.php");
+    header("Location:mensaje_sin_coordenadas_ai_mun.php");
 }  
 else {
         $sql8 =" UPDATE area_influencia SET iddepartamento='$iddepartamento', idred_salud='$idred_salud', idestablecimiento_salud='$idestablecimiento_salud', ";
@@ -40,7 +40,7 @@ else {
              
         $result8 = mysqli_query($link,$sql8); 
         
-        header("Location:mensaje_actualiza_area_influencia.php");
+        header("Location:mensaje_actualiza_area_influencia_mun.php");
     }
 
 ?>

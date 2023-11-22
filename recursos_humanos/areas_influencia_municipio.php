@@ -9,9 +9,9 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
-$idred_salud_ss             = $_SESSION['idred_salud_ss'];
-$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
+$iddepartamento_ss  =  $_SESSION['iddepartamento_ss'];
+$idred_salud_ss     =  $_SESSION['idred_salud_ss'];
+$idmunicipio_ss     =  $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
 ?>
@@ -63,41 +63,43 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                        </br>
 
-                    <h1 class="h3 mb-2 text-gray-800">ESTABLECIMIENTOS DE SALUD A NIVEL MUNICIPAL</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el registro de ESTABLECIMIENTOS DE SALUD.</p>
+                    <h1 class="h3 mb-2 text-gray-800">ÁREAS DE INFLUENCIA - MUNICIPIO</h1>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     
                     <!-- DataTales Example -->
 
-                    <div class="card shadow mb-4">
+                <div class="card shadow mb-4">
 
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTOS DE SALUD POR MUNICIPIO</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>  
-                                            <th>N°</th>                                    
-                                            <th>CÓDIGO</th>
-                                            <th>DEPARTAMENTO</th>
-                                            <th>RED DE SALUD</th>
-                                            <th>MUNICIPIO</th>
-                                            <th>ESTABLECIMIENTO DE SALUD</th>
-                                            <th>NIVEL</th>               
-                                            <th>ACCIÓN</th>
-                                        </tr>
-                                    </thead>
-                                   <tbody>
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">ÁREAS DE INFLUENCIA DEL MUNICIPIO</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>  
+                                        <th>N°</th>                                    
+                                        <th>DEPARTAMENTO</th>
+                                        <th>RED DE SALUD</th>
+                                        <th>ESTABLECIMIENTO DE SALUD</th>
+                                        <th>TIPO DE ÁREA DE INFLUENCIA</th>
+                                        <th>DENOMINACIÓN DEL ÁREA DE INFLUENCIA</th>
+                                        <th>ACCIÓN</th>
+                                        <th>CARPETAS FAMILIARES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                         <?php
-                        $numero=1;
-                        $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.codigo_establecimiento, municipios.municipio,  ";
-                        $sql.=" establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, red_salud.red_salud, departamento.departamento ";
-                        $sql.=" FROM establecimiento_salud, municipios, nivel_establecimiento, red_salud, departamento WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio ";
-                        $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND red_salud.iddepartamento=departamento.iddepartamento ";
-                        $sql.=" AND establecimiento_salud.idred_salud=red_salud.idred_salud AND establecimiento_salud.idmunicipio='$idmunicipio_ss' ORDER BY establecimiento_salud.idestablecimiento_salud DESC";
+                        $numero=1; 
+                        $sql =" SELECT area_influencia.idarea_influencia, departamento.departamento, red_salud.red_salud, establecimiento_salud.establecimiento_salud, ";
+                        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, departamento, red_salud, tipo_area_influencia, ";
+                        $sql.=" establecimiento_salud WHERE area_influencia.iddepartamento=departamento.iddepartamento AND area_influencia.idred_salud=red_salud.idred_salud ";
+                        $sql.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                        $sql.=" AND area_influencia.iddepartamento='$iddepartamento_ss' AND area_influencia.idred_salud='$idred_salud_ss' AND area_influencia.idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+                        $sql.=" ORDER BY area_influencia.idarea_influencia DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -107,22 +109,33 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                             <tr>
                                 <td><?php echo $numero;?></td>
                                 <td><?php echo $row[1];?></td>
-                                <td><?php echo $row[6];?></td>
-                                <td><?php echo $row[5];?></td>
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
+                                <td><?php echo $row[5];?></td>
                                 <td>
-                                <form name="FORM_RED" action="valida_establecimiento_salud_mun.php" method="post">
-                                <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[0];?>">
-                                    <button type="submit" class="btn btn-secondary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-hospital"></i>
-                                    </span>
-                                    <span class="text">VER ESTABLECIMIENTO</span>    
-                                    </button>
+                                <form name="FORM_RED" action="valida_area_influencia_mun.php" method="post">
+                                <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
+                                <button type="submit" class="btn btn-secondary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                                <span class="text">VER DETALLES</span>
+                                </button>
                                 </form>                                                                          
-                            </td>
+                                </td>
+                                <td>
+                     <!---      <form name="FORM_RED" action="valida_area_influencia_cf.php" method="post">  -->
+                                <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
+                                <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
+                                <button type="submit" class="btn btn-warning btn-icon-split">
+                                <span class="icon text-yellow-600">
+                                <i class="fas fa-fw fa-folder"></i>
+                                </span>
+                                <span class="text">CARPETAS FAMILIARES</span>
+                                </button>
+                                </form>                                                                          
+                                </td>
                             </tr>
                                      
                         <?php
@@ -203,26 +216,26 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
     <script src="../js/demo/datatables-demo.js"></script>
 
     <script>
-    $(document).ready(function() {
-        $('#example').DataTable( {
-                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]] ,
-                    "language": {
-                        "lengthMenu": "Mostrar _MENU_ registros por pagina",
-                        "zeroRecords": "No se encontraron resultados en su busqueda",
-                        "searchPlaceholder": "Buscar registros",
-                        "info": "Mostrando Establecimientos de _START_ al _END_ de un total de  _TOTAL_ Establecimientos",
-                        "infoEmpty": "No existen Establecimientos",
-                        "infoFiltered": "(filtrado de un total de _MAX_ Establecimientos)",
-                        "search": "Buscar:",
-                        "paginate": {
-                            "first":    "Primero",
-                            "last":    "Último",
-                            "next":    "Siguiente",
-                            "previous": "Anterior"
-                        },
-                    }
+        $(document).ready(function() {
+            $('#example').DataTable( {
+                        "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]] ,
+                        "language": {
+                            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+                            "zeroRecords": "No se encontraron resultados en su busqueda",
+                            "searchPlaceholder": "Buscar registros",
+                            "info": "Mostrando registros de _START_ al _END_ de un total de  _TOTAL_ registros",
+                            "infoEmpty": "No existen registros",
+                            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "search": "Buscar:",
+                            "paginate": {
+                                "first":    "Primero",
+                                "last":    "Último",
+                                "next":    "Siguiente",
+                                "previous": "Anterior"
+                            },
+                        }
+                    } );
                 } );
-            } );
-    </script>
+        </script>
 </body>
 </html>

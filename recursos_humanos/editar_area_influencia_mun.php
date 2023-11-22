@@ -1,19 +1,20 @@
+
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram				= date("Ymd");
-$fecha 					= date("Y-m-d");
+$fecha_ram	   = date("Ymd");
+$fecha 	       = date("Y-m-d");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+$idarea_influencia_ss = $_SESSION['idarea_influencia_ss'];
 
-$sql = " SELECT idestablecimiento_salud, iddepartamento, idred_salud, idmunicipio, codigo_establecimiento, establecimiento_salud, ";
-$sql.= " idtipo_establecimiento, idnivel_establecimiento, idsubsector_salud, iddependencia_institucion, idambito_local, ";
-$sql.= " latitud, longitud, idusuario, fecha_registro FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+$sql = " SELECT idarea_influencia, iddepartamento, idred_salud, idestablecimiento_salud, idtipo_area_influencia, area_influencia, ";
+$sql.= " idnacion, habitantes, familias, distancia, latitud, longitud, fecha_registro, idusuario";
+$sql.= " FROM area_influencia WHERE idarea_influencia='$idarea_influencia_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
@@ -71,19 +72,23 @@ $row = mysqli_fetch_array($result);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">   
-                <a href="registro_establecimiento_mun.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                   
+                    <div class="text-center">                     
                     <hr>   
-                    <h4 class="text-info">MODIFICAR REGISTRO </h4>                  
-                    <h4 class="text-info">ESTABLECIMIENTO DE SALUD</h4>
-                    <hr>  
-                    <h4 class="text-secundary"><?php echo $row[5]; ?></h4>
+                    <a href="areas_influencia_municipio.php">VOLVER</a> 
+                    <hr>
+                    <h4 class="text-warning">MODIFICAR ÁREA DE INFLUENCIA</h4>
+                    <h4 class="text-muted">
+                    <?php 
+                    $sql_i    = " SELECT idtipo_area_influencia, tipo_area_influencia FROM tipo_area_influencia WHERE idtipo_area_influencia='$row[4]' ";
+                    $result_i = mysqli_query($link,$sql_i);
+                    $row_i    = mysqli_fetch_array($result_i);
+                    echo $row_i[1];?> : <?php echo $row[5];?></h4>                 
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-<form name="ESTABLECIMIENTO" action="guarda_establecimiento_mod_mun.php" method="post">  
+        <form name="INFLUENCIA" action="guarda_area_influencia_mod_mun.php" method="post">  
                 <div class="col-lg-12">  
                     <div class="p-5"> 
 
@@ -92,7 +97,7 @@ $row = mysqli_fetch_array($result);
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
- 
+
                     <select name="iddepartamento"  id="iddepartamento" class="form-control" required >
                         <option selected>Seleccione</option>
                         <?php
@@ -110,7 +115,6 @@ $row = mysqli_fetch_array($result);
                         }
                         ?>
                     </select>
-
                     </div>
                 </div>
    
@@ -119,7 +123,6 @@ $row = mysqli_fetch_array($result);
                     <h6 class="text-primary">RED DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
-
                     <select name="idred_salud"  id="idred_salud" class="form-control" required >
                         <option selected>Seleccione</option>
                         <?php
@@ -142,13 +145,14 @@ $row = mysqli_fetch_array($result);
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">MUNICIPIO:</h6>
+                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <select name="idmunicipio"  id="idmunicipio" class="form-control" required >
+
+                    <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" required >
                         <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
+                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
@@ -164,148 +168,93 @@ $row = mysqli_fetch_array($result);
                     </select>
                     </div>
                 </div>
+
                 <hr>
                 <div class="form-group row">                               
                     <div class="col-sm-4">
-                    <h6 class="text-primary">CÓDIGO DE ESTABLECIMIENTO:</h6>
-                        <input type="text" class="form-control" name="codigo_establecimiento" value="<?php echo $row[4];?>" required >
+                    <h6 class="text-primary">TIPO DE ÁREA DE INFLUENCIA:</h6>
+
+                    <select name="idtipo_area_influencia"  id="idtipo_area_influencia" class="form-control" required >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idtipo_area_influencia, tipo_area_influencia FROM tipo_area_influencia ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[4]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>                    
                     </div>
                     <div class="col-sm-8">
-                    <h6 class="text-primary">NOMBRE DEL ESTABLECIMIENTO DE SALUD:</h6>
-                    <textarea class="form-control" rows="2" name="establecimiento_salud" required ><?php echo $row[5];?></textarea>
+                    <h6 class="text-primary">NOMBRE O DENOMINACIÓN:</h6>
+                    <textarea class="form-control" rows="2" name="area_influencia" ><?php echo $row[5]?></textarea>
                     </div>
-                </div>
+                </div>                
+                    <div class="form-group row">                                
+                        <div class="col-sm-12">
+                        <h6 class="text-primary">NACIÓN:</h6>
+                        <select name="idnacion"  id="idnacion" class="form-control" required >
+                            <option selected>Seleccione</option>
+                            <?php
+                            $sqlv = " SELECT idnacion, nacion FROM nacion ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
+                            } do {
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[6]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                            <?php
+                            } while ($rowv = mysqli_fetch_array($resultv));
+                            } else {
+                            }
+                            ?>
+                        </select>
+                        </div>
+                    </div>
+
+
                 <hr>
                 <div class="form-group row">                               
                     <div class="col-sm-4">
-                    <h6 class="text-primary">NIVEL DE ESTABLECIMIENTO:</h6>
-
-                    <select name="idnivel_establecimiento"  id="idnivel_establecimiento" class="form-control" required >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento WHERE nivel_oficial='NIVEL' ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-                 
+                    <h6 class="text-primary">CANTIDAD DE HABITANTES (Según lista de afiliados):</h6>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $row[7];?>" name="habitantes" >
                     </div>
                     <div class="col-sm-4">
-                    <h6 class="text-primary">TIPO DE ESTABLECIMIENTO:</h6>
-
-                    <select name="idtipo_establecimiento"  id="idtipo_establecimiento" class="form-control" required >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idtipo_establecimiento, tipo_establecimiento FROM tipo_establecimiento WHERE indice='SI'";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[6]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-                    
+                    <h6 class="text-primary">NÚMERO DE FAMILIAS (Según lista de afiliados):</h6>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $row[8];?>" name="familias" >                
                     </div>
                     <div class="col-sm-4">
-                    <h6 class="text-primary">SUB-SECTOR SALUD:</h6>
-
-                    <select name="idsubsector_salud"  id="idsubsector_salud" class="form-control" required >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idsubsector_salud, subsector_salud FROM subsector_salud WHERE indice='SI'";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[8]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-                  
+                    <h6 class="text-primary">DISTANCIA HACIA EL ESTABLECIMIENTO DE SALUD EN Km (Vía Terrestre):</h6>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $row[9];?>" name="distancia" >                
                     </div>
                 </div>
-                <hr>
-                <div class="form-group row">                               
-                    <div class="col-sm-6">
-                    <h6 class="text-primary">DEPENDENCIA INSTITUCIONAL:</h6>
-
-                    <select name="iddependencia_institucion"  id="iddependencia_institucion" class="form-control" required >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT iddependencia_institucion, dependencia_institucion FROM dependencia_institucion ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[9]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>
-                    <div class="col-sm-6">
-                    <h6 class="text-primary">ÁMBITO LOCAL:</h6>
-
-                    <select name="idambito_local"  id="idambito_local" class="form-control" required >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idambito_local, ambito_local, descripcion FROM ambito_local ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[10]) echo "selected";?> ><?php echo $rowv[1];?>.- <?php echo $rowv[2];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-                    
-                    </div>
-                </div>
-                <hr>
+                        <hr>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <h4 class="text-primary">ACTUALIZAR UBICACIÓN GEOGRÁFICA DEL ESTABLECIMIENTO</h4>
+                        <h4 class="text-primary">UBICACIÓN GEOGRÁFICA CENTRAL DEL ÁREA DE INFLUENCIA</h4>
                     </div>
                 </div>   
-
+ 
+                <hr>
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <h6 class="text-primary">LATITUD</h6>
-                        <input type="NUMBER" name="latitud" class="form-control" id="LAT" placeholder=" Seleccione LATITUD en el mapa" value="<?php echo $row[11];?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
+                        <input type="NUMBER" name="latitud" class="form-control" id="LAT" value="<?php echo $row[10];?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
                     </div>
                     <div class="col-sm-6">
                         <h6 class="text-primary">LONGITUD</h6>
-                        <input type="number"  name="longitud" class="form-control" id="LONGI" placeholder="Seleccione LONGITUD en el mapa" value="<?php echo $row[12];?>" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>
+                        <input type="number" name="longitud" class="form-control" id="LONGI" value="<?php echo $row[11];?>" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>
                        <!-- <input type="number" style="display:none" id="COD_MUN" readonly="readonly" > --->
                     </div>
                 </div>   
@@ -317,9 +266,6 @@ $row = mysqli_fetch_array($result);
                     <h6>Arrastre el marcador rojo para seleccionar la ubicacion de su Establecimiento de salud</h6>
                     </div>
                 </div>  
-                 
-                <hr>
-
                 
     <!-------- begin rejilla --------->   
                 <div class="form-group row">
@@ -330,10 +276,8 @@ $row = mysqli_fetch_array($result);
 
                     </div>
                 </div>
-
-
     <!-------- end rejilla --------->                      
- 
+              
     <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-12">
@@ -348,14 +292,14 @@ $row = mysqli_fetch_array($result);
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">REGISTRAR ESTABLECIMIENTO</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">MODIFICAR ÁREA DE INFLUENCIA</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div class="modal-body">
                             
-                            Esta seguro de Registrar el Establecimiento de Salud?
+                            Esta seguro de Registrar los cambios en el Área de Influencia?
                             posteriormenete no se podran realizar cambios.
 
                         </div>
@@ -366,15 +310,7 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>
             </div>
-        </form>         
-                   <!-- modal de confirmacion de envio de datos-->
-                
-        <div class="form-group row">
-            <div class="col-sm-6">
-            </div>
-            <div class="col-sm-6">
-            </div>    
-        </div>                  
+        </form>        
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
@@ -435,7 +371,6 @@ $row = mysqli_fetch_array($result);
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
+        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
 </body>
-
 </html>
-

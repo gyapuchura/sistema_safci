@@ -10,7 +10,7 @@ $gestion                = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CANTIDAD POR departamento</title>
+		<title>CANTIDAD POR DEPARTAMENTO</title>
 
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<style type="text/css">
@@ -23,7 +23,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'CANTIDAD DE PERSONAL POR GÉNERO'
+            text: 'PERSONAL A NIVEL NACIONAL'
         },
         subtitle: {
             text: 'Fuente: SISTEMA MEDI-SAFCI'
@@ -65,7 +65,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: 'PERSONAL POR GÉNERO A NIVEL NACIONAL'
+                text: 'PERSONAL A NIVEL NACIONAL'
             }
         },
         tooltip: {
@@ -239,6 +239,12 @@ Si no se encontraron resultados
 ?>
   </tbody>
 </table>
+<?php 
+$sql_ta = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos ";
+$result_ta = mysqli_query($link,$sql_ta);
+$total_ta = mysqli_num_rows($result_ta);
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE PERSONAL REGISTRADO = <?php echo $total_ta;?> </h4></spam>
 
 </br>
 </br>

@@ -23,6 +23,6 @@ $_SESSION['idred_salud_ss'] = $row_l[4];
 $_SESSION['idmunicipio_ss'] = $row_e[1];
 $_SESSION['idestablecimiento_salud_ss'] = $row_l[5];
 
-header("Location:recursos_humanos_mun.php");
+header("Location:areas_influencia_municipio.php");
 
 ?>
