@@ -240,11 +240,11 @@ Si no se encontraron resultados
   </tbody>
 </table>
 <?php 
-$sql_ta = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos ";
-$result_ta = mysqli_query($link,$sql_ta);
-$total_ta = mysqli_num_rows($result_ta);
+        $sql0 = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.idnombre=nombre.idnombre ";
+        $result0 = mysqli_query($link,$sql0);
+        $total = mysqli_num_rows($result0);
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE PERSONAL REGISTRADO = <?php echo $total_ta;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE PERSONAL REGISTRADO = <?php echo $total;?> </h4></spam>
 
 </br>
 </br>

@@ -49,6 +49,7 @@
 
         <a class="collapse-item" href="../recursos_humanos/recursos_humanos.php">RECURSOS HUMANOS</a>
         <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
+        <a class="collapse-item" href="../recursos_humanos/personal_municipio.php">PERSONAL</br>POR MUNICIPIO</a>
 
     <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
@@ -68,6 +69,7 @@
 
     <a class="collapse-item" href="../recursos_humanos/valida_personal_mun.php">RECURSOS HUMANOS</br>MUNICIPIO</a>
     <a class="collapse-item" href="../recursos_humanos/nuevo_personal_mun.php">NUEVO PERSONAL</br>MUNICIPIO</a>
+    <a class="collapse-item" href="../recursos_humanos/personal_municipio.php">PERSONAL</br>POR MUNICIPIO</a>
 
     <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
@@ -92,6 +94,8 @@
     } else {
     }
     ?>
+   
+
         </div>
     </div>
 </li>

@@ -73,7 +73,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         <tr>  
                                             <th>N°</th>                                     
                                             <th>CÓDIGO PERSONAL</th>
-                                            <th>CÉDULA DE IDENTIDAD</th>
                                             <th>PATERNO</th>
                                             <th>MATERNO</th>
                                             <th>NOMBRES</th>
@@ -101,7 +100,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <tr>
                             <td><?php echo $numero;?></td>
                             <td><?php echo $row[3];?></td>
-                            <td><?php echo $row[8];?></td>
                             <td><?php echo mb_strtoupper($row[5]);?></td>
                             <td><?php echo mb_strtoupper($row[6]);?></td>
                             <td><?php echo mb_strtoupper($row[4]);?></td>
