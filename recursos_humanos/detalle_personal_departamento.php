@@ -4,14 +4,14 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
+$gestion    = date("Y");
 
-$idmunicipio_salud = $_GET['idmunicipio_salud'];
+$iddepartamento_rep = $_GET['iddepartamento_rep'];
 
-$sqld =" SELECT municipios.idmunicipio, municipios.municipio, departamento.departamento FROM departamento, municipios WHERE municipios.iddepartamento=departamento.iddepartamento AND municipios.idmunicipio='$idmunicipio_salud' ";
+$sqld =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento_rep' ";
 $resultd = mysqli_query($link,$sqld);
 $rowd = mysqli_fetch_array($resultd);
 
-$gestion       =  date("Y");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,8 +24,7 @@ $gestion       =  date("Y");
 </head>
 	<body>
   <h3 style="font-family: Arial; text-align: center;">PERSONAL DE SALUD - SAFCI MI SALUD</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowd[2];?></h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Municipio: <?php echo $rowd[1];?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowd[1];?></h3>
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
@@ -51,7 +50,7 @@ $gestion       =  date("Y");
             $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
             $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
             $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND establecimiento_salud.idmunicipio='$idmunicipio_salud' ORDER BY dato_laboral.idestablecimiento_salud ";
+            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND establecimiento_salud.iddepartamento='$iddepartamento_rep' ORDER BY dato_laboral.idred_salud ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);

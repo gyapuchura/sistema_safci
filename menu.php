@@ -94,12 +94,10 @@
     } else {
     }
     ?>
-   
-
-        </div>
+       <a class="collapse-item" href="../recursos_humanos/reportes_personal.php">REPORTES PERSONAL</a>
+       </div>
     </div>
 </li>
-
 
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#coberturaSafci"
