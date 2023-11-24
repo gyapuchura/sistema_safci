@@ -34,7 +34,7 @@ $gestion       =  date("Y");
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
-            <td width="17" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>N°</strong></td>
+            <td width="30" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>N°</strong></td>
             <td width="70" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CEDULA DE IDENTIDAD</strong></td>
             <td width="90" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>NOMBRES</strong></td>
             <td width="90" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>PATERNO</strong></td>

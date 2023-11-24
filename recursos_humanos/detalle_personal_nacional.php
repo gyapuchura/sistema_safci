@@ -4,14 +4,8 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
+$gestion    = date("Y");
 
-$idmunicipio_salud = $_GET['idmunicipio_salud'];
-
-$sqld =" SELECT municipios.idmunicipio, municipios.municipio, departamento.departamento FROM departamento, municipios WHERE municipios.iddepartamento=departamento.iddepartamento AND municipios.idmunicipio='$idmunicipio_salud' ";
-$resultd = mysqli_query($link,$sqld);
-$rowd = mysqli_fetch_array($resultd);
-
-$gestion       =  date("Y");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,12 +14,11 @@ $gestion       =  date("Y");
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>PERSONAL FORMACION ACADERMICA</title>
+  <title>PERSONAL A NIVEL NACIONAL</title>
 </head>
 	<body>
   <h3 style="font-family: Arial; text-align: center;">PERSONAL DE SALUD - SAFCI MI SALUD</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowd[2];?></h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Municipio: <?php echo $rowd[1];?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">NIVEL NACIONAL</h3>
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
@@ -36,6 +29,7 @@ $gestion       =  date("Y");
             <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>MATERNO</strong></td>
             <td width="54" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>PROFESIÓN</strong></td>	
             <td width="52" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESPECIALIDAD MÉDICA</strong></td>
+            <td width="47" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>DEPARTAMENTO</strong></td>
             <td width="47" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>RED DE SALUD</strong></td>
             <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESTABLECIMIENTO DE SALUD</strong></td>	
             <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>Nro. ITEM</strong></td>	
@@ -51,7 +45,7 @@ $gestion       =  date("Y");
             $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
             $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
             $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND establecimiento_salud.idmunicipio='$idmunicipio_salud' ORDER BY dato_laboral.idestablecimiento_salud ";
+            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY departamento.departamento ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -67,6 +61,7 @@ $gestion       =  date("Y");
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[8];?></td>
 	      <td style="font-family: Arial; font-size: 12px;"><?php echo $row[9];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[11];?></td>
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_r =" SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row[12]'";
