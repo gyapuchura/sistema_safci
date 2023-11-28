@@ -11,7 +11,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, nombre.complemento, ";
 $sql.= " nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica,";
-$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, nombre_datos.celular_emergencia, personal.codigo ";
+$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, nombre_datos.celular_emergencia, personal.codigo, personal.url ";
 $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
@@ -97,7 +97,7 @@ $row_ad = mysqli_fetch_array($result_ad);
                         <hr>                    
                         <h4 class="text-primary"><i class="fas fa-fw fa-user"></i> REGISTRO SAFCI</h4>
                         <hr>  
-                        <h4><?php echo $row[21];?></h4>
+                        <h4><?php echo $row[21];?> <?php echo $row[22];?></h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
 
@@ -256,7 +256,6 @@ $row_ad = mysqli_fetch_array($result_ad);
                     <h5 class="text-primary">3.- LUGAR DE TRABAJO:</h5>                                 
                 </div>   
 
-
                 <div class="form-group row">
                     <div class="col-sm-3">
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
@@ -372,18 +371,45 @@ $row_ad = mysqli_fetch_array($result_ad);
             </br>
             <div class="text-center">  
             <div class="form-group row">
-                <div class="col-sm-6"> 
+                <div class="col-sm-4"> 
                     <a class="btn btn-info btn-icon-split" href="imprime_ficha_personal.php?idpersonal=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
                         <span class="icon text-white-50">
                             <i class="fas fa-info-circle"></i>
                         </span>
                         <span class="text">IMPRIMIR FICHA DE PERSONAL</span>
                     </a>
-                </div>                              
+                </div>  
+                <div class="col-sm-4"> 
+                <button onclick="openModelPDF('<?php echo $row[22];?>')" class="btn-link" type="button">
+                DOCUMENTACION
+                </button>
+
+                        <!-- Modal ver el archivo -->
+        <div class="modal fade" id="modalPdf" tabindex="-1" aria-labelledby="modalPdf" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ver Informe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="iframePDF" frameborder="0" scrolling="no" width="100%" height="500px"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal ver el archivo -->
+
+                </div>                               
                 <?php
                 if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'PERSONAL' || $perfil_ss == 'PARTICIPANTE') {
                 ?>                                    
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="text-center">
                         <a class="btn btn-warning btn-icon-split" href="modifica_registro_safci_individual.php">
                         <span class="icon text-white-50">
@@ -410,10 +436,7 @@ $row_ad = mysqli_fetch_array($result_ad);
                     <div class="col-sm-6">
 
                     </div>
-                </div>                  
-
-
-                    
+                </div>                                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
                 <div class="text-center">
@@ -458,7 +481,13 @@ $row_ad = mysqli_fetch_array($result_ad);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para calendario -->
+    <script>
+        function openModelPDF(url) {
+            $('#modalPdf').modal('show');
+            $('#iframePDF').attr('src','<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/'; ?>'+url);
+        }
+    </script>    
+<!------ ' . $_SERVER['HTTP_HOST'] . ' ---->
 
 </body>
 </html>

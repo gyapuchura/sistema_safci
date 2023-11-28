@@ -30,7 +30,6 @@ $sql_ac = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_ac
 $sql_ac.= " WHERE idnombre='$idnombre_ss' AND idusuario='$idusuario_ss' ";
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac = mysqli_fetch_array($result_ac);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -823,11 +822,59 @@ $row_ac = mysqli_fetch_array($result_ac);
                 <hr>  
             <div class="form-group row">
                 <div class="col-sm-6">
+                <h5 class="text-primary">4.- DOCUMENTACIÓN:</h5></br>
                 </div>
                 <div class="col-sm-6">
                 </div>
+            </div>  
+<!---------------- SUBIDA DE DOCUMENTOS PDF A SISTEMA ----------->
+
+            <form name="FORM9" action="subir_documento_safci_mod.php" method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h6 class="text-primary">SUBIR DOCUMENTOS EN UN SOLO ARCHIVO PDF:</br></br>1.- Fotocopia de CI (anverso y reverso)</br>2.- Primer Memorándun de designación.</br>3.- Memorandum actual.</h6>
+                </div>
+                <div class="col-sm-6">
+
+                <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
+                  <input type="file" name="file" id="file" > 
+                </div>
+
+            </div>  
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#documento">
+                    SUBIR DOCUMENTACION PERSONAL                               
+                </a> 
+                </div> 
+                
+                <div class="modal fade" id="documento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SUBIR LA DOCUMENTACION PERSONAL?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Seleccione la opción para confirmar la subida del archivo PDF.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" type="submit">CONFIRMAR SUBIDA</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>     
-            
+            </form>   
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>  
 
                     
 <!-- END aqui va el comntenido de la pagina ---->

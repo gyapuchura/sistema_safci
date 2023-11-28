@@ -14,6 +14,10 @@ $idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
+$sqld =" SELECT municipios.idmunicipio, municipios.municipio, departamento.departamento FROM departamento, municipios WHERE municipios.iddepartamento=departamento.iddepartamento AND municipios.idmunicipio='$idmunicipio_ss' ";
+$resultd = mysqli_query($link,$sqld);
+$rowd = mysqli_fetch_array($resultd);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -63,7 +67,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">RECURSOS HUMANOS SAFCI</h1>
+                    <h1 class="h3 mb-2 text-gray-800">MUNICIPIO : <?php echo mb_strtoupper($rowd[1]);?></h1>
                     <p class="mb-4">En esta seccion se puede encontrar el registro de recusos humanos del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     <!-- DataTales Example -->
