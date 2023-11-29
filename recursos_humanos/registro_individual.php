@@ -484,7 +484,7 @@ $row_ad = mysqli_fetch_array($result_ad);
     <script>
         function openModelPDF(url) {
             $('#modalPdf').modal('show');
-            $('#iframePDF').attr('src','<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/medi-safci/'; ?>'+url);
+            $('#iframePDF').attr('src','<?php echo 'http://'.$_SERVER['HTTP_HOST'].'medi-safci/'; ?>'+url);
         }
     </script>    
 <!------ ' . $_SERVER['HTTP_HOST'] . ' ---->
