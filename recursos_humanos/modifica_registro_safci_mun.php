@@ -14,7 +14,7 @@ $codigo_ss     = $_SESSION['codigo_ss'];
 
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
 $sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, nombre_datos.idprofesion, nombre_datos.idespecialidad_medica,";
-$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos, nombre_datos.celular_emergencia, personal.codigo ";
+$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos, nombre_datos.celular_emergencia, personal.codigo, personal.url ";
 $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
@@ -927,7 +927,7 @@ $row_ac = mysqli_fetch_array($result_ac);
                     </a>                                    
                     </div>
                 </div>
-                </div>
+            </div>
 
                 <!-- BEGIN Datos ESTADO PERSONAL Modal-->
                 <div class="modal fade" id="estado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -949,6 +949,59 @@ $row_ac = mysqli_fetch_array($result_ac);
                 </div>
             </form>
                                 <!-- END Datos ESTADO PERSONAL Modal-->  
+
+
+                <hr>
+<!------ SUBIDA DE DOCUMENTOS PERSONALES (BEGIN)----->
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h5 class="text-primary">5.- DOCUMENTACIÓN:</h5></br>
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div> 
+            <form name="FORM9" action="subir_documento_safci_mun.php" method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h6 class="text-primary">SUBIR DOCUMENTOS EN UN SOLO ARCHIVO PDF:</br></br>1.- Fotocopia de CI (anverso y reverso)</br>2.- Primer Memorándun de designación.</br>3.- Memorandum actual.</h6>
+                </div>
+                <div class="col-sm-6">
+
+                <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
+                  <input type="file" name="file" id="file" > 
+                </div>
+
+            </div>  
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#documento">
+                    SUBIR DOCUMENTACION PERSONAL                               
+                </a> 
+                </div> 
+                
+                <div class="modal fade" id="documento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SUBIR LA DOCUMENTACION PERSONAL?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Seleccione la opción para confirmar la subida del archivo PDF.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" type="submit">CONFIRMAR SUBIDA</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>     
+            </form>   
+<!------ SUBIDA DE DOCUMENTOS PERSONALES (BEGIN)----->     
+                    
 
             <div class="form-group row">
                 <div class="col-sm-6">
