@@ -109,7 +109,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a ="SELECT COUNT(nombre.idgenero) FROM personal, nombre, nombre_datos WHERE personal.idnombre=nombre.idnombre AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre.idgenero='$row2[0]' AND nombre_datos.iddepartamento='$row3[0]' ";
+$sql_a ="SELECT COUNT(nombre.idgenero) FROM personal, nombre, nombre_datos, dato_laboral WHERE personal.idnombre=nombre.idnombre AND personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral AND nombre.idgenero='$row2[0]' AND nombre_datos.iddepartamento='$row3[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -240,7 +240,7 @@ Si no se encontraron resultados
   </tbody>
 </table>
 <?php 
-        $sql0 = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.idnombre=nombre.idnombre ";
+        $sql0 = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral AND personal.idnombre=nombre.idnombre ";
         $result0 = mysqli_query($link,$sql0);
         $total = mysqli_num_rows($result0);
 ?>

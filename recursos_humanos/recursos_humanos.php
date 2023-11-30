@@ -87,10 +87,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, ";
                         $sql.=" nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, ";
                         $sql.=" especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil ";
-                        $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, usuarios ";
+                        $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, dato_laboral, formacion_academica, profesion, especialidad_medica, departamento, usuarios ";
                         $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario ";
                         $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento ";
-                        $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY personal.idpersonal DESC ";
+                        $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY personal.idpersonal DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);

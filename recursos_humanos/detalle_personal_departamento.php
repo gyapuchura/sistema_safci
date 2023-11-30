@@ -61,11 +61,11 @@ $rowd = mysqli_fetch_array($resultd);
 	    <tr>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[3];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[8];?></td>
-	      <td style="font-family: Arial; font-size: 12px;"><?php echo $row[9];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[2]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[3]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[4]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[8]);?></td>
+	      <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[9]);?></td>
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_r =" SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row[12]'";

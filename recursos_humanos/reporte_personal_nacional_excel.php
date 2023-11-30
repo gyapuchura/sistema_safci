@@ -23,7 +23,7 @@ $gestion       =  date("Y");
 </head>
 	<body>
   <h3 style="font-family: Arial; text-align: center;">PERSONAL DE SALUD - SAFCI MI SALUD</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowd[1];?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">NIVEL NACIONAL</h3>
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
@@ -61,12 +61,12 @@ $gestion       =  date("Y");
 	    <tr>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[3];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[8];?></td>
-	      <td style="font-family: Arial; font-size: 12px;"><?php echo $row[9];?></td>
-          <td style="font-family: Arial; font-size: 12px;"><?php echo $row[11];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[2]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[3]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[4]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[8]);?></td>
+	      <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[9]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[11]);?></td>
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_r =" SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row[12]'";
