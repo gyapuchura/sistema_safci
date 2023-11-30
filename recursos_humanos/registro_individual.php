@@ -97,7 +97,7 @@ $row_ad = mysqli_fetch_array($result_ad);
                         <hr>                    
                         <h4 class="text-primary"><i class="fas fa-fw fa-user"></i> REGISTRO SAFCI</h4>
                         <hr>  
-                        <h4><?php echo $row[21];?> <?php echo $row[22];?></h4>
+                        <h4><?php echo $row[21];?></h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
 
@@ -379,17 +379,22 @@ $row_ad = mysqli_fetch_array($result_ad);
                         <span class="text">IMPRIMIR FICHA DE PERSONAL</span>
                     </a>
                 </div>  
+
                 <div class="col-sm-4"> 
-                <button onclick="openModelPDF('<?php echo $row[22];?>')" class="btn-link" type="button">
-                DOCUMENTACION
-                </button>
+                    <a class="btn btn-primary btn-icon-split"  target="_blank" class="Estilo12" onclick="openModelPDF('<?php echo $row[22];?>')">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span class="text">IMPRIMIR DOCUMENTACIÓN PERSONAL</span>
+                    </a>
+                </div> 
 
                         <!-- Modal ver el archivo -->
         <div class="modal fade" id="modalPdf" tabindex="-1" aria-labelledby="modalPdf" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ver Informe</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ver Documentacion</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -404,8 +409,7 @@ $row_ad = mysqli_fetch_array($result_ad);
             </div>
         </div>
         <!-- Modal ver el archivo -->
-
-                </div>                               
+                            
                 <?php
                 if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'PERSONAL' || $perfil_ss == 'PARTICIPANTE') {
                 ?>                                    
@@ -415,7 +419,7 @@ $row_ad = mysqli_fetch_array($result_ad);
                         <span class="icon text-white-50">
                             <i class="fas fa-exclamation-triangle"></i>
                         </span>
-                        <span class="text">ACTUALIZAR REGISTRO</span>
+                        <span class="text">ACTUALIZAR REGISTRO PERSONAL</span>
                         </a>
                     </div>
                 </div>
@@ -425,9 +429,6 @@ $row_ad = mysqli_fetch_array($result_ad);
                 ?>
                 </div>
             </div>
-
-
-
 
                 <div class="form-group row">
                     <div class="col-sm-6">
@@ -487,7 +488,7 @@ $row_ad = mysqli_fetch_array($result_ad);
             $('#iframePDF').attr('src','<?php echo 'https://virtual-safci.minsalud.gob.bo/medi-safci/'; ?>'+url);
         }
     </script>    
-<!------ ' . $_SERVER['HTTP_HOST'] . ' ---->
+<!------ https://virtual-safci.minsalud.gob.bo/medi-safci/ ---->
 
 </body>
 </html>

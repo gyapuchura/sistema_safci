@@ -14,7 +14,7 @@ $codigo_ss     = $_SESSION['codigo_ss'];
 
 $sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, nombre.complemento, ";
 $sql.= " nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica,";
-$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, nombre_datos.celular_emergencia, personal.codigo ";
+$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, nombre_datos.celular_emergencia, personal.codigo, personal.url ";
 $sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
 $sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
 $sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
@@ -368,18 +368,51 @@ $row_ac    = mysqli_fetch_array($result_ac);
             </br>
             <div class="text-center">  
             <div class="form-group row">
-                <div class="col-sm-6"> 
+                <div class="col-sm-4"> 
                     <a class="btn btn-info btn-icon-split" href="imprime_ficha_personal.php?idpersonal=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
                         <span class="icon text-white-50">
                             <i class="fas fa-info-circle"></i>
                         </span>
                         <span class="text">IMPRIMIR FICHA DE PERSONAL</span>
                     </a>
-                </div>                              
+                </div>    
+                
+                
+            <div class="col-sm-4"> 
+                <a class="btn btn-primary btn-icon-split"  target="_blank" class="Estilo12" onclick="openModelPDF('<?php echo $row[22];?>')">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                    <span class="text">IMPRIMIR DOCUMENTACIÓN PERSONAL</span>
+                </a>
+            </div> 
+
+                <!---- modal pdf (begin)---->
+                <div class="modal fade" id="modalPdf" tabindex="-1" aria-labelledby="modalPdf" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ver Documentacion Personal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="iframePDF" frameborder="0" scrolling="no" width="100%" height="500px"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>   
+                <!---- modal pdf (end)----> 
+
+
                 <?php
                 if ($perfil_ss == 'ADM-MUNICIPAL') {
                 ?>                                    
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="text-center">
                         <a class="btn btn-warning btn-icon-split" href="modifica_registro_safci_mun.php">
                         <span class="icon text-white-50">
@@ -395,6 +428,12 @@ $row_ac    = mysqli_fetch_array($result_ac);
                 ?>
                 </div>
             </div>
+
+
+
+
+
+
                 <div class="form-group row">
                     <div class="col-sm-6">
 
@@ -448,6 +487,15 @@ $row_ac    = mysqli_fetch_array($result_ac);
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
+
+    <script>
+        function openModelPDF(url) {
+            $('#modalPdf').modal('show');
+            $('#iframePDF').attr('src','<?php echo 'https://virtual-safci.minsalud.gob.bo/medi-safci/'; ?>'+url);
+        }
+    </script> 
+    <!-- Enlace de descarga https://virtual-safci.minsalud.gob.bo/medi-safci/ -->
+
 
 </body>
 </html>
