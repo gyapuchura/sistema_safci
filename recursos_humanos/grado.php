@@ -6,7 +6,7 @@ if ($idformacion_academica == '7' || $idformacion_academica == '8') {
         <div class="col-sm-6">
             <h6 class="text-primary">DESCRIPCIÓN  
             <?php 
-        switch ($idformacion_academica) {
+            switch ($idformacion_academica) {
             case 7:
             echo "DE LA MAESTRIA";
                 break;
