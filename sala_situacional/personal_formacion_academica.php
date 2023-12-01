@@ -49,12 +49,12 @@ $(function () {
             name: 'Porcentaje',
             data: [
                 <?php
-                    $sql0 = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.idnombre=nombre.idnombre ";
+                    $sql0 = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral AND personal.idnombre=nombre.idnombre ";
                     $result0 = mysqli_query($link,$sql0);
                     $total = mysqli_num_rows($result0);
 
                     $numero = 0;
-                    $sql = " SELECT nombre_datos.idformacion_academica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos GROUP BY nombre_datos.idformacion_academica ORDER BY nombre_datos.idformacion_academica ";
+                    $sql = " SELECT nombre_datos.idformacion_academica FROM personal, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral GROUP BY nombre_datos.idformacion_academica ORDER BY nombre_datos.idformacion_academica ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 

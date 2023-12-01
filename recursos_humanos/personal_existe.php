@@ -43,7 +43,7 @@ $fecha 					= date("Y-m-d");
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include("../top_bar.php"); ?>
+ 
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->

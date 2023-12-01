@@ -65,7 +65,7 @@ $hora       = date("h:i");
                             <div class="text-center">
                                 <h4 class="text-primary">NUEVO REGISTRO DE PERSONAL SAFCI</h4>
                             </div>
-                            </br>
+                            </br> 
                                 <div class="form-group row">
                                     <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
                                 </div>
@@ -197,7 +197,7 @@ $hora       = date("h:i");
                                     </div>
                                     <div class="col-sm-6"></div>                              
                                 </div>
-
+ 
                                 <div class="form-group row" id="grado">  
                                 </div>
 
