@@ -289,19 +289,8 @@ $row = mysqli_fetch_array($result);
                         </div>
                         <div class="col-sm-3">                       
                        </div>
-                        <div class="col-sm-3">
-
-                        <?php
-                            if ($perfil_ss == 'ADM-MUNICIPAL') {
-                            ?>  
+                        <div class="col-sm-3"> 
                         <a href="editar_area_influencia_mun.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
-                        <?php
-                            } else {
-                            }
-                            ?> 
-
-
-
                         </div>
                     </div>                               
                 </div>           
