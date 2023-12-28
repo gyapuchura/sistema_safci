@@ -23,10 +23,10 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'NÚMERO DE ESTABLECIMIENTOS DE SALUD POR  NIVELES Y DEPARTAMENTO'
+            text: 'ÁREAS DE INFLUENCIA SAFCI A NIVEL NACIONAL'
         },
         subtitle: {
-            text: 'Fuente: REPORTE SNIS'
+            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
         },
         xAxis: {
             categories: [
@@ -65,13 +65,13 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: 'Cantidad de Establecimientos de Salud'
+                text: 'ÁREAS DE INFLUENCIA SAFCI A NIVEL NACIONAL'
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} Establecimientos de Salud </b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.1f} Áreas de Influencia </b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -87,7 +87,7 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento ORDER BY idnivel_establecimiento ";
+$sql2 = " SELECT idtipo_area_influencia, tipo_area_influencia FROM tipo_area_influencia ORDER BY idtipo_area_influencia ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -111,7 +111,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT COUNT(idestablecimiento_salud) FROM establecimiento_salud WHERE iddepartamento='$row3[0]' AND idnivel_establecimiento='$row2[0]' ";
+$sql_a =" SELECT COUNT(idarea_influencia) FROM area_influencia WHERE iddepartamento='$row3[0]' AND idtipo_area_influencia='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -164,16 +164,15 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
-<p>&nbsp;</p>
 <table width="806" border="1" align="center" cellspacing="0">
   <tbody>
     <tr>
-      <td width="58" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #205332;"><strong>NIVEL DEL ESTABLECIMIENTO</strong></td>
-      <td width="732" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #284A1F; text-align: center;"><strong>ESTABLECIMIENTOS POR DEPARTAMENTO</strong></td>
+      <td width="90" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #205332;"><strong>TIPO</strong></td>
+      <td width="700" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #284A1F; text-align: center;"><strong>ÁREAS DE INFLUENCIA POR DEPARTAMENTO</strong></td>
     </tr>
     <?php 
 
-$sql4 = " SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento ORDER BY idnivel_establecimiento ";
+$sql4 = " SELECT idtipo_area_influencia, tipo_area_influencia FROM tipo_area_influencia ORDER BY idtipo_area_influencia ";
 $result4 = mysqli_query($link,$sql4);
 $total4 = mysqli_num_rows($result4);
  if ($row4 = mysqli_fetch_array($result4)){
@@ -202,7 +201,7 @@ while ($field5 = mysqli_fetch_field($result5)){
 	?>
             <td width="726">              
               <span style="font-family: Arial; font-size: 12px;"><?php
-$sql_s =" SELECT idestablecimiento_salud FROM establecimiento_salud WHERE iddepartamento='$row5[0]' AND idnivel_establecimiento ='$row4[0]'  GROUP BY idestablecimiento_salud ";
+$sql_s =" SELECT idarea_influencia FROM area_influencia WHERE iddepartamento='$row5[0]' AND idtipo_area_influencia ='$row4[0]'  GROUP BY idarea_influencia ";
 $result_s = mysqli_query($link,$sql_s);
 $row_s = mysqli_num_rows($result_s);
 ?>

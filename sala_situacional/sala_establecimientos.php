@@ -71,11 +71,23 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 <hr> 
+
                 <div class="form-group row">
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">1.- ESTRUCTURA DE ESTABLECIMIENTOS DE SALUD SEGÚN SUBSECTOR BOLIVIA</h6>
+                        <h6 class="text-primary">1.- NÚMERO DE ESTABLECIMIENTOS DE SALUD CON PERSONAL SAFCI - NIVEL NACIONAL</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="establecimientos_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">2.- ESTRUCTURA DE ESTABLECIMIENTOS DE SALUD SEGÚN SUBSECTOR BOLIVIA</h6>
                     </div>
                     <div class="col-sm-4">
                     <a href="establecimientos_subsector.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES'); return false;">
@@ -86,7 +98,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">2.- NÚMERO DE ESTABLECIMIENTOS DE SALUD POR  NIVELES Y DEPARTAMENTO BOLIVIA</h6>
+                        <h6 class="text-primary">3.- NÚMERO DE ESTABLECIMIENTOS DE SALUD POR  NIVELES Y DEPARTAMENTO BOLIVIA</h6>
                     </div>
                     <div class="col-sm-4">
                     <a href="establecimientos_niveles.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES'); return false;">
@@ -97,13 +109,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">3.- NÚMERO DE ESTABLECIMIENTOS DE SALUD SEGÚN TIPO, TODOS LOS SUBSECTORES BOLIVIA</h6>
+                        <h6 class="text-primary">4.- NÚMERO DE ESTABLECIMIENTOS DE SALUD SEGÚN TIPO, TODOS LOS SUBSECTORES BOLIVIA</h6>
                     </div>
                     <div class="col-sm-4">
                     <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
+
          
                     
 <!-- END aqui va el comntenido de la pagina ---->

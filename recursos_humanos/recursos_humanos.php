@@ -78,19 +78,20 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>NOMBRES</th>
                                             <th>DEPARTAMENTO</th>
                                             <th>PERFIL</th>
+                                            <th>CONDICIÓN</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, ";
-                        $sql.=" nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, ";
-                        $sql.=" especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil ";
-                        $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, dato_laboral, formacion_academica, profesion, especialidad_medica, departamento, usuarios ";
-                        $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario ";
-                        $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento ";
-                        $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY personal.idpersonal DESC ";
+                        $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, nombre.complemento, nombre.exp,";
+                        $sql.=" nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, ";
+                        $sql.=" nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil, usuarios.condicion FROM personal, nombre, nacionalidad, genero, nombre_datos, ";
+                        $sql.=" dato_laboral, formacion_academica, profesion, especialidad_medica, departamento, usuarios WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad ";
+                        $sql.=" AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
+                        $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral ";
+                        $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY personal.idpersonal DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -105,6 +106,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <td><?php echo mb_strtoupper($row[4]);?></td>
                             <td><?php echo $row[21];?></td>
                             <td><?php echo $row[22];?></td>
+                            <td><?php echo $row[23];?></td>
                             <td>
                             <form name="FORM_P" action="valida_personal.php" method="post">
                             <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">
