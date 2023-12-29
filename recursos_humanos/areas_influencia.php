@@ -82,6 +82,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         <th>ESTABLECIMIENTO DE SALUD</th>
                                         <th>TIPO DE ÁREA DE INFLUENCIA</th>
                                         <th>DENOMINACIÓN DEL ÁREA DE INFLUENCIA</th>
+                                        <th>REGISTRADA POR:</th>
                                         <th>ACCIÓN</th>
                                         <th>CARPETAS FAMILIARES</th>
                                     </tr>
@@ -89,11 +90,12 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <tbody>
                         <?php
                         $numero=1; 
-                        $sql =" SELECT area_influencia.idarea_influencia, departamento.departamento, red_salud.red_salud, establecimiento_salud.establecimiento_salud, ";
-                        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, departamento, red_salud, tipo_area_influencia, ";
-                        $sql.=" establecimiento_salud WHERE area_influencia.iddepartamento=departamento.iddepartamento AND area_influencia.idred_salud=red_salud.idred_salud ";
-                        $sql.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-                        $sql.=" ORDER BY area_influencia.idarea_influencia DESC ";
+                        $sql =" SELECT area_influencia.idarea_influencia, departamento.departamento, red_salud.red_salud, establecimiento_salud.establecimiento_salud,  ";
+                        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, nombre.nombre, nombre.paterno, nombre.materno  ";
+                        $sql.=" FROM area_influencia, departamento, red_salud, tipo_area_influencia, establecimiento_salud, usuarios, nombre ";
+                        $sql.=" WHERE area_influencia.iddepartamento=departamento.iddepartamento AND area_influencia.idred_salud=red_salud.idred_salud  ";
+                        $sql.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
+                        $sql.=" AND area_influencia.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ORDER BY area_influencia.idarea_influencia DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -106,7 +108,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
-                                <td><?php echo $row[5];?></td>
+                                <td><?php echo mb_strtoupper($row[5]);?></td>
+                                <td><?php echo mb_strtoupper($row[6]." ".$row[7]." ".$row[8]);?></td>
                                 <td>
                                 <form name="FORM_RED" action="valida_area_influencia.php" method="post">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">

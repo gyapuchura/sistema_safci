@@ -10,7 +10,7 @@ $gestion                = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CANTIDAD POR departamento</title>
+		<title>AREAS DE INFLUENCIA SAFCI</title>
 
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<style type="text/css">
@@ -209,7 +209,7 @@ $row_s = mysqli_num_rows($result_s);
 				<?php echo ":";?> 
 
 
-<a href="detalle_establecimientos_niveles.php?iddepartamento=<?php echo $row5[0];?>&idnivel_establecimiento=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
+<a href="detalle_areas_influencia.php?iddepartamento=<?php echo $row5[0];?>&idtipo_area_influencia=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
  
 
 </span></td>
