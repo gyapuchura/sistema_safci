@@ -240,5 +240,14 @@ Si no se encontraron resultados
 ?>
   </tbody>
 </table>
+
+<?php 
+        $sql0 = " SELECT idarea_influencia FROM area_influencia ";
+        $result0 = mysqli_query($link,$sql0);
+        $total = mysqli_num_rows($result0);
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE ÁREAS DE INFLUENCIA SAFCI = <?php echo $total;?> </h4></spam>
+
+
 	</body>
 </html>
