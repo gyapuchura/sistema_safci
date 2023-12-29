@@ -88,6 +88,7 @@ $rowd = mysqli_fetch_array($resultd);
                                             <th>NOMBRES</th>
                                             <th>DEPARTAMENTO</br>MUNICIPIO</th>
                                             <th>PERFIL</th>
+                                            <th>CONDICIÓN</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -96,7 +97,7 @@ $rowd = mysqli_fetch_array($resultd);
                         $numero=1;
                         $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, ";
                         $sql.=" nombre.complemento, nombre.exp, nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica, ";
-                        $sql.=" nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil, municipios.municipio ";
+                        $sql.=" nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil, municipios.municipio, usuarios.condicion ";
                         $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, usuarios, dato_laboral, establecimiento_salud, municipios ";
                         $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario ";
                         $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento ";
@@ -117,6 +118,7 @@ $rowd = mysqli_fetch_array($resultd);
                             <td><?php echo mb_strtoupper($row[4]);?></td>
                             <td><?php echo $row[21];?></br>Mun: <?php echo $row[23];?></td>
                             <td><?php echo $row[22];?></td>
+                            <td><?php echo $row[24];?></td>
                             <td>
                             <form name="FORM_P" action="valida_personal_mun_reg.php" method="post">
                             <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">

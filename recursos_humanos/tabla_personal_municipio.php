@@ -14,6 +14,7 @@ $idmunicipio_salud = $_POST["municipio_salud"];
                 <th>NOMBRES</th>
                 <th>RED DE SALUD</th>
                 <th>ESTABLECIMIENTO DE SALUD</th>
+                <th>PERFIL</th>
                 <th>ACCIÓN</th>
             </tr>
         </thead>
@@ -27,7 +28,7 @@ $idmunicipio_salud = $_POST["municipio_salud"];
         $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario ";
         $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento ";
         $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idred_salud=red_salud.idred_salud  ";
-        $sql.=" AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idmunicipio='$idmunicipio_salud' ORDER BY personal.idpersonal DESC ";
+        $sql.=" AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND usuarios.condicion='ACTIVO' AND establecimiento_salud.idmunicipio='$idmunicipio_salud' ORDER BY personal.idpersonal DESC ";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
@@ -42,6 +43,7 @@ $idmunicipio_salud = $_POST["municipio_salud"];
                 <td><?php echo mb_strtoupper($row[4]);?></td>
                 <td><?php echo $row[25];?></td>
                 <td><?php echo $row[24];?></td>
+                <td><?php echo $row[22];?></td>
                 <td>
                 <form name="FORM_P" action="valida_personal_mun_adm.php" method="post">
                 <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">

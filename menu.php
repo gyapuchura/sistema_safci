@@ -167,12 +167,9 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SALAS:</h6>
-            <a class="collapse-item" href="#">NACIONAL</a>
-            <a class="collapse-item" href="#">DEPARTAMENTAL</a>
-            <a class="collapse-item" href="#">MUNICIPAL</a>
-            <a class="collapse-item" href="#">VECINAL</a>
-            <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
             <a class="collapse-item" href="../sala_situacional/sala_personal_safci.php">PERSONAL SAFCI</a>
+            <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
+            <a class="collapse-item" href="../sala_situacional/sala_areas_influencia.php">ÁREAS DE INFLUENCIA</a>
         </div>
     </div>
 </li>

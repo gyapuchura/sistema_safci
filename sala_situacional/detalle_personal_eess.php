@@ -4,14 +4,14 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
-$gestion    = date("Y");
 
-$iddepartamento_rep = $_GET['iddepartamento_rep'];
+$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sqld =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento_rep' ";
-$resultd = mysqli_query($link,$sqld);
-$rowd = mysqli_fetch_array($resultd);
+$sqle =" SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$resulte = mysqli_query($link,$sqle);
+$rowe = mysqli_fetch_array($resulte);
 
+$gestion       =  date("Y");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,17 +19,20 @@ $rowd = mysqli_fetch_array($resultd);
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <title>PERSONAL POR ESTABLECIMIENTO</title>
 
-  <title>PERSONAL FORMACION ACADERMICA</title>
 </head>
 	<body>
-  <h3 style="font-family: Arial; text-align: center;">PERSONAL DE SALUD - SAFCI MI SALUD</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowd[1];?></h3>
+  <h3 style="font-family: Arial; text-align: center;">PERSONAL SAFCI MI SALUD</h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">ESTABLECIMIENTO:</h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo $rowe[1];?></h3>
+
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
             <td width="17" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>N°</strong></td>
-            <td width="62" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CEDULA DE IDENTIDAD</strong></td>
+            <td width="62" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CÓDIGO</strong></td>
             <td width="78" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>NOMBRES</strong></td>
             <td width="88" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>PATERNO</strong></td>
             <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>MATERNO</strong></td>
@@ -37,20 +40,18 @@ $rowd = mysqli_fetch_array($resultd);
             <td width="52" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESPECIALIDAD MÉDICA</strong></td>
             <td width="47" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>RED DE SALUD</strong></td>
             <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESTABLECIMIENTO DE SALUD</strong></td>	
-            <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>Nro. ITEM</strong></td>	
-            <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CELULAR</strong></td>	
-            <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CORREO ELECTRONICO</strong></td>		
         </tr>
 
         <?php
             $numero=1;
-            $sql =" SELECT personal.idpersonal, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.ci, nombre.complemento, nombre.exp, profesion.profesion, especialidad_medica.especialidad_medica,";
-            $sql.=" nombre_datos.celular, departamento.departamento, dato_laboral.idred_salud, dato_laboral.idestablecimiento_salud, nombre_datos.correo, dato_laboral.item_red_salud, nombre_datos.celular ";
-            $sql.=" FROM personal, nombre, usuarios, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, dato_laboral, establecimiento_salud ";
-            $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
-            $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND usuarios.idnombre=nombre.idnombre AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
-            $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND usuarios.condicion='ACTIVO' AND establecimiento_salud.iddepartamento='$iddepartamento_rep' ORDER BY dato_laboral.idred_salud ";
+            $sql =" SELECT personal.idpersonal, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno,nombre.ci, nombre.complemento, nombre.exp, ";
+            $sql.=" profesion.profesion, especialidad_medica.especialidad_medica, nombre_datos.celular, departamento.departamento, dato_laboral.idred_salud, dato_laboral.idestablecimiento_salud  ";
+            $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, dato_laboral   ";
+            $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero  ";
+            $sql.=" AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica  ";
+            $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral ";
+            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
+            $sql.=" AND dato_laboral.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY personal.idpersonal ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -60,12 +61,12 @@ $rowd = mysqli_fetch_array($resultd);
 
 	    <tr>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[2]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[3]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[4]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[8]);?></td>
-	      <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[9]);?></td>
+	    <td style="font-family: Arial; font-size: 12px;"><?php echo $row[9];?></td>
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_r =" SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row[12]'";
@@ -78,9 +79,6 @@ $rowd = mysqli_fetch_array($resultd);
             $result_e = mysqli_query($link,$sql_e);
             $row_e = mysqli_fetch_array($result_e);
             echo $row_e[1];?></td>
-            <td style="font-family: Arial; font-size: 12px;"><?php echo $row[15];?></td>
-            <td style="font-family: Arial; font-size: 12px;"><?php echo $row[16];?></td>
-            <td style="font-family: Arial; font-size: 12px;"><?php echo $row[14];?></td>
         </tr>
         <?php
             $numero=$numero+1;  
@@ -92,6 +90,8 @@ $rowd = mysqli_fetch_array($resultd);
 
       </tbody>
     </table>
+
 	<p>&nbsp;</p>
+
 </body>
 </html>

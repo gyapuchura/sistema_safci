@@ -10,7 +10,7 @@ $gestion                = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CANTIDAD POR departamento</title>
+		<title>ESTABLECIMIENTOS CON PRESENCIA SAFCI</title>
 
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<style type="text/css">
@@ -23,10 +23,10 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'NÚMERO DE ESTABLECIMIENTOS DE SALUD POR  NIVELES Y DEPARTAMENTO'
+            text: 'ESTABLECIMIENTOS CON PRESENCIA SAFCI A NIVEL NACIONAL'
         },
         subtitle: {
-            text: 'Fuente: REPORTE SNIS'
+            text: 'Fuente: REPORTE MEDI-SAFCI'
         },
         xAxis: {
             categories: [
@@ -87,7 +87,11 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento ORDER BY idnivel_establecimiento ";
+$sql2 = " SELECT establecimiento_salud.idnivel_establecimiento, nivel_establecimiento.nivel_establecimiento  ";
+$sql2.= " FROM personal, dato_laboral, establecimiento_salud, nivel_establecimiento WHERE personal.iddato_laboral=dato_laboral.iddato_laboral ";
+$sql2.= " AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+$sql2.= " AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
+$sql2.= " GROUP BY establecimiento_salud.idnivel_establecimiento ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -111,11 +115,14 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT COUNT(idestablecimiento_salud) FROM establecimiento_salud WHERE iddepartamento='$row3[0]' AND idnivel_establecimiento='$row2[0]' ";
+$sql_a = " SELECT dato_laboral.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud ";
+$sql_a.= " FROM personal, dato_laboral, establecimiento_salud WHERE personal.iddato_laboral=dato_laboral.iddato_laboral ";
+$sql_a.= " AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+$sql_a.= " AND dato_laboral.iddepartamento='$row3[0]' AND establecimiento_salud.idnivel_establecimiento='$row2[0]' GROUP BY dato_laboral.idestablecimiento_salud ";
 $result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
+$row_a = mysqli_num_rows($result_a);
 ?>
-<?php echo $row_a[0]; ?>
+<?php echo $row_a; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
@@ -164,7 +171,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
-<p>&nbsp;</p>
+
 <table width="806" border="1" align="center" cellspacing="0">
   <tbody>
     <tr>
@@ -173,7 +180,11 @@ Si no se encontraron resultados
     </tr>
     <?php 
 
-$sql4 = " SELECT idnivel_establecimiento, nivel_establecimiento FROM nivel_establecimiento ORDER BY idnivel_establecimiento ";
+$sql4 = " SELECT establecimiento_salud.idnivel_establecimiento, nivel_establecimiento.nivel_establecimiento  ";
+$sql4.= " FROM personal, dato_laboral, establecimiento_salud, nivel_establecimiento WHERE personal.iddato_laboral=dato_laboral.iddato_laboral ";
+$sql4.= " AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
+$sql4.= " AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento  ";
+$sql4.= " GROUP BY establecimiento_salud.idnivel_establecimiento ";
 $result4 = mysqli_query($link,$sql4);
 $total4 = mysqli_num_rows($result4);
  if ($row4 = mysqli_fetch_array($result4)){
@@ -202,17 +213,17 @@ while ($field5 = mysqli_fetch_field($result5)){
 	?>
             <td width="726">              
               <span style="font-family: Arial; font-size: 12px;"><?php
-$sql_s =" SELECT idestablecimiento_salud FROM establecimiento_salud WHERE iddepartamento='$row5[0]' AND idnivel_establecimiento ='$row4[0]'  GROUP BY idestablecimiento_salud ";
+$sql_s =" SELECT dato_laboral.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud ";
+$sql_s.=" FROM personal, dato_laboral, establecimiento_salud WHERE personal.iddato_laboral=dato_laboral.iddato_laboral ";
+$sql_s.=" AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND dato_laboral.iddepartamento='$row5[0]' ";
+$sql_s.=" AND establecimiento_salud.idnivel_establecimiento='$row4[0]' GROUP BY dato_laboral.idestablecimiento_salud ";
 $result_s = mysqli_query($link,$sql_s);
 $row_s = mysqli_num_rows($result_s);
 ?>
-<?php echo $row5[1];?> 
-				<?php echo ":";?> 
+<?php echo $row5[1];?> <?php echo ":";?> 
 
-
-<a href="detalle_establecimientos_niveles.php?iddepartamento=<?php echo $row5[0];?>&idnivel_establecimiento=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
+<a href="detalle_establecimientos_niveles_safci.php?iddepartamento=<?php echo $row5[0];?>&idnivel_establecimiento=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
  
-
 </span></td>
 
             <?php 
@@ -226,7 +237,9 @@ Si no se encontraron resultados
           </tr>
         </tbody>
       </table>
-        
+    
+
+    
     </td>
     </tr>
     <?php 
@@ -241,5 +254,14 @@ Si no se encontraron resultados
 ?>
   </tbody>
 </table>
+
+<?php 
+        $sql0 = " SELECT dato_laboral.idestablecimiento_salud FROM personal, dato_laboral WHERE personal.iddato_laboral=dato_laboral.iddato_laboral GROUP BY dato_laboral.idestablecimiento_salud ";
+        $result0 = mysqli_query($link,$sql0);
+        $total = mysqli_num_rows($result0);
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE ESTABLECIMIENTOS CON PRESENCIA SAFCI = <?php echo $total;?> </h4></spam>
+
+
 	</body>
 </html>

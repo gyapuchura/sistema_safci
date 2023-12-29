@@ -81,7 +81,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>RED DE SALUD</th>
                                             <th>MUNICIPIO</th>
                                             <th>ESTABLECIMIENTO DE SALUD</th>
-                                            <th>NIVEL</th>               
+                                            <th>NIVEL</th>  
+                                            <th>ACTUALIZADO POR:</th>                
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -89,7 +90,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                         $numero=1;
                         $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.codigo_establecimiento, municipios.municipio,  ";
-                        $sql.=" establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, red_salud.red_salud, departamento.departamento ";
+                        $sql.=" establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, red_salud.red_salud, departamento.departamento, ";
+                        $sql.=" establecimiento_salud.idusuario ";
                         $sql.=" FROM establecimiento_salud, municipios, nivel_establecimiento, red_salud, departamento WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio ";
                         $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND red_salud.iddepartamento=departamento.iddepartamento ";
                         $sql.=" AND establecimiento_salud.idred_salud=red_salud.idred_salud ORDER BY establecimiento_salud.idestablecimiento_salud ";
@@ -107,6 +109,17 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
+                                <td><?php                                
+                                $sqlu =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre ";
+                                $sqlu.=" WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[7]'";
+                                $resultu = mysqli_query($link,$sqlu);
+                                if ($rowu = mysqli_fetch_array($resultu)){                            
+                                echo mb_strtoupper($rowu[0]." ".$rowu[1]." ".$rowu[2]);
+                                }
+                                else{ 
+                                    echo '<p class="text-warning">SIN ACTUALIZAR</p>';
+                                }
+                                ?></td>
                                 <td>
                                 <form name="FORM_RED" action="valida_establecimiento_salud.php" method="post">
                                 <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[0];?>">
@@ -114,7 +127,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                     <span class="icon text-white-50">
                                         <i class="fas fa-hospital"></i>
                                     </span>
-                                    <span class="text">VER ESTABLECIMIENTO</span>    
+                                    <span class="text">VER E.E.S.S.</span>    
                                     </button>
                                 </form>                                                                          
                             </td>
