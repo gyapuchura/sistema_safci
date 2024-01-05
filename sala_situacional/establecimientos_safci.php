@@ -211,8 +211,8 @@ mysqli_field_seek($result5,0);
 while ($field5 = mysqli_fetch_field($result5)){
 } do {
 	?>
-            <td width="726">              
-              <span style="font-family: Arial; font-size: 12px;"><?php
+    <td width="726">              
+<span style="font-family: Arial; font-size: 12px;"><?php
 $sql_s =" SELECT dato_laboral.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud ";
 $sql_s.=" FROM personal, dato_laboral, establecimiento_salud WHERE personal.iddato_laboral=dato_laboral.iddato_laboral ";
 $sql_s.=" AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND dato_laboral.iddepartamento='$row5[0]' ";
@@ -223,7 +223,7 @@ $row_s = mysqli_num_rows($result_s);
 <?php echo $row5[1];?> <?php echo ":";?> 
 
 <a href="detalle_establecimientos_niveles_safci.php?iddepartamento=<?php echo $row5[0];?>&idnivel_establecimiento=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
- 
+
 </span></td>
 
             <?php 
