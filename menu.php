@@ -170,6 +170,7 @@
             <a class="collapse-item" href="../sala_situacional/sala_personal_safci.php">PERSONAL SAFCI</a>
             <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
             <a class="collapse-item" href="../sala_situacional/sala_areas_influencia.php">ÁREAS DE INFLUENCIA</a>
+            <a class="collapse-item" href="../sala_situacional/mapas_safci.php">MAPAS SAFCI</a>
         </div>
     </div>
 </li>
