@@ -5,9 +5,16 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$latitud_c  = "-17.567775";
-$longitud_c = "-66.346216";
-$zoom_c     = "5.8";
+$idestablecimiento_e = $_GET['idestablecimiento_e'];
+
+$sql1 = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud ";
+$sql1.= " WHERE latitud != '' AND longitud != '' AND idestablecimiento_salud='$idestablecimiento_e' ";
+$result1 = mysqli_query($link,$sql1);
+$row1 = mysqli_fetch_array($result1);
+
+$latitud_c  = $row1[2];
+$longitud_c = $row1[3];
+$zoom_c     = "12";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +22,7 @@ $zoom_c     = "5.8";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAPA SAFCI NACIONAL</title>
+    <title>MAPA SAFCI DEPARTAMENTO</title>
     <style>
         :root {
             --building-color: #FF9800;
@@ -222,7 +229,7 @@ $zoom_c     = "5.8";
     <script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js"></script>
 </head>
 <body>
-    <div class="sala"><h3 class="text-center">PRESENCIA DEL PROGRAMA SAFCI MI SALUD A NIVEL NACIONAL</h3></div>  
+    <div class="sala"><h3 class="text-center">ESTABLECIMIENTO : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
     <div class="map" id="map"></div>   
     
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
@@ -293,38 +300,73 @@ $zoom_c     = "5.8";
             }
 
             const properties = [
-           
-                <?php 
+           <?php
+/****** Areas de influencia del Establecimiento de salud *********/
+
+$numero4 = 0;
+$sql4 = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, ";
+$sql4.= " area_influencia.habitantes, area_influencia.familias, area_influencia.distancia, area_influencia.latitud, area_influencia.longitud ";
+$sql4.= " FROM area_influencia, tipo_area_influencia WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+$sql4.= " AND area_influencia.idestablecimiento_salud='$idestablecimiento_e' ";
+$result4 = mysqli_query($link,$sql4);
+$total4 = mysqli_num_rows($result4);
+ if ($row4 = mysqli_fetch_array($result4)){
+mysqli_field_seek($result4,0);
+while ($field4 = mysqli_fetch_field($result4)){
+} do {
+	?>
+            {
+            address: '<?php echo $row4[3];?>',
+            description: '<?php echo $row4[4];?>',
+            price: '<?php echo $row4[1]." - ".$row4[2];?>',
+            type: 'warehouse',
+            bed: 5,
+            bath: 4.5,
+            size: 300,
+            position: {  
+                lat: <?php echo $row4[6];?>,
+                lng: <?php echo $row4[7];?>,
+            },
+            }
+            
+<?php 
+$numero4++;
+if ($numero4 == $total4) {
+echo ",";
+}
+else {
+echo ",";
+}
+} while ($row4 = mysqli_fetch_array($result4));
+} else {
+}
+?>
+
+<?php 
 $numero2 = 0;
-$sql2 = " SELECT establecimiento_salud.idmunicipio, municipios.municipio FROM establecimiento_salud, municipios  ";
-$sql2.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.latitud != '' ";
-$sql2.= " AND establecimiento_salud.longitud != '' GROUP BY establecimiento_salud.idmunicipio ";
+$sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";
+$sql2.= " nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
+$sql2.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
+$sql2.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
+$sql2.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento_e' ORDER BY idestablecimiento_salud ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
 while ($field2 = mysqli_fetch_field($result2)){
 } do {
-
-$sql3 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud,  ";
-$sql3.= " municipios.municipio, departamento.departamento FROM establecimiento_salud, municipios, departamento ";
-$sql3.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
-$sql3.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.idmunicipio='$row2[0]' LIMIT 1 ";
-$result3 = mysqli_query($link,$sql3);
-$row3 = mysqli_fetch_array($result3);
-
 	?>
             {
-            address: '<?php echo $row3[4];?>',
-            description: '<?php echo $row3[4];?>',
-            price: '<?php echo $row3[3];?>',
+            address: '<?php echo $row2[3];?>',
+            description: '<?php echo $row2[3];?>',
+            price: '<?php echo $row2[1]." - ".$row2[2];?>',
             type: 'home',
             bed: 5,
             bath: 4.5,
             size: 300,
             position: {  
-                lat: <?php echo $row3[1];?>,
-                lng: <?php echo $row3[2];?>,
+                lat: <?php echo $row2[4];?>,
+                lng: <?php echo $row2[5];?>,
             },
             }
             
@@ -338,48 +380,12 @@ echo ",";
 }
 } while ($row2 = mysqli_fetch_array($result2));
 } else {
-echo "";
-/*
-Si no se encontraron resultados
-*/
+
 }
 ?>
-
             ];
 
             initMap();
-
-            // map = new google.maps.Map(document.getElementById('map'),{
-              //  zoom: 10,
-             //   center: { lat: -16.509091198231314, lng: -68.11980700825897 },
-                
-           // });
-            
-           // const contentString = 
-           // '<div class="contenido">'+
-           // '<div class="centro"><h3>CENTRO DE SALUD LAS PALMAS</h3></div>'+
-           // '<div class="POBLACION"><H4>POBLACION: 5000 HHABITANTES</H4></div>'+
-           // '<div class="AREA"><H3>AREA DE INFLUENCIA: BARRIO LOS PINOS</H3></div>'+
-           // '<div class="MEDICOS"><H3>LISTA DE PERSONAL DEPENDIENTE</H3></div>'+
-           // '</div>';
-
-            //const infowindow = new google.maps.InfoWindow({
-               // content: contentString,
-               // maxWidth:200,
-              //  arialLabel: "Salud Familair Comunitaria Intercultural",
-            //});
-            //const marker = new google.maps.Marker({
-               // position:{ lat: -16.509091198231314, lng: -68.11980700825897 },
-               // map,
-             //   title: "esta es una prueba de mapas de safci"
-           // });
-           // marker.addListener("click", () => {
-                //infowindow.open({
-                 //   anchor:marker, 
-               //     map,
-             //   });
-           // });
-        //window.initMap = initMap
 
 
         </script>

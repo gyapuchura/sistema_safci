@@ -1,5 +1,5 @@
 <?php include("../inc.config.php");
-$iddepartamento = $_POST["departamento"];
+$iddepartamento = $_POST["departamento_e"];
 ?>
 <option value="">Elegir Municipio</option>
 <?php
