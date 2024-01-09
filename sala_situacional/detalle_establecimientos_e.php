@@ -46,8 +46,8 @@ $gestion       =  date("Y");
             $sql.=" WHERE personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
             $sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND ";
             $sql.=" red_salud.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND  ";
-            $sql.=" establecimiento_salud.idred_salud=red_salud.idred_salud AND establecimiento_salud.idmunicipio='$idmunicipio' ";
-            $sql.=" GROUP BY establecimiento_salud.idestablecimiento_salud ";
+            $sql.=" establecimiento_salud.idred_salud=red_salud.idred_salud AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != ''  ";
+            $sql.=" AND establecimiento_salud.idmunicipio='$idmunicipio' GROUP BY establecimiento_salud.idestablecimiento_salud ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
