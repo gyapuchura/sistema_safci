@@ -59,12 +59,35 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">MAPAS DEL PROGRAMA SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar informción geográfica de los Establecimientos de Salud, Áreas de Influencia y Recursos Humanos del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede encontrar informción geográfica de los Establecimientos de Salud, Áreas de Influencia y Recursos Humanos del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
+                <!-- REPORTE NACIONAL  -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success">MAPA SAFCI NACIONAL</h6>
+                    </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                    <div class="col-sm-6">
+                    <a class="btn btn-success btn-icon-split" href="mapa_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=50,left=200'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-book"></i>
+                    </span>
+                    <span class="text">MAPA SAFCI NACIONAL</span></a>
+                    </div>
+                    <div class="col-sm-6">
+                   <!-- <form name="NACIONAL_PERSONAL" action="reporte_personal_nacional_excel.php" method="post">
+                        <input type="hidden" name="idmunicipio_salud" value="<?php echo $idmunicipio_salud;?>">
+                        <button type="submit" class="btn btn-success">REPORTE NACIONAL EN EXCEL</button>
+                    </form> -->
+                    </div>
+                </div>
+            </div>    
+            </div>
             <!-- REPORTE POR DEPARTAMENTO -->
                     <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">MAPA PARLANTE SAFCI POR DEPARTAMENTO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">MAPA SAFCI POR DEPARTAMENTO</h6>
                     </div>
                   
                 <div class="card-body">
@@ -100,7 +123,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <!-- REPORTE POR MUNICIPIO -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">MAPA PARLANTE SAFCI POR MUNICIPIO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">MAPA SAFCI POR MUNICIPIO</h6>
                     </div>
 
                 <div class="card-body">
@@ -141,29 +164,60 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 </div>
                 </div>
 
-   <!-- REPORTE NACIONAL  -->
-                <div class="card shadow mb-4">
+                <!-- MAPA POR ESTABLECIMIENTO DE SALUD Y AREAS DE INFLUENCIA -->
+
+       <!-- REPORTE POR MUNICIPIO -->
+       <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">MAPA NACIONAL</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">MAPA SAFCI POR ESTABLECIMIENTO DE SALUD</h6>
                     </div>
+
                 <div class="card-body">
                     <div class="form-group row">
-                    <div class="col-sm-6">
-                    <a class="btn btn-primary btn-icon-split" href="mapa_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=50,left=200'); return false;">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-book"></i>
-                    </span>
-                    <span class="text">MAPA SAFCI NACIONAL</span></a>
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">DEPARTAMENTO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="iddepartamento_e"  id="iddepartamento_e" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                        </select>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                   <!-- <form name="NACIONAL_PERSONAL" action="reporte_personal_nacional_excel.php" method="post">
-                        <input type="hidden" name="idmunicipio_salud" value="<?php echo $idmunicipio_salud;?>">
-                        <button type="submit" class="btn btn-success">REPORTE NACIONAL EN EXCEL</button>
-                    </form> -->
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">MUNICIPIO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idmunicipio_e" id="idmunicipio_e" class="form-control" required></select>
+                        </div>
                     </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idestablecimiento_e" id="idestablecimiento_e" class="form-control" required></select>
+                        </div>
                     </div>
                 </div>
-                <!-- /.container-fluid -->
+                <div class="card-body" id="mapa_ventana_establecimiento">     
+                </div>
+                </div>
 
             </div>
             <!-- End of Main Content -->
@@ -258,7 +312,45 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         })
         });
     </script>
-    <!-----   mapas parlante safci Ing. Gonzalo Yapuchura---->
+    <!-----   mapas safci Ing. Gonzalo Yapuchura---->
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento_e").change(function () {
+                    $("#iddepartamento_e option:selected").each(function () {
+                        departamento_e=$(this).val();
+                    $.post("municipios_combo_safci_e.php", {departamento_e:departamento_e}, function(data){
+                    $("#idmunicipio_e").html(data);
+                    });
+                });
+        })
+        });
+    </script> 
+
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#idmunicipio_e").change(function () {
+                    $("#idmunicipio_e option:selected").each(function () {
+                        municipio_e=$(this).val();
+                    $.post("establecimiento_safci_e.php", {municipio_e:municipio_e}, function(data){
+                    $("#idestablecimiento_e").html(data);
+                    });
+                });
+        })
+        });
+        </script>
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#idestablecimiento_e").change(function () {
+                    $("#idestablecimiento_e option:selected").each(function () {
+                        establecimiento_e=$(this).val();
+                    $.post("mapa_ventana_establecimiento.php", {establecimiento_e:establecimiento_e}, function(data){
+                    $("#mapa_ventana_establecimiento").html(data);
+                    });
+                });
+        })
+        });
+        </script>
 
 </body>
 </html>

@@ -25,7 +25,7 @@ $gestion       =  date("Y");
 </head>
 	<body>
   <h3 style="font-family: Arial; text-align: center;">PERSONAL SAFCI MI SALUD</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">ESTABLECIMIENTO:</h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Establecimiento :</h3>
   <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo $rowe[1];?></h3>
 
 	<table width="664" border="1" align="center">
