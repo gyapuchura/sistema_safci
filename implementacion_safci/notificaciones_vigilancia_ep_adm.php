@@ -58,7 +58,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">VIGILANCIA EPIDEMIOLÓGICA</h1>
+                    <h1 class="h3 mb-2 text-gray-800">VIGILANCIA EPIDEMIOLÓGICA NACIONAL</h1>
                     <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
                     
                     <!-- DataTales Example -->
@@ -66,7 +66,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">NOTIFICACIONES A NIVEL MUNICIPAL</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">NOTIFICACIONES A NIVEL NACIONAL</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -94,7 +94,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         $sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
                         $sql.=" WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud ";
                         $sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-                        $sql.=" AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.idusuario='$idusuario_ss' ";
+                        $sql.=" AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);           
@@ -118,24 +118,20 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                                 <?php
                                 if ($row[16] == 'CONSOLIDADO') { ?>
-                                <a href="imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;">IMPRIME NOTIFICACIÓN</a>
-                                <?php } else { ?>
-                                <form name="FORM_EP" action="valida_notificacion_ep.php" method="post">
+                                <form name="DES_FORM_EP" action="valida_notificacion_ep_adm.php" method="post">
                                 <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[0];?>">
                                 <input name="iddepartamento" type="hidden" value="<?php echo $row[12];?>">
                                 <input name="idred_salud" type="hidden" value="<?php echo $row[13];?>">
                                 <input name="idmunicipio" type="hidden" value="<?php echo $row[14];?>">
                                 <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[15];?>">
-                                <button type="submit" class="btn btn-info btn-icon-split">
+                                <button type="submit" class="btn btn-success btn-icon-split">
                                 <span class="icon text-yellow-600">
                                 <i class="fas fa-fw fa-book"></i>
                                 </span>
-                                <span class="text">VER</span>
+                                <span class="text">CONSOLIDAD</span>
                                 </button>
                                 </form> 
-
-                                <?php } ?>
-                                                                         
+                                <?php } else { echo "EN ELABORACIÓN"; } ?>
                                 </td>
                             </tr>                                     
                         <?php
