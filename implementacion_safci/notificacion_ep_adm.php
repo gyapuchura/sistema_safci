@@ -14,6 +14,7 @@ $idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
+$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
 $sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
 $sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
@@ -69,149 +70,94 @@ $row = mysqli_fetch_array($result);
 
                 <!-- Begin Page Content -->
   
-                <body class="bg-gradient-primary">
+<body class="bg-gradient-primary">
 
     <div class="container">
     </br>
-        <div class="card o-hidden border-0 shadow-lg my-2">
+        <div class="card o-hidden border-0 shadow-lg my-0">
             <div class="card-body p-0">
 <!-- BEGIN aqui va el TITULO de la pagina ---->
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center"> 
-                    <a href="notificaciones_vigilancia_ep.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                     
+           
                     <hr>                     
-                    <h4 class="text-primary">NOTIFICACIÓN</h4>
-                    <h4 class="text-primary"><?php echo $row[1];?></h4>
+                    <h2 class="text-success">ADMINISTRAR NOTIFICACIÓN</h2>
+                    <h4 class="text-success"><?php echo $row[1];?></h4>
+                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
-<div class="form-group row">
-        <div class="col-sm-12">
-            <div class="table-responsive">
-                <table class="table table-striped" id="example" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th class="text-info">Nª</th>
-                            <th class="text-info">SOSPECHA DIAGNÓSTICA</th>
-                            <th class="text-info">ACCIÓN</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <?php
-                        $numero=1;
-                        $sql4 =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag ";
-                        $sql4.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND ";
-                        $sql4.=" registro_enfermedad.idnotificacion_ep = '$idnotificacion_ep_ss' GROUP BY registro_enfermedad.idsospecha_diag ";
-                        $result4 = mysqli_query($link,$sql4);
-                        if ($row4 = mysqli_fetch_array($result4)){
-                        mysqli_field_seek($result4,0);
-                        while ($field4 = mysqli_fetch_field($result4)){
-                        } do { 
-                        ?>
-                        <tr>
-                            <td><?php echo $numero;?></td>
-                            <td><?php echo $row4[1];?></td>
-                            <td>
-                            <form name="SOSPECHA" action="valida_sospecha_diag.php" method="post">  
-                            <input type="hidden" name="idsospecha_diag" value="<?php echo $row4[0];?>">
-                            <button type="submit" class="btn btn-info">REGISTRAR CASOS</button></form>
-                            </td>
-                        </tr>                            
-                        <?php
-                        $numero=$numero+1;
-                        }
-                        while ($row4 = mysqli_fetch_array($result4));
-                        } else {
-                        }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>   
-
-
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 <hr>
-                <form name="REG_ENF" action="guarda_registro_enfermedad.php" method="post">  
-                 <div class="form-group row">
+
+            <hr>
+            <div class="text-center"> 
+            <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h6>PUEDE OBERVAR O DESCONSOLIDAR LA NOTIFICACIÓN GENERADO POR EL USUARIO ADM-MUNICIPAL</h6>
+                    </div>
+            </div>    
+            </div>            
+            
+            <div class="text-center"> 
+            <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary"> SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
+                    <a href="imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;">IMPRIME NOTIFICACIÓN</a>
                     </div>
-                    <div class="col-sm-8">
-                        <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" required>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $sql1 = "SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag ";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=". $row1[0].">". $row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                </div>
+                    <div class="col-sm-4">
+                    <form name="DESCONSOLIDA" action="guarda_desconsolida_notificacion_ep.php" method="post">    
 
-                <hr>
-
-                </div>
-                
-    <!-------- begin rejilla --------->   
-
-    <!-------- end rejilla --------->                      
-                <div class="text-center">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                GENERAR REGISTRO DE ENFERMEDAD DE NOTIFICACIÓN INMEDIATA
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                DESCONSOLIDAR NOTIFICACIÓN
                                 </button>  
-                            </div>                              
-                                
-
+                                                       
                    <!-- modal de confirmacion de envio de datos-->
                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE ENFERMEDAD</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">DESCONSOLIDAR NOTIFICACIÓN</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
                                     
-                                    Esta seguro de generar el REGISTRO DE ENFERMEDAD?
-                                    posteriormenete no se podran realizar cambios.
+                                    Esta seguro de DESCONSOLIDAR la Notificacion?
+                                    , posteriormente la misma estara disponible para su edición.
 
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
+                                <button type="submit" class="btn btn-warning pull-center">CONFRMAR DESCONSOLIDACIÓN</button>    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
                     <!-- Modal -->
-                
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="notificaciones_vigilancia_ep_adm.php"><h6 class="text-success">SALIR <i class="fas fa-fw fa-arrow-right"></i></h6></a>    
+                    </div>
+            </div>    
+            </div>
+    </div>                
+    <!-------- begin rejilla --------->   
+
+    <!-------- end rejilla --------->                      
+                <div class="text-center">
+
                 <div class="form-group row">
                     <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6">
                     </div>
-                </div>                  
-                    
+                </div>                                                                           
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>
-               
+                </div>               
                 <div class="text-center">
                 <hr>
                     <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
@@ -219,8 +165,7 @@ $row = mysqli_fetch_array($result);
                 <div class="text-center">
                     <a class="small" href="#">Ministerio de Salud y Deportes</a>
                 <hr>
-                </div>
-               
+                </div>               
             </div>   
         </div> 
     </div>
@@ -263,44 +208,6 @@ $row = mysqli_fetch_array($result);
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("red_salud_o.php", {departamento:departamento}, function(data){
-                    $("#idred_salud").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("municipios.php", {departamento:departamento}, function(data){
-                    $("#idmunicipio").html(data);
-                    });
-                });
-        })
-        });
-        </script>        
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idnivel_establecimiento").change(function () {
-                    $("#idnivel_establecimiento option:selected").each(function () {
-                        nivel_establecimiento=$(this).val();
-                    $.post("tipo_establecimiento.php", {nivel_establecimiento:nivel_establecimiento}, function(data){
-                    $("#idtipo_establecimiento").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-   
+        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>   
 </body>
-
 </html>
