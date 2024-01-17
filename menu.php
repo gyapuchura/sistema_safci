@@ -179,12 +179,14 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
         aria-expanded="true" aria-controls="collapseUtilities2">
         <i class="fas fa-clinic-medical"></i>   
-        <span>SALUD FAMILIAR</span>
+        <span>IMPLEMENTACIÓN</br>SAFCI</span>
     </a>
     <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SAFCI:</h6>
+            <a class="collapse-item" href="../implementacion_safci/notificaciones_vigilancia_ep.php">NOTIFICACIONES</br>VIGILANCIA</br>EPIDEMIOLÓGICA</a>
+            <a class="collapse-item" href="../implementacion_safci/valida_nueva_notificacion_ep.php">NUEVA NOTIFICACIÓN</a>
  <!--       <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
             <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
             <a class="collapse-item" href="#">REGISTRO FAMILIAR</a>
