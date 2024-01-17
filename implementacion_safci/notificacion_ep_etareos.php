@@ -85,7 +85,7 @@ $row = mysqli_fetch_array($result);
                     <hr>                     
                     <h4 class="text-primary">NOTIFICACIÓN</h4>
                     <h4 class="text-primary"><?php echo $row[1];?></h4>
-                    <h5 class="text-primary">REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN INMEDIATA</h5>
+                    <h5 class="text-info">I. REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN INMEDIATA</h5>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 

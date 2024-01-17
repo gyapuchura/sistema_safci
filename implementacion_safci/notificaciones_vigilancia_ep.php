@@ -75,13 +75,12 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                     <tr>  
                                         <th>N°</th>  
                                         <th>CÓDIGO NOTIFICACIÓN</th>                                  
-                                        <th>DEPARTAMENTO</th>
+                                        <th>DEPTO</th>
                                         <th>MUNICIPIO</th>
-                                        <th>RED DE SALUD</th>
-                                        <th>ESTABLECIMIENTO DE SALUD</th>                                      
-                                        <th>N° SEMANA EPIDEM.</th>
+                                        <th>ESTABLECIMIENTO</th>                                      
+                                        <th>SEMANA EPIDEM.</th>
                                         <th>USUARIO:</th>
-                                        <th>FECHA-HORA</th>
+                                        <th>FECHA</th>
                                         <th>ACCIÓN</th>
                                     </tr>
                                 </thead>
@@ -91,7 +90,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         $sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
                         $sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
                         $sql.=" notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, ";
-                        $sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud ";
+                        $sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud, notificacion_ep.estado ";
                         $sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
                         $sql.=" WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud ";
                         $sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
@@ -101,21 +100,26 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         mysqli_field_seek($result,0);           
                         while ($field = mysqli_fetch_field($result)){
                         } do {
+
                         ?>
                             <tr>
                                 <td><?php echo $numero;?></td>
                                 <td><?php echo $row[1];?></td>
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
-                                <td><?php echo mb_strtoupper($row[4]);?></td>
                                 <td><?php echo mb_strtoupper($row[5]);?></td>
                                 <td><?php echo mb_strtoupper($row[6]);?></td>
                                 <td><?php echo mb_strtoupper($row[9]." ".$row[10]." ".$row[11]);?></td>
                                 <td><?php 
                                     $fecha_r = explode('-',$row[7]);
                                     $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
-                                <?php echo $f_registro;?> - <?php echo $row[8];?></td>
+                                <?php echo $f_registro;?></td>
                                 <td>
+
+                                <?php
+                                if ($row[16] == 'CONSOLIDADO') { ?>
+                                <a href="imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;">IMPRIME NOTIFICACIÓN</a>
+                                <?php } else { ?>
                                 <form name="FORM_EP" action="valida_notificacion_ep.php" method="post">
                                 <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[0];?>">
                                 <input name="iddepartamento" type="hidden" value="<?php echo $row[12];?>">
@@ -128,7 +132,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 </span>
                                 <span class="text">VER</span>
                                 </button>
-                                </form>                                                                          
+                                </form> 
+
+                                <?php } ?>
+                                                                         
                                 </td>
                             </tr>                                     
                         <?php

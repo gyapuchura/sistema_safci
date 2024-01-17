@@ -55,8 +55,8 @@ mysqli_field_seek($result4,0);
 while ($field4 = mysqli_fetch_field($result4)){
 } do { 
 
-        $sql2 = " INSERT INTO registro_evento_notificacion (idnotificacion_ep, idevento_notificacion, numero_eventos, personas_afectadas, personas_fallecidas, fecha_registro, hora_registro, idusuario) ";
-        $sql2.= " VALUES ('$idnotificacion_ep','$row4[0]','0','0','0','$fecha','$hora','$idusuario_ss') ";
+        $sql2 = " INSERT INTO registro_evento_notificacion (idnotificacion_ep, idevento_notificacion, numero_eventos, personas_atendidas, personas_afectadas, personas_fallecidas, fecha_registro, hora_registro, idusuario) ";
+        $sql2.= " VALUES ('$idnotificacion_ep','$row4[0]','0','0','0','0','$fecha','$hora','$idusuario_ss') ";
         $result2 = mysqli_query($link,$sql2);
 
 $numero=$numero+1;

@@ -81,73 +81,69 @@ $row = mysqli_fetch_array($result);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center"> 
-                    <a href="notificacion_ep_etareos.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
+                    <a href="notificacion_ep_eventos.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
                     <hr>                     
-                    <h4 class="text-primary">NOTIFICACIÓN</h4>
-                    <h4 class="text-primary"><?php echo $row[1];?></h4>
-                    <h5 class="text-info">II. REGISTRO DE EVENTOS DE NOTIFICACIÓN INMEDIATA</h5>
+                    <h2 class="text-warning">CONSOLIDAR NOTIFICACIÓN</h2>
+                    <h4 class="text-muted"><?php echo $row[1];?></h4>
+                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 <hr>
  
-    <div class="form-group row">
-        <div class="col-sm-12">
-            <div class="table-responsive">
-                <table class="table table-striped" id="example" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th class="text-info">Nª</th>
-                            <th class="text-info">EVENTO</th>
-                            <th class="text-info">N° DE EVENTOS</th>
-                            <th class="text-info">N° DE PERSONAS ATENDIDAS</th>
-                            <th class="text-info">N° DE PERSONAS AFECTADAS</th>
-                            <th class="text-info">N° DE PERSONAS FALLECIDAS</th>
-                            <th class="text-info">REGISTRAR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <?php
-                        $numero=1;
-                        $sql4 =" SELECT registro_evento_notificacion.idregistro_evento_notificacion, evento_notificacion.evento_notificacion, ";
-                        $sql4.=" registro_evento_notificacion.numero_eventos, registro_evento_notificacion.personas_atendidas, registro_evento_notificacion.personas_afectadas, registro_evento_notificacion.personas_fallecidas ";
-                        $sql4.=" FROM registro_evento_notificacion, evento_notificacion WHERE registro_evento_notificacion.idevento_notificacion=evento_notificacion.idevento_notificacion ";
-                        $sql4.=" AND registro_evento_notificacion.idnotificacion_ep='$idnotificacion_ep_ss' ORDER BY registro_evento_notificacion.idregistro_evento_notificacion ";
-                        $result4 = mysqli_query($link,$sql4);
-                        if ($row4 = mysqli_fetch_array($result4)){
-                        mysqli_field_seek($result4,0);
-                        while ($field4 = mysqli_fetch_field($result4)){
-                        } do { 
-                        ?>
-                        <tr>
-                            <form name="CIFRA_EVENTO" action="guarda_cifra_evento.php" method="post">  
-                            <input type="hidden" name="idregistro_evento_notificacion" value="<?php echo $row4[0];?>">
-                            <td><?php echo $numero;?></td>
-                            <td><?php echo $row4[1];?></td>
-                            <td><input type="number" class="form-control" name="numero_eventos" value="<?php echo $row4[2];?>"></td>
-                            <td><input type="number" class="form-control" name="personas_atendidas" value="<?php echo $row4[3];?>"></td>
-                            <td><input type="number" class="form-control" name="personas_afectadas" value="<?php echo $row4[4];?>"></td>
-                            <td><input type="number" class="form-control" name="personas_fallecidas" value="<?php echo $row4[5];?>"></td>
-                            <td>
-                            <button type="submit" class="btn btn-info">REGISTRAR</button></form>
-                            </td>
-                        </tr>                            
-                        <?php
-                        $numero=$numero+1;
-                        }
-                        while ($row4 = mysqli_fetch_array($result4));
-                        } else {
-                        }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>   
+
             <hr>
             <div class="text-center"> 
-            <a href="consolida_notificacion.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-right"></i>IR A CONSOLIDAR NOTIFICACIÓN</h6></a>     
+            <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h6> Si ha terminado de realizar la elaboración de la NOTIFICACIÓN PARA LA VIGILANCIA EPIDEMIOLÓGICA puede consolidarla para generar el DOCUMENTO DE NOTIFICACIÓN con carácter de Declaracion Jurada.</h6>
+                    </div>
+            </div>    
+            </div>            
+            
+            <div class="text-center"> 
+            <div class="form-group row">
+
+                    <div class="col-sm-12">
+                    <form name="CONSOLIDA" action="guarda_consolida_notificacion_ep.php" method="post">    
+                    <div class="text-center">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                CONSOLIDAR NOTIFICACIÓN
+                                </button>  
+                            </div>                              
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">CONSOLIDAR NOTIFICACIÓN</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    Esta seguro de CONSOLIDAR la Notificacion?
+                                    , posteriormente no podra realizar ninguna modificación al mismo.
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                <button type="submit" class="btn btn-warning pull-center">CONFRMAR CONSOLIDACIÓN</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    <!-- Modal -->
+
+
+                    </div>
+            </div>    
             </div>
     </div>                
     <!-------- begin rejilla --------->   

@@ -26,7 +26,17 @@ if ($idsospecha_diag == '') {
     header("Location:notificacion_ep.php");
 }  
 else {
+//----- Verificamos que la sospecha no exista para la notificacion ------//
 
+    $sql4 =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag ";
+    $sql4.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND ";
+    $sql4.=" registro_enfermedad.idsospecha_diag = '$idsospecha_diag' AND registro_enfermedad.idnotificacion_ep = '$idnotificacion_ep_ss' ";
+    $result4 = mysqli_query($link,$sql4);
+    if ($row4 = mysqli_fetch_array($result4)){
+
+        header("Location:mensaje_sospecha_existe.php");
+        
+    } else {
 //----- Guardamos en la tabla registro enfermedad por grupo etareo BEGIN ------//
 $numero=1;
 $sql4 =" SELECT idgrupo_etareo, grupo_etareo FROM grupo_etareo ";
@@ -64,5 +74,5 @@ $numero=$numero+1;
         header("Location:notificacion_ep_etareos.php");
     }
 
-
+}
 ?>
