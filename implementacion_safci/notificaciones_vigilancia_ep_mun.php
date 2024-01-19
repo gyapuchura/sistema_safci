@@ -68,7 +68,7 @@ $rowm = mysqli_fetch_array($resultm);
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">MUNICIPIO DE <?php echo mb_strtoupper($rowm[1]);?></h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
                     
                     <!-- DataTales Example -->
 
