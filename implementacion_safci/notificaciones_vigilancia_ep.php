@@ -68,7 +68,7 @@ $rowe = mysqli_fetch_array($resulte);
 
                     <!-- Page Heading -->
                     <h2 class="h3 mb-2 text-gray-800">NOTIFICACIONES DEL ESTABLECIMIENTO: <?php echo $rowe[1];?></h2>
-                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
                     
                     <!-- DataTales Example -->
 
