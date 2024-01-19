@@ -97,7 +97,7 @@ $row = mysqli_fetch_array($result);
             <div class="text-center"> 
             <div class="form-group row">
                     <div class="col-sm-12">
-                        <h6> Ahora en usuario OPERATIVO-PERSONAL podra realizar los ajustes a la Notificación</h6>
+                        <h6> Ahora en usuario OPERATIVO-PERSONAL podrá realizar los ajustes a la Notificación</h6>
                     </div>
             </div>    
             </div>            
@@ -106,7 +106,7 @@ $row = mysqli_fetch_array($result);
             <div class="form-group row">
 
                     <div class="col-sm-12">
-                    <a href="notificaciones_vigilancia_ep_adm.php"><h6 class="text-warning">VOLVER A NOTIFICACIONES <i class="fas fa-fw fa-arrow-right"></i></h6></a>    
+                    <a href="notificaciones_vigilancia_ep_mun.php"><h6 class="text-warning">VOLVER A NOTIFICACIONES <i class="fas fa-fw fa-arrow-right"></i></h6></a>    
                     </div>
             </div>    
             </div>

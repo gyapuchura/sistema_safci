@@ -83,9 +83,8 @@ $row = mysqli_fetch_array($result);
                     <div class="text-center"> 
            
                     <hr>                     
-                    <h2 class="text-warning">LA NOTIFICACIÓN</h2>
-                    <h4 class="text-warning"><?php echo $row[1];?></h4>
-                    <h4 class="text-warning">FUE DESCONSOLIDADA!!!</h4>
+                    <h2 class="text-success">ADMINISTRAR NOTIFICACIÓN</h2>
+                    <h4 class="text-success"><?php echo $row[1];?></h4>
                     
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -97,16 +96,51 @@ $row = mysqli_fetch_array($result);
             <div class="text-center"> 
             <div class="form-group row">
                     <div class="col-sm-12">
-                        <h6> Ahora en usuario OPERATIVO-PERSONAL podra realizar los ajustes a la Notificación</h6>
+                        <h6>PUEDE OBERVAR O DESCONSOLIDAR LA NOTIFICACIÓN GENERADO POR EL USUARIO OPERATIVO</h6>
                     </div>
             </div>    
             </div>            
             
             <div class="text-center"> 
             <div class="form-group row">
+                    <div class="col-sm-4">
+                    <a href="imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;">IMPRIME NOTIFICACIÓN</a>
+                    </div>
+                    <div class="col-sm-4">
+                    <form name="DESCONSOLIDA" action="guarda_desconsolida_notificacion_ep_mun.php" method="post">    
 
-                    <div class="col-sm-12">
-                    <a href="notificaciones_vigilancia_ep_adm.php"><h6 class="text-warning">VOLVER A NOTIFICACIONES <i class="fas fa-fw fa-arrow-right"></i></h6></a>    
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                DESCONSOLIDAR NOTIFICACIÓN
+                                </button>  
+                                                       
+                   <!-- modal de confirmacion de envio de datos-->
+                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">DESCONSOLIDAR NOTIFICACIÓN</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    Esta seguro de DESCONSOLIDAR la Notificacion?
+                                    , posteriormente la misma estara disponible para su edición.
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                <button type="submit" class="btn btn-warning pull-center">CONFRMAR DESCONSOLIDACIÓN</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    <!-- Modal -->
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="notificaciones_vigilancia_ep_mun.php"><h6 class="text-success">SALIR <i class="fas fa-fw fa-arrow-right"></i></h6></a>    
                     </div>
             </div>    
             </div>

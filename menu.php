@@ -141,7 +141,7 @@
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
             <a class="collapse-item" href="../recursos_humanos/nuevo_establecimiento.php">NUEVO</br>ESTABLECIMIENTO</br>DE SALUD</a>             
-            <a class="collapse-item" href="../recursos_humanos/valida_establecimientos_municipio.php">ESTABLECIMIENTOS</br>MUNICIPIO</a>
+            <a class="collapse-item" href="../recursos_humanos/valida_municipio_ep.php">ESTABLECIMIENTOS</br>MUNICIPIO</a>
           <!--  <a class="collapse-item" href="../recursos_humanos/valida_nuevo_establecimiento_mun.php">NUEVO</br>ESTABLECIMIENTO</br>MUNICIPIO</a>  -->
             <a class="collapse-item" href="../recursos_humanos/valida_areas_influencia_municipio.php">ÁREAS DE INFLUENCIA</br>MUNICIPIO</a>
             <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA MUNICIPIO</a>
@@ -206,12 +206,12 @@
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
     /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADM-MUNICIPAL' ){
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' ){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
 
-            <a class="collapse-item" href="../implementacion_safci/notificaciones_vigilancia_ep.php">NOTIFICACIONES</br>VIGILANCIA</br>EPIDEMIOLÓGICA</a>
+            <a class="collapse-item" href="../implementacion_safci/valida_municipio_ep_op.php">NOTIFICACIONES</br>REGISTRADAS</br>OPERATIVO</a>
             <a class="collapse-item" href="../implementacion_safci/valida_nueva_notificacion_ep.php">NUEVA NOTIFICACIÓN</a>
  <!--       <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
             <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
@@ -222,6 +222,26 @@
     } else {
     }
     ?>
+
+<?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' ){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+            <a class="collapse-item" href="../implementacion_safci/valida_municipio_ep.php">NOTIFICACIONES</br>ADMINISTRACIÓN</br>MUNICIPAL</a>
+
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+    
+             
         </div>
     </div>
 </li>
