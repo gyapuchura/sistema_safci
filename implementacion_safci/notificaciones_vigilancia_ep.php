@@ -9,6 +9,15 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
+$idred_salud_ss             = $_SESSION['idred_salud_ss'];
+$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
+$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+
+$sqle =" SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss'  ";
+$resulte = mysqli_query($link,$sqle);
+$rowe = mysqli_fetch_array($resulte);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -58,7 +67,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">VIGILANCIA EPIDEMIOLÓGICA</h1>
+                    <h2 class="h3 mb-2 text-gray-800">NOTIFICACIONES DEL ESTABLECIMIENTO: <?php echo $rowe[1];?></h2>
                     <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
                     
                     <!-- DataTales Example -->
@@ -66,7 +75,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="card shadow mb-4">
 
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">NOTIFICACIONES A NIVEL MUNICIPAL</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">NOTIFICACIONES A NIVEL DE ESTABLECIMIENTO (OPERATIVO)</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -106,7 +115,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <td><?php echo $numero;?></td>
                                 <td><?php echo $row[1];?></td>
                                 <td><?php echo $row[2];?></td>
-                                <td><?php echo $row[3];?></td>
+                                <td><?php echo $row[4];?></td>
                                 <td><?php echo mb_strtoupper($row[5]);?></td>
                                 <td><?php echo mb_strtoupper($row[6]);?></td>
                                 <td><?php echo mb_strtoupper($row[9]." ".$row[10]." ".$row[11]);?></td>
