@@ -239,9 +239,8 @@
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
-    ?>
-    
-             
+    ?>    
+        <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA </br>EPIDEMIOLÓGICA</a>
         </div>
     </div>
 </li>
