@@ -106,7 +106,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="m-0 font-weight-bold text-primary">REPORTE EPIDEMIOLÓGICO DEPARTAMENTAL</h6>
                     </div>
 
-                <form name="FORM_P" action="vigilancia_ep_deptal.php" method="post">
                 <div class="card-body">
                    
                     <div class="form-group row">

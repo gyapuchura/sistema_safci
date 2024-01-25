@@ -53,8 +53,8 @@ while ($field4 = mysqli_fetch_field($result4)){
     while ($field5 = mysqli_fetch_field($result5)){
     } do { 
 
-        $sql2 = " INSERT INTO registro_enfermedad (idnotificacion_ep, idsospecha_diag, idgrupo_etareo, idgenero, cifra, fecha_registro, hora_registro, idusuario) ";
-        $sql2.= " VALUES ('$idnotificacion_ep_ss','$idsospecha_diag','$row4[0]','$row5[0]','0','$fecha','$hora','$idusuario_ss') ";
+        $sql2 = " INSERT INTO registro_enfermedad (idnotificacion_ep, idsospecha_diag, idgrupo_etareo, idgenero, cifra, fecha_registro, hora_registro, idusuario, gestion) ";
+        $sql2.= " VALUES ('$idnotificacion_ep_ss','$idsospecha_diag','$row4[0]','$row5[0]','0','$fecha','$hora','$idusuario_ss','$gestion') ";
         $result2 = mysqli_query($link,$sql2);
 
         }
