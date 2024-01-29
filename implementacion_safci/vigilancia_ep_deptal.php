@@ -32,26 +32,39 @@ $row_sos = mysqli_fetch_array($result_sos);
         $sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.iddepartamento='$row[0]' ";
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
-
     ?>
 
-
         <div class="form-group row">
-        <div class="col-sm-1">
-                <h5 class="text-secondary"><?php echo $numero;?> </h5>
-            </div>
-            <div class="col-sm-4">
+
+            <div class="col-sm-2">
                 <h5 class="text-secondary"><?php echo $row[1];?> </h5>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
             <h5><?php echo $row_c[0];?> [Casos]</h5>
             </div>
-            <div class="col-sm-4">
-            <a class="btn btn-primary btn-icon-split" href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">
+
+            <div class="col-sm-3">
+            <a class="btn btn-primary btn-icon-split" href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
-            <span class="text">REPORTE DEPARTAMENTAL</span></a>
+            <span class="text">DEPARTAMENTAL</span></a>
+            </div>
+
+            <div class="col-sm-3">                
+            <a class="btn btn-info btn-icon-split" href="piramide_sospechas_deptal.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=500,scrollbars=YES,top=50,left=300'); return false;">
+            <span class="icon text-white-50">
+                <i class="fas fa-book"></i>
+            </span>
+            <span class="text">GRUPOS ETAREOS</span></a>
+            </div>
+
+            <div class="col-sm-2">                
+          <!--  <a class="btn btn-warning btn-icon-split" href="piramide_sospechas_deptal.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=500,scrollbars=YES,top=50,left=300'); return false;">
+            <span class="icon text-white-50">
+                <i class="fas fa-book"></i>
+            </span>
+            <span class="text">F-302A</span></a> -->
             </div>
 
         </div>
