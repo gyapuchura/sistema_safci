@@ -187,12 +187,12 @@ Si no se encontraron resultados
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° SOSPECHAS</td>
 		      <td width="101" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">REPORTE </td>
 		      <td width="121" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">GRUPOS ETAREOS</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">INFORME F302A</td>
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>
 	        </tr>
             <?php
     $numero=1; 
     $sql =" SELECT notificacion_ep.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM notificacion_ep, registro_enfermedad, establecimiento_salud ";
-    $sql.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+    $sql.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.estado='CONSOLIDADO' ";
     $sql.=" AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio='$idmunicipio' GROUP BY notificacion_ep.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
@@ -202,7 +202,7 @@ Si no se encontraron resultados
 
         $sql_c =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
         $sql_c.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-        $sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' ";
+        $sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' AND notificacion_ep.estado='CONSOLIDADO' ";
         $sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idestablecimiento_salud='$row[0]' ";
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
@@ -216,7 +216,9 @@ Si no se encontraron resultados
               </td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_sospechas_estab.php?idsospecha_diag_estab=<?php echo $idsospecha_diag_mun;?>&idestablecimiento_salud=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">GRUPOS</a></td>
-		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="detalle_notificaciones_estab.php?idestablecimiento_salud=<?php echo $row[0];?>&idmunicipio=<?php echo $idmunicipio;?>&idsospecha_diag=<?php echo $idsospecha_diag_mun?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=300'); return false;">NOTIFICACIONES</a></td>
+            </td>
 	        </tr>
             <?php
         $numero=$numero+1;
