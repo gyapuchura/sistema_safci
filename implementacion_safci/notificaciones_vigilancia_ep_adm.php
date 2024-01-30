@@ -59,7 +59,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">VIGILANCIA EPIDEMIOLÓGICA NACIONAL</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta sección se puede encontrar el registro de NOTIFICACIONES DE VIGILANCIA EPIDEMIOLÓGICA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
                     
                     <!-- DataTales Example -->
 
@@ -128,7 +128,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <span class="icon text-yellow-600">
                                 <i class="fas fa-fw fa-book"></i>
                                 </span>
-                                <span class="text">CONSOLIDAD</span>
+                                <span class="text">CONSOLIDADO</span>
                                 </button>
                                 </form> 
                                 <?php } else { echo "EN ELABORACIÓN"; } ?>
