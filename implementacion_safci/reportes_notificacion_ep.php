@@ -95,20 +95,19 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </select>
                         </div>
                     </div>
-
                 </div>
-                    <div class="card-body" id="vigilancia_ep_nal">                                            
-                    </div>
+                    <div class="card-body" id="vigilancia_ep_nal"></div>
                 </div>
 
+               
+               
                     <!-- REPORTE POR MUNICIPIO -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">REPORTE EPIDEMIOLÓGICO DEPARTAMENTAL</h6>
                     </div>
 
-                <div class="card-body">
-                   
+                <div class="card-body">                  
                     <div class="form-group row">
                         <div class="col-sm-3">
                         <h6 class="text-primary">SOSPECHA DIAGNÓSTICA:</h6>
@@ -133,9 +132,46 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         ?>
                         </select>
                         </div>
+                      </div>
+                    </div>
+                    <div class="card-body" id="vigilancia_ep_deptal"></div>               
+                </div>
+                    
+     <!-- REPORTE DE EVENTOS DE NOTIFICACIÓN -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE EVENTOS DE NOTIFICACIÓN INMEDIATA</h6>
                     </div>
 
-                    <div class="card-body" id="vigilancia_ep_deptal"></div>
+                <div class="card-body">
+                   
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">EVENTO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idevento_notificacion" id="idevento_notificacion" class="form-control" required>
+                        <option value="">-SELECCIONE-</option>
+                        <?php
+                            $sql2 = " SELECT evento_notificacion.idevento_notificacion, evento_notificacion.evento_notificacion FROM registro_evento_notificacion, evento_notificacion ";
+                            $sql2.= " WHERE registro_evento_notificacion.idevento_notificacion=evento_notificacion.idevento_notificacion ";
+                            $sql2.= " AND registro_evento_notificacion.numero_eventos != '0' GROUP BY evento_notificacion.idevento_notificacion ";
+                            $result2 = mysqli_query($link,$sql2);
+                            if ($row2 = mysqli_fetch_array($result2)){
+                            mysqli_field_seek($result2,0);
+                            while ($field2 = mysqli_fetch_field($result2)){
+                            } do {
+                            echo "<option value=".$row2[0].">".$row2[1]."</option>";
+                            } while ($row2 = mysqli_fetch_array($result2));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                        ?>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body" id="vigilancia_evento"></div>
                 </div>
 
 
@@ -222,6 +258,19 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         sospecha_diag_deptal=$(this).val();
                     $.post("vigilancia_ep_deptal.php", {sospecha_diag_deptal:sospecha_diag_deptal}, function(data){
                     $("#vigilancia_ep_deptal").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idevento_notificacion").change(function () {
+                    $("#idevento_notificacion option:selected").each(function () {
+                        evento_notificacion=$(this).val();
+                    $.post("vigilancia_evento.php", {evento_notificacion:evento_notificacion}, function(data){
+                    $("#vigilancia_evento").html(data);
                     });
                 });
         })

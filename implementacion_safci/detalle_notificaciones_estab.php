@@ -85,7 +85,7 @@ $cifra_establecimiento = $row8[0];
 	    <tr>
         <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $numero;?></td>
         <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row[1];?></td>
-        <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row[6];?></td>
+        <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo "Semana ".$row[6];?></td>
         <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $cifra_semanal;?></td>
         <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo mb_strtoupper($row[9]." ".$row[10]." ".$row[11]);?></td>
         <td style="font-family: Arial; font-size: 12px; text-align: center">
