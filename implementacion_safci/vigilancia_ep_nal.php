@@ -34,19 +34,19 @@ $row_c = mysqli_fetch_array($result_c);
             </div>
 
             <div class="col-sm-3">                
-            <a class="btn btn-info btn-icon-split" href="piramide_sospechas_nal.php?sospecha_diag_nal=<?php echo $idsospecha_diag_nal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">
+            <a class="btn btn-info btn-icon-split" href="piramide_sospechas_nal.php?sospecha_diag_nal=<?php echo $idsospecha_diag_nal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=400,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
             <span class="text">GRUPOS ETAREOS</span></a>
             </div>
 
-            <div class="col-sm-2">                
-            <!-- <a class="btn btn-warning btn-icon-split" href="piramide_sospechas_deptal.php?idsospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">
+            <div class="col-sm-4">                
+            <a class="btn btn-warning btn-icon-split" href="mapasafci_ep.php?idsospecha_diag=<?php echo $idsospecha_diag_nal;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=800,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
-            <span class="text">F-302A</span></a>  -->
+            <span class="text">MAPA VIGILANCIA</span></a> 
             </div>
         </div>
         

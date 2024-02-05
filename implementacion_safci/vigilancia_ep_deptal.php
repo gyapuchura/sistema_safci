@@ -60,11 +60,11 @@ $row_sos = mysqli_fetch_array($result_sos);
             </div>
 
             <div class="col-sm-2">                
-          <!--  <a class="btn btn-warning btn-icon-split" href="piramide_sospechas_deptal.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=500,scrollbars=YES,top=50,left=300'); return false;">
+            <a class="btn btn-warning btn-icon-split" href="mapasafci_ep_deptal.php?idsospecha_diag=<?php echo $idsospecha_diag_deptal;?>&iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=800,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
-            <span class="text">F-302A</span></a> -->
+            <span class="text">MAPA</span></a> 
             </div>
 
         </div>

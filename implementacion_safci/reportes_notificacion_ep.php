@@ -80,7 +80,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <?php
                             $sql1 = " SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, notificacion_ep  ";
                             $sql1.= " WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-                            $sql1.= " AND notificacion_ep.estado='CONSOLIDADO' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
+                            $sql1.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.cifra != '0' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -118,7 +118,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                             $sql2 = " SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, notificacion_ep  ";
                             $sql2.= " WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-                            $sql2.= " AND notificacion_ep.estado='CONSOLIDADO' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
+                            $sql2.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.cifra != '0' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
                             $result2 = mysqli_query($link,$sql2);
                             if ($row2 = mysqli_fetch_array($result2)){
                             mysqli_field_seek($result2,0);
