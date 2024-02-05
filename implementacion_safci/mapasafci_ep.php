@@ -102,8 +102,8 @@ $row_sos = mysqli_fetch_array($result_sos);
             flex: 1;
             }
 
-            .property .address {
-            color: #9E9E9E;
+            .property .enfermedad {
+            color: #E84C8C;
             font-size: 10px;
             margin-bottom: 10px;
             margin-top: 5px;
@@ -152,15 +152,15 @@ $row_sos = mysqli_fetch_array($result_sos);
             height: 50px;
             }
 
-            .property .bed {
-            color: #FFA000;
+            .property .user {
+            color: #E84C8C;
             }
 
-            .property .bath {
+            .property .users {
             color: #03A9F4;
             }
 
-            .property .size {
+            .property .mapa {
             color: #388E3C;
             }
 
@@ -269,31 +269,38 @@ $row_sos = mysqli_fetch_array($result_sos);
                 const content = document.createElement("div");
                 content.classList.add("property");
                 content.innerHTML = `
-                    <div class="icon">
+                  
+                <div class="icon">
                         <i aria-hidden="true" class="fa fa-icon fa-${property.type}" title="${property.type}"></i>
                         <span class="fa-sr-only">${property.type}</span>
-                        </div>
+                    </div>
                     <div class="details">
                     <div class="price">${property.price}</div>
-                    <div class="address">${property.address}</div>
+                    <div class="enfermedad">Enfermedad: ${property.enfermedad}</div>
                     <div class="features">
                     <div>
-                    <i aria-hidden="true" class="fa fa-bed fa-lg bed" title="bedroom"></i>
-                    <span class="fa-sr-only">bedroom</span>
-                    <span>${property.bed}</span>
+                    <i aria-hidden="true" class="fa fa-user fa-lg user" title="sospecha"></i>                   
+                    <span class="fa-sr-only">sospecha</span>
+                    <a href="marco_ep_municipal.php?idsospecha_diag_mun=<?php echo $idsospecha_diag;?>&idmunicipio=${property.description}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=800,height=600,scrollbars=YES,top=60,left=400'); return false;">
+                    <span>${property.user} Sospechas</span>
+                    </div>
+                    </a> 
+                    <div>
+                    <i aria-hidden="true" class="fa fa-users fa-lg users" title="grupos"></i>
+                    <span class="fa-sr-only">Grupos</span>
+                    <a href="piramide_sospechas_mun.php?idsospecha_diag_mun=<?php echo $idsospecha_diag;?>&idmunicipio=${property.description}" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=700,height=400,scrollbars=YES,top=50,left=300'); return false;">
+                    <span>${property.users}</span>
+                    </a>
                     </div>
                     <div>
-                    <i aria-hidden="true" class="fa fa-bath fa-lg bath" title="bathroom"></i>
-                    <span class="fa-sr-only">bathroom</span>
-                    <span>${property.bath}</span>
+                    <i aria-hidden="true" class="fa fa-map fa-lg map" title="mapa"></i>
+                    <span class="fa-sr-only">mapa</span>
+                    <a href="mapasafci_ep_mun.php?idsospecha_diag=<?php echo $idsospecha_diag;?>&iddepartamento=<?php echo $iddepartamento;?>&idmunicipio=${property.description}" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=500'); return false;">
+                    <span>${property.mapa}</sup></span>
+                    </a> 
+                    </div>                 
                     </div>
-                    <div>
-                    <i aria-hidden="true" class="fa fa-ruler fa-lg size" title="size"></i>
-                    <span class="fa-sr-only">size</span>
-                    <span>${property.size} ft<sup>2</sup></span>
-                    </div>
-                    </div>
-                    </div>
+                    </div>    
                     `;
             return content;
             }
@@ -321,15 +328,22 @@ $sql3.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.long
 $result3 = mysqli_query($link,$sql3);
 $row3 = mysqli_fetch_array($result3);
 
+$sql_c =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
+$sql_c.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+$sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' ";
+$sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio='$row2[0]' ";
+$result_c = mysqli_query($link,$sql_c);
+$row_c = mysqli_fetch_array($result_c);
+
 	?>
             {
-            address: '<?php echo "Sospecha: ".$row_sos[1]; ?>',
-            description: '<?php echo $row3[4];?>',
+            enfermedad: '<?php echo $row_sos[1];?>',
+            description: '<?php echo $row2[0];?>',
             price: '<?php echo "Mun. ".$row3[3]." - ".$row3[4];?>',
             type: 'home',
-            bed: 5,
-            bath: 4.5,
-            size: 300,
+            user: <?php echo $row_c[0];?> ,
+            users: 'Grupos Etareos',
+            mapa: 'Ver Municipio',
             position: {  
                 lat: <?php echo $row3[1];?>,
                 lng: <?php echo $row3[2];?>,
