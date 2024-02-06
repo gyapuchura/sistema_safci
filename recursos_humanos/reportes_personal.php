@@ -59,7 +59,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">REPORTES RECURSOS HUMANOS SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el registro de recusos humanos del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de Recursos Humanos del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
             <!-- REPORTE POR DEPARTAMENTO -->
                     <div class="card shadow mb-4">
