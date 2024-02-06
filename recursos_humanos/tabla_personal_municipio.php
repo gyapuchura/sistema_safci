@@ -112,5 +112,3 @@ $idmunicipio_salud = $_POST["municipio_salud"];
                     } );
                 } );
         </script>
-
-
