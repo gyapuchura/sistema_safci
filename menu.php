@@ -48,6 +48,7 @@
     } do {	?> 
 
         <a class="collapse-item" href="../recursos_humanos/recursos_humanos.php">RECURSOS HUMANOS</a>
+    <!--<a class="collapse-item" href="../recursos_humanos/recursos_humanos_nal.php">RECURSOS HUMANOS</a>-->
         <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
         <a class="collapse-item" href="../recursos_humanos/personal_municipio.php">PERSONAL</br>POR MUNICIPIO</a>
         <a class="collapse-item" href="../recursos_humanos/reportes_personal.php">REPORTES PERSONAL</a>
@@ -112,7 +113,9 @@
             <h6 class="collapse-header">ELEGIR:</h6>
             <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
+    <!----- <a class="collapse-item" href="../recursos_humanos/establecimientos_salud_nal.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a> -->
             <a class="collapse-item" href="../recursos_humanos/areas_influencia.php">ÁREAS DE INFLUENCIA </br> NACIONAL</a>
+    <!----- <a class="collapse-item" href="../recursos_humanos/areas_influencia_nal.php">ÁREAS DE INFLUENCIA </br> NACIONAL</a> --->
             <a class="collapse-item" href="../recursos_humanos/valida_areas_influencia_municipio.php">ÁREAS DE INFLUENCIA</br>MUNICIPIO</a>
             <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA OPERATIVO</a>
     <?php	
@@ -194,6 +197,7 @@
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>           
+        <!--    <a class="collapse-item" href="../implementacion_safci/notificaciones_vigilancia_ep_adm_nal.php">NOTIFICACIONES</br>VIGILANCIA</br>EPIDEMIOLÓGICA</br>NACIONAL</a> -->
             <a class="collapse-item" href="../implementacion_safci/notificaciones_vigilancia_ep_adm.php">NOTIFICACIONES</br>VIGILANCIA</br>EPIDEMIOLÓGICA</br>NACIONAL</a>
             <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
