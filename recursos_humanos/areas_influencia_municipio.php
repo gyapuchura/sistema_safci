@@ -66,7 +66,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                         </br>
 
                     <h1 class="h3 mb-2 text-gray-800">ÁREAS DE INFLUENCIA - MUNICIPIO</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede encontrar el registro de ÁREAS DE INFLUENCIA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     
                     <!-- DataTales Example -->
