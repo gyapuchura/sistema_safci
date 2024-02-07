@@ -93,8 +93,16 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">MUNICIPIO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idmunicipio_salud" id="idmunicipio_salud" class="form-control" required></select>
+                        </div>
+                    </div>
                 </div>
-                    <div class="card-body" id="areas_influencia_depto_salud">                    
+                    <div class="card-body" id="areas_influencia_mun_salud">                    
                     </div>
                 </div>
 
@@ -161,13 +169,26 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         $("#iddepartamento").change(function () {
                     $("#iddepartamento option:selected").each(function () {
                         departamento=$(this).val();
-                    $.post("areas_influencia_depto_salud.php", {departamento:departamento}, function(data){
-                    $("#areas_influencia_depto_salud").html(data);
+                    $.post("municipio_salud_area.php", {departamento:departamento}, function(data){
+                    $("#idmunicipio_salud").html(data);
                     });
                 });
         })
         });
     </script> 
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idmunicipio_salud").change(function () {
+                    $("#idmunicipio_salud option:selected").each(function () {
+                        municipio_salud=$(this).val();
+                    $.post("areas_influencia_mun_salud.php", {municipio_salud:municipio_salud}, function(data){
+                    $("#areas_influencia_mun_salud").html(data);
+                    });
+                });
+        })
+        });
+    </script>
 
 
 </body>

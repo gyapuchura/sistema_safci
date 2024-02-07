@@ -4,8 +4,10 @@ $iddepartamento = $_POST["departamento"];
 <option value="">Elegir Municipio</option>
 <?php
 $numero = 1;
-$sql2 = " SELECT idmunicipio, municipio, cod_municipio FROM municipios WHERE iddepartamento='$iddepartamento' ORDER BY municipio ";
-$sql2.= "  ";
+$sql2 = " SELECT establecimiento_salud.idmunicipio, municipios.municipio FROM area_influencia, establecimiento_salud, municipios ";
+$sql2.= " WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+$sql2.= " AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.iddepartamento='$iddepartamento ' ";
+$sql2.= " GROUP BY establecimiento_salud.idmunicipio ORDER BY municipios.municipio ";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
