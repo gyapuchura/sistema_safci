@@ -163,6 +163,9 @@ $row_sos = mysqli_fetch_array($result_sos);
             .property .mapa {
             color: #388E3C;
             }
+            .property .url {
+            color: #E84C8C;
+            }
 
             /*
             * house icon colors.
@@ -278,13 +281,15 @@ $row_sos = mysqli_fetch_array($result_sos);
                     <div class="price">${property.price}</div>
                     <div class="enfermedad">Enfermedad: ${property.enfermedad}</div>
                     <div class="features">
-                    <div>
-                    <i aria-hidden="true" class="fa fa-user fa-lg user" title="sospecha"></i>                   
-                    <span class="fa-sr-only">sospecha</span>
-                    <a href="marco_ep_municipal.php?idsospecha_diag_mun=<?php echo $idsospecha_diag;?>&idmunicipio=${property.description}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=800,height=600,scrollbars=YES,top=60,left=400'); return false;">
+
+                    <div>                                      
+                    <i aria-hidden="true" class="fa fa-user fa-lg user" title="sospecha"></i> 
+                    <span class="fa-sr-only">sospecha</span>                      
+                    <a href="marco_ep_municipal.php?idsospecha_diag_mun=<?php echo $idsospecha_diag;?>&idmunicipio=${property.description}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=800,height=600,scrollbars=YES,top=60,left=400'); return false;">               
                     <span>${property.user} Sospechas</span>
-                    </div>
                     </a> 
+                    </div>
+                   
                     <div>
                     <i aria-hidden="true" class="fa fa-users fa-lg users" title="grupos"></i>
                     <span class="fa-sr-only">Grupos</span>
@@ -344,6 +349,7 @@ $row_c = mysqli_fetch_array($result_c);
             user: <?php echo $row_c[0];?> ,
             users: 'Grupos Etareos',
             mapa: 'Ver Municipio',
+            url: 'mapasafci_ep_mun.php',
             position: {  
                 lat: <?php echo $row3[1];?>,
                 lng: <?php echo $row3[2];?>,
