@@ -71,7 +71,7 @@ $numero=$numero+1;
 
         $_SESSION['idsospecha_diag_ss'] = $idsospecha_diag;  
     
-        header("Location:notificacion_ep_etareos.php");
+        header("Location:notificacion_ep.php");
     }
 
 }

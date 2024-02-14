@@ -248,19 +248,11 @@ $row = mysqli_fetch_array($result);
         </tbody>
       </table></td>
     </tr>
-    <?php
-        $sql_sem =" SELECT cat_registro.idcat_registro, cat_registro.cat_registro FROM cat_registro, sospecha_diag, registro_enfermedad, notificacion_ep ";
-        $sql_sem.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag ";
-        $sql_sem.=" AND sospecha_diag.idcat_registro=cat_registro.idcat_registro AND cat_registro.idcat_registro !='1' AND notificacion_ep.estado='CONSOLIDADO' ";
-        $sql_sem.=" AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep'  GROUP BY cat_registro.idcat_registro ORDER BY cat_registro.idcat_registro  ";
-        $result_sem = mysqli_query($link,$sql_sem);
-        if ($row_sem = mysqli_fetch_array($result_sem)){
-    ?>
+
     <tr>
       <td colspan="3" style="text-align: center; font-family: Arial; font-size: 12px;">REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN SEMANAL</td>
     </tr>
-    <?php } else { } ?>
-    
+
     <?php
         $sql_t =" SELECT cat_registro.idcat_registro, cat_registro.cat_registro FROM cat_registro, sospecha_diag, registro_enfermedad, notificacion_ep ";
         $sql_t.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag ";
@@ -373,12 +365,12 @@ $row = mysqli_fetch_array($result);
         </tr>   -->
 
 <!----- TABLA CREADA PARA LAS SECCIONES DEL F-302A END ----->
-      <?php
-          }
-          while ($row_t = mysqli_fetch_array($result_t));
-          } else {
-          }
-      ?>
+<?php
+                }
+                while ($row_t = mysqli_fetch_array($result_t));
+                } else {
+                }
+            ?>
 
     <tr>
       <td colspan="3">&nbsp;</td>
