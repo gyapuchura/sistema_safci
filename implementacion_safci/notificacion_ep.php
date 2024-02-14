@@ -94,15 +94,16 @@ $row = mysqli_fetch_array($result);
                     <thead>
                         <tr>
                             <th class="text-info">Nª</th>
-                            <th class="text-info">SOSPECHA DIAGNÓSTICA</th>
+                            <th class="text-info">SECCIÓN F-302A</th>
+                            <th class="text-info">REGISTRO F-302A</th>
                             <th class="text-info">ACCIÓN</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag ";
-                        $sql4.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND ";
+                        $sql4 =" SELECT registro_enfermedad.idsospecha_diag, cat_registro.cat_registro, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, cat_registro ";
+                        $sql4.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND sospecha_diag.idcat_registro=cat_registro.idcat_registro AND ";
                         $sql4.=" registro_enfermedad.idnotificacion_ep = '$idnotificacion_ep_ss' GROUP BY registro_enfermedad.idsospecha_diag ";
                         $result4 = mysqli_query($link,$sql4);
                         if ($row4 = mysqli_fetch_array($result4)){
@@ -113,6 +114,7 @@ $row = mysqli_fetch_array($result);
                         <tr>
                             <td><?php echo $numero;?></td>
                             <td><?php echo $row4[1];?></td>
+                            <td><?php echo $row4[2];?></td>
                             <td>
                             <form name="SOSPECHA" action="valida_sospecha_diag.php" method="post">  
                             <input type="hidden" name="idsospecha_diag" value="<?php echo $row4[0];?>">
@@ -137,20 +139,18 @@ $row = mysqli_fetch_array($result);
                 <hr>
                 <form name="REG_ENF" action="guarda_registro_enfermedad.php" method="post">  
                  <div class="form-group row">
-                    <div class="col-sm-4">
-                    <h6 class="text-primary"> SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
-                    </div>
-                    <div class="col-sm-8">
-                        <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" required>
+                    <div class="col-sm-6">
+                    <h6 class="text-primary">SECCIÓN DEL FORMULARIO F-302A:</h6>
+                        <select name="idcat_registro"  id="idcat_registro" class="form-control" required>
                         <option value="">-SELECCIONE-</option>
                         <?php
-                        $sql1 = "SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag ";
+                        $sql1 = "SELECT idcat_registro, cat_registro FROM cat_registro ";
                         $result1 = mysqli_query($link,$sql1);
                         if ($row1 = mysqli_fetch_array($result1)){
                         mysqli_field_seek($result1,0);
                         while ($field1 = mysqli_fetch_field($result1)){
                         } do {
-                        echo "<option value=". $row1[0].">". $row1[1]."</option>";
+                        echo "<option value=".$row1[0].">".$row1[0].".- ".$row1[1]."</option>";
                         } while ($row1 = mysqli_fetch_array($result1));
                         } else {
                         echo "No se encontraron resultados!";
@@ -158,6 +158,12 @@ $row = mysqli_fetch_array($result);
                         ?>
                         </select>
                     </div>
+
+                    <div class="col-sm-6">
+                    <h6 class="text-primary">REGISTRO ENFERMEDAD-INFECCIÓN-HECHO:</h6>
+                        <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" required></select>
+                    </div>
+
                 </div>
 
                 <hr>
@@ -266,40 +272,18 @@ $row = mysqli_fetch_array($result);
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
         <script language="javascript">
         $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("red_salud_o.php", {departamento:departamento}, function(data){
-                    $("#idred_salud").html(data);
+        $("#idcat_registro").change(function () {
+                    $("#idcat_registro option:selected").each(function () {
+                        cat_registro=$(this).val();
+                    $.post("cat_registro.php", {cat_registro:cat_registro}, function(data){
+                    $("#idsospecha_diag").html(data);
                     });
                 });
         })
         });
         </script>
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("municipios.php", {departamento:departamento}, function(data){
-                    $("#idmunicipio").html(data);
-                    });
-                });
-        })
-        });
-        </script>        
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idnivel_establecimiento").change(function () {
-                    $("#idnivel_establecimiento option:selected").each(function () {
-                        nivel_establecimiento=$(this).val();
-                    $.post("tipo_establecimiento.php", {nivel_establecimiento:nivel_establecimiento}, function(data){
-                    $("#idtipo_establecimiento").html(data);
-                    });
-                });
-        })
-        });
-        </script>
+     
+
    
 </body>
 

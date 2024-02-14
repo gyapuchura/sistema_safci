@@ -58,11 +58,6 @@ $row = mysqli_fetch_array($result);
     <tr>
       <td colspan="3" style="text-align: center">&nbsp;</td>
     </tr>
-
-
-
-
-<!----------- SE GENERA LA TABLA DE GRUPOS ETAREOS POR ENFERMEDAD -------->
     <tr>
       <td colspan="3" style="text-align: center; font-family: Arial; font-size: 12px;">REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN INMEDIATA</td>
     </tr>
@@ -120,7 +115,7 @@ $row = mysqli_fetch_array($result);
           </tr>
           <?php
             $sql7 =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag ";
-            $sql7.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND sospecha_diag.idcat_registro='1' AND ";
+            $sql7.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND ";
             $sql7.=" registro_enfermedad.idnotificacion_ep = '$idnotificacion_ep' GROUP BY registro_enfermedad.idsospecha_diag ";
             $result7 = mysqli_query($link,$sql7);
             if ($row7 = mysqli_fetch_array($result7)){
@@ -158,7 +153,9 @@ $row = mysqli_fetch_array($result);
         </tbody>
       </table></td>
     </tr>
-
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
     <tr>
       <td colspan="3" style="text-align: center; font-family: Arial; font-size: 12px;">REGISTRO DE EVENTOS DE NOTIFICACIÓN INMEDIATA</span></td>
     </tr>
@@ -248,138 +245,9 @@ $row = mysqli_fetch_array($result);
         </tbody>
       </table></td>
     </tr>
-    <?php
-        $sql_sem =" SELECT cat_registro.idcat_registro, cat_registro.cat_registro FROM cat_registro, sospecha_diag, registro_enfermedad, notificacion_ep ";
-        $sql_sem.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag ";
-        $sql_sem.=" AND sospecha_diag.idcat_registro=cat_registro.idcat_registro AND cat_registro.idcat_registro !='1' AND notificacion_ep.estado='CONSOLIDADO' ";
-        $sql_sem.=" AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep'  GROUP BY cat_registro.idcat_registro ORDER BY cat_registro.idcat_registro  ";
-        $result_sem = mysqli_query($link,$sql_sem);
-        if ($row_sem = mysqli_fetch_array($result_sem)){
-    ?>
     <tr>
-      <td colspan="3" style="text-align: center; font-family: Arial; font-size: 12px;">REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN SEMANAL</td>
+      <td colspan="3">&nbsp;</td>
     </tr>
-    <?php } else { } ?>
-    
-    <?php
-        $sql_t =" SELECT cat_registro.idcat_registro, cat_registro.cat_registro FROM cat_registro, sospecha_diag, registro_enfermedad, notificacion_ep ";
-        $sql_t.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag ";
-        $sql_t.=" AND sospecha_diag.idcat_registro=cat_registro.idcat_registro AND cat_registro.idcat_registro !='1' AND notificacion_ep.estado='CONSOLIDADO' ";
-        $sql_t.=" AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep'  GROUP BY cat_registro.idcat_registro ORDER BY cat_registro.idcat_registro  ";
-        $result_t = mysqli_query($link,$sql_t);
-        if ($row_t = mysqli_fetch_array($result_t)){
-        mysqli_field_seek($result_t,0);
-        while ($field_t = mysqli_fetch_field($result_t)){
-        } do { 
-    ?>
-
-    <!------ DE CREA OTRA TABLA PARA CADA SECCION DEL FORMULARIO F302A ------->
-
-    <tr>
-      <td colspan="3"><table width="1188" border="1" cellspacing="0">
-        <tbody>
-          <tr>
-            <td width="104" rowspan="2" style="font-size: 10px; font-family: Arial;"><?php echo $row_t[1];?></td>
-            <?php
-                $sql4 =" SELECT idgrupo_etareo, grupo_etareo FROM grupo_etareo ORDER BY idgrupo_etareo ";
-                $result4 = mysqli_query($link,$sql4);
-                if ($row4 = mysqli_fetch_array($result4)){
-                mysqli_field_seek($result4,0);
-                while ($field4 = mysqli_fetch_field($result4)){
-                } do { 
-              ?>
-            <td width="104" colspan="2" style="font-size: 10px; font-family: Arial; text-align: center;"><?php echo $row4[1]; ?></td>
-            <?php
-                }
-                while ($row4 = mysqli_fetch_array($result4));
-                } else {
-                }
-            ?>
-          </tr>
-          <tr>
-            <?php
-                $sql5 =" SELECT idgrupo_etareo, grupo_etareo FROM grupo_etareo ORDER BY idgrupo_etareo ";
-                $result5 = mysqli_query($link,$sql5);
-                if ($row5 = mysqli_fetch_array($result5)){
-                mysqli_field_seek($result5,0);
-                while ($field5 = mysqli_fetch_field($result5)){
-                } do { 
-              ?>
-            <?php
-                $sql6 =" SELECT idgenero, genero FROM genero ORDER BY idgenero ";
-                $result6 = mysqli_query($link,$sql6);
-                if ($row6 = mysqli_fetch_array($result6)){
-                mysqli_field_seek($result6,0);
-                while ($field6 = mysqli_fetch_field($result6)){
-                } do { 
-              ?>
-            <td style="font-size: 7px; font-family: Arial; text-align: center;"><?php echo $row6[1]; ?></td>
-            <?php
-                }
-                while ($row6 = mysqli_fetch_array($result6));
-                } else {
-                }
-            ?>
-            <?php
-                }
-                while ($row5 = mysqli_fetch_array($result5));
-                } else {
-                }
-            ?>
-          </tr>
-          <?php
-            $sql7 =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag ";
-            $sql7.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND sospecha_diag.idcat_registro='$row_t[0]' AND ";
-            $sql7.=" registro_enfermedad.idnotificacion_ep = '$idnotificacion_ep' GROUP BY registro_enfermedad.idsospecha_diag ";
-            $result7 = mysqli_query($link,$sql7);
-            if ($row7 = mysqli_fetch_array($result7)){
-            mysqli_field_seek($result7,0);
-            while ($field7 = mysqli_fetch_field($result7)){
-            } do { 
-            ?>
-          <tr>
-            <td width="104"  style="font-size: 10px; font-family: Arial;"><?php echo $row7[1];?></td>
-            <?php
-                  $sql8 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero ";
-                  $sql8.=" FROM registro_enfermedad, grupo_etareo, genero WHERE registro_enfermedad.idgrupo_etareo=grupo_etareo.idgrupo_etareo ";
-                  $sql8.=" AND registro_enfermedad.idgenero=genero.idgenero AND registro_enfermedad.idnotificacion_ep='$idnotificacion_ep' ";
-                  $sql8.=" AND registro_enfermedad.idsospecha_diag='$row7[0]' ORDER BY registro_enfermedad.idregistro_enfermedad ";
-                  $result8 = mysqli_query($link,$sql8);
-                  if ($row8 = mysqli_fetch_array($result8)){
-                  mysqli_field_seek($result8,0);
-                  while ($field8 = mysqli_fetch_field($result8)){
-                  } do { 
-              ?>
-            <td style="font-size: 10px; font-family: Arial; text-align: center;"><?php echo $row8[3];?></td>
-            <?php
-                  }
-                  while ($row8 = mysqli_fetch_array($result8));
-                  } else {
-                  }
-              ?>
-          </tr>
-
-          <?php
-              }
-              while ($row7 = mysqli_fetch_array($result7));
-              } else {
-              }
-          ?>
-        </tbody>
-      </table></td>
-    </tr>
-<!--    <tr>
-        <td>&nbsp;</td>
-        </tr>   -->
-
-<!----- TABLA CREADA PARA LAS SECCIONES DEL F-302A END ----->
-      <?php
-          }
-          while ($row_t = mysqli_fetch_array($result_t));
-          } else {
-          }
-      ?>
-
     <tr>
       <td colspan="3">&nbsp;</td>
     </tr>

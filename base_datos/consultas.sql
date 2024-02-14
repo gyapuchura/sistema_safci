@@ -68,3 +68,15 @@ AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimie
 AND area_influencia.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre 
 AND area_influencia.iddepartamento='4' AND area_influencia.idtipo_area_influencia='1' 
 ORDER BY area_influencia.idarea_influencia DESC 
+
+
+
+/** REPORTE APROBADOS ***/
+
+SELECT inscripcion.idinscripcion, evento.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno,
+departamento.departamento, inscripcion.nota_final, comentario_evaluacion.comentario_evaluacion 
+FROM inscripcion, evento, nombre, dato_laboral, departamento, comentario_evaluacion
+WHERE inscripcion.idevento=evento.idevento AND inscripcion.idcomentario_evaluacion=comentario_evaluacion.idcomentario_evaluacion AND 
+inscripcion.idnombre=nombre.idnombre AND inscripcion.iddato_laboral=dato_laboral.iddato_laboral 
+AND dato_laboral.iddepartamento=departamento.iddepartamento AND inscripcion.idestado_inscripcion='2'
+AND inscripcion.idevento='11';
