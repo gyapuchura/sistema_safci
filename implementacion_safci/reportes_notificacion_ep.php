@@ -71,10 +71,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                   
                 <div class="card-body">
                     <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">SOSPECHA DIAGNÓSTICA:</h6>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ELEGIR REGISTRO EPIDEMIOLÓGICO:</h6>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-8">
                         <select name="idsospecha_diag_nal"  id="idsospecha_diag_nal" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
@@ -109,10 +109,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                 <div class="card-body">                  
                     <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">SOSPECHA DIAGNÓSTICA:</h6>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ELEGIR REGISTRO EPIDEMIOLÓGICO:</h6>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-8">
                         <select name="idsospecha_diag_deptal" id="idsospecha_diag_deptal" class="form-control" required>
                         <option value="">-SELECCIONE-</option>
                         <?php
@@ -146,10 +146,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="card-body">
                    
                     <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">EVENTO:</h6>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ELEGIR EVENTO:</h6>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-8">
                         <select name="idevento_notificacion" id="idevento_notificacion" class="form-control" required>
                         <option value="">-SELECCIONE-</option>
                         <?php
