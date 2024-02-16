@@ -168,5 +168,67 @@ Si no se encontraron resultados
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
+
+		<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">MUNICIPIOS CON SOSPECHAS DE <?php echo mb_strtoupper($row_sos[1]);?></h2>
+		<table width="700" border="1" align="center" cellspacing="0">
+		  <tbody>
+		    <tr>
+		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
+		      <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° SOSPECHAS</td>
+		      <td width="101" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">REPORTE </td>
+		      <td width="121" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">GRUPOS ETAREOS</td>
+		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
+	        </tr>
+            <?php
+    $numero=1; 
+    $sql =" SELECT notificacion_ep.idmunicipio, municipios.municipio, municipios.iddepartamento FROM notificacion_ep, registro_enfermedad,  municipios ";
+    $sql.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' ";
+    $sql.=" AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.gestion='$gestion' GROUP BY notificacion_ep.idmunicipio ORDER BY municipios.iddepartamento";
+    $result = mysqli_query($link,$sql);
+    if ($row = mysqli_fetch_array($result)){
+    mysqli_field_seek($result,0);           
+    while ($field = mysqli_fetch_field($result)){
+    } do {
+
+        $sql_c =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
+        $sql_c.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+        $sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' ";
+        $sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio='$row[0]' ";
+        $result_c = mysqli_query($link,$sql_c);
+        $row_c = mysqli_fetch_array($result_c);
+
+        $sql_dep =" SELECT departamento.departamento FROM municipios, departamento WHERE municipios.iddepartamento=departamento.iddepartamento ";
+        $sql_dep.=" AND municipios.idmunicipio='$row[0]' ";
+        $result_dep = mysqli_query($link,$sql_dep);
+        $row_dep = mysqli_fetch_array($result_dep);
+
+    ?>
+		    <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
+              <td style="font-size: 12px; font-family: Arial;"><?php echo $row_dep[0];?></td>
+		      <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_c[0];?></td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="marco_ep_municipal.php?idsospecha_diag_mun=<?php echo $idsospecha_diag_nal;?>&idmunicipio=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=600,scrollbars=YES,top=60,left=400'); return false;">REPORTE</a>
+              </td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="piramide_sospechas_mun.php?idsospecha_diag_mun=<?php echo $idsospecha_diag_nal;?>&idmunicipio=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">             
+              GRUPOS</a>
+              </td>
+		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
+	        </tr>
+            <?php
+        $numero=$numero+1;
+        }
+        while ($row = mysqli_fetch_array($result));
+        } else {
+        }
+        ?>
+	      </tbody>
+    </table>
+
+
 </body>
 </html>
