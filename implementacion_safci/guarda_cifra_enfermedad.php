@@ -20,6 +20,8 @@ $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
 $idregistro_enfermedad = $_POST['idregistro_enfermedad'];
 $cifra                 = $_POST['cifra'];
+$idgrupo_etareo        = $_POST['idgrupo_etareo'];
+$idgenero              = $_POST['idgenero'];
 
 if ($idregistro_enfermedad == '' ) {
 

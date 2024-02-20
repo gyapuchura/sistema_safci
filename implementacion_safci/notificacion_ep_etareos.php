@@ -133,7 +133,7 @@ $row = mysqli_fetch_array($result);
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero ";
+                        $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero, registro_enfermedad.idgrupo_etareo ";
                         $sql4.=" FROM registro_enfermedad, grupo_etareo, genero WHERE registro_enfermedad.idgrupo_etareo=grupo_etareo.idgrupo_etareo ";
                         $sql4.=" AND registro_enfermedad.idgenero=genero.idgenero AND registro_enfermedad.idnotificacion_ep='$idnotificacion_ep_ss' ";
                         $sql4.=" AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY registro_enfermedad.idregistro_enfermedad ";
@@ -155,6 +155,8 @@ $row = mysqli_fetch_array($result);
                             <td>                                
                             <form name="CIFRA_ENF" action="guarda_cifra_enfermedad.php" method="post">  
                             <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
+                            <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
+                            <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
                             <input type="number" class="form-control" name="cifra" value="<?php echo $row4[3];?>"></td>
                             <td>
                             <button type="submit" class="btn btn-info">REGISTRAR</button></form>

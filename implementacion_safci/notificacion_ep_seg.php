@@ -4,7 +4,6 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
-$gestion    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -15,6 +14,7 @@ $idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
+$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
 $sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
 $sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
@@ -74,68 +74,119 @@ $row = mysqli_fetch_array($result);
 
     <div class="container">
     </br>
-        <div class="card o-hidden border-0 shadow-lg my-2">
+        <div class="card o-hidden border-0 shadow-lg my-0">
             <div class="card-body p-0">
 <!-- BEGIN aqui va el TITULO de la pagina ---->
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center"> 
-                    <a href="notificaciones_vigilancia_ep.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                     
+                    <a href="seguimiento_ep.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
                     <hr>                     
-                    <h4 class="text-success">SEGUIMIENTO A LA NOTIFICACIÓN</h4>
-                    <h4 class="text-success"><?php echo $row[1];?></h4>
+                    <h4 class="text-warning">SEGUIMIENTO A NOTIFICACIÓN</h4>
+                    <h4 class="text-secundary"><?php echo $row[1];?></h4>
+                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
-<div class="form-group row">
+<!-- BEGIN aqui va el comntenido de la pagina ---->
+                <hr>
+ 
+                 <div class="form-group row">
+                    <div class="col-sm-4">
+                    <h5 class="text-secundary">REGISTRO DE NOTIFICACIÓN:</h5>
+                    </div>
+                    <div class="col-sm-8">
+                        <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
+                            <option selected>Seleccione</option>
+                            <?php
+                            $sqlv = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
+                            } do {
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idsospecha_diag_ss) echo "selected";?>><?php echo $rowv[1];?></option>
+                            <?php
+                            } while ($rowv = mysqli_fetch_array($resultv));
+                            } else {
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+    <div class="form-group row">
         <div class="col-sm-12">
             <div class="table-responsive">
                 <table class="table table-striped" id="example" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-success">Nª</th>
-                            <th class="text-success">REGISTRO F-302A</th>
-                            <th class="text-success">N° de CASOS</th>
-                            <th class="text-success">ACCIÓN</th>
+                            <th class="text-warning">Nª</th>
+                            <th class="text-warning">GRUPO ETAREO</th>
+                            <th class="text-warning">GÉNERO</th>
+                            <th class="text-warning">N° CASOS DECLARADOS</th>
+                            <th class="text-warning">GENERAR </br> FICHAS EPIDEMIOLÓGICAS</th>
+                            <th class="text-warning">REGISTRAR </br> FICHAS EPIDEMIOLÓGICAS</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT registro_enfermedad.idsospecha_diag, cat_registro.cat_registro, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, cat_registro ";
-                        $sql4.=" WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND sospecha_diag.idcat_registro=cat_registro.idcat_registro AND ";
-                        $sql4.=" registro_enfermedad.idnotificacion_ep = '$idnotificacion_ep_ss' AND registro_enfermedad.cifra !='0' GROUP BY registro_enfermedad.idsospecha_diag ";
+                        $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero, registro_enfermedad.idgrupo_etareo, registro_enfermedad.estado ";
+                        $sql4.=" FROM registro_enfermedad, grupo_etareo, genero WHERE registro_enfermedad.idgrupo_etareo=grupo_etareo.idgrupo_etareo ";
+                        $sql4.=" AND registro_enfermedad.idgenero=genero.idgenero AND registro_enfermedad.idnotificacion_ep='$idnotificacion_ep_ss' AND registro_enfermedad.cifra !='0' ";
+                        $sql4.=" AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY registro_enfermedad.idregistro_enfermedad ";
                         $result4 = mysqli_query($link,$sql4);
                         if ($row4 = mysqli_fetch_array($result4)){
                         mysqli_field_seek($result4,0);
                         while ($field4 = mysqli_fetch_field($result4)){
                         } do { 
-
-                            $sql_c =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
-                            $sql_c.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-                            $sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$row4[0]' ";
-                            $sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep_ss' ";
-                            $result_c = mysqli_query($link,$sql_c);
-                            $row_c = mysqli_fetch_array($result_c);
-
                         ?>
                         <tr>
                             <td><?php echo $numero;?></td>
-                            <td><?php echo $row4[2];?></td>
-                            <td><?php echo $row_c[0];?></td>
-                            <td>
-                            <form name="SOSPECHA" action="valida_sospecha_diag_seg.php" method="post">  
-                            <input type="hidden" name="idsospecha_diag" value="<?php echo $row4[0];?>">
-                            <button type="submit" class="btn btn-warning">FICHAS EPIDEMIOLÓGICAS</button></form>
+                            <td><?php 
+                            if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[1]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[1]."</h6>"; }
+                            ?></td>
+                            <td><?php 
+                            if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[2]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[2]."</h6>"; }
+                            ?>
                             </td>
+                            <td>                                
+                            <input type="number" class="form-control" name="cifra" value="<?php echo $row4[3];?>" disabled></td>
+                    <td>
+
+            <?php if ($row4[6] == 'CON FICHAS') { ?>
+                <h6 class="text-primary">YA SE GENERO FICHAS EPIDEMIOLÓGICAS</h6>
+            <?php } else { ?>
+                <form name="FICHAS_EP" action="genera_fichas_ep.php" method="post">  
+                <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
+                <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
+                <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
+                <input type="hidden" name="cifra" value="<?php echo $row4[3];?>">
+                <button type="submit" class="btn btn-warning">GENERAR</button></form>
+            <?php } ?>
+                    </td>
+                    <td>
+            <?php if ($row4[6] == 'CON FICHAS') { ?>
+
+                <form name="FICHAS_EP" action="valida_lista_fichas_ep.php" method="post">  
+                <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
+                <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
+                <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
+                <input type="hidden" name="cifra" value="<?php echo $row4[3];?>">
+                <button type="submit" class="btn btn-primary">PACIENTES</button></form>
+
+            <?php } else { ?>    
+            <?php } ?>
+                        </td>
                         </tr>                            
                         <?php
                         $numero=$numero+1;
                         }
                         while ($row4 = mysqli_fetch_array($result4));
                         } else {
-                            echo 'NO SE REPORTARON NUMERO DE CASOS EN EL FORMULARIO F302A';
                         }
                     ?>
                 </tbody>
@@ -143,27 +194,25 @@ $row = mysqli_fetch_array($result);
         </div>
     </div>
 </div>   
+            <hr>
+            <div class="text-center"> 
+        <!---    <a href="notificacion_ep_eventos.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-right"></i>IR A REGISTRO DE EVENTOS</h6></a>    ---> 
+            </div>
 
-
-<!-- BEGIN aqui va el comntenido de la pagina ---->
-       
+    </div>
                 
     <!-------- begin rejilla --------->   
 
     <!-------- end rejilla --------->                      
-                             
-                                
-                   <!-- modal de confirmacion de envio de datos-->
+                <div class="text-center">
 
-                    <!-- Modal -->
-                
                 <div class="form-group row">
                     <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6">
                     </div>
-                </div>                  
-                    
+                </div>                            
+                                               
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
                
@@ -218,6 +267,44 @@ $row = mysqli_fetch_array($result);
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>   
+        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento").change(function () {
+                    $("#iddepartamento option:selected").each(function () {
+                        departamento=$(this).val();
+                    $.post("red_salud_o.php", {departamento:departamento}, function(data){
+                    $("#idred_salud").html(data);
+                    });
+                });
+        })
+        });
+        </script>
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento").change(function () {
+                    $("#iddepartamento option:selected").each(function () {
+                        departamento=$(this).val();
+                    $.post("municipios.php", {departamento:departamento}, function(data){
+                    $("#idmunicipio").html(data);
+                    });
+                });
+        })
+        });
+        </script>        
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#idnivel_establecimiento").change(function () {
+                    $("#idnivel_establecimiento option:selected").each(function () {
+                        nivel_establecimiento=$(this).val();
+                    $.post("tipo_establecimiento.php", {nivel_establecimiento:nivel_establecimiento}, function(data){
+                    $("#idtipo_establecimiento").html(data);
+                    });
+                });
+        })
+        });
+        </script>
+   
 </body>
+
 </html>
