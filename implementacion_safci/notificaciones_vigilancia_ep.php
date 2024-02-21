@@ -90,7 +90,7 @@ $rowe = mysqli_fetch_array($resulte);
                                         <th>USUARIO:</th>
                                         <th>FECHA</th>
                                         <th>ACCIÓN</th>
-                                        <th>SEGUIMIENTO</th>
+                                        <th>FICHAS </br>EPIDEMIOLÓGICAS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -159,7 +159,7 @@ $rowe = mysqli_fetch_array($resulte);
                                 <span class="icon text-yellow-600">
                                 <i class="fas fa-fw fa-book"></i>
                                 </span>
-                                <span class="text">SEGUIMIENTO</span>
+                                <span class="text">FICHAS EP.</span>
                                 </button>
                                 </form> 
                                 <?php } else { ?>

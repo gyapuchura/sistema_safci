@@ -244,7 +244,8 @@
     } else {
     }
     ?>    
-        <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA </br>EPIDEMIOLÓGICA</a>
+        <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA</br>EPIDEMIOLÓGICA</a>
+        <a class="collapse-item" href="../implementacion_safci/seguimiento_epidemiologico.php">SEGUIMIENTO</br>EPIDEMIOLÓGICO</a>
         </div>
     </div>
 </li>

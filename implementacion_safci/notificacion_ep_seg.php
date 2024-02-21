@@ -83,7 +83,7 @@ $row = mysqli_fetch_array($result);
                     <div class="text-center"> 
                     <a href="seguimiento_ep.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
                     <hr>                     
-                    <h4 class="text-warning">SEGUIMIENTO A NOTIFICACIÓN</h4>
+                    <h4 class="text-info">FICHAS POR GRUPOS ETÁREOS</h4>
                     <h4 class="text-secundary"><?php echo $row[1];?></h4>
                     
                     </div>
@@ -123,12 +123,12 @@ $row = mysqli_fetch_array($result);
                 <table class="table table-striped" id="example" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-warning">Nª</th>
-                            <th class="text-warning">GRUPO ETAREO</th>
-                            <th class="text-warning">GÉNERO</th>
-                            <th class="text-warning">N° CASOS DECLARADOS</th>
-                            <th class="text-warning">GENERAR </br> FICHAS EPIDEMIOLÓGICAS</th>
-                            <th class="text-warning">REGISTRAR </br> FICHAS EPIDEMIOLÓGICAS</th>
+                            <th class="text-info">Nª</th>
+                            <th class="text-info">GRUPO ETAREO</th>
+                            <th class="text-info">GÉNERO</th>
+                            <th class="text-info">N° CASOS DECLARADOS</th>
+                            <th class="text-info">GENERAR </br> FICHAS EPIDEMIOLÓGICAS</th>
+                            <th class="text-info">REGISTRAR </br> FICHAS EPIDEMIOLÓGICAS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -176,7 +176,7 @@ $row = mysqli_fetch_array($result);
                 <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
                 <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
                 <input type="hidden" name="cifra" value="<?php echo $row4[3];?>">
-                <button type="submit" class="btn btn-primary">PACIENTES</button></form>
+                <button type="submit" class="btn btn-primary">VER FICHAS</button></form>
 
             <?php } else { ?>    
             <?php } ?>

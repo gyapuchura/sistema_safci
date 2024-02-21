@@ -15,15 +15,14 @@ $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
+$idregistro_enfermedad_ss   = $_SESSION['idregistro_enfermedad_ss'];
+$idgrupo_etareo_ss          = $_SESSION['idgrupo_etareo_ss'];
+$idgenero_ss                = $_SESSION['idgenero_ss'];
 
-$idregistro_enfermedad      = $_POST['idregistro_enfermedad'];
-$idgrupo_etareo             = $_POST['idgrupo_etareo'];
-$idgenero                   = $_POST['idgenero'];
+$idficha_ep      = $_POST['idficha_ep'];
 
-$_SESSION['idregistro_enfermedad_ss'] = $idregistro_enfermedad;
-$_SESSION['idgrupo_etareo_ss']        = $idgrupo_etareo;
-$_SESSION['idgenero_ss']              = $idgenero;
+$_SESSION['idficha_ep_ss'] = $idficha_ep;
 
-header("Location:fichas_epidemiologicas.php");
+header("Location:mostrar_ficha_ep.php");
 
 ?>

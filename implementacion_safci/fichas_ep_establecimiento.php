@@ -9,38 +9,21 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
-$idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
-$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
-$idregistro_enfermedad_ss   = $_SESSION['idregistro_enfermedad_ss'];
-$idgrupo_etareo_ss          = $_SESSION['idgrupo_etareo_ss'];
-$idgenero_ss                = $_SESSION['idgenero_ss'];
 
-$sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
-$sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
-$sql.=" notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, ";
-$sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud ";
-$sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
-$sql.=" WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud ";
-$sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql.=" AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep_ss ' ";
+$sql =" SELECT departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.codigo_establecimiento, ";
+$sql.=" establecimiento_salud.establecimiento_salud FROM  departamento, red_salud, municipios, establecimiento_salud  ";
+$sql.=" WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idred_salud=red_salud.idred_salud ";
+$sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idestablecimiento_salud='$idestablecimiento_salud_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
 $sql_sos = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag='$idsospecha_diag_ss' ";
 $result_sos = mysqli_query($link,$sql_sos);
 $row_sos = mysqli_fetch_array($result_sos);
-
-$sql_et = " SELECT idgrupo_etareo, grupo_etareo FROM grupo_etareo WHERE idgrupo_etareo='$idgrupo_etareo_ss' ";
-$result_et = mysqli_query($link,$sql_et);
-$row_et = mysqli_fetch_array($result_et);
-
-$sql_g = " SELECT idgenero, genero FROM genero WHERE idgenero='$idgenero_ss' ";
-$result_g = mysqli_query($link,$sql_g);
-$row_g = mysqli_fetch_array($result_g);
 
 ?>
 <!DOCTYPE html>
@@ -92,11 +75,15 @@ $row_g = mysqli_fetch_array($result_g);
 
                     <!-- Page Heading -->
                     <div class="text-center"> 
-                    <a href="notificacion_ep_seg.php"><h6 class="text-success" ><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>
+                    <a href="seguimiento_epidemiologico.php"><h6 class="text-success" ><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>
                     </div>  
-                    <h4 class="text-primary">FICHAS EPIDEMIOLÓGICAS </h4>
-                    <h4 class="text-secundary">NOTIFICACIÓN : <?php echo $row[1];?></h4>
-                    <p class="mb-4">En esta seccion se puede administrar los registros de FICHAS EPIDEMIOLÓGICAS.</p>
+                    <h4 class="m-0 font-weight-bold text-primary">FICHAS EPIDEMIOLÓGICAS : <?php echo mb_strtoupper($row_sos[1]);?></h4>
+                    <hr>
+                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row[0]);?> RED : <?php echo mb_strtoupper($row[1]);?></h6>
+                    <h6 class="text-primary">RED DE SALUD : <?php echo mb_strtoupper($row[1]);?></h6>
+                    <h6 class="text-primary">MUNICIPIO : <?php echo mb_strtoupper($row[2]);?></h6>
+                    <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row[3]);?> - <?php echo mb_strtoupper($row[4]);?></h6>
+                    <p class="mb-4">En esta seccion se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS.</p>
 
                     
                     <!-- DataTales Example -->
@@ -105,12 +92,6 @@ $row_g = mysqli_fetch_array($result_g);
 
                         <div class="card-header py-3">
 
-                            <h4 class="m-0 font-weight-bold text-primary"><?php echo mb_strtoupper($row_sos[1]);?></h4>
-                            <h6 class="m-0 font-weight-bold text-primary">GRUPO ETAREO: <?php echo $row_et[1];?> - <?php echo $row_g[1];?></h6>
-                            <h6 class="m-0 font-weight-bold text-secundary">DEPARTAMENTO: <?php echo $row[2];?> - RED: <?php echo $row[3];?></h6>
-                            <h6 class="m-0 font-weight-bold text-secundary"></h6>
-                            <h6 class="m-0 font-weight-bold text-secundary">MUNICIPIO: <?php echo $row[4];?></h6>
-                            <h6 class="m-0 font-weight-bold text-secundary">ESTABLECIMIENTO: <?php echo $row[5];?></h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -121,8 +102,9 @@ $row_g = mysqli_fetch_array($result_g);
                                             <th>CÓDIGO FICHA</th>
                                             <th>CÉDULA</th>
                                             <th>PACIENTE</th> 
-                                            <th>TELEFONO/CELULAR</th> 
-                                            <th>MÉDICO REGISTRADOR</th>             
+                                            <th>CELULAR</th> 
+                                            <th>MÉDICO REGISTRADOR</th>  
+                                            <th>SEGUIMIENTO MÉDICO</th>            
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -132,7 +114,7 @@ $row_g = mysqli_fetch_array($result_g);
                         $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, ficha_ep.cedula, ficha_ep.nombres, ficha_ep.apellidos, ficha_ep.celular, nombre.nombre, nombre.paterno, nombre.materno ";
                         $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep , usuarios, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
                         $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
-                        $sql.=" AND registro_enfermedad.idregistro_enfermedad='$idregistro_enfermedad_ss' ";
+                        $sql.=" AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss ' ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -147,13 +129,31 @@ $row_g = mysqli_fetch_array($result_g);
                                 <td><?php echo $row[5];?></td>
                                 <td><?php echo $row[6];?> <?php echo $row[7];?> <?php echo $row[8];?></td>
                                 <td>
-                                <form name="FORM_RED" action="valida_ficha_paciente.php" method="post">
+                            <select name="idestado_paciente"  id="idestado_paciente" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = "SELECT idestado_paciente, estado_paciente FROM estado_paciente ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                            </select>
+                                </td>
+                                <td>
+                                <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_ep.php" method="post">
                                 <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">
-                                    <button type="submit" class="btn btn-secondary btn-icon-split">
+                                    <button type="submit" class="btn btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-hospital"></i>
                                     </span>
-                                    <span class="text">FICHA</span>    
+                                    <span class="text">ACTUALIZAR</span>    
                                     </button>
                                 </form>                                                                          
                             </td>
@@ -244,9 +244,9 @@ $row_g = mysqli_fetch_array($result_g);
                         "lengthMenu": "Mostrar _MENU_ registros por pagina",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
                         "searchPlaceholder": "Buscar registros",
-                        "info": "Mostrando Establecimientos de _START_ al _END_ de un total de  _TOTAL_ Establecimientos",
-                        "infoEmpty": "No existen Establecimientos",
-                        "infoFiltered": "(filtrado de un total de _MAX_ Establecimientos)",
+                        "info": "Mostrando Fichas de _START_ al _END_ de un total de  _TOTAL_ Fichas",
+                        "infoEmpty": "No existen Fichas",
+                        "infoFiltered": "(filtrado de un total de _MAX_ Fichas)",
                         "search": "Buscar:",
                         "paginate": {
                             "first":    "Primero",

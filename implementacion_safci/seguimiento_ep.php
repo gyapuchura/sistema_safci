@@ -83,8 +83,8 @@ $row = mysqli_fetch_array($result);
                     <div class="text-center"> 
                     <a href="notificaciones_vigilancia_ep.php"><h6 class="text-info"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>                     
                     <hr>                     
-                    <h4 class="text-success">SEGUIMIENTO A LA NOTIFICACIÓN</h4>
-                    <h4 class="text-success"><?php echo $row[1];?></h4>
+                    <h4 class="text-info">FICHAS DE LA NOTIFICACIÓN</h4>
+                    <h4 class="text-secundary"><?php echo $row[1];?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -94,10 +94,10 @@ $row = mysqli_fetch_array($result);
                 <table class="table table-striped" id="example" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-success">Nª</th>
-                            <th class="text-success">REGISTRO F-302A</th>
-                            <th class="text-success">N° de CASOS</th>
-                            <th class="text-success">ACCIÓN</th>
+                            <th class="text-info">Nª</th>
+                            <th class="text-info">REGISTRO F-302A</th>
+                            <th class="text-info">N° de CASOS</th>
+                            <th class="text-info">GRUPOS AFECTADOS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -127,7 +127,7 @@ $row = mysqli_fetch_array($result);
                             <td>
                             <form name="SOSPECHA" action="valida_sospecha_diag_seg.php" method="post">  
                             <input type="hidden" name="idsospecha_diag" value="<?php echo $row4[0];?>">
-                            <button type="submit" class="btn btn-warning">FICHAS EPIDEMIOLÓGICAS</button></form>
+                            <button type="submit" class="btn btn-info">GRUPOS AFECTADOS</button></form>
                             </td>
                         </tr>                            
                         <?php
@@ -135,7 +135,14 @@ $row = mysqli_fetch_array($result);
                         }
                         while ($row4 = mysqli_fetch_array($result4));
                         } else {
-                            echo 'NO SE REPORTARON NUMERO DE CASOS EN EL FORMULARIO F302A';
+                            ?>
+                            <tr>
+                                <td><h6>NO SE REPORTARON</h6></td>
+                                <td><h6>NUMERO DE CASOS</h6></td>
+                                <td><h6>EN EL FORMULARIO F302A</h6></td>
+                                <td></h6></td>   
+                            </tr>
+                       <?php
                         }
                     ?>
                 </tbody>
