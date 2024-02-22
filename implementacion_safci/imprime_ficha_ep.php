@@ -103,7 +103,7 @@ $row = mysqli_fetch_array($result);
       <td colspan="3">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3">SEGUIMIENTO (HISTORIAL)</td>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" >SEGUIMIENTO (HISTORIAL)</td>
     </tr>
     <tr>
       <td colspan="3"><table width="680" border="1" cellspacing="0">
@@ -138,7 +138,7 @@ $row = mysqli_fetch_array($result);
               $fecha_seg = $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0];
               echo $fecha_seg; ?>
             </td>
-            <td style="font-family: Arial; font-size: 12px;"><?php echo $row_s[1];?></td>
+            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_s[1];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo "Sem. ".$row_s[2];?></td>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[3];?></td>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[4];?>  <?php echo $row_s[5];?>  <?php echo $row_s[6];?></td>
@@ -155,8 +155,17 @@ $row = mysqli_fetch_array($result);
       </table></td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td>
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p> 
+      <p style="text-align: center; font-size: 9px; font-family: Arial;">FIRMA PACIENTE</p></td>
+      <td>
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p> 
+      <p style="text-align: center; font-size: 9px; font-family: Arial;">FIRMA MÉDICO</p></td>
+      </td>
       <td>
       <p style="text-align: center; font-size: 9px; font-family: Arial;">
               <?php
