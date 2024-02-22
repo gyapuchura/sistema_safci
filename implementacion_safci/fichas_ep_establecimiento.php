@@ -95,15 +95,15 @@ $row_sos = mysqli_fetch_array($result_sos);
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                <table class="table table-striped" id="example" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>  
                                             <th>N°</th>                                    
-                                            <th>CÓDIGO FICHA</th>
+                                            <th>CÓDIGO</br>FICHA</th>
                                             <th>CÉDULA</th>
                                             <th>PACIENTE</th> 
                                             <th>CELULAR</th> 
-                                            <th>MÉDICO REGISTRADOR</th>  
+                                            <th>SEMANA EPID.</th>  
                                             <th>SEGUIMIENTO MÉDICO</th>            
                                             <th>ACCIÓN</th>
                                         </tr>
@@ -111,7 +111,8 @@ $row_sos = mysqli_fetch_array($result_sos);
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, ficha_ep.cedula, ficha_ep.nombres, ficha_ep.apellidos, ficha_ep.celular, nombre.nombre, nombre.paterno, nombre.materno ";
+                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, ficha_ep.cedula, ficha_ep.nombres, ficha_ep.apellidos, ficha_ep.celular, nombre.nombre, nombre.paterno, nombre.materno, ";
+                        $sql.=" ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep ";
                         $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep , usuarios, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
                         $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
                         $sql.=" AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss ' ";
@@ -120,38 +121,69 @@ $row_sos = mysqli_fetch_array($result_sos);
                         mysqli_field_seek($result,0);
                         while ($field = mysqli_fetch_field($result)){
                         } do {
+
+                            $sql2 = "SELECT idseguimiento_ep, idsemana_ep, idestado_paciente FROM seguimiento_ep WHERE idficha_ep='$row[0]' ORDER BY idseguimiento_ep DESC LIMIT 1 ";
+                            $result2 = mysqli_query($link,$sql2);
+                            $row2 = mysqli_fetch_array($result2);
+
                         ?>
                             <tr>
                                 <td><?php echo $numero;?></td>
-                                <td><?php echo $row[1];?></td>
+                                <td>
+                                <a href="imprime_ficha_ep.php?idficha_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=700,height=700,scrollbars=YES,top=60,left=400'); return false;">
+                                <?php echo $row[1];?></a>    
+                                </td>
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo mb_strtoupper($row[3]);?> <?php echo mb_strtoupper($row[4]);?></td>
                                 <td><?php echo $row[5];?></td>
-                                <td><?php echo $row[6];?> <?php echo $row[7];?> <?php echo $row[8];?></td>
                                 <td>
-                            <select name="idestado_paciente"  id="idestado_paciente" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
+                        <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_ep.php" method="post">
+
+                                <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">
+                                <input name="idregistro_enfermedad" type="hidden" value="<?php echo $row[9];?>">
+                                <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[10];?>">
+
+                        <select name="idsemana_ep"  id="idsemana_ep" class="form-control" required >
+                            <option selected>Seleccione</option>
                             <?php
-                            $sql1 = "SELECT idestado_paciente, estado_paciente FROM estado_paciente ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
+                            $sqlv = " SELECT idsemana_ep, semana_ep FROM semana_ep ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
                             } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row2[1]) echo "selected";?>>Sem. <?php echo $rowv[1];?></option>
+                            <?php
+                            } while ($rowv = mysqli_fetch_array($resultv));
                             } else {
-                            echo "No se encontraron resultados!";
                             }
                             ?>
-                            </select>
+                        </select>
                                 </td>
                                 <td>
-                                <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_ep.php" method="post">
-                                <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">
+                        <select name="idestado_paciente"  id="idestado_paciente" class="form-control" required >
+                            <option selected>Seleccione</option>
+                            <?php
+                            $sqlv = " SELECT idestado_paciente, estado_paciente FROM estado_paciente ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
+                            } do {
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row2[2]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                            <?php
+                            } while ($rowv = mysqli_fetch_array($resultv));
+                            } else {
+                            }
+                            ?>
+                        </select>
+                                </td>
+                                <td> 
                                     <button type="submit" class="btn btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
-                                        <i class="fas fa-hospital"></i>
+                                        <i class="fas fa-user"></i>
                                     </span>
                                     <span class="text">ACTUALIZAR</span>    
                                     </button>

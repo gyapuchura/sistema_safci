@@ -5,7 +5,7 @@
     <div class="sidebar-brand-icon rotate-n-15">
     <i class="fas fa-fw fa-folder"></i>   
     </div>
-    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA-SAFCI</div>
+    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA MEDI-SAFCI</div>
 </a>
 
 <!-- Divider -->
