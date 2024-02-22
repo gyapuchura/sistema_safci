@@ -81,11 +81,11 @@ $row = mysqli_fetch_array($result);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center"> 
-                    <a href="notificacion_ep.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
+                    <a href="seguimiento_ep.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
                     <hr>                     
-                    <h4 class="text-primary">NOTIFICACIÓN</h4>
-                    <h4 class="text-primary"><?php echo $row[1];?></h4>
-                    <h5 class="text-info">I. REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN INMEDIATA</h5>
+                    <h4 class="text-info">FICHAS POR GRUPOS ETÁREOS</h4>
+                    <h4 class="text-secundary"><?php echo $row[1];?></h4>
+                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -94,7 +94,7 @@ $row = mysqli_fetch_array($result);
  
                  <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary"> SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
+                    <h5 class="text-secundary">REGISTRO DE NOTIFICACIÓN:</h5>
                     </div>
                     <div class="col-sm-8">
                         <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
@@ -126,16 +126,17 @@ $row = mysqli_fetch_array($result);
                             <th class="text-info">Nª</th>
                             <th class="text-info">GRUPO ETAREO</th>
                             <th class="text-info">GÉNERO</th>
-                            <th class="text-info">CIFRA</th>
-                            <th class="text-info">REGISTRAR</th>
+                            <th class="text-info">N° CASOS DECLARADOS</th>
+                            <th class="text-info">GENERAR </br> FICHAS EPIDEMIOLÓGICAS</th>
+                            <th class="text-info">REGISTRAR </br> FICHAS EPIDEMIOLÓGICAS</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero, registro_enfermedad.idgrupo_etareo ";
+                        $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero, registro_enfermedad.idgrupo_etareo, registro_enfermedad.estado ";
                         $sql4.=" FROM registro_enfermedad, grupo_etareo, genero WHERE registro_enfermedad.idgrupo_etareo=grupo_etareo.idgrupo_etareo ";
-                        $sql4.=" AND registro_enfermedad.idgenero=genero.idgenero AND registro_enfermedad.idnotificacion_ep='$idnotificacion_ep_ss' ";
+                        $sql4.=" AND registro_enfermedad.idgenero=genero.idgenero AND registro_enfermedad.idnotificacion_ep='$idnotificacion_ep_ss' AND registro_enfermedad.cifra !='0' ";
                         $sql4.=" AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY registro_enfermedad.idregistro_enfermedad ";
                         $result4 = mysqli_query($link,$sql4);
                         if ($row4 = mysqli_fetch_array($result4)){
@@ -153,14 +154,33 @@ $row = mysqli_fetch_array($result);
                             ?>
                             </td>
                             <td>                                
-                            <form name="CIFRA_ENF" action="guarda_cifra_enfermedad.php" method="post">  
-                            <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
-                            <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
-                            <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
-                            <input type="number" class="form-control" name="cifra" value="<?php echo $row4[3];?>"></td>
-                            <td>
-                            <button type="submit" class="btn btn-info">REGISTRAR</button></form>
-                            </td>
+                            <input type="number" class="form-control" name="cifra" value="<?php echo $row4[3];?>" disabled></td>
+                    <td>
+
+            <?php if ($row4[6] == 'CON FICHAS') { ?>
+                <h6 class="text-primary">YA SE GENERO FICHAS EPIDEMIOLÓGICAS</h6>
+            <?php } else { ?>
+                <form name="FICHAS_EP" action="genera_fichas_ep.php" method="post">  
+                <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
+                <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
+                <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
+                <input type="hidden" name="cifra" value="<?php echo $row4[3];?>">
+                <button type="submit" class="btn btn-warning">GENERAR</button></form>
+            <?php } ?>
+                    </td>
+                    <td>
+            <?php if ($row4[6] == 'CON FICHAS') { ?>
+
+                <form name="FICHAS_EP" action="valida_lista_fichas_ep.php" method="post">  
+                <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
+                <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
+                <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
+                <input type="hidden" name="cifra" value="<?php echo $row4[3];?>">
+                <button type="submit" class="btn btn-primary">VER FICHAS</button></form>
+
+            <?php } else { ?>    
+            <?php } ?>
+                        </td>
                         </tr>                            
                         <?php
                         $numero=$numero+1;
@@ -176,7 +196,7 @@ $row = mysqli_fetch_array($result);
 </div>   
             <hr>
             <div class="text-center"> 
-            <a href="notificacion_ep_eventos.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-right"></i>IR A REGISTRO DE EVENTOS</h6></a>     
+        <!---    <a href="notificacion_ep_eventos.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-right"></i>IR A REGISTRO DE EVENTOS</h6></a>    ---> 
             </div>
 
     </div>

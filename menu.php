@@ -5,7 +5,7 @@
     <div class="sidebar-brand-icon rotate-n-15">
     <i class="fas fa-fw fa-folder"></i>   
     </div>
-    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA-SAFCI</div>
+    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA MEDI-SAFCI</div>
 </a>
 
 <!-- Divider -->
@@ -244,7 +244,8 @@
     } else {
     }
     ?>    
-        <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA </br>EPIDEMIOLÓGICA</a>
+        <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA</br>EPIDEMIOLÓGICA</a>
+        <a class="collapse-item" href="../implementacion_safci/seguimiento_epidemiologico.php">SEGUIMIENTO</br>EPIDEMIOLÓGICO</a>
         </div>
     </div>
 </li>

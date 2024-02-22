@@ -15,7 +15,7 @@ $row_sos = mysqli_fetch_array($result_sos);
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>F-3009 POR DIA</title>
+		<title>VIGILANCIA NIVEL NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">

@@ -13,7 +13,7 @@ $idmunicipio_ss    = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
 $fecha 	 = date("Y-m-d");
-$hora    = date("h:i");
+$hora    = date("H:i");
 $gestion = date("Y");
 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE ESTABLECIMIENTO DE SALUD ----- //

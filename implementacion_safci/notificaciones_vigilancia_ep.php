@@ -84,13 +84,13 @@ $rowe = mysqli_fetch_array($resulte);
                                     <tr>  
                                         <th>N°</th>  
                                         <th>CÓDIGO NOTIFICACIÓN</th>                                  
-                                        <th>DEPTO</th>
                                         <th>MUNICIPIO</th>
                                         <th>ESTABLECIMIENTO</th>                                      
                                         <th>SEMANA EPIDEM.</th>
                                         <th>USUARIO:</th>
                                         <th>FECHA</th>
                                         <th>ACCIÓN</th>
+                                        <th>FICHAS </br>EPIDEMIOLÓGICAS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -114,7 +114,6 @@ $rowe = mysqli_fetch_array($resulte);
                             <tr>
                                 <td><?php echo $numero;?></td>
                                 <td><?php echo $row[1];?></td>
-                                <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[4];?></td>
                                 <td><?php echo mb_strtoupper($row[5]);?></td>
                                 <td><?php echo mb_strtoupper($row[6]);?></td>
@@ -145,6 +144,28 @@ $rowe = mysqli_fetch_array($resulte);
 
                                 <?php } ?>
                                                                          
+                                </td>
+                                <td>
+                                    
+                                <?php
+                                if ($row[16] == 'CONSOLIDADO') { ?>
+                                <form name="FORM_EP" action="valida_notificacion_ep_seguimiento.php" method="post">
+                                <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[0];?>">
+                                <input name="iddepartamento" type="hidden" value="<?php echo $row[12];?>">
+                                <input name="idred_salud" type="hidden" value="<?php echo $row[13];?>">
+                                <input name="idmunicipio" type="hidden" value="<?php echo $row[14];?>">
+                                <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[15];?>">
+                                <button type="submit" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-yellow-600">
+                                <i class="fas fa-fw fa-book"></i>
+                                </span>
+                                <span class="text">FICHAS EP.</span>
+                                </button>
+                                </form> 
+                                <?php } else { ?>
+
+                                <?php } ?>
+
                                 </td>
                             </tr>                                     
                         <?php

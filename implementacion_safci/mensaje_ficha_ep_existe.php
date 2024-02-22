@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+$gestion = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -14,17 +15,12 @@ $idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
+$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
-$sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
-$sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
-$sql.=" notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, ";
-$sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud ";
-$sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
-$sql.=" WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud ";
-$sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql.=" AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep_ss ' ";
-$result = mysqli_query($link,$sql);
-$row = mysqli_fetch_array($result);
+$idregistro_enfermedad = $_POST['idregistro_enfermedad'];
+$cifra                 = $_POST['cifra'];
+$idgrupo_etareo        = $_POST['idgrupo_etareo'];
+$idgenero              = $_POST['idgenero'];
 
 ?>
 <!DOCTYPE html>
@@ -50,6 +46,7 @@ $row = mysqli_fetch_array($result);
 </head>
 
 <body id="page-top">
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -69,65 +66,40 @@ $row = mysqli_fetch_array($result);
 
                 <!-- Begin Page Content -->
   
-<body class="bg-gradient-primary">
+                <body class="bg-gradient-primary">
 
     <div class="container">
     </br>
-        <div class="card o-hidden border-0 shadow-lg my-0">
+        <div class="card o-hidden border-0 shadow-lg my-2">
             <div class="card-body p-0">
 <!-- BEGIN aqui va el TITULO de la pagina ---->
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center"> 
-           
-                    <hr>                     
-                    <h2 class="text-success">LA NOTIFICACIÓN</h2>
-                    <h4 class="text-success"><?php echo $row[1];?></h4>
-                    <h4 class="text-success">FUE CONSOLIDADA!!!</h4>
+                    <div class="text-center">   
                     
+                    <hr>                     
+                    <h4 class="text-danger">EL NÚMERO DE FICHAS EPIDEMIOLÓGICAS </h4>
+                    <h4 class="text-danger">PARA ESTA NOTIFICACIÓN</h4>
+                    <h4 class="text-danger">YA FUERON GENERADOS !!!</h4>
+                    </br>
+                    <a href="notificacion_ep_seg.php"><h6>VOLVER</h6></a>
+
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
-                <hr>
-
-            <hr>
-            <div class="text-center"> 
-            <div class="form-group row">
-                    <div class="col-sm-12">
-                        <h6 class="text-primary"> Ahora puede imprimir el DOCUMENTO DE NOTIFICACIÓN</h6>
-                    </div>
-            </div>    
-            </div>            
-            
-            <div class="text-center"> 
-            <div class="form-group row">
-                    <div class="col-sm-4">
-                    <a href="imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;">IMPRIME NOTIFICACIÓN</a>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="seguimiento_ep.php"><h6 class="text-info">IR A SEGUIMIENTO EPIDEMIOLÓGICO<i class="fas fa-fw fa-arrow-right"></i></h6></a>                    
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="notificaciones_vigilancia_ep.php"><h6 class="text-success">SALIR <i class="fas fa-fw fa-arrow-right"></i></h6></a>    
-                    </div>
-            </div>    
-            </div>
-    </div>                
-    <!-------- begin rejilla --------->   
-
-    <!-------- end rejilla --------->                      
-                <div class="text-center">
 
                 <div class="form-group row">
                     <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6">
                     </div>
-                </div>                                                                           
+                </div>                  
+                    
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>               
+                </div>
+               
                 <div class="text-center">
                 <hr>
                     <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
@@ -135,7 +107,8 @@ $row = mysqli_fetch_array($result);
                 <div class="text-center">
                     <a class="small" href="#">Ministerio de Salud y Deportes</a>
                 <hr>
-                </div>               
+                </div>
+               
             </div>   
         </div> 
     </div>
@@ -174,10 +147,7 @@ $row = mysqli_fetch_array($result);
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
-    <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>   
+   
 </body>
+
 </html>
