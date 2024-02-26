@@ -52,6 +52,7 @@
         <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
         <a class="collapse-item" href="../recursos_humanos/personal_municipio.php">PERSONAL</br>POR MUNICIPIO</a>
         <a class="collapse-item" href="../recursos_humanos/reportes_personal.php">REPORTES PERSONAL</a>
+        <a class="collapse-item" href="../recursos_humanos/reportes_sistema.php">REPORTES SISTEMA</a>
 
     <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));

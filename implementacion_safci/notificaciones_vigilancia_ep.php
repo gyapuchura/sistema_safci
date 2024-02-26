@@ -149,8 +149,8 @@ $rowe = mysqli_fetch_array($resulte);
                                     
                                 <?php
                                 if ($row[16] == 'CONSOLIDADO') { ?>
-                                <form name="FORM_EP" action="valida_notificacion_ep_seguimiento.php" method="post">
-                                <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[0];?>">
+                       <!---   <form name="FORM_EP" action="valida_notificacion_ep_seguimiento.php" method="post"> 
+                           <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[0];?>">
                                 <input name="iddepartamento" type="hidden" value="<?php echo $row[12];?>">
                                 <input name="idred_salud" type="hidden" value="<?php echo $row[13];?>">
                                 <input name="idmunicipio" type="hidden" value="<?php echo $row[14];?>">
@@ -161,7 +161,7 @@ $rowe = mysqli_fetch_array($resulte);
                                 </span>
                                 <span class="text">FICHAS EP.</span>
                                 </button>
-                                </form> 
+                                </form>  ---->
                                 <?php } else { ?>
 
                                 <?php } ?>
