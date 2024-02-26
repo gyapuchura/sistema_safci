@@ -79,7 +79,7 @@ $row_sos = mysqli_fetch_array($result_sos);
                     </div>  
                     <h4 class="m-0 font-weight-bold text-primary">FICHAS EPIDEMIOLÓGICAS : <?php echo mb_strtoupper($row_sos[1]);?></h4>
                     <hr>
-                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row[0]);?> RED : <?php echo mb_strtoupper($row[1]);?></h6>
+                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row[0]);?></h6>
                     <h6 class="text-primary">RED DE SALUD : <?php echo mb_strtoupper($row[1]);?></h6>
                     <h6 class="text-primary">MUNICIPIO : <?php echo mb_strtoupper($row[2]);?></h6>
                     <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row[3]);?> - <?php echo mb_strtoupper($row[4]);?></h6>
