@@ -8,14 +8,14 @@ $gestion    = date("Y");
 $idficha_ep = $_GET['idficha_ep'];
 
 $sql =" SELECT ficha_ep.codigo, notificacion_ep.codigo, sospecha_diag.sospecha_diag, departamento.departamento, red_salud.red_salud, municipios.municipio, ";
-$sql.=" establecimiento_salud.establecimiento_salud, grupo_etareo.grupo_etareo, genero.genero, ficha_ep.cedula, ficha_ep.nombres, ";
-$sql.=" ficha_ep.apellidos, ficha_ep.fecha_nac, ficha_ep.celular, ficha_ep.direccion FROM ficha_ep, registro_enfermedad, notificacion_ep, ";
-$sql.=" sospecha_diag, departamento, red_salud, municipios, establecimiento_salud, grupo_etareo, genero ";
+$sql.=" establecimiento_salud.establecimiento_salud, grupo_etareo.grupo_etareo, genero.genero, nombre.ci, nombre.nombre, ";
+$sql.=" nombre.paterno, nombre.materno, nombre.fecha_nac, ficha_ep.celular, ficha_ep.direccion FROM ficha_ep, registro_enfermedad, notificacion_ep, ";
+$sql.=" sospecha_diag, departamento, red_salud, municipios, establecimiento_salud, grupo_etareo, genero, nombre ";
 $sql.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
 $sql.=" AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND notificacion_ep.iddepartamento=departamento.iddepartamento ";
 $sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
 $sql.=" AND registro_enfermedad.idgrupo_etareo=grupo_etareo.idgrupo_etareo AND registro_enfermedad.idgenero=genero.idgenero ";
-$sql.=" AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idficha_ep='$idficha_ep' ";
+$sql.=" AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND ficha_ep.idficha_ep='$idficha_ep' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
@@ -75,25 +75,25 @@ $row = mysqli_fetch_array($result);
             <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row[9];?></td>
             </tr>
           <tr>
-            <td width="168" style="font-family: Arial; font-size: 12px;">NOMBRES:</td>
+            <td width="168" style="font-family: Arial; font-size: 12px; text-align: right;">NOMBRES:</td>
             <td width="160" style="font-family: Arial; font-size: 12px;"><?php echo $row[10];?></td>
-            <td width="168" style="font-family: Arial; font-size: 12px;">APELLIDOS:</td>
-            <td width="166" style="font-size: 12px; font-family: Arial;"><?php echo $row[11];?></td>
+            <td width="168" style="font-family: Arial; font-size: 12px; text-align: right;">APELLIDOS:</td>
+            <td width="166" style="font-size: 12px; font-family: Arial;"><?php echo $row[11];?> <?php echo $row[12];?></td>
           </tr>
           <tr>
-            <td style="font-family: Arial; font-size: 12px;">FECHA DE NACIMIENTO:</td>
+            <td style="font-family: Arial; font-size: 12px; text-align: right;">FECHA DE NACIMIENTO:</td>
             <td style="font-size: 12px; font-family: Arial;">
             <?php 
-                  $fecha_n = explode('-',$row[12]);
+                  $fecha_n = explode('-',$row[13]);
                   $fecha_nac = $fecha_n[2].'/'.$fecha_n[1].'/'.$fecha_n[0];
                   echo $fecha_nac; ?>
             </td>
-            <td style="font-family: Arial; font-size: 12px;">N° DE CELULAR</td>
-            <td style="font-size: 12px; font-family: Arial;"><?php echo $row[13];?></td>
+            <td style="font-family: Arial; font-size: 12px; text-align: right;">N° DE CELULAR</td>
+            <td style="font-size: 12px; font-family: Arial;"><?php echo $row[14];?></td>
           </tr>
           <tr>
-            <td style="font-family: Arial; font-size: 12px;">DIRECCION DOMICILIO:</td>
-            <td colspan="3" style="font-size: 12px; font-family: Arial;"><?php echo $row[14];?></td>
+            <td style="font-family: Arial; font-size: 12px; text-align: right;">DIRECCION DOMICILIO:</td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial;"><?php echo $row[15];?></td>
             </tr>
         </tbody>
       </table></td>
@@ -140,7 +140,7 @@ $row = mysqli_fetch_array($result);
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_s[1];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo "Sem. ".$row_s[2];?></td>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[3];?></td>
-            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[4];?>  <?php echo $row_s[5];?>  <?php echo $row_s[6];?></td>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row_s[4]." ".$row_s[5]." ".$row_s[6]);?></td>
           </tr>
           <?php
           $numero=$numero+1;

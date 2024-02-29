@@ -111,10 +111,10 @@ $row_sos = mysqli_fetch_array($result_sos);
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, ficha_ep.cedula, ficha_ep.nombres, ficha_ep.apellidos, ficha_ep.celular, nombre.nombre, nombre.paterno, nombre.materno, ";
-                        $sql.=" ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep ";
-                        $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep , usuarios, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
-                        $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
+                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular, ";
+                        $sql.=" ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep, registro_enfermedad.idsospecha_diag, registro_enfermedad.idgrupo_etareo, registro_enfermedad.idgenero ";
+                        $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
+                        $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idnombre=nombre.idnombre ";
                         $sql.=" AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss ' ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
@@ -134,14 +134,19 @@ $row_sos = mysqli_fetch_array($result_sos);
                                 <?php echo $row[1];?></a>    
                                 </td>
                                 <td><?php echo $row[2];?></td>
-                                <td><?php echo mb_strtoupper($row[3]);?> <?php echo mb_strtoupper($row[4]);?></td>
-                                <td><?php echo $row[5];?></td>
+                                <td><?php echo mb_strtoupper($row[3]);?> <?php echo mb_strtoupper($row[4]);?> <?php echo mb_strtoupper($row[5]);?></td>
+                                <td><?php echo $row[6];?></td>
                                 <td>
                         <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_ep.php" method="post">
 
+                                <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[8];?>">
+                                <input name="idregistro_enfermedad" type="hidden" value="<?php echo $row[7];?>">
                                 <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">
-                                <input name="idregistro_enfermedad" type="hidden" value="<?php echo $row[9];?>">
-                                <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[10];?>">
+
+                                <input name="idsospecha_diag" type="hidden" value="<?php echo $row[9];?>">
+                                <input name="idgrupo_etareo" type="hidden" value="<?php echo $row[10];?>">
+                                <input name="idgenero" type="hidden" value="<?php echo $row[11];?>">
+
 
                         <select name="idsemana_ep"  id="idsemana_ep" class="form-control" required >
                             <option selected>Seleccione</option>

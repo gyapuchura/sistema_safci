@@ -129,9 +129,9 @@ $row_g = mysqli_fetch_array($result_g);
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, ficha_ep.cedula, ficha_ep.nombres, ficha_ep.apellidos, ficha_ep.celular, nombre.nombre, nombre.paterno, nombre.materno ";
-                        $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep , usuarios, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
-                        $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
+                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular, ficha_ep.idusuario ";
+                        $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
+                        $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idnombre=nombre.idnombre ";
                         $sql.=" AND registro_enfermedad.idregistro_enfermedad='$idregistro_enfermedad_ss' ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
@@ -143,9 +143,13 @@ $row_g = mysqli_fetch_array($result_g);
                                 <td><?php echo $numero;?></td>
                                 <td><?php echo $row[1];?></td>
                                 <td><?php echo $row[2];?></td>
-                                <td><?php echo mb_strtoupper($row[3]);?> <?php echo mb_strtoupper($row[4]);?></td>
-                                <td><?php echo $row[5];?></td>
-                                <td><?php echo $row[6];?> <?php echo $row[7];?> <?php echo $row[8];?></td>
+                                <td><?php echo mb_strtoupper($row[3]);?> <?php echo mb_strtoupper($row[4]);?> <?php echo mb_strtoupper($row[5]);?></td>
+                                <td><?php echo $row[6];?></td>
+                                <td><?php
+                                $sql_med = " SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[7]' ";
+                                $result_med = mysqli_query($link,$sql_med);
+                                $row_med = mysqli_fetch_array($result_med);
+                                echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);?></td>
                                 <td>
                                 <form name="FORM_RED" action="valida_ficha_paciente.php" method="post">
                                 <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">

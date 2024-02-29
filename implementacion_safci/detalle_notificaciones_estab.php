@@ -18,6 +18,10 @@ $sqle =" SELECT idestablecimiento_salud, establecimiento_salud FROM establecimie
 $resulte = mysqli_query($link,$sqle);
 $rowe = mysqli_fetch_array($resulte);
 
+$sql_sos =" SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag='$idsospecha_diag_estab'";
+$result_sos = mysqli_query($link,$sql_sos);
+$row_sos = mysqli_fetch_array($result_sos);
+
 $gestion       =  date("Y");
 
 $sql8 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
@@ -39,10 +43,10 @@ $cifra_establecimiento = $row8[0];
 </head>
 	<body>
   <h3 style="font-family: Arial; text-align: center;">NOTIFICACIONES PARA LA VIGILANCIA EPIDEMIOLÓGICA - SAFCI MI SALUD</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowm[2];?></h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Municipio: <?php echo $rowm[1];?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Departamento: <?php echo $rowm[2];?> - Municipio: <?php echo $rowm[1];?></h3>
   <h3 style="font-family: Arial; text-align: center; font-size: 18px;">Establecimiento: <?php echo $rowe[1];?></h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">N° de Sospechas en el Establecimiento: <?php echo $cifra_establecimiento;?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo $row_sos[1];?> </h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;">N° de Casos en el Establecimiento: <?php echo $cifra_establecimiento;?></h3>
 
 	<table width="664" border="1" align="center">
 	  <tbody>
