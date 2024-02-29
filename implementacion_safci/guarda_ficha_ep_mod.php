@@ -25,16 +25,21 @@ $idficha_ep_ss              = $_SESSION['idficha_ep_ss'];
 //-----DATOS ENVIADOS EN EL FORMULARIO DE ESTABLECIMIENTO DE SALUD ----- //
 
 $cedula      = $link->real_escape_string($_POST['cedula']);
-$nombres     = $link->real_escape_string(mb_strtoupper($_POST['nombres']));
-$apellidos   = $link->real_escape_string(mb_strtoupper($_POST['apellidos']));
+$paterno     = $link->real_escape_string(mb_strtoupper($_POST['paterno']));
+$materno   = $link->real_escape_string(mb_strtoupper($_POST['materno']));
+$nombre   = $link->real_escape_string(mb_strtoupper($_POST['nombre']));
 $fecha_nac   = $_POST['fecha_nac']; 
 $celular     = $link->real_escape_string($_POST['celular']);
 $direccion   = $link->real_escape_string(mb_strtoupper($_POST['direccion']));
 $latitud     = $_POST['latitud']; 
 $longitud    = $_POST['longitud']; 
+$idnombre_ep = $_POST['idnombre_ep']; 
 
-        $sql8 =" UPDATE ficha_ep SET cedula='$cedula', nombres='$nombres', apellidos='$apellidos', ";
-        $sql8.=" fecha_nac='$fecha_nac', celular='$celular', direccion='$direccion', ";
+        $sql8 =" UPDATE nombre SET paterno='$paterno', materno='$materno', nombre='$nombre', ";
+        $sql8.=" ci='$cedula', fecha_nac='$fecha_nac' WHERE idnombre='$idnombre_ep' ";            
+        $result8 = mysqli_query($link,$sql8); 
+
+        $sql8 =" UPDATE ficha_ep SET celular='$celular', direccion='$direccion', ";
         $sql8.=" latitud='$latitud', longitud='$longitud', idusuario='$idusuario_ss', fecha_registro='$fecha'";
         $sql8.=" WHERE idficha_ep='$idficha_ep_ss' ";             
         $result8 = mysqli_query($link,$sql8); 

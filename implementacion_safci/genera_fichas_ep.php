@@ -44,10 +44,15 @@ for ($i = 1; $i <= $cifra; $i++) {
 
     $codigo = "SAFCI-FICHA-EP-".$correlativo."/".$gestion;
 
+    $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
+    $sql0.= " VALUES ('','','','0','','$fecha','','1','$idgenero') ";
+    $result0 = mysqli_query($link,$sql0);   
+    $idnombre = mysqli_insert_id($link);
+
         $sql2 = " INSERT INTO ficha_ep (idregistro_enfermedad, idnotificacion_ep, idsospecha_diag, idgrupo_etareo, idgenero, correlativo, codigo, gestion, ";
-        $sql2.= " nombres, apellidos, cedula, fecha_nac, celular, direccion, latitud, longitud, idusuario, fecha_registro ) ";
+        $sql2.= " idnombre, celular, direccion, latitud, longitud, idusuario, fecha_registro ) ";
         $sql2.= " VALUES ('$idregistro_enfermedad','$idnotificacion_ep_ss','$idsospecha_diag_ss','$idgrupo_etareo','$idgenero','$correlativo','$codigo','$gestion', ";
-        $sql2.= " '','','','$fecha','','','','','$idusuario_ss','$fecha') ";
+        $sql2.= " '$idnombre','','','','','$idusuario_ss','$fecha') ";
         $result2 = mysqli_query($link,$sql2);
     
 }

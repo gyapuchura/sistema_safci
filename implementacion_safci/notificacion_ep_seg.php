@@ -156,7 +156,7 @@ $row = mysqli_fetch_array($result);
                             <td>                                
                             <input type="number" class="form-control" name="cifra" value="<?php echo $row4[3];?>" disabled></td>
                     <td>
-
+ 
             <?php if ($row4[6] == 'CON FICHAS') { ?>
                 <h6 class="text-primary">YA SE GENERO FICHAS EPIDEMIOLÓGICAS</h6>
             <?php } else { ?>
