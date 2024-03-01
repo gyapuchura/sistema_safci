@@ -14,12 +14,12 @@ $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
-$sql =" SELECT departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.codigo_establecimiento, ";
-$sql.=" establecimiento_salud.establecimiento_salud FROM  departamento, red_salud, municipios, establecimiento_salud  ";
-$sql.=" WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idred_salud=red_salud.idred_salud ";
-$sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idestablecimiento_salud='$idestablecimiento_salud_ss' ";
-$result = mysqli_query($link,$sql);
-$row = mysqli_fetch_array($result);
+$sql0 =" SELECT departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.codigo_establecimiento, ";
+$sql0.=" establecimiento_salud.establecimiento_salud, red_salud.idred_salud FROM  departamento, red_salud, municipios, establecimiento_salud  ";
+$sql0.=" WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idred_salud=red_salud.idred_salud ";
+$sql0.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+$result0 = mysqli_query($link,$sql0);
+$row0 = mysqli_fetch_array($result0);
 
 $sql_sos = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag='$idsospecha_diag_ss' ";
 $result_sos = mysqli_query($link,$sql_sos);
@@ -79,10 +79,10 @@ $row_sos = mysqli_fetch_array($result_sos);
                     </div>  
                     <h4 class="m-0 font-weight-bold text-primary">FICHAS EPIDEMIOLÓGICAS : <?php echo mb_strtoupper($row_sos[1]);?></h4>
                     <hr>
-                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row[0]);?></h6>
-                    <h6 class="text-primary">RED DE SALUD : <?php echo mb_strtoupper($row[1]);?></h6>
-                    <h6 class="text-primary">MUNICIPIO : <?php echo mb_strtoupper($row[2]);?></h6>
-                    <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row[3]);?> - <?php echo mb_strtoupper($row[4]);?></h6>
+                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row0[0]);?></h6>
+                    <h6 class="text-primary">RED DE SALUD : <?php echo mb_strtoupper($row0[1]);?></h6>
+                    <h6 class="text-primary">MUNICIPIO : <?php echo mb_strtoupper($row0[2]);?></h6>
+                    <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row0[3]);?> - <?php echo mb_strtoupper($row0[4]);?></h6>
                     <p class="mb-4">En esta seccion se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS.</p>
 
                     
@@ -142,6 +142,8 @@ $row_sos = mysqli_fetch_array($result_sos);
                                 <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[8];?>">
                                 <input name="idregistro_enfermedad" type="hidden" value="<?php echo $row[7];?>">
                                 <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">
+
+                                <input name="idred_salud" type="hidden" value="<?php echo $row0[5];?>">
 
                                 <input name="idsospecha_diag" type="hidden" value="<?php echo $row[9];?>">
                                 <input name="idgrupo_etareo" type="hidden" value="<?php echo $row[10];?>">
