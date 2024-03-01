@@ -89,8 +89,7 @@ $row = mysqli_fetch_array($result);
                     <a href="fichas_ep_establecimiento.php">VOLVER</a> 
                     <hr>
                     <h4 class="text-primary">EVOLUCIÓN DE LA ENFERMEDAD</h4>
-                    <h4 class="text-muted">
-                    <?php echo $row[1];?></h4>                 
+                    <h4 class="text-muted"><?php echo $row[1];?></h4>                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -331,7 +330,7 @@ $row = mysqli_fetch_array($result);
                         <hr>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <h4 class="text-primary">SEGUIMIENTO MÉDICO <?php echo $idficha_ep_ss;?></h4>
+                        <h4 class="text-primary">SEGUIMIENTO MÉDICO</h4>
                     </div>
                 </div>   
 
@@ -397,7 +396,7 @@ $row = mysqli_fetch_array($result);
 
                 <div class="form-group row">
                     <div class="col-sm-4">
-                        <h6 class="text-primary">EVOLUCIÓN DE LA ENFERMEDAD A:  <?php echo $idnotificacion_ep_ss;?> - <?php echo $idregistro_enfermedad_ss;?> - <?php echo $row[12];?></h6>
+                        <h6 class="text-primary">EVOLUCIÓN DE LA ENFERMEDAD A:</h6>
                 </div>
                     <div class="col-sm-6">
                     <select name="idsospecha_diag_evol"  id="idsospecha_diag_evol" class="form-control" required >

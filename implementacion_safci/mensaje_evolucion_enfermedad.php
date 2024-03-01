@@ -109,6 +109,10 @@ $row_sev = mysqli_fetch_array($result_sev);
                     <h4 class="text-secundary">Del Departamento, Municipio y Establecimiento de Salud correspondiente</h4>
                     <h4 class="text-secundary">En el módulo de SEGUIMIENTO EPIDEMIOLÓGICO.</h4>
                     </br>
+
+                    <a href="imprime_ficha_ep.php?idficha_ep=<?php echo $idficha_ep_ss;?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=700,height=700,scrollbars=YES,top=60,left=400'); return false;">
+                    <h6 class="text-info">IMPRIMIR FICHA EPIDEMIOLÓGICA</h6></a> 
+                    </br>
                     <a href="fichas_ep_establecimiento.php"><h6>VOLVER A FICHAS DEL ESTABLECIMIENTO</h6></a>
 
                     </div>

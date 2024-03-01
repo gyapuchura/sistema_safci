@@ -19,6 +19,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 //-----DATOS ENVIADOS EN EL FORMULARIO DE SEGUIMIENTO POR ESTABLECIMIENTO DE SALUD ----- //
 
 $idficha_ep            = $_POST['idficha_ep']; 
+$idred_salud           = $_POST['idred_salud']; 
 $idregistro_enfermedad = $_POST['idregistro_enfermedad']; 
 $idnotificacion_ep     = $_POST['idnotificacion_ep']; 
 $idsemana_ep           = $_POST['idsemana_ep']; 
@@ -36,9 +37,8 @@ $idgenero        = $_POST['idgenero'];
                 $_SESSION['idnotificacion_ep_ss'] = $idnotificacion_ep;
                 $_SESSION['idregistro_enfermedad_ss'] = $idregistro_enfermedad;
                 $_SESSION['idficha_ep_ss'] = $idficha_ep; 
-                            
+                $_SESSION['idred_salud'] = $idred_salud;                             
                 $_SESSION['idseguimiento_ep_ss'] = $idseguimiento_ep;
-
                 $_SESSION['idsospecha_diag_ss'] = $idsospecha_diag;
                 $_SESSION['idgrupo_etareo_ss']  = $idgrupo_etareo;
                 $_SESSION['idgenero_ss']        = $idgenero;
