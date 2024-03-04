@@ -82,8 +82,16 @@ $row_sos = mysqli_fetch_array($result_sos);
                     <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row0[0]);?></h6>
                     <h6 class="text-primary">RED DE SALUD : <?php echo mb_strtoupper($row0[1]);?></h6>
                     <h6 class="text-primary">MUNICIPIO : <?php echo mb_strtoupper($row0[2]);?></h6>
-                    <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row0[3]);?> - <?php echo mb_strtoupper($row0[4]);?></h6>
-                    <p class="mb-4">En esta seccion se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS.</p>
+                    <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row0[3]);?> - <?php echo mb_strtoupper($row0[4]);?>
+                    
+                </h6>
+                    <p class="mb-4">En esta sección se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS de las   
+                    <a href="detalle_notificaciones_estab.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud_ss;?>&idmunicipio=<?php echo $idmunicipio_ss;?>&idsospecha_diag=<?php echo $idsospecha_diag_ss?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=300'); return false;">Notificaciones del Establecimiento</a>
+                    junto al 
+                    <a href="marco_ep_establecimiento.php?idsospecha_diag_estab=<?php echo $idsospecha_diag_ss;?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud_ss;?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=60,left=400'); return false;">REPORTE POR SEMANA</a>
+                    y ver los 
+                    <a href="piramide_sospechas_estab.php?idsospecha_diag_estab=<?php echo $idsospecha_diag_ss;?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">GRUPOS ETAREOS AFECTADOS</a>
+                </p>
 
                     
                     <!-- DataTales Example -->
@@ -138,7 +146,7 @@ $row_sos = mysqli_fetch_array($result_sos);
                                 <td><?php echo $row[6];?></td>
                                 <td>
                         <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_ep.php" method="post">
-
+ 
                                 <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[8];?>">
                                 <input name="idregistro_enfermedad" type="hidden" value="<?php echo $row[7];?>">
                                 <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">

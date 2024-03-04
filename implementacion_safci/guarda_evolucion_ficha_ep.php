@@ -25,17 +25,14 @@ $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 $idgrupo_etareo_ss          = $_SESSION['idgrupo_etareo_ss'];
 $idgenero_ss                = $_SESSION['idgenero_ss'];
 
-$idseguimiento_ep_ss        = $_SESSION['idseguimiento_ep_ss'];
-
+$idsemana_ep_ss        = $_SESSION['idsemana_ep_ss'];
+$idestado_paciente_ss  = $_SESSION['idestado_paciente_ss'];
+  
 //-----DATOS ENVIADOS EN EL FORMULARIO DE EVOLUCION DE ENFERMEDAD ----- //
-
+ 
 $idsospecha_diag_evol  = $_POST['idsospecha_diag_evol']; 
 
 $_SESSION['idsospecha_diag_evol_ss']  = $idsospecha_diag_evol;
-
-        $sql8 =" UPDATE seguimiento_ep SET idsospecha_diag='$idsospecha_diag_evol' ";
-        $sql8.=" WHERE idseguimiento_ep='$idseguimiento_ep_ss' ";            
-        $result8 = mysqli_query($link,$sql8); 
 
 
 //****  leemos la CIFRA de la tabla Registro enfermedad *******//
@@ -59,7 +56,7 @@ $sql_reg.= " AND idsospecha_diag='$idsospecha_diag_evol' AND idgrupo_etareo='$id
 $result_reg = mysqli_query($link,$sql_reg);
 if ($row_reg=mysqli_fetch_array($result_reg)) {
 
-    //****  SI EL REGISTRO DE LA SOPECHA EXISTE .- actualizamos CIFRA ( + 1 CASO) en el  Registro enfermedad en el grupo etareo correspondiente *******//
+    //****  SI EL REGISTRO DE LA SOSPECHA EXISTE .- actualizamos CIFRA ( + 1 CASO) en el  Registro enfermedad en el grupo etareo correspondiente *******//
 
     $sql_et = " SELECT idregistro_enfermedad, cifra FROM registro_enfermedad WHERE idregistro_enfermedad='$row_reg[0]' ";
     $result_et = mysqli_query($link,$sql_et);
@@ -70,11 +67,15 @@ if ($row_reg=mysqli_fetch_array($result_reg)) {
     $sql6 =" UPDATE registro_enfermedad SET cifra='$cifra_mas' WHERE idregistro_enfermedad='$row_reg[0]'";           
     $result6 = mysqli_query($link,$sql6); 
 
-    //** la ficha formara oarte de otra categoria de enfermedad ******/
+    //** la ficha formara parte de otra categoria de enfermedad ******/
 
     $sql5 =" UPDATE ficha_ep SET idsospecha_diag='$idsospecha_diag_evol', idregistro_enfermedad ='$row_reg[0]' ";
     $sql5.=" WHERE idficha_ep='$idficha_ep_ss' ";            
     $result5 = mysqli_query($link,$sql5); 
+
+    $sql_up ="INSERT INTO seguimiento_ep (idficha_ep, idregistro_enfermedad, idnotificacion_ep, idsospecha_diag, idsemana_ep, idestado_paciente, idusuario, fecha_registro ) ";
+    $sql_up.=" VALUES ('$idficha_ep_ss','$idregistro_enfermedad_ss','$idnotificacion_ep_ss','$idsospecha_diag_evol','$idsemana_ep_ss','$idestado_paciente_ss','$idusuario_ss','$fecha') ";           
+    $result_up = mysqli_query($link,$sql_up); 
 
     header("Location:mensaje_evolucion_enfermedad.php");
 
@@ -119,9 +120,19 @@ if ($row_reg=mysqli_fetch_array($result_reg)) {
 
     //** la ficha formara oarte de otra categoria de enfermedad ******/
 
-    $sql_ficha =" UPDATE ficha_ep SET idsospecha_diag='$idsospecha_diag_evol', idregistro_enfermedad ='$row_reg[0]' ";
+$sql_regn = " SELECT idregistro_enfermedad, idnotificacion_ep, idsospecha_diag, cifra FROM registro_enfermedad WHERE idnotificacion_ep ='$idnotificacion_ep_ss' ";
+$sql_regn.= " AND idsospecha_diag='$idsospecha_diag_evol' AND idgrupo_etareo='$idgrupo_etareo_ss' AND idgenero='$idgenero_ss'";
+$result_regn = mysqli_query($link,$sql_regn);
+$row_regn=mysqli_fetch_array($result_regn);
+
+
+    $sql_ficha =" UPDATE ficha_ep SET idsospecha_diag='$idsospecha_diag_evol', idregistro_enfermedad ='$row_regn[0]' ";
     $sql_ficha.=" WHERE idficha_ep='$idficha_ep_ss' ";            
     $result_ficha = mysqli_query($link,$sql_ficha); 
+
+    $sql_up ="INSERT INTO seguimiento_ep (idficha_ep, idregistro_enfermedad, idnotificacion_ep, idsospecha_diag, idsemana_ep, idestado_paciente, idusuario, fecha_registro ) ";
+    $sql_up.=" VALUES ('$idficha_ep_ss','$row_regn[0]','$idnotificacion_ep_ss','$idsospecha_diag_evol','$idsemana_ep_ss','$idestado_paciente_ss','$idusuario_ss','$fecha') ";           
+    $result_up = mysqli_query($link,$sql_up); 
 
     header("Location:mensaje_evolucion_enfermedad.php");
 }
