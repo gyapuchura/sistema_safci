@@ -21,7 +21,8 @@ $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 $idgrupo_etareo_ss          = $_SESSION['idgrupo_etareo_ss'];
 $idgenero_ss                = $_SESSION['idgenero_ss'];
 
-$idseguimiento_ep_ss        = $_SESSION['idseguimiento_ep_ss'];
+$idsemana_ep_ss        = $_SESSION['idsemana_ep_ss'];
+$idestado_paciente_ss  = $_SESSION['idestado_paciente_ss'];
 
 $sql = " SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ficha_ep.celular, ficha_ep.direccion, ficha_ep.latitud, ficha_ep.longitud, ficha_ep.idnombre, ficha_ep.idsospecha_diag ";
 $sql.= " FROM ficha_ep, registro_enfermedad, notificacion_ep, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
@@ -391,7 +392,7 @@ $row = mysqli_fetch_array($result);
                 </div> 
  
                 <hr>
-
+ 
                 <form name="EVOLUCION_ENF" action="guarda_evolucion_ficha_ep.php" method="post">
 
                 <div class="form-group row">
