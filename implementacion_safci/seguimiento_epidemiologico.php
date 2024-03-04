@@ -72,31 +72,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <form name="SOSPECHA" action="valida_seguimiento_fichas_ep.php" method="post"> 
 
                 <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-primary">ELEGIR REGISTRO EPIDEMIOLÓGICO:</h6>
-                        </div>
-                        <div class="col-sm-8">
-                        <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = " SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, notificacion_ep  ";
-                            $sql1.= " WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-                            $sql1.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.cifra != '0' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>
-                        </div>
-                    </div>
 
                     <div class="form-group row">
                         <div class="col-sm-3">
@@ -104,20 +79,26 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                         <div class="col-sm-9">
                         <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
+
+                        <option value="">Elegir Departamento</option>
                             <?php
-                            $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
+                            $numero = 1;
+                            $sql2 = " SELECT departamento.iddepartamento, departamento.departamento FROM ficha_ep, notificacion_ep, departamento ";
+                            $sql2.= " WHERE ficha_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.estado='CONSOLIDADO' ";
+                            $sql2.= " GROUP BY departamento.iddepartamento ORDER BY departamento.departamento ";
+                            $result2 = mysqli_query($link,$sql2);
+                            if ($row2 = mysqli_fetch_array($result2)){
+                            mysqli_field_seek($result2,0);
+                            while ($field2 = mysqli_fetch_field($result2)){
                             } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
+                            echo "<option value=".$row2[0].">".$numero.".- ".$row2[1]." </option>";
+                            $numero = $numero+1;
+                            } while ($row2 = mysqli_fetch_array($result2));
                             } else {
                             echo "No se encontraron resultados!";
                             }
                             ?>
+
                         </select>
                         </div>
                     </div>
@@ -138,6 +119,15 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
                         </div>
                     </div> 
+
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ELEGIR REGISTRO EPIDEMIOLÓGICO:</h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" required></select>
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <div class="col-sm-4">
@@ -212,6 +202,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
     <!-- Page level plugins -->
 
+
+
     <script language="javascript">
         $(document).ready(function(){
         $("#iddepartamento").change(function () {
@@ -238,6 +230,18 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         });
     </script>
 
+<script language="javascript">
+        $(document).ready(function(){
+        $("#idestablecimiento_salud").change(function () {
+                    $("#idestablecimiento_salud option:selected").each(function () {
+                        establecimiento_salud=$(this).val();
+                    $.post("sospecha_seg_ep.php", {establecimiento_salud:establecimiento_salud}, function(data){
+                    $("#idsospecha_diag").html(data);
+                    });
+                });
+        })
+        });
+    </script>
 
 </body>
 </html>
