@@ -21,7 +21,7 @@ echo $row4[0]." - ".$row4[1]." - CANTIDAD REGISTROS = ".$registros;
 
 
 if ($registros == '40') {
-    echo "  Ejj necesario suprimir 20 registros";\
+    echo "  Ejj necesario suprimir 20 registros";
 
 
 
