@@ -256,11 +256,9 @@
 
 
 
+
 <!-- Divider -->
 <hr class="sidebar-divider">
-
-<!----------------------------   INICIO MENU SISTEMA DISEÑO CURRICULAR ------------------>
-
 
 
 <!-- Heading -->
