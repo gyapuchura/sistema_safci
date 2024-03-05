@@ -91,7 +91,7 @@ echo ",";
         },
         yAxis: {
             title: {
-                text: 'Notificaciones F302a'
+                text: 'F302a'
             }
         },
         tooltip: {
@@ -107,7 +107,7 @@ echo ",";
             }
         },
         series: [{
-            name: 'Ingresos a Sistema',
+            name: 'Notificaciones F302A',
             data: [
 
              <?php

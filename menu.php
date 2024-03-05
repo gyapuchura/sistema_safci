@@ -112,6 +112,15 @@
     <div id="coberturaSafci" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">ELEGIR:</h6>
+            <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?> 
             <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
     <!----- <a class="collapse-item" href="../recursos_humanos/establecimientos_salud_nal.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a> -->
@@ -119,6 +128,12 @@
     <!----- <a class="collapse-item" href="../recursos_humanos/areas_influencia_nal.php">ÁREAS DE INFLUENCIA </br> NACIONAL</a> --->
             <a class="collapse-item" href="../recursos_humanos/valida_areas_influencia_municipio.php">ÁREAS DE INFLUENCIA</br>MUNICIPIO</a>
             <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA OPERATIVO</a>
+            <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
     <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
     $result_menu = mysqli_query($link,$sql_menu);
@@ -148,7 +163,7 @@
             <a class="collapse-item" href="../recursos_humanos/valida_establecimientos_municipio.php">ESTABLECIMIENTOS</br>MUNICIPIO</a>
           <!--  <a class="collapse-item" href="../recursos_humanos/valida_nuevo_establecimiento_mun.php">NUEVO</br>ESTABLECIMIENTO</br>MUNICIPIO</a>  -->
             <a class="collapse-item" href="../recursos_humanos/valida_areas_influencia_municipio.php">ÁREAS DE INFLUENCIA</br>MUNICIPIO</a>
-            <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA MUNICIPIO</a>
+          <!--  <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA MUNICIPIO</a> -->
                    
     <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
@@ -171,10 +186,29 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SALAS:</h6>
+
+            <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>   
+
             <a class="collapse-item" href="../sala_situacional/sala_personal_safci.php">PERSONAL SAFCI</a>
             <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
             <a class="collapse-item" href="../sala_situacional/sala_areas_influencia.php">ÁREAS DE INFLUENCIA</a>
             <a class="collapse-item" href="../sala_situacional/mapas_safci.php">MAPAS SAFCI</a>
+
+            <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
+
         </div>
     </div>
 </li>
@@ -240,13 +274,30 @@
 
             <a class="collapse-item" href="../implementacion_safci/valida_municipio_ep.php">NOTIFICACIONES</br>ADMINISTRACIÓN</br>MUNICIPAL</a>
 
-<?php
+    <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>    
+    
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'USUARIO EXTERNO'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>   
+    
         <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA</br>EPIDEMIOLÓGICA</a>
         <a class="collapse-item" href="../implementacion_safci/seguimiento_epidemiologico.php">SEGUIMIENTO</br>EPIDEMIOLÓGICO</a>
+
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>     
         </div>
     </div>
 </li>

@@ -21,8 +21,8 @@ $row_e = mysqli_fetch_array($result_e);
 $_SESSION['iddepartamento_ss'] = $row_l[3];
 $_SESSION['idred_salud_ss'] = $row_l[4];
 $_SESSION['idmunicipio_ss'] = $row_e[1];
-$_SESSION['idestablecimiento_salud_ss'] = $row_l[5];
-
+$_SESSION['idestablecimiento_salud_ss'] = $row_e[0];
+ 
 header("Location:nueva_area_influencia_mun.php");
 
 ?>
