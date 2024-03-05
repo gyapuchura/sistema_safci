@@ -76,7 +76,7 @@ else {
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
-    $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','PERSONAL')";
+    $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','USUARIO EXTERNO')";
     $result7 = mysqli_query($link,$sql7);  
     $idusuario_in = mysqli_insert_id($link);
 
