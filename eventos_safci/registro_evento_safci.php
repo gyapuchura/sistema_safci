@@ -324,45 +324,6 @@ $row_ev=mysqli_fetch_array($result_ev);
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
 
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("../recursos_humanos/municipios.php", {departamento:departamento}, function(data){
-                    $("#idmunicipio").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idmunicipio").change(function () {
-                    $("#idmunicipio option:selected").each(function () {
-                        municipio=$(this).val();
-                    $.post("establecimiento_evento_safci.php", {municipio:municipio}, function(data){
-                    $("#idestablecimiento_salud").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-      
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idcat_evento_safci").change(function () {
-                    $("#idcat_evento_safci option:selected").each(function () {
-                        cat_evento_safci=$(this).val();
-                    $.post("tipo_evento_safci.php", {cat_evento_safci:cat_evento_safci}, function(data){
-                    $("#idtipo_evento_safci").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-
-   
+    
 </body>
-
 </html>
