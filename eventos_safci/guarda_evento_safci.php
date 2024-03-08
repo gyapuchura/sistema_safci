@@ -26,13 +26,24 @@ if ($iddepartamento == '' || $idmunicipio == '' || $idestablecimiento_salud == '
 }  
 else {
 
-    $sqlm="SELECT MAX(correlativo) FROM evento_safci WHERE gestion='$gestion' ";
-    $resultm=mysqli_query($link,$sqlm);
-    $rowm=mysqli_fetch_array($resultm);
+    $sql_d = "SELECT sigla FROM departamento WHERE iddepartamento='$iddepartamento' ";
+    $result_d = mysqli_query($link,$sql_d);
+    $row_d = mysqli_fetch_array($result_d);
+
+    $sql_t = "SELECT tipo_evento_safci FROM tipo_evento_safci WHERE idtipo_evento_safci='$idtipo_evento_safci' ";
+    $result_t = mysqli_query($link,$sql_t);
+    $row_t = mysqli_fetch_array($result_t);
+
+    $tipo_evento = $row_t[0];
+    $departamento = $row_d[0];
+
+    $sqlm = "SELECT MAX(correlativo) FROM evento_safci WHERE gestion='$gestion' ";
+    $resultm = mysqli_query($link,$sqlm);
+    $rowm = mysqli_fetch_array($resultm);
 
     $correlativo=$rowm[0]+1;
 
-    $codigo="SAFCI/EVENTO-".$correlativo."/".$gestion;
+    $codigo="SAFCI/".$tipo_evento."/".$departamento."-".$correlativo."/".$gestion;
 
         $sql8 = " INSERT INTO evento_safci (iddepartamento, idmunicipio, idestablecimiento_salud, gestion, correlativo, codigo, idcat_evento_safci, idtipo_evento_safci, ";
         $sql8.= " descripcion, fecha_registro, hora_registro, idusuario)";

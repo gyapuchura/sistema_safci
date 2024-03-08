@@ -39,7 +39,7 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT fecha_registro FROM notificacion_ep GROUP BY fecha_registro ORDER BY fecha_registro";
+$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' GROUP BY fecha_registro ORDER BY fecha_registro";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -113,7 +113,7 @@ echo ",";
              <?php
 
 $numero = 0;
-$sql = " SELECT fecha_registro FROM notificacion_ep GROUP BY fecha_registro ORDER BY fecha_registro ";
+$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' GROUP BY fecha_registro ORDER BY fecha_registro ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -126,7 +126,7 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT idnotificacion_ep, fecha_registro FROM notificacion_ep WHERE fecha_registro='$row[0]'";
+$sql7 = " SELECT idnotificacion_ep, fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND fecha_registro='$row[0]'";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
