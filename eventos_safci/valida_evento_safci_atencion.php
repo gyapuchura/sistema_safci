@@ -13,6 +13,6 @@ $idevento_safci = $_POST['idevento_safci'];
 
 $_SESSION['idevento_safci_ss'] = $idevento_safci;
 
-header("Location:registro_evento_safci.php");
+header("Location:evento_safci.php");
 
 ?>

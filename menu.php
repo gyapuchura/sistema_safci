@@ -342,7 +342,7 @@
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
 
-            <a class="collapse-item" href="../eventos_safci/valida_municipio_atenciones_op.php">REGISTRO </br> ATENCIONES MÉDICAS</br>OPERATIVO</a>
+            <a class="collapse-item" href="../eventos_safci/eventos_safci_atencion.php">REGISTRO </br> ATENCIONES MÉDICAS</br>OPERATIVO</a>
  <!--       <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
             <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
             <a class="collapse-item" href="#">REGISTRO FAMILIAR</a>
