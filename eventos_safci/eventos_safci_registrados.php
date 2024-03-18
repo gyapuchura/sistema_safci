@@ -107,7 +107,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
-                                <td><?php echo $row[5];?>-<?php echo $row[6];?></td>
+                                <td><?php echo $row[6];?></td>
                                 <td><?php echo mb_strtoupper($row[7]." ".$row[8]." ".$row[9]);?></td>
                                 <td>
                                 <form name="FORM_EVENTO" action="valida_evento_safci.php" method="post">

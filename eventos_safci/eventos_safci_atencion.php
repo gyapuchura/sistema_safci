@@ -77,10 +77,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         <tr>  
                                             <th>N°</th>                                    
                                             <th>CÓDIGO</th>
-                                            <th>TIPO DE EVENTO</th>
                                             <th>DEPARTAMENTO</th>
                                             <th>MUNICIPIO</th>
                                             <th>ESTABLECIMIENTO DE SALUD</th>  
+                                            <th>TIPO DE EVENTO</th>
                                             <th>USUARIO REGISTRADOR</th>           
                                             <th>ACCIÓN</th>
                                         </tr>
@@ -104,10 +104,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <tr>
                                 <td><?php echo $numero;?></td>
                                 <td><?php echo $row[1];?></td>
-                                <td><?php echo $row[5];?>-<?php echo $row[6];?></td>
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
+                                <td><?php echo $row[6];?></td>
                                 <td><?php echo mb_strtoupper($row[7]." ".$row[8]." ".$row[9]);?></td>
                                 <td>
                                 <form name="FORM_EVENTO" action="valida_evento_safci_atencion.php" method="post">
