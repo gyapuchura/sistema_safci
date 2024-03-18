@@ -160,8 +160,13 @@ $row_ev=mysqli_fetch_array($result_ev);
                     </select>
                     </div>
                 </div>
-                <hr>
     <!-------- begin rejilla --------->   
+
+                <div class="text-center">                     
+                    <hr>                     
+                    <h4 class="text-primary">REGISTRO POR ETAPAS DE ATENCIÓN SAFCI:</h4>
+                    <hr> 
+                </div>
 
                 <div class="text-center">
                     <div class="form-group row">
@@ -175,7 +180,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">ETAPA 3:</h6>
-                        <a href="consulta_medica.php" class="btn btn-primary">CONSULTA MÉDICA</a>
+                        <a href="consultas_medicas.php" class="btn btn-primary">CONSULTA MÉDICA</a>
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">ETAPA 4:</h6>

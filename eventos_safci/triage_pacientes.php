@@ -73,7 +73,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                     <div class="text-center">   
                     <a href="evento_safci.php" class="text-info">VOLVER</a>                   
                     <hr>                                         
-                    <h4 class="text-primary">PACIENTES DEL EVENTO:</h4>
+                    <h4 class="text-primary">TRIAGE PACIENTES DEL EVENTO:</h4>
                     <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
                     <hr> 
                     </div>
@@ -161,57 +161,11 @@ $row_ev=mysqli_fetch_array($result_ev);
                     </div>
                 </div>
 
-                <hr>
     <!-------- begin rejilla --------->   
    
 
-                <div class="text-center">
-                <h4 class="text-primary">OPCIONES DE REGISTRO PACIENTE:</h4>
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <div class="form-group row">
-                        <div class="col-sm-2">
-                        <h6 class="text-primary">BUSCAR PACIENTE:</h6>
-                        </div>
-                        <div class="col-sm-2">
-                        <form name="BUSCA_PACIENTE" action="buscar_paciente_registrado.php" method="post">
-                        <input type="text" class="form-control" 
-                        placeholder="CÉDULA DE IDENTIDAD" name="ci" required>  
-                        </div>
-                        <div class="col-sm-2">
-                        <button type="submit" class="btn btn-primary btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <span class="text">BUSCAR</span>    
-                        </button>
-                        </form> 
-                        </div>
-
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">REGISTRAR PACIENTE:</h6>
-                        </div>
-                        <div class="col-sm-3">
-                        <a href="nuevo_paciente.php" class="btn btn-primary">NUEVO PACIENTE</a>
-                        </div>
-                    </div>                               
-                </div>   
-                    </br>
-
 <hr>
-            <div class="text-center">
-                <h4 class="text-primary">ATENCIONES REGISTRADAS:</h4>
-            </div>
-<hr>
+
         <div class="table-responsive">
             <table class="table table-bordered" id="example" width="100%" cellspacing="0">
                 <thead>
@@ -255,7 +209,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                             <span class="icon text-white-50">
                                 <i class="fas fa-hospital"></i>
                             </span>
-                            <span class="text">FICHA</span>    
+                            <span class="text">TRIAGE</span>    
                             </button>
                         </form>                                                                          
                     </td>

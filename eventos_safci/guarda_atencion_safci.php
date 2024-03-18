@@ -37,7 +37,9 @@ $correlativo = $rowm[0]+1;
 
 $codigo = "SAFCI-ATENCION-".$correlativo."/".$gestion;
 
-$imc = $peso/$talla**2;
+$imc_i = $peso/$talla**2;
+ 
+$imc = number_format($imc_i, 6, '.', '');
 
 
     $sql0 = " INSERT INTO atencion_safci (idevento_safci, gestion, correlativo, codigo, idnombre, edad, fecha_registro, hora_registro, idusuario) ";
