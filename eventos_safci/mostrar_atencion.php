@@ -322,16 +322,14 @@ $row_sg=mysqli_fetch_array($result_sg);
 
                 <div class="text-center">
                     <div class="form-group row">
-                        <div class="col-sm-3">
-                        <a href="nuevo_paciente.php" class="btn btn-info">SIGUIENTE ATENCIÓN</a>
+                        <div class="col-sm-4">
+                        <a href="nuevo_paciente.php" class="btn btn-info">REGISTRAR NUEVO</a>
                         </div>
-                        <div class="col-sm-3">                       
+                        <div class="col-sm-4">
+                        <a href="registro_pacientes.php" class="btn btn-success">IR A REGISTRO DE PACIENTES</a>
                         </div>
-                        <div class="col-sm-3">                       
+                        <div class="col-sm-4">                       
                        </div>
-                        <div class="col-sm-3">
-                        <a href="registro_pacientes.php" class="btn btn-success">IR A PACIENTES DEL EVENTO</a>
-                        </div>
                     </div>                               
                 </div> 
 

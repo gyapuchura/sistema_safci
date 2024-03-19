@@ -180,7 +180,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">ETAPA 3:</h6>
-                        <a href="consultas_medicas.php" class="btn btn-primary">CONSULTA MÉDICA</a>
+                        <a href="consultas_especialidad.php" class="btn btn-primary">CONSULTA MÉDICA</a>
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">ETAPA 4:</h6>

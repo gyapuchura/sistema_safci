@@ -73,7 +73,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                     <div class="text-center">   
                     <a href="evento_safci.php" class="text-info">VOLVER</a>                   
                     <hr>                                         
-                    <h4 class="text-primary">PACIENTES DEL EVENTO:</h4>
+                    <h4 class="text-primary">REGISTRO DE PACIENTES:</h4>
                     <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
                     <hr> 
                     </div>
@@ -217,7 +217,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <thead>
                     <tr>  
                         <th>N°</th>                                    
-                        <th>CÓDIGO FICHA ATENCIÓN</th>
+                        <th>CÓDIGO DE ATENCIÓN</th>
                         <th>CÉDULA PACIENTE</th>
                         <th>NOMBRE PACIENTE</th>
                         <th>EDAD</th>
@@ -230,7 +230,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 $numero=1;
                 $sql =" SELECT atencion_safci.idatencion_safci, atencion_safci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
                 $sql.=" atencion_safci.edad, atencion_safci.fecha_registro, atencion_safci.hora_registro, atencion_safci.idnombre, nombre.ci FROM atencion_safci, nombre  ";
-                $sql.=" WHERE atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' ORDER BY atencion_safci.idatencion_safci DESC ";
+                $sql.=" WHERE atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' AND atencion_safci.etapa='REGISTRADO' ORDER BY atencion_safci.idatencion_safci DESC ";
                 $result = mysqli_query($link,$sql);
                 if ($row = mysqli_fetch_array($result)){
                 mysqli_field_seek($result,0);
@@ -255,7 +255,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                             <span class="icon text-white-50">
                                 <i class="fas fa-hospital"></i>
                             </span>
-                            <span class="text">FICHA</span>    
+                            <span class="text">VER</span>    
                             </button>
                         </form>                                                                          
                     </td>
