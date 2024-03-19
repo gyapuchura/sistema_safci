@@ -36,7 +36,7 @@ $row_ev=mysqli_fetch_array($result_ev);
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
-
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -70,18 +70,18 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">    
-                    <a href="eventos_safci_atencion.php" class="text-info">VOLVER</a>                   
-                    <hr>                     
-                    <h4 class="text-primary">EVENTO:</h4>
-                    <h4 class="text-primary"><?php echo $row_ev[4];?></h4>
+                    <div class="text-center">   
+                    <a href="evento_safci.php" class="text-info">VOLVER</a>                   
+                    <hr>                                         
+                    <h4 class="text-primary">TRIAGE DE PACIENTES</h4>
+                    <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-        <form name="EVENTO_SAFCI" action="guarda_evento_safci.php" method="post">  
+         
                 <div class="col-lg-12">  
                     <div class="p-5"> 
 
@@ -160,37 +160,72 @@ $row_ev=mysqli_fetch_array($result_ev);
                     </select>
                     </div>
                 </div>
+
     <!-------- begin rejilla --------->   
+   
 
-                <div class="text-center">                     
-                    <hr>                     
-                    <h4 class="text-primary">REGISTRO POR ETAPAS DE ATENCIÓN SAFCI:</h4>
-                    <hr> 
-                </div>
+<hr>
 
-                <div class="text-center">
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ETAPA 1:</h6>
-                        <a href="registro_pacientes.php" class="btn btn-primary">REGISTRO DE PACIENTES</a>
-                        </div>
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ETAPA 2:</h6>
-                        <a href="triage_pacientes.php" class="btn btn-primary"> TRIAGE </a>
-                        </div>
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ETAPA 3:</h6>
-                        <a href="consultas_especialidad.php" class="btn btn-primary">CONSULTA MÉDICA</a>
-                        </div>
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ETAPA 4:</h6>
-                        <a href="farmacia_safci.php" class="btn btn-primary">FARMACIA</a>
-                        </div>
-                    </div>                               
-                </div>   
-
-
-                              
+        <div class="table-responsive">
+            <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                <thead>
+                    <tr>  
+                        <th>N°</th>                                    
+                        <th>CÓDIGO ATENCIÓN</th>
+                        <th>CÉDULA PACIENTE</th>
+                        <th>NOMBRE PACIENTE</th>
+                        <th>EDAD</th>
+                        <th>FECHA Y HORA DE REGISTRO</th>         
+                        <th>ACCIÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                $numero=1;
+                $sql =" SELECT atencion_safci.idatencion_safci, atencion_safci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
+                $sql.=" atencion_safci.edad, atencion_safci.fecha_registro, atencion_safci.hora_registro, atencion_safci.idnombre, nombre.ci FROM atencion_safci, nombre  ";
+                $sql.=" WHERE atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' AND atencion_safci.etapa='TRIAGE' ORDER BY atencion_safci.idatencion_safci DESC ";
+                $result = mysqli_query($link,$sql);
+                if ($row = mysqli_fetch_array($result)){
+                mysqli_field_seek($result,0);
+                while ($field = mysqli_fetch_field($result)){
+                } do {
+                ?>
+                    <tr>
+                        <td><?php echo $numero;?></td>
+                        <td><?php echo $row[1];?></td>
+                        <td><?php echo $row[9];?></td>
+                        <td><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
+                        <td><?php echo $row[5];?></td>
+                        <td><?php 
+                        $fecha_r = explode('-',$row[6]);
+                        $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                        echo $fecha_reg; ?> - <?php echo $row[7];?></td>
+                        <td>
+                        <form name="FORM_EVENTO" action="valida_triage_paciente.php" method="post">
+                        <input name="idatencion_safci" type="hidden" value="<?php echo $row[0];?>">
+                        <input name="idnombre_paciente" type="hidden" value="<?php echo $row[8];?>">
+                            <button type="submit" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-hospital"></i>
+                            </span>
+                            <span class="text">TRIAGE</span>    
+                            </button>
+                        </form>                                                                          
+                    </td>
+                    </tr>
+                                
+                <?php
+                $numero=$numero+1;
+                }
+                while ($row = mysqli_fetch_array($result));
+                } else {
+                }
+                ?>
+                    </tbody>
+                </table>
+            </div>
+               
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
@@ -252,7 +287,35 @@ $row_ev=mysqli_fetch_array($result_ev);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+<!-- Page level plugins -->
+<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable( {
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]] ,
+                    "language": {
+                        "lengthMenu": "Mostrar _MENU_ registros por pagina",
+                        "zeroRecords": "No se encontraron resultados en su busqueda",
+                        "searchPlaceholder": "Buscar registros",
+                        "info": "Mostrando Establecimientos de _START_ al _END_ de un total de  _TOTAL_ Establecimientos",
+                        "infoEmpty": "No existen Establecimientos",
+                        "infoFiltered": "(filtrado de un total de _MAX_ Establecimientos)",
+                        "search": "Buscar:",
+                        "paginate": {
+                            "first":    "Primero",
+                            "last":    "Último",
+                            "next":    "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    }
+                } );
+            } );
+    </script>
     
 </body>
 </html>

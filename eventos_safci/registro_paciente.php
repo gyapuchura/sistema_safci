@@ -14,7 +14,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $idevento_safci_ss    = $_SESSION['idevento_safci_ss'];
 $idnombre_paciente_ss = $_SESSION['idnombre_paciente_ss'];
 $idatencion_safci_ss  = $_SESSION['idatencion_safci_ss'];
-$idsigno_vital_ss     = $_SESSION['idsigno_vital_ss'];
 
 $sql_ev =" SELECT idevento_safci, iddepartamento, idmunicipio, idestablecimiento_salud, codigo, idcat_evento_safci, ";
 $sql_ev.=" idtipo_evento_safci, descripcion FROM evento_safci WHERE idevento_safci='$idevento_safci_ss' ";
@@ -25,11 +24,24 @@ $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalid
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
 
+$fecha_nacimiento = $row_n[5];
+    $dia=date("d");
+    $mes=date("m");
+    $ano=date("Y");    
+    $dianaz=date("d",strtotime($fecha_nacimiento));
+    $mesnaz=date("m",strtotime($fecha_nacimiento));
+    $anonaz=date("Y",strtotime($fecha_nacimiento));         
+    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+    $ano=($ano-1); }      
+    if ($mesnaz > $mes) {
+    $ano=($ano-1);}       
+    $edad=($ano-$anonaz);  
+
 $sql_at =" SELECT idatencion_safci, codigo, edad FROM atencion_safci WHERE idatencion_safci='$idatencion_safci_ss' ";
 $result_at=mysqli_query($link,$sql_at);
 $row_at=mysqli_fetch_array($result_at);
 
-$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, imc FROM signo_vital WHERE idsigno_vital ='$idsigno_vital_ss' ";
+$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, imc FROM signo_vital WHERE idatencion_safci ='$idatencion_safci_ss' ";
 $result_sg=mysqli_query($link,$sql_sg);
 $row_sg=mysqli_fetch_array($result_sg);
     
@@ -87,10 +99,10 @@ $row_sg=mysqli_fetch_array($result_sg);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">                            
-                    <hr>   
-                    <h6 class="text-success">SE HA GENERADO EL CÓDIGO:</h6>        
-                    <h4 class="text-primary"><?php echo $row_at[1];?></h4>
+                    <div class="text-center">   
+                    <a href="registro_pacientes.php" class="text-info">VOLVER</a>                                            
+                    <hr>          
+                    <h4 class="text-primary">ATENCIÓN : <?php echo $row_at[1];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -102,7 +114,7 @@ $row_sg=mysqli_fetch_array($result_sg);
 
                     <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">CODIGO EVENTO:</h6>
+                    <h6 class="text-primary">CÓDIGO EVENTO:</h6>
                     </div>
                     <div class="col-sm-9">
                     <input type="text" class="form-control" value="<?php echo $row_ev[4];?>"
@@ -192,27 +204,30 @@ $row_sg=mysqli_fetch_array($result_sg);
                 </div>
                 <hr> 
 
+                <form name="MODIFICA_PACIENTE" action="guarda_paciente_mod_reg.php" method="post">    
+                    
+                <hr> 
                 <div class="form-group row">                               
 
                     <div class="col-sm-3">
                     <h6 class="text-primary">CÉDULA DE IDENTIDAD:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
-                         name="ci" disabled>
+                         name="ci" >
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">NOMBRES:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                         name="nombre" disabled>                
+                         name="nombre" >                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                         name="paterno" disabled >                
+                         name="paterno"  >                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                         name="materno" disabled>                
+                         name="materno" >                
                     </div>
                 </div>
 
@@ -220,7 +235,7 @@ $row_sg=mysqli_fetch_array($result_sg);
                     <div class="col-sm-3">
                     <h6 class="text-primary">GÉNERO</h6>
 
-                    <select name="idgenero"  id="idgenero" class="form-control" disabled >
+                    <select name="idgenero"  id="idgenero" class="form-control"  >
                         <option selected>Seleccione</option>
                         <?php
                         $sqlv = " SELECT idgenero, genero FROM genero ";
@@ -242,22 +257,65 @@ $row_sg=mysqli_fetch_array($result_sg);
                     <div class="col-sm-3">
                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
                         <input type="date"  class="form-control" 
-                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
+                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" >
                     </div>   
                     
                     <div class="col-sm-3">
                     <h6 class="text-primary">EDAD:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_at[2];?>" 
+                        <input type="text" class="form-control" value="<?php echo $edad." [años]";?>" 
                          name="edad_actual" disabled>
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary"> </h6>
-                    
+                    <!--- <h6 class="text-primary"> </h6>
+                    <a href="modificar_paciente.php" class="text-info" >MODIFICAR DATOS PERSONALES</a> --->
                     </div>
                 </div>  
+                    <hr>
+                <div class="text-center">
+                <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    MODIFICAR DATOS PERSONALES
+                    </button>  
+                </div> 
+                </div>  
+                </div> 
+
+<!------- datos de los signos vitales del paciente ---------->                            
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">MODIFICAR DATOS DEL PACIENTE</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Está seguro de MODIFICAR LOS DATOS DEL PACIENTE?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+
 
 <!------- datos de los signos vitales del paciente ---------->
+
+<form name="GUARDA_ATENCION" action="guarda_atencion_safci_mod.php" method="post">                   
+
+                <input type="hidden" name="idsigno_vital" value="<?php echo $row_sg[0];?>">
                 
+                <input type="hidden" name="edad" value="<?php echo $edad;?>">
+
                 <hr>
                 <div class="text-center">                                     
                     <h4 class="text-primary">DATOS SIGNOS VITALES:</h4>                    
@@ -267,29 +325,27 @@ $row_sg=mysqli_fetch_array($result_sg);
                 <div class="form-group row">                               
                     <div class="col-sm-3">
                     <h6 class="text-primary">FRECUENCIA CARDIACA [lpm]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[1];?>" disabled
+                        <input type="number" class="form-control" value="<?php echo $row_sg[1];?>" 
                          name="frec_cardiaca">                
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">PESO [kg]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[2];?>" disabled           
+                        <input type="number" class="form-control" value="<?php echo $row_sg[2];?>"            
                          name="peso" >                
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">TALLA [mtrs.]:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_sg[3];?>" disabled 
+                        <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
                          name="talla">                
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">I.M.C.:</h6>
-                        <input type="text" class="form-control" value="<?php 
-                        $indice = number_format($row_sg[9], 4, '.', '');
-                        echo $indice;?>" disabled 
-                         name="talla">                
+                        <input type="text" class="form-control" value="<?php echo $row_sg[9];?>"  
+                         name="imc" disabled>                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA [cpm]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[4];?>" disabled
+                        <input type="number" class="form-control" value="<?php echo $row_sg[4];?>" 
                          name="frec_respiratoria">                
                     </div>
                 </div>
@@ -298,43 +354,101 @@ $row_sg=mysqli_fetch_array($result_sg);
 
                     <div class="col-sm-3">
                     <h6 class="text-primary">PRESIÓN ARTERIAL [mmHg]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[5];?>" disabled            
+                        <input type="number" class="form-control" value="<?php echo $row_sg[5];?>"             
                          name="presion_arterial" >                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">TEMPERATURA [°C]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[6];?>" disabled
+                        <input type="number" class="form-control" value="<?php echo $row_sg[6];?>" 
                          name="temperatura">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">SATURACIÓN [% O2]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[7];?>" disabled
+                        <input type="number" class="form-control" value="<?php echo $row_sg[7];?>" 
                          name="saturacion">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">COMBE:</h6>
-                     <input type="text" class="form-control" value="<?php echo $row_sg[8];?>" disabled
-                         name="combe">                 
+                    Positivo (+) <input type="radio" name="combe" value="POSITIVO"
+                    <?php if ($row_sg[8] == 'POSITIVO') { echo "checked";} else { } ?> > 
+                    Negativo (-) <input type="radio" name="combe" value="NEGATIVO" 
+                    <?php if ($row_sg[8] == 'NEGATIVO') { echo "checked";} else { } ?> >  
                     </div>
                 </div>
 
                 <hr>
 
-                <div class="text-center">
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                        <a href="nuevo_paciente.php" class="btn btn-info">REGISTRAR NUEVO</a>
-                        </div>
-                        <div class="col-sm-4">
-                        <a href="registro_pacientes.php" class="btn btn-success">IR A REGISTRO DE PACIENTES</a>
-                        </div>
-                        <div class="col-sm-4">                       
-                       </div>
-                    </div>                               
+            <div class="text-center">
+                <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModals">
+                    MODIFICAR SIGNOS VITALES
+                    </button>  
                 </div> 
+            </div>                              
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">MODIFICAR SIGNOS VITALES</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de Modificar los datos de SIGNOS VITALES?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+                    
 
     <!-------- END NUEVO PACIENTE --------->  
-                              
+  <hr>
+    
+    <form name="ENVIA_CONSULTA" action="guarda_envio_triage.php" method="post">  
+        <div class="text-center">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalc">
+                    ENVIAR A ETAPA DE TRIAGE MÉDICO
+                    </button>  
+                </div> 
+            </div>                              
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ENVÍO A TRIAGE MÉDICO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de ENVIAR A TRIAGE MÉDICO?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-success pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+    </div>
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>

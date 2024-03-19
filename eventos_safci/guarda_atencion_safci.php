@@ -37,11 +37,13 @@ $correlativo = $rowm[0]+1;
 
 $codigo = "SAFCI-ATENCION-".$correlativo."/".$gestion;
 
-$imc = $peso/$talla**2;
+$imc_i = $peso/$talla**2;
+ 
+$imc = number_format($imc_i, 6, '.', '');
 
 
-    $sql0 = " INSERT INTO atencion_safci (idevento_safci, gestion, correlativo, codigo, idnombre, edad, fecha_registro, hora_registro, idusuario) ";
-    $sql0.= " VALUES ('$idevento_safci_ss','$gestion','$correlativo','$codigo','$idnombre_paciente_ss','$edad','$fecha','$hora','$idusuario_ss') ";
+    $sql0 = " INSERT INTO atencion_safci (idevento_safci, gestion, correlativo, codigo, idnombre, edad, etapa, fecha_registro, hora_registro, idusuario) ";
+    $sql0.= " VALUES ('$idevento_safci_ss','$gestion','$correlativo','$codigo','$idnombre_paciente_ss','$edad','REGISTRADO','$fecha','$hora','$idusuario_ss') ";
     $result0 = mysqli_query($link,$sql0);   
     $idatencion_safci = mysqli_insert_id($link);
 

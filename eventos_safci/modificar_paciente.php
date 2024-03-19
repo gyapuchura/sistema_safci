@@ -271,14 +271,14 @@ $fecha_nacimiento = $row_n[5];
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE ATENCIÓN MÉDICA</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">MODIFICAR DATOS PACIENTE</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div class="modal-body">
                             
-                            Esta seguro de Registrar LA ATENCIÓN MÉDICA?
+                            Esta seguro de MODIFICAR LOS DATOS DEL PACIENTE?
                         
                         </div>
                         <div class="modal-footer">
