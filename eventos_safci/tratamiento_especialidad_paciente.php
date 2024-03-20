@@ -109,8 +109,8 @@ $row_esp=mysqli_fetch_array($result_esp);
                     <a href="consultas_especialidad.php" class="text-info">VOLVER</a>                                            
                     <hr>          
                     <h4 class="text-primary">CONSULTA: <?php echo $row_at[1];?></h4>
-                    <h4 class="text-primary">ESPECIALIDAD: <?php echo $row_esp[0];?></h4>
-
+                    <h4 class="text-primary"><?php echo $row_esp[0];?></h4>
+                    <h4 class="text-info">TRATAMIENTO MÉDICO</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -334,6 +334,9 @@ $row_esp=mysqli_fetch_array($result_esp);
                 <hr>
                 <!---------- DIAGNÓSTICO MEDICO  BEGIN ------------->
 
+
+
+                <!---------- TRATAMIENTO MEDICO  BEGIN ------------->
                 <div class="text-center">                                     
                     <h4 class="text-primary">DIAGNÓSTICO MÉDICO:</h4>                    
                 </div>
@@ -347,14 +350,14 @@ $row_esp=mysqli_fetch_array($result_esp);
                             <th class="text-info">PATOLOGÍA</th>
                             <th class="text-info">CIE</th>
                             <th class="text-info">DIAGNOSTICO</th>
-                            <th class="text-info">ACCIÓN</th>
+                            <th class="text-info">TRATAMIENTO</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT diagnostico_atencion.iddiagnostico_atencion, patologia.patologia, patologia.cie, diagnostico_atencion.diagnostico_atencion ";
-                        $sql4.=" FROM diagnostico_atencion, patologia WHERE diagnostico_atencion.idpatologia=patologia.idpatologia ";
+                        $sql4 =" SELECT diagnostico_atencion.iddiagnostico_atencion, patologia.patologia, patologia.cie, diagnostico_atencion.diagnostico_atencion, diagnostico_atencion.etapa, ";
+                        $sql4.=" diagnostico_atencion.idpatologia FROM diagnostico_atencion, patologia WHERE diagnostico_atencion.idpatologia=patologia.idpatologia ";
                         $sql4.=" AND diagnostico_atencion.idespecialidad_atencion='$idespecialidad_atencion_ss' ORDER BY patologia.patologia ";
                         $result4 = mysqli_query($link,$sql4);
                         if ($row4 = mysqli_fetch_array($result4)){
@@ -368,9 +371,35 @@ $row_esp=mysqli_fetch_array($result_esp);
                             <td><?php echo $row4[2];?></td>
                             <td><?php echo $row4[3];?></td>
                             <td>
-                            <form name="BORRAR" action="elimina_diagnosticoo_atencion.php" method="post">  
-                            <input type="hidden" name="iddiagnostico_atencion" value="<?php echo $row4[0];?>">
-                            <button type="submit" class="btn btn-danger">QUITAR</button></form>
+                            <?php
+                if ($row4[4] == 'DIAGNOSTICO') {
+                    ?>
+                    <form name="TRATAMIENTO" action="valida_tratamiento_medico.php" method="post">
+                    <input name="iddiagnostico_atencion" type="hidden" value="<?php echo $row4[0];?>">
+                    <input name="idpatologia" type="hidden" value="<?php echo $row4[5];?>">
+                        <button type="submit" class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-hospital"></i>
+                        </span>
+                        <span class="text">TRATAMIENTO</span>    
+                        </button>
+                    </form>                     
+                <?php
+                } else {
+                    ?>
+                    <form name="TRATAMIENTO" action="valida_tratamiento_medico_ver.php" method="post">
+                    <input name="iddiagnostico_atencion" type="hidden" value="<?php echo $row[0];?>">
+                        <button type="submit" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-hospital"></i>
+                        </span>
+                        <span class="text">VER</span>    
+                        </button>
+                    </form>  
+
+                <?php
+                }                
+                ?>
                             </td>
                         </tr>                            
                         <?php
@@ -386,110 +415,6 @@ $row_esp=mysqli_fetch_array($result_esp);
     </div>
 </div>   
 
-<!-- BEGIN aqui va el comntenido de la pagina ---->
-                <hr>
-                <form name="ESPECIALIDAD" action="guarda_diagnostico.php" method="post">                   
-
-                <div class="form-group row">
-                    <div class="col-sm-5">
-                    <h6 class="text-primary">PATOLOGÍA:</h6>
-                        <select name="idpatologia"  id="idpatologia" class="form-control" required>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-5">
-                    <h6 class="text-primary">DIAGNÓSTICO:</h6>
-                    <textarea class="form-control" rows="3" name="diagnostico_atencion"></textarea>
-                    </div>
-                    <div class="col-sm-2">
-                    <h6 class="text-primary">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModald">
-                        AGREGAR DIAGNÓSTICO
-                        </button>  
-                    </div>  
-                </div>
-
-                <!-- modal de confirmacion de envio de datos-->
-                    <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">DIAGNÓSTICO MÉDICO</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">                                    
-                                    Esta seguro de agregar el DIAGNÓSTICO MÉDICO?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <hr>
-
-<form name="ENVIA_CONSULTA" action="guarda_consolida_diagnostico.php" method="post">  
-        <div class="text-center">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                <h4 class="text-success">CONSOLIDAR DIAGNÓSTICO MÉDICO:</h4>  
-                </div> 
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                    CONSOLIDAR DIAGNÓSTICO
-                    </button>  
-                </div> 
-            </div>                              
-                            
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">DIAGNÓSTICO MÉDICO</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de CONSOLIDAR EL DIAGNÓSTICO?
-                        
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-success pull-center">CONFIRMAR</button>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>        
-    </div>
-                
-    <!-------- end rejilla --------->                      
-                            
-
-    <!-------- END NUEVO PACIENTE --------->  
                                                   
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
