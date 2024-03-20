@@ -15,11 +15,6 @@ $idevento_safci_ss    = $_SESSION['idevento_safci_ss'];
 $idatencion_safci_ss  = $_SESSION['idatencion_safci_ss'];
 $idnombre_paciente_ss = $_SESSION['idnombre_paciente_ss'];
 
-$idevento_safci_ss    = $_SESSION['idevento_safci_ss'];
-$idnombre_paciente_ss = $_SESSION['idnombre_paciente_ss'];
-$idatencion_safci_ss  = $_SESSION['idatencion_safci_ss'];
-
-
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
 $idespecialidad_medica = $_POST['idespecialidad_medica'];

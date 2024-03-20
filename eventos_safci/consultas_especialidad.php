@@ -185,8 +185,8 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <tbody>
                 <?php
                 $numero=1;
-                $sql =" SELECT especialidad_atencion.idespecialidad_atencion, atencion_safci.codigo, especialidad_medica.especialidad_medica, nombre.ci, nombre.nombre, ";
-                $sql.=" nombre.paterno, nombre.materno, atencion_safci.edad, atencion_safci.fecha_registro, atencion_safci.hora_registro, atencion_safci.idnombre, especialidad_atencion.idatencion_safci ";
+                $sql =" SELECT especialidad_atencion.idespecialidad_atencion, atencion_safci.codigo, especialidad_medica.especialidad_medica, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ";
+                $sql.=" atencion_safci.edad, atencion_safci.fecha_registro, atencion_safci.hora_registro, atencion_safci.idnombre, especialidad_atencion.idatencion_safci, especialidad_atencion.etapa ";
                 $sql.=" FROM especialidad_atencion, atencion_safci, nombre, especialidad_medica WHERE especialidad_atencion.idatencion_safci=atencion_safci.idatencion_safci ";
                 $sql.=" AND atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' ";
                 $sql.=" AND especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY atencion_safci.idatencion_safci DESC ";
@@ -208,17 +208,40 @@ $row_ev=mysqli_fetch_array($result_ev);
                         $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                         echo $fecha_reg; ?> - <?php echo $row[9];?></td>
                         <td>
-                        <form name="FORM_EVENTO" action="valida_consulta_paciente.php" method="post">
-                        <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
-                        <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
-                        <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
-                            <button type="submit" class="btn btn-primary btn-icon-split">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-hospital"></i>
-                            </span>
-                            <span class="text">CONSULTA</span>    
-                            </button>
-                        </form>                                                                          
+                <?php
+                if ($row[12] == 'PROGRAMADA') {
+                    ?>
+                    <form name="CONSULTA" action="valida_consulta_paciente.php" method="post">
+                    <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
+                    <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
+                    <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
+                        <button type="submit" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-hospital"></i>
+                        </span>
+                        <span class="text">DIAGNÓSTICO</span>    
+                        </button>
+                    </form>                     
+                <?php
+                } else {
+                    ?>
+                    <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
+                    <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
+                    <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
+                    <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
+                        <button type="submit" class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-hospital"></i>
+                        </span>
+                        <span class="text">TRATAMIENTO</span>    
+                        </button>
+                    </form>  
+
+                <?php
+                }                
+                ?>
+
+                                                                        
                     </td>
                     </tr>
                                 
