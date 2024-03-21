@@ -59,13 +59,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
 
-                    <h1 class="h3 mb-2 text-gray-800">EVENTOS DE ATENCIÓN SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar los registros de EVENTOS DE ATENCIÓN del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <h1 class="h3 mb-2 text-gray-800">ÁREAS DE INFLUENCIA SAFCI</h1>
+                    <p class="mb-4">En esta seccion se puede encontrar los registros de ÁREAS DE INFLUENCIA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">EVENTOS SAFCI A NIVEL NACIONAL</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">ÁREAS DE INFLUENCIA A NIVEL NACIONAL</h6>
                     </div>
                         
                 <div class="card-body">

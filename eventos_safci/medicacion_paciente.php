@@ -487,14 +487,14 @@ $row_pat=mysqli_fetch_array($result_pat);
                     </div>
                     <div class="col-sm-4">
                     <h6 class="text-info">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModaldo">
                         AGREGAR
                         </button>  
                     </div>  
                 </div>
 
                 <!-- modal de confirmacion de envio de datos-->
-                    <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModaldo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
