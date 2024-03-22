@@ -117,7 +117,7 @@ $row_pat=mysqli_fetch_array($result_pat);
                     <h4 class="text-secundary">CONSULTA: <?php echo $row_at[1];?></h4>
                     <h4 class="text-secundary"><?php echo $row_esp[0];?></h4>
                     <h4 class="text-info">TRATAMIENTO MÉDICO</h4>
-                    <h4 class="text-secundary"><?php echo $row_pat[1];?> - CIE : <?php echo $row_pat[2];?></h4>
+                    <h4 class="text-primary"><?php echo $row_pat[1];?> - CIE : <?php echo $row_pat[2];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -405,13 +405,14 @@ $row_pat=mysqli_fetch_array($result_pat);
                             <th class="text-info">TIPO</th>
                             <th class="text-info">MEDICAMENTO</th>
                             <th class="text-info">CANTIDAD</th>
+                            <th class="text-info">INDICACIÓN</th>
                             <th class="text-info">ACCIÓN</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada ";
+                        $sql4 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada, tratamiento.indicacion  ";
                         $sql4.=" FROM tratamiento, tipo_medicamento, medicamento WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND ";
                         $sql4.=" tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
                         $result4 = mysqli_query($link,$sql4);
@@ -425,10 +426,11 @@ $row_pat=mysqli_fetch_array($result_pat);
                             <td><?php echo $row4[1];?></td>
                             <td><?php echo $row4[2];?></td>
                             <td><?php echo $row4[3];?></td>
+                            <td><?php echo $row4[4];?></td>
                             <td>
                             <form name="BORRAR" action="elimina_item_tratamiento.php" method="post">  
                             <input type="hidden" name="idtratamiento" value="<?php echo $row4[0];?>">
-                            <button type="submit" class="btn btn-danger">QUITAR</button></form>
+                            <button type="submit" class="btn btn-warning">RETIRAR</button></form>
                             </td>
                         </tr>                            
                         <?php
@@ -517,6 +519,53 @@ $row_pat=mysqli_fetch_array($result_pat);
 
 
 <!-- SECCION PARA ALIMENTAR LOS MEDICAMENTOS PARA EL TRATAMIENTO - END ---->
+                <hr>  
+                <form name="ENVIA_CONSULTA" action="guarda_consolida_tratamiento.php" method="post">  
+        <div class="text-center">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h4 class="text-info">CONSOLIDAR DIAGNÓSTICO MÉDICO:</h4>  
+                </div> 
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                    CONSOLIDAR TRATAMIENTO
+                    </button>  
+                </div> 
+            </div>                              
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">TRATAMIENTO MÉDICO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de CONSOLIDAR EL TRATAMIENTO?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+    </div>
+                <hr>  
+<!-- SECCION PARA CONSOLIDAR LA MEDICACION PARA EL TRATAMIENTO - BEGIN ---->
+
+
+
+<!-- SECCION PARA CONSOLIDAR LA MEDICACION PARA EL TRATAMIENTO- END ---->
+
+
+
                                                   
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>

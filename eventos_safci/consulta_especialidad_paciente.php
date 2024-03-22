@@ -393,7 +393,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                 <div class="form-group row">
                     <div class="col-sm-5">
                     <h6 class="text-primary">PATOLOGÍA:</h6>
-                        <select name="idpatologia"  id="idpatologia" class="form-control" required>
+                        <select name="idpatologia"  id="idpatologia" class="form-control" required autofocus>
                         <option value="">-SELECCIONE-</option>
                         <?php
                         $numero=1;
@@ -448,7 +448,7 @@ $row_esp=mysqli_fetch_array($result_esp);
 
                 <hr>
 
-<form name="ENVIA_CONSULTA" action="guarda_consolida_diagnostico.php" method="post">  
+    <form name="ENVIA_CONSULTA" action="guarda_consolida_diagnostico.php" method="post">  
         <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-6">
