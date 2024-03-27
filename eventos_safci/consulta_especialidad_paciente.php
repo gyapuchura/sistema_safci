@@ -418,7 +418,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModald">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
                         AGREGAR DIAGNÓSTICO
                         </button>  
                     </div>  
@@ -452,10 +452,10 @@ $row_esp=mysqli_fetch_array($result_esp);
         <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-6">
-                <h4 class="text-success">CONSOLIDAR DIAGNÓSTICO MÉDICO:</h4>  
+                <h4 class="text-info">CONSOLIDAR DIAGNÓSTICO MÉDICO:</h4>  
                 </div> 
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
                     CONSOLIDAR DIAGNÓSTICO
                     </button>  
                 </div> 
@@ -478,7 +478,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-success pull-center">CONFIRMAR</button>    
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
                         </div>
                     </div>
                 </div>

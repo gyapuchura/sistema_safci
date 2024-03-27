@@ -524,7 +524,7 @@ $row_pat=mysqli_fetch_array($result_pat);
         <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-6">
-                <h4 class="text-info">CONSOLIDAR DIAGNÓSTICO MÉDICO:</h4>  
+                <h4 class="text-info">CONSOLIDAR TRATAMIENTO MÉDICO:</h4>  
                 </div> 
                 <div class="col-sm-6">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">

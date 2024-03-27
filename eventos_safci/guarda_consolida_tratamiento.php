@@ -24,18 +24,16 @@ $sql = " SELECT idtratamiento, idevento_safci, idatencion_safci, idespecialidad_
 $sql.= " FROM tratamiento WHERE iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
 $result = mysqli_query($link,$sql);
 if ($row = mysqli_fetch_array($result)){
-
     
     $sql2 = " UPDATE diagnostico_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
     $sql2.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
     $result2 = mysqli_query($link,$sql2);   
 
-    $sql3 = " UPDATE tratamiento SET etapa='RECETADO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql3 = " UPDATE tratamiento SET etapa='RECETADO', fecha_registro='$fecha', hora_registro='$hora', idusuario_medico='$idusuario_ss' ";
     $sql3.= " WHERE iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
     $result3 = mysqli_query($link,$sql3);  
-    
+ 
     header("Location:mensaje_tratamiento_paciente.php");
-
 } else {
     header("Location:mensaje_sin_tratamiento.php");
 }

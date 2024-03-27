@@ -173,12 +173,11 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <thead>
                     <tr>  
                         <th>N°</th>                                    
-                        <th>CÓDIGO FICHA ATENCIÓN</th>
+                        <th>CÓDIGO ATENCIÓN</th>
                         <th>ESPECIALIDAD</th>
                         <th>CÉDULA PACIENTE</th>
                         <th>NOMBRE PACIENTE</th>
-                        <th>EDAD</th>
-                        <th>FECHA Y HORA DE REGISTRO</th>         
+                        <th>EDAD</th>        
                         <th>ACCIÓN</th>
                     </tr>
                 </thead>
@@ -203,10 +202,6 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <td><?php echo $row[3];?></td>
                         <td><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
                         <td><?php echo $row[7];?></td>
-                        <td><?php 
-                        $fecha_r = explode('-',$row[8]);
-                        $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
-                        echo $fecha_reg; ?> - <?php echo $row[9];?></td>
                         <td>
                 <?php
                 if ($row[12] == 'PROGRAMADA') {
@@ -215,11 +210,11 @@ $row_ev=mysqli_fetch_array($result_ev);
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
-                        <button type="submit" class="btn btn-primary btn-icon-split">
+                        <button type="submit" class="btn btn-warning btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">DIAGNÓSTICO</span>    
+                        <span class="text">SIN DIAGNÓSTICO</span>    
                         </button>
                     </form>                     
                 <?php
@@ -233,7 +228,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">TRATAMIENTO</span>    
+                        <span class="text">CON DIAGNÓSTICO</span>    
                         </button>
                     </form>  
 

@@ -408,7 +408,7 @@ $row_sg=mysqli_fetch_array($result_sg);
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModale">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModale">
                         AGREGAR ESPECIALIDAD
                         </button>  
                     </div>  

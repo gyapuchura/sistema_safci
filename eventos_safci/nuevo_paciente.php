@@ -72,7 +72,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                     <div class="p-3">               
                     <div class="text-center">                     
                     <hr>      
-                    <a href="evento_safci.php" class="text-info">VOLVER</a>                
+                    <a href="registro_pacientes.php" class="text-info">VOLVER</a>                
                     <h4 class="text-primary">NUEVO PACIENTE DEL EVENTO:</h4>
                     <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
                     <hr> 

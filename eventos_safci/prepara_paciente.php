@@ -90,7 +90,7 @@ $fecha_nacimiento = $row_n[5];
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="evento_safci.php" class="text-info">VOLVER</a>    
+                    <a href="registro_pacientes.php" class="text-info">VOLVER</a>    
                     <hr>             
                     <h4 class="text-primary">SIGNOS VITALES - PACIENTE DEL EVENTO:</h4>
                     <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>

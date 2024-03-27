@@ -381,22 +381,14 @@ $row_esp=mysqli_fetch_array($result_esp);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">TRATAMIENTO</span>    
+                        <span class="text">EMITIR TRATAMIENTO</span>    
                         </button>
                     </form>                     
                 <?php
                 } else {
                     ?>
-                    <form name="TRATAMIENTO" action="valida_tratamiento_medico_ver.php" method="post">
-                    <input name="iddiagnostico_atencion" type="hidden" value="<?php echo $row[0];?>">
-                        <button type="submit" class="btn btn-primary btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-hospital"></i>
-                        </span>
-                        <span class="text">VER</span>    
-                        </button>
-                    </form>  
 
+                    <h6 class="text-info">CON TRATAMIENTO EMITIDO</h6>
                 <?php
                 }                
                 ?>
@@ -414,10 +406,31 @@ $row_esp=mysqli_fetch_array($result_esp);
         </div>
     </div>
 </div>   
+<!-- END aqui va el comntenido de la pagina ---->
+<hr>
+<div class="text-center">
+<?php
+$sql_t = " SELECT idtratamiento, idevento_safci, idatencion_safci, idespecialidad_atencion, iddiagnostico_atencion ";
+$sql_t.= " FROM tratamiento WHERE idespecialidad_atencion='$idespecialidad_atencion_ss'";
+$result_t = mysqli_query($link,$sql_t);
+if ($row_t = mysqli_fetch_array($result_t)){
+?>
+<a href="imprime_boleta_atencion.php?idatencion_safci=<?php echo $idatencion_safci_ss;?>&idespecialidad_atencion=<?php echo $idespecialidad_atencion_ss;?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=750,height=900,scrollbars=YES,top=60,left=400'); return false;">
+        IMPRIME BOLETA DE ATENCION MÉDICA</a>  
+<?php
+} else {
+    ?>
+<h6 class="text-danger">AÚN NO SE HA EMITIDO EL TRATAMIENTO</h6>
+<?php
+}
+?>
+                </div>
+
+<!-- END aqui va el comntenido de la pagina ---->
 
                                                   
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>
+
                
                 <div class="text-center">
                 <hr>
