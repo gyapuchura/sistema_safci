@@ -204,7 +204,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <td><?php echo $row[7];?></td>
                         <td>
                 <?php
-                if ($row[12] == 'PROGRAMADA') {
+                if ($row[12] == 'CON DIAGNOSTICO') {
                     ?>
                     <form name="CONSULTA" action="valida_consulta_paciente.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
@@ -218,7 +218,11 @@ $row_ev=mysqli_fetch_array($result_ev);
                         </button>
                     </form>                     
                 <?php
-                } else {
+                } else { 
+                    
+
+                    
+
                     ?>
                     <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">

@@ -460,7 +460,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                     </button>  
                 </div> 
             </div>                              
-                            
+                             
                    <!-- modal de confirmacion de envio de datos-->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

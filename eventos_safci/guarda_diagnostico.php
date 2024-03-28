@@ -24,7 +24,7 @@ $diagnostico_atencion = $link->real_escape_string(mb_strtoupper($_POST['diagnost
 /*********** modificar el regsitro de datos personales del paciente (BEGIN) *************/
 
     $sql0 = " INSERT INTO diagnostico_atencion (idevento_safci, idatencion_safci, idespecialidad_atencion, idnombre, idpatologia, diagnostico_atencion, etapa, fecha_registro, hora_registro, idusuario) ";
-    $sql0.= " VALUES ('$idevento_safci_ss','$idatencion_safci_ss','$idespecialidad_atencion_ss','$idnombre_paciente_ss','$idpatologia','$diagnostico_atencion','EMITIDO','$fecha','$hora','$idusuario_ss') ";
+    $sql0.= " VALUES ('$idevento_safci_ss','$idatencion_safci_ss','$idespecialidad_atencion_ss','$idnombre_paciente_ss','$idpatologia','$diagnostico_atencion','PARA DIAGNOSTICO','$fecha','$hora','$idusuario_ss') ";
     $result0 = mysqli_query($link,$sql0);   
     $idnombre_paciente = mysqli_insert_id($link);
 

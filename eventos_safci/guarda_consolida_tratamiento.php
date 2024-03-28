@@ -25,11 +25,19 @@ $sql.= " FROM tratamiento WHERE iddiagnostico_atencion='$iddiagnostico_atencion_
 $result = mysqli_query($link,$sql);
 if ($row = mysqli_fetch_array($result)){
     
+    $sql0 = " UPDATE atencion_safci SET etapa='EN TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql0.= " WHERE idatencion_safci='$idatencion_safci_ss' ";
+    $result0 = mysqli_query($link,$sql0);   
+
+    $sql1 = " UPDATE especialidad_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql1.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+    $result1 = mysqli_query($link,$sql1); 
+
     $sql2 = " UPDATE diagnostico_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-    $sql2.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+    $sql2.= " WHERE iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
     $result2 = mysqli_query($link,$sql2);   
 
-    $sql3 = " UPDATE tratamiento SET etapa='RECETADO', fecha_registro='$fecha', hora_registro='$hora', idusuario_medico='$idusuario_ss' ";
+    $sql3 = " UPDATE tratamiento SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario_medico='$idusuario_ss' ";
     $sql3.= " WHERE iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
     $result3 = mysqli_query($link,$sql3);  
  
