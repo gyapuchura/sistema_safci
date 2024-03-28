@@ -372,7 +372,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                             <td><?php echo $row4[3];?></td>
                             <td>
                             <?php
-                if ($row4[4] == 'DIAGNOSTICO') {
+                if ($row4[4] == 'CON DIAGNOSTICO') {
                     ?>
                     <form name="TRATAMIENTO" action="valida_tratamiento_medico.php" method="post">
                     <input name="iddiagnostico_atencion" type="hidden" value="<?php echo $row4[0];?>">
@@ -381,22 +381,14 @@ $row_esp=mysqli_fetch_array($result_esp);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">TRATAMIENTO</span>    
+                        <span class="text">EMITIR TRATAMIENTO</span>    
                         </button>
                     </form>                     
                 <?php
                 } else {
                     ?>
-                    <form name="TRATAMIENTO" action="valida_tratamiento_medico_ver.php" method="post">
-                    <input name="iddiagnostico_atencion" type="hidden" value="<?php echo $row[0];?>">
-                        <button type="submit" class="btn btn-primary btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-hospital"></i>
-                        </span>
-                        <span class="text">VER</span>    
-                        </button>
-                    </form>  
 
+                    <h6 class="text-info">CON TRATAMIENTO EMITIDO</h6>
                 <?php
                 }                
                 ?>
@@ -414,10 +406,72 @@ $row_esp=mysqli_fetch_array($result_esp);
         </div>
     </div>
 </div>   
+<!-- END aqui va el comntenido de la pagina ---->
+<hr>
+<div class="text-center">
+<?php
+$sql_t = " SELECT idatencion_safci, etapa FROM atencion_safci WHERE idatencion_safci='$idatencion_safci_ss' AND etapa='CONCLUIDA' ";
+$result_t = mysqli_query($link,$sql_t);
+if ($row_t = mysqli_fetch_array($result_t)){
+?>
+
+<a href="imprime_boleta_atencion.php?idatencion_safci=<?php echo $idatencion_safci_ss;?>&idespecialidad_atencion=<?php echo $idespecialidad_atencion_ss;?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=750,height=900,scrollbars=YES,top=60,left=400'); return false;">
+        IMPRIME BOLETA DE ATENCION MÉDICA</a>  
+
+<?php
+} else {
+    ?>
+
+<hr>  
+                <form name="ENVIA_CONSULTA" action="guarda_concluye_consulta.php" method="post">  
+        <div class="text-center">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h4 class="text-info">CONCLUIR CONSULTA MÉDICA:</h4>  
+                </div> 
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                    CONCLUIR CONSULTA MÉDICA
+                    </button>  
+                </div> 
+            </div>                              
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">CONSULTA MÉDICA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de CONCLUIR LA CONSULTA MÉDICA?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+    </div>
+                <hr>  
+
+<?php
+}
+?>
+                </div>
+
+<!-- END aqui va el comntenido de la pagina ---->
 
                                                   
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>
+
                
                 <div class="text-center">
                 <hr>

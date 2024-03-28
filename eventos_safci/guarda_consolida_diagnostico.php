@@ -18,19 +18,28 @@ $idespecialidad_atencion_ss = $_SESSION['idespecialidad_atencion_ss'];
 
 /*********** ENVIO DATOS PARA CONSULTA DEL PACIENTE *************/
 
-$sql0 = " UPDATE atencion_safci SET etapa='DIAGNOSTICO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-$sql0.= " WHERE idatencion_safci='$idatencion_safci_ss' ";
-$result0 = mysqli_query($link,$sql0);   
+$sql = " SELECT iddiagnostico_atencion, idevento_safci, idatencion_safci, idespecialidad_atencion ";
+$sql.= " FROM diagnostico_atencion WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+$result = mysqli_query($link,$sql);
+if ($row = mysqli_fetch_array($result)){
 
-$sql1 = " UPDATE especialidad_atencion SET etapa='DIAGNOSTICO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-$sql1.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
-$result1 = mysqli_query($link,$sql1);   
+    $sql0 = " UPDATE atencion_safci SET etapa='EN DIAGNOSTICO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql0.= " WHERE idatencion_safci='$idatencion_safci_ss' ";
+    $result0 = mysqli_query($link,$sql0);   
+    
+    $sql1 = " UPDATE especialidad_atencion SET etapa='CON DIAGNOSTICO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql1.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+    $result1 = mysqli_query($link,$sql1);   
+    
+    $sql2 = " UPDATE diagnostico_atencion SET etapa='CON DIAGNOSTICO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql2.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+    $result2 = mysqli_query($link,$sql2);   
+    
+    header("Location:mensaje_diagnostico_paciente.php");
 
-$sql2 = " UPDATE diagnostico_atencion SET etapa='DIAGNOSTICO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-$sql2.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
-$result2 = mysqli_query($link,$sql2);   
-
-header("Location:mensaje_diagnostico_paciente.php");
+} else {
+    header("Location:mensaje_sin_diagnostico.php");
+}
 
 /*********** ENVIO DATOS PARA CONSULTA DEL PACIENTE  (END) *************/
 ?>

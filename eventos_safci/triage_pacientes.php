@@ -184,7 +184,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 $numero=1;
                 $sql =" SELECT atencion_safci.idatencion_safci, atencion_safci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
                 $sql.=" atencion_safci.edad, atencion_safci.fecha_registro, atencion_safci.hora_registro, atencion_safci.idnombre, nombre.ci FROM atencion_safci, nombre  ";
-                $sql.=" WHERE atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' AND atencion_safci.etapa='TRIAGE' ORDER BY atencion_safci.idatencion_safci DESC ";
+                $sql.=" WHERE atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' AND atencion_safci.etapa='EN TRIAGE' ORDER BY atencion_safci.idatencion_safci DESC ";
                 $result = mysqli_query($link,$sql);
                 if ($row = mysqli_fetch_array($result)){
                 mysqli_field_seek($result,0);

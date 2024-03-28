@@ -29,10 +29,10 @@ $indicacion         = $link->real_escape_string(mb_strtoupper($_POST['indicacion
 
     $sql0 = " INSERT INTO tratamiento (idevento_safci, idatencion_safci, idespecialidad_atencion, idnombre, iddiagnostico_atencion, idpatologia, ";
     $sql0.= " idtipo_medicamento, idmedicamento, indicacion, cantidad_recetada, entregado_farmacia, fecha_registro, hora_registro, ";
-    $sql0.= " idusuario_medico, idprocedencia_medicamento, fecha_entrega, hora_entrega, idusuario_farmacia) ";
+    $sql0.= " idusuario_medico, idprocedencia_medicamento, fecha_entrega, hora_entrega, etapa, idusuario_farmacia) ";
     $sql0.= " VALUES ('$idevento_safci_ss','$idatencion_safci_ss','$idespecialidad_atencion_ss','$idnombre_paciente_ss','$iddiagnostico_atencion_ss','$idpatologia_ss', ";
     $sql0.= " '$idtipo_medicamento','$idmedicamento','$indicacion','$cantidad_recetada','NO','$fecha','$hora',  ";
-    $sql0.= " '$idusuario_ss','1','$fecha','$hora','0') ";
+    $sql0.= " '$idusuario_ss','1','$fecha','$hora','PARA TRATAMIENTO','0') ";
     $result0 = mysqli_query($link,$sql0);   
 
 header("Location:medicacion_paciente.php");

@@ -21,7 +21,7 @@ $idatencion_safci_ss  = $_SESSION['idatencion_safci_ss'];
 
 /*********** modificar el registro de atencion enviando a triage (BEGIN) *************/
 
-    $sql0 = " UPDATE atencion_safci SET etapa='TRIAGE', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+    $sql0 = " UPDATE atencion_safci SET etapa='EN TRIAGE', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
     $sql0.= " WHERE idatencion_safci='$idatencion_safci_ss' ";
     $result0 = mysqli_query($link,$sql0);   
     $idnombre_paciente = mysqli_insert_id($link);
