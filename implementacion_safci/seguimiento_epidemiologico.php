@@ -59,14 +59,75 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">SEGUIMIENTO EPIDEMIOLÓGICO SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede realizar el Seguimiento Epidemiológico del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta seccion se puede realizar el Seguimiento a fichas Epidemiológicas del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                 <!-- REPORTE NACIONAL  -->
             
             <!-- REPORTE POR DEPARTAMENTO -->
                     <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">SEGUIMIENTO DE FICHAS EPIDEMIOLOGICAS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">SEGUIMIENTO DE FICHAS EPIDEMIOLÓGICAS POR DEPARTAMENTO</h6>
+                    </div>
+
+                    <form name="FICHAS" action="valida_seguimiento_fichas_dep.php" method="post"> 
+
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">DEPARTAMENTO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="iddepartamento_dep"  id="iddepartamento_dep" class="form-control" required>
+
+                        <option value="">Elegir Departamento</option>
+                            <?php
+                            $numero = 1;
+                            $sql2 = " SELECT departamento.iddepartamento, departamento.departamento FROM ficha_ep, notificacion_ep, departamento ";
+                            $sql2.= " WHERE ficha_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.estado='CONSOLIDADO' ";
+                            $sql2.= " AND ficha_ep.direccion != '' GROUP BY departamento.iddepartamento ORDER BY departamento.departamento ";
+                            $result2 = mysqli_query($link,$sql2);
+                            if ($row2 = mysqli_fetch_array($result2)){
+                            mysqli_field_seek($result2,0);
+                            while ($field2 = mysqli_fetch_field($result2)){
+                            } do {
+                            echo "<option value=".$row2[0].">".$numero.".- ".$row2[1]." </option>";
+                            $numero = $numero+1;
+                            } while ($row2 = mysqli_fetch_array($result2));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ELEGIR REGISTRO EPIDEMIOLÓGICO:</h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <select name="idsospecha_diag_dep"  id="idsospecha_diag_dep" class="form-control" required></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        
+                        </div>
+                        <div class="col-sm-8">
+                        <button type="submit" class="btn btn-primary">INGRESAR A FICHAS EPIDEMIOLÓGICAS</button></form>
+                        </div>
+                    </div> 
+                  </div>
+                </div>
+               
+<!----seguimiento por establecimiento de salud ------>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">SEGUIMIENTO DE FICHAS EPIDEMIOLÓGICAS POR ESTABLECIMIENTO </h6>
                     </div>
 
                     <form name="SOSPECHA" action="valida_seguimiento_fichas_ep.php" method="post"> 
@@ -85,7 +146,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             $numero = 1;
                             $sql2 = " SELECT departamento.iddepartamento, departamento.departamento FROM ficha_ep, notificacion_ep, departamento ";
                             $sql2.= " WHERE ficha_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.estado='CONSOLIDADO' ";
-                            $sql2.= " GROUP BY departamento.iddepartamento ORDER BY departamento.departamento ";
+                            $sql2.= " AND ficha_ep.direccion != '' GROUP BY departamento.iddepartamento ORDER BY departamento.departamento ";
                             $result2 = mysqli_query($link,$sql2);
                             if ($row2 = mysqli_fetch_array($result2)){
                             mysqli_field_seek($result2,0);
@@ -141,7 +202,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                 </div>
 
-               
+       
+
+
 
 
 
@@ -237,6 +300,20 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         establecimiento_salud=$(this).val();
                     $.post("sospecha_seg_ep.php", {establecimiento_salud:establecimiento_salud}, function(data){
                     $("#idsospecha_diag").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento_dep").change(function () {
+                    $("#iddepartamento_dep option:selected").each(function () {
+                        departamento_dep=$(this).val();
+                    $.post("sospecha_seg_dep.php", {departamento_dep:departamento_dep}, function(data){
+                    $("#idsospecha_diag_dep").html(data);
                     });
                 });
         })

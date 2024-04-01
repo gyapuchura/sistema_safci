@@ -11,13 +11,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
-$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
-$sql0 =" SELECT departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.codigo_establecimiento, ";
-$sql0.=" establecimiento_salud.establecimiento_salud, red_salud.idred_salud FROM  departamento, red_salud, municipios, establecimiento_salud  ";
-$sql0.=" WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idred_salud=red_salud.idred_salud ";
-$sql0.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+
+$sql0 =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento_ss' ";
 $result0 = mysqli_query($link,$sql0);
 $row0 = mysqli_fetch_array($result0);
 
@@ -79,21 +75,17 @@ $row_sos = mysqli_fetch_array($result_sos);
                     </div>  
                     <h4 class="m-0 font-weight-bold text-primary">FICHAS EPIDEMIOLÓGICAS : <?php echo mb_strtoupper($row_sos[1]);?></h4>
                     <hr>
-                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row0[0]);?></h6>
-                    <h6 class="text-primary">RED DE SALUD : <?php echo mb_strtoupper($row0[1]);?></h6>
-                    <h6 class="text-primary">MUNICIPIO : <?php echo mb_strtoupper($row0[2]);?></h6>
-                    <h6 class="text-primary">ESTABLECIMIENTO : <?php echo mb_strtoupper($row0[3]);?> - <?php echo mb_strtoupper($row0[4]);?>
+                    <h6 class="text-primary">DEPARTAMENTO : <?php echo mb_strtoupper($row0[1]);?></h6>
                     
                 </h6>
-                    <p class="mb-4">En esta sección se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS de las   
-                    <a href="detalle_notificaciones_estab.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud_ss;?>&idmunicipio=<?php echo $idmunicipio_ss;?>&idsospecha_diag=<?php echo $idsospecha_diag_ss?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=300'); return false;">Notificaciones del Establecimiento</a>
-                    junto al 
-                    <a href="marco_ep_establecimiento.php?idsospecha_diag_estab=<?php echo $idsospecha_diag_ss;?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud_ss;?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=60,left=400'); return false;">REPORTE POR SEMANA</a>
-                    y ver los 
-                    <a href="piramide_sospechas_estab.php?idsospecha_diag_estab=<?php echo $idsospecha_diag_ss;?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">GRUPOS ETAREOS AFECTADOS</a>
-                </p>
 
-                   
+                <p class="mb-4">En esta sección se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS por Departamento, se podra ver el 
+
+                    <a href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_ss;?>&departamento_ep=<?php echo $iddepartamento_ss;?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=800,scrollbars=YES,top=60,left=400'); return false;">REPORTE POR SEMANA</a>
+                    y ver los 
+                    <a href="piramide_sospechas_deptal.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_ss;?>&departamento_ep=<?php echo $iddepartamento_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">GRUPOS ETAREOS AFECTADOS</a>
+                </p>
+                
                     <!-- DataTales Example -->
 
                     <div class="card shadow mb-4">
@@ -119,11 +111,11 @@ $row_sos = mysqli_fetch_array($result_sos);
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular, ";
-                        $sql.=" ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep, registro_enfermedad.idsospecha_diag, registro_enfermedad.idgrupo_etareo, registro_enfermedad.idgenero ";
-                        $sql.=" FROM ficha_ep, registro_enfermedad, notificacion_ep, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
-                        $sql.=" AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idnombre=nombre.idnombre ";
-                        $sql.=" AND ficha_ep.direccion != '' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss ' ";
+                        $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular,  ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep, ";
+                        $sql.=" registro_enfermedad.idsospecha_diag, registro_enfermedad.idgrupo_etareo, registro_enfermedad.idgenero, red_salud.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, red_salud, nombre ";
+                        $sql.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+                        $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud ";
+                        $sql.=" AND ficha_ep.idnombre=nombre.idnombre AND ficha_ep.direccion !='' AND notificacion_ep.iddepartamento='$iddepartamento_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss'  ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -145,13 +137,15 @@ $row_sos = mysqli_fetch_array($result_sos);
                                 <td><?php echo mb_strtoupper($row[3]);?> <?php echo mb_strtoupper($row[4]);?> <?php echo mb_strtoupper($row[5]);?></td>
                                 <td><?php echo $row[6];?></td>
                                 <td>
-                        <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_ep.php" method="post">
+                        <form name="ACT_SEGUIMIENTO" action="actualiza_seguimiento_dep.php" method="post">
  
                                 <input name="idnotificacion_ep" type="hidden" value="<?php echo $row[8];?>">
                                 <input name="idregistro_enfermedad" type="hidden" value="<?php echo $row[7];?>">
                                 <input name="idficha_ep" type="hidden" value="<?php echo $row[0];?>">
 
-                                <input name="idred_salud" type="hidden" value="<?php echo $row0[5];?>">
+                                <input name="idred_salud" type="hidden" value="<?php echo $row[12];?>">
+                                <input name="idmunicipio" type="hidden" value="<?php echo $row[13];?>">
+                                <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[14];?>">
 
                                 <input name="idsospecha_diag" type="hidden" value="<?php echo $row[9];?>">
                                 <input name="idgrupo_etareo" type="hidden" value="<?php echo $row[10];?>">
