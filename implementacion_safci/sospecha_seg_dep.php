@@ -1,12 +1,12 @@
 <?php include("../inc.config.php");
-$idestablecimiento_salud = $_POST["establecimiento_salud"];
+$iddepartamento_dep = $_POST["departamento_dep"];
 ?>
 <option value="">Elegir Registro Epidemiológico</option>
 <?php
 $numero = 1;
 $sql2 = " SELECT ficha_ep.idsospecha_diag, sospecha_diag.sospecha_diag FROM ficha_ep, notificacion_ep, sospecha_diag  ";
 $sql2.= " WHERE ficha_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idsospecha_diag=sospecha_diag.idsospecha_diag ";
-$sql2.= " AND ficha_ep.direccion != '' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY ficha_ep.idsospecha_diag ";
+$sql2.= " AND notificacion_ep.iddepartamento='$iddepartamento_dep' AND ficha_ep.direccion != '' GROUP BY ficha_ep.idsospecha_diag ";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
