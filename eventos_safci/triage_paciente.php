@@ -337,14 +337,15 @@ $row_sg=mysqli_fetch_array($result_sg);
                         <tr>
                             <th class="text-info">Nª</th>
                             <th class="text-info">ESPECIALIDAD MÉDICA</th>
-                            <th class="text-info">OBSERVACIÓN</th>
+                            <th class="text-info">ANAMNESIS</th>
+                            <th class="text-info">PRE-DIAGNOSTICO</th>
                             <th class="text-info">ACCIÓN</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql4 =" SELECT especialidad_atencion.idespecialidad_atencion, especialidad_medica.especialidad_medica, especialidad_atencion.observacion, nombre.nombre, nombre.paterno, nombre.materno ";
+                        $sql4 =" SELECT especialidad_atencion.idespecialidad_atencion, especialidad_medica.especialidad_medica, especialidad_atencion.anamnesis, especialidad_atencion.prediagnostico ";
                         $sql4.=" FROM especialidad_atencion, especialidad_medica, usuarios, nombre WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND ";
                         $sql4.=" especialidad_atencion.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND especialidad_atencion.idatencion_safci='$idatencion_safci_ss' ";
                         $result4 = mysqli_query($link,$sql4);
@@ -357,6 +358,7 @@ $row_sg=mysqli_fetch_array($result_sg);
                             <td><?php echo $numero;?></td>
                             <td><?php echo $row4[1];?></td>
                             <td><?php echo $row4[2];?></td>
+                            <td><?php echo $row4[3];?></td>
                             <td>
                             <form name="BORRAR" action="elimina_especialidad_atencion.php" method="post">  
                             <input type="hidden" name="idespecialidad_atencion" value="<?php echo $row4[0];?>">
@@ -381,7 +383,7 @@ $row_sg=mysqli_fetch_array($result_sg);
                 <form name="ESPECIALIDAD" action="guarda_triage.php" method="post">                   
 
                 <div class="form-group row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-12">
                     <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6>
                         <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required autofocus>
                         <option value="">-SELECCIONE-</option>
@@ -402,9 +404,16 @@ $row_sg=mysqli_fetch_array($result_sg);
                         ?>
                         </select>
                     </div>
+               </div>
+
+            <div class="form-group row">
                     <div class="col-sm-5">
-                    <h6 class="text-primary">OBSERVACIÓN PREVIA:</h6>
-                    <textarea class="form-control" rows="4" name="observacion"></textarea>
+                    <h6 class="text-primary">ANAMNESIS:</h6>
+                    <textarea class="form-control" rows="4" name="anamnesis"></textarea>
+                    </div>
+                    <div class="col-sm-5">
+                    <h6 class="text-primary">PRE-DIAGNÓSTICO:</h6>
+                    <textarea class="form-control" rows="4" name="prediagnostico"></textarea>
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">ACCIÓN:</h6>

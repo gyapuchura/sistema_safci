@@ -302,9 +302,9 @@ $row_ev=mysqli_fetch_array($result_ev);
                         "lengthMenu": "Mostrar _MENU_ registros por pagina",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
                         "searchPlaceholder": "Buscar registros",
-                        "info": "Mostrando Establecimientos de _START_ al _END_ de un total de  _TOTAL_ Establecimientos",
-                        "infoEmpty": "No existen Establecimientos",
-                        "infoFiltered": "(filtrado de un total de _MAX_ Establecimientos)",
+                        "info": "Mostrando Registros de _START_ al _END_ de un total de  _TOTAL_ Registros",
+                        "infoEmpty": "Sin pacientes aún",
+                        "infoFiltered": "(filtrado de un total de _MAX_ Registros)",
                         "search": "Buscar:",
                         "paginate": {
                             "first":    "Primero",

@@ -25,25 +25,36 @@ $sql.= " FROM tratamiento WHERE iddiagnostico_atencion='$iddiagnostico_atencion_
 $result = mysqli_query($link,$sql);
 if ($row = mysqli_fetch_array($result)){
     
-    $sql0 = " UPDATE atencion_safci SET etapa='EN TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-    $sql0.= " WHERE idatencion_safci='$idatencion_safci_ss' ";
-    $result0 = mysqli_query($link,$sql0);   
-
-    $sql1 = " UPDATE especialidad_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-    $sql1.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
-    $result1 = mysqli_query($link,$sql1); 
-
-    $sql2 = " UPDATE diagnostico_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
+ 
+    $sql2 = " UPDATE diagnostico_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss' ";
     $sql2.= " WHERE iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
     $result2 = mysqli_query($link,$sql2);   
 
     $sql3 = " UPDATE tratamiento SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario_medico='$idusuario_ss' ";
     $sql3.= " WHERE iddiagnostico_atencion='$iddiagnostico_atencion_ss' ";
     $result3 = mysqli_query($link,$sql3);  
- 
-    header("Location:mensaje_tratamiento_paciente.php");
+
+        $sql_d = " SELECT iddiagnostico_atencion, etapa FROM diagnostico_atencion  ";
+        $sql_d.= " WHERE etapa = 'CON DIAGNOSTICO' AND idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+        $result_d = mysqli_query($link,$sql_d);
+        if ($row_d = mysqli_fetch_array($result_d)){
+
+        header("Location:mensaje_tratamiento_paciente.php");
+
+        } else {
+
+            $sql2 = " UPDATE especialidad_atencion SET etapa='CON TRATAMIENTO', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss' ";
+            $sql2.= " WHERE idespecialidad_atencion='$idespecialidad_atencion_ss' ";
+            $result2 = mysqli_query($link,$sql2); 
+          
+        header("Location:mensaje_tratamiento_paciente.php");
+
+        }
+
 } else {
+
     header("Location:mensaje_sin_tratamiento.php");
+
 }
 
 /*********** ENVIO DATOS PARA CONSULTA DEL PACIENTE  (END) *************/

@@ -48,7 +48,7 @@ $sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, 
 $result_sg=mysqli_query($link,$sql_sg);
 $row_sg=mysqli_fetch_array($result_sg);
 
-$sql_esp =" SELECT especialidad_medica.especialidad_medica FROM especialidad_atencion, especialidad_medica WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
+$sql_esp =" SELECT especialidad_medica.especialidad_medica, especialidad_atencion.anamnesis, especialidad_atencion.prediagnostico FROM especialidad_atencion, especialidad_medica WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
 $sql_esp.=" AND especialidad_atencion.idespecialidad_atencion='$idespecialidad_atencion_ss'";
 $result_esp=mysqli_query($link,$sql_esp);
 $row_esp=mysqli_fetch_array($result_esp);
@@ -339,8 +339,50 @@ $row_pat=mysqli_fetch_array($result_pat);
                 </div>
 
                 <hr>
-                <!---------- DIAGNÓSTICO MEDICO  BEGIN ------------->
+                <!---------- DATOS DEL TRIAGE  BEGIN ------------->
 
+                <div class="text-center">                                     
+                    <h4 class="text-primary">DATOS TRIAGE:</h4>                    
+                </div>
+                <hr> 
+
+            <div class="form-group row">   
+                    
+                    <div class="col-sm-4">
+                        <h6 class="text-primary">ESPECIALIDAD</h6>
+    
+                        <select name="idespecialidad_atencion"  id="idespecialidad_atencion" class="form-control" disabled>
+                            <option selected>Seleccione</option>
+                            <?php
+                            $sqlv = " SELECT especialidad_atencion.idespecialidad_atencion, especialidad_medica.especialidad_medica FROM especialidad_atencion, especialidad_medica ";
+                            $sqlv.= " WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
+                            } do {
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idespecialidad_atencion_ss) echo "selected";?> ><?php echo $rowv[1];?></option>
+                            <?php
+                            } while ($rowv = mysqli_fetch_array($resultv));
+                            } else {
+                            }
+                            ?>
+                        </select>
+    
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ANAMNESIS</h6>
+                        <textarea class="form-control" rows="3" name="anamnesis" disabled><?php echo $row_esp[1]?></textarea>
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">PRE-DIAGNÓSTICO:</h6>
+                        <textarea class="form-control" rows="3" name="prediagnostico" disabled><?php echo $row_esp[2]?></textarea>               
+                        </div>
+                    </div>
+    
+                    <hr>
+                <!---------- DATOS DEL TRIAGE END ------------->
 
 
                 <!---------- TRATAMIENTO MEDICO  BEGIN ------------->
@@ -445,7 +487,7 @@ $row_pat=mysqli_fetch_array($result_pat);
         </div>
     </div>
 </div>   
-
+ 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 <hr>
                 <form name="MEDICACION" action="guarda_item_medicamento.php" method="post">                   
