@@ -73,7 +73,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                     <div class="text-center">   
                     <a href="evento_safci.php" class="text-info">VOLVER</a>                   
                     <hr>                                         
-                    <h4 class="text-primary">CONSULTAS POR ESPECIALIDAD</h4>
+                    <h4 class="text-primary">FARMACIA SAFCI</h4>
                     <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
                     <hr> 
                     </div>
@@ -164,7 +164,7 @@ $row_ev=mysqli_fetch_array($result_ev);
     <!-------- begin rejilla --------->   
             <hr>    
                 <div class="text-center">                                           
-                <h4 class="text-primary">PACIENTES POR ATENDER</h4>
+                <h4 class="text-primary">ENTREGA DE MEDICAMENTOS</h4>
                 </div>
             <hr>
 
@@ -218,7 +218,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <?php
                 if ($row[12] == 'CON ESPECIALIDAD') {
                     ?>
-                    <form name="CONSULTA" action="valida_consulta_paciente.php" method="post">
+                    <form name="CONSULTA" action="valida_facrmacia_paciente.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
@@ -226,15 +226,15 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">SIN DIAGNÓSTICO</span>    
+                        <span class="text">SIN ENTREGAR</span>    
                         </button>
                     </form>                     
                 <?php
                 } else { 
                     
-                    if ($row[12] == 'CON DIAGNOSTICO') {
+
                          ?>
-                    <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
+                    <form name="CONSULTA" action="valida_farmacia_paciente_deliv.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
@@ -242,25 +242,10 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">EN DIAGNÓSTICO</span>    
+                        <span class="text">ENTREGADO</span>    
                         </button>
                     </form>  
-                <?php 
-            } else { ?>
-                
-                <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
-                    <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
-                    <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
-                    <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
-                        <button type="submit" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-hospital"></i>
-                        </span>
-                        <span class="text">CON TRATAMIENTO</span>    
-                        </button>
-                    </form>  
-
-            <?php } }?>
+            <?php } ?>
                     
 
                                                                         

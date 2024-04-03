@@ -41,7 +41,7 @@ $sql_at =" SELECT idatencion_safci, codigo, edad FROM atencion_safci WHERE idate
 $result_at=mysqli_query($link,$sql_at);
 $row_at=mysqli_fetch_array($result_at);
 
-$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, imc FROM signo_vital WHERE idatencion_safci ='$idatencion_safci_ss' ";
+$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, imc, presion_arterial_d FROM signo_vital WHERE idatencion_safci ='$idatencion_safci_ss' ";
 $result_sg=mysqli_query($link,$sql_sg);
 $row_sg=mysqli_fetch_array($result_sg);
     
@@ -206,7 +206,6 @@ $row_sg=mysqli_fetch_array($result_sg);
 
                 <form name="MODIFICA_PACIENTE" action="guarda_paciente_mod_reg.php" method="post">    
                     
-                <hr> 
                 <div class="form-group row">                               
 
                     <div class="col-sm-3">
@@ -324,27 +323,27 @@ $row_sg=mysqli_fetch_array($result_sg);
 
                 <div class="form-group row">                               
                     <div class="col-sm-3">
-                    <h6 class="text-primary">FRECUENCIA CARDIACA [lpm]:</h6>
+                    <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[1];?>" 
                          name="frec_cardiaca">                
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">PESO [kg]:</h6>
+                    <h6 class="text-primary">PESO </br>[kg]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[2];?>"            
                          name="peso" >                
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">TALLA [mtrs.]:</h6>
+                    <h6 class="text-primary">TALLA </br>[mtrs.]:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
                          name="talla">                
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">I.M.C.:</h6>
+                    <h6 class="text-primary"></br>I.M.C.:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_sg[9];?>"  
                          name="imc" disabled>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">FRECUENCIA RESPIRATORIA [cpm]:</h6>
+                    <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[4];?>" 
                          name="frec_respiratoria">                
                     </div>
@@ -353,22 +352,27 @@ $row_sg=mysqli_fetch_array($result_sg);
                 <div class="form-group row">                               
 
                     <div class="col-sm-3">
-                    <h6 class="text-primary">PRESIÓN ARTERIAL [mmHg]:</h6>
+                    <h6 class="text-primary">PRESIÓN ARTERIAL </br>[mmHg]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[5];?>"             
                          name="presion_arterial" >                
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">TEMPERATURA [°C]:</h6>
+                    <div class="col-sm-2">
+                    <h6 class="text-primary"></br></br></h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[10];?>"             
+                         name="presion_arterial_d" >                
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-primary">TEMPERATURA </br>[°C]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[6];?>" 
                          name="temperatura">                
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">SATURACIÓN [% O2]:</h6>
+                    <div class="col-sm-2">
+                    <h6 class="text-primary">SATURACIÓN </br>[% O2]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[7];?>" 
                          name="saturacion">                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">COMBE:</h6>
+                    <h6 class="text-primary"></br>COMBE:</h6>
                     Positivo (+) <input type="radio" name="combe" value="POSITIVO"
                     <?php if ($row_sg[8] == 'POSITIVO') { echo "checked";} else { } ?> > 
                     Negativo (-) <input type="radio" name="combe" value="NEGATIVO" 

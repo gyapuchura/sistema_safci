@@ -29,7 +29,26 @@ $fecha_nac     = $_POST['fecha_nac'];
     $sql0 = " UPDATE nombre SET ci ='$ci', nombre = '$nombre', paterno = '$paterno', materno ='$materno', ";
     $sql0.= " idgenero = '$idgenero', fecha_nac = '$fecha_nac' WHERE idnombre = '$idnombre_paciente_ss' ";
     $result0 = mysqli_query($link,$sql0);   
-    $idnombre_paciente = mysqli_insert_id($link);
+
+    $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_paciente_ss' ";
+    $result_n=mysqli_query($link,$sql_n);
+    $row_n=mysqli_fetch_array($result_n);
+
+        $fecha_nacimiento = $row_n[5];
+        $dia=date("d");
+        $mes=date("m");
+        $ano=date("Y");    
+        $dianaz=date("d",strtotime($fecha_nacimiento));
+        $mesnaz=date("m",strtotime($fecha_nacimiento));
+        $anonaz=date("Y",strtotime($fecha_nacimiento));         
+        if (($mesnaz == $mes) && ($dianaz > $dia)) {
+        $ano=($ano-1); }      
+        if ($mesnaz > $mes) {
+        $ano=($ano-1);}       
+        $edad=($ano-$anonaz); 
+
+        $sqlf = " UPDATE atencion_safci SET edad='$edad' WHERE idatencion_safci = '$idatencion_safci_ss' ";
+        $resultf = mysqli_query($link,$sqlf); 
 
 header("Location:mensaje_registro_paciente_mod.php");
 

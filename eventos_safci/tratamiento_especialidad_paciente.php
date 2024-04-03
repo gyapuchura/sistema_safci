@@ -46,7 +46,7 @@ $sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, 
 $result_sg=mysqli_query($link,$sql_sg);
 $row_sg=mysqli_fetch_array($result_sg);
 
-$sql_esp =" SELECT especialidad_medica.especialidad_medica FROM especialidad_atencion, especialidad_medica WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
+$sql_esp =" SELECT especialidad_medica.especialidad_medica, especialidad_atencion.anamnesis, especialidad_atencion.prediagnostico FROM especialidad_atencion, especialidad_medica WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
 $sql_esp.=" AND especialidad_atencion.idespecialidad_atencion='$idespecialidad_atencion_ss'";
 $result_esp=mysqli_query($link,$sql_esp);
 $row_esp=mysqli_fetch_array($result_esp);
@@ -332,13 +332,54 @@ $row_esp=mysqli_fetch_array($result_esp);
                 </div>
 
                 <hr>
-                <!---------- DIAGNÓSTICO MEDICO  BEGIN ------------->
+                <!---------- DATOS DEL TRIAGE  BEGIN ------------->
 
-
-
-                <!---------- TRATAMIENTO MEDICO  BEGIN ------------->
                 <div class="text-center">                                     
-                    <h4 class="text-primary">DIAGNÓSTICO MÉDICO:</h4>                    
+                    <h4 class="text-primary">DATOS TRIAGE:</h4>                    
+                </div>
+                <hr> 
+
+            <div class="form-group row">   
+                    
+                    <div class="col-sm-4">
+                        <h6 class="text-primary">ESPECIALIDAD</h6>
+    
+                        <select name="idespecialidad_atencion"  id="idespecialidad_atencion" class="form-control" disabled>
+                            <option selected>Seleccione</option>
+                            <?php
+                            $sqlv = " SELECT especialidad_atencion.idespecialidad_atencion, especialidad_medica.especialidad_medica FROM especialidad_atencion, especialidad_medica ";
+                            $sqlv.= " WHERE especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
+                            } do {
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idespecialidad_atencion_ss) echo "selected";?> ><?php echo $rowv[1];?></option>
+                            <?php
+                            } while ($rowv = mysqli_fetch_array($resultv));
+                            } else {
+                            }
+                            ?>
+                        </select>
+    
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ANAMNESIS</h6>
+                        <textarea class="form-control" rows="3" name="anamnesis" disabled><?php echo $row_esp[1]?></textarea>
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">PRE-DIAGNÓSTICO:</h6>
+                        <textarea class="form-control" rows="3" name="prediagnostico" disabled><?php echo $row_esp[2]?></textarea>               
+                        </div>
+                    </div>
+    
+                    <hr>
+                <!---------- DATOS DEL TRIAGE END ------------->
+
+                <!---------- DIAGNOSTICO MEDICO  BEGIN ------------->
+                <div class="text-center">                                     
+                    <h4 class="text-info">DIAGNÓSTICO MÉDICO:</h4>                    
                 </div>
                 <div class="form-group row">
         <div class="col-sm-12">
@@ -407,60 +448,21 @@ $row_esp=mysqli_fetch_array($result_esp);
     </div>
 </div>   
 <!-- END aqui va el comntenido de la pagina ---->
-<hr>
-<div class="text-center">
+
 <?php
-$sql_t = " SELECT idatencion_safci, etapa FROM atencion_safci WHERE idatencion_safci='$idatencion_safci_ss' AND etapa='CONCLUIDA' ";
+$sql_t = "SELECT iddiagnostico_atencion, etapa FROM diagnostico_atencion WHERE etapa = 'CON DIAGNOSTICO' AND idespecialidad_atencion='$idespecialidad_atencion_ss' ";
 $result_t = mysqli_query($link,$sql_t);
 if ($row_t = mysqli_fetch_array($result_t)){
 ?>
-
-<a href="imprime_boleta_atencion.php?idatencion_safci=<?php echo $idatencion_safci_ss;?>&idespecialidad_atencion=<?php echo $idespecialidad_atencion_ss;?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=750,height=900,scrollbars=YES,top=60,left=400'); return false;">
-        IMPRIME BOLETA DE ATENCION MÉDICA</a>  
-
 <?php
 } else {
     ?>
-
-<hr>  
-                <form name="ENVIA_CONSULTA" action="guarda_concluye_consulta.php" method="post">  
-        <div class="text-center">
-            <div class="form-group row">
-                <div class="col-sm-6">
-                <h4 class="text-info">CONCLUIR CONSULTA MÉDICA:</h4>  
-                </div> 
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                    CONCLUIR CONSULTA MÉDICA
-                    </button>  
-                </div> 
-            </div>                              
-                            
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">CONSULTA MÉDICA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de CONCLUIR LA CONSULTA MÉDICA?
-                        
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>        
-    </div>
-                <hr>  
+    <hr>
+<div class="text-center">
+ <a href="imprime_boleta_atencion.php?idatencion_safci=<?php echo $idatencion_safci_ss;?>&idespecialidad_atencion=<?php echo $idespecialidad_atencion_ss;?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=750,height=900,scrollbars=YES,top=60,left=400'); return false;">
+        IMPRIME BOLETA DE ATENCION MÉDICA</a>  
+        <hr>
+ <a href="deriva_otra_especialidad.php" class="text-info">DERIVAR A OTRA ESPECIALIDAD MÉDICA</a>
 
 <?php
 }

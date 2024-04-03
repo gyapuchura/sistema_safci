@@ -269,17 +269,17 @@ $fecha_nacimiento = $row_n[5];
                          name="frec_cardiaca" required>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">PESO [kg]:</h6>
+                    <h6 class="text-primary">PESO </br>[kg]:</h6>
                         <input type="number" class="form-control"              
                          name="peso" required>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">TALLA [mtrs.]:</h6>
-                        <input type="text" class="form-control"
+                    <h6 class="text-primary">TALLA </br>[mtrs.]:</h6>
+                        <input type="text" class="form-control" placeholder="Ej. 1.65"
                          name="talla" required>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">FRECUENCIA RESPIRATORIA [cpm]:</h6>
+                    <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
                         <input type="number" class="form-control" 
                          name="frec_respiratoria" required>                
                     </div>
@@ -288,29 +288,31 @@ $fecha_nacimiento = $row_n[5];
                 <div class="form-group row">                               
 
                     <div class="col-sm-3">
-                    <h6 class="text-primary">PRESIÓN ARTERIAL [mmHg]:</h6>
+                    <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
                         <input type="number" class="form-control"              
-                         name="presion_arterial"  required>                
+                         name="presion_arterial"  placeholder="Sistólica" required>               
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-primary"> </br></br></h6>
+                         <input type="number" class="form-control"              
+                         name="presion_arterial_d" placeholder="Diastólica" required>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">TEMPERATURA [°C]:</h6>
+                    <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                         <input type="number" class="form-control" 
-                         name="temperatura" required>                
+                         name="temperatura" placeholder="" required>                
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">SATURACIÓN [% O2]:</h6>
+                    <div class="col-sm-2">
+                    <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                         <input type="number" class="form-control"
                          name="saturacion" required>                
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">COMBE:</h6>
+                    <div class="col-sm-2">
+                    <h6 class="text-primary"></br>COMBE:</br></h6>
                        Positivo (+) <input type="radio" name="combe" value="POSITIVO"> 
                        Negativo (-) <input type="radio" name="combe" value="NEGATIVO" checked>                  
                     </div>
                 </div>
-
-
-
                 
                 <div class="text-center">
             <div class="form-group row">

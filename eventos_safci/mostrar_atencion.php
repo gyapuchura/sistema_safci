@@ -29,9 +29,11 @@ $sql_at =" SELECT idatencion_safci, codigo, edad FROM atencion_safci WHERE idate
 $result_at=mysqli_query($link,$sql_at);
 $row_at=mysqli_fetch_array($result_at);
 
-$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, imc FROM signo_vital WHERE idsigno_vital ='$idsigno_vital_ss' ";
+$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, imc, presion_arterial_d FROM signo_vital WHERE idsigno_vital ='$idsigno_vital_ss' ";
 $result_sg=mysqli_query($link,$sql_sg);
 $row_sg=mysqli_fetch_array($result_sg);
+
+$presion = $row_sg[5]."/".$row_sg[10];
     
 ?>
 <!DOCTYPE html>
@@ -271,24 +273,24 @@ $row_sg=mysqli_fetch_array($result_sg);
                          name="frec_cardiaca">                
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">PESO [kg]:</h6>
+                    <h6 class="text-primary">PESO </br>[kg]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[2];?>" disabled           
                          name="peso" >                
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">TALLA [mtrs.]:</h6>
+                    <h6 class="text-primary">TALLA </br>[mtrs.]:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_sg[3];?>" disabled 
                          name="talla">                
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">I.M.C.:</h6>
+                    <h6 class="text-primary">I.M.C.:</br></br></h6>
                         <input type="text" class="form-control" value="<?php 
                         $indice = number_format($row_sg[9], 4, '.', '');
                         echo $indice;?>" disabled 
                          name="talla">                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">FRECUENCIA RESPIRATORIA [cpm]:</h6>
+                    <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[4];?>" disabled
                          name="frec_respiratoria">                
                     </div>
@@ -297,22 +299,22 @@ $row_sg=mysqli_fetch_array($result_sg);
                 <div class="form-group row">                               
 
                     <div class="col-sm-3">
-                    <h6 class="text-primary">PRESIÓN ARTERIAL [mmHg]:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_sg[5];?>" disabled            
+                    <h6 class="text-primary">PRESIÓN ARTERIAL </br>[mmHg]:</h6>
+                        <input type="text" class="form-control" value="<?php echo $presion;?>" disabled            
                          name="presion_arterial" >                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">TEMPERATURA [°C]:</h6>
+                    <h6 class="text-primary">TEMPERATURA </br>[°C]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[6];?>" disabled
                          name="temperatura">                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">SATURACIÓN [% O2]:</h6>
+                    <h6 class="text-primary">SATURACIÓN </br>[% O2]:</h6>
                         <input type="number" class="form-control" value="<?php echo $row_sg[7];?>" disabled
                          name="saturacion">                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-primary">COMBE:</h6>
+                    <h6 class="text-primary">COMBE:</br></br></h6>
                      <input type="text" class="form-control" value="<?php echo $row_sg[8];?>" disabled
                          name="combe">                 
                     </div>
