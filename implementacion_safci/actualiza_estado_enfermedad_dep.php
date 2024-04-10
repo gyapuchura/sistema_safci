@@ -1,4 +1,3 @@
-
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
@@ -10,21 +9,22 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
-$idred_salud_ss             = $_SESSION['idred_salud_ss'];
-$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 $idregistro_enfermedad_ss   = $_SESSION['idregistro_enfermedad_ss'];
 $idficha_ep_ss              = $_SESSION['idficha_ep_ss'];
-$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
+
+$idred_salud_ss             = $_SESSION['idred_salud_ss'];
+$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
+$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+
 $idgrupo_etareo_ss          = $_SESSION['idgrupo_etareo_ss'];
 $idgenero_ss                = $_SESSION['idgenero_ss'];
 
-$idsemana_ep_ss        = $_SESSION['idsemana_ep_ss'];
-$idestado_paciente_ss  = $_SESSION['idestado_paciente_ss'];
 
-$sql = " SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ficha_ep.celular, ficha_ep.direccion, ficha_ep.latitud, ficha_ep.longitud, ficha_ep.idnombre, ficha_ep.idsospecha_diag ";
+$sql = " SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ficha_ep.celular, ficha_ep.direccion, ficha_ep.latitud, ficha_ep.longitud, ficha_ep.idnombre, ficha_ep.idsospecha_diag, ficha_ep.fecha_registro, notificacion_ep.codigo, ficha_ep.idnotificacion_ep  ";
 $sql.= " FROM ficha_ep, registro_enfermedad, notificacion_ep, nombre WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad ";
 $sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idnombre=nombre.idnombre ";
 $sql.= " AND registro_enfermedad.idregistro_enfermedad='$idregistro_enfermedad_ss' AND ficha_ep.idficha_ep='$idficha_ep_ss' ";
@@ -87,10 +87,13 @@ $row = mysqli_fetch_array($result);
                     <div class="p-3">               
                     <div class="text-center">                     
                     <hr>   
-                    <a href="actualiza_estado_enfermedad_dep.php">VOLVER</a> 
+                    <a href="fichas_ep_establecimiento_dep.php">VOLVER</a> 
                     <hr>
-                    <h4 class="text-info">EVOLUCIÓN DE LA ENFERMEDAD</h4>
-                    <h4 class="text-muted"><?php echo $row[1];?></h4>                    
+                    <h4 class="text-primary">SEGUIMIENTO A LA ENFERMEDAD</h4>
+                    <h4 class="text-muted"><?php echo $row[1];?></h4>   
+                    
+                    <a href="imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row[15];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;"><h6 class="text-info">NOTIFICACIÓN : <?php echo $row[14];?></h6></a>    
+                                      
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
@@ -283,6 +286,17 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">FECHA DE REGISTRO FICHA EPIDEMIOLÓGICA:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" value="<?php 
+                    $fecha_r = explode('-',$row[13]);
+                    $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                    echo $fecha_reg;?>" name="fecha_registro" disabled>
+                    </div>
+                </div>
 
 
                 <hr>
@@ -331,7 +345,7 @@ $row = mysqli_fetch_array($result);
                         <hr>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <h4 class="text-primary">SEGUIMIENTO MÉDICO</h4>
+                        <h4 class="text-info">SEGUIMIENTO MÉDICO</h4>
                     </div>
                 </div>   
 
@@ -348,13 +362,14 @@ $row = mysqli_fetch_array($result);
                             <th class="text-info">SEMANA EP (CONTROL)</th>
                             <th class="text-info">ESTADO DEL PACIENTE</th>
                             <th class="text-info">MÉDICO</th>
+                            <th class="text-info">ACCIÓN</th>
                         </tr>
                     </thead>
                     <tbody>
                             <?php
                         $numero=1;
                         $sql4 =" SELECT seguimiento_ep.idficha_ep, sospecha_diag.sospecha_diag, semana_ep.semana_ep, estado_paciente.estado_paciente,  ";
-                        $sql4.=" nombre.nombre, nombre.paterno, nombre.materno, seguimiento_ep.fecha_registro FROM seguimiento_ep, sospecha_diag, semana_ep, estado_paciente, usuarios, nombre ";
+                        $sql4.=" nombre.nombre, nombre.paterno, nombre.materno, seguimiento_ep.fecha_registro, seguimiento_ep.idseguimiento_ep, seguimiento_ep.idusuario FROM seguimiento_ep, sospecha_diag, semana_ep, estado_paciente, usuarios, nombre ";
                         $sql4.=" WHERE seguimiento_ep.idsospecha_diag=sospecha_diag.idsospecha_diag AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep  ";
                         $sql4.=" AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND seguimiento_ep.idusuario=usuarios.idusuario ";
                         $sql4.=" AND usuarios.idnombre=nombre.idnombre AND seguimiento_ep.idficha_ep='$idficha_ep_ss'  ";
@@ -376,6 +391,17 @@ $row = mysqli_fetch_array($result);
                             <td><?php echo "Sem. ".$row4[2];?></td>
                             <td><?php echo $row4[3];?></td>
                             <td><?php echo mb_strtoupper($row4[4]." ".$row4[5]." ".$row4[6]);?></td>
+                            <td>
+
+                            <?php  
+                            if ($row4[9] == $idusuario_ss ) {
+                             ?>
+                            <form name="BORRAR" action="elimina_item_seguimiento.php" method="post">  
+                            <input type="hidden" name="idseguimiento_ep" value="<?php echo $row4[8];?>">
+                            <button type="submit" class="btn btn-warning">BORRAR</button></form>
+                             <?php } else { } ?>
+                            </td>
+
                         </tr>                            
                         <?php
                         $numero=$numero+1;
@@ -393,33 +419,50 @@ $row = mysqli_fetch_array($result);
  
                 <hr>
  
-                <form name="EVOLUCION_ENF" action="guarda_evolucion_ficha_dep.php" method="post">
+                <form name="SEGUIMIENTO_EP" action="actualiza_seguimiento_dep.php" method="post">
 
                 <div class="form-group row">
-                    <div class="col-sm-4">
-                        <h6 class="text-primary">EVOLUCIÓN DE LA ENFERMEDAD A:</h6>
-                </div>
-                    <div class="col-sm-6">
-                    <select name="idsospecha_diag_evol"  id="idsospecha_diag_evol" class="form-control" required >
-                        <option selected>Seleccione</option>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">SEMANA EPIDEMIOLÓGICA:</h6>
+                    </div>
+                    <div class="col-sm-3">
+                    <select name="idsemana_ep"  id="idsemana_ep" class="form-control" required autofocus>
+                        <option value="">ELEGIR</option>
                         <?php
-                        $sqlv = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE evolutiva='SI'";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        $sql1 = "SELECT idsemana_ep, semana_ep FROM semana_ep ORDER BY idsemana_ep";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
                         } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row[12]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
+                        echo "<option value=".$row1[0].">Semana ".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
                         } else {
+                        echo "No se encontraron resultados!";
                         }
                         ?>
-                    </select>                       
+                    </select>                     
                     </div>
-                    <div class="col-sm-2">
-
+                    <div class="col-sm-3">
+                       <h6 class="text-info">ESTADO DEL PACIENTE:</h6>
+                    </div>
+                    <div class="col-sm-3">
+                    <select name="idestado_paciente"  id="idestado_paciente" class="form-control" required>
+                        <option value="">ELEGIR</option>
+                        <?php
+                        $sql1 = "SELECT idestado_paciente, estado_paciente FROM estado_paciente ORDER BY idestado_paciente";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select> 
                     </div>
                 </div>   
 
@@ -440,7 +483,7 @@ $row = mysqli_fetch_array($result);
     <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
                     ACTUALIZAR SEGUIMIENTO
                     </button>  
                 </div> 
@@ -463,7 +506,7 @@ $row = mysqli_fetch_array($result);
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR</button>    
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ $result = mysqli_query($link,$sql);
 if ($row = mysqli_fetch_array($result)){
 
     $sql1 = " UPDATE especialidad_atencion SET etapa='CON ESPECIALIDAD', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss'  ";
-    $sql1.= " WHERE idatencion_safci='$idatencion_safci_ss' ";
+    $sql1.= " WHERE idatencion_safci='$idatencion_safci_ss' AND etapa='PARA ESPECIALIDAD'";
     $result1 = mysqli_query($link,$sql1); 
     
     header("Location:mensaje_consulta_paciente_post.php");

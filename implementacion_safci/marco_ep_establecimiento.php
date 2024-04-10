@@ -115,7 +115,7 @@ echo ",";
             }
         },
         series: [{
-            name: '<?php echo mb_strtoupper($row_sos[1]);?>',
+            name: 'SOSPECHAS ',
             data: [
 
              <?php
@@ -166,7 +166,61 @@ Si no se encontraron resultados
 }
 ?>
             ]
-        }]
+        },
+
+        {
+    name: 'RECUPERADOS',
+    data: [
+
+<?php
+
+$numero = 0;
+$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep ";
+$result = mysqli_query($link,$sql);
+
+$total = mysqli_num_rows($result);
+
+if ($row = mysqli_fetch_array($result)){
+
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do {
+?>
+
+<?php
+$sql7 = " SELECT seguimiento_ep.idseguimiento_ep, seguimiento_ep.idsospecha_diag, seguimiento_ep.idestado_paciente, semana_ep.semana_ep FROM seguimiento_ep, notificacion_ep, semana_ep ";
+$sql7.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente='2' ";
+$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_estab' AND semana_ep.semana_ep='$row[0]' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
+$result7 = mysqli_query($link,$sql7);
+$row7 = mysqli_num_rows($result7);
+$recuperados = $row7;
+?>
+<?php echo $recuperados; ?>
+
+<?php
+$numero++;
+if ($numero == $total) {
+echo "";
+}
+else {
+echo ",";
+}
+
+} while ($row = mysqli_fetch_array($result));
+
+
+} else {
+
+
+echo ",";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+]   }
+        
+    ]
     });
 });
 		</script>

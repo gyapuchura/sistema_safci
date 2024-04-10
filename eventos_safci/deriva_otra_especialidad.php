@@ -528,7 +528,6 @@ if ($row_t = mysqli_fetch_array($result_t)){
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 <hr>
                 <form name="ESPECIALIDAD" action="guarda_triage_post.php" method="post">                   
-
                 <div class="form-group row">
                     <div class="col-sm-12">
                     <h6 class="text-info">ESPECIALIDAD MÉDICA A DERIVAR:</h6>
