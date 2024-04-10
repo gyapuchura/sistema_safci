@@ -9,7 +9,7 @@ $idficha_ep = $_GET['idficha_ep'];
 
 $sql =" SELECT ficha_ep.codigo, notificacion_ep.codigo, sospecha_diag.sospecha_diag, departamento.departamento, red_salud.red_salud, municipios.municipio, ";
 $sql.=" establecimiento_salud.establecimiento_salud, grupo_etareo.grupo_etareo, genero.genero, nombre.ci, nombre.nombre, ";
-$sql.=" nombre.paterno, nombre.materno, nombre.fecha_nac, ficha_ep.celular, ficha_ep.direccion FROM ficha_ep, registro_enfermedad, notificacion_ep, ";
+$sql.=" nombre.paterno, nombre.materno, nombre.fecha_nac, ficha_ep.celular, ficha_ep.direccion, ficha_ep.fecha_registro FROM ficha_ep, registro_enfermedad, notificacion_ep, ";
 $sql.=" sospecha_diag, departamento, red_salud, municipios, establecimiento_salud, grupo_etareo, genero, nombre ";
 $sql.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
 $sql.=" AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND notificacion_ep.iddepartamento=departamento.iddepartamento ";
@@ -38,7 +38,16 @@ $row = mysqli_fetch_array($result);
           <tr>
             <td colspan="2" style="text-align: right; font-size: 12px; font-family: Arial;">REGISTRO EPIDEMIOLÓGICO:</td>
             <td colspan="2" style="font-size: 14px; font-family: Arial;"><?php echo $row[2];?></td>
-            </tr>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: right; font-size: 12px; font-family: Arial;">FECHA DE REGISTRO </br>(FICHA EPIDEMIOLÓGICA):</td>
+            <td colspan="2" style="font-size: 14px; font-family: Arial;">
+            <?php 
+                $fecha_r = explode('-',$row[16]);
+                $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                echo $fecha_reg; ?>
+            </td>
+          </tr>
           <tr>
             <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
             <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>

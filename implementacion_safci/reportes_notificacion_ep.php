@@ -61,9 +61,49 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h1 class="h3 mb-2 text-gray-800">VIGILANCIA EPIDEMIOLÓGICA SAFCI</h1>
                     <p class="mb-4">En esta seccion se puede encontrar informción sobre Vigilancia Epidemiológica del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
-                <!-- REPORTE NACIONAL  -->
+                <!-- REPORTE ENFERMEDAD NACIONAL  -->
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">                    
+                        <a href="reporte_enfermedad_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=150'); return false;">
+                        <h6 class="m-0 font-weight-bold text-info">REPORTE PORCENTUAL F302A NACIONAL</h6></a>
+
+                    </div>
+                  
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-info">ELEGIR SECCION F302A:</h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <select name="idcat_registro"  id="idcat_registro" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = " SELECT idcat_registro, cat_registro FROM cat_registro  ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body" id="vigilancia_enf_nal"></div>
+                </div>
+
             
-            <!-- REPORTE POR DEPARTAMENTO -->
+            <!-- REPORTE NACIONAL -->
+
+
+
+
                     <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">REPORTE EPIDEMIOLÓGICO NACIONAL</h6>
@@ -238,6 +278,20 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idcat_registro").change(function () {
+                    $("#idcat_registro option:selected").each(function () {
+                        cat_registro=$(this).val();
+                    $.post("vigilancia_enf_nal.php", {cat_registro:cat_registro}, function(data){
+                    $("#vigilancia_enf_nal").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
     <script language="javascript">
         $(document).ready(function(){
         $("#idsospecha_diag_nal").change(function () {

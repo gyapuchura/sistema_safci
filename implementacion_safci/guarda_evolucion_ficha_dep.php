@@ -77,7 +77,7 @@ if ($row_reg=mysqli_fetch_array($result_reg)) {
     $sql_up.=" VALUES ('$idficha_ep_ss','$idregistro_enfermedad_ss','$idnotificacion_ep_ss','$idsospecha_diag_evol','$idsemana_ep_ss','$idestado_paciente_ss','$idusuario_ss','$fecha') ";           
     $result_up = mysqli_query($link,$sql_up); 
 
-    header("Location:mensaje_evolucion_enfermedad.php");
+    header("Location:mensaje_evolucion_enfermedad_dep.php");
 
 } else {  
     //****  CREAMOS un nuevo Registro enfermedad (idsospecha_diag) *******//

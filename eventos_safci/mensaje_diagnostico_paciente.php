@@ -76,9 +76,9 @@ $idespecialidad_atencion_ss = $_SESSION['idespecialidad_atencion_ss'];
                     <h4 class="text-success">SE HA CONSOLIDADO !!</h4>
 
                     </br>
-                    <a href="tratamiento_especialidad_paciente.php"><h6>IR A TRATAMIENTO DEL PACIENTE</h6></a>
+                    <a href="medicacion_paciente.php"><h6>CONTINUAR CON TRATAMIENTO</h6></a>
                     </br>
-                    <a href="consultas_especialidad.php"><h6>IR A CONSULTAS POR ESPECIALIDAD</h6></a>
+
 
                     </div>
 <!-- END Del TITULO de la pagina ---->

@@ -87,9 +87,9 @@ $row = mysqli_fetch_array($result);
                     <div class="p-3">               
                     <div class="text-center">                     
                     <hr>   
-                    <a href="actualiza_estado_enfermedad_dep.php">VOLVER</a> 
+                    <a href="actualiza_estado_enfermedad_ep.php">VOLVER</a> 
                     <hr>
-                    <h4 class="text-info">EVOLUCIÓN DE LA ENFERMEDAD</h4>
+                    <h4 class="text-primary">EVOLUCIÓN DE LA ENFERMEDAD</h4>
                     <h4 class="text-muted"><?php echo $row[1];?></h4>                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -393,11 +393,11 @@ $row = mysqli_fetch_array($result);
  
                 <hr>
  
-                <form name="EVOLUCION_ENF" action="guarda_evolucion_ficha_dep.php" method="post">
+                <form name="EVOLUCION_ENF" action="guarda_evolucion_ficha_ep.php" method="post">
 
                 <div class="form-group row">
                     <div class="col-sm-4">
-                        <h6 class="text-primary">EVOLUCIÓN DE LA ENFERMEDAD A:</h6>
+                        <h6 class="text-info">EVOLUCIÓN DE LA ENFERMEDAD A:</h6>
                 </div>
                     <div class="col-sm-6">
                     <select name="idsospecha_diag_evol"  id="idsospecha_diag_evol" class="form-control" required >
