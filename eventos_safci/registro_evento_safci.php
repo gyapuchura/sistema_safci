@@ -70,10 +70,10 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">                     
+                    <div class="text-center">   
+                    <a href="eventos_safci_registrados.php" class="text-info">VOLVER A EVENTOS</a>                    
                     <hr>                     
-                    <h4 class="text-success">SE HA CREADO EL EVENTO:</h4>
-                    <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
+                    <h4 class="text-primary"><?php echo $row_ev[4];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->

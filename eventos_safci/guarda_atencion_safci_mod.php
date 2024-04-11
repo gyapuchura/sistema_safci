@@ -28,6 +28,8 @@ $presion_arterial_d = $_POST['presion_arterial_d'];
 $temperatura        = $_POST['temperatura'];
 $saturacion         = $_POST['saturacion'];
 $combe              = $_POST['combe'];
+$alergia            = $_POST['alergia'];
+$descripcion_alergia = $link->real_escape_string($_POST['descripcion_alergia']);
 
 $imc_i = $peso/$talla**2;
  
@@ -36,7 +38,8 @@ $imc = number_format($imc_i, 6, '.', '');
 /*********** modificar el regsitro de datos personales del paciente (BEGIN) *************/
 
     $sql0 = " UPDATE signo_vital SET frec_cardiaca ='$frec_cardiaca', peso = '$peso', talla = '$talla', frec_respiratoria ='$frec_respiratoria', ";
-    $sql0.= " presion_arterial = '$presion_arterial', presion_arterial_d = '$presion_arterial_d', temperatura = '$temperatura', saturacion='$saturacion', combe='$combe', imc='$imc', ";
+    $sql0.= " presion_arterial = '$presion_arterial', presion_arterial_d = '$presion_arterial_d', temperatura = '$temperatura', saturacion='$saturacion', ";
+    $sql0.= " combe='$combe', imc='$imc', alergia='$alergia', descripcion_alergia='$descripcion_alergia', ";
     $sql0.= " fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss' WHERE idsigno_vital = '$idsigno_vital' ";
     $result0 = mysqli_query($link,$sql0);   
     $idnombre_paciente = mysqli_insert_id($link);
