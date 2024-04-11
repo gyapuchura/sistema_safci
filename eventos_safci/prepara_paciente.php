@@ -292,7 +292,7 @@ $fecha_nacimiento = $row_n[5];
                         <input type="number" class="form-control"              
                          name="presion_arterial"  placeholder="Sistólica" required>               
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                     <h6 class="text-primary"> </br></br></h6>
                          <input type="number" class="form-control"              
                          name="presion_arterial_d" placeholder="Diastólica" required>                
@@ -302,17 +302,34 @@ $fecha_nacimiento = $row_n[5];
                         <input type="number" class="form-control" 
                          name="temperatura" placeholder="" required>                
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                         <input type="number" class="form-control"
                          name="saturacion" required>                
                     </div>
-                    <div class="col-sm-2">
-                    <h6 class="text-primary"></br>COMBE:</br></h6>
-                       Positivo (+) <input type="radio" name="combe" value="POSITIVO"> 
+
+                </div>
+
+
+                <div class="form-group row">                               
+
+                <div class="col-sm-3">
+                    <h6 class="text-primary">COMBE:</h6>
+                       Positivo (+) <input type="radio" name="combe" value="POSITIVO"> </br>
                        Negativo (-) <input type="radio" name="combe" value="NEGATIVO" checked>                  
                     </div>
-                </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">ES ALERGICO? :</h6>
+                    SI <input type="radio" name="alergia" value="CON ALERGIA"> </br>
+                    NO <input type="radio" name="alergia" value="SIN ALERGIA" checked>                  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia" placeholder="Solo SI es alérgico"></textarea> 
+                    </div>
+
+                    </div>
+
                 
                 <div class="text-center">
             <div class="form-group row">
@@ -347,9 +364,6 @@ $fecha_nacimiento = $row_n[5];
             </div>
         </form>        
                     
-
-
-                <hr>
     <!-------- END NUEVO PACIENTE --------->  
                               
                     

@@ -246,7 +246,13 @@ $row_ev=mysqli_fetch_array($result_ev);
                         </button>
                     </form>  
                 <?php 
-            } else { ?>
+            } else { 
+                
+                if ($row[12] == 'PARA ESPECIALIDAD') {
+
+                    echo "ESPECIALIDAD SIN CONSOLIDAR";
+   
+                } else { ?>
                 
                 <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
@@ -260,7 +266,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         </button>
                     </form>  
 
-            <?php } }?>
+            <?php } } }?>
                     
 
                                                                         

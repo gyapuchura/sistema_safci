@@ -27,6 +27,8 @@ $presion_arterial_d = $_POST['presion_arterial_d'];
 $temperatura        = $_POST['temperatura'];
 $saturacion         = $_POST['saturacion'];
 $combe              = $_POST['combe'];
+$alergia            = $_POST['alergia'];
+$descripcion_alergia = $link->real_escape_string($_POST['descripcion_alergia']);
 
 /*********** Crear registros para fichas epidemiologicas (BEGIN) *************/
 
@@ -56,8 +58,8 @@ $imc = number_format($imc_i, 6, '.', '');
 
     $_SESSION['idatencion_safci_ss'] = $idatencion_safci;
 
-    $sql1 = " INSERT INTO signo_vital (idevento_safci, idatencion_safci, idnombre, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, combe, imc, fecha_registro, hora_registro, idusuario) ";
-    $sql1.= " VALUES ('$idevento_safci_ss','$idatencion_safci','$idnombre_paciente_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$combe','$imc','$fecha','$hora','$idusuario_ss') ";
+    $sql1 = " INSERT INTO signo_vital (idevento_safci, idatencion_safci, idnombre, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, combe, alergia, descripcion_alergia, imc, fecha_registro, hora_registro, idusuario) ";
+    $sql1.= " VALUES ('$idevento_safci_ss','$idatencion_safci','$idnombre_paciente_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$combe','$alergia','$descripcion_alergia','$imc','$fecha','$hora','$idusuario_ss') ";
     $result1 = mysqli_query($link,$sql1);
     $idsigno_vital = mysqli_insert_id($link);   
 
