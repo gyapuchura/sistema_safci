@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+$gestion    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -19,6 +20,8 @@ $row0 = mysqli_fetch_array($result0);
 $sql_sos = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag='$idsospecha_diag_ss' ";
 $result_sos = mysqli_query($link,$sql_sos);
 $row_sos = mysqli_fetch_array($result_sos);
+
+
 
 ?>
 <!DOCTYPE html>
@@ -89,10 +92,92 @@ $row_sos = mysqli_fetch_array($result_sos);
                     <!-- DataTales Example -->
 
                     <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    <h6 class="text-info">CUADRO INFORMATIVO PARA SEGUIMIENTO</h6>
+                    </div>
 
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                            <h6 class="text-info">CASOS DECLARADOS (F302A) <?php echo mb_strtoupper($row_sos[1]);?></h6>
+                    <?php
+                    $sql_d =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
+                    $sql_d.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+                    $sql_d.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ";
+                    $sql_d.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.iddepartamento='$iddepartamento_ss' ";
+                    $result_d = mysqli_query($link,$sql_d);
+                    $row_d = mysqli_fetch_array($result_d);
+                    $casos_declarados = $row_d[0];
+                    ?>
+                            <h6><?php echo $casos_declarados;?></h6>
+                            </div>
+                            <div class="col-sm-3">
+                            <h6 class="text-info">N° FICHAS GENERADAS (SIN DATOS):</h6>
+                            <?php
+                    $sql_f =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular,  ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep, registro_enfermedad.idsospecha_diag, registro_enfermedad.idgrupo_etareo, ";
+                    $sql_f.=" registro_enfermedad.idgenero, red_salud.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud, ficha_ep.fecha_registro, municipios.municipio, establecimiento_salud.establecimiento_salud FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, red_salud, municipios, nombre ";
+                    $sql_f.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
+                    $sql_f.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND notificacion_ep.gestion='$gestion' ";
+                    $sql_f.=" AND notificacion_ep.iddepartamento='$iddepartamento_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY ficha_ep.fecha_registro DESC ";
+                    $result_f = mysqli_query($link,$sql_f);
+                    $fichas_vacias = mysqli_num_rows($result_f);
+                    ?>
+                            <h6><?php echo $fichas_vacias;?></h6>
+                            </div>
+                            <div class="col-sm-3">
+                            <h6 class="text-info">N° FICHAS CON DATOS DEL PACIENTE:</h6>
+                            <?php
+                    $sql_p =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular,  ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep, registro_enfermedad.idsospecha_diag, registro_enfermedad.idgrupo_etareo, ";
+                    $sql_p.=" registro_enfermedad.idgenero, red_salud.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud, ficha_ep.fecha_registro, municipios.municipio, establecimiento_salud.establecimiento_salud FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, red_salud, municipios, nombre ";
+                    $sql_p.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
+                    $sql_p.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND notificacion_ep.gestion='$gestion' ";
+                    $sql_p.=" AND ficha_ep.direccion !='' AND notificacion_ep.iddepartamento='$iddepartamento_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY ficha_ep.fecha_registro DESC ";
+                    $result_p = mysqli_query($link,$sql_p);
+                    $fichas_paciente = mysqli_num_rows($result_p);
+                    ?>
+                            <h6><?php echo $fichas_paciente;?></h6>
+                            </div>
+                            <div class="col-sm-3">
+                            <h6 class="text-info">N° FICHAS CON SEGUIMIENTO MÉDICO:</h6>
+
+        <?php
+        $ficha_seguimiento=0;
+        $sql_seg ="  SELECT ficha_ep.idficha_ep, ficha_ep.codigo FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, red_salud, municipios, nombre ";
+        $sql_seg.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
+        $sql_seg.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND notificacion_ep.gestion='$gestion' ";
+        $sql_seg.=" AND ficha_ep.direccion !='' AND notificacion_ep.iddepartamento='$iddepartamento_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY ficha_ep.fecha_registro DESC ";
+        $result_seg = mysqli_query($link,$sql_seg);
+        if ($row_seg = mysqli_fetch_array($result_seg)){
+        mysqli_field_seek($result_seg,0);
+        while ($field_seg = mysqli_fetch_field($result_seg)){
+        } do {
+
+            $sql_2 = " SELECT seguimiento_ep.idseguimiento_ep, semana_ep.semana_ep, estado_paciente.estado_paciente, seguimiento_ep.idestado_paciente FROM seguimiento_ep, semana_ep, estado_paciente ";
+            $sql_2.= " WHERE seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND";
+            $sql_2.= " seguimiento_ep.idficha_ep='$row_seg[0]' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 1 ";
+            $result_2 = mysqli_query($link,$sql_2);           
+            if ($row_2 = mysqli_fetch_array($result_2)) { $ficha_seguimiento=$ficha_seguimiento+1; } else { }  
+     
+        }
+        while ($row_seg = mysqli_fetch_array($result_seg));
+        } else {
+        }        
+        ?>
+                            <h6><?php echo $ficha_seguimiento;?></h6>
+                            </div>
+                        </div>   
+                    </div>
+
+                    </div>
+                    
+                    <div class="card shadow mb-4">
                         <div class="card-header py-3">
+                        <a href="embudo_seguimiento.php?idsospecha_diag=<?php echo $idsospecha_diag_ss;?>&iddepartamento=<?php echo $iddepartamento_ss;?>" target="_blank" class="text-primary" onClick="window.open(this.href, this.target, 'width=850,height=700,scrollbars=YES,top=50,left=300'); return false;">GRÁFICO DE CONTROL DE SEGUIMIENTO A FICHAS EPIDEMIOLÓGICAS</a>
+                        </div>
 
                         </div>
+                    
+                    <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped" id="example" width="100%" cellspacing="0">
@@ -115,8 +200,8 @@ $row_sos = mysqli_fetch_array($result_sos);
                         $sql =" SELECT ficha_ep.idficha_ep, ficha_ep.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.celular,  ficha_ep.idregistro_enfermedad, ficha_ep.idnotificacion_ep, registro_enfermedad.idsospecha_diag, registro_enfermedad.idgrupo_etareo, ";
                         $sql.=" registro_enfermedad.idgenero, red_salud.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud, ficha_ep.fecha_registro, municipios.municipio, establecimiento_salud.establecimiento_salud FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, red_salud, municipios, nombre ";
                         $sql.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
-                        $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre ";
-                        $sql.=" AND ficha_ep.direccion !='' AND notificacion_ep.iddepartamento='$iddepartamento_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY ficha_ep.fecha_registro DESC ";
+                        $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND notificacion_ep.gestion='$gestion' ";
+                        $sql.=" AND ficha_ep.direccion !='' AND nombre.nombre !='' AND notificacion_ep.iddepartamento='$iddepartamento_ss' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_ss' ORDER BY ficha_ep.fecha_registro DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
