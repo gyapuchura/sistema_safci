@@ -216,9 +216,9 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <td><?php echo $row[7];?></td>
                         <td>
                 <?php
-                if ($row[12] == 'CON ESPECIALIDAD') {
+                if ($row[12] == 'CON TRATAMIENTO') {
                     ?>
-                    <form name="CONSULTA" action="valida_facrmacia_paciente.php" method="post">
+                    <form name="CONSULTA" action="valida_farmacia_paciente.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
@@ -226,15 +226,19 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">SIN ENTREGAR</span>    
+                        <span class="text">PARA ENTREGAR</span>    
                         </button>
                     </form>                     
                 <?php
                 } else { 
-                    
+                    if ($row[12] == 'PARA ESPECIALIDAD' || $row[12] == 'CON ESPECIALIDAD') {
+
+                        echo "EN CONSULTA";
+       
+                    } else {
 
                          ?>
-                    <form name="CONSULTA" action="valida_farmacia_paciente_deliv.php" method="post">
+                    <form name="CONSULTA" action="valida_farmacia_paciente_entregado.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
@@ -242,10 +246,10 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">ENTREGADO</span>    
+                        <span class="text">ENTREGADO A PACIENTE</span>    
                         </button>
                     </form>  
-            <?php } ?>
+            <?php } }?>
                     
 
                                                                         

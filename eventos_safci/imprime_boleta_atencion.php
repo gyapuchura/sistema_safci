@@ -112,7 +112,7 @@ $row_n=mysqli_fetch_array($result_n);
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" ><strong>2.- SIGNOS VITALES</strong></td>
     </tr>
 <?php
-$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, temperatura, saturacion, combe FROM signo_vital WHERE idatencion_safci ='$idatencion_safci' ";
+$sql_sg =" SELECT idsigno_vital, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, temperatura, saturacion, combe, presion_arterial_d, alergia, descripcion_alergia FROM signo_vital WHERE idatencion_safci ='$idatencion_safci' ";
 $result_sg=mysqli_query($link,$sql_sg);
 $row_sg=mysqli_fetch_array($result_sg);
 ?>
@@ -135,7 +135,7 @@ $row_sg=mysqli_fetch_array($result_sg);
             <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">FRECUENCIA RESPIRATORIA [cpm]:</td>
             <td width="111" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[5];?></td>
             <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">PRESIÓN ARTERIAL [mmHg]:</td>
-            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[6];?></td>
+            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[6];?>/<?php echo $row_sg[10];?></td>
           </tr>
           <tr>
             <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">TEMPERATURA [°C]:</td>
@@ -144,7 +144,13 @@ $row_sg=mysqli_fetch_array($result_sg);
             <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[8];?></td>
           </tr>
           <tr>
-            <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;">COMBE:</td>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">PADECE ALERGIA:</td>
+            <td width="111" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[11];?></td>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">DESCRIPCIÓN DE LA ALERGIA</td>
+            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[12];?></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;">SINTOMÁTICO RESPIRATORIO (COMBE):</td>
             <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_sg[9];?></td>
             </tr>
 
@@ -175,35 +181,36 @@ $row_sg=mysqli_fetch_array($result_sg);
           <tbody>
           <tr>
             <td width="30" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
-            <td width="207" style="font-family: Arial; font-size: 12px; text-align: center;">PATOLOGÍA</td>
+            <td width="234" style="font-size: 12px; font-family: Arial; text-align: center;">MOTIVO DE LA CONSULTA</td>
             <td width="41" style="font-family: Arial; font-size: 12px; text-align: center;">CIE</td>
-            <td width="234" style="font-size: 12px; font-family: Arial; text-align: center;">DIAGNÓSTICO</td>
+            <td width="207" style="font-family: Arial; font-size: 12px; text-align: center;">DIAGNÓSTICO</td>
             <td width="146" style="font-size: 12px; font-family: Arial; text-align: center;">DIAGNOSTICADO POR:</td>
             </tr>
 
 
           <tr>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[1];?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_s[2];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_s[3];?></td>
+            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_s[2];?></td>         
+            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[1];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo mb_strtoupper($row_s[6]." ".$row_s[7]." ".$row_s[8]);?></td>
           </tr>
           <tr>
             <td colspan="5" style="text-align: center; font-family: Arial; font-size: 12px;">TRATAMIENTO MÉDICO</td>
             </tr>
           <tr>
-            <td colspan="5" style="text-align: center; font-family: Arial; font-size: 10px;"><table width="666" border="0" cellspacing="0">
+            <td colspan="5" style="text-align: center; font-family: Arial; font-size: 10px;"><table width="666" border="0" cellspacing="1">
               <tbody>
                   <tr>
                     <td width="84" style="text-align: center; font-size: 12px;">CANTIDAD</td>
                     <td width="103" style="text-align: center; font-size: 12px;">TIPO</td>
                     <td width="237" style="text-align: center; font-size: 12px;">MEDICAMENTO</td>
+                    <td width="237" style="text-align: center; font-size: 12px;">INSUMO(S)</td>
                     <td width="234" style="text-align: center; font-size: 12px;">INDICACIONES</td>
                     </tr>
             <?php
                
-                $sql4 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada, tratamiento.indicacion  ";
+                $sql4 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada, tratamiento.indicacion, tratamiento.insumos ";
                 $sql4.=" FROM tratamiento, tipo_medicamento, medicamento WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND ";
                 $sql4.=" tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.iddiagnostico_atencion='$row_s[0]' ";
                 $result4 = mysqli_query($link,$sql4);
@@ -216,6 +223,7 @@ $row_sg=mysqli_fetch_array($result_sg);
                     <td style="text-align: center; font-size: 12px;"><?php echo $row4[3];?></td>
                     <td style="text-align: center; font-size: 12px;"><?php echo $row4[1];?></td>
                     <td style="text-align: center; font-size: 12px;"><?php echo $row4[2];?></td>
+                    <td style="text-align: center; font-size: 12px;"><?php echo $row4[5];?></td>
                     <td style="text-align: center; font-size: 12px;"><?php echo $row4[4];?></td>
                   </tr>
                 <?php
@@ -245,6 +253,89 @@ $row_sg=mysqli_fetch_array($result_sg);
     </tr>
     <tr>
       <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p> 
+      <p style="text-align: center; font-size: 9px; font-family: Arial;">FIRMA PACIENTE</p></td>
+      <td>
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p>  
+      <p>&nbsp;</p> 
+      <p style="text-align: center; font-size: 9px; font-family: Arial;">FIRMA MÉDICO</p></td>
+      </td>
+      <td>
+      <p style="text-align: center; font-size: 9px; font-family: Arial;">
+              <?php
+/*
+ * Algoritmo para codificacion QR
+ *
+ * SE emplea el include con el scripti phpqrcode.php
+ *
+ */
+    //set it to writable location, a place for temp generated PNG files
+    $PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
+    //html PNG location prefix
+    $PNG_WEB_DIR = 'temp/';
+
+    include "../implementacion_safci/phpqrcode.php";
+
+    //capturamos el valor de "data"
+
+    $separador='|';
+    $tamano='M';
+
+    $_REQUEST['data'] = 'https://virtual-safci.minsalud.gob.bo/medi-safci/eventos_safci/imprime_boleta_atencion.php?idatencion_safci='.$idatencion_safci.'&idespecialidad_atencion='.$idespecialidad_atencion;
+    $_REQUEST['size'] = 2 ;
+    $_REQUEST['level'] = $tamano ;
+
+    //ofcourse we need rights to create temp dir
+    if (!file_exists($PNG_TEMP_DIR))
+        mkdir($PNG_TEMP_DIR);
+
+
+    $filename = $PNG_TEMP_DIR.'test.png';
+
+    //processing form input
+    //remember to sanitize user input in real-life solution !!!
+    $errorCorrectionLevel = 'L';
+    if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
+        $errorCorrectionLevel = $_REQUEST['level'];
+
+    $matrixPointSize = 4;
+    if (isset($_REQUEST['size']))
+        $matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
+
+
+    if (isset($_REQUEST['data'])) {
+
+        //it's very important!
+        if (trim($_REQUEST['data']) == '')
+            die('data cannot be empty! <a href="?">back</a>');
+
+        // user data
+        $filename = $PNG_TEMP_DIR.'test'.md5($_REQUEST['data'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+        QRcode::png($_REQUEST['data'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    } else {
+
+        //default data
+        echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>
+        <div align="right">';
+        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    }
+
+    //display generated file
+
+
+echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" />';
+
+?></p>
+              <p style="text-align: center; font-size: 9px; font-family: Arial;"> Verificacion MEDI-SAFCI</p>
+      </td>
     </tr>
     <tr>
       <td colspan="3">&nbsp;</td>

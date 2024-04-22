@@ -208,7 +208,7 @@ $row_esp=mysqli_fetch_array($result_esp);
     <!-------- begin NUEVO PACIENTE --------->   
                 <hr>
                 <div class="text-center">                                     
-                    <h4 class="text-primary">DATOS PERSONALES:</h4>                    
+                    <h4 class="text-primary">DATOS DEL PACIENTE:</h4>                    
                 </div>
                 <hr> 
                 <div class="form-group row">                               
