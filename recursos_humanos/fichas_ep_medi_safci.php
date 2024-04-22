@@ -156,7 +156,61 @@ Si no se encontraron resultados
 }
 ?>
             ]
-        }]
+        },
+
+        {
+            name: 'Fichas con datos Paciente',
+            data: [
+
+             <?php
+
+$numero = 0;
+$sql = " SELECT fecha_registro FROM ficha_ep WHERE gestion='$gestion' GROUP BY fecha_registro ORDER BY fecha_registro ";
+$result = mysqli_query($link,$sql);
+
+$total = mysqli_num_rows($result);
+
+ if ($row = mysqli_fetch_array($result)){
+
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do {
+	?>
+
+<?php
+$sql7 = " SELECT idficha_ep, fecha_registro FROM ficha_ep WHERE gestion='$gestion' AND direccion !='' AND fecha_registro='$row[0]'";
+$result7 = mysqli_query($link,$sql7);
+$row7 = mysqli_num_rows($result7);
+
+$cifra_diaria = $row7;
+?>
+             <?php echo $cifra_diaria; ?>
+
+<?php
+$numero++;
+if ($numero == $total) {
+echo "";
+}
+else {
+echo ",";
+}
+
+} while ($row = mysqli_fetch_array($result));
+
+
+} else {
+
+
+echo ",";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+            ]
+        }
+    
+    ]
     });
 });
 		</script>
