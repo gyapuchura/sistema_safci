@@ -382,10 +382,10 @@ $row_sg=mysqli_fetch_array($result_sg);
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary"></br>ALÉRGIAS:</h6>
-                    SI <input type="radio" name="alergia" value="CON ALERGIA"
-                    <?php if ($row_sg[11] == 'CON ALERGIA') { echo "checked";} else { } ?> > </br>
-                    NO <input type="radio" name="alergia" value="SIN ALERGIA" 
-                    <?php if ($row_sg[11] == 'SIN ALERGIA') { echo "checked";} else { } ?> >  
+                    SI <input type="radio" name="alergia" value="SI"
+                    <?php if ($row_sg[11] == 'SI') { echo "checked";} else { } ?> > </br>
+                    NO <input type="radio" name="alergia" value="NO" 
+                    <?php if ($row_sg[11] == 'NO') { echo "checked";} else { } ?> >  
                     </div>
                     <div class="col-sm-4">
                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
