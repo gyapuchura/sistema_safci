@@ -81,7 +81,7 @@ $row_ev=mysqli_fetch_array($result_ev);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-        <form name="EVENTO_SAFCI" action="guarda_evento_safci.php" method="post">  
+         
                 <div class="col-lg-12">  
                     <div class="p-5"> 
 
@@ -188,9 +188,43 @@ $row_ev=mysqli_fetch_array($result_ev);
                         </div>
                     </div>                               
                 </div>   
-
-
-                              
+                <hr>
+                <div class="text-center">                                        
+                    <h4 class="text-info">EMISIÓN DE REPORTE DE ATENCIÓN MÉDICA:</h4>
+                </div>
+                <hr>
+                <div class="text-center">
+                <div class="form-group row">
+                        <div class="col-sm-6">
+                        <a href="imprime_reporte_atenciones.php?idatencion_safci=<?php echo $row[13];?>&idespecialidad_atencion=<?php echo $row[0];?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                        IMPRIMIR REPORTE DE ATENCIONES MÉDICAS</a>   
+                        </div>
+                        <div class="col-sm-6">
+                    <form name="ATENCIONES_SAFCI" action="reporte_atenciones_excel.php" method="post">
+                        <button type="submit" class="btn btn-success">REPORTE ATENCIONES MÉDICAS EN EXCEL</button>
+                    </form>
+                    </div>
+                </div>   
+                </div>    
+<!-- END aqui va el comntenido de la pagina ---->
+                <hr>
+                <form name="BUSCA_ATENCION" action="valida_codigo_atencion.php" method="post">
+                <div class="text-center">
+                <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">ADMINISTRAR ATENCIÓN POR CÓDIGO</h6>  
+                        </div>
+                        <div class="col-sm-5">
+                        <input type="text" class="form-control" placeholder="Codigo Atencion"
+                         name="codigo" required>   
+                        </div>
+                        <div class="col-sm-3">
+                        <button type="submit" class="btn btn-primary">BUSCAR ATENCION</button>
+                   
+                    </div>
+                </div>  
+                </form> 
+                </div>   
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>

@@ -6,7 +6,7 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $hora       = date("H:i");
 $gestion    = date("Y");
-
+ 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
@@ -106,7 +106,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">   
-                    <a href="consultas_especialidad.php" class="text-info">VOLVER</a>                                            
+                    <a href="farmacia_safci.php" class="text-info">VOLVER</a>                                            
                     <hr>    
                     <h4 class="text-info">ENTREGA DE MEDICAMENTOS</h4>      
                     <h4 class="text-muted"><?php echo $row_at[1];?></h4>
@@ -389,8 +389,8 @@ if ($row_t = mysqli_fetch_array($result_t)){
                     <tbody>
                             <?php
                         $numero=1;
-                        $sql5 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada, tratamiento.indicacion, tratamiento.insumos ";
-                        $sql5.=" FROM tratamiento, tipo_medicamento, medicamento WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND ";
+                        $sql5 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada, tratamiento.indicacion, tratamiento.insumos, ";
+                        $sql5.=" tratamiento.cantidad_entregada, tratamiento.insumos_entregados, tratamiento.entregado_farmacia FROM tratamiento, tipo_medicamento, medicamento WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND ";
                         $sql5.=" tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.idespecialidad_atencion='$idespecialidad_atencion_ss' ";
                         $result5 = mysqli_query($link,$sql5);
                         if ($row5 = mysqli_fetch_array($result5)){
@@ -399,16 +399,26 @@ if ($row_t = mysqli_fetch_array($result_t)){
                         } do { 
                         ?>
                         <tr>
+
+                        <form name="ENTREGA" action="guarda_entrega_medicamentos.php" method="post">
+                            <input type="hidden" name="idtratamiento" value="<?php echo $row5[0];?>">
                             <td><?php echo $numero;?></td>
                             <td><?php echo $row5[1];?></td>
                             <td><?php echo $row5[2];?></td>
                             <td><?php echo $row5[3];?></td>
-                            <td>                        <input type="number" class="form-control"
-                         name="saturacion" required> </td>
+                            <td>                        
+                            <input type="number" class="form-control" name="cantidad_entregada" value="<?php echo $row5[6];?>" required autofocus                            
+                            <?php if ($row5[8] == 'NO') { } else { echo "disabled";}?>> 
+                            </td>
                             <td><?php echo $row5[5];?></td>
-                            <td> </td>
                             <td> 
-                            <form name="ENTREGA" action="guarda_entrega_medicamentos.php" method="post">
+                            <textarea class="form-control" rows="2" name="insumos_entregados" required
+                            <?php if ($row5[8] == 'NO') { } else { echo "disabled";}?>
+                            ><?php echo $row5[7];?></textarea> 
+                            </td>
+                            <td> 
+                            <?php  if ($row5[8] == 'NO') {
+                                ?>
                                 <input name="iddiagnostico_atencion" type="hidden" value="<?php echo $row5[0];?>">
                                 <input name="idpatologia" type="hidden" value="<?php echo $row5[5];?>">
                                 <button type="submit" class="btn btn-info btn-icon-split">
@@ -417,6 +427,11 @@ if ($row_t = mysqli_fetch_array($result_t)){
                                 </span>
                                 <span class="text">GUARDAR</span>    
                                 </button>
+                                <?php
+                            } else {
+                               echo "<h6 class='text-success'>ENTREGADO AL PACIENTE</h6>"; 
+                            }
+                             ?>
                             </form> 
                             </td>
                         </tr>                            
@@ -433,9 +448,61 @@ if ($row_t = mysqli_fetch_array($result_t)){
     </div>
 </div>   
 
-
-
 <!-- TABLA de ENTREGA DE MEDICAMENTOS (END) ---->
+<?php 
+    $sql6 =" SELECT tratamiento.idtratamiento, tipo_medicamento.tipo_medicamento, medicamento.medicamento, tratamiento.cantidad_recetada, tratamiento.indicacion, tratamiento.insumos, ";
+    $sql6.=" tratamiento.cantidad_entregada, tratamiento.insumos_entregados, tratamiento.entregado_farmacia FROM tratamiento, tipo_medicamento, medicamento WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND ";
+    $sql6.=" tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.idespecialidad_atencion='$idespecialidad_atencion_ss' AND tratamiento.entregado_farmacia='NO' ";
+    $result6 = mysqli_query($link,$sql6);
+    if ($row6 = mysqli_fetch_array($result6)){
+     ?>
+<hr>  
+        <form name="CONSOLIDA_ENTREGA" action="guarda_consolida_entrega_medicamentos.php" method="post">  
+        <div class="text-center">
+            <div class="form-group row">
+                <div class="col-sm-4">
+                <h4 class="text-info">CONSOLIDAR ENTREGA DE MEDICAMENETOS:</h4>  
+                </div> 
+                <div class="col-sm-4">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                    CONSOLIDAR 
+                    </button>  
+                </div> 
+                <div class="col-sm-4">  
+                </div> 
+            </div>    
+            
+            <?php } else { 
+                 echo "<h4 class='text-success'>SE HA CONSOLIDAD LA ENTREGA DE MEDICAMENTOS</h4>"; 
+            } ?>
+                            
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ENTREGA DE MEDICAMENETOS</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de CONSOLIDAR LA ENTREGA DE MEDICAMENETOS?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+    </div>
+                <hr>  
+
+
                 </div>
 
 <!-- END aqui va el comntenido de la pagina ---->

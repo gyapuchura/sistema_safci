@@ -199,7 +199,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <td><?php echo $numero;?></td>
                         <td>
                         <?php
-                if ($row[12] == 'CON TRATAMIENTO') {
+                if ($row[12] == 'CON TRATAMIENTO' || $row[12] == 'CON MEDICAMENTOS') {
                     ?>
                         <a href="imprime_boleta_atencion.php?idatencion_safci=<?php echo $row[13];?>&idespecialidad_atencion=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=750,height=900,scrollbars=YES,top=60,left=400'); return false;">
                         <?php echo $row[1];?></a>  
@@ -237,8 +237,10 @@ $row_ev=mysqli_fetch_array($result_ev);
        
                     } else {
 
+                        if ($row[12] == 'CON MEDICAMENTOS') {
+    
                          ?>
-                    <form name="CONSULTA" action="valida_farmacia_paciente_entregado.php" method="post">
+                    <form name="CONSULTA" action="valida_farmacia_paciente.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
@@ -249,10 +251,8 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="text">ENTREGADO A PACIENTE</span>    
                         </button>
                     </form>  
-            <?php } }?>
-                    
-
-                                                                        
+            <?php
+            } else {  } } } ?>                                                                        
                     </td>
                     </tr>
                                 
