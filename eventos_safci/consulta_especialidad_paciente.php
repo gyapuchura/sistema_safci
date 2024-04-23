@@ -392,7 +392,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                 <!---------- DIAGNÓSTICO MEDICO  BEGIN ------------->
 
                 <div class="text-center">                                     
-                    <h4 class="text-primary">DIAGNÓSTICO MÉDICO:</h4>                    
+                    <h4 class="text-info">DIAGNÓSTICO MÉDICO:</h4>                    
                 </div>
                 <div class="form-group row">
         <div class="col-sm-12">
@@ -401,7 +401,7 @@ $row_esp=mysqli_fetch_array($result_esp);
                     <thead>
                         <tr>
                             <th class="text-info">Nª</th>
-                            <th class="text-info">PATOLOGÍA</th>
+                            <th class="text-info">MOTIVO DE LA CONSULTA</th>
                             <th class="text-info">CIE</th>
                             <th class="text-info">DIAGNOSTICO</th>
                             <th class="text-info">ACCIÓN</th>
@@ -421,9 +421,9 @@ $row_esp=mysqli_fetch_array($result_esp);
                         ?>
                         <tr>
                             <td><?php echo $numero;?></td>
-                            <td><?php echo $row4[1];?></td>
-                            <td><?php echo $row4[2];?></td>
                             <td><?php echo $row4[3];?></td>
+                            <td><?php echo $row4[2];?></td>
+                            <td><?php echo $row4[1];?></td>
                             <td>
                             <form name="BORRAR" action="elimina_diagnosticoo_atencion.php" method="post">  
                             <input type="hidden" name="iddiagnostico_atencion" value="<?php echo $row4[0];?>">
@@ -449,7 +449,11 @@ $row_esp=mysqli_fetch_array($result_esp);
 
                 <div class="form-group row">
                     <div class="col-sm-5">
-                    <h6 class="text-primary">PATOLOGÍA:</h6>
+                    <h6 class="text-info">MOTIVO DE LA CONSULTA:</h6>
+                    <textarea class="form-control" rows="3" name="diagnostico_atencion"></textarea>
+                    </div>
+                    <div class="col-sm-5">
+                    <h6 class="text-info">DIAGNÓSTICO:</h6>
                         <select name="idpatologia"  id="idpatologia" class="form-control" required autofocus>
                         <option value="">-SELECCIONE-</option>
                         <?php
@@ -469,12 +473,8 @@ $row_esp=mysqli_fetch_array($result_esp);
                         ?>
                         </select>
                     </div>
-                    <div class="col-sm-5">
-                    <h6 class="text-primary">DIAGNÓSTICO:</h6>
-                    <textarea class="form-control" rows="3" name="diagnostico_atencion"></textarea>
-                    </div>
                     <div class="col-sm-2">
-                    <h6 class="text-primary">ACCIÓN:</h6>
+                    <h6 class="text-info">ACCIÓN:</h6>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
                         AGREGAR DIAGNÓSTICO
                         </button>  

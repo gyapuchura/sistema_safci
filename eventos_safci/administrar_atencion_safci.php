@@ -10,11 +10,7 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idevento_safci_ss  =  $_SESSION['idevento_safci_ss'];
-
-$sql_ev =" SELECT idevento_safci, iddepartamento, idmunicipio, idestablecimiento_salud, codigo, idcat_evento_safci, ";
-$sql_ev.=" idtipo_evento_safci, descripcion FROM evento_safci WHERE idevento_safci='$idevento_safci_ss' ";
-$result_ev=mysqli_query($link,$sql_ev);
-$row_ev=mysqli_fetch_array($result_ev);
+$codigo_ss          =  $_SESSION['codigo_ss'];
 
 ?>
 <!DOCTYPE html>
@@ -73,100 +69,13 @@ $row_ev=mysqli_fetch_array($result_ev);
                     <div class="text-center">   
                     <a href="evento_safci.php" class="text-info">VOLVER</a>                   
                     <hr>                                         
-                    <h4 class="text-primary">CONSULTAS POR ESPECIALIDAD</h4>
-                    <h4 class="text-secundary"><?php echo $row_ev[4];?></h4>
+                    <h4 class="text-primary">ADMINISTRAR ATENCIONES MÉDICAS</h4>
                     <hr> 
                     </div>
-<!-- END Del TITULO de la pagina ---->
-
-<!-- BEGIN aqui va el comntenido de la pagina ---->
-
-         
-                <div class="col-lg-12">  
-                    <div class="p-5"> 
-
-                    <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">DEPARTAMENTO:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT iddepartamento, departamento FROM departamento ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ev[1]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>
-                </div>
-   
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">MUNICIPIO DEL EVENTO:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ev[2]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ev[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-                    </div>
-                </div>
+    <!-- END Del TITULO de la pagina ---->
 
     <!-------- begin rejilla --------->   
-            <hr>    
-                <div class="text-center">                                           
-                <h4 class="text-primary">PACIENTES POR ATENDER</h4>
-                </div>
-            <hr>
+
 
         <div class="table-responsive">
             <table class="table table-bordered" id="example" width="100%" cellspacing="0">
@@ -187,7 +96,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 $sql =" SELECT especialidad_atencion.idespecialidad_atencion, atencion_safci.codigo, especialidad_medica.especialidad_medica, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ";
                 $sql.=" atencion_safci.edad, atencion_safci.fecha_registro, atencion_safci.hora_registro, atencion_safci.idnombre, especialidad_atencion.idatencion_safci, especialidad_atencion.etapa, atencion_safci.idatencion_safci ";
                 $sql.=" FROM especialidad_atencion, atencion_safci, nombre, especialidad_medica WHERE especialidad_atencion.idatencion_safci=atencion_safci.idatencion_safci ";
-                $sql.=" AND atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss' ";
+                $sql.=" AND atencion_safci.idnombre=nombre.idnombre AND atencion_safci.codigo='$codigo_ss' AND atencion_safci.idevento_safci='$idevento_safci_ss' ";
                 $sql.=" AND especialidad_atencion.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY atencion_safci.idatencion_safci DESC ";
                 $result = mysqli_query($link,$sql);
                 if ($row = mysqli_fetch_array($result)){
@@ -209,16 +118,17 @@ $row_ev=mysqli_fetch_array($result_ev);
                 }
                          ?>   
                         
-                        </td>
-                        <td><?php echo $row[2];?></td>
-                        <td><?php echo $row[3];?></td>
-                        <td><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
-                        <td><?php echo $row[7];?></td>
-                        <td>
+                </td>
+                <td><?php echo $row[2];?></td>
+                <td><?php echo $row[3];?></td>
+                <td><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
+                <td><?php echo $row[7];?></td>
+                <td>
+
                 <?php
-                if ($row[12] == 'CON ESPECIALIDAD') {
+                if ($row[12] == 'CON TRATAMIENTO' || $row[12] == 'CON MEDICAMENTOS') {
                     ?>
-                    <form name="CONSULTA" action="valida_consulta_paciente.php" method="post">
+                    <form name="CONSULTA" action="desconsolida_atencion.php" method="post">
                     <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
                     <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
                     <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
@@ -226,52 +136,18 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <span class="icon text-white-50">
                             <i class="fas fa-hospital"></i>
                         </span>
-                        <span class="text">SIN DIAGNÓSTICO</span>    
+                        <span class="text">DESCONSOLIDAR ATENCION MÉDICA</span>    
                         </button>
-                    </form>                     
+                    </form> 
                 <?php
                 } else { 
-                    
-                    if ($row[12] == 'CON DIAGNOSTICO') {
-                         ?>
-                    <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
-                    <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
-                    <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
-                    <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
-                        <button type="submit" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-hospital"></i>
-                        </span>
-                        <span class="text">EN DIAGNÓSTICO</span>    
-                        </button>
-                    </form>  
-                <?php 
-            } else { 
-                
-                if ($row[12] == 'PARA ESPECIALIDAD') {
+                    echo "ATENCIÓN SIN CONSOLIDAR";
+                }
+                ?>   
 
-                    echo "ESPECIALIDAD SIN CONSOLIDAR";
-   
-                } else { ?>
-                
-                <form name="CONSULTA" action="valida_tratamiento_paciente.php" method="post">
-                    <input name="idespecialidad_atencion" type="hidden" value="<?php echo $row[0];?>">
-                    <input name="idatencion_safci" type="hidden" value="<?php echo $row[11];?>">
-                    <input name="idnombre_paciente" type="hidden" value="<?php echo $row[10];?>">
-                        <button type="submit" class="btn btn-success btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-hospital"></i>
-                        </span>
-                        <span class="text">CON TRATAMIENTO</span>    
-                        </button>
-                    </form>  
-
-            <?php } } }?>
-                    
-
-                                                                        
-                    </td>
-                    </tr>
+                                                                                                                
+                </td>
+                </tr>
                                 
                 <?php
                 $numero=$numero+1;
