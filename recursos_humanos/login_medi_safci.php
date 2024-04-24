@@ -176,13 +176,13 @@ Si no se encontraron resultados
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIO</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
-              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA Y HORA DE INGRESO</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA DE INGRESO</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
             <?php
     $numero=1; 
-    $sql =" SELECT idlog_login, usuario, fecha_hora, ip FROM safci_db.log_login ORDER BY idlog_login DESC LIMIT 50 ";
+    $sql =" SELECT idlog_login, usuario, fecha, ip FROM safci_db.log_login ORDER BY idlog_login DESC LIMIT 50 ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
@@ -204,7 +204,12 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[3];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[4];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[5];?></td>
-		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $row[2];?></td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <?php 
+                $fecha_r = explode('-',$row[2]);
+                $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                <?php echo $f_registro;?>
+              </td>
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
 	        </tr>
             <?php

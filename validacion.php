@@ -4,6 +4,8 @@ include("inc.config.php");?>
 //	SE INICIA LA SESION Y SE CREAN VARIABLES DE SESION PARA EL USUARIO QUE INGRESA AL SISTEMA
 session_start();
 
+date_default_timezone_set('America/La_Paz');
+
 $ip		 	= $_SERVER['REMOTE_ADDR'];
 $fecha 		= date("Y-m-d H:i:s");
 
