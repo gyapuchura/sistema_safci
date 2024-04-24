@@ -79,7 +79,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">1.- INGRESOS DIARIOS A SISTEMA (NIVEL NACIONAL)</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="login_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=450,scrollbars=YES'); return false;">
+                    <a href="login_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
@@ -91,7 +91,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">2.- NOTIFICACIONES F302A DIARIOS A NIVEL NACIONAL</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="notificaciones_ep_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=450,scrollbars=YES'); return false;">
+                    <a href="notificaciones_ep_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
@@ -103,7 +103,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">3.- FICHAS EPIDEMIOLÓGICAS DIARIAS A NIVEL NACIONAL</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="fichas_ep_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=450,scrollbars=YES'); return false;">
+                    <a href="fichas_ep_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
@@ -115,7 +115,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">4.- SEGUIMIENTO A FICHAS EPIDEMIOLÓGICAS REALIZADOS POR DIA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="seguimiento_ep_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=450,scrollbars=YES'); return false;">
+                    <a href="seguimiento_ep_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
@@ -127,7 +127,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">5.- SEGUIMIENTO A REGISTRO DE ÁREAS DE INFLUENCIA POR DIA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="areas_influencia_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=450,scrollbars=YES'); return false;">
+                    <a href="areas_influencia_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=450,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
