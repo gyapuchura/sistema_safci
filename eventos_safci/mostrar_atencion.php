@@ -25,7 +25,7 @@ $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalid
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
 
-$sql_at =" SELECT idatencion_safci, codigo, edad FROM atencion_safci WHERE idatencion_safci='$idatencion_safci_ss' ";
+$sql_at =" SELECT idatencion_safci, codigo, edad, idarea_influencia FROM atencion_safci WHERE idatencion_safci='$idatencion_safci_ss' ";
 $result_at=mysqli_query($link,$sql_at);
 $row_at=mysqli_fetch_array($result_at);
 
@@ -179,6 +179,31 @@ $presion = $row_sg[5]."/".$row_sg[10];
                         } do {
                         ?>
                         <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ev[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
+                        $sqlv.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_at[3]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?></option>
                         <?php
                         } while ($rowv = mysqli_fetch_array($resultv));
                         } else {
