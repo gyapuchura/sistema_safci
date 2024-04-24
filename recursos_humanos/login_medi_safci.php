@@ -182,7 +182,7 @@ Si no se encontraron resultados
 	        </tr>
             <?php
     $numero=1; 
-    $sql =" SELECT idlog_login, usuario, fecha, ip FROM safci_db.log_login ORDER BY idlog_login DESC LIMIT 50 ";
+    $sql =" SELECT idlog_login, usuario, fecha_hora, ip FROM safci_db.log_login ORDER BY idlog_login DESC LIMIT 50 ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
@@ -205,10 +205,7 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[4];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[5];?></td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <?php 
-                $fecha_r = explode('-',$row[2]);
-                $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
-                <?php echo $f_registro;?>
+              <?php echo $row[2];?>
               </td>
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
 	        </tr>
