@@ -165,5 +165,66 @@ Si no se encontraron resultados
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
+
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ÚLTIMOS 50 NOTIFICACIONES - F302A GENERADOS</h4>
+
+<table width="1000" border="1" align="center" cellspacing="0">
+		  <tbody>
+		    <tr>
+		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">SEMANA EP.</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RED DE SALUD</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIO</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">USUARIO DE SISTEMA</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">PERFIL</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA Y HORA DE INGRESO</td>
+
+		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
+	        </tr>
+            <?php
+    $numero=1; 
+    $sql2 = " SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud, ";
+    $sql2.= " municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep,  ";
+    $sql2.= " notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, usuarios.perfil ";
+    $sql2.= " FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
+    $sql2.= " WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud AND notificacion_ep.estado='CONSOLIDADO' ";
+    $sql2.= " AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+    $sql2.= " AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ORDER BY notificacion_ep.idnotificacion_ep DESC LIMIT 50 ";
+    $result2 = mysqli_query($link,$sql2);
+    if ($row2 = mysqli_fetch_array($result2)){
+    mysqli_field_seek($result2,0);           
+    while ($field2 = mysqli_fetch_field($result2)){
+    } do {
+    ?>
+		    <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo "Semana ".$row2[6];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[2];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[3];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[4];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[5];?></td>
+              <td style="font-size: 12px; font-family: Arial;"><?php echo mb_strtoupper($row2[9]." ".$row2[10]." ".$row2[11]);?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[12];?></td>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $fecha_r = explode('-',$row2[7]);
+                $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                <?php echo $f_registro;?> - <?php echo $row2[8];?></td>
+		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
+	        </tr>
+            <?php
+        $numero=$numero+1;
+        }
+        while ($row2 = mysqli_fetch_array($result2));
+        } else {
+        }
+        ?>
+	      </tbody>
+    </table>
+
 </body>
 </html>
