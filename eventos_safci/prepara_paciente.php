@@ -253,9 +253,41 @@ $fecha_nacimiento = $row_n[5];
 <!------- datos de los signos vitales del paciente ---------->
 
                 <form name="GUARDA_ATENCION" action="guarda_atencion_safci.php" method="post">       
-                
-                <input type="hidden" name="edad" value="<?php echo $edad;?>">
-                
+
+                <hr>
+                <div class="text-center">                                     
+                    <h4 class="text-primary">ÁREA DE INFLUENCIA</h4>
+                    <h6 class="text-primary">(COMUNIDAD/ZONA/UNIDAD-VECINAL/BARRIO):</h6>                       
+                </div>
+                <hr> 
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" required>
+                        <option value="">ELEGIR</option>
+                        <?php
+                        $sql1 = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
+                        $sql1.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                        $sql1.= " AND establecimiento_salud.idmunicipio='$row_ev[2]' ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1].".- ".$row1[2]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+
+                <input type="hidden" name="edad" value="<?php echo $edad;?>">        
                 <hr>
                 <div class="text-center">                                     
                     <h4 class="text-primary">DATOS SIGNOS VITALES:</h4>                    
@@ -286,7 +318,6 @@ $fecha_nacimiento = $row_n[5];
                 </div>
 
                 <div class="form-group row">                               
-
                     <div class="col-sm-3">
                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
                         <input type="number" class="form-control"              
