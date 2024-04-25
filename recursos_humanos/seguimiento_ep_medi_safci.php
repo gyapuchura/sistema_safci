@@ -1,22 +1,22 @@
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
+$fecha_ram  = date("Ymd");
+$fecha      = date("Y-m-d");
 $gestion    = date("Y");
 
 ?>
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>MEDI-SAFCI SEGUIMIENTO A FICHAS EPID. DIARIAS</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>MEDI-SAFCI SEGUIMIENTO A FICHAS EPID. DIARIAS</title>
 
-		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
-		<style type="text/css">
+        <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+        <style type="text/css">
 ${demo.css}
-		</style>
-		<script type="text/javascript">
+        </style>
+        <script type="text/javascript">
 $(function () {
     $('#container').highcharts({
         chart: {
@@ -61,22 +61,17 @@ if ($numero == $total) {
 
 echo "";
 
-
 }
 else {
-
 
 
 echo ",";
 
 }
 
-
 } while ($row = mysqli_fetch_array($result));
 
-
 } else {
-
 
 echo ",";
 
@@ -123,7 +118,7 @@ $total = mysqli_num_rows($result);
 mysqli_field_seek($result,0);
 while ($field = mysqli_fetch_field($result)){
 } do {
-	?>
+    ?>
 
 <?php
 $sql7 = " SELECT idseguimiento_ep, fecha_registro FROM seguimiento_ep WHERE fecha_registro='$row[0]'";
@@ -145,9 +140,7 @@ echo ",";
 
 } while ($row = mysqli_fetch_array($result));
 
-
 } else {
-
 
 echo ",";
 /*
@@ -159,27 +152,26 @@ Si no se encontraron resultados
         }]
     });
 });
-		</script>
-	</head>
-	<body>
+        </script>
+    </head>
+    <body>
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ULTIMOS 100 SEGUIMIENTOS - FICHAS EPIDEMIOLÓGICAS</h4>
 
-<table width="1000" border="1" align="center" cellspacing="0">
-		  <tbody>
-		    <tr>
-		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO FICHA</td>
+<table width="1100" border="1" align="center" cellspacing="0">
+          <tbody>
+            <tr>
+              <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="300" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO FICHA</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">REGISTRO EP.</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CI PACIENTE</td>
               <td width="300" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">NOMBRE PACIENTE</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIO</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
-              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">SEMANA EP.</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTADO PACIENTE</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO</td>
               <td width="80" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">PERFIL</td>
@@ -187,12 +179,12 @@ Si no se encontraron resultados
 
              
 
-		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
-	        </tr>
+             <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
+            </tr>
             <?php
     $numero=1; 
-    $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, seguimiento_ep.idficha_ep, semana_ep.semana_ep, estado_paciente.estado_paciente, seguimiento_ep.fecha_registro  ";
-    $sql2.= " FROM seguimiento_ep, ficha_ep, semana_ep, estado_paciente WHERE seguimiento_ep.idficha_ep=ficha_ep.idficha_ep AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep  ";
+    $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, seguimiento_ep.idficha_ep, sospecha_diag.sospecha_diag, estado_paciente.estado_paciente, seguimiento_ep.fecha_registro  ";
+    $sql2.= " FROM seguimiento_ep, ficha_ep, semana_ep, estado_paciente, sospecha_diag WHERE seguimiento_ep.idficha_ep=ficha_ep.idficha_ep AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idsospecha_diag=sospecha_diag.idsospecha_diag ";
     $sql2.= " AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND ficha_ep.direccion !='' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 100 ";
     $result2 = mysqli_query($link,$sql2);
     if ($row2 = mysqli_fetch_array($result2)){
@@ -215,17 +207,17 @@ Si no se encontraron resultados
         $row7    = mysqli_fetch_array($result7);
 
     ?>
-		    <tr>
-		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
+            <tr>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="../implementacion_safci/imprime_ficha_ep.php?idficha_ep=<?php echo $row2[1];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=700,height=700,scrollbars=YES,top=60,left=400'); return false;"><?php echo $row6[1];?></a>
               </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[2];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[2];?></td>
               <td style="font-size: 12px; font-family: Arial;"><?php echo mb_strtoupper($row6[3]." ".$row6[4]." ".$row6[5]);?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[7];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[8];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[9];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[2];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[9];?></td>            
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[3];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row7[0]." ".$row7[1]." ".$row7[2]);?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row7[3];?></td>
@@ -236,8 +228,8 @@ Si no se encontraron resultados
                 <?php echo $f_registro;?></td>
               
 
-		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
-	        </tr>
+             <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
+            </tr>
             <?php
         $numero=$numero+1;
         }
@@ -245,8 +237,9 @@ Si no se encontraron resultados
         } else {
         }
         ?>
-	      </tbody>
+          </tbody>
     </table>
 
 </body>
 </html>
+

@@ -227,6 +227,7 @@ Si no se encontraron resultados
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO FICHA</td>
+              <td width="300" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">REGISTRO EP.</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CI PACIENTE</td>
               <td width="300" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">NOMBRE PACIENTE</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
@@ -243,8 +244,8 @@ Si no se encontraron resultados
             <?php
     $numero=1; 
     $sql2 = " SELECT ficha_ep.idficha_ep, ficha_ep.codigo,  nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ficha_ep.fecha_registro, departamento.departamento, municipios.municipio, ";
-    $sql2.= " establecimiento_salud.establecimiento_salud, ficha_ep.idusuario FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, departamento, red_salud, municipios, nombre ";
-    $sql2.= " WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+    $sql2.= " establecimiento_salud.establecimiento_salud, ficha_ep.idusuario, sospecha_diag.sospecha_diag FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, departamento, red_salud, municipios, nombre, sospecha_diag ";
+    $sql2.= " WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND ficha_ep.idsospecha_diag=sospecha_diag.idsospecha_diag ";
     $sql2.= " AND notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
     $sql2.= " AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND notificacion_ep.gestion='$gestion' ";
     $sql2.= " AND ficha_ep.direccion !='' AND nombre.nombre !='' ORDER BY ficha_ep.fecha_registro DESC LIMIT 100 ";
@@ -266,6 +267,7 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="../implementacion_safci/imprime_ficha_ep.php?idficha_ep=<?php echo $row2[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=700,height=700,scrollbars=YES,top=60,left=400'); return false;"><?php echo $row2[1];?></a>
               </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[11];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[2];?></td>
               <td style="font-size: 12px; font-family: Arial;"><?php echo mb_strtoupper($row2[3]." ".$row2[4]." ".$row2[5]);?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[7];?></td>
