@@ -196,8 +196,7 @@ Si no se encontraron resultados
         $sql2.= " AND dato_laboral.iddepartamento=departamento.iddepartamento AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
         $sql2.= " AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND usuarios.usuario='$row[1]' ";
         $result2 = mysqli_query($link,$sql2);
-        $row2    = mysqli_fetch_array($result2);
-
+        if ($row2 = mysqli_fetch_array($result2)){
     ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
@@ -212,6 +211,7 @@ Si no se encontraron resultados
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
 	        </tr>
             <?php
+        }
         $numero=$numero+1;
         }
         while ($row = mysqli_fetch_array($result));
