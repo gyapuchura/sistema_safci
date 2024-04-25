@@ -166,6 +166,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ULTIMOS 100 REGISTROS - ÁREAS DE INFLUENCIA</h4>
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
@@ -189,7 +190,7 @@ Si no se encontraron resultados
     $sql2.= " area_influencia.area_influencia, nombre.nombre, nombre.paterno, nombre.materno, area_influencia.fecha_registro FROM area_influencia, departamento, red_salud, municipios, tipo_area_influencia, establecimiento_salud, usuarios, nombre ";
     $sql2.= " WHERE area_influencia.iddepartamento=departamento.iddepartamento AND area_influencia.idred_salud=red_salud.idred_salud AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia  ";
     $sql2.= " AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
-    $sql2.= " AND establecimiento_salud.idmunicipio=municipios.idmunicipio ORDER BY area_influencia.idarea_influencia DESC  LIMIT 50 ";
+    $sql2.= " AND establecimiento_salud.idmunicipio=municipios.idmunicipio ORDER BY area_influencia.idarea_influencia DESC  LIMIT 100 ";
     $result2 = mysqli_query($link,$sql2);
     if ($row2 = mysqli_fetch_array($result2)){
     mysqli_field_seek($result2,0);           
