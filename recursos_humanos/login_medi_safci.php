@@ -166,7 +166,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ULTIMOS 50 INGRESOS A SISTEMA MEDI-SAFCI</h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ULTIMOS 100 INGRESOS A SISTEMA MEDI-SAFCI</h4>
 
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
