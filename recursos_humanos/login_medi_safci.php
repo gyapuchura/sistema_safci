@@ -183,7 +183,7 @@ Si no se encontraron resultados
 	        </tr>
             <?php
     $numero=1; 
-    $sql =" SELECT idlog_login, usuario, fecha_hora, ip FROM safci_db.log_login ORDER BY idlog_login DESC LIMIT 50 ";
+    $sql =" SELECT idlog_login, usuario, fecha_hora, ip FROM safci_db.log_login ORDER BY idlog_login DESC LIMIT 100 ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           

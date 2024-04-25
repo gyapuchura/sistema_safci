@@ -166,7 +166,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ÚLTIMOS 100 NOTIFICACIONES - F302A GENERADOS</h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ÚLTIMAS 100 NOTIFICACIONES - F302A GENERADOS</h4>
 
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
