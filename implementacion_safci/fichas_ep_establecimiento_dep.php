@@ -281,6 +281,24 @@ $row_sos = mysqli_fetch_array($result_sos);
         </div>
                 <!-- /.container-fluid -->
 
+                <div class="text-center">                                        
+                    <h4 class="text-info">EMISIÓN DE REPORTE DE FICHAS EPIDEMIOLÓGICAS:</h4>
+                </div>
+                <hr>
+                <div class="text-center">
+                <div class="form-group row">
+                        <div class="col-sm-6">
+                        <a href="imprime_reporte_fichas_ep.php?idatencion_safci=<?php echo $row[13];?>&idespecialidad_atencion=<?php echo $row[0];?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                        IMPRIMIR REPORTE DE FICHAS EPIDEMIOLÓGICASS</a>   
+                        </div>
+                        <div class="col-sm-6">
+                    <form name="ATENCIONES_SAFCI" action="reporte_fichas_ep_excel.php" method="post">
+                        <button type="submit" class="btn btn-success">REPORTE ATENCIONES MÉDICAS EN EXCEL</button>
+                    </form>
+                    </div>
+                </div>   
+                </div>    
+
             </div>
             <!-- End of Main Content -->
 
