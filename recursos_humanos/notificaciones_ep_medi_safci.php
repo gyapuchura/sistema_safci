@@ -166,7 +166,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ÚLTIMOS 50 NOTIFICACIONES - F302A GENERADOS</h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ÚLTIMOS 100 NOTIFICACIONES - F302A GENERADOS</h4>
 
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
@@ -192,7 +192,7 @@ Si no se encontraron resultados
     $sql2.= " FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
     $sql2.= " WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud AND notificacion_ep.estado='CONSOLIDADO' ";
     $sql2.= " AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-    $sql2.= " AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ORDER BY notificacion_ep.idnotificacion_ep DESC LIMIT 50 ";
+    $sql2.= " AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ORDER BY notificacion_ep.idnotificacion_ep DESC LIMIT 100 ";
     $result2 = mysqli_query($link,$sql2);
     if ($row2 = mysqli_fetch_array($result2)){
     mysqli_field_seek($result2,0);           
@@ -201,7 +201,9 @@ Si no se encontraron resultados
     ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="../implementacion_safci/imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row2[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row2[1];?></a>
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo "Semana ".$row2[6];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[2];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[3];?></td>

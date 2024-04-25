@@ -127,11 +127,11 @@ $row = mysqli_fetch_array($result);
           </tr>
           <?php
             $numero=1;
-            $sql_s =" SELECT seguimiento_ep.idficha_ep, sospecha_diag.sospecha_diag, semana_ep.semana_ep, estado_paciente.estado_paciente,  ";
+            $sql_s =" SELECT seguimiento_ep.idseguimiento_ep, sospecha_diag.sospecha_diag, semana_ep.semana_ep, estado_paciente.estado_paciente,  ";
             $sql_s.=" nombre.nombre, nombre.paterno, nombre.materno, seguimiento_ep.fecha_registro FROM seguimiento_ep, sospecha_diag, semana_ep, estado_paciente, usuarios, nombre ";
             $sql_s.=" WHERE seguimiento_ep.idsospecha_diag=sospecha_diag.idsospecha_diag AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep  ";
             $sql_s.=" AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND seguimiento_ep.idusuario=usuarios.idusuario ";
-            $sql_s.=" AND usuarios.idnombre=nombre.idnombre AND seguimiento_ep.idficha_ep='$idficha_ep'  ";
+            $sql_s.=" AND usuarios.idnombre=nombre.idnombre AND seguimiento_ep.idficha_ep='$idficha_ep' ORDER BY seguimiento_ep.idseguimiento_ep ";
             $result_s = mysqli_query($link,$sql_s);
             if ($row_s = mysqli_fetch_array($result_s)){
             mysqli_field_seek($result_s,0);

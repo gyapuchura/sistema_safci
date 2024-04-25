@@ -193,7 +193,7 @@ Si no se encontraron resultados
     $numero=1; 
     $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, seguimiento_ep.idficha_ep, semana_ep.semana_ep, estado_paciente.estado_paciente, seguimiento_ep.fecha_registro  ";
     $sql2.= " FROM seguimiento_ep, ficha_ep, semana_ep, estado_paciente WHERE seguimiento_ep.idficha_ep=ficha_ep.idficha_ep AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep  ";
-    $sql2.= " AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND ficha_ep.direccion !='' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 50 ";
+    $sql2.= " AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND ficha_ep.direccion !='' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 100 ";
     $result2 = mysqli_query($link,$sql2);
     if ($row2 = mysqli_fetch_array($result2)){
     mysqli_field_seek($result2,0);           
@@ -217,7 +217,9 @@ Si no se encontraron resultados
     ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="../implementacion_safci/imprime_ficha_ep.php?idficha_ep=<?php echo $row2[1];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=700,height=700,scrollbars=YES,top=60,left=400'); return false;"><?php echo $row6[1];?></a>
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[2];?></td>
               <td style="font-size: 12px; font-family: Arial;"><?php echo mb_strtoupper($row6[3]." ".$row6[4]." ".$row6[5]);?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row6[7];?></td>
