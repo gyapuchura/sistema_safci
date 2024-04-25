@@ -168,15 +168,16 @@ Si no se encontraron resultados
 
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ULTIMOS 50 INGRESOS A SISTEMA MEDI-SAFCI</h4>
 
-<table width="700" border="1" align="center" cellspacing="0">
+<table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">USUARIO (CI)</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">NOMBRE DEL USUARIO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
-              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIO</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIO</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
-              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA DE INGRESO</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">PERFIL DE USUARIO</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA Y HORA DE INGRESO</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
@@ -189,7 +190,7 @@ Si no se encontraron resultados
     while ($field = mysqli_fetch_field($result)){
     } do {
 
-        $sql2 = " SELECT nombre.nombre, nombre.paterno, nombre.materno, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud ";
+        $sql2 = " SELECT nombre.nombre, nombre.paterno, nombre.materno, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, usuarios.perfil ";
         $sql2.= " FROM usuarios, nombre, personal, dato_laboral, departamento, municipios, establecimiento_salud  ";
         $sql2.= " WHERE usuarios.idnombre=nombre.idnombre AND personal.idnombre=nombre.idnombre AND  personal.iddato_laboral=dato_laboral.iddato_laboral ";
         $sql2.= " AND dato_laboral.iddepartamento=departamento.iddepartamento AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
@@ -204,6 +205,7 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[3];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[4];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[5];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row2[6];?></td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <?php echo $row[2];?>
               </td>

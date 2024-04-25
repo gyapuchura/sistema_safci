@@ -127,7 +127,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">5.- SEGUIMIENTO A REGISTRO DE ÁREAS DE INFLUENCIA POR DIA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="areas_influencia_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=450,scrollbars=YES'); return false;">
+                    <a href="areas_influencia_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
