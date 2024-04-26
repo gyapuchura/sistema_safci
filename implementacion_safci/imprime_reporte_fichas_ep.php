@@ -82,7 +82,7 @@ $row_sos = mysqli_fetch_array($result_sos);
                 <?php echo $f_registro;?></td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[16];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row[17];?></td>
-            <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
+            <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[3]." ".$row[4]." ".$row[5]);?></td>
             <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
             <td style="font-family: Arial; font-size: 12px;">
             <?php             
