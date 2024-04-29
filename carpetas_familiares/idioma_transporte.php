@@ -11,10 +11,13 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$sql_lab =" SELECT dato_laboral.iddato_laboral, dato_laboral.iddepartamento, dato_laboral.idred_salud, establecimiento_salud.idmunicipio, dato_laboral.idestablecimiento_salud FROM dato_laboral, establecimiento_salud ";
-$sql_lab.=" WHERE dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND dato_laboral.idnombre='$idnombre_ss' ORDER BY dato_laboral.iddato_laboral DESC LIMIT 1 ";
-$result_lab=mysqli_query($link,$sql_lab);
-$row_lab=mysqli_fetch_array($result_lab);
+$idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
+
+$sql_cf =" SELECT idcarpeta_familiar, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, ";
+$sql_cf.=" codigo, fecha_apertura, familia, avenida_calle, no_puerta, nombre_edificio, latitud, longitud, altura, idusuario ";
+$sql_cf.=" FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$result_cf=mysqli_query($link,$sql_cf);
+$row_cf=mysqli_fetch_array($result_cf);
         
 ?>
 <!DOCTYPE html>
@@ -73,7 +76,8 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <div class="text-center">                          
                       
                     <hr>             
-                    <h4 class="text-primary">NUEVA CARPETA FAMILIAR</h4>
+                    <h4 class="text-info">SE HA CREADO LA CARPETA FAMILIAR:</h4>
+                    <h4 class="text-primary"><?php echo $row_cf[6]; ?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -83,26 +87,24 @@ $row_lab=mysqli_fetch_array($result_lab);
 <form name="GUARDA_CARPETA" action="guarda_carpeta_familiar.php" method="post"> 
 
                 <div class="col-lg-12">  
-                    <div class="p-5"> 
+                    <div class="p-2"> 
 
                     <div class="form-group row">
                     <div class="col-sm-3">
                     <h6 class="text-primary">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
-
-                    <input type="hidden" name="iddepartamento" value="<?php echo $row_lab[1];?>">
                     <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled>
-
+                        <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$row_lab[1]'";
+                        $sqlv = " SELECT iddepartamento, departamento FROM departamento ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
                         while ($fieldv = mysqli_fetch_field($resultv)){
                         } do {
                         ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_lab[1]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[1]) echo "selected";?> ><?php echo $rowv[1];?></option>
                         <?php
                         } while ($rowv = mysqli_fetch_array($resultv));
                         } else {
@@ -118,17 +120,17 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <h6 class="text-primary">RED DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <input type="hidden" name="idred_salud" value="<?php echo $row_lab[2];?>">
                     <select name="idred_salud"  id="idred_salud" class="form-control" disabled>
+                        <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row_lab[2]'";
+                        $sqlv = " SELECT idred_salud, red_salud FROM red_salud ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
                         while ($fieldv = mysqli_fetch_field($resultv)){
                         } do {
                         ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_lab[2]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[2]) echo "selected";?> ><?php echo $rowv[1];?></option>
                         <?php
                         } while ($rowv = mysqli_fetch_array($resultv));
                         } else {
@@ -144,18 +146,17 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <h6 class="text-primary">MUNICIPIO:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <input type="hidden" name="idmunicipio" value="<?php echo $row_lab[3];?>">
                     <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled>
-                    
+                        <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$row_lab[3]'";
+                        $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
                         while ($fieldv = mysqli_fetch_field($resultv)){
                         } do {
                         ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_lab[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
                         <?php
                         } while ($rowv = mysqli_fetch_array($resultv));
                         } else {
@@ -170,18 +171,17 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <input type="hidden" name="idestablecimiento_salud" value="<?php echo $row_lab[4];?>">
                     <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled>
-                        
+                        <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$row_lab[4]'";
+                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
                         while ($fieldv = mysqli_fetch_field($resultv)){
                         } do {
                         ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_lab[4]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[4]) echo "selected";?> ><?php echo $rowv[1];?></option>
                         <?php
                         } while ($rowv = mysqli_fetch_array($resultv));
                         } else {
@@ -193,24 +193,17 @@ $row_lab=mysqli_fetch_array($result_lab);
 
 <!------- DATOS DEL AREA DE INFLUENCIA ---------->
       
-                <hr>
-                <div class="text-center">                                     
-                    <h4 class="text-primary">ÁREA DE INFLUENCIA</h4>
-                    <h6 class="text-primary">(COMUNIDAD/ZONA/UNIDAD-VECINAL/BARRIO):</h6>                       
-                </div>
-                <hr> 
-
                 <div class="form-group row">
                     <div class="col-sm-3">
                     <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
                     </div>
                     <div class="col-sm-9">
-                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" required>
-                        <option selected>Seleccione</option>
+                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" disabled>
+                      
                         <?php
                         $sql1 = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
                         $sql1.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-                        $sql1.= " AND area_influencia.idestablecimiento_salud='$row_lab[4]' ";
+                        $sql1.= " AND area_influencia.idarea_influencia='$row_cf[5]' ";
                         $result1 = mysqli_query($link,$sql1);
                         if ($row1 = mysqli_fetch_array($result1)){
                         mysqli_field_seek($result1,0);
@@ -224,93 +217,61 @@ $row_lab=mysqli_fetch_array($result_lab);
                         ?>
                     </select>
                     </div>
-                </div>
-       
-                <hr>
-                <div class="text-center">                                     
-                    <h4 class="text-primary">DATOS CARPETA FAMILIAR:</h4>                    
-                </div>
-                <hr> 
-
+                </div>         
+            <hr>
+            <div class="text-center">                                     
+                <h4 class="text-primary">DATOS CARPETA FAMILIAR:</h4>                    
+            </div>
+            <hr> 
                 <div class="form-group row">   
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>FECHA DE APERTURA:</h6>
-                        <input type="date" class="form-control" name="fecha_apertura" value="<?php echo $fecha;?>" required>                
+                        <input type="date" class="form-control" name="fecha_apertura" value="<?php echo $row_cf[7];?>" disabled>                
                     </div>                            
                     <div class="col-sm-4">
                     <h6 class="text-primary"></br>FAMILIA:</h6>
-                    <textarea class="form-control" rows="2" name="familia" placeholder=""></textarea>                
+                    <textarea class="form-control" rows="2" name="familia" disabled><?php echo $row_cf[8];?></textarea>                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">AVENIDA/CALLE</br>/CARRETERA/CAMINO:</h6>
-                    <textarea class="form-control" rows="2" name="avenida_calle" placeholder=""></textarea>                  
+                    <textarea class="form-control" rows="2" name="avenida_calle" disabled><?php echo $row_cf[9];?></textarea>                  
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary"></br>N° DE PUERTA:</h6>
-                    <input type="number" class="form-control" name="no_puerta">            
+                    <input type="number" class="form-control" name="no_puerta" value="<?php echo $row_cf[10];?>" disabled>            
                     </div>
                 </div>
-
+            <hr>
                 <div class="form-group row">                               
                     <div class="col-sm-3">
                     <h6 class="text-primary">NOMBRE DEL EDIFICIO, PISO Y N° DE DEPARTAMENTO:</h6>
-                    <textarea class="form-control" rows="2" name="nombre_edificio" placeholder=""></textarea>               
+                    <textarea class="form-control" rows="2" name="nombre_edificio" disabled><?php echo $row_cf[11];?></textarea>               
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>LATITUD:</h6>
-                    <input type="NUMBER" name="latitud" class="form-control" id="LAT" placeholder=" Seleccione LATITUD en el mapa" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>            
+                    <input type="text" class="form-control" name="altura" value="<?php echo $row_cf[12];?>" disabled>      
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>LONGITUD:</h6>
-                    <input type="number"  name="longitud" class="form-control" id="LONGI" placeholder="Seleccione LONGITUD en el mapa" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>              
+                    <input type="text" class="form-control" name="altura" value="<?php echo $row_cf[13];?>" disabled>   
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>ELEVACIÓN [msnm]:</h6>
-                        <input type="number" class="form-control" name="altura" required>                
+                        <input type="number" class="form-control" name="altura" value="<?php echo $row_cf[14];?>" disabled>                
                     </div>
                 </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-9" id="safci" style="width: 660px; height: 250px;">
-                    </div>
-                    <div class="col-sm-3">
-                    <h6>Arrastre el marcador rojo para seleccionar la ubicacion de la VIVIENDA FAMILIAR</h6>
-                    </div>
-                </div> 
-             <hr>   
-            <div class="text-center">
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    REGISTRAR CARPETA FAMILIAR
-                    </button>  
-                </div> 
-            </div>                              
-               <hr>             
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE CARPETA FAMILIAR</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de Registrar LA CARPETA FAMILIAR?
-                        
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR</button>    
-                        </div>
-                    </div>
-                </div>
+            <hr>
+            <div class="text-center">                                     
+                <h4 class="text-primary">IDIOMA(S):</h4>                    
             </div>
-        </form>        
-                    
+            <hr> 
+
+            <hr>
+            <div class="text-center">                                     
+                <h4 class="text-primary">ACCESO GEOGRÁFICO AL ESTABLECIMIENTO DE SALUD:</h4>                    
+            </div>
+            <hr> 
+                
     <!-------- END NUEVO PACIENTE --------->  
                               
                     
