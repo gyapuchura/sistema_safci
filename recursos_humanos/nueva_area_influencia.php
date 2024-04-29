@@ -296,7 +296,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para calendario -->
+    <!-- scripts para uso de mapas -->
 
     <script type="text/javascript" src="../js/localizacion.js"></script>
     <script type="text/javascript" src="../js/initMap.js"></script>
