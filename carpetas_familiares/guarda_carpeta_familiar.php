@@ -48,17 +48,22 @@ else {
 
     $codigo="SAFCI/".$departamento."-CF-".$correlativo."/".$gestion;
 
-        $sql8 = " INSERT INTO carpeta_familiar (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, gestion, correlativo,";
-        $sql8.= " codigo, fecha_apertura, familia, avenida_calle, no_puerta, nombre_edificio, latitud, longitud, altura, fecha_registro, hora_registro, idusuario )";
-        $sql8.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud','$idarea_influencia', '$gestion','$correlativo',";
-        $sql8.= " '$codigo','$fecha_apertura','$familia','$avenida_calle','$no_puerta','$nombre_edificio','$latitud','$longitud','$altura','$fecha','$hora','$idusuario_ss')";
+        $sql8 = " INSERT INTO carpeta_familiar (gestion, correlativo,";
+        $sql8.= " codigo, fecha_apertura, familia, fecha_registro, hora_registro, idusuario )";
+        $sql8.= " VALUES ('$gestion','$correlativo',";
+        $sql8.= " '$codigo','$fecha_apertura','$familia','$fecha','$hora','$idusuario_ss')";
         $result8 = mysqli_query($link,$sql8);  
         $idcarpeta_familiar = mysqli_insert_id($link);
 
+        $sql8 = " INSERT INTO ubicacion_cf (idcarpeta_familiar, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, ";
+        $sql8.= " avenida_calle, no_puerta, nombre_edificio, latitud, longitud, altura, ubicacion_actual, fecha_registro, hora_registro, idusuario )";
+        $sql8.= " VALUES ('$idcarpeta_familiar','$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud','$idarea_influencia', ";
+        $sql8.= " '$avenida_calle','$no_puerta','$nombre_edificio','$latitud','$longitud','$altura','SI','$fecha','$hora','$idusuario_ss')";
+        $result8 = mysqli_query($link,$sql8);  
+
         $_SESSION['idcarpeta_familiar_ss'] = $idcarpeta_familiar;  
     
-        header("Location:idioma_transporte.php");
+        header("Location:mensaje_carpeta_familiar.php");
     }
-
 
 ?>
