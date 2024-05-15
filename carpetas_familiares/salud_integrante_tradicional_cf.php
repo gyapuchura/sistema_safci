@@ -11,7 +11,11 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
+$idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
+$idintegrante_cf_ss     = $_SESSION['idintegrante_cf_ss'];
+$idnombre_integrante_ss = $_SESSION['idnombre_integrante_ss'];
+$idgenero_ss            = $_SESSION['idgenero_ss'];
+$edad_ss                = $_SESSION['edad_ss'];
 
 $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
 $sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
@@ -20,6 +24,10 @@ $sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_fami
 $sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
+
+$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
+$result_n=mysqli_query($link,$sql_n);
+$row_n=mysqli_fetch_array($result_n);
         
 ?>
 <!DOCTYPE html>
@@ -76,11 +84,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="mostrar_carpeta_familiar.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">2.- IDIOMA/TRANSPORTE</h4>
+                    <h4 class="text-info">8.- MEDICINA TRADICIONAL</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -93,7 +101,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                     <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">DEPARTAMENTO:</h6>
+                    <h6 class="text-info">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled>
@@ -119,7 +127,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">RED DE SALUD:</h6>
+                    <h6 class="text-info">RED DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idred_salud"  id="idred_salud" class="form-control" disabled>
@@ -145,7 +153,7 @@ $row_cf=mysqli_fetch_array($result_cf);
    
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">MUNICIPIO:</h6>
+                    <h6 class="text-info">MUNICIPIO:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled>
@@ -170,7 +178,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                    <h6 class="text-info">ESTABLECIMIENTO DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled>
@@ -197,7 +205,7 @@ $row_cf=mysqli_fetch_array($result_cf);
       
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
+                    <h6 class="text-info">ÁREA DE INFLUENCIA:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idarea_influencia"  id="idarea_influencia" class="form-control" disabled>
@@ -222,42 +230,113 @@ $row_cf=mysqli_fetch_array($result_cf);
                 </div>         
                 <div class="form-group row">   
                     <div class="col-sm-3">
-                    <h6 class="text-primary">FECHA DE APERTURA:</h6>
+                    <h6 class="text-info">FECHA DE APERTURA:</h6>
                     </div>
                     <div class="col-sm-3">                    
                     <input type="date" class="form-control" name="fecha_apertura" value="<?php echo $row_cf[7];?>" disabled>                
                     </div>    
-                    <div class="col-sm-1">
-                    <h6 class="text-primary">FAMILIA:</h6>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">FAMILIA:</h6>
                     </div>                        
-                    <div class="col-sm-5">    
+                    <div class="col-sm-4">    
                     <input type="text" class="form-control" name="familia" value="<?php echo $row_cf[8];?>" disabled>                                
                     </div>
                 </div>
             <hr>
+ 
+     <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (Begin) --------->                         
 
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
+                         name="ci" disabled>
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">NOMBRES:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
+                         name="nombre" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PRIMER APELLIDO:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
+                         name="paterno" disabled >                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">SEGUNDO APELLIDO:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
+                         name="materno" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">  
+                    <div class="col-sm-3">
+                    <h6 class="text-info">GÉNERO</h6>
+
+                    <select name="idgenero"  id="idgenero" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idgenero, genero FROM genero ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+
+                    </div>  
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
+                        <input type="date"  class="form-control" 
+                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
+                    </div>   
+                    
+                    <div class="col-sm-3">
+                    <h6 class="text-info">EDAD:</h6>
+                        <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
+                         name="edad_actual" disabled>
+                    </div>
+                    <div class="col-sm-3">
+                    </br>
+                   
+                    </div>
+                </div>  
+        
+
+    <!-------- ETAPA DE BENEFICIOS SOCIALES DEL INTEGRANTE FAMILIAR (BEGIN) --------->
+        <hr>
             <div class="text-center">                                     
-                <h4 class="text-info">IDIOMA(S):</h4>                    
+                <h4 class="text-info">MEDICINA TRADICIONAL:</h4>                    
             </div>
-          
-            <div class="form-group row">
+
+
+    <!-------- ETAPA DE MEDICINA TRADIONAL DEL INTEGRANTE (BEGIN) --------->
+
+    <div class="form-group row">
                 <div class="col-sm-12">
                     <div class="table-responsive">
                         <table class="table table-striped" id="example" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th class="text-info">Nª</th>
-                                    <th class="text-info">IDIOMA</th>
-                                    <th class="text-info">HABLADO/MATERNO</th>
+                                    <th class="text-info">CATEGORÍA DE MEDICINA TRADICIONAL</th>
+                                    <th class="text-info">LUGAR DE ATENCIÓN</th>
                                     <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                        <?php
+                                    <?php
                                     $numero=1;
-                                    $sql4 =" SELECT idioma_cf.ididioma_cf, idioma.idioma, origen_idioma.origen_idioma  FROM idioma_cf, idioma, origen_idioma ";
-                                    $sql4.=" WHERE idioma_cf.ididioma=idioma.ididioma AND idioma_cf.idorigen_idioma=origen_idioma.idorigen_idioma ";
-                                    $sql4.=" AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                                    $sql4 =" SELECT integrante_tradicional.idintegrante_tradicional, medicina_tradicional.medicina_tradicional, lugar_atencion_trad.lugar_atencion_trad ";
+                                    $sql4.=" FROM integrante_tradicional, medicina_tradicional, lugar_atencion_trad WHERE integrante_tradicional.idmedicina_tradicional=medicina_tradicional.idmedicina_tradicional ";
+                                    $sql4.=" AND integrante_tradicional.idlugar_atencion_trad=lugar_atencion_trad.idlugar_atencion_trad AND integrante_tradicional.idintegrante_cf='$idintegrante_cf_ss' ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -267,12 +346,12 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <tr>
                                         <td><?php echo $numero;?></td>
                                         <td><?php echo $row4[1];?></td>
-                                        <td><?php echo $row4[2];?></td>
+                                        <td><?php echo $row4[2];?></td>   
                                         <td>
-                                        <form name="BORRAR" action="elimina_idioma_cf.php" method="post">  
-                                        <input type="hidden" name="ididioma_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
-                                        </td>
+                                        <form name="BORRAR" action="elimina_tradicional_integrante_cf.php" method="post">  
+                                        <input type="hidden" name="idintegrante_tradicional" value="<?php echo $row4[0];?>">
+                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>   
+                                    </td>
                                     </tr>                            
                                     <?php
                                     $numero=$numero+1;
@@ -286,215 +365,34 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
             </div>  
-     <!-------- INGRESA DATOS DEL IDIOMA (Begin) --------->             
-            
-     <hr>
-                <form name="IDIOMAS" action="guarda_idioma_cf.php" method="post">                   
+     <!-------- INGRESA MEDICINA TRADIONAL DEL INTEGRANTE (Begin) --------->                         
+    <hr>
 
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                    <h6 class="text-info">IDIOMA:</h6>
-                    <select name="ididioma"  id="ididioma" class="form-control" required autofocus>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT ididioma, idioma FROM idioma ORDER BY idioma";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                    <h6 class="text-info">HABLADO/MATERNO:</h6>
-                        <select name="idorigen_idioma"  id="idorigen_idioma" class="form-control" required>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT idorigen_idioma, origen_idioma FROM origen_idioma ORDER BY origen_idioma";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                    <h6 class="text-info">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
-                        AGREGAR IDIOMA
-                        </button>  
-                    </div>  
-                 </div>
-
-                <!-- modal de confirmacion de envio de datos-->
-                <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">IDIOMA DE LA FAMILIA</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">                                    
-                                    Esta seguro de agregar el IDIOMA ?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-
-     <!-------- INGRESA DATOS DEL IDIOMA (End) ---------> 
-            <hr>
-            <div class="text-center">                                     
-                <h4 class="text-info">ACCESO GEOGRÁFICO AL ESTABLECIMIENTO DE SALUD:</h4>                    
+        <div class="form-group row">  
+            <div class="col-sm-4">
+                <h6 class="text-info">RECURRE A LA MEDICINA TRADICIONAL?</h6>
+                <select name="tradicional_cf" id="tradicional_cf" class="form-control" required autofocus>
+                <option value="">-SELECCIONE-</option>
+                <option value="SI">SI</option>
+                <option value="NO">NO</option>      
+                </select>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+        <form name="TRADICIONAL" action="guarda_medicina_tradicional_cf.php" method="post"> 
+        <div class="form-group row" id="medicina_tradicional"></div>
+        </form> 
+    </div>
+    <!-------- ETAPA DE MEDICINA TRADIONAL DEL INTEGRANTE (END) --------->
+          <hr>
+             <div class="text-center"> 
+               <a href="salud_integrante_defuncion_cf.php"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
             </div>
 
-            <hr>         
-    <!-------- INGRESA DATOS DE MEDIO DE TRANSPORTE FAMILIAR --------->  
-                       
-    
-    <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped" id="example" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th class="text-info"></br>Nª</th>
-                                    <th class="text-info"></br>MEDIO DE TRANSPORTE</th>
-                                    <th class="text-info">TIEMPO EMPLEADO</br>HORAS:MINUTOS</th>
-                                    <th class="text-info">DISTANCIA</br>KILÓMETROS</th>
-                                    <th class="text-info"></br>ACCIÓN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                        <?php
-                                    $numero=1;
-                                    $sql5 =" SELECT transporte_cf.idtransporte_cf, transporte.transporte, tiempo, distancia FROM transporte_cf, transporte ";
-                                    $sql5.=" WHERE transporte_cf.idtransporte=transporte.idtransporte AND transporte_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-                                    $result5 = mysqli_query($link,$sql5);
-                                    if ($row5 = mysqli_fetch_array($result5)){
-                                    mysqli_field_seek($result5,0);
-                                    while ($field5 = mysqli_fetch_field($result5)){
-                                    } do { 
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $numero;?></td>
-                                        <td><?php echo $row5[1];?></td>
-                                        <td><?php echo $row5[2];?></td>
-                                        <td><?php echo $row5[3];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_transporte_cf.php" method="post">  
-                                        <input type="hidden" name="idtransporte_cf" value="<?php echo $row5[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
-                                        </td>
-                                    </tr>                            
-                                    <?php
-                                    $numero=$numero+1;
-                                    }
-                                    while ($row5 = mysqli_fetch_array($result5));
-                                    } else {
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>  
-     <!-------- INGRESA DATOS DEL TRANSPORTE FAMILIAR (Begin) --------->             
-            
-     <hr>
-                <form name="TRANSPORTE" action="guarda_transporte_cf.php" method="post">                   
-
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-info">TRANSPORTE:</h6>
-                    <select name="idtransporte"  id="idtransporte" class="form-control" required autofocus>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT idtransporte, transporte FROM transporte ORDER BY transporte";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">TIEMPO EMPLEADO [hh:mm]:</h6>
-                    <input type="time" class="form-control" name="tiempo" required>   
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">DISTANCIA [KM]:</h6>
-                    <input type="number" class="form-control" name="distancia" required> 
-                    </div>
-
-                    <div class="col-sm-3">
-                    <h6 class="text-info">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalt">
-                        AGREGAR
-                        </button>  
-                    </div>  
-                 </div>
-
-                <!-- modal de confirmacion de envio de datos-->
-                <div class="modal fade" id="exampleModalt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">TRANSPORTE DE LA FAMILIA</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">                                    
-                                    Esta seguro de agregar el MEDIO DE TRANSPORTE ?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <hr>
-            <div class="text-center"> 
-               <a href="integrantes_cf.php"><h6 class="text-info">INSTANCIA: INTEGRANTES DE LA FAMILIA --></h6></a>                                                                   
-            </div>
-
-                    
-<!-- END aqui va el comntenido de la pagina ---->
+        <!-- END aqui va el comntenido de la pagina ---->
                 </div>
                
                 <div class="text-center">
@@ -553,7 +451,19 @@ $row_cf=mysqli_fetch_array($result_cf);
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        
+        <script language="javascript">
+        $(document).ready(function(){
+        $("#tradicional_cf").change(function () {
+                    $("#tradicional_cf option:selected").each(function () {
+                        tradicional_cf=$(this).val();
+                    $.post("medicina_tradicional.php", {tradicional_cf:tradicional_cf}, function(data){
+                    $("#medicina_tradicional").html(data);
+                    });
+                });
+        })
+        });
+    </script> 
 
     
 </body>

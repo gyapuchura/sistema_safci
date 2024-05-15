@@ -74,21 +74,23 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>N°</th>                                     
                                             <th>CÓDIGO CARPETA</th>
                                             <th>FAMILIA</th>
-                                            <th>PROVEEDOR PRINCIPAL</th>
                                             <th>DEPARTAMENTO</th>
                                             <th>MUNICIPIO</th>
-                                            <th>COMUNIDAD</th>
+                                            <th>ESTABLECIMIENTO DE SALUD</th>
+                                            <th>ÁREA DE INFLUENCIA</th>
+                                            <th>FECHA DE REGISTRO</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql ="  ";
-                        $sql.="  ";
-                        $sql.="  ";
-                        $sql.="  ";
-                        $sql.="  ";
+                        $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, departamento.departamento, municipios.municipio, ";
+                        $sql.=" establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro  ";
+                        $sql.=" FROM carpeta_familiar, ubicacion_cf, departamento, municipios, establecimiento_salud, area_influencia, tipo_area_influencia WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                        $sql.=" AND ubicacion_cf.iddepartamento=departamento.iddepartamento AND ubicacion_cf.idmunicipio=municipios.idmunicipio ";
+                        $sql.=" AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+                        $sql.=" AND ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND ubicacion_cf.ubicacion_actual='SI' ORDER BY carpeta_familiar.idcarpeta_familiar ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -97,16 +99,21 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         ?>
                                         <tr>
                                             <td><?php echo $numero;?></td>
+                                            <td><?php echo $row[1];?></td>
+                                            <td><?php echo $row[2];?></td>
                                             <td><?php echo $row[3];?></td>
-                                            <td><?php echo $row[8];?></td>
-                                            <td><?php echo $row[5];?></td>
-                                            <td><?php echo $row[6];?></td>
                                             <td><?php echo $row[4];?></td>
-                                            <td><?php echo $row[21];?></td>
+                                            <td><?php echo $row[5];?></td>
+                                            <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
                                             <td>
-                                            <form name="FORM_P" action="valida_carpeta.php" method="post">
-                                            <input name="idpersonal" type="hidden" value="<?php echo $row[0];?>">
-                                            <input name="codigo" type="hidden" value="<?php echo $row[3];?>">
+                                            <?php 
+                                                $fecha_r = explode('-',$row[8]);
+                                                $f_apertura = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                                            <?php echo $f_apertura;?></br><?php echo $row[9];?>   
+                                            </td>
+                                            <td>
+                                            <form name="FORM_P" action="valida_carpeta_familiar.php" method="post">
+                                            <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
 	                                        <button type="submit" class="btn btn-primary btn-user btn-block">VER</button></form>
                                                                           
                                         </td>

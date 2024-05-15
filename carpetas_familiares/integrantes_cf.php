@@ -76,11 +76,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="mostrar_carpeta_familiar.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="idioma_transporte.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">2.- IDIOMA/TRANSPORTE</h4>
+                    <h4 class="text-info">3.- INTEGRANTES DE LA FAMILIA</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -93,7 +93,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                     <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">DEPARTAMENTO:</h6>
+                    <h6 class="text-info">DEPARTAMENTO:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled>
@@ -119,7 +119,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">RED DE SALUD:</h6>
+                    <h6 class="text-info">RED DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idred_salud"  id="idred_salud" class="form-control" disabled>
@@ -145,7 +145,7 @@ $row_cf=mysqli_fetch_array($result_cf);
    
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">MUNICIPIO:</h6>
+                    <h6 class="text-info">MUNICIPIO:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled>
@@ -170,7 +170,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                    <h6 class="text-info">ESTABLECIMIENTO DE SALUD:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled>
@@ -197,7 +197,7 @@ $row_cf=mysqli_fetch_array($result_cf);
       
                 <div class="form-group row">
                     <div class="col-sm-3">
-                    <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
+                    <h6 class="text-info">ÁREA DE INFLUENCIA:</h6>
                     </div>
                     <div class="col-sm-9">
                     <select name="idarea_influencia"  id="idarea_influencia" class="form-control" disabled>
@@ -222,22 +222,22 @@ $row_cf=mysqli_fetch_array($result_cf);
                 </div>         
                 <div class="form-group row">   
                     <div class="col-sm-3">
-                    <h6 class="text-primary">FECHA DE APERTURA:</h6>
+                    <h6 class="text-info">FECHA DE APERTURA:</h6>
                     </div>
                     <div class="col-sm-3">                    
                     <input type="date" class="form-control" name="fecha_apertura" value="<?php echo $row_cf[7];?>" disabled>                
                     </div>    
-                    <div class="col-sm-1">
-                    <h6 class="text-primary">FAMILIA:</h6>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">FAMILIA:</h6>
                     </div>                        
-                    <div class="col-sm-5">    
+                    <div class="col-sm-4">    
                     <input type="text" class="form-control" name="familia" value="<?php echo $row_cf[8];?>" disabled>                                
                     </div>
                 </div>
             <hr>
 
             <div class="text-center">                                     
-                <h4 class="text-info">IDIOMA(S):</h4>                    
+                <h4 class="text-info">INTEGRANTES:</h4>                    
             </div>
           
             <div class="form-group row">
@@ -247,17 +247,23 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <thead>
                                 <tr>
                                     <th class="text-info">Nª</th>
-                                    <th class="text-info">IDIOMA</th>
-                                    <th class="text-info">HABLADO/MATERNO</th>
+                                    <th class="text-info">CÉDULA DE IDENTIDAD</th>
+                                    <th class="text-info">PRIMER APELLIDO</th>
+                                    <th class="text-info">SEGUNDO APELLIDO</th>
+                                    <th class="text-info">NOMBRE(S)</th>
+                                    <th class="text-info">PARENTESCO</th>
+                                    <th class="text-info">GÉNERO</th>
+                                    <th class="text-info">EDAD</th>
                                     <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                        <?php
+                                    <?php
                                     $numero=1;
-                                    $sql4 =" SELECT idioma_cf.ididioma_cf, idioma.idioma, origen_idioma.origen_idioma  FROM idioma_cf, idioma, origen_idioma ";
-                                    $sql4.=" WHERE idioma_cf.ididioma=idioma.ididioma AND idioma_cf.idorigen_idioma=origen_idioma.idorigen_idioma ";
-                                    $sql4.=" AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                                    $sql4 =" SELECT integrante_cf.idintegrante_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, ";
+                                    $sql4.=" parentesco.parentesco, genero.genero, integrante_cf.edad, nacion.nacion, integrante_cf.estado, integrante_cf.idnombre, nombre.idgenero FROM integrante_cf, nombre, parentesco, genero, nacion ";
+                                    $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND integrante_cf.idnacion=nacion.idnacion ";
+                                    $sql4.=" AND nombre.idgenero=genero.idgenero AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ORDER BY integrante_cf.edad DESC ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -266,13 +272,33 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     ?>
                                     <tr>
                                         <td><?php echo $numero;?></td>
-                                        <td><?php echo $row4[1];?></td>
-                                        <td><?php echo $row4[2];?></td>
+                                        <td><?php echo $row4[1];?> <?php echo $row4[2];?></td>
+                                        <td><?php echo $row4[3];?></td>
+                                        <td><?php echo $row4[4];?></td>
+                                        <td><?php echo $row4[5];?></td>
+                                        <td><?php echo $row4[6];?></td>
+                                        <td><?php echo $row4[7];?></td>
+                                        <td><?php echo $row4[8];?></td>
                                         <td>
-                                        <form name="BORRAR" action="elimina_idioma_cf.php" method="post">  
-                                        <input type="hidden" name="ididioma_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
-                                        </td>
+                        <?php if ($row4[10] == 'CONSOLIDADO') { ?>
+                            <form name="INTEGRANTE" action="valida_integrante_cf.php" method="post">
+                            <input name="idintegrante_cf" type="hidden" value="<?php echo $row4[0];?>">
+                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row4[11];?>">
+                            <input name="idgenero" type="hidden" value="<?php echo $row4[12];?>">
+                            <input name="edad" type="hidden" value="<?php echo $row4[8];?>">
+                                <button type="submit" class="btn btn-info btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span class="text">IDENTIFICACIÓN</span>    
+                                </button>
+                            </form> 
+                        <?php } else { ?>
+                            <form name="BORRAR" action="elimina_integrante_cf.php" method="post">  
+                            <input type="hidden" name="idintegrante_cf" value="<?php echo $row4[0];?>">
+                            <button type="submit" class="btn btn-danger">QUITAR</button></form>
+                        <?php } ?>
+                                    </td>
                                     </tr>                            
                                     <?php
                                     $numero=$numero+1;
@@ -286,215 +312,207 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
             </div>  
-     <!-------- INGRESA DATOS DEL IDIOMA (Begin) --------->             
+     <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
+        <hr>
+        <div class="text-center">                                     
+            <h4 class="text-info">AGREGAR INTEGRANTE:</h4>                    
+        </div>
+        <hr>
+
+<form name="INTEGRANTE" action="guarda_nuevo_integrante.php" method="post">  
+
+<div class="form-group row">                               
+    <div class="col-sm-4">
+    <h6 class="text-info">PRIMER APELLIDO:</h6>
+        <input type="text" class="form-control" 
+         name="paterno" autofocus>                
+    </div>
+    <div class="col-sm-4">
+    <h6 class="text-info">SEGUNDO APELLIDO:</h6>
+        <input type="text" class="form-control" 
+         name="materno" required>                
+    </div>
+    <div class="col-sm-4">
+    <h6 class="text-info">NOMBRES:</h6>
+        <input type="text" class="form-control" 
+         name="nombre" required >                
+    </div>
+</div>
+
+<div class="form-group row">  
+    <div class="col-sm-3">
+    <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
+        <input type="text" class="form-control" 
+         name="ci" >
+    </div>
+    <div class="col-sm-3">
+    <h6 class="text-info">COMPLEMENTO:</h6>
+        <input type="text" class="form-control" 
+         name="complemento" >                
+    </div>
+    <div class="col-sm-3">
+    <h6 class="text-info">GÉNERO</h6>
+        <select name="idgenero" id="idgenero" class="form-control" required>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT idgenero, genero FROM genero ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+        </select>
+    </div>  
+    <div class="col-sm-3">
+    <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
+        <input type="date"  class="form-control" 
+            placeholder="ingresar fecha" name="fecha_nac" required>
+    </div>      
+</div>   
+
+<div class="form-group row">  
+
+<div class="col-sm-3"></br>
+    <h6 class="text-info">NACIONALIDAD:</h6>
+
+        <select name="idnacionalidad" id="idnacionalidad" class="form-control" required>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT idnacionalidad, nacionalidad FROM nacionalidad ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+        </select>
+    </div>  
+
+    <div class="col-sm-3"></br>
+    <h6 class="text-info">PARENTESCO</h6>
+
+        <select name="idparentesco" id="idparentesco" class="form-control" required>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT idparentesco, parentesco FROM parentesco ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+        </select>
+    </div>  
+
+    <div class="col-sm-3">
+    <h6 class="text-info">AUTO PERTENENCIA CULTURAL</h6>
+
+        <select name="idnacion" id="idnacion" class="form-control" required>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT idnacion, nacion FROM nacion ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+        </select>
+    </div>  
+    <div class="col-sm-3"></br></br>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+    AGREGAR INTEGRANTE
+    </button>  
+</div>     
+</div> 
+<hr>
+                            
             
-     <hr>
-                <form name="IDIOMAS" action="guarda_idioma_cf.php" method="post">                   
+   <!-- modal de confirmacion de envio de datos-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE INTEGRANTE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+            Esta seguro de Registrar al INTEGRANTE?
+        
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+        </div>
+    </div>
+</div>
+</div>
+</form>                
+ 
 
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                    <h6 class="text-info">IDIOMA:</h6>
-                    <select name="ididioma"  id="ididioma" class="form-control" required autofocus>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT ididioma, idioma FROM idioma ORDER BY idioma";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                    <h6 class="text-info">HABLADO/MATERNO:</h6>
-                        <select name="idorigen_idioma"  id="idorigen_idioma" class="form-control" required>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT idorigen_idioma, origen_idioma FROM origen_idioma ORDER BY origen_idioma";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                    <h6 class="text-info">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
-                        AGREGAR IDIOMA
-                        </button>  
-                    </div>  
-                 </div>
+        <hr>
+    <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (End) --------->  
 
-                <!-- modal de confirmacion de envio de datos-->
-                <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">IDIOMA DE LA FAMILIA</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">                                    
-                                    Esta seguro de agregar el IDIOMA ?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-
-     <!-------- INGRESA DATOS DEL IDIOMA (End) ---------> 
-            <hr>
-            <div class="text-center">                                     
-                <h4 class="text-info">ACCESO GEOGRÁFICO AL ESTABLECIMIENTO DE SALUD:</h4>                    
-            </div>
-
-            <hr>         
-    <!-------- INGRESA DATOS DE MEDIO DE TRANSPORTE FAMILIAR --------->  
-                       
-    
-    <div class="form-group row">
+    <form name="ENVIA_CONSULTA" action="guarda_consolida_lista_familiar.php" method="post">  
+        <div class="text-center">
+            <div class="form-group row">
                 <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped" id="example" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th class="text-info"></br>Nª</th>
-                                    <th class="text-info"></br>MEDIO DE TRANSPORTE</th>
-                                    <th class="text-info">TIEMPO EMPLEADO</br>HORAS:MINUTOS</th>
-                                    <th class="text-info">DISTANCIA</br>KILÓMETROS</th>
-                                    <th class="text-info"></br>ACCIÓN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                        <?php
-                                    $numero=1;
-                                    $sql5 =" SELECT transporte_cf.idtransporte_cf, transporte.transporte, tiempo, distancia FROM transporte_cf, transporte ";
-                                    $sql5.=" WHERE transporte_cf.idtransporte=transporte.idtransporte AND transporte_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-                                    $result5 = mysqli_query($link,$sql5);
-                                    if ($row5 = mysqli_fetch_array($result5)){
-                                    mysqli_field_seek($result5,0);
-                                    while ($field5 = mysqli_fetch_field($result5)){
-                                    } do { 
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $numero;?></td>
-                                        <td><?php echo $row5[1];?></td>
-                                        <td><?php echo $row5[2];?></td>
-                                        <td><?php echo $row5[3];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_transporte_cf.php" method="post">  
-                                        <input type="hidden" name="idtransporte_cf" value="<?php echo $row5[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
-                                        </td>
-                                    </tr>                            
-                                    <?php
-                                    $numero=$numero+1;
-                                    }
-                                    while ($row5 = mysqli_fetch_array($result5));
-                                    } else {
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalc">
+                    CONSOLIDAR LISTA FAMILIAR
+                    </button>  
+                </div> 
+            </div>                              
+
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title_warning" id="exampleModalLabel">CONSOLIDA LISTA FAMILIAR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de CONSOLIDAR LA LISTA DE INTEGRANTES DE LA FAMILIA?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-warning pull-center">CONFIRMAR</button>    
+                        </div>
                     </div>
                 </div>
-            </div>  
-     <!-------- INGRESA DATOS DEL TRANSPORTE FAMILIAR (Begin) --------->             
-            
-     <hr>
-                <form name="TRANSPORTE" action="guarda_transporte_cf.php" method="post">                   
-
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-info">TRANSPORTE:</h6>
-                    <select name="idtransporte"  id="idtransporte" class="form-control" required autofocus>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT idtransporte, transporte FROM transporte ORDER BY transporte";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">TIEMPO EMPLEADO [hh:mm]:</h6>
-                    <input type="time" class="form-control" name="tiempo" required>   
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">DISTANCIA [KM]:</h6>
-                    <input type="number" class="form-control" name="distancia" required> 
-                    </div>
-
-                    <div class="col-sm-3">
-                    <h6 class="text-info">ACCIÓN:</h6>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalt">
-                        AGREGAR
-                        </button>  
-                    </div>  
-                 </div>
-
-                <!-- modal de confirmacion de envio de datos-->
-                <div class="modal fade" id="exampleModalt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">TRANSPORTE DE LA FAMILIA</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">                                    
-                                    Esta seguro de agregar el MEDIO DE TRANSPORTE ?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <hr>
-            <div class="text-center"> 
-               <a href="integrantes_cf.php"><h6 class="text-info">INSTANCIA: INTEGRANTES DE LA FAMILIA --></h6></a>                                                                   
             </div>
-
+        </form>        
+    </div>
                     
-<!-- END aqui va el comntenido de la pagina ---->
+        <!-- END aqui va el comntenido de la pagina ---->
                 </div>
                
                 <div class="text-center">
