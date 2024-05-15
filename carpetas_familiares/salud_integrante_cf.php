@@ -84,11 +84,11 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="mostrar_integrante_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">4.- IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR</h4>
+                    <h4 class="text-info">5.- SALUD DEL INTEGRANTE FAMILIAR</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -309,131 +309,170 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                 </div>  
 
-        
-    <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->  
 
-    <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
-        <hr>
-            <div class="text-center">                                     
-                <h4 class="text-info">INFORMACIÓN COMPLEMENTARIA DEL INTEGRANTE:</h4>                    
-            </div>
-        <hr>
-
-    <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
-
-    <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped" id="example" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th class="text-info">Nª</th>
-                                    <th class="text-info">ESTADO CIVIL</th>
-                                    <th class="text-info">NIVEL DE INSTRUCCIÓN</th>
-                                    <th class="text-info">PROFESIÓN</th>
-                                    <th class="text-info">OCUPACIÓN</th>
-                                    <th class="text-info">CONTRIBUYE AL SUSTENTO</br>FAMILIAR?</th>
-                                    <th class="text-info">ACCIÓN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <?php
-                                    $numero=1;
-                                    $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
-                                    $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
-                                    $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                                    $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss'";
-                                    $result4 = mysqli_query($link,$sql4);
-                                    if ($row4 = mysqli_fetch_array($result4)){
-                                    mysqli_field_seek($result4,0);
-                                    while ($field4 = mysqli_fetch_field($result4)){
-                                    } do { 
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $numero;?></td>
-                                        <td><?php echo $row4[1];?></td>
-                                        <td><?php echo $row4[2];?></td>
-                                        <td><?php echo $row4[3];?></td>
-                                        <td><?php echo $row4[4];?></td>
-                                        <td><?php echo $row4[5];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_dato_integrante_cf.php" method="post">  
-                                        <input type="hidden" name="idintegrante_datos_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>   
-                                    </td>
-                                    </tr>                            
-                                    <?php
-                                    $numero=$numero+1;
-                                    }
-                                    while ($row4 = mysqli_fetch_array($result4));
-                                    } else {
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>  
-     <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
+                          
         <hr>
         <div class="text-center">                                     
-            <h4 class="text-info">AGREGAR DATOS COMPLEMENTARIOS:</h4>                    
+            <h4 class="text-info">SALUD DEL INTEGRANTE FAMILIAR:</h4>                    
         </div>
         <hr>
+    <!-------- DETALLE SALUD DEL INETGRANTE FAMILIAR (begin) --------->  
 
-<form name="INTEGRANTE" action="guarda_dato_integrante.php" method="post">  
+            <?php
+            $numeroa=1;
+            $sqla =" SELECT idintegrante_ap_sano, integrante_ap_sano FROM integrante_ap_sano WHERE idintegrante_cf='$idintegrante_cf_ss' ";
+            $resulta = mysqli_query($link,$sqla);
+            if ($rowa = mysqli_fetch_array($resulta)){
+            mysqli_field_seek($resulta,0);
+            while ($fielda = mysqli_fetch_field($resulta)){
+            } do { 
+            ?>
+                <div class="form-group row">  
+                    <div class="col-sm-2">
+                        <h6 class="text-info">GRUPO I</h6>                   
+                    </div>
+                    <div class="col-sm-8">
+                    <h6 class="text-secundary"><?php echo $rowa[1];?></h6>
+                    </div>
+                    <div class="col-sm-2">
+                            <form name="BORRAR" action="elimina_integrante_sano_cf.php" method="post">  
+                            <input type="hidden" name="idintegrante_ap_sano" value="<?php echo $rowa[0];?>">
+                            <button type="submit" class="btn btn-warning">QUITAR</button></form>
+                    </div>
+                </div>
+            <hr>
+            <?php
+            $numeroa=$numeroa+1;
+            }
+            while ($rowa = mysqli_fetch_array($resulta));
+            } else {
+            }
+            ?>
 
+        <?php
+            $numerob=1;
+            $sqlb =" SELECT integrante_factor_riesgo.idintegrante_factor_riesgo, factor_riesgo_cf.factor_riesgo_cf,  ";
+            $sqlb.=" factor_riesgo_cf.vulnerable, integrante_factor_riesgo.otro_factor_riesgo  FROM integrante_factor_riesgo, factor_riesgo_cf ";
+            $sqlb.=" WHERE integrante_factor_riesgo.idfactor_riesgo_cf=factor_riesgo_cf.idfactor_riesgo_cf ";
+            $sqlb.=" AND integrante_factor_riesgo.idintegrante_cf='$idintegrante_cf_ss' ";
+            $resultb = mysqli_query($link,$sqlb);
+            if ($rowb = mysqli_fetch_array($resultb)){
+            mysqli_field_seek($resultb,0);
+            while ($fieldb = mysqli_fetch_field($resultb)){
+            } do { 
+            ?>
+                <div class="form-group row">  
+                    <div class="col-sm-2">
+                        <h6 class="text-info">GRUPO II</h6> 
+                    </div>
+                    <div class="col-sm-8">
+                    <h6 class="text-secundary"><?php echo $rowb[1];
+                    if ($rowb[2] == 'SI') { echo " - VULNERABLE"; } else { } ?>
+                    
+                    <?php  echo $rowb[3];?>
+                    </h6>
+                    </div>
+                    <div class="col-sm-2">
+                            <form name="BORRAR" action="elimina_integrante_factor_riesgo_cf.php" method="post">  
+                            <input type="hidden" name="idintegrante_factor_riesgo" value="<?php echo $rowb[0];?>">
+                            <button type="submit" class="btn btn-warning">QUITAR</button></form>
+                    </div>
+                </div>
+                <hr>
+            <?php
+            $numerob=$numerob+1;
+            }
+            while ($rowb = mysqli_fetch_array($resultb));
+            } else {
+            }
+            ?>
+
+<?php
+            $numeroc=1;
+            $sqlc =" SELECT integrante_morbilidad.idintegrante_morbilidad, morbilidad_cf.morbilidad_cf, tipo_enfermedad_cf.tipo_enfermedad_cf, integrante_morbilidad.otra_enfermedad  ";
+            $sqlc.=" FROM integrante_morbilidad, morbilidad_cf, tipo_enfermedad_cf WHERE integrante_morbilidad.idmorbilidad_cf=morbilidad_cf.idmorbilidad_cf ";
+            $sqlc.=" AND morbilidad_cf.idtipo_enfermedad_cf=tipo_enfermedad_cf.idtipo_enfermedad_cf AND integrante_morbilidad.idintegrante_cf='$idintegrante_cf_ss' ";
+            $resultc = mysqli_query($link,$sqlc);
+            if ($rowc = mysqli_fetch_array($resultc)){
+            mysqli_field_seek($resultc,0);
+            while ($fieldc = mysqli_fetch_field($resultc)){
+            } do { 
+            ?>
+                <div class="form-group row">  
+                    <div class="col-sm-2">
+                        <h6 class="text-info">GRUPO III</h6> 
+                    </div>
+                    <div class="col-sm-8">
+                    <h6 class="text-secundary"><?php echo $rowc[1];?> - <?php  echo $rowc[2];?> 
+                    <?php if ($rowc[3] != ' ') { echo " - ".$rowc[3]; } else { } ?>
+                    </h6>
+                    </div>
+                    <div class="col-sm-2">
+                            <form name="BORRAR" action="elimina_integrante_morbilidad_cf.php" method="post">  
+                            <input type="hidden" name="idintegrante_morbilidad" value="<?php echo $rowc[0];?>">
+                            <button type="submit" class="btn btn-warning">QUITAR</button></form>
+                    </div>
+                </div>
+                <hr>
+            <?php
+            $numeroc=$numeroc+1;
+            }
+            while ($rowc = mysqli_fetch_array($resultc));
+            } else {
+            }
+            ?>
+
+        <?php
+            $numerod=1;
+            $sqld =" SELECT integrante_discapacidad.idintegrante_discapacidad, tipo_discapacidad_cf.tipo_discapacidad_cf, ";
+            $sqld.=" nivel_discapacidad_cf.nivel_discapacidad_cf FROM integrante_discapacidad, tipo_discapacidad_cf, nivel_discapacidad_cf ";
+            $sqld.=" WHERE integrante_discapacidad.idtipo_discapacidad_cf=tipo_discapacidad_cf.idtipo_discapacidad_cf ";
+            $sqld.=" AND integrante_discapacidad.idnivel_discapacidad_cf=nivel_discapacidad_cf.idnivel_discapacidad_cf AND integrante_discapacidad.idintegrante_cf='$idintegrante_cf_ss' ";
+            $resultd = mysqli_query($link,$sqld);
+            if ($rowd = mysqli_fetch_array($resultd)){
+            mysqli_field_seek($resultd,0);
+            while ($fieldd = mysqli_fetch_field($resultd)){
+            } do { 
+            ?>
+                <div class="form-group row">  
+                    <div class="col-sm-2">
+                        <h6 class="text-info">GRUPO IV</h6> 
+                    </div>
+                    <div class="col-sm-8">
+                    <h6 class="text-secundary"><?php echo "DISCAPACIDAD : ".$rowd[1];?> - <?php  echo $rowd[2];?> 
+                    </h6>
+                    </div>
+                    <div class="col-sm-2">
+                            <form name="BORRAR" action="elimina_integrante_discapacidad_cf.php" method="post">  
+                            <input type="hidden" name="idintegrante_discapacidad" value="<?php echo $rowd[0];?>">
+                            <button type="submit" class="btn btn-warning">QUITAR</button></form>
+                    </div>
+                </div>
+                <hr>
+            <?php
+            $numerod=$numerod+1;
+            }
+            while ($rowd = mysqli_fetch_array($resultd));
+            } else {
+            }
+            ?>
+
+    <!-------- DETALLE SALUD DEL INTEGRANTE FAMILIAR (end) --------->  
 <div class="form-group row">  
-    <div class="col-sm-4">
-    <h6 class="text-info">ESTADO CIVIL</h6>
-        <select name="idestado_civil" id="idestado_civil" class="form-control" required autofocus>
-        <option value="">-SELECCIONE-</option>
-        <?php
-        $sql1 = "SELECT idestado_civil, estado_civil FROM estado_civil ";
-        $result1 = mysqli_query($link,$sql1);
-        if ($row1 = mysqli_fetch_array($result1)){
-        mysqli_field_seek($result1,0);
-        while ($field1 = mysqli_fetch_field($result1)){
-        } do {
-        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-        } while ($row1 = mysqli_fetch_array($result1));
-        } else {
-        echo "No se encontraron resultados!";
-        }
-        ?>
-        </select>
+    <div class="col-sm-3">
+        <h6 class="text-info">GRUPO A CLASIFICAR::</h6>
     </div>
-    <div class="col-sm-4">
-    <h6 class="text-info">NIVEL DE INSTRUCCIÓN</h6>
-        <select name="idnivel_instruccion" id="idnivel_instruccion" class="form-control" required>
+    <div class="col-sm-9">
+        <select name="idgrupo_cf" id="idgrupo_cf" class="form-control" required autofocus>
         <option value="">-SELECCIONE-</option>
         <?php
-        $sql1 = "SELECT idnivel_instruccion, nivel_instruccion FROM nivel_instruccion ";
+        $sql1 = "SELECT idgrupo_cf, grupo_cf, denominacion FROM grupo_cf ";
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
         mysqli_field_seek($result1,0);
         while ($field1 = mysqli_fetch_field($result1)){
         } do {
-        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-        } while ($row1 = mysqli_fetch_array($result1));
-        } else {
-        echo "No se encontraron resultados!";
-        }
-        ?>
-        </select>
-    </div>
-    <div class="col-sm-4">
-    <h6 class="text-info">PROFESIÓN</h6>
-        <select name="idprofesion" id="idprofesion" class="form-control" required>
-        <option value="">-SELECCIONE-</option>
-        <?php
-        $sql1 = "SELECT idprofesion, profesion FROM profesion ORDER BY profesion";
-        $result1 = mysqli_query($link,$sql1);
-        if ($row1 = mysqli_fetch_array($result1)){
-        mysqli_field_seek($result1,0);
-        while ($field1 = mysqli_fetch_field($result1)){
-        } do {
-        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
         } while ($row1 = mysqli_fetch_array($result1));
         } else {
         echo "No se encontraron resultados!";
@@ -443,68 +482,16 @@ $row_n=mysqli_fetch_array($result_n);
     </div>
 </div>
 
+<div class="col-lg-12" id="grupo_salud_cf">  
+    <div class="p-2">
 
-<div class="form-group row">     
-    <div class="col-sm-4">
-    <h6 class="text-info">OCUPACIÓN</h6>
-    <textarea class="form-control" rows="2" name="ocupacion" placeholder=""></textarea>   
-    </div>      
-    <div class="col-sm-4"></br>
-    <h6 class="text-info">CONTRIBUYE AL SUSTENTO FAMILIAR?</h6>
-
-        <select name="idcontribuye_cf" id="idcontribuye_cf" class="form-control" required>
-        <option value="">-SELECCIONE-</option>
-        <?php
-        $sql1 = "SELECT idcontribuye_cf, contribuye_cf FROM contribuye_cf ";
-        $result1 = mysqli_query($link,$sql1);
-        if ($row1 = mysqli_fetch_array($result1)){
-        mysqli_field_seek($result1,0);
-        while ($field1 = mysqli_fetch_field($result1)){
-        } do {
-        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-        } while ($row1 = mysqli_fetch_array($result1));
-        } else {
-        echo "No se encontraron resultados!";
-        }
-        ?>
-        </select>
-    </div>  
-    <div class="col-sm-4"></br></br>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-    REGISTRAR 
-    </button>  
-    </div>     
-</div> 
-<hr>
-                            
-            
-   <!-- modal de confirmacion de envio de datos-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE INTEGRANTE</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-            
-            Esta seguro de Registrar al INTEGRANTE?
-        
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-        </div>
     </div>
 </div>
-</div>
-</form>                
-    <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
-          
+   
+        <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
+          <hr>
              <div class="text-center"> 
-               <a href="salud_integrante_cf.php"><h6 class="text-success">SALUD DEL INTEGRANTE -></h6></a>                                                                   
+               <a href="salud_integrante_subsector_cf.php"><h6 class="text-success">CONTINUAR -></h6></a>                                                                   
             </div>
 
         <!-- END aqui va el comntenido de la pagina ---->
@@ -560,13 +547,24 @@ $row_n=mysqli_fetch_array($result_n);
 
     <script type="text/javascript" src="../js/localizacion.js"></script>
     <script type="text/javascript" src="../js/initMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwC0dKzZNKNbnzsslPYLNSExYd8uLqRIk&callback=initMap"></script>
 
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idgrupo_cf").change(function () {
+                    $("#idgrupo_cf option:selected").each(function () {
+                        grupo_cf=$(this).val();
+                    $.post("grupo_salud_cf.php", {grupo_cf:grupo_cf}, function(data){
+                    $("#grupo_salud_cf").html(data);
+                    });
+                });
+        })
+        });
+    </script> 
 
     
 </body>
