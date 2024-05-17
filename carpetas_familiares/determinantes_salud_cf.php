@@ -84,11 +84,11 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="salud_integrante_subsector_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">7.- BENEFICIARIO DE PROGRAMAS SOCIALES</h4>
+                    <h4 class="text-info">10.- DETERMINANTES DE LA SALUD</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -244,78 +244,14 @@ $row_n=mysqli_fetch_array($result_n);
                 </div>
             <hr>
  
-     <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (Begin) --------->                         
+    
 
-                <div class="form-group row">                               
-                    <div class="col-sm-3">
-                    <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
-                         name="ci" disabled>
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">NOMBRES:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                         name="nombre" disabled>                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">PRIMER APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                         name="paterno" disabled >                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                         name="materno" disabled>                
-                    </div>
-                </div>
-
-                <div class="form-group row">  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">GÉNERO</h6>
-
-                    <select name="idgenero"  id="idgenero" class="form-control" disabled >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idgenero, genero FROM genero ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
-                        <input type="date"  class="form-control" 
-                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
-                    </div>   
-                    
-                    <div class="col-sm-3">
-                    <h6 class="text-info">EDAD:</h6>
-                        <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
-                         name="edad_actual" disabled>
-                    </div>
-                    <div class="col-sm-3">
-                    </br>
-                   
-                    </div>
-                </div>  
-        
-
-    <!-------- ETAPA DE BENEFICIOS SOCIALES DEL INTEGRANTE FAMILIAR (BEGIN) --------->
+    <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
         <hr>
             <div class="text-center">                                     
-                <h4 class="text-info">PROGRAMAS SOCIALES:</h4>                    
+                <h4 class="text-info">10. DETERMINANTES DE LA SALUD:</h4>                    
             </div>
-
+        <hr>
 
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
 
@@ -326,17 +262,20 @@ $row_n=mysqli_fetch_array($result_n);
                             <thead>
                                 <tr>
                                     <th class="text-info">Nª</th>
-                                    <th class="text-info">PROGRAMA SOCIAL</th>
+                                    <th class="text-info">DETERMINANTE</th>
+                                    <th class="text-info">ASPECTO</th>
+                                    <th class="text-info">FACTOR DETERMINANTE</th>
+                                    <th class="text-info">VALOR</th>
                                     <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <?php
                                     $numero=1;
-                                    $sql4 =" SELECT integrante_beneficiario.idintegrante_beneficiario, programa_social.programa_social,   ";
-                                    $sql4.=" integrante_beneficiario.otros_beneficios FROM integrante_beneficiario, programa_social  ";
-                                    $sql4.=" WHERE integrante_beneficiario.idprograma_social=programa_social.idprograma_social ";
-                                    $sql4.=" AND integrante_beneficiario.idintegrante_cf='$idintegrante_cf_ss' ";
+                                    $sql4 ="  ";
+                                    $sql4.="  ";
+                                    $sql4.="  ";
+                                    $sql4.="  ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -345,13 +284,14 @@ $row_n=mysqli_fetch_array($result_n);
                                     ?>
                                     <tr>
                                         <td><?php echo $numero;?></td>
-                                        <td><?php echo $row4[1];?>
-                                            <?php if ($row4[2] != '') { echo " : ".$row4[2]; } else { } ?></td>
+                                        <td><?php echo $row4[1];?></td>
+                                        <td><?php echo $row4[2];?></td>
+                                        <td><?php echo $row4[3];?></td>
+                                        <td><?php echo $row4[4];?></td>
                                         <td>
-                                        <form name="BORRAR" action="elimina_beneficio_integrante_cf.php" method="post">  
-                                        <input type="hidden" name="idintegrante_beneficiario" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>   
-                                    </td>
+                                        <form name="BORRAR" action="elimina_determinante_cf.php" method="post">  
+                                        <input type="hidden" name="idintegrante_datos_cf" value="<?php echo $row4[0];?>">
+                                        <button type="submit" class="btn btn-danger">QUITAR</button></form> </td>
                                     </tr>                            
                                     <?php
                                     $numero=$numero+1;
@@ -365,55 +305,79 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                 </div>
             </div>  
-     <!-------- INGRESA SUBSECTOR SALUD DEL INTEGRANTE (Begin) --------->                         
-    <hr>
-    <form name="SUBSECTOR" action="guarda_beneficiario_cf.php" method="post"> 
-        <div class="form-group row">  
-            <div class="col-sm-12">
-                <h6 class="text-info">ES BENEFICIARIO DE ALGUN PROGRAMA SOCIAL?</h6>
-                <select name="idprograma_social"  id="idprograma_social" class="form-control" required autofocus>
-                    <option value="">-SELECCIONE-</option>
-                    <?php
-                    $sql1 = " SELECT idprograma_social, programa_social FROM programa_social";
-                    $result1 = mysqli_query($link,$sql1);
-                    if ($row1 = mysqli_fetch_array($result1)){
-                    mysqli_field_seek($result1,0);
-                    while ($field1 = mysqli_fetch_field($result1)){
-                    } do {
-                    echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                    } while ($row1 = mysqli_fetch_array($result1));
-                    } else {
-                    echo "No se encontraron resultados!";
-                    }
-                    ?>
-                </select>
-            </div>
+     <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
+        <hr>
+        <div class="text-center">                                     
+            <h4 class="text-info">AGREGAR DATOS COMPLEMENTARIOS:</h4>                    
         </div>
+        <hr>
 
-        <div class="form-group row"> 
-            <div class="col-sm-12" id="otros_beneficios"> 
-            </div>
-        </div>
+<form name="INTEGRANTE" action="guarda_dato_integrante.php" method="post">  
 
-        <div class="form-group row"> 
-            <div class="col-sm-9" > 
-            </div>
-            <div class="col-sm-3"> </br>   
+<div class="form-group row">  
+    <div class="col-sm-3">
+    <h6 class="text-info">DETERMINANTE DE SALUD</h6>
+    </div>
+    <div class="col-sm-9">    
+        <select name="iddeterminante_salud" id="iddeterminante_salud" class="form-control" required autofocus>
+        <option value="">-SELECCIONE-</option>
+        <?php
+        $sql1 = "SELECT iddeterminante_salud, determinante_salud FROM determinante_salud ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do {
+        echo "<option value=".$row1[0].">".$row1[0].".- ".$row1[1]."</option>";
+        } while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        echo "No se encontraron resultados!";
+        }
+        ?>
+        </select>
+    </div>
+
+</div>
+
+<div class="form-group row">
+<div class="col-sm-3">
+<h6 class="text-info">ASPECTO DETERMINANTE</h6>
+</div>
+<div class="col-sm-9">    
+        <select name="idcat_determinante_salud" id="idcat_determinante_salud" class="form-control" required></select>
+    </div>
+</div>
+<div class="form-group row"> 
+<div class="col-sm-3">
+<h6 class="text-info">FACTOR DETERMINANTE</h6>
+</div>
+<div class="col-sm-9">   
+        <select name="iditem_determinante_salud" id="iditem_determinante_salud" class="form-control" required></select>
+    </div>
+</div>
+
+<div class="form-group row" id="valor_determinante"> 
+</div>
+
+<div class="form-group row">      
+        <div class="col-sm-12"></br>
             <button type="submit" class="btn btn-info btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-file"></i>
             </span>
-            <span class="text">ADICIONAR</span>    
+            <span class="text">REGISTRAR FACTOR DETERMINANTE</span>    
             </button>
-        </form> 
-        </div>
-        </div>
-
-
-    <!-------- ETAPA DE BENEFICIOS SOCIALES DEL INTEGRANTE FAMILIAR (END) --------->
-          <hr>
+        </div>    
+</div> 
+    </form>
+<hr>
+                            
+            
+               
+    <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
+          
              <div class="text-center"> 
-               <a href="salud_integrante_tradicional_cf.php"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
+               <a href="#"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
             </div>
 
         <!-- END aqui va el comntenido de la pagina ---->
@@ -465,29 +429,50 @@ $row_n=mysqli_fetch_array($result_n);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para uso de mapas -->
-
-    <script type="text/javascript" src="../js/localizacion.js"></script>
-    <script type="text/javascript" src="../js/initMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwC0dKzZNKNbnzsslPYLNSExYd8uLqRIk&callback=initMap"></script>
 
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        
+                
         <script language="javascript">
-        $(document).ready(function(){
-        $("#idprograma_social").change(function () {
-                    $("#idprograma_social option:selected").each(function () {
-                        programa_social=$(this).val();
-                    $.post("otros_beneficios.php", {programa_social:programa_social}, function(data){
-                    $("#otros_beneficios").html(data);
+            $(document).ready(function(){
+            $("#iddeterminante_salud").change(function () {
+                        $("#iddeterminante_salud option:selected").each(function () {
+                            determinante_salud=$(this).val();
+                        $.post("cat_determinante_salud_cf.php", {determinante_salud:determinante_salud}, function(data){
+                        $("#idcat_determinante_salud").html(data);
+                        });
                     });
-                });
-        })
-        });
-    </script> 
+            })
+            });
+        </script> 
+
+        <script language="javascript">
+            $(document).ready(function(){
+            $("#idcat_determinante_salud").change(function () {
+                        $("#idcat_determinante_salud option:selected").each(function () {
+                            cat_determinante_salud=$(this).val();
+                        $.post("item_determinante_salud_cf.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
+                        $("#iditem_determinante_salud").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+
+        <script language="javascript">
+            $(document).ready(function(){
+            $("#idcat_determinante_salud").change(function () {
+                        $("#idcat_determinante_salud option:selected").each(function () {
+                            cat_determinante_salud=$(this).val();
+                        $.post("valor_determinante.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
+                        $("#valor_determinante").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
 
     
 </body>
