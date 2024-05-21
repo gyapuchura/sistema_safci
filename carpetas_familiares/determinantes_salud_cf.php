@@ -310,38 +310,38 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='1' ";
                                     $resulta = mysqli_query($link,$sqla);
                                     $rowa = mysqli_fetch_array($resulta);
-                                    echo "= ".$rowa[0];
+                                    echo "</br> = ".$rowa[0];
 
                                     $sumatoria = $rowa[0];
                                         if ($sumatoria <= 7 ) {
                                             $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
                                             $result5 = mysqli_query($link,$sql5);
                                             $row5 = mysqli_fetch_array($result5);
-                                            echo ".- ".$row5[0];
+                                            echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
                                         } else {
                                             if ($sumatoria <= 11 ) {
                                                 $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
                                                 $result6 = mysqli_query($link,$sql6);
                                                 $row6 = mysqli_fetch_array($result6);
-                                                echo ".- ".$row6[0];
+                                                echo "<h6 class='text-info'>".$row6[0]."</h6>";
                                             } else {
-                                                if ($sumatoria >= 17) {
+                                                if ($sumatoria <= 17) {
                                                         $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
                                                         $result7 = mysqli_query($link,$sql7);
                                                         $row7 = mysqli_fetch_array($result7);
-                                                        echo ".- ".$row7[0];
+                                                        echo "<h6 class='text-primary'>".$row7[0]."</h6>";
                                                 } else {
-                                                    if ($sumatoria >= 24) {
+                                                    if ($sumatoria <= 24) {
                                                             $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
                                                             $result8 = mysqli_query($link,$sql8);
                                                             $row8 = mysqli_fetch_array($result8);
-                                                            echo ".- ".$row8[0];
+                                                            echo "<h6 class='text-warning'>".$row8[0]."</h6>";
                                                     } else { 
-                                                        if ($sumatoria >= 37) {
+                                                        if ($sumatoria <= 35) {
                                                                 $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
                                                                 $result9 = mysqli_query($link,$sql9);
                                                                 $row9 = mysqli_fetch_array($result9);
-                                                                echo ".- ".$row9[0];
+                                                                echo "<h6 class='text-danger'>".$row9[0]."</h6>";
                                                         } else {  } } } } }
 
                             ?>
@@ -353,38 +353,38 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     $sqlb = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='2' ";
                                     $resultb = mysqli_query($link,$sqlb);
                                     $rowb = mysqli_fetch_array($resultb);
-                                    echo " = ".$rowb[0];
+                                    echo "</br> = ".$rowb[0];
 
                                     $sumatoria = $rowb[0];
-                                    if ($sumatoria <= 7 ) {
+                                    if ($sumatoria <= 16 ) {
                                         $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
                                         $result5 = mysqli_query($link,$sql5);
                                         $row5 = mysqli_fetch_array($result5);
-                                        echo ".- ".$row5[0];
+                                        echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
                                     } else {
-                                        if ($sumatoria <= 11 ) {
+                                        if ($sumatoria <= 31 ) {
                                             $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
                                             $result6 = mysqli_query($link,$sql6);
                                             $row6 = mysqli_fetch_array($result6);
-                                            echo ".- ".$row6[0];
+                                            echo "<h6 class='text-info'>".$row6[0]."</h6>";
                                         } else {
-                                            if ($sumatoria >= 17) {
+                                            if ($sumatoria <= 41) {
                                                     $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
                                                     $result7 = mysqli_query($link,$sql7);
                                                     $row7 = mysqli_fetch_array($result7);
-                                                    echo ".- ".$row7[0];
+                                                    echo "<h6 class='text-primary'>".$row7[0]."</h6>";
                                             } else {
-                                                if ($sumatoria >= 24) {
+                                                if ($sumatoria <= 56) {
                                                         $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
                                                         $result8 = mysqli_query($link,$sql8);
                                                         $row8 = mysqli_fetch_array($result8);
-                                                        echo ".- ".$row8[0];
+                                                        echo "<h6 class='text-warning'>".$row8[0]."</h6>";
                                                 } else { 
-                                                    if ($sumatoria >= 37) {
+                                                    if ($sumatoria <= 80) {
                                                             $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
                                                             $result9 = mysqli_query($link,$sql9);
                                                             $row9 = mysqli_fetch_array($result9);
-                                                            echo ".- ".$row9[0];
+                                                            echo "<h6 class='text-danger'>".$row9[0]."</h6>";
                                                     } else {  } } } } }
 
                             ?>
@@ -399,35 +399,35 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     echo " = ".$rowc[0];
 
                                     $sumatoria = $rowc[0];
-                                    if ($sumatoria <= 7 ) {
+                                    if ($sumatoria <= 3) {
                                         $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
                                         $result5 = mysqli_query($link,$sql5);
                                         $row5 = mysqli_fetch_array($result5);
-                                        echo ".- ".$row5[0];
+                                        echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
                                     } else {
-                                        if ($sumatoria <= 11 ) {
+                                        if ($sumatoria <= 5) {
                                             $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
                                             $result6 = mysqli_query($link,$sql6);
                                             $row6 = mysqli_fetch_array($result6);
-                                            echo ".- ".$row6[0];
+                                            echo "<h6 class='text-info'>".$row6[0]."</h6>";
                                         } else {
-                                            if ($sumatoria >= 17) {
+                                            if ($sumatoria <= 9) {
                                                     $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
                                                     $result7 = mysqli_query($link,$sql7);
                                                     $row7 = mysqli_fetch_array($result7);
-                                                    echo ".- ".$row7[0];
+                                                    echo "<h6 class='text-primary'>".$row7[0]."</h6>";
                                             } else {
-                                                if ($sumatoria >= 24) {
+                                                if ($sumatoria <= 11) {
                                                         $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
                                                         $result8 = mysqli_query($link,$sql8);
                                                         $row8 = mysqli_fetch_array($result8);
-                                                        echo ".- ".$row8[0];
+                                                        echo "<h6 class='text-warning'>".$row8[0]."</h6>";
                                                 } else { 
-                                                    if ($sumatoria >= 37) {
+                                                    if ($sumatoria <= 15) {
                                                             $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
                                                             $result9 = mysqli_query($link,$sql9);
                                                             $row9 = mysqli_fetch_array($result9);
-                                                            echo ".- ".$row9[0];
+                                                            echo "<h6 class='text-danger'>".$row9[0]."</h6>";
                                                     } else {  } } } } }
 
                             ?>
@@ -436,41 +436,62 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <div class="col-sm-3">
                             <h6 class="text-info">RIESGO DE LA SALUD ALIMENTARIA</h6>
                             <?php  
-                                    $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' ";
+                                    $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
                                     $resultd = mysqli_query($link,$sqld);
                                     $rowd = mysqli_fetch_array($resultd);
-                                    echo " = ".$rowd[0];
+                                    $durante = $rowd[0];
 
-                                    $sumatoria = $rowd[0];
-                                    if ($sumatoria <= 7 ) {
+                                    if ($durante == '0') {
+                                       $grado_alimentario = '1';
+                                    } else {
+                                        if ($durante <= 3) {
+                                            $grado_alimentario = '3';
+                                        } else {
+                                            if ($durante <= 5) {
+                                                $grado_alimentario = '4';
+                                            } else {
+                                                if ($durante >= 6) {
+                                                    $grado_alimentario = '5';
+                                                } else {  } } } }
+
+                                    $sqlcon = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='21' ";
+                                    $resultcon = mysqli_query($link,$sqlcon);
+                                    $rowcon = mysqli_fetch_array($resultcon);
+                                    $consumo = $rowcon[0];
+
+                                    $alimentaria = $grado_alimentario + $consumo;
+
+                                    echo $alimentaria;
+
+                                    if ($alimentaria <= 7) {
                                         $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
                                         $result5 = mysqli_query($link,$sql5);
                                         $row5 = mysqli_fetch_array($result5);
-                                        echo ".- ".$row5[0];
+                                        echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
                                     } else {
-                                        if ($sumatoria <= 11 ) {
+                                        if ($alimentaria <= 13) {
                                             $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
                                             $result6 = mysqli_query($link,$sql6);
                                             $row6 = mysqli_fetch_array($result6);
-                                            echo ".- ".$row6[0];
+                                            echo "<h6 class='text-info'>".$row6[0]."</h6>";
                                         } else {
-                                            if ($sumatoria >= 17) {
+                                            if ($alimentaria <= 21) {
                                                     $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
                                                     $result7 = mysqli_query($link,$sql7);
                                                     $row7 = mysqli_fetch_array($result7);
-                                                    echo ".- ".$row7[0];
+                                                    echo "<h6 class='text-primary'>".$row7[0]."</h6>";
                                             } else {
-                                                if ($sumatoria >= 24) {
+                                                if ($alimentaria <= 30) {
                                                         $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
                                                         $result8 = mysqli_query($link,$sql8);
                                                         $row8 = mysqli_fetch_array($result8);
-                                                        echo ".- ".$row8[0];
+                                                        echo "<h6 class='text-warning'>".$row8[0]."</h6>";
                                                 } else { 
-                                                    if ($sumatoria >= 37) {
+                                                    if ($alimentaria <= 35) {
                                                             $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
                                                             $result9 = mysqli_query($link,$sql9);
                                                             $row9 = mysqli_fetch_array($result9);
-                                                            echo ".- ".$row9[0];
+                                                            echo "<h6 class='text-danger'>".$row9[0]."</h6>";
                                                     } else {  } } } } }
 
                             ?>
