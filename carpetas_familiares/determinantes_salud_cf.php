@@ -12,10 +12,6 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
-$idintegrante_cf_ss     = $_SESSION['idintegrante_cf_ss'];
-$idnombre_integrante_ss = $_SESSION['idnombre_integrante_ss'];
-$idgenero_ss            = $_SESSION['idgenero_ss'];
-$edad_ss                = $_SESSION['edad_ss'];
 
 $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
 $sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
@@ -23,12 +19,7 @@ $sql_cf.=" ubicacion_cf.latitud, ubicacion_cf.longitud, ubicacion_cf.altura, car
 $sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
-
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
-$result_n=mysqli_query($link,$sql_n);
-$row_n=mysqli_fetch_array($result_n);
-        
+$row_cf=mysqli_fetch_array($result_cf);   
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -272,10 +263,10 @@ $row_n=mysqli_fetch_array($result_n);
                             <tbody>
                                     <?php
                                     $numero=1;
-                                    $sql4 ="  ";
-                                    $sql4.="  ";
-                                    $sql4.="  ";
-                                    $sql4.="  ";
+                                    $sql4 =" SELECT determinante_salud_cf.iddeterminante_salud_cf, determinante_salud.determinante_salud, cat_determinante_salud.cat_determinante_salud, ";
+                                    $sql4.=" item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, determinante_salud, cat_determinante_salud, item_determinante_salud ";
+                                    $sql4.=" WHERE determinante_salud_cf.iddeterminante_salud=determinante_salud.iddeterminante_salud AND determinante_salud_cf.idcat_determinante_salud=cat_determinante_salud.idcat_determinante_salud AND ";
+                                    $sql4.=" determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -289,8 +280,8 @@ $row_n=mysqli_fetch_array($result_n);
                                         <td><?php echo $row4[3];?></td>
                                         <td><?php echo $row4[4];?></td>
                                         <td>
-                                        <form name="BORRAR" action="elimina_determinante_cf.php" method="post">  
-                                        <input type="hidden" name="idintegrante_datos_cf" value="<?php echo $row4[0];?>">
+                                        <form name="BORRAR" action="elimina_determinante_salud_cf.php" method="post">  
+                                        <input type="hidden" name="iddeterminante_salud_cf" value="<?php echo $row4[0];?>">
                                         <button type="submit" class="btn btn-danger">QUITAR</button></form> </td>
                                     </tr>                            
                                     <?php
@@ -305,14 +296,201 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                 </div>
             </div>  
+
+            <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                    <h6 class="text-info">RIESGO DE LAS DETERMINANTES EN SALUD</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                            <h6 class="text-info">RIESGO DE LOS SERVICIOS BÁSICOS</h6>
+                            <?php  
+                                    $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='1' ";
+                                    $resulta = mysqli_query($link,$sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    echo "= ".$rowa[0];
+
+                                    $sumatoria = $rowa[0];
+                                        if ($sumatoria <= 7 ) {
+                                            $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                            $result5 = mysqli_query($link,$sql5);
+                                            $row5 = mysqli_fetch_array($result5);
+                                            echo ".- ".$row5[0];
+                                        } else {
+                                            if ($sumatoria <= 11 ) {
+                                                $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                                $result6 = mysqli_query($link,$sql6);
+                                                $row6 = mysqli_fetch_array($result6);
+                                                echo ".- ".$row6[0];
+                                            } else {
+                                                if ($sumatoria >= 17) {
+                                                        $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                        $result7 = mysqli_query($link,$sql7);
+                                                        $row7 = mysqli_fetch_array($result7);
+                                                        echo ".- ".$row7[0];
+                                                } else {
+                                                    if ($sumatoria >= 24) {
+                                                            $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                            $result8 = mysqli_query($link,$sql8);
+                                                            $row8 = mysqli_fetch_array($result8);
+                                                            echo ".- ".$row8[0];
+                                                    } else { 
+                                                        if ($sumatoria >= 37) {
+                                                                $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                                $result9 = mysqli_query($link,$sql9);
+                                                                $row9 = mysqli_fetch_array($result9);
+                                                                echo ".- ".$row9[0];
+                                                        } else {  } } } } }
+
+                            ?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-3">
+                            <h6 class="text-info">RIESGO ESTRUCTURAL DE LA VIVIENDA</h6>
+                            <?php  
+                                    $sqlb = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='2' ";
+                                    $resultb = mysqli_query($link,$sqlb);
+                                    $rowb = mysqli_fetch_array($resultb);
+                                    echo " = ".$rowb[0];
+
+                                    $sumatoria = $rowb[0];
+                                    if ($sumatoria <= 7 ) {
+                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                        $result5 = mysqli_query($link,$sql5);
+                                        $row5 = mysqli_fetch_array($result5);
+                                        echo ".- ".$row5[0];
+                                    } else {
+                                        if ($sumatoria <= 11 ) {
+                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                            $result6 = mysqli_query($link,$sql6);
+                                            $row6 = mysqli_fetch_array($result6);
+                                            echo ".- ".$row6[0];
+                                        } else {
+                                            if ($sumatoria >= 17) {
+                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                    $result7 = mysqli_query($link,$sql7);
+                                                    $row7 = mysqli_fetch_array($result7);
+                                                    echo ".- ".$row7[0];
+                                            } else {
+                                                if ($sumatoria >= 24) {
+                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                        $result8 = mysqli_query($link,$sql8);
+                                                        $row8 = mysqli_fetch_array($result8);
+                                                        echo ".- ".$row8[0];
+                                                } else { 
+                                                    if ($sumatoria >= 37) {
+                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                            $result9 = mysqli_query($link,$sql9);
+                                                            $row9 = mysqli_fetch_array($result9);
+                                                            echo ".- ".$row9[0];
+                                                    } else {  } } } } }
+
+                            ?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-3">
+                            <h6 class="text-info">RIESGO DE LA FUNCIONALIDAD DE LA VIVIENDA</h6>
+                            <?php  
+                                    $sqlc = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='3' ";
+                                    $resultc = mysqli_query($link,$sqlc);
+                                    $rowc = mysqli_fetch_array($resultc);
+                                    echo " = ".$rowc[0];
+
+                                    $sumatoria = $rowc[0];
+                                    if ($sumatoria <= 7 ) {
+                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                        $result5 = mysqli_query($link,$sql5);
+                                        $row5 = mysqli_fetch_array($result5);
+                                        echo ".- ".$row5[0];
+                                    } else {
+                                        if ($sumatoria <= 11 ) {
+                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                            $result6 = mysqli_query($link,$sql6);
+                                            $row6 = mysqli_fetch_array($result6);
+                                            echo ".- ".$row6[0];
+                                        } else {
+                                            if ($sumatoria >= 17) {
+                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                    $result7 = mysqli_query($link,$sql7);
+                                                    $row7 = mysqli_fetch_array($result7);
+                                                    echo ".- ".$row7[0];
+                                            } else {
+                                                if ($sumatoria >= 24) {
+                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                        $result8 = mysqli_query($link,$sql8);
+                                                        $row8 = mysqli_fetch_array($result8);
+                                                        echo ".- ".$row8[0];
+                                                } else { 
+                                                    if ($sumatoria >= 37) {
+                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                            $result9 = mysqli_query($link,$sql9);
+                                                            $row9 = mysqli_fetch_array($result9);
+                                                            echo ".- ".$row9[0];
+                                                    } else {  } } } } }
+
+                            ?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-3">
+                            <h6 class="text-info">RIESGO DE LA SALUD ALIMENTARIA</h6>
+                            <?php  
+                                    $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' ";
+                                    $resultd = mysqli_query($link,$sqld);
+                                    $rowd = mysqli_fetch_array($resultd);
+                                    echo " = ".$rowd[0];
+
+                                    $sumatoria = $rowd[0];
+                                    if ($sumatoria <= 7 ) {
+                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                        $result5 = mysqli_query($link,$sql5);
+                                        $row5 = mysqli_fetch_array($result5);
+                                        echo ".- ".$row5[0];
+                                    } else {
+                                        if ($sumatoria <= 11 ) {
+                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                            $result6 = mysqli_query($link,$sql6);
+                                            $row6 = mysqli_fetch_array($result6);
+                                            echo ".- ".$row6[0];
+                                        } else {
+                                            if ($sumatoria >= 17) {
+                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                    $result7 = mysqli_query($link,$sql7);
+                                                    $row7 = mysqli_fetch_array($result7);
+                                                    echo ".- ".$row7[0];
+                                            } else {
+                                                if ($sumatoria >= 24) {
+                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                        $result8 = mysqli_query($link,$sql8);
+                                                        $row8 = mysqli_fetch_array($result8);
+                                                        echo ".- ".$row8[0];
+                                                } else { 
+                                                    if ($sumatoria >= 37) {
+                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                            $result9 = mysqli_query($link,$sql9);
+                                                            $row9 = mysqli_fetch_array($result9);
+                                                            echo ".- ".$row9[0];
+                                                    } else {  } } } } }
+
+                            ?>
+                            <h6></h6>
+                            </div>
+                        </div>   
+                    </div>
+
+                    </div>
+            
+
+
      <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
         <hr>
         <div class="text-center">                                     
-            <h4 class="text-info">AGREGAR DATOS COMPLEMENTARIOS:</h4>                    
+            <h4 class="text-info">AGREGAR DETERMINANTES DE LA SALUD:</h4>                    
         </div>
         <hr>
 
-<form name="INTEGRANTE" action="guarda_dato_integrante.php" method="post">  
+<form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">  
 
 <div class="form-group row">  
     <div class="col-sm-3">
@@ -336,28 +514,10 @@ $row_n=mysqli_fetch_array($result_n);
         ?>
         </select>
     </div>
-
 </div>
 
-<div class="form-group row">
-<div class="col-sm-3">
-<h6 class="text-info">ASPECTO DETERMINANTE</h6>
-</div>
-<div class="col-sm-9">    
-        <select name="idcat_determinante_salud" id="idcat_determinante_salud" class="form-control" required></select>
-    </div>
-</div>
-<div class="form-group row"> 
-<div class="col-sm-3">
-<h6 class="text-info">FACTOR DETERMINANTE</h6>
-</div>
-<div class="col-sm-9">   
-        <select name="iditem_determinante_salud" id="iditem_determinante_salud" class="form-control" required></select>
-    </div>
-</div>
 
-<div class="form-group row" id="valor_determinante"> 
-</div>
+<div id='cat_determinante_salud_cf'></div>
 
 <div class="form-group row">      
         <div class="col-sm-12"></br>
@@ -414,7 +574,6 @@ $row_n=mysqli_fetch_array($result_n);
         </div>
     </div>
 
-   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -441,39 +600,12 @@ $row_n=mysqli_fetch_array($result_n);
                         $("#iddeterminante_salud option:selected").each(function () {
                             determinante_salud=$(this).val();
                         $.post("cat_determinante_salud_cf.php", {determinante_salud:determinante_salud}, function(data){
-                        $("#idcat_determinante_salud").html(data);
+                        $("#cat_determinante_salud_cf").html(data);
                         });
                     });
             })
             });
         </script> 
 
-        <script language="javascript">
-            $(document).ready(function(){
-            $("#idcat_determinante_salud").change(function () {
-                        $("#idcat_determinante_salud option:selected").each(function () {
-                            cat_determinante_salud=$(this).val();
-                        $.post("item_determinante_salud_cf.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
-                        $("#iditem_determinante_salud").html(data);
-                        });
-                    });
-            })
-            });
-        </script>
-
-        <script language="javascript">
-            $(document).ready(function(){
-            $("#idcat_determinante_salud").change(function () {
-                        $("#idcat_determinante_salud option:selected").each(function () {
-                            cat_determinante_salud=$(this).val();
-                        $.post("valor_determinante.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
-                        $("#valor_determinante").html(data);
-                        });
-                    });
-            })
-            });
-        </script>
-
-    
 </body>
 </html>
