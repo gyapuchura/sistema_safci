@@ -84,7 +84,7 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="salud_integrante_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>

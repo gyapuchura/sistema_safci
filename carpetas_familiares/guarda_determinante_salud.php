@@ -1,0 +1,76 @@
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
+<?php
+date_default_timezone_set('America/La_Paz');
+
+$fecha 	 = date("Y-m-d");
+$hora    = date("H:i");
+$gestion = date("Y");
+
+$idusuario_ss  = $_SESSION['idusuario_ss'];
+$idnombre_ss   = $_SESSION['idnombre_ss'];
+$perfil_ss     = $_SESSION['perfil_ss'];
+
+$idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
+
+/*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
+
+$iddeterminante_salud      = $_POST['iddeterminante_salud'];
+$idcat_determinante_salud  = $_POST['idcat_determinante_salud'];
+$iditem_determinante_salud = $_POST['iditem_determinante_salud'];
+$valor_cfe                 = $_POST['valor_cfe'];
+
+$integrantes               = $_POST['integrantes'];
+$habitaciones              = $_POST['habitaciones'];
+
+/*********** Guarda el registro de dterminante de la salud (BEGIN) *************/
+
+if ($idcat_determinante_salud == '17') {
+    
+    $hacinamiento = $integrantes/$habitaciones;
+
+    if ($hacinamiento < 2.4 ) {
+        $iditem_determinante_salud_a = '87';
+        $valor_cfea = '1';
+    } else {
+        if ($hacinamiento <= 4.9 ) {
+            $iditem_determinante_salud_a = '88';
+            $valor_cfea = '3';
+        } else {
+            if ($hacinamiento >= 5) {
+                $iditem_determinante_salud_a = '89';
+                $valor_cfea = '5';
+            } else { } } }
+
+            $sql_a = " INSERT INTO determinante_salud_cf (idcarpeta_familiar, iddeterminante_salud, idcat_determinante_salud, iditem_determinante_salud, valor_cf, fecha_registro, hora_registro, idusuario) ";
+            $sql_a.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud_a','$valor_cfea','$fecha','$hora','$idusuario_ss') ";
+            $result_a = mysqli_query($link,$sql_a);   
+        
+            header("Location:determinantes_salud_cf.php");
+
+
+} else {
+    
+if ($valor_cfe == '0') {
+
+    $sql1 = "SELECT iditem_determinante_salud, valor FROM item_determinante_salud WHERE iditem_determinante_salud='$iditem_determinante_salud' ";
+    $result1 = mysqli_query($link,$sql1);
+    $row1 = mysqli_fetch_array($result1);
+
+    $sql2 = " INSERT INTO determinante_salud_cf (idcarpeta_familiar, iddeterminante_salud, idcat_determinante_salud, iditem_determinante_salud, valor_cf, fecha_registro, hora_registro, idusuario) ";
+    $sql2.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud','$row1[1]','$fecha','$hora','$idusuario_ss') ";
+    $result2 = mysqli_query($link,$sql2);   
+
+    header("Location:determinantes_salud_cf.php");
+    
+} else {
+    $sql0 = " INSERT INTO determinante_salud_cf (idcarpeta_familiar, iddeterminante_salud, idcat_determinante_salud, iditem_determinante_salud, valor_cf, fecha_registro, hora_registro, idusuario) ";
+    $sql0.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud','$valor_cfe','$fecha','$hora','$idusuario_ss') ";
+    $result0 = mysqli_query($link,$sql0);   
+
+    header("Location:determinantes_salud_cf.php");
+}
+}
+
+/*********** Guarda el registro de dterminante de la salud (END) *************/
+?>

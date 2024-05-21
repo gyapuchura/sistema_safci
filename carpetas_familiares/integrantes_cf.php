@@ -420,7 +420,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         </select>
     </div>  
 
-    <div class="col-sm-3">
+    <div class="col-sm-3"></br>
     <h6 class="text-info">AUTO PERTENENCIA CULTURAL</h6>
 
         <select name="idnacion" id="idnacion" class="form-control" required>

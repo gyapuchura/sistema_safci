@@ -84,7 +84,7 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="salud_integrante_tradicional_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
@@ -328,7 +328,7 @@ $row_n=mysqli_fetch_array($result_n);
                             <tbody>
                                     <?php
                                     $numero=1;
-                                    $sql4 =" SELECT idintegrante_defuncion, defuncion_cf, certificado_defuncion_cf FROM integrante_defuncion WHERE idintegrante_cf ='7' ";
+                                    $sql4 =" SELECT idintegrante_defuncion, defuncion_cf, certificado_defuncion_cf FROM integrante_defuncion WHERE idintegrante_cf ='$idintegrante_cf_ss' ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -376,9 +376,17 @@ $row_n=mysqli_fetch_array($result_n);
     </div>
     <!-------- ETAPA DE REGISTRO DE POSIBLE DEFUNCIÓN DEL INTEGRANTE  (END) --------->
           <hr>
-             <div class="text-center"> 
-               <a href="salud_integrante_defuncion_cf.php"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
+
+        <div class="form-group row">  
+            <div class="col-sm-4">
+            <a href="integrantes_cf.php"><h6 class="text-info"><- SIGUIENTE INTEGRANTE FAMILIAR </h6></a>
             </div>
+            <div class="col-sm-4">
+            </div>            
+            <div class="col-sm-4">
+            <a href="determinantes_salud_cf.php"><h6 class="text-info">IR A DETERMINATES DE LA SALUD -></h6></a> 
+            </div>
+        </div>
 
         <!-- END aqui va el comntenido de la pagina ---->
                 </div>
