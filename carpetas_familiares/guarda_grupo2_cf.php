@@ -20,12 +20,13 @@ $edad_ss                = $_SESSION['edad_ss'];
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
 $idfactor_riesgo_cf = $_POST['idfactor_riesgo_cf'];
+$idgrupo_cf         = $_POST['idgrupo_cf'];
 $otro_factor_riesgo = $link->real_escape_string(mb_strtoupper($_POST['otro_factor_riesgo']));
 
 /*********** Guarda el registro de grupo de salud (BEGIN) *************/
 
-    $sql0 = " INSERT INTO integrante_factor_riesgo (idcarpeta_familiar, idintegrante_cf, idfactor_riesgo_cf, otro_factor_riesgo, fecha_registro, hora_registro, idusuario) ";
-    $sql0.= " VALUES ('$idcarpeta_familiar_ss','$idintegrante_cf_ss','$idfactor_riesgo_cf','$otro_factor_riesgo','$fecha','$hora','$idusuario_ss') ";
+    $sql0 = " INSERT INTO integrante_factor_riesgo (idcarpeta_familiar, idintegrante_cf, idgrupo_cf, idfactor_riesgo_cf, otro_factor_riesgo, fecha_registro, hora_registro, idusuario) ";
+    $sql0.= " VALUES ('$idcarpeta_familiar_ss','$idintegrante_cf_ss','$idgrupo_cf','$idfactor_riesgo_cf','$otro_factor_riesgo','$fecha','$hora','$idusuario_ss') ";
     $result0 = mysqli_query($link,$sql0);   
 
     header("Location:salud_integrante_cf.php");

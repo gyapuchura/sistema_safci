@@ -12,6 +12,7 @@ switch ($idgrupo_cf) {
         <div class="form-group row">  
         <div class="col-sm-3">
             <h6 class="text-info">GRUPO I :</h6> 
+            <input type="hidden" name="idgrupo_cf" value="<?php echo $idgrupo_cf;?>">
         </div>
         <div class="col-sm-5">
             <h6>APARENTEMENTE SANO(A)</h6>
@@ -38,6 +39,7 @@ switch ($idgrupo_cf) {
         <div class="form-group row">  
         <div class="col-sm-3">
             <h6 class="text-info">GRUPO II :</h6> 
+            <input type="hidden" name="idgrupo_cf" value="<?php echo $idgrupo_cf;?>">
         </div>
         <div class="col-sm-9">
         <h6 class="text-info">FACTORES DE RIESGO</h6> 
@@ -88,6 +90,7 @@ switch ($idgrupo_cf) {
         <div class="form-group row">  
         <div class="col-sm-3">
             <h6 class="text-info">GRUPO III :</h6> 
+            <input type="hidden" name="idgrupo_cf" value="<?php echo $idgrupo_cf;?>">
         </div>
         <div class="col-sm-9">
         <h6 class="text-info">MORBILIDAD</h6>   
@@ -138,6 +141,7 @@ switch ($idgrupo_cf) {
         <div class="form-group row">  
         <div class="col-sm-3">
         <h6 class="text-info">GRUPO IV : </h6> 
+        <input type="hidden" name="idgrupo_cf" value="<?php echo $idgrupo_cf;?>">
         </div>
         <div class="col-sm-3">   
         <h6 class="text-info">TIPO DE DISCAPACIDAD</h6>          

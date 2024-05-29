@@ -235,8 +235,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                 </div>
             <hr>
  
-    
-
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
         <hr>
             <div class="text-center">                                     
