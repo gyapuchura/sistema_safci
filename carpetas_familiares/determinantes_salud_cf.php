@@ -235,8 +235,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                 </div>
             <hr>
  
-    
-
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
         <hr>
             <div class="text-center">                                     
@@ -461,7 +459,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                                     $alimentaria = $grado_alimentario + $consumo;
 
-                                    echo $alimentaria;
+                                    echo "</br>= ".$alimentaria;
 
                                     if ($alimentaria <= 7) {
                                         $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
@@ -498,6 +496,52 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <h6></h6>
                             </div>
                         </div>   
+
+                        <hr>
+                        <div class="form-group row">
+                            <div class="col-sm-5">
+                            <h6 class="text-info">RIESGO DE LAS DETERMINANTES DE LA SALUD</h6>
+                            </div>
+                            <div class="col-sm-7">
+                          
+                                <?php 
+                                    $riesgo_total = $rowa[0] + $rowb[0] + $rowc[0] + $alimentaria;
+
+                                  if ($riesgo_total <= 33) {
+                                    $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                    $result5 = mysqli_query($link,$sql5);
+                                    $row5 = mysqli_fetch_array($result5);
+                                    echo "<h6 class='text-secundary'> = ".$riesgo_total." .- ".$row5[0]."</h6>";
+                                } else {
+                                    if ($riesgo_total <= 60) {
+                                        $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                        $result6 = mysqli_query($link,$sql6);
+                                        $row6 = mysqli_fetch_array($result6);
+                                        echo "<h6 class='text-info'> = ".$riesgo_total." .- ".$row6[0]."</h6>";
+                                    } else {
+                                        if ($riesgo_total <= 88) {
+                                                $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                $result7 = mysqli_query($link,$sql7);
+                                                $row7 = mysqli_fetch_array($result7);
+                                                echo "<h6 class='text-primary'> = ".$riesgo_total." .- ".$row7[0]."</h6>";
+                                        } else {
+                                            if ($riesgo_total <= 121) {
+                                                    $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                    $result8 = mysqli_query($link,$sql8);
+                                                    $row8 = mysqli_fetch_array($result8);
+                                                    echo "<h6 class='text-warning'> = ".$riesgo_total." .- ".$row8[0]."</h6>";
+                                            } else { 
+                                                if ($riesgo_total <= 165) {
+                                                        $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                        $result9 = mysqli_query($link,$sql9);
+                                                        $row9 = mysqli_fetch_array($result9);
+                                                        echo "<h6 class='text-danger'> ".$riesgo_total." .- ".$row9[0]."</h6>";
+                                                } else {  } } } } }                              
+                                ?>
+                            </div>
+                        </div>
+
+
                     </div>
 
                     </div>

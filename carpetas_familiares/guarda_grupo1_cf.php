@@ -19,12 +19,13 @@ $edad_ss                = $_SESSION['edad_ss'];
 
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
-$integrante_ap_sano     = $_POST['integrante_ap_sano'];
+$integrante_ap_sano = $_POST['integrante_ap_sano'];
+$idgrupo_cf         = $_POST['idgrupo_cf'];
 
 /*********** Guarda el registro de grupo de salud (BEGIN) *************/
 
-    $sql0 = " INSERT INTO integrante_ap_sano (idcarpeta_familiar, idintegrante_cf, integrante_ap_sano, fecha_registro, hora_registro, idusuario) ";
-    $sql0.= " VALUES ('$idcarpeta_familiar_ss','$idintegrante_cf_ss','$integrante_ap_sano','$fecha','$hora','$idusuario_ss') ";
+    $sql0 = " INSERT INTO integrante_ap_sano (idcarpeta_familiar, idintegrante_cf, idgrupo_cf, integrante_ap_sano, fecha_registro, hora_registro, idusuario) ";
+    $sql0.= " VALUES ('$idcarpeta_familiar_ss','$idintegrante_cf_ss','$idgrupo_cf ','$integrante_ap_sano','$fecha','$hora','$idusuario_ss') ";
     $result0 = mysqli_query($link,$sql0);   
 
     header("Location:salud_integrante_cf.php");
