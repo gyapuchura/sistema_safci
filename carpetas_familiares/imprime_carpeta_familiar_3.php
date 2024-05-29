@@ -39,10 +39,27 @@ $idcarpeta_familiar_ss = '2';
                 <tr>
                   <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;"><?php echo $row1[1];?></td>
                 </tr>
-                <tr>
-                  <td width="246">&nbsp;</td>
-                  <td width="38">&nbsp;</td>
-                </tr>
+                <?php
+                    $sql5 =" SELECT item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, item_determinante_salud ";
+                    $sql5.=" WHERE determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud ";
+                    $sql5.=" AND determinante_salud_cf.iddeterminante_salud='1' AND determinante_salud_cf.idcat_determinante_salud='$row1[0]' ";
+                    $sql5.="  AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                    $result5 = mysqli_query($link,$sql5);
+                    if ($row5 = mysqli_fetch_array($result5)){
+                    mysqli_field_seek($result5,0);
+                    while ($field5 = mysqli_fetch_field($result5)){
+                    } do { 
+                    ?>
+                    <tr>
+                      <td width="246" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $row5[0];?></td>
+                      <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[1];?></td>
+                    </tr>                           
+                    <?php
+                    }
+                    while ($row5 = mysqli_fetch_array($result5));
+                    } else {
+                    }
+                ?>
                 </tbody>
               </table>
                                          
@@ -69,10 +86,27 @@ $idcarpeta_familiar_ss = '2';
                 <tr>
                   <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;"><?php echo $row2[1];?></td>
                 </tr>
-                <tr>
-                  <td width="246">&nbsp;</td>
-                  <td width="38">&nbsp;</td>
-                </tr>
+                <?php
+                    $sql5 =" SELECT item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, item_determinante_salud ";
+                    $sql5.=" WHERE determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud ";
+                    $sql5.=" AND determinante_salud_cf.iddeterminante_salud='2' AND determinante_salud_cf.idcat_determinante_salud='$row2[0]' ";
+                    $sql5.=" AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                    $result5 = mysqli_query($link,$sql5);
+                    if ($row5 = mysqli_fetch_array($result5)){
+                    mysqli_field_seek($result5,0);
+                    while ($field5 = mysqli_fetch_field($result5)){
+                    } do { 
+                    ?>
+                    <tr>
+                      <td width="246" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $row5[0];?></td>
+                      <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[1];?></td>
+                    </tr>                           
+                    <?php
+                    }
+                    while ($row5 = mysqli_fetch_array($result5));
+                    } else {
+                    }
+                ?>
                 </tbody>
               </table>
                                          
@@ -99,11 +133,10 @@ $idcarpeta_familiar_ss = '2';
                   <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;"><?php echo $row3[1];?></td>
                 </tr>
                 <?php
-                    $numero5=1;
-                    $sql5 =" SELECT determinante_salud_cf.iddeterminante_salud_cf, determinante_salud.determinante_salud, cat_determinante_salud.cat_determinante_salud, ";
-                    $sql5.=" item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, determinante_salud, cat_determinante_salud, item_determinante_salud ";
-                    $sql5.=" WHERE determinante_salud_cf.iddeterminante_salud=determinante_salud.iddeterminante_salud AND determinante_salud_cf.idcat_determinante_salud=cat_determinante_salud.idcat_determinante_salud AND ";
-                    $sql5.=" determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                    $sql5 =" SELECT item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, item_determinante_salud ";
+                    $sql5.=" WHERE determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud ";
+                    $sql5.=" AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='$row3[0]' ";
+                    $sql5.=" AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                     $result5 = mysqli_query($link,$sql5);
                     if ($row5 = mysqli_fetch_array($result5)){
                     mysqli_field_seek($result5,0);
@@ -111,18 +144,18 @@ $idcarpeta_familiar_ss = '2';
                     } do { 
                     ?>
                     <tr>
-                      <td width="246"><?php echo $row5[3];?></td>
-                      <td width="38"><?php echo $row5[4];?></td>
+                      <td width="246" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $row5[0];?></td>
+                      <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[1];?></td>
                     </tr>                           
                     <?php
-                    $numero5=$numero5+1;
                     }
                     while ($row5 = mysqli_fetch_array($result5));
                     } else {
                     }
                 ?>
                 </tbody>
-              </table>                                         
+              </table>
+
                     <?php
                     }
                     while ($row3 = mysqli_fetch_array($result3));
@@ -138,30 +171,117 @@ $idcarpeta_familiar_ss = '2';
                 mysqli_field_seek($result4,0);
                 while ($field4 = mysqli_fetch_field($result4)){
                 } do { 
-                ?>
-              
+
+                  if ($row4[0] == '20') { ?>
+
+                  <table width="300" border="1" cellspacing="0">
+                    <tbody>
+                    <tr>
+                      <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;">a) Grados de la Seguridad Alimentaria</td>
+                    </tr>
+                    <tr>
+                      <td width="246" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+                      <?php  
+    $sql_seg = " SELECT sum(valor_cf) FROM determinante_salud_cf WHERE idcarpeta_familiar='2' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
+    $result_seg = mysqli_query($link,$sql_seg);
+    $row_seg = mysqli_fetch_array($result_seg);
+    $seguridad = $row_seg[0];
+
+    if ($seguridad == '0') {
+        $sql5 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='103'  ";
+        $result5 = mysqli_query($link,$sql5);
+        $row5 = mysqli_fetch_array($result5);
+        echo $row5[1];
+    } else {
+        if ($seguridad <= 3) {
+            $sql6 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='104' ";
+            $result6 = mysqli_query($link,$sql6);
+            $row6 = mysqli_fetch_array($result6);
+            echo $row6[1];
+        } else {
+            if ($seguridad <= 5) {
+                    $sql7 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='105' ";
+                    $result7 = mysqli_query($link,$sql7);
+                    $row7 = mysqli_fetch_array($result7);
+                    echo $row7[1];
+            } else {
+                if ($seguridad >= 6) {
+                        $sql8 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='106' ";
+                        $result8 = mysqli_query($link,$sql8);
+                        $row8 = mysqli_fetch_array($result8);
+                        echo $row8[1];
+                } else {  } } } }
+?>
+                    </td>
+                      <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">
+                      <?php
+                        $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='2' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
+                        $resultd = mysqli_query($link,$sqld);
+                        $rowd = mysqli_fetch_array($resultd);
+                        $durante = $rowd[0];
+
+                        if ($durante == '0') {
+                            $grado_alimentario = '1';
+                        } else {
+                            if ($durante <= 3) {
+                                $grado_alimentario = '3';
+                            } else {
+                                if ($durante <= 5) {
+                                    $grado_alimentario = '4';
+                                } else {
+                                    if ($durante >= 6) {
+                                        $grado_alimentario = '5';
+                                    } else {  } } } }
+
+                                    echo $grado_alimentario;
+                    ?>
+                    </td>
+                    </tr>                           
+                    </tbody>
+                  </table>
+
+                    
+               <?php } else { ?> 
+
               <table width="300" border="1" cellspacing="0">
                 <tbody>
                 <tr>
                   <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;"><?php echo $row4[1];?></td>
                 </tr>
-                <tr>
-                  <td width="246">&nbsp;</td>
-                  <td width="38">&nbsp;</td>
-                </tr>
+                <?php
+                    $sql5 =" SELECT item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, item_determinante_salud ";
+                    $sql5.=" WHERE determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud ";
+                    $sql5.=" AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='$row4[0]' ";
+                    $sql5.=" AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                    $result5 = mysqli_query($link,$sql5);
+                    if ($row5 = mysqli_fetch_array($result5)){
+                    mysqli_field_seek($result5,0);
+                    while ($field5 = mysqli_fetch_field($result5)){
+                    } do { 
+                    ?>
+                    <tr>
+                      <td width="246" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $row5[0];?></td>
+                      <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[1];?></td>
+                    </tr>                           
+                    <?php
+                    }
+                    while ($row5 = mysqli_fetch_array($result5));
+                    } else {
+                    }
+                ?>
                 </tbody>
               </table>
-                                         
-                <?php
+                                        
+                <?php              
                 }
+              
+              } 
                 while ($row4 = mysqli_fetch_array($result4));
                 } else {
                 }
                 ?>
-            </td>
-          </tr>
-        </tbody>
-      </table></td>
+    
+    </td>
     </tr>
   </tbody>
 </table>
