@@ -27,7 +27,7 @@ $iddeterminante_salud = $_POST["determinante_salud"];
 
 <div class="form-group row" id="factor_determinante"></div> 
 
-<div class="form-group row" id='valor_determinante'></div>
+<!-- <div class="form-group row" id='valor_determinante'></div> -->
 
         <script language="javascript">
             $(document).ready(function(){
@@ -40,7 +40,7 @@ $iddeterminante_salud = $_POST["determinante_salud"];
                     });
             })
             });
-        </script>
+        </script> 
 
         <script language="javascript">
             $(document).ready(function(){

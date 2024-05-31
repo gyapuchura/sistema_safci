@@ -556,7 +556,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         <hr>
 
 <form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">  
-
+ 
 <div class="form-group row">  
     <div class="col-sm-3">
     <h6 class="text-info">DETERMINANTE DE SALUD</h6>
@@ -673,4 +673,4 @@ $row_cf=mysqli_fetch_array($result_cf);
         </script> 
 
 </body>
-</html>
+</html> 
