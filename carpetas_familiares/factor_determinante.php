@@ -25,7 +25,31 @@ if ($idcat_determinante_salud == '17') { ?>
         <input type="number" class="form-control" name="habitaciones" required>
         </div>
  
-<?php } else {  ?>
+<?php } else {  if ($idcat_determinante_salud == '14') { ?>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"><h6 class="text-info">1. Cerca al rio o charco: </h6>
+                              <h6 class="text-info">2. Cerca al corral: </h6>
+                              <h6 class="text-info">3. Cerca a basura: </h6>
+                              <h6 class="text-info">4. Inseguridad ciudadana: </h6>
+                              <h6 class="text-info">5. Otros: </h6>                        
+        </div>        
+        <div class="col-sm-1">
+      <h6> NO <input type="radio" name="campo[0]" value="1" checked></h6>  
+      <h6> NO <input type="radio" name="campo[1]" value="1" checked></h6>  
+      <h6> NO <input type="radio" name="campo[2]" value="1" checked></h6> 
+      <h6> NO <input type="radio" name="campo[3]" value="1" checked></h6>
+      <h6> NO <input type="radio" name="campo[4]" value="1" checked></h6> 
+        </div>
+        <div class="col-sm-1">
+       <h6> SI <input type="radio" name="campo[0]" value="5" ></h6>
+       <h6> SI <input type="radio" name="campo[1]" value="5" ></h6>
+       <h6> SI <input type="radio" name="campo[2]" value="5" ></h6>
+       <h6> SI <input type="radio" name="campo[3]" value="5" ></h6>
+       <h6> SI <input type="radio" name="campo[4]" value="5" ></h6>
+        </div>
+        <div class="col-sm-2"></div>
+               
+     <?php   } else { ?>
  
     <div class="col-sm-3">
     <h6 class="text-info">FACTOR DETERMINANTE</h6>
@@ -50,6 +74,6 @@ if ($idcat_determinante_salud == '17') { ?>
                 </div>
             </div>
             
-<?php } ?>
+<?php         } } ?>
 
 
