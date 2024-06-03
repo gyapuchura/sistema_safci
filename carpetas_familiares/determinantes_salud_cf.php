@@ -555,7 +555,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         </div>
         <hr>
 
-<form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">  
+<form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">   
  
 <div class="form-group row">  
     <div class="col-sm-3">
@@ -657,8 +657,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-                
+        <script src="../js/datepicker-es.js"></script>               
         <script language="javascript">
             $(document).ready(function(){
             $("#iddeterminante_salud").change(function () {

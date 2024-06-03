@@ -24,8 +24,7 @@ $idcarpeta_familiar_ss = '2';
             <td width="300" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;"><strong>SALUD ALIMENTARIA</strong></td>
           </tr>
           <tr>
-            <td>
-            <?php
+            <td><?php
                 $sql1 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '1' ";
                 $result1 = mysqli_query($link,$sql1);
                 if ($row1 = mysqli_fetch_array($result1)){
@@ -71,8 +70,7 @@ $idcarpeta_familiar_ss = '2';
                 ?>
 
             </td>
-            <td>
-            <?php
+            <td><?php
                 $sql2 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '2' ";
                 $result2 = mysqli_query($link,$sql2);
                 if ($row2 = mysqli_fetch_array($result2)){
@@ -81,7 +79,7 @@ $idcarpeta_familiar_ss = '2';
                 } do { 
                 ?>
               
-              <table width="300" border="1" cellspacing="0">
+              <table width="300" border="1" cellpadding="1" cellspacing="0">
                 <tbody>
                 <tr>
                   <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;"><?php echo $row2[1];?></td>
@@ -117,8 +115,7 @@ $idcarpeta_familiar_ss = '2';
                 }
                 ?>
             </td>
-            <td>
-            <?php
+            <td><?php
                 $sql3 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '3' ";
                 $result3 = mysqli_query($link,$sql3);
                 if ($row3 = mysqli_fetch_array($result3)){
