@@ -26,31 +26,88 @@ if ($idcat_determinante_salud == '17') { ?>
         </div>
  
 <?php } else {  if ($idcat_determinante_salud == '14') { ?>
+
         <div class="col-sm-3"></div>
         <div class="col-sm-3"><h6 class="text-info">1. Cerca al rio o charco: </h6>
                               <h6 class="text-info">2. Cerca al corral: </h6>
                               <h6 class="text-info">3. Cerca a basura: </h6>
                               <h6 class="text-info">4. Inseguridad ciudadana: </h6>
-                              <h6 class="text-info">5. Otros: </h6>                        
+                              <h6 class="text-info">5. Otros: </h6>                         
         </div>        
-        <div class="col-sm-1">
-      <h6> NO <input type="radio" name="campo[0]" value="1" checked></h6>  
-      <h6> NO <input type="radio" name="campo[1]" value="1" checked></h6>  
-      <h6> NO <input type="radio" name="campo[2]" value="1" checked></h6> 
-      <h6> NO <input type="radio" name="campo[3]" value="1" checked></h6>
-      <h6> NO <input type="radio" name="campo[4]" value="1" checked></h6> 
+        <div class="col-sm-4">
+      <h6 class="text-info"> NO <input type="radio" name="campo[0]" value="1" checked> SI <input type="radio" name="campo[0]" value="5" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="campo[1]" value="1" checked> SI <input type="radio" name="campo[1]" value="5" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="campo[2]" value="1" checked> SI <input type="radio" name="campo[2]" value="5" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="campo[3]" value="1" checked> SI <input type="radio" name="campo[3]" value="5" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="campo[4]" value="1" checked> SI <input type="radio" name="campo[4]" value="5" ></h6> 
         </div>
-        <div class="col-sm-1">
-       <h6> SI <input type="radio" name="campo[0]" value="5" ></h6>
-       <h6> SI <input type="radio" name="campo[1]" value="5" ></h6>
-       <h6> SI <input type="radio" name="campo[2]" value="5" ></h6>
-       <h6> SI <input type="radio" name="campo[3]" value="5" ></h6>
-       <h6> SI <input type="radio" name="campo[4]" value="5" ></h6>
-        </div>
+
         <div class="col-sm-2"></div>
                
-     <?php   } else { ?>
+     <?php   } else {   if ($idcat_determinante_salud == '15') { ?>
+               
+        <div class="col-sm-3"></div>
+        <div class="col-sm-4"><h6 class="text-info">1. Falta de higiene en la vivienda: </h6>
+                              <h6 class="text-info">2. Gradas precarias: </h6>
+                              <h6 class="text-info">3. Vivienda en construcción: </h6>
+                              <h6 class="text-info">4. Animales de granja y corral en vivienda: </h6>
+                              <h6 class="text-info">5. Otros: </h6>                         
+        </div>        
+        <div class="col-sm-4">
+      <h6 class="text-info"> NO <input type="radio" name="valor2[0]" value="1" checked> SI <input type="radio" name="valor2[0]" value="5" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor2[1]" value="1" checked> SI <input type="radio" name="valor2[1]" value="5" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor2[2]" value="1" checked> SI <input type="radio" name="valor2[2]" value="5" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor2[3]" value="1" checked> SI <input type="radio" name="valor2[3]" value="5" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor2[4]" value="1" checked> SI <input type="radio" name="valor2[4]" value="5" ></h6> 
+        </div>
+
+        <div class="col-sm-1"></div>    
+
+       <?php } else {  if ($idcat_determinante_salud == '19') { ?>
+
+        <div class="col-sm-3"></div>
+        <div class="col-sm-7"><h6 class="text-info">1, ¿Se preocupó (sintió pena) que en su hogar quedaran sin alimentos? </h6>
+                              <h6 class="text-info">2. ¿Realmente en su hogar se quedaron sin alimentos? </h6>
+                              <h6 class="text-info">3. ¿Dejó de tener una alimentación nutritiva y saludable? </h6>
+                              <h6 class="text-info">4. ¿Tuvo una alimentación con poca variedad de alimentos? </h6>
+                              <h6 class="text-info">5. ¿Dejó de desayunar almorzar y cenar? </h6>   
+                              <h6 class="text-info">6. ¿Comió menos de lo que está acostumbrado a comer?</h6>
+                              <h6 class="text-info">7. ¿Sintió hambre pero no comió? </h6>
+                              <h6 class="text-info">8. ¿Comió solo una vez al día o dejó de comer todo el día? </h6>                       
+        </div>        
+        <div class="col-sm-2">
+      <h6 class="text-info"> NO <input type="radio" name="valor3[0]" value="0" checked> SI <input type="radio" name="valor3[0]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor3[1]" value="0" checked> SI <input type="radio" name="valor3[1]" value="0" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor3[2]" value="0" checked> SI <input type="radio" name="valor3[2]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor3[3]" value="0" checked> SI <input type="radio" name="valor3[3]" value="1" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor3[4]" value="0" checked> SI <input type="radio" name="valor3[4]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor3[5]" value="0" checked> SI <input type="radio" name="valor3[5]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor3[6]" value="0" checked> SI <input type="radio" name="valor3[6]" value="1" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor3[7]" value="0" checked> SI <input type="radio" name="valor3[7]" value="1" ></h6> 
+        </div>  
+
+        <?php } else {  if ($idcat_determinante_salud == '21') { ?>
  
+        <div class="col-sm-3"></div>
+        <div class="col-sm-5"><h6 class="text-info">1. Consumo de cereales, tubérculos y derivados </h6>
+                              <h6 class="text-info">2. Consumo de verduras </h6>
+                              <h6 class="text-info">3. Consumo de frutas </h6>
+                              <h6 class="text-info">4. Consumo de lácteos </h6>
+                              <h6 class="text-info">5. Consumo de carnes </h6>  
+                              <h6 class="text-info">6. Consumo de sal yodada </h6>                        
+        </div>        
+        <div class="col-sm-3">
+      <h6 class="text-info"> NO <input type="radio" name="valor4[0]" value="5" checked> SI <input type="radio" name="valor4[0]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor4[1]" value="5" checked> SI <input type="radio" name="valor4[1]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor4[2]" value="5" checked> SI <input type="radio" name="valor4[2]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor4[3]" value="5" checked> SI <input type="radio" name="valor4[3]" value="1" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor4[4]" value="5" checked> SI <input type="radio" name="valor4[4]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor4[5]" value="5" checked> SI <input type="radio" name="valor4[5]" value="1" ></h6>
+        </div>
+        <div class="col-sm-1"></div>
+
+        <?php } else {   ?>
+
     <div class="col-sm-3">
     <h6 class="text-info">FACTOR DETERMINANTE</h6>
     </div>
@@ -74,6 +131,6 @@ if ($idcat_determinante_salud == '17') { ?>
                 </div>
             </div>
             
-<?php         } } ?>
+<?php         } } } } } ?>
 
 
