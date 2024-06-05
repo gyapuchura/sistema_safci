@@ -44,7 +44,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 </head>
 
 <body id="page-top">
-
+ 
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -79,7 +79,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">10.- DETERMINANTES DE LA SALUD</h4>
+                    <h4 class="text-info">11.- DETERMINANTES DE LA SALUD</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -238,7 +238,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
         <hr>
             <div class="text-center">                                     
-                <h4 class="text-info">10. DETERMINANTES DE LA SALUD:</h4>                    
+                <h4 class="text-info">11. DETERMINANTES DE LA SALUD:</h4>                    
             </div>
         <hr>
 
@@ -602,7 +602,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
           
              <div class="text-center"> 
-               <a href="#"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
+               <a href="socioeconomicas_cf.php"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
             </div>
 
         <!-- END aqui va el comntenido de la pagina ---->

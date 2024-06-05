@@ -12,10 +12,6 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
-$idintegrante_cf_ss     = $_SESSION['idintegrante_cf_ss'];
-$idnombre_integrante_ss = $_SESSION['idnombre_integrante_ss'];
-$idgenero_ss            = $_SESSION['idgenero_ss'];
-$edad_ss                = $_SESSION['edad_ss'];
 
 $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
 $sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
@@ -23,12 +19,7 @@ $sql_cf.=" ubicacion_cf.latitud, ubicacion_cf.longitud, ubicacion_cf.altura, car
 $sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
-
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
-$result_n=mysqli_query($link,$sql_n);
-$row_n=mysqli_fetch_array($result_n);
-        
+$row_cf=mysqli_fetch_array($result_cf);   
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -84,11 +75,11 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="salud_integrante_tradicional_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="determinantes_salud_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">9.- DEFUNCIÓN</h4>
+                    <h4 class="text-info">14.- ESTRUCTURA FAMILIAR</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -242,151 +233,85 @@ $row_n=mysqli_fetch_array($result_n);
                     <input type="text" class="form-control" name="familia" value="<?php echo $row_cf[8];?>" disabled>                                
                     </div>
                 </div>
-            <hr>
  
-     <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (Begin) --------->                         
-
-                <div class="form-group row">                               
-                    <div class="col-sm-3">
-                    <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
-                         name="ci" disabled>
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">NOMBRES:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                         name="nombre" disabled>                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">PRIMER APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                         name="paterno" disabled >                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                         name="materno" disabled>                
-                    </div>
-                </div>
-
-                <div class="form-group row">  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">GÉNERO</h6>
-
-                    <select name="idgenero"  id="idgenero" class="form-control" disabled >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idgenero, genero FROM genero ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
-                        <input type="date"  class="form-control" 
-                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
-                    </div>   
-                    
-                    <div class="col-sm-3">
-                    <h6 class="text-info">EDAD:</h6>
-                        <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
-                         name="edad_actual" disabled>
-                    </div>
-                    <div class="col-sm-3">
-                    </br>
-                   
-                    </div>
-                </div>  
-                <hr>
+    <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
+        <hr>
             <div class="text-center">                                     
-                <h4 class="text-info">9.- DEFUNCIÓN DEL INTEGRANTE FAMILIAR:</h4>                    
+                <h4 class="text-info">14. ESTRUCTURA FAMILIAR:</h4>                    
             </div>
+        <hr>
 
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <table class="table table-striped" id="example" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th class="text-info">Nª</th>
-                                    <th class="text-info">EL INTEGRANTE FALLECIÓ?</th>
-                                    <th class="text-info">TIENE CERTIFICADO DE DEFUNCIÓN?</th>
-                                    <th class="text-info">ACCIÓN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <?php
-                                    $numero=1;
-                                    $sql4 =" SELECT idintegrante_defuncion, defuncion_cf, certificado_defuncion_cf FROM integrante_defuncion WHERE idintegrante_cf ='$idintegrante_cf_ss' ";
-                                    $result4 = mysqli_query($link,$sql4);
-                                    if ($row4 = mysqli_fetch_array($result4)){
-                                    mysqli_field_seek($result4,0);
-                                    while ($field4 = mysqli_fetch_field($result4)){
-                                    } do { 
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $numero;?></td>
-                                        <td><?php echo $row4[1];?></td>
-                                        <td><?php echo $row4[2];?></td>   
-                                        <td>
-                                        <form name="BORRAR" action="elimina_defuncion_integrante_cf.php" method="post">  
-                                        <input type="hidden" name="idintegrante_defuncion" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>   
-                                    </td>
-                                    </tr>                            
-                                    <?php
-                                    $numero=$numero+1;
-                                    }
-                                    while ($row4 = mysqli_fetch_array($result4));
-                                    } else {
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+    <!-------- COMPORTAMIENTO FAMILIAR (BEGIN) --------->
+
+                <div class="form-group row">   
+                    <div class="col-sm-2">                    
+                    <h6 class="text-info">Nº</h6>                
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info">FECHA DE REGISTRO:</h6>
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info">ESTRUCTURA FAMILIAR:</h6>
+                    </div>                        
+                    <div class="col-sm-2">
+                    <h6 class="text-info">REGISTRADOR</h6>
+                    </div> 
                 </div>
-            </div>            
-     <!-------- INGRESA COSULTA DE DEFUNCION DEL INTEGRANTE (Begin) --------->                         
-    <hr>
-    <form name="DEFUNCION" action="guarda_defuncion_cf.php" method="post">
-        <div class="form-group row">  
-            <div class="col-sm-4">
-                <h6 class="text-info">EL INTEGRANTE DE LA FAMILIA FALLECIO?</h6>
-                <select name="defuncion_cf" id="defuncion_cf" class="form-control" required autofocus>
-                <option value="">-SELECCIONE-</option>
-                <option value="SI">SI</option>
-                <option value="NO">NO</option>      
-                </select>
-            </div>
-        </div>
-         
-        <div class="form-group row" id="certificado_defuncion"></div>
-        </form> 
-    </div>
-    <!-------- ETAPA DE REGISTRO DE POSIBLE DEFUNCIÓN DEL INTEGRANTE  (END) --------->
-          <hr>
 
-        <div class="form-group row">  
-            <div class="col-sm-4">
-            <a href="integrantes_cf.php"><h6 class="text-info"><- SIGUIENTE INTEGRANTE FAMILIAR </h6></a>
+<hr>
+                <div class="form-group row">   
+                    <div class="col-sm-2">                    
+                    <h6 class="text-info"></h6>                
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info"></h6>
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info"></h6>
+                    </div>                        
+                    <div class="col-sm-2">
+                    <h6 class="text-info"></h6>
+                    </div> 
+                </div>
+ <hr>    
+ 
+ 
+ <div class="form-group row">   
+                    <div class="col-sm-2">                    
+                    <h6 class="text-info">Nº</h6>                
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info">FECHA DE REGISTRO:</h6>
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info">ETAPA DEL CICLO VITAL FAMILIAR:</h6>
+                    </div>                        
+                    <div class="col-sm-2">
+                    <h6 class="text-info">REGISTRADOR</h6>
+                    </div> 
+                </div>
+
+<hr>
+                <div class="form-group row">   
+                    <div class="col-sm-2">                    
+                    <h6 class="text-info"></h6>                
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info"></h6>
+                    </div>  
+                    <div class="col-sm-4">
+                    <h6 class="text-info"></h6>
+                    </div>                        
+                    <div class="col-sm-2">
+                    <h6 class="text-info"></h6>
+                    </div> 
+                </div>
+ <hr>  
+    <!-------- COMPORTAMIENTO FAMILIAR (BEGIN) --------->
+          
+             <div class="text-center"> 
+               <a href="socioeconomicas_cf.php"><h6 class="text-success">SIGUIENTE -></h6></a>                                                                   
             </div>
-            <div class="col-sm-4">
-            </div>            
-            <div class="col-sm-4">
-            <a href="determinantes_salud_cf.php"><h6 class="text-info">IR A DETERMINATES DE LA SALUD -></h6></a> 
-            </div>
-        </div>
 
         <!-- END aqui va el comntenido de la pagina ---->
                 </div>
@@ -422,7 +347,6 @@ $row_n=mysqli_fetch_array($result_n);
         </div>
     </div>
 
-   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -437,26 +361,11 @@ $row_n=mysqli_fetch_array($result_n);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para uso de mapas -->
 
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#defuncion_cf").change(function () {
-                    $("#defuncion_cf option:selected").each(function () {
-                        defuncion_cf=$(this).val();
-                    $.post("certificado_defuncion.php", {defuncion_cf:defuncion_cf}, function(data){
-                    $("#certificado_defuncion").html(data);
-                    });
-                });
-        })
-        });
-    </script> 
+        <script src="../js/datepicker-es.js"></script>               
 
-    
 </body>
-</html>
+</html> 

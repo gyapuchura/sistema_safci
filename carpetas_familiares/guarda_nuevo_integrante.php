@@ -43,21 +43,21 @@ $edad=($ano-$anonaz);
 
 if ($ci == '') {
 
-    $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
-    $sql0.= " VALUES ('$paterno','$materno','$nombre','0','','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
-    $result0 = mysqli_query($link,$sql0);   
+    $sql_c = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
+    $sql_c.= " VALUES ('$paterno','$materno','$nombre','0','','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
+    $result_c = mysqli_query($link,$sql_c);   
     $idnombre_integrante = mysqli_insert_id($link);
 
-    $sql2 = " INSERT INTO integrante_cf (idcarpeta_familiar, idnombre, edad, idparentesco, idnacion, fecha_registro, hora_registro, idusuario) ";
-    $sql2.= " VALUES ('$idcarpeta_familiar_ss','$idnombre_integrante','$edad','$idparentesco','$idnacion','$fecha','$hora','$idusuario_ss') ";
-    $result2 = mysqli_query($link,$sql2);   
+    $sql_d = " INSERT INTO integrante_cf (idcarpeta_familiar, idnombre, edad, idparentesco, idnacion, fecha_registro, hora_registro, idusuario) ";
+    $sql_d.= " VALUES ('$idcarpeta_familiar_ss','$idnombre_integrante','$edad','$idparentesco','$idnacion','$fecha','$hora','$idusuario_ss') ";
+    $result_d = mysqli_query($link,$sql_d);   
     $idnombre_paciente = mysqli_insert_id($link);
 
 header("Location:integrantes_cf.php");
 
 } else {
    
-$sql_p =" SELECT idnombre, nombre, paterno, materno FROM nombre WHERE ci='$ci' ";
+$sql_p =" SELECT idnombre, nombre, paterno, materno FROM nombre WHERE ci='$ci' AND ci !='0'";
 $result_p=mysqli_query($link,$sql_p);
 if ($row_p=mysqli_fetch_array($result_p)) 
 {
