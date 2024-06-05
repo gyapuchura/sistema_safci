@@ -313,7 +313,7 @@ $row_n=mysqli_fetch_array($result_n);
                           
         <hr>
         <div class="text-center">                                     
-            <h4 class="text-info">SALUD DEL INTEGRANTE FAMILIAR:</h4>                    
+            <h4 class="text-info">5.- SALUD DEL INTEGRANTE FAMILIAR:</h4>                    
         </div>
         <hr>
     <!-------- DETALLE SALUD DEL INETGRANTE FAMILIAR (begin) --------->  

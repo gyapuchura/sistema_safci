@@ -315,7 +315,7 @@ $row_n=mysqli_fetch_array($result_n);
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
         <hr>
             <div class="text-center">                                     
-                <h4 class="text-info">SUBSECTOR SALUD:</h4>                    
+                <h4 class="text-info">6.- SUBSECTOR SALUD:</h4>                    
             </div>
         <hr>
 

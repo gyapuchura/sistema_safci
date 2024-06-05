@@ -313,7 +313,7 @@ $row_n=mysqli_fetch_array($result_n);
     <!-------- ETAPA DE BENEFICIOS SOCIALES DEL INTEGRANTE FAMILIAR (BEGIN) --------->
         <hr>
             <div class="text-center">                                     
-                <h4 class="text-info">PROGRAMAS SOCIALES:</h4>                    
+                <h4 class="text-info">7.- PROGRAMAS SOCIALES:</h4>                    
             </div>
 
 

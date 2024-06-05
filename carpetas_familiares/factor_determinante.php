@@ -77,7 +77,7 @@ if ($idcat_determinante_salud == '17') { ?>
         </div>        
         <div class="col-sm-2">
       <h6 class="text-info"> NO <input type="radio" name="valor3[0]" value="0" checked> SI <input type="radio" name="valor3[0]" value="1" ></h6>  
-      <h6 class="text-info"> NO <input type="radio" name="valor3[1]" value="0" checked> SI <input type="radio" name="valor3[1]" value="0" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor3[1]" value="0" checked> SI <input type="radio" name="valor3[1]" value="1" ></h6>  
       <h6 class="text-info"> NO <input type="radio" name="valor3[2]" value="0" checked> SI <input type="radio" name="valor3[2]" value="1" ></h6> 
       <h6 class="text-info"> NO <input type="radio" name="valor3[3]" value="0" checked> SI <input type="radio" name="valor3[3]" value="1" ></h6>
       <h6 class="text-info"> NO <input type="radio" name="valor3[4]" value="0" checked> SI <input type="radio" name="valor3[4]" value="1" ></h6> 
