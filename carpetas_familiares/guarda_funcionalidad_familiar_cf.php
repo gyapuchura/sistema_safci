@@ -28,7 +28,6 @@ foreach($_POST['idfuncionalidad_familiar'] as $idfuncionalidad_familiar) {
 
 }
 
-
 header("Location:funcionalidad_familiar_cf.php");
 
 /*********** Guarda el registro de beneficiario de programa social de salud (END) *************/
