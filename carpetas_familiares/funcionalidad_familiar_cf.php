@@ -76,11 +76,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="socioeconomicas_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="determinantes_salud_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">13.- TENENCIA DE ANIMALES</h4>
+                    <h4 class="text-info">16.- FUNCIONALIDAD FAMILIAR</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -237,7 +237,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             <hr>
 
             <div class="text-center">                                     
-                <h4 class="text-info">13.- TENENCIA DE ANIMALES:</h4>                    
+                <h4 class="text-info">16.1.- CRISIS FAMILIAR:</h4>                    
             </div>
           
             <div class="form-group row">
@@ -247,17 +247,17 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <thead>
                                 <tr>
                                     <th class="text-info">Nª</th>
-                                    <th class="text-info">TENENCIA DE ANIMALES DOMÉSTICOS DE COMPAÑÍA:</th>
-                                    <th class="text-info">CANTIDAD</th>
+                                    <th class="text-info">CRISIS FAMILIAR:</th>
+                                    <th class="text-info">FECHA DE REGISTRO</th>
                                     <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
                                         <?php
                                     $numero=1;
-                                    $sql4 =" SELECT tenencia_animales_cf.idtenencia_animales_cf, tenencia_animales.tenencia_animales, tenencia_animales_cf.valor  ";
-                                    $sql4.=" FROM tenencia_animales_cf, tenencia_animales WHERE tenencia_animales_cf.idtenencia_animales=tenencia_animales.idtenencia_animales ";
-                                    $sql4.=" AND tenencia_animales_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                                    $sql4 =" SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar_cf, funcionalidad_familiar.funcionalidad_familiar, funcionalidad_familiar_cf.fecha_registro ";
+                                    $sql4.=" FROM funcionalidad_familiar_cf, funcionalidad_familiar WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
+                                    $sql4.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.crisis_familiar='SI' ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -267,10 +267,15 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <tr>
                                         <td><?php echo $numero;?></td>
                                         <td><?php echo $row4[1];?></td>
-                                        <td><?php echo $row4[2];?></td>
                                         <td>
-                                        <form name="BORRAR" action="elimina_tenencia_animal_cf.php" method="post">  
-                                        <input type="hidden" name="idtenencia_animales_cf" value="<?php echo $row4[0];?>">
+                                        <?php 
+                                            $fecha_s = explode('-',$row4[2]);
+                                            $fecha_reg = $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0];
+                                            echo $fecha_reg; ?>
+                                        </td>
+                                        <td>
+                                        <form name="BORRAR" action="elimina_crisis_familiar_cf.php" method="post">  
+                                        <input type="hidden" name="idfuncionalidad_familiar_cf" value="<?php echo $row4[0];?>">
                                         <button type="submit" class="btn btn-danger">QUITAR</button></form>
                                         </td>
                                     </tr>                            
@@ -289,42 +294,36 @@ $row_cf=mysqli_fetch_array($result_cf);
      <!-------- INGRESA DATOS DEL IDIOMA (Begin) --------->             
             
      <hr>
-            <form name="TENENCIA_ANIMALES" action="guarda_tenencia_animal_cf.php" method="post">                   
+            <form name="CRISIS_FAMILIAR" action="guarda_crisis_familiar_cf.php" method="post">                   
 
                 <div class="form-group row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-4">
-                    <h6 class="text-info">1. Número de perros en la familia </h6>
-                    <input type="number" name="valor[0]" value="" class="form-control" > 
-                    <h6 class="text-info">2. Número de gatos en la familia </h6>
-                    <input type="number" name="valor[1]" value="" class="form-control" > 
-                    <h6 class="text-info">3. Otros animales domésticos o de compañía </h6> 
-                    <input type="number" name="valor[2]" value="" class="form-control" >                    
+                    <div class="col-sm-3"></div>        
+                    <div class="col-sm-9">
+                    <h6>Desmembramiento* <input type="radio" class="form-group" name="idfuncionalidad_familiar" value="1" checked ></h6>  
+                    <h6>Incremento* <input type="radio" class="form-group" name="idfuncionalidad_familiar" value="2" ></h6> 
+                    <h6>Desmoralización* <input type="radio" class="form-group" name="idfuncionalidad_familiar" value="3" ></h6> 
+                    <h6>Desorganización* <input type="radio" class="form-group" name="idfuncionalidad_familiar" value="4" ></h6>
+                    </div>
                 </div>
-                <div class="col-sm-6"></div>
-                </div>
-
-               
+                <hr>
                     <div class="text-center">
-
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
-                        AGREGAR CARACTERÍSTICA
+                        AGREGAR
                         </button>  
                     </div>  
-                
-
+    
                 <!-- modal de confirmacion de envio de datos-->
                 <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">TENENCIA DE ANIMALES</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">CRISIS FAMILIAR</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">                                    
-                                    Esta seguro de agregar la tenencia de animales? ?
+                                    Esta seguro de agregar la CRISIS FAMILIAR? ?
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
@@ -334,10 +333,117 @@ $row_cf=mysqli_fetch_array($result_cf);
                         </div>
                     </div>
                 </form>
+<hr>
+     <!-------- ETAPA DEL CICLO FAMILIAR (Begin) --------->   
 
+                <div class="text-center">                                     
+                <h4 class="text-info">16.2.- FUNCIONALIDAD FAMILIAR:</h4>                    
+            </div>
+          
+        
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="example" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-info">Nª</th>
+                                    <th class="text-info">FUNCIONALIDAD FAMILIAR:</th>
+                                    <th class="text-info">FECHA DE REGISTRO</th>
+                                    <th class="text-info">ACCIÓN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <?php
+                                    $numero5=1;
+                                    $sql5 =" SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar_cf, funcionalidad_familiar.funcionalidad_familiar, funcionalidad_familiar_cf.fecha_registro ";
+                                    $sql5.=" FROM funcionalidad_familiar_cf, funcionalidad_familiar WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
+                                    $sql5.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.crisis_familiar='NO' ";
+                                    $result5 = mysqli_query($link,$sql5);
+                                    if ($row5 = mysqli_fetch_array($result5)){
+                                    mysqli_field_seek($result5,0);
+                                    while ($field5 = mysqli_fetch_field($result5)){
+                                    } do { 
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $numero5;?></td>
+                                        <td><?php echo $row5[1];?></td>
+                                        <td>
+                                        <?php 
+                                            $fecha_s = explode('-',$row5[2]);
+                                            $fecha_reg = $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0];
+                                            echo $fecha_reg; ?>
+                                        </td>
+                                        <td>
+                                        <form name="BORRAR" action="elimina_funcionalidad_familiar_cf.php" method="post">  
+                                        <input type="hidden" name="idfuncionalidad_familiar_cf" value="<?php echo $row5[0];?>">
+                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
+                                        </td>
+                                    </tr>                            
+                                    <?php
+                                    $numero5=$numero5+1;
+                                    }
+                                    while ($row5 = mysqli_fetch_array($result5));
+                                    } else {
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>  
+     <!-------- INGRESA DATOS DEL IDIOMA (Begin) --------->             
+            
+     <hr>
+            <form name="FUNCIONALIDAD_CF" action="guarda_funcionalidad_familiar_cf.php" method="post">                   
+
+                <div class="form-group row">  
+                    <div class="col-sm-3"></div>    
+                    <div class="col-sm-9"> 
+                    <h6>2. Violencia en la Familia* <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[0]" value="5" ></h6>  
+                    <h6>3. Tabaquismo Pasivo* <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[1]" value="6"></h6>  
+                    <h6>4. Consumo de alcohol con repercusión en la familia* <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[2]" value="7"></h6>  
+                    <h6>5. Consumo de drogas ilícitas en presencia de la familia*  <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[3]" value="8"></h6> 
+                    <h6>6. Cumple función Económica <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[4]" value="9" ></h6>  
+                    <h6>7. Cumple función Educativa <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[5]" value="10"></h6>  
+                    <h6>8. Cumple función Afectiva <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[6]" value="11"></h6>  
+                    <h6>9. Cumple función Social <input type="checkbox" class="form-group" name="idfuncionalidad_familiar[7]" value="12"></h6> 
+                    </div>
+                </div>
+                <hr>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModale">
+                        AGREGAR ETAPA
+                        </button>  
+                    </div>  
+    
+                <!-- modal de confirmacion de envio de datos-->
+                <div class="modal fade" id="exampleModale" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">ETAPA FAMILIAR</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">                                    
+                                    Esta seguro de agregar la ETAPA FAMILIAR? ?
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+<hr>
+
+ 
                 <hr>
             <div class="text-center"> 
-               <a href="estructura_etapa_cf.php"><h6 class="text-info">ESTRUCTURA - ETAPA FAMILIAR -></h6></a>                                                                   
+               <a href="funcionalidad_familiar_cf.php"><h6 class="text-info">FUNCIONALIDAD FAMILIAR -></h6></a>                                                                   
             </div>
 
                     
@@ -374,8 +480,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             </div>
         </div>
     </div>
-
-   
+ 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -398,7 +503,6 @@ $row_cf=mysqli_fetch_array($result_cf);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-
-    
+ 
 </body>
 </html>
