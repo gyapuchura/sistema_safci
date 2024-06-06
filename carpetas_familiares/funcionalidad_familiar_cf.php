@@ -76,7 +76,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="determinantes_salud_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="estructura_etapa_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
@@ -86,6 +86,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
+
 
 
                 <div class="col-lg-12">  
@@ -443,7 +444,7 @@ $row_cf=mysqli_fetch_array($result_cf);
  
                 <hr>
             <div class="text-center"> 
-               <a href="funcionalidad_familiar_cf.php"><h6 class="text-info">FUNCIONALIDAD FAMILIAR -></h6></a>                                                                   
+               <a href="evaluacion_resultados_cf.php"><h6 class="text-info">EVALUACIÓN Y RESULTADOS -></h6></a>                                                                   
             </div>
 
                     
