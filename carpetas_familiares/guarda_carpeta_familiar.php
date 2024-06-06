@@ -20,10 +20,10 @@ $idestablecimiento_salud = $_POST['idestablecimiento_salud'];
 $idarea_influencia       = $_POST['idarea_influencia'];
 
 $fecha_apertura  = $_POST['fecha_apertura'];
-$familia         = $link->real_escape_string($_POST['familia']);
-$avenida_calle   = $link->real_escape_string($_POST['avenida_calle']);
+$familia         = $link->real_escape_string(mb_strtoupper($_POST['familia']));
+$avenida_calle   = $link->real_escape_string(mb_strtoupper($_POST[ 'avenida_calle']));
 $no_puerta       = $_POST['no_puerta'];
-$nombre_edificio = $link->real_escape_string($_POST['nombre_edificio']);
+$nombre_edificio = $link->real_escape_string(mb_strtoupper($_POST['nombre_edificio']));
 $latitud         = $_POST['latitud'];
 $longitud        = $_POST['longitud'];
 $altura          = $_POST['altura'];
