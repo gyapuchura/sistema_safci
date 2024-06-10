@@ -343,10 +343,6 @@
     } do {	?>
 
             <a class="collapse-item" href="../eventos_safci/eventos_safci_atencion.php">REGISTRO </br> ATENCIONES MÉDICAS</a>
-            <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
-            <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
-            <a class="collapse-item" href="#">REGISTRO FAMILIAR</a>
-
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
