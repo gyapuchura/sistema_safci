@@ -307,7 +307,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
                 <hr>
-                    <div class="text-center">
+                    <div class="text-center"> <h6 class="text-info">Agregar SOLO si hay crisis familiar</h6>
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
                         AGREGAR
                         </button>  
@@ -393,9 +393,62 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
             </div>  
-     <!-------- INGRESA DATOS DEL IDIOMA (Begin) --------->             
-            
+     <!-------- INGRESA DATOS DEL IDIOMA (Begin) --------->                         
      <hr>
+
+     <?php
+        $numero_f=1;
+        $sql_f =" SELECT fecha_registro FROM funcionalidad_familiar_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' GROUP BY fecha_registro ORDER BY fecha_registro";
+        $result_f = mysqli_query($link,$sql_f);
+        if ($row_f = mysqli_fetch_array($result_f)){
+        mysqli_field_seek($result_f,0);
+        while ($field_f = mysqli_fetch_field($result_f)){
+        } do { 
+        ?>
+
+            <div class="form-group row">  
+                <div class="col-sm-2"><h6 class="text-info">VISITA: <?php echo $numero_f; ?></h6></div>  
+                <div class="col-sm-5"><h6 class="text-info">EVALUACIÓN DE LA FUNCIONALIDAD FAMILIAR:</h6></div>    
+                <div class="col-sm-2">
+                    <?php
+                        $sql_ev =" SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar_cf, funcionalidad_familiar.funcionalidad_familiar, funcionalidad_familiar_cf.fecha_registro ";
+                        $sql_ev.=" FROM funcionalidad_familiar_cf, funcionalidad_familiar WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
+                        $sql_ev.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.funcional='NO' AND funcionalidad_familiar_cf.fecha_registro='$row_f[0]' ";
+                        $result_ev = mysqli_query($link,$sql_ev);
+                        if ($row_ev = mysqli_fetch_array($result_ev)){
+
+                            echo " <h6 class='text-danger'>DISFUNCIONAL</h6>";
+                                
+                            } else {
+
+                                $sql_dev =" SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar_cf, funcionalidad_familiar.funcionalidad_familiar, funcionalidad_familiar_cf.fecha_registro ";
+                                $sql_dev.=" FROM funcionalidad_familiar_cf, funcionalidad_familiar WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
+                                $sql_dev.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.funcional='SI' AND funcionalidad_familiar_cf.fecha_registro='$row_f[0]' ";
+                                $result_dev = mysqli_query($link,$sql_dev);
+                                if ($row_dev = mysqli_fetch_array($result_dev)){
+                                    echo "<h6 class='text-primary'>FUNCIONAL </h6>";
+                                } else {
+                                    echo " <h6> SIN EVALUAR  </h6>";
+                                }                                
+                            }                                
+                    ?>
+                </div>
+                <div class="col-sm-3"><h6 class="text-info">FECHA: <?php 
+                 $fecha_se = explode('-',$row_f[0]);
+                 $fecha_seg = $fecha_se[2].'/'.$fecha_se[1].'/'.$fecha_se[0];
+                 echo $fecha_seg; ?></h6></div> 
+                </div>
+                <hr>
+        <?php
+            $numero_f=$numero_f+1;
+            }
+            while ($row_f = mysqli_fetch_array($result_f));
+            } else {
+            }
+        ?>
+ 
+
+         
             <form name="FUNCIONALIDAD_CF" action="guarda_funcionalidad_familiar_cf.php" method="post">                   
 
                 <div class="form-group row">  
@@ -441,8 +494,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                 </form>
 <hr>
 
- 
-                <hr>
+      
             <div class="text-center"> 
                <a href="evaluacion_resultados_cf.php"><h6 class="text-info">EVALUACIÓN Y RESULTADOS -></h6></a>                                                                   
             </div>
