@@ -6,7 +6,7 @@ $fecha 		= date("Y-m-d");
 $hora       = date("H:i");
 $gestion    = date("Y");
 
-$idcarpeta_familiar_ss = '2'; 
+$idcarpeta_familiar_ss = $_GET['idcarpeta_familiar']; 
 
 $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
 $sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
