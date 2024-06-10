@@ -6,7 +6,7 @@ $fecha 		= date("Y-m-d");
 $hora       = date("H:i");
 $gestion    = date("Y");
 
-$idcarpeta_familiar_ss = '2';
+$idcarpeta_familiar_ss = $_GET['idcarpeta_familiar']; 
         
 ?>
 <table width="1200" border="0" align="center">
