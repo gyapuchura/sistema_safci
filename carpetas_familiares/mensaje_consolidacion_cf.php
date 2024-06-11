@@ -98,7 +98,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <h4 class="text-primary"></h4>
 
                     </br>
-                    <a href="integrantes_cf.php"><h6>IR A BANDEJA DE CARPETAS FAMILIARES -></h6></a>
+                    <a href="carpetas_familiares.php"><h6>IR A BANDEJA DE CARPETAS FAMILIARES -></h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
