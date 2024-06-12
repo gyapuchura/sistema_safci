@@ -27,7 +27,7 @@ foreach($_POST['idayuda_familiar'] as $idayuda_familiar) {
 
 }
 
-header("Location:evaluación_familiar_cf.php");
+header("Location:evaluacion_familiar_cf.php");
 
 /*********** Guarda el tipo de ayuda familiar de programa social de salud (END) *************/
 ?>

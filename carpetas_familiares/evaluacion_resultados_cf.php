@@ -493,7 +493,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             
                 <hr>
             <div class="text-center"> 
-               <a href="consolidar_carpeta_cf.php"><h6 class="text-info">CONSOLIDAR CARPETA FAMILIAR -></h6></a>                                                                   
+               <a href="evaluacion_familiar_cf.php"><h6 class="text-info">AYUDA FAMILIAR -></h6></a>                                                                   
             </div>
 
             </div>

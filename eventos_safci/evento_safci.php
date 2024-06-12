@@ -277,14 +277,11 @@ $row_ev=mysqli_fetch_array($result_ev);
 
     <!-- scripts para calendario -->
 
-
-
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-
-    
+   
 </body>
 </html>
