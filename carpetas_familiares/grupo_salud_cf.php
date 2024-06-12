@@ -44,7 +44,7 @@ switch ($idgrupo_cf) {
         <div class="col-sm-9">
         <h6 class="text-info">FACTORES DE RIESGO</h6> 
         <select name="idfactor_riesgo_cf"  id="idfactor_riesgo_cf" class="form-control" required>
-            <option selected>Seleccione</option>
+            <option value="">Seleccione</option>
             <?php
             $sql1 = " SELECT idfactor_riesgo_cf, factor_riesgo_cf FROM factor_riesgo_cf ";
             $result1 = mysqli_query($link,$sql1);
@@ -95,7 +95,7 @@ switch ($idgrupo_cf) {
         <div class="col-sm-9">
         <h6 class="text-info">MORBILIDAD</h6>   
         <select name="idmorbilidad_cf"  id="idmorbilidad_cf" class="form-control" required>
-            <option selected>Seleccione</option>
+            <option value="">Seleccione</option>
             <?php
             $sql1 = " SELECT morbilidad_cf.idmorbilidad_cf, morbilidad_cf.morbilidad_cf, tipo_enfermedad_cf.tipo_enfermedad_cf ";
             $sql1.= " FROM morbilidad_cf, tipo_enfermedad_cf WHERE morbilidad_cf.idtipo_enfermedad_cf=tipo_enfermedad_cf.idtipo_enfermedad_cf ";
@@ -146,7 +146,7 @@ switch ($idgrupo_cf) {
         <div class="col-sm-3">   
         <h6 class="text-info">TIPO DE DISCAPACIDAD</h6>          
         <select name="idtipo_discapacidad_cf"  id="idtipo_discapacidad_cf" class="form-control" required>
-            <option selected>Seleccione Tipo</option>
+            <option value="">Seleccione Tipo</option>
             <?php
             $sql1 = " SELECT idtipo_discapacidad_cf, tipo_discapacidad_cf FROM tipo_discapacidad_cf ";
             $result1 = mysqli_query($link,$sql1);
@@ -165,7 +165,7 @@ switch ($idgrupo_cf) {
         <div class="col-sm-3">  
         <h6 class="text-info">NIVEL DE DISCAPACIDAD</h6>           
         <select name="idnivel_discapacidad_cf"  id="idnivel_discapacidad_cf" class="form-control" required>
-            <option selected>Seleccione Nivel</option>
+            <option value="">Seleccione Nivel</option>
             <?php
             $sql1 = " SELECT idnivel_discapacidad_cf, nivel_discapacidad_cf FROM nivel_discapacidad_cf ";
             $result1 = mysqli_query($link,$sql1);

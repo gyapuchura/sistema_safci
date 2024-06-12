@@ -185,18 +185,18 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
             }
             ?>
             <?php
-            $sql4 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_discapacidad, grupo_cf WHERE integrante_discapacidad.idgrupo_cf=grupo_cf.idgrupo_cf  ";
-            $sql4.=" AND integrante_discapacidad.idintegrante_cf='$rowi[0]' GROUP BY grupo_cf.idgrupo_cf ";
-            $result4 = mysqli_query($link,$sql4);
-            if ($row4 = mysqli_fetch_array($result4)){
-            mysqli_field_seek($result4,0);
-            while ($field4 = mysqli_fetch_field($result4)){
+            $sqld =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_discapacidad, grupo_cf WHERE integrante_discapacidad.idgrupo_cf=grupo_cf.idgrupo_cf  ";
+            $sqld.=" AND integrante_discapacidad.idintegrante_cf='$rowi[0]' GROUP BY grupo_cf.idgrupo_cf ";
+            $resultd = mysqli_query($link,$sqld);
+            if ($rowd = mysqli_fetch_array($resultd)){
+            mysqli_field_seek($resultd,0);
+            while ($fieldd = mysqli_fetch_field($resultd)){
             } do { 
             ?>
-               <?php echo "- ".$row4[1];?></br>
+               <?php echo "- ".$rowd[1];?></br>
             <?php
             }
-            while ($row4 = mysqli_fetch_array($result4));
+            while ($rowd = mysqli_fetch_array($resultd));
             } else {
             }
             ?>

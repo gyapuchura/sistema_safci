@@ -63,15 +63,78 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                 ?>
                 </tbody>
               </table>
-                                         
+             
                 <?php
                 }
                 while ($row1 = mysqli_fetch_array($result1));
                 } else {
                 }
                 ?>
-
-            </td>
+              
+              <table width="300" border="1" cellspacing="0">
+                  <tbody>
+                    <tr>
+                      <td colspan="3" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;">(*) Riesgo de los  Servicios Básicos </td>
+                    </tr>
+                    <tr>
+                      <td width="36" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">1</td>
+                      <td width="44" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">7</td>
+                      <td width="198" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Sin Riesgo</td>
+                    </tr>
+                    <tr>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">2</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">8-11</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Leve</td>
+                    </tr>
+                    <tr>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">3</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">12-17</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Moderado</td>
+                    </tr>
+                    <tr>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">4</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">18-24</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Grave</td>
+                    </tr>
+                    <tr>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">5</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">25-35</td>
+                      <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Muy Grave</td>
+                    </tr>
+                  </tbody>
+              </table>
+              <table width="300" border="1" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td colspan="3" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;">(**)Riesgo  estructural de  la vivienda </td>
+                  </tr>
+                  <tr>
+                    <td width="36" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">1</td>
+                    <td width="44" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">16</td>
+                    <td width="198" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Sin Riesgo</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">2</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">17-31</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Leve</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">3</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">32-41</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Moderado</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">4</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">42-56</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Grave</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">5</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">57-80</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Muy Grave</td>
+                  </tr>
+                </tbody>
+            </table></td>
             <td><?php
                 $sql2 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '2' ";
                 $result2 = mysqli_query($link,$sql2);
@@ -110,13 +173,12 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                 </tbody>
               </table>
                                          
-                <?php
+            <?php
                 }
                 while ($row2 = mysqli_fetch_array($result2));
                 } else {
                 }
-                ?>
-            </td>
+                ?></td>
             <td><?php
                 $sql3 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '3' ";
                 $result3 = mysqli_query($link,$sql3);
@@ -161,7 +223,319 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                     } else {
                     }
                     ?>
-            </td>
+              <table width="300" border="1" cellspacing="0">
+                      <tbody>
+                        <tr>
+                          <td colspan="3" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;">(***) Riesgo  funcional de  la vivienda</td>
+                        </tr>
+                        <tr>
+                          <td width="36" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">1</td>
+                          <td width="44" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">3</td>
+                          <td width="198" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Sin Riesgo</td>
+                        </tr>
+                        <tr>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">2</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">4-5</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Leve</td>
+                        </tr>
+                        <tr>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">3</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">6-9</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Moderado</td>
+                        </tr>
+                        <tr>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">4</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">10-11</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Grave</td>
+                        </tr>
+                        <tr>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">5</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">12-15</td>
+                          <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Muy Grave</td>
+                        </tr>
+                      </tbody>
+            </table>
+              <table width="300" border="1" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td colspan="3" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;">(****) Riesgo de  la Seguridad  Alimentaria</td>
+                  </tr>
+                  <tr>
+                    <td width="36" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">1</td>
+                    <td width="44" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">7</td>
+                    <td width="198" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Sin Riesgo</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">2</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">8-13</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Leve</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">3</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">14-21</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Moderado</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">4</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">22-30</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Grave</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">5</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">31-35</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">Riesgo Muy Grave</td>
+                  </tr>
+                </tbody>
+            </table>
+            <p>
+              <table width="300" border="1" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;">EVALUACIÓN DE LAS DETERMINANTES</td>
+                  </tr>
+                  <tr>
+                    <td width="48" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">(*)</td>
+                    <td width="242" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+
+                    <?php  
+                                    $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='1' ";
+                                    $resulta = mysqli_query($link,$sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    echo " => ".$rowa[0]." - ";
+
+                                    $sumatoria = $rowa[0];
+                                        if ($sumatoria <= 7 ) {
+                                            $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                            $result5 = mysqli_query($link,$sql5);
+                                            $row5 = mysqli_fetch_array($result5);
+                                            echo $row5[0];
+                                        } else {
+                                            if ($sumatoria <= 11 ) {
+                                                $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                                $result6 = mysqli_query($link,$sql6);
+                                                $row6 = mysqli_fetch_array($result6);
+                                                echo $row6[0];
+                                            } else {
+                                                if ($sumatoria <= 17) {
+                                                        $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                        $result7 = mysqli_query($link,$sql7);
+                                                        $row7 = mysqli_fetch_array($result7);
+                                                        echo $row7[0];
+                                                } else {
+                                                    if ($sumatoria <= 24) {
+                                                            $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                            $result8 = mysqli_query($link,$sql8);
+                                                            $row8 = mysqli_fetch_array($result8);
+                                                            echo $row8[0];
+                                                    } else { 
+                                                        if ($sumatoria <= 35) {
+                                                                $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                                $result9 = mysqli_query($link,$sql9);
+                                                                $row9 = mysqli_fetch_array($result9);
+                                                                echo $row9[0];
+                                                        } else {  } } } } }
+
+                            ?>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">(**)</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+                    <?php  
+                                    $sqlb = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='2' ";
+                                    $resultb = mysqli_query($link,$sqlb);
+                                    $rowb = mysqli_fetch_array($resultb);
+                                    echo " => ".$rowb[0]." - ";
+
+                                    $sumatoria = $rowb[0];
+                                    if ($sumatoria <= 16 ) {
+                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                        $result5 = mysqli_query($link,$sql5);
+                                        $row5 = mysqli_fetch_array($result5);
+                                        echo $row5[0];
+                                    } else {
+                                        if ($sumatoria <= 31 ) {
+                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                            $result6 = mysqli_query($link,$sql6);
+                                            $row6 = mysqli_fetch_array($result6);
+                                            echo $row6[0];
+                                        } else {
+                                            if ($sumatoria <= 41) {
+                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                    $result7 = mysqli_query($link,$sql7);
+                                                    $row7 = mysqli_fetch_array($result7);
+                                                    echo $row7[0];
+                                            } else {
+                                                if ($sumatoria <= 56) {
+                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                        $result8 = mysqli_query($link,$sql8);
+                                                        $row8 = mysqli_fetch_array($result8);
+                                                        echo $row8[0];
+                                                } else { 
+                                                    if ($sumatoria <= 80) {
+                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                            $result9 = mysqli_query($link,$sql9);
+                                                            $row9 = mysqli_fetch_array($result9);
+                                                            echo $row9[0];
+                                                    } else {  } } } } }
+
+                            ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">(***)</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+                    <?php  
+                                    $sqlc = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='3' ";
+                                    $resultc = mysqli_query($link,$sqlc);
+                                    $rowc = mysqli_fetch_array($resultc);
+                                    echo " => ".$rowc[0]." - ";
+
+                                    $sumatoria = $rowc[0];
+                                    if ($sumatoria <= 3) {
+                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                        $result5 = mysqli_query($link,$sql5);
+                                        $row5 = mysqli_fetch_array($result5);
+                                        echo $row5[0];
+                                    } else {
+                                        if ($sumatoria <= 5) {
+                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                            $result6 = mysqli_query($link,$sql6);
+                                            $row6 = mysqli_fetch_array($result6);
+                                            echo $row6[0];
+                                        } else {
+                                            if ($sumatoria <= 9) {
+                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                    $result7 = mysqli_query($link,$sql7);
+                                                    $row7 = mysqli_fetch_array($result7);
+                                                    echo $row7[0];
+                                            } else {
+                                                if ($sumatoria <= 11) {
+                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                        $result8 = mysqli_query($link,$sql8);
+                                                        $row8 = mysqli_fetch_array($result8);
+                                                        echo $row8[0];
+                                                } else { 
+                                                    if ($sumatoria <= 15) {
+                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                            $result9 = mysqli_query($link,$sql9);
+                                                            $row9 = mysqli_fetch_array($result9);
+                                                            echo $row9[0];
+                                                    } else {  } } } } }
+
+                            ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">(****)</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+                    <?php  
+                                    $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
+                                    $resultd = mysqli_query($link,$sqld);
+                                    $rowd = mysqli_fetch_array($resultd);
+                                    $durante = $rowd[0];
+
+                                    if ($durante == '0') {
+                                       $grado_alimentario = '1';
+                                    } else {
+                                        if ($durante <= 3) {
+                                            $grado_alimentario = '3';
+                                        } else {
+                                            if ($durante <= 5) {
+                                                $grado_alimentario = '4';
+                                            } else {
+                                                if ($durante >= 6) {
+                                                    $grado_alimentario = '5';
+                                                } else {  } } } }
+
+                                    $sqlcon = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='21' ";
+                                    $resultcon = mysqli_query($link,$sqlcon);
+                                    $rowcon = mysqli_fetch_array($resultcon);
+                                    $consumo = $rowcon[0];
+
+                                    $alimentaria = $grado_alimentario + $consumo;
+
+                                    echo " => ".$alimentaria." - ";
+
+                                    if ($alimentaria <= 7) {
+                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                        $result5 = mysqli_query($link,$sql5);
+                                        $row5 = mysqli_fetch_array($result5);
+                                        echo $row5[0];
+                                    } else {
+                                        if ($alimentaria <= 13) {
+                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                            $result6 = mysqli_query($link,$sql6);
+                                            $row6 = mysqli_fetch_array($result6);
+                                            echo $row6[0];
+                                        } else {
+                                            if ($alimentaria <= 21) {
+                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                    $result7 = mysqli_query($link,$sql7);
+                                                    $row7 = mysqli_fetch_array($result7);
+                                                    echo $row7[0];
+                                            } else {
+                                                if ($alimentaria <= 30) {
+                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                        $result8 = mysqli_query($link,$sql8);
+                                                        $row8 = mysqli_fetch_array($result8);
+                                                        echo $row8[0];
+                                                } else { 
+                                                    if ($alimentaria <= 35) {
+                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                            $result9 = mysqli_query($link,$sql9);
+                                                            $row9 = mysqli_fetch_array($result9);
+                                                            echo $row9[0];
+                                                    } else {  } } } } }
+
+                            ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">TOTAL</td>
+                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+                    <?php 
+                                    $riesgo_total = $rowa[0] + $rowb[0] + $rowc[0] + $alimentaria;
+
+
+                                  if ($riesgo_total <= 33) {
+                                    $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                    $result5 = mysqli_query($link,$sql5);
+                                    $row5 = mysqli_fetch_array($result5);
+                                    echo " => ".$riesgo_total." .- ".$row5[0];
+                                } else {
+                                    if ($riesgo_total <= 60) {
+                                        $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                        $result6 = mysqli_query($link,$sql6);
+                                        $row6 = mysqli_fetch_array($result6);
+                                        echo " => ".$riesgo_total." .- ".$row6[0];
+                                    } else {
+                                        if ($riesgo_total <= 88) {
+                                                $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                $result7 = mysqli_query($link,$sql7);
+                                                $row7 = mysqli_fetch_array($result7);
+                                                echo " => ".$riesgo_total." .- ".$row7[0];
+                                        } else {
+                                            if ($riesgo_total <= 121) {
+                                                    $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                    $result8 = mysqli_query($link,$sql8);
+                                                    $row8 = mysqli_fetch_array($result8);
+                                                    echo " => ".$riesgo_total." .- ".$row8[0];
+                                            } else { 
+                                                if ($riesgo_total <= 165) {
+                                                        $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                        $result9 = mysqli_query($link,$sql9);
+                                                        $row9 = mysqli_fetch_array($result9);
+                                                        echo " => ".$riesgo_total." .- ".$row9[0];
+                                                } else {  } } } } }                              
+                                ?>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+                  </p>
+          </td>
             <td>
             <?php
                 $sql4 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '4' ";
