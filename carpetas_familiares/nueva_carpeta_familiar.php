@@ -206,7 +206,7 @@ $row_lab=mysqli_fetch_array($result_lab);
                     </div>
                     <div class="col-sm-9">
                     <select name="idarea_influencia"  id="idarea_influencia" class="form-control" required>
-                        <option selected>Seleccione</option>
+                        <option value="">Seleccione</option>
                         <?php
                         $sql1 = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
                         $sql1.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
@@ -239,11 +239,11 @@ $row_lab=mysqli_fetch_array($result_lab);
                     </div>                            
                     <div class="col-sm-4">
                     <h6 class="text-primary"></br>FAMILIA:</h6>
-                    <textarea class="form-control" rows="2" name="familia" placeholder=""></textarea>                
+                    <textarea class="form-control" rows="2" name="familia" placeholder="" required></textarea>                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">AVENIDA/CALLE</br>/CARRETERA/CAMINO:</h6>
-                    <textarea class="form-control" rows="2" name="avenida_calle" placeholder=""></textarea>                  
+                    <textarea class="form-control" rows="2" name="avenida_calle" placeholder="" required></textarea>                  
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary"></br>N° DE PUERTA:</h6>
@@ -254,7 +254,7 @@ $row_lab=mysqli_fetch_array($result_lab);
                 <div class="form-group row">                               
                     <div class="col-sm-3">
                     <h6 class="text-primary">NOMBRE DEL EDIFICIO, PISO Y N° DE DEPARTAMENTO:</h6>
-                    <textarea class="form-control" rows="2" name="nombre_edificio" placeholder=""></textarea>               
+                    <textarea class="form-control" rows="2" name="nombre_edificio" placeholder="" ></textarea>               
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>LATITUD:</h6>
