@@ -298,7 +298,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
             </div>  
-        <hr>
+        <hr> 
 
         <form name="GUARDA_EVALUACION" action="guarda_evaluacion_familiar.php" method="post"> 
 
@@ -434,7 +434,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     
                                     $salud_integrantes_1 = "GRUPO I";
 
-                                    $salud_integrantes = $salud_integrantes_1.", ".$salud_integrantes_2.", ".$salud_integrantes_3.", ".$salud_integrantes_4;
+                                    $salud_integrantes = $salud_integrantes_1." - ".$salud_integrantes_2." - ".$salud_integrantes_3." - ".$salud_integrantes_4;
 
                                     echo "Los integrantes de la familia corresponden a los: ".$salud_integrantes;
 
