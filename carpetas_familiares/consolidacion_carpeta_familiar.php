@@ -411,32 +411,34 @@ $row_cf=mysqli_fetch_array($result_cf);
             <?php
             
                 $sql_s = " SELECT idintegrante_discapacidad, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_discapacidad WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-                $result_s = mysqli_query($link,$sql_s);      
-                $row_s = mysqli_fetch_array($result_s);
-                  
-                   $salud_integrantes_4 = "GRUPO IV";
+                $result_s = mysqli_query($link,$sql_s);                      
+                  if($row_s = mysqli_fetch_array($result_s)){
+                    $salud_integrantes_4 = " - GRUPO IV";
+                  }
+                   
 
                     $sql_t = " SELECT idintegrante_morbilidad, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_morbilidad WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                     $result_t = mysqli_query($link,$sql_t);      
-                    $row_t = mysqli_fetch_array($result_t);
+                    if($row_t = mysqli_fetch_array($result_t)){
+                    $salud_integrantes_3 = " - GRUPO III"; 
+                  }
                        
-                     $salud_integrantes_3 = "GRUPO III";   
                                
                             $sql_u = " SELECT idintegrante_factor_riesgo, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                             $result_u = mysqli_query($link,$sql_u);      
-                            $row_u = mysqli_fetch_array($result_u);
+                            if($row_u = mysqli_fetch_array($result_u)){
+                                $salud_integrantes_2 = " - GRUPO II";
+                            }
                                 
-                                $salud_integrantes_2 = "GRUPO II";
 
                                 $sql_u = " SELECT idintegrante_ap_sano, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_ap_sano WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                                 $result_u = mysqli_query($link,$sql_u);      
-                                $row_u = mysqli_fetch_array($result_u);
-                                    
+                                if($row_u = mysqli_fetch_array($result_u)){
                                     $salud_integrantes_1 = "GRUPO I";
+                                }       
+                                    $salud_integrantes = $salud_integrantes_1.$salud_integrantes_2.$salud_integrantes_3.$salud_integrantes_4;
 
-                                    $salud_integrantes = $salud_integrantes_1." - ".$salud_integrantes_2." - ".$salud_integrantes_3." - ".$salud_integrantes_4;
-
-                                    echo "Los integrantes de la familia corresponden a los: ".$salud_integrantes;
+                                    echo "Los integrantes corresponden a los: ".$salud_integrantes;
 
                                     ?>
                                     <input type="hidden" name="salud_integrantes" value="<?php echo $salud_integrantes; ?>">
