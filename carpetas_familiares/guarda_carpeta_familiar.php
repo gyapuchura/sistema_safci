@@ -28,9 +28,9 @@ $latitud         = $_POST['latitud'];
 $longitud        = $_POST['longitud'];
 $altura          = $_POST['altura'];
 
-if ($iddepartamento == '' || $idmunicipio == '' || $idestablecimiento_salud == '' || $idarea_influencia == '' || $familia == '') {
+if ($iddepartamento == '' || $idmunicipio == '' || $idestablecimiento_salud == '' || $idarea_influencia == '' || $familia == '' || $latitud == '' || $longitud == '') {
     
-    header("Location:nueva_carpeta_familiar2.php");
+    header("Location:mensaje_coordenadas_cf.php");
 }  
 else {
 

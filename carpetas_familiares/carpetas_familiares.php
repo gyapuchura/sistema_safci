@@ -78,6 +78,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>MUNICIPIO</th>
                                             <th>ESTABLECIMIENTO DE SALUD</th>
                                             <th>ÁREA DE INFLUENCIA</th>
+                                            <th>PERSONAL REGISTRADOR</th>
                                             <th>FECHA DE REGISTRO</th>
                                             <th>ACCIÓN</th>
                                         </tr>
@@ -86,7 +87,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                         $numero=1;
                         $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud,";
-                        $sql.="  tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro, carpeta_familiar.estado ";
+                        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro, carpeta_familiar.estado, carpeta_familiar.idusuario ";
                         $sql.=" FROM carpeta_familiar, ubicacion_cf, departamento, municipios, establecimiento_salud, area_influencia, tipo_area_influencia WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                         $sql.=" AND ubicacion_cf.iddepartamento=departamento.iddepartamento AND ubicacion_cf.idmunicipio=municipios.idmunicipio ";
                         $sql.=" AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
@@ -105,6 +106,12 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td><?php echo $row[4];?></td>
                                             <td><?php echo $row[5];?></td>
                                             <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
+                                            <td><?php 
+                                                $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                                                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[11]' ";
+                                                $result_r = mysqli_query($link,$sql_r);
+                                                $row_r = mysqli_fetch_array($result_r);                    
+                                            echo $row_r[0]." ".$row_r[1]." ".$row_r[2];?></td>
                                             <td>
                                             <?php 
                                                 $fecha_r = explode('-',$row[8]);
@@ -124,11 +131,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                                     <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
                                                     <button type="submit" class="btn btn-primary btn-user btn-block">VER</button></form>
 
-                                                 <?php }  ?>
-                                                
-                                               
-
-                                                                          
+                                                 <?php }  ?>                                                                      
                                         </td>
                                         </tr>
                                      
