@@ -9,6 +9,8 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idmunicipio_ss = $_SESSION['idmunicipio_ss'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -58,13 +60,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">CARPETAS FAMILIARES - SAFCI</h1>
+                    <h1 class="h3 mb-2 text-gray-800">ADMINISTRAR CARPETAS FAMILIARES - SAFCI</h1>
                     <p class="mb-4">En esta seccion se puede encontrar el regsitro de Carpetas Familiares del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">CARPETAS FAMILIARES - SAFCI</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">ADMINISTRAR CARPETAS FAMILIARES - SAFCI POR MUNICIPIO</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -89,9 +91,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud,";
                         $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro, carpeta_familiar.estado, carpeta_familiar.idusuario ";
                         $sql.=" FROM carpeta_familiar, ubicacion_cf, departamento, municipios, establecimiento_salud, area_influencia, tipo_area_influencia WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                        $sql.=" AND ubicacion_cf.iddepartamento=departamento.iddepartamento AND ubicacion_cf.idmunicipio=municipios.idmunicipio ";
+                        $sql.=" AND ubicacion_cf.iddepartamento=departamento.iddepartamento AND ubicacion_cf.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
                         $sql.=" AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-                        $sql.=" AND ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND ubicacion_cf.ubicacion_actual='SI' ORDER BY carpeta_familiar.idcarpeta_familiar ";
+                        $sql.=" AND ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio_ss' ORDER BY carpeta_familiar.idcarpeta_familiar ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -119,25 +121,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <?php echo $f_apertura;?></br><?php echo $row[9];?>   
                                             </td>
                                             <td>
-                                                <?php if ($row[10] == 'CONSOLIDADO') { ?>
-                                                   
-                                                   <form name="FORM_P" action="valida_carpeta_familiar_c.php" method="post">
+                                                    <form name="FORM_P" action="valida_carpeta_familiar_mun.php" method="post">
                                                     <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                    <button type="submit" class="btn btn-info btn-user btn-block">CONSOLIDADO</button></form>
-
-                                               <?php } else { 
-                                                
-                                                if ($row[11] == $idusuario_ss) { ?>
-
-                                                    <form name="FORM_P" action="valida_carpeta_familiar.php" method="post">
-                                                    <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block">VER</button></form>
-
-                                               <?php } else {  ?>
-
-                                                <h6 class="text-primary">EN PROCESO DE LLENADO</h6>
-                                                
-                                                 <?php }} ?>                                                                      
+                                                    <button type="submit" class="btn btn-primary btn-user btn-block">ADMINISTRAR</button></form>                                                                
                                         </td>
                                         </tr>
                                      

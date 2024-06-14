@@ -265,7 +265,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
             <hr>
             <div class="text-center"> 
-               <a href="idioma_transporte.php"><h6 class="text-info">INSTANCIA: IDIOMA-TRANPORTE --></h6></a>                                                                   
+               <a href="idioma_transporte.php"><h6 class="text-info">INSTANCIA: IDIOMA-TRANSPORTE --></h6></a>                                                                   
             </div>
             <hr>
                 

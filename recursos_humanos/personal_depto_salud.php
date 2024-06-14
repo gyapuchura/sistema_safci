@@ -10,7 +10,7 @@ $iddepartamento = $_POST["departamento"];
                                             <th>PATERNO</th>
                                             <th>MATERNO</th>
                                             <th>NOMBRES</th>
-                                            <th>DEPARTAMENTO</th>
+                                            <th>MUNICIPIO</th>
                                             <th>PERFIL</th>
                                             <th>CONDICIÓN</th>
                                             <th>ACCIÓN</th>
@@ -21,11 +21,11 @@ $iddepartamento = $_POST["departamento"];
                         $numero=1;
                         $sql =" SELECT personal.idpersonal, personal.idusuario, personal.idnombre, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci, nombre.complemento, nombre.exp,";
                         $sql.=" nacionalidad.nacionalidad, genero.genero, formacion_academica.formacion_academica, profesion.profesion, especialidad_medica.especialidad_medica, nombre_datos.correo, nombre_datos.celular, ";
-                        $sql.=" nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil, usuarios.condicion FROM personal, nombre, nacionalidad, genero, nombre_datos, ";
-                        $sql.=" dato_laboral, formacion_academica, profesion, especialidad_medica, departamento, usuarios WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad ";
+                        $sql.=" nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, departamento.departamento, usuarios.perfil, usuarios.condicion, municipios.municipio FROM personal, nombre, nacionalidad, genero, nombre_datos, ";
+                        $sql.=" dato_laboral, formacion_academica, profesion, especialidad_medica, departamento, municipios, establecimiento_salud, usuarios WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad ";
                         $sql.=" AND nombre.idgenero=genero.idgenero AND personal.idusuario=usuarios.idusuario AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
-                        $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral ";
-                        $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND dato_laboral.iddepartamento='$iddepartamento' ORDER BY personal.idpersonal DESC ";
+                        $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                        $sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND dato_laboral.iddepartamento='$iddepartamento' ORDER BY personal.idpersonal DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -38,7 +38,7 @@ $iddepartamento = $_POST["departamento"];
                             <td><?php echo mb_strtoupper($row[5]);?></td>
                             <td><?php echo mb_strtoupper($row[6]);?></td>
                             <td><?php echo mb_strtoupper($row[4]);?></td>
-                            <td><?php echo $row[21];?></td>
+                            <td><?php echo $row[24];?></td>
                             <td><?php echo $row[22];?></td>
                             <td><?php echo $row[23];?></td>
                             <td>
