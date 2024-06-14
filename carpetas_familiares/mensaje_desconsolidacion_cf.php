@@ -81,27 +81,10 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <h4 class="text-secundary"><?php echo $row_cf[1]?></h4>
                     <h4 class="text-success">DE LA FAMILIA : </h4>
                     <h4 class="text-secundary"><?php echo $row_cf[8]?></h4>
-                    <h4 class="text-success">HA SIDO CONSOLIDADA!</h4>
-                    <hr>
-                    <h4 class="text-info">AHORA PUEDE GENERAR LOS DOCUMENTOS DE IMPRESIÓN:</h4>
-                    <h4 class="text-primary">
+                    <h4 class="text-success">HA SIDO DESCONSOLIDADA!</h4>
+                    <h4 class="text-success">PODRÁ ENCONTRARLA EN LA BANDEJA DE CARPETAS FAMILIARES</h4>
                     </br>
-                    <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-file"></i> IDENTIFICACIÓN DE LA FAMILIA</h6></a>
-                    </h4>
-                    <h4 class="text-primary">
-                    <a href="imprime_carpeta_familiar_2.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-file"></i> SALUD DE LOS INTEGRANTES DE LA FAMILIA</h6></a>
-                    </h4>
-                    <h4 class="text-primary">
-                    <a href="imprime_carpeta_familiar_3.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-file"></i> DETERMINANTES DE LA SALUD</h6></a>
-                    </h4>
-                    <h4 class="text-primary"></h4>
-                    
-                    <hr>
-                    </br>
-                    <a href="carpetas_familiares.php"><h6>IR A BANDEJA DE CARPETAS FAMILIARES -></h6></a>
+                    <a href="carpetas_familiares.php"><h6>IR A CARPETAS FAMILIARES -></h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 

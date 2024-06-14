@@ -77,15 +77,15 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="text-center">   
                     
                     <hr>                     
-                    <h4 class="text-success">LA CARPETA FAMILIAR</h4>
+                    <h4 class="text-primary">LA CARPETA FAMILIAR</h4>
                     <h4 class="text-secundary"><?php echo $row_cf[1]?></h4>
-                    <h4 class="text-success">DE LA FAMILIA : </h4>
+                    <h4 class="text-primary">DE LA FAMILIA : </h4>
                     <h4 class="text-secundary"><?php echo $row_cf[8]?></h4>
-                    <h4 class="text-success">HA SIDO CONSOLIDADA!</h4>
+                    <h4 class="text-primary">SE ENCUENTRA CONSOLIDADA</h4>
                     <hr>
-                    <h4 class="text-info">AHORA PUEDE GENERAR LOS DOCUMENTOS DE IMPRESIÓN:</h4>
-                    <h4 class="text-primary">
+                    <h4 class="text-info">PUEDE GENERAR LOS DOCUMENTOS DE IMPRESIÓN:</h4>
                     </br>
+                    <h4 class="text-primary">
                     <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-file"></i> IDENTIFICACIÓN DE LA FAMILIA</h6></a>
                     </h4>
@@ -97,11 +97,47 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <a href="imprime_carpeta_familiar_3.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-file"></i> DETERMINANTES DE LA SALUD</h6></a>
                     </h4>
-                    <h4 class="text-primary"></h4>
-                    
                     <hr>
+                    <h4 class="text-primary">PUEDE DESCONSOLIDAR LA CARPETA PARA FINES DE AJUSTE Y CORRECCIÓN:</h4>
+</br>
+        <form name="DESCONSOLIDA_CF" action="guarda_desconsolidacion_cf.php" method="post"> 
+            <div class="text-center">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    DESCONSOLIDAR CARPETA FAMILIAR
+                    </button>  
+                </div> 
+            </div>                              
+               <hr>             
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">DESCONSOLIDAR CARPETA FAMILIAR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de DESCONSOLIDAR LA CARPETA FAMILIAR?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+
+                    <h4 class="text-primary"></h4>
+
                     </br>
-                    <a href="carpetas_familiares.php"><h6>IR A BANDEJA DE CARPETAS FAMILIARES -></h6></a>
+                    <a href="carpetas_familiares_mun.php"><h6>IR A BANDEJA DE CARPETAS CONSOLIDADAS -></h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 

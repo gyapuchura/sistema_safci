@@ -467,7 +467,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                 <hr>
                     <div class="text-center">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModale">
-                        AGREGAR ETAPA
+                        AGREGAR FUNCIONALIDAD FAMILIAR
                         </button>  
                     </div>  
     
@@ -476,13 +476,13 @@ $row_cf=mysqli_fetch_array($result_cf);
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">ETAPA FAMILIAR</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">FUNCIONALIDAD FAMILIAR</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">                                    
-                                    Esta seguro de agregar la ETAPA FAMILIAR? ?
+                                    Esta seguro de agregar la FUNCIONALIDAD FAMILIAR ?
                                 </div>
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
