@@ -17,7 +17,7 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
       <td width="326">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3"><table width="1200" border="1" cellspacing="0">
+      <td colspan="3"><table width="1200" border="0" cellspacing="0">
         <tbody>
           <tr>
             <td width="300" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;"><strong>SERVICIOS BÁSICOS</strong></td>
@@ -287,7 +287,6 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                   </tr>
                 </tbody>
             </table>
-            <p>
               <table width="300" border="1" cellspacing="0">
                 <tbody>
                   <tr>
@@ -492,10 +491,17 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                             ?>
                     </td>
                   </tr>
-                  <tr>
-                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">TOTAL</td>
-                    <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
-                    <?php 
+                </tbody>
+            </table>
+              <table width="300" border="1" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;"> RIESGO TOTAL DE LAS DETERMINANTES DE LA SALUD FAMILIAR</td>
+                      </tr>
+                      <tr>
+                        <td width="74" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">TOTAL</td>
+                        <td width="216" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><span style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
+                          <?php 
                                     $riesgo_total = $rowa[0] + $rowb[0] + $rowc[0] + $alimentaria;
 
 
@@ -529,13 +535,10 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                                                         $row9 = mysqli_fetch_array($result9);
                                                         echo " => ".$riesgo_total." .- ".$row9[0];
                                                 } else {  } } } } }                              
-                                ?>
-                    </td>
-                  </tr>
+                                ?></span></td>
+                      </tr>
                 </tbody>
-            </table>
-                  </p>
-          </td>
+              </table></td>
             <td>
             <?php
                 $sql4 =" SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud = '4' ";
@@ -555,7 +558,7 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                     <tr>
                       <td width="246" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
                       <?php  
-    $sql_seg = " SELECT sum(valor_cf) FROM determinante_salud_cf WHERE idcarpeta_familiar='2' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
+    $sql_seg = " SELECT sum(valor_cf) FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
     $result_seg = mysqli_query($link,$sql_seg);
     $row_seg = mysqli_fetch_array($result_seg);
     $seguridad = $row_seg[0];
@@ -588,12 +591,12 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                     </td>
                       <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">
                       <?php
-                        $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='2' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
+                        $sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
                         $resultd = mysqli_query($link,$sqld);
                         $rowd = mysqli_fetch_array($resultd);
                         $durante = $rowd[0];
 
-                        if ($durante == '0') {
+                        if ($durante == '0' || $durante == '') {
                             $grado_alimentario = '1';
                         } else {
                             if ($durante <= 3) {
@@ -658,3 +661,75 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
     </tr>
   </tbody>
 </table>
+
+        <table width="1200" border="0">
+          <tbody>
+            <tr>
+              <td width="163">&nbsp;</td>
+              <td width="435">
+                <table width="427" border="1" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;">XII CARACTERÍSTICAS SOCIOECONÓMICAS</td>
+                  </tr>
+                  <?php
+                    $numero=1;
+                    $sql4 =" SELECT socio_economica_cf.idsocio_economica_cf, socio_economica.socio_economica, socio_economica_cf.valor ";
+                    $sql4.=" FROM socio_economica, socio_economica_cf WHERE socio_economica_cf.idsocio_economica=socio_economica.idsocio_economica ";
+                    $sql4.=" AND socio_economica_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                    $result4 = mysqli_query($link,$sql4);
+                    if ($row4 = mysqli_fetch_array($result4)){
+                    mysqli_field_seek($result4,0);
+                    while ($field4 = mysqli_fetch_field($result4)){
+                    } do { 
+                    ?>
+                  <tr>
+                    
+                    <td width="380" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $row4[1];?></td>
+                    <td width="44" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[2];?></td>
+                  </tr>
+                  <?php
+                    $numero=$numero+1;
+                    }
+                    while ($row4 = mysqli_fetch_array($result4));
+                    } else {
+                    }
+                ?>
+                </tbody>
+              </table></td>
+              <td width="446"><table width="447" border="1" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td colspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: left;">XIII. TENENCIA DE ANIMALES  DOMÉSTICOS DE COMPAÑÍA</td>
+                  </tr>
+                  <?php
+                  $numero=1;
+                  $sql4 =" SELECT tenencia_animales_cf.idtenencia_animales_cf, tenencia_animales.tenencia_animales, tenencia_animales_cf.valor  ";
+                  $sql4.=" FROM tenencia_animales_cf, tenencia_animales WHERE tenencia_animales_cf.idtenencia_animales=tenencia_animales.idtenencia_animales ";
+                  $sql4.=" AND tenencia_animales_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                  $result4 = mysqli_query($link,$sql4);
+                  if ($row4 = mysqli_fetch_array($result4)){
+                  mysqli_field_seek($result4,0);
+                  while ($field4 = mysqli_fetch_field($result4)){
+                  } do { 
+                  ?>
+                  <tr>
+                    <td width="368" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $row4[1];?></td>
+                    <td width="38" style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[2];?></td>
+                  </tr>
+                  <?php
+                      $numero=$numero+1;
+                      }
+                      while ($row4 = mysqli_fetch_array($result4));
+                      } else {
+                      }
+                  ?>
+                </tbody>
+              </table></td>
+              <td width="138">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+      

@@ -441,13 +441,20 @@ $row_cf=mysqli_fetch_array($result_cf);
         </select>
     </div>  
     <div class="col-sm-3"></br></br>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-    AGREGAR INTEGRANTE
-    </button>  
-</div>     
+
+    </div>     
 </div> 
 <hr>
-                            
+
+<div class="form-group row">  
+<div class="col-sm-4"></div> 
+<div class="col-sm-4">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+    AGREGAR INTEGRANTE
+    </button>  </div> 
+<div class="col-sm-4"></div> 
+</div> 
+                        
             
    <!-- modal de confirmacion de envio de datos-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -478,7 +485,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (End) --------->  
 
     <form name="ENVIA_CONSULTA" action="guarda_consolida_lista_familiar.php" method="post">  
-        <div class="text-center">
+        <div class="text-right">
             <div class="form-group row">
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalc">
