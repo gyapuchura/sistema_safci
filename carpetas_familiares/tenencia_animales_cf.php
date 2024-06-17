@@ -295,11 +295,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                 <div class="col-sm-2"></div>
                 <div class="col-sm-4">
                     <h6 class="text-info">1. Número de perros en la familia </h6>
-                    <input type="number" name="valor[0]" value="" class="form-control" > 
+                    <input type="number" name="valor[0]" value="" class="form-control" required autofocus> 
                     <h6 class="text-info">2. Número de gatos en la familia </h6>
-                    <input type="number" name="valor[1]" value="" class="form-control" > 
+                    <input type="number" name="valor[1]" value="" class="form-control" required> 
                     <h6 class="text-info">3. Otros animales domésticos o de compañía </h6> 
-                    <input type="number" name="valor[2]" value="" class="form-control" >                    
+                    <input type="number" name="valor[2]" value="" class="form-control" required>                    
                 </div>
                 <div class="col-sm-6"></div>
                 </div>
