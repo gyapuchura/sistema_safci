@@ -97,6 +97,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <a href="imprime_carpeta_familiar_3.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-file"></i> DETERMINANTES DE LA SALUD</h6></a>
                     </h4>
+                    <h4 class="text-primary">
+                    <a href="imprime_carpeta_familiar_4.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-file"></i> COMPORTAMIENTO FAMILIAR</h6></a>
+                    </h4>
+                    <h4 class="text-primary"></h4>
                     <hr>
                     <h4 class="text-primary">PUEDE DESCONSOLIDAR LA CARPETA PARA FINES DE AJUSTE Y CORRECCIÓN:</h4>
 </br>
