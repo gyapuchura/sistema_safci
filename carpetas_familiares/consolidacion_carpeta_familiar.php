@@ -452,7 +452,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                 $sql_ev =" SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar_cf, funcionalidad_familiar.funcionalidad_familiar, funcionalidad_familiar_cf.fecha_registro ";
                 $sql_ev.=" FROM funcionalidad_familiar_cf, funcionalidad_familiar WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
-                $sql_ev.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.funcional='NO' ";
+                $sql_ev.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.funcional='NO' ORDER BY funcionalidad_familiar_cf.idfuncionalidad_familiar_cf DESC LIMIT 1 ";
                 $result_ev = mysqli_query($link,$sql_ev);
                 if ($row_ev = mysqli_fetch_array($result_ev)){
 
@@ -466,7 +466,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
                         $sql_dev =" SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar_cf, funcionalidad_familiar.funcionalidad_familiar, funcionalidad_familiar_cf.fecha_registro ";
                         $sql_dev.=" FROM funcionalidad_familiar_cf, funcionalidad_familiar WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
-                        $sql_dev.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.funcional='SI' ";
+                        $sql_dev.=" AND funcionalidad_familiar_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND funcionalidad_familiar.funcional='SI' ORDER BY funcionalidad_familiar_cf.idfuncionalidad_familiar_cf DESC LIMIT 1 ";
                         $result_dev = mysqli_query($link,$sql_dev);
                         if ($row_dev = mysqli_fetch_array($result_dev)){
                             echo "<h6 class='text-primary'>FUNCIONAL </h6>";
