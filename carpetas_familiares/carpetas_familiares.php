@@ -59,7 +59,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">CARPETAS FAMILIARES - SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar el regsitro de Carpetas Familiares del PROGBRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <p class="mb-4">En esta sección se puede encontrar el registro de Carpetas Familiares del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">

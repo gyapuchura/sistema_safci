@@ -494,8 +494,8 @@ $row_cf=mysqli_fetch_array($result_cf);
                        } else { }} else { }
                     
                 } else {
-                    if ($determinante_salud == 'RIESGO MODERADO') {
-                        if ($salud_integrantes != 'GRUPO I') {
+                    if ($determinante_salud == 'RIESGO LEVE' || $determinante_salud == 'RIESGO MODERADO' ) {
+                        if ($salud_integrantes != 'GRUPO I' ) {
                             if ($funcionalidad_familiar == 'FUNCIONAL' || $funcionalidad_familiar == 'DISFUNCIONAL') {
                                 echo "FAMILIA CON RIESGO MEDIANO";
                                 $evaluacion_familiar = 'FAMILIA CON RIESGO MEDIANO';
@@ -507,8 +507,8 @@ $row_cf=mysqli_fetch_array($result_cf);
                         } else { }
                         
                     } else {
-                        if ($determinante_salud == 'RIESGO GRAVE' || $determinante_salud == 'RIESGO MUY GRAVE') {
-                            if ($salud_integrantes != 'GRUPO I') {
+                        if ($determinante_salud == 'RIESGO GRAVE' || $determinante_salud == 'RIESGO MUY GRAVE') {   
+                            if ($salud_integrantes != 'GRUPO I' || $salud_integrantes != 'GRUPO II' || $salud_integrantes != 'GRUPO I - GRUPO II') {
                                if ($funcionalidad_familiar == 'DISFUNCIONAL') {
                                 echo "FAMILIA CON RIESGO ALTO";
                                 $evaluacion_familiar = 'FAMILIA CON RIESGO ALTO';
