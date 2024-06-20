@@ -265,9 +265,38 @@ $row_cf=mysqli_fetch_array($result_cf);
 
             <hr>
             <div class="text-center"> 
-               <a href="idioma_transporte.php"><h6 class="text-info">INSTANCIA: IDIOMA-TRANSPORTE --></h6></a>                                                                   
+               <a href="idioma_transporte.php"><h6 class="text-info"> II. IDIOMA - III. TRANSPORTE --></h6></a>                                                                   
             </div>
             <hr>
+        <div class="form-group row">                               
+        <div class="col-sm-12">
+        <a href="integrantes_cf.php">  <h6 class="text-info"> <i class="fas fa-users"></i> IV. INTEGRANTES DE LA FAMILIA </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="determinantes_salud_cf.php">  <h6 class="text-info"> <i class="fas fa-home"></i> XI. DETERMINANTES DE LA SALUD </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="socioeconomicas_cf.php">  <h6 class="text-info"> <i class="fas fa-car"></i> XII. CARACTERÍSTICAS SOCIOECONÓMICAS </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="tenencia_animales_cf.php">  <h6 class="text-info"> <i class="fas fa-dog"></i> XIII. TENENCIA DE ANIMALES </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="estructura_etapa_cf.php">  <h6 class="text-info"> <i class="fas fa-users"></i> XIV. ESTRUCTURA FAMILIAR - XV ETAPA FAMILIAR </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="funcionalidad_familiar_cf.php">  <h6 class="text-info"> <i class="fas fa-users"></i> XVI. FUNCIONALIDAD FAMILIAR </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="evaluacion_resultados_cf.php">  <h6 class="text-info"> <i class="fas fa-archive"></i> XVII. RESULTADO DE LA EVALUACIÓN DE LA SALUD FAMILIAR </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="evaluacion_familiar_cf.php">  <h6 class="text-info"> <i class="fas fa-users"></i> XVIII. FORMA DE AYUDA FAMILIAR NECESARIA </h6>  </a>
+        </div>
+        <div class="col-sm-12">
+        <a href="consolidacion_carpeta_familiar.php">  <h6 class="text-info"> <i class="fas fa-file"></i> XIX. EVALUACIÓN DE SALUD FAMILIAR </h6>  </a>
+        </div>
+        </div>
                 
     <!-------- END NUEVO PACIENTE --------->  
                               
