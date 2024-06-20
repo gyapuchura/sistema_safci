@@ -484,54 +484,57 @@ $row_cf=mysqli_fetch_array($result_cf);
             <h6 class="text-info">EVALUACIÓN FAMILIAR:</h6> 
          
             <?php
-            if ($determinante_salud == 'SIN RIESGO' || $determinante_salud == 'RIESGO LEVE') {
-                if ($salud_integrantes == 'GRUPO I') {
-                    if ($funcionalidad_familiar == 'FUNCIONAL') {
-                    echo "FAMILIA CON RIESGO BAJO";
-                    $evaluacion_familiar = 'FAMILIA CON RIESGO BAJO';
-                    ?>
-                    <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO BAJO">
-                    <?php
-                    } else { }
-                } else { 
+        
+        if ($determinante_salud == 'SIN RIESGO' || $determinante_salud == 'RIESGO LEVE') {
+                    
+            if ($salud_integrantes == 'GRUPO I') {
 
-                    if ($salud_integrantes == 'GRUPO I' || $salud_integrantes == 'GRUPO I - GRUPO II' || $salud_integrantes == 'GRUPO I - GRUPO III' || $salud_integrantes == 'GRUPO I - GRUPO IV' || $salud_integrantes == 'GRUPO I - GRUPO II - GRUPO III' || $salud_integrantes == 'GRUPO I - GRUPO III - GRUPO IV'  || $salud_integrantes == 'GRUPO I - GRUPO II - GRUPO III - GRUPO IV' || $salud_integrantes == ' - GRUPO II'   || $salud_integrantes == ' - GRUPO II - GRUPO III'  || $salud_integrantes == ' - GRUPO II - GRUPO IV'  || $salud_integrantes == ' - GRUPO II - GRUPO III - GRUPO IV'  || $salud_integrantes == ' - GRUPO III'  || $salud_integrantes == ' - GRUPO III - GRUPO IV'  || $salud_integrantes == ' - GRUPO IV') {
-                        if ($funcionalidad_familiar == 'FUNCIONAL' || $funcionalidad_familiar == 'DISFUNCIONAL') {
-                            echo "FAMILIA CON RIESGO MEDIANO";
-                            $evaluacion_familiar = 'FAMILIA CON RIESGO MEDIANO';
-                            ?>
-                            <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO MEDIANO">
-                            <?php
-                        } else { }
-                        
-                    } else { }
+               if ($funcionalidad_familiar == 'FUNCIONAL') {
+                echo "FAMILIA CON RIESGO BAJO";
+                $evaluacion_familiar = 'FAMILIA CON RIESGO BAJO';
+                ?>
+                <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO BAJO">
+                <?php
 
-                    }
+               } else {
+
+                echo "FAMILIA CON RIESGO MEDIANO";
+                $evaluacion_familiar = 'FAMILIA CON RIESGO MEDIANO';
+                ?>
+                <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO MEDIANO">
+                <?php
+
+                }
+            } else { 
+
+                echo "FAMILIA CON RIESGO MEDIANO";
+                $evaluacion_familiar = 'FAMILIA CON RIESGO MEDIANO';
+                ?>
+                <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO MEDIANO">
+                <?php
+               }
+            
+        } else {
+
+            if ($determinante_salud == 'RIESGO MODERADO') {
+
+                echo "FAMILIA CON RIESGO MEDIANO";
+                $evaluacion_familiar = 'FAMILIA CON RIESGO MEDIANO';
+                ?>
+                <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO MEDIANO">
+                <?php
                 
             } else {
-                if ($determinante_salud == 'RIESGO MODERADO') {
-                    if ($salud_integrantes == 'GRUPO I' || $salud_integrantes == 'GRUPO I - GRUPO II' || $salud_integrantes == 'GRUPO I - GRUPO III' || $salud_integrantes == 'GRUPO I - GRUPO IV' || $salud_integrantes == 'GRUPO I - GRUPO II - GRUPO III' || $salud_integrantes == 'GRUPO I - GRUPO III - GRUPO IV'  || $salud_integrantes == 'GRUPO I - GRUPO II - GRUPO III - GRUPO IV' || $salud_integrantes == ' - GRUPO II'   || $salud_integrantes == ' - GRUPO II - GRUPO III'  || $salud_integrantes == ' - GRUPO II - GRUPO IV'  || $salud_integrantes == ' - GRUPO II - GRUPO III - GRUPO IV'  || $salud_integrantes == ' - GRUPO III'  || $salud_integrantes == ' - GRUPO III - GRUPO IV'  || $salud_integrantes == ' - GRUPO IV') {
-                        if ($funcionalidad_familiar == 'FUNCIONAL' || $funcionalidad_familiar == 'DISFUNCIONAL') {
-                            echo "FAMILIA CON RIESGO MEDIANO";
-                            $evaluacion_familiar = 'FAMILIA CON RIESGO MEDIANO';
-                            ?>
-                            <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO MEDIANO">
-                            <?php
-                        } else { }
-                        
-                    } else { }
-                    
-                } else {
-                    if ($determinante_salud == 'RIESGO GRAVE' || $determinante_salud == 'RIESGO MUY GRAVE') {   
-                        if ( $salud_integrantes == 'GRUPO I - GRUPO II' || $salud_integrantes == 'GRUPO I - GRUPO III' || $salud_integrantes == 'GRUPO I - GRUPO IV' || $salud_integrantes == 'GRUPO I - GRUPO II - GRUPO III' || $salud_integrantes == 'GRUPO I - GRUPO III - GRUPO IV'  || $salud_integrantes == 'GRUPO I - GRUPO II - GRUPO III - GRUPO IV' || $salud_integrantes == ' - GRUPO II'  || $salud_integrantes == ' - GRUPO II - GRUPO III'  || $salud_integrantes == ' - GRUPO II - GRUPO IV'  || $salud_integrantes == ' - GRUPO II - GRUPO III - GRUPO IV'  || $salud_integrantes == ' - GRUPO III'  || $salud_integrantes == ' - GRUPO III - GRUPO IV'  || $salud_integrantes == ' - GRUPO IV') {
-                            if ($funcionalidad_familiar == 'DISFUNCIONAL') {
-                            echo "FAMILIA CON RIESGO ALTO";
-                            $evaluacion_familiar = 'FAMILIA CON RIESGO ALTO';
-                            ?>
-                            <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO ALTO">
-                            <?php
-                            } else { }
-                        } else { } } else { } } }                
+
+                if ($determinante_salud == 'RIESGO GRAVE' || $determinante_salud == 'RIESGO MUY GRAVE') {   
+
+                    echo "FAMILIA CON RIESGO ALTO";
+                    $evaluacion_familiar = 'FAMILIA CON RIESGO ALTO';
+                    ?>
+                    <input type="hidden" name="evaluacion_familiar" value="FAMILIA CON RIESGO ALTO">
+                    <?php
+                 }                         
+                } }                          
             ?>
         
             </div>
