@@ -554,7 +554,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             <h4 class="text-info">AGREGAR DETERMINANTES DE LA SALUD:</h4>                    
         </div>
         <hr>
-
+ 
 <form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">   
  
 <div class="form-group row">  
