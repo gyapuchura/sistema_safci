@@ -1,18 +1,8 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
 <?php
-date_default_timezone_set('America/La_Paz');
 
-$fecha 	 = date("Y-m-d");
-$hora    = date("H:i");
-$gestion = date("Y");
-
-$idusuario_ss  = $_SESSION['idusuario_ss'];
-$idnombre_ss   = $_SESSION['idnombre_ss'];
-$perfil_ss     = $_SESSION['perfil_ss'];
-
-$idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
-
+$idcarpeta_familiar_ss = '1';
 
 $sql_t = " SELECT ididioma_cf FROM idioma_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
 $result_t = mysqli_query($link,$sql_t);
@@ -131,15 +121,16 @@ $result_t = mysqli_query($link,$sql_t);
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
     } else {
-        /************** guardar consolidacion de carpeta familiar **************/ 
-
-        $sql_a = " UPDATE carpeta_familiar SET estado='CONSOLIDADO' ";
-        $sql_a.= " WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
-        $result_a = mysqli_query($link,$sql_a);  
-
-        header("Location:mensaje_consolidacion_cf.php");
-
-    } } } } } } } } } } } } } } }
-    
-        /*********** Guarda el registro de dterminante de la salud (END) *************/
+        # guardar consolidacion de carpeta familiar
+    }
+    }
+    }
+    }
+    }
+    }
+    }       
+    }
+    }   
+    }
+    } } } } }
 ?>
