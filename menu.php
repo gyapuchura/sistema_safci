@@ -323,7 +323,9 @@
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
 
-        <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
+    <!--    <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>  -->
+        <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES </br> OPERATIVO</a>
+        <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares_nal.php">CARPETAS FAMILIARES</br>NACIONAL</a>
         <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
 
 <?php
