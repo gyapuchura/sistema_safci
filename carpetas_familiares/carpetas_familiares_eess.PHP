@@ -3,8 +3,9 @@
 
 $idestablecimiento_salud = $_POST["establecimiento_salud"];
 ?>
-<div class="table-responsive">
+<div class="table-responsive"> 
     <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+        
         <thead>
             <tr>  
                 <th>N°</th>                                     
