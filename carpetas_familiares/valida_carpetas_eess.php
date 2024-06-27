@@ -17,6 +17,6 @@ $_SESSION['iddepartamento_ss']          = $iddepartamento;
 $_SESSION['idmunicipio_ss']             = $idmunicipio;
 $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud;
 
-header("Location:carpetas_familiares_eess.php");
+header("Location:carpetas_familiares_establecimiento.php");
 
 ?>
