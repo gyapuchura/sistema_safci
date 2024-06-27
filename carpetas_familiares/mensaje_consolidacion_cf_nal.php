@@ -105,7 +105,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     
                     <hr>
                     </br>
-                    <a href="carpetas_familiares_nal.php"><h6>IR A BANDEJA DE CARPETAS FAMILIARES -></h6></a>
+                    <a href="carpetas_familiares_eess.php"><h6>CONTINUAR -></h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
