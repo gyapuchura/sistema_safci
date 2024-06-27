@@ -67,7 +67,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">CARPETAS FAMILIARES A NIVEL NACIONAL</h6>
                     </div>
-                        
+ 
+            <form name="CARPETAS_FAMILIARES" action="valida_carpetas_eess.php" method="post">
+                    
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-3">
@@ -110,10 +112,20 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
                         </div>
                     </div>
+                   <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        
+                        </div>
+                        <div class="col-sm-8">
+                        <button type="submit" class="btn btn-primary">MOSTRAR CARPETAS FAMILIARES</button></form>
+                        </div>
+                    </div> 
                 </div>
-                    <div class="card-body" id="carpetas_familiares_eess">                    
-                    </div>
+
                 </div>
+
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -198,20 +210,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         })
         });
     </script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idestablecimiento_salud").change(function () {
-                    $("#idestablecimiento_salud option:selected").each(function () {
-                        establecimiento_salud=$(this).val();
-                    $.post("carpetas_familiares_eess.php", {establecimiento_salud:establecimiento_salud}, function(data){
-                    $("#carpetas_familiares_eess").html(data);
-                    });
-                });
-        })
-        });
-    </script>
-
 
 </body>
 </html>
