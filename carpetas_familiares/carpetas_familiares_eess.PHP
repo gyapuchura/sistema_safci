@@ -1,6 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); 
-$idusuario_ss  =  $_SESSION['idusuario_ss'];
+
 $idestablecimiento_salud = $_POST["establecimiento_salud"];
 ?>
 <div class="table-responsive">
@@ -55,17 +55,11 @@ while ($field = mysqli_fetch_field($result)){
                         <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
                         <button type="submit" class="btn btn-info btn-user btn-block">CONSOLIDADO</button></form>
 
-                    <?php } else { 
-                    
-                    if ($row[11] == $idusuario_ss) { ?>
-
-                    <h6 class="text-info">VER EN BANDEJA DE CARPETAS FAMILIARES OPERATIVO </h6>
-
-                    <?php } else {  ?>
-
+                    <?php } else { ?>
+                
                     <h6 class="text-primary">EN PROCESO DE LLENADO</h6>
                     
-                        <?php }} ?>                                                                      
+                        <?php } ?>                                                                      
             </td>
             </tr>
             
