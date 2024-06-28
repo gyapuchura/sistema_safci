@@ -395,16 +395,54 @@
     } do {	?>
 
             <a class="collapse-item" href="../eventos_safci/eventos_safci_atencion.php">REGISTRO </br> ATENCIONES MÉDICAS</a>
- <!--       <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>
-            <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
-            <a class="collapse-item" href="#">REGISTRO FAMILIAR</a>
--->
+            <a class="collapse-item" href="../eventos_safci/vacunacion_animales.php">EVENTOS</br> DE VACUNACION</br>ANIMALES</a>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
+        aria-expanded="true" aria-controls="collapseUtilities7">
+        <i class="fas fa-users"></i>   
+        <span>PREVENCIÓN SAFCI</span>
+    </a>
+    <div id="collapseUtilities7" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">SECCIONES:</h6>
+            <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>           
+            <a class="collapse-item" href="../eventos_safci/nuevo_evento_vacunacion.php">NUEVO EVENTO</br>VACUNACIÓN</a>
+            <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
 
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+        <a class="collapse-item" href="../eventos_safci/eventos_vacunacion.php">EVENTOS</br>DE VACUNACION</a>
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
    
 
         </div>
