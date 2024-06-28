@@ -65,68 +65,24 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="p-3">               
                     <div class="text-center">                     
                     <hr>                     
-                    <h4 class="text-primary">NUEVO EVENTO SAFCI - MI SALUD</h4>
+                    <h4 class="text-primary">NUEVO EVENTO DE VACUNACIÓN</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-        <form name="EVENTO_SAFCI" action="guarda_evento_safci.php" method="post">  
+        <form name="EVENTO_VACUNACION" action="guarda_evento_vacunacion.php" method="post">  
                 <div class="col-lg-12">  
-                    <div class="p-5"> 
-
-                    <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">DEPARTAMENTO:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10'";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>
-                    </div>
-                </div>
-   
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">MUNICIPIO DEL EVENTO:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="idmunicipio" id="idmunicipio" class="form-control" required></select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
-                    </div>
-                </div>
-
-                <hr>
+                    <div class="p-3"> 
                 <div class="form-group row">                               
-                    <div class="col-sm-4">
-                    <h6 class="text-primary">CATEGORÍA DEL EVENTO:</h6>
-                    <select name="idcat_evento_safci"  id="idcat_evento_safci" class="form-control" required>
+                    <div class="col-sm-6">
+                    <h6 class="text-primary">TIPO DE EVENTO DE VACUNACIÓN:</h6>
+                    <select name="idtipo_evento_vacunacion"  id="idtipo_evento_vacunacion" class="form-control" required>
                         <option value="">ELEGIR</option>
                         <?php
                         $numero = 1;
-                        $sql1 = "SELECT idcat_evento_safci, cat_evento_safci FROM cat_evento_safci ";
+                        $sql1 = "SELECT idtipo_evento_vacunacion, tipo_evento_vacunacion FROM tipo_evento_vacunacion ";
                         $result1 = mysqli_query($link,$sql1);
                         if ($row1 = mysqli_fetch_array($result1)){
                         mysqli_field_seek($result1,0);
@@ -141,12 +97,40 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         ?>
                     </select>                    
                     </div>
-                    <div class="col-sm-8">
-                    <h6 class="text-primary">TIPO DE EVENTO:</h6>
-                    <select name="idtipo_evento_safci"  id="idtipo_evento_safci" class="form-control" required>
+                    <div class="col-sm-6">
+                    <h6 class="text-primary">VACUNACIÓN :</h6>
+                    <select name="idvacuna"  id="idvacuna" class="form-control" required>
+                        <option value="">ELEGIR</option>
+                        <?php
+                        $numero = 1;
+                        $sql1 = "SELECT idvacuna, vacuna FROM vacuna ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$numero.".- ".$row1[1]."</option>";
+                        $numero = $numero+1;
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select> 
                     </select>                    
                     </div>
-
+                    </div>
+                    <div class="form-group row"> 
+                        <div class="col-sm-6">   
+                        <h6 class="text-primary">FECHA DE INICIO:</h6>
+                        <input type="date" class="form-control" 
+                        placeholder="ingresar fecha" name="fecha_inicio" required>
+                        </div>
+                        <div class="col-sm-6"> 
+                        <h6 class="text-primary">FECHA DE CONCLUSIÓN:</h6>  
+                        <input type="date" class="form-control" 
+                        placeholder="ingresar fecha" name="fecha_conclusion" required>
+                        </div>
                     </div>
                     <div class="form-group row"> 
                         <div class="col-sm-12">   
@@ -162,7 +146,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            REGISTRAR EVENTO SAFCI
+                            REGISTRAR EVENTO VACUNACIÓN SAFCI
                             </button>  
                         </div>                              
                     </div>
@@ -173,14 +157,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR EVENTO SAFCI</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR EVENTO VACUNACIÓN SAFCI</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
                                 <div class="modal-body">
                                     
-                                    Esta seguro de Registrar el EVENTO SAFCI?
+                                    Esta seguro de Registrar el EVENTO VACUNACIÓN SAFCI?
                                     posteriormenete no se podrán realizar cambios.
 
                                 </div>
@@ -245,53 +229,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
-
-
-    <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
 
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("../recursos_humanos/municipios.php", {departamento:departamento}, function(data){
-                    $("#idmunicipio").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idmunicipio").change(function () {
-                    $("#idmunicipio option:selected").each(function () {
-                        municipio=$(this).val();
-                    $.post("establecimiento_evento_safci.php", {municipio:municipio}, function(data){
-                    $("#idestablecimiento_salud").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-      
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idcat_evento_safci").change(function () {
-                    $("#idcat_evento_safci option:selected").each(function () {
-                        cat_evento_safci=$(this).val();
-                    $.post("tipo_evento_safci.php", {cat_evento_safci:cat_evento_safci}, function(data){
-                    $("#idtipo_evento_safci").html(data);
-                    });
-                });
-        })
-        });
-        </script>
-
-   
-</body>
+   </body>
 
 </html>
