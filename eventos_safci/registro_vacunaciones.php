@@ -165,8 +165,8 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <th>MUNICIPIO</th>
                         <th>ESTABLECIMIENTO</th>
                         <th>PERSONAL SAFCI</th>                                   
-                        <th>N° </br>CANES</br> HEMBRAS</th>
-                        <th>N° </br>CANES</br> MACHOS </th>
+                        <th>N° </br>CANES</br> MACHOS</th>
+                        <th>N° </br>CANES</br> HEMBRAS </th>
                         <th>N° GATOS</th>
                         <th>OTROS</th>
                         <th>FECHA Y HORA DE REGISTRO</th>         
