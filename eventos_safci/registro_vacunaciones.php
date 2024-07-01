@@ -93,7 +93,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <div class="col-sm-6">
                         <h6 class="text-primary"><i class="fas fa-dog"> </i> CANES MACHOS:</h6>
                         <input type="number" class="form-control" 
-                        placeholder="ingresar cantidad" name="can_macho" required>
+                        placeholder="ingresar cantidad" name="can_macho" required autofocus>
                         </div>
                         <div class="col-sm-6">
                         <h6 class="text-danger"> <i class="fas fa-dog"> </i> CANES HEMBRAS:</h6>
@@ -169,7 +169,8 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <th>N° </br>CANES</br> HEMBRAS </th>
                         <th>N° GATOS</th>
                         <th>OTROS</th>
-                        <th>FECHA Y HORA DE REGISTRO</th>         
+                        <th>FECHA Y HORA DE REGISTRO</th>   
+                        <th>ACCIÓN</th>        
                     </tr>
                 </thead>
                 <tbody>
@@ -177,7 +178,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 $numero=1;
                 $sql =" SELECT vacunacion_anim.idvacunacion_anim, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, ";
                 $sql.=" nombre.nombre, nombre.paterno, nombre.materno, vacunacion_anim.can_macho, vacunacion_anim.can_hembra, vacunacion_anim.gato, vacunacion_anim.otro, ";
-                $sql.=" vacunacion_anim.fecha_registro, vacunacion_anim.hora_registro FROM vacunacion_anim, departamento, municipios, establecimiento_salud, usuarios, nombre ";
+                $sql.=" vacunacion_anim.fecha_registro, vacunacion_anim.hora_registro, vacunacion_anim.idusuario FROM vacunacion_anim, departamento, municipios, establecimiento_salud, usuarios, nombre ";
                 $sql.=" WHERE vacunacion_anim.iddepartamento=departamento.iddepartamento AND vacunacion_anim.idmunicipio=municipios.idmunicipio  ";
                 $sql.=" AND vacunacion_anim.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND vacunacion_anim.idusuario=usuarios.idusuario  ";
                 $sql.=" AND usuarios.idnombre=nombre.idnombre AND vacunacion_anim.idevento_vacunacion='$idevento_vacunacion_ss' ORDER BY vacunacion_anim.idvacunacion_anim DESC ";
@@ -201,6 +202,14 @@ $row_ev=mysqli_fetch_array($result_ev);
                         $fecha_r = explode('-',$row[11]);
                         $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                         echo $fecha_reg; ?> - <?php echo $row[12];?></td>
+                        <td>
+<?php if ($row[13] == $idusuario_ss) {  ?>
+                <form name="BORRAR" action="elimina_vacunacion_anim.php" method="post">  
+                <input type="hidden" name="idvacunacion_anim" value="<?php echo $row[0];?>">
+                <button type="submit" class="btn btn-danger">QUITAR</button></form>
+    
+<?php } else { ?>  <?php } ?>
+                        </td>
 
                     </tr>
                                 
