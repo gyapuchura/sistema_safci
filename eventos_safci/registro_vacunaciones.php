@@ -232,7 +232,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                         <h6 class="text-primary">1.- REPORTE NACIONAL VACUNACIÓN - NIVEL NACIONAL</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="vacunacion_anim_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <a href="vacunacion_anim_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=700,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i> MOSTRAR REPORTE</h6></a>
                     </div>
             </div>

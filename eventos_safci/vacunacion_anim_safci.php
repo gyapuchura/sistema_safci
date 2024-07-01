@@ -497,5 +497,26 @@ $otro_o = $row_o[0];
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE VACUNACIONES = <?php echo $total;?> </h4></spam>
 
+<?php
+$sql_p =" SELECT idmunicipio FROM vacunacion_anim WHERE idevento_vacunacion='$idevento_vacunacion_ss' GROUP BY idmunicipio; ";
+$result_p = mysqli_query($link,$sql_p);
+$municipios = mysqli_num_rows($result_p);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">NÚMERO DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
+
+<?php
+$sql_mun =" SELECT idestablecimiento_salud FROM vacunacion_anim WHERE idevento_vacunacion='$idevento_vacunacion_ss' GROUP BY idestablecimiento_salud ";
+$result_mun = mysqli_query($link,$sql_mun);
+$establecimientos = mysqli_num_rows($result_mun);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">NÚMERO DE ESTABLECIMIENTOS = <?php echo $establecimientos;?> </h4></spam>
+
+<?php
+$sql_mun =" SELECT idusuario FROM vacunacion_anim WHERE idevento_vacunacion='$idevento_vacunacion_ss' GROUP BY idusuario ";
+$result_mun = mysqli_query($link,$sql_mun);
+$establecimientos = mysqli_num_rows($result_mun);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">NÚMERO DE PERSONAL OPERATIVO = <?php echo $establecimientos;?> </h4></spam>
+
 	</body>
 </html>
