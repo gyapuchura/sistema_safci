@@ -46,7 +46,7 @@ $gestion       =  date("Y");
             $sql.=" vacunacion_anim.fecha_registro, vacunacion_anim.hora_registro FROM vacunacion_anim, departamento, municipios, establecimiento_salud, usuarios, nombre ";
             $sql.=" WHERE vacunacion_anim.iddepartamento=departamento.iddepartamento AND vacunacion_anim.idmunicipio=municipios.idmunicipio ";
             $sql.=" AND vacunacion_anim.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND vacunacion_anim.idusuario=usuarios.idusuario ";
-            $sql.=" AND usuarios.idnombre=nombre.idnombre AND vacunacion_anim.idevento_vacunacion='$idevento_vacunacion' AND vacunacion_anim.iddepartamento='$iddepartamento' ORDER BY vacunacion_anim.idvacunacion_anim DESC ";
+            $sql.=" AND usuarios.idnombre=nombre.idnombre AND vacunacion_anim.idevento_vacunacion='$idevento_vacunacion' AND vacunacion_anim.iddepartamento='$iddepartamento' ORDER BY establecimiento_salud.establecimiento_salud DESC ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
