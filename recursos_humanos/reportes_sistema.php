@@ -132,6 +132,17 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div> 
   
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">6.- SEGUIMIENTO A CONSOLIDACIÓN DE CARPETAS FAMILIARES</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="../carpetas_familiares/avance_carpetas_familiares.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=550,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
           
                     
 <!-- END aqui va el comntenido de la pagina ---->
