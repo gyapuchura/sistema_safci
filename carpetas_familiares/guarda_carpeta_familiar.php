@@ -49,9 +49,9 @@ else {
     $codigo="SAFCI/".$departamento."-CF-".$correlativo."/".$gestion;
 
         $sql8 = " INSERT INTO carpeta_familiar (gestion, correlativo,";
-        $sql8.= " codigo, fecha_apertura, familia, fecha_registro, hora_registro, idusuario )";
+        $sql8.= " codigo, fecha_apertura, familia, estado, fecha_registro, hora_registro, idusuario )";
         $sql8.= " VALUES ('$gestion','$correlativo',";
-        $sql8.= " '$codigo','$fecha_apertura','$familia','$fecha','$hora','$idusuario_ss')";
+        $sql8.= " '$codigo','$fecha_apertura','$familia','','$fecha','$hora','$idusuario_ss')";
         $result8 = mysqli_query($link,$sql8);  
         $idcarpeta_familiar = mysqli_insert_id($link);
 
