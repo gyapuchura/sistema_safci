@@ -74,8 +74,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>N°</th>                                     
                                             <th>CÓDIGO CARPETA</th>
                                             <th>FAMILIA</th>
-                                            <th>DEPARTAMENTO</th>
-                                            <th>MUNICIPIO</th>
                                             <th>ESTABLECIMIENTO DE SALUD</th>
                                             <th>ÁREA DE INFLUENCIA</th>
                                             <th>PERSONAL REGISTRADOR</th>
@@ -102,8 +100,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td><?php echo $numero;?></td>
                                             <td><?php echo $row[1];?></td>
                                             <td><?php echo $row[2];?></td>
-                                            <td><?php echo $row[3];?></td>
-                                            <td><?php echo $row[4];?></td>
                                             <td><?php echo $row[5];?></td>
                                             <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
                                             <td><?php 
@@ -121,9 +117,17 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td>
                                                 <?php if ($row[10] == 'CONSOLIDADO') { ?>
                                                    
-                                                   <form name="FORM_P" action="valida_carpeta_familiar_c.php" method="post">
-                                                    <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                    <button type="submit" class="btn btn-info btn-user btn-block">CONSOLIDADO</button></form>
+                                                    <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                                    <h6 class="text-info"> 1.- IDENTIFICACIÓN DE LA FAMILIA</h6></a>
+                                                
+                                                    <a href="imprime_carpeta_familiar_2.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                                    <h6 class="text-info"> 2.- SALUD DE LOS INTEGRANTES DE LA FAMILIA</h6></a>
+                                                
+                                                    <a href="imprime_carpeta_familiar_3.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                                    <h6 class="text-info"> 3.- DETERMINANTES DE LA SALUD</h6></a>
+                                                
+                                                    <a href="imprime_carpeta_familiar_4.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                                    <h6 class="text-info"> 4.- COMPORTAMIENTO FAMILIAR</h6></a>
 
                                                <?php } else { 
                                                 
@@ -131,7 +135,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                                                     <form name="FORM_P" action="valida_carpeta_familiar.php" method="post">
                                                     <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                    <button type="submit" class="btn btn-primary btn-user btn-block">VER</button></form>
+                                                    <button type="submit" class="btn btn-primary btn-user btn-block">VER/MODIFICAR</button></form>
 
                                                <?php } else {  ?>
 
