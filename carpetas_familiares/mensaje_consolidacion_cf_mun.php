@@ -77,13 +77,12 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="text-center">   
                     
                     <hr>                     
-                    <h4 class="text-primary">LA CARPETA FAMILIAR</h4>
+                    <h4 class="text-primary">LA CARPETA FAMILIAR:</h4>
                     <h4 class="text-secundary"><?php echo $row_cf[1]?></h4>
-                    <h4 class="text-primary">DE LA FAMILIA : </h4>
+                    <h4 class="text-primary">CORRESPONDE A LA FAMILIA : </h4>
                     <h4 class="text-secundary"><?php echo $row_cf[8]?></h4>
-                    <h4 class="text-primary">SE ENCUENTRA CONSOLIDADA</h4>
                     <hr>
-                    <h4 class="text-info">PUEDE GENERAR LOS DOCUMENTOS DE IMPRESIÓN:</h4>
+                    <h4 class="text-info">PUEDE REVISAR LOS DOCUMENTOS DE IMPRESIÓN:</h4>
                     </br>
                     <h4 class="text-primary">
                     <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">

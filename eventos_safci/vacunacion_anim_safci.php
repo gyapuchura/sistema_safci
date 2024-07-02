@@ -284,7 +284,7 @@ Si no se encontraron resultados
           <tr>
           <?php 
 $numero5 = 0;
-$sql5 = " SELECT iddepartamento, sigla FROM departamento ORDER BY iddepartamento";
+$sql5 = " SELECT iddepartamento, sigla FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento";
 $result5 = mysqli_query($link,$sql5);
 $total5 = mysqli_num_rows($result5);
  if ($row5 = mysqli_fetch_array($result5)){
@@ -333,7 +333,7 @@ Si no se encontraron resultados
           <tr>
           <?php 
 $numero5 = 0;
-$sql5 = " SELECT iddepartamento, sigla FROM departamento ORDER BY iddepartamento";
+$sql5 = " SELECT iddepartamento, sigla FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento";
 $result5 = mysqli_query($link,$sql5);
 $total5 = mysqli_num_rows($result5);
  if ($row5 = mysqli_fetch_array($result5)){
@@ -382,7 +382,7 @@ Si no se encontraron resultados
           <tr>
           <?php 
 $numero5 = 0;
-$sql5 = " SELECT iddepartamento, sigla FROM departamento ORDER BY iddepartamento";
+$sql5 = " SELECT iddepartamento, sigla FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento";
 $result5 = mysqli_query($link,$sql5);
 $total5 = mysqli_num_rows($result5);
  if ($row5 = mysqli_fetch_array($result5)){
@@ -430,7 +430,7 @@ Si no se encontraron resultados
           <tr>
           <?php 
 $numero5 = 0;
-$sql5 = " SELECT iddepartamento, sigla FROM departamento ORDER BY iddepartamento";
+$sql5 = " SELECT iddepartamento, sigla FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento";
 $result5 = mysqli_query($link,$sql5);
 $total5 = mysqli_num_rows($result5);
  if ($row5 = mysqli_fetch_array($result5)){
