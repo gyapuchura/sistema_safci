@@ -549,10 +549,6 @@ $row_sg=mysqli_fetch_array($result_sg);
 
     <!-- scripts para calendario -->
 
-    <script type="text/javascript" src="../js/localizacion.js"></script>
-    <script type="text/javascript" src="../js/initMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwC0dKzZNKNbnzsslPYLNSExYd8uLqRIk&callback=initMap"></script>
-
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
