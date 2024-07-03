@@ -10,11 +10,12 @@ $perfil_ss    = $_SESSION['perfil_ss'];
 $fecha 	      = date("Y-m-d");
 $hora         = date("h:i");
 $gestion      = date("Y");
-
+ 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
-$nombre      = $link->real_escape_string($_POST['nombre']);
-$paterno     = $link->real_escape_string($_POST['paterno']);
-$materno     = $link->real_escape_string($_POST['materno']);
+
+$nombre      = $link->real_escape_string(mb_strtoupper($_POST['nombre']));
+$paterno     = $link->real_escape_string(mb_strtoupper($_POST['paterno']));
+$materno     = $link->real_escape_string(mb_strtoupper($_POST['materno']));
 $ci          = $link->real_escape_string($_POST['ci']);
 $complemento = $link->real_escape_string($_POST['complemento']);
 $exp         = $link->real_escape_string($_POST['exp']);
@@ -51,13 +52,13 @@ $iddependencia = $_POST['iddependencia'];
 $iddepartamento      = $_POST['iddepartamento'];
 $idred_salud         = $_POST['idred_salud'];
 $idestablecimiento_salud = $_POST['idestablecimiento_salud'];
-$cargo_red_salud     = $link->real_escape_string($_POST['cargo_red_salud']);
+$cargo_red_salud     = $link->real_escape_string(mb_strtoupper($_POST['cargo_red_salud']));
 $idcargo_organigrama = $_POST['idcargo_organigrama'];
 $item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
 
 //----- Guardamos datos de usuario nuevo ------//
 
-if ($nombre=='' || $paterno=='' || $materno=='' || $ci=='' || $exp=='') 
+if ($nombre=='' || $paterno=='' || $materno=='') 
 {
     header("Location:nuevo_personal_mun.php");
 

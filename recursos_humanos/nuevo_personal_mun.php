@@ -87,20 +87,17 @@ $iddepartamento = $row_l[3];
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES</h6>
                                         <input type="text" class="form-control" 
-                                         placeholder="Nombre Completo" name="nombre" required
-                                         pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El nombre con Mayúscula al inicio y minúsculas después.">
+                                         placeholder="Nombre Completo" name="nombre" required>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
                                         <input type="text" class="form-control"
-                                        placeholder="Primer Apellido" name="paterno" required
-                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido paterno con Mayúscula al inicio y minúsculas después.">
+                                        placeholder="Primer Apellido" name="paterno" required>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
                                         <input type="text" class="form-control"
-                                        placeholder="Segundo Apellido" name="materno" required
-                                        pattern="^([A-ZÁÉÍÓÚ]{1}[a-zñáéíóú]+[\s]*)+$" title="El apellido materno con Mayúscula al inicio y minúsculas despues.">
+                                        placeholder="Segundo Apellido" name="materno" required>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
@@ -114,9 +111,7 @@ $iddepartamento = $row_l[3];
                                 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">CÉDULA DE ID:</h6>
-                                    <input type="text" class="form-control" name="ci" placeholder="N° de CI"
-                                    required pattern="[A-Z0-9_-]{5,12}$" 
-                                    title="El numero de CI solo puede contener DIGITOS numéricos." >
+                                    <input type="number" class="form-control" name="ci" placeholder="N° de CI" required>
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">COMPLEMENTO:</h6>
@@ -371,9 +366,7 @@ $iddepartamento = $row_l[3];
                     <h6 class="text-primary">NÚMERO DE ÍTEM:</h6><h6 class="text-primary">(DE ACUERDO A MEMORÁNDUM DE DESIGNACIÓN):</h6>
                     </div>
                     <div class="col-sm-8">
-                    <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem"
-                    required pattern="[A-Z0-9_-]{5,12}$" 
-                    title="El numero de ÍTEM solo puede contener DIGITOS numéricos." >
+                    <input type="text" class="form-control" name="item_red_salud" placeholder="N° de Ítem">
                     </div>
                 </div>
 
