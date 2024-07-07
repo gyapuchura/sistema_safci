@@ -7,7 +7,7 @@ $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
 $idcarpeta_familiar =  $_SESSION['idcarpeta_familiar'];
-
+ 
 $sql_a =" SELECT COUNT(idintegrante_ap_sano) FROM integrante_ap_sano ";
 $sql_a.="  ";
 $result_a = mysqli_query($link,$sql_a);
@@ -188,5 +188,41 @@ GRUPO II  FACTORES DE RIESGO	<?php echo $grupo_2;?>%
 GRUPO III  MORBILIDAD	<?php echo $grupo_3;?>%
 GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 </pre>
+	<p style="text-align: center; font-family: Arial; font-size: 16px; color: #3167AC;"><strong>SALUD DE LOS INTEGRANTES DE LA FAMILIA</strong></p>
+	<table width="600" border="0" align="center">
+	  <tbody>
+	    <tr>
+	      <td width="40" style="font-family: Arial; text-align: center; color: #3167AC; font-size: 12px;"><strong>N°</strong></td>
+	      <td width="126" style="font-family: Arial; text-align: center; color: #3167AC; font-size: 12px;"><strong>GRUPO </strong></td>
+	      <td width="233" style="text-align: center"><strong style="font-family: Arial; font-size: 12px; color: #3167AC;">DESCRIPCION</strong></td>
+	      <td width="183" style="font-family: Arial; font-size: 12px; text-align: center; color: #3167AC;"><strong>REPORTE</strong></td>
+        </tr>
+	    <tr>
+	      <td style="text-align: center; font-family: Arial; font-size: 12px;">1</td>
+	      <td style="font-family: Arial; font-size: 12px; text-align: center;">GRUPO I</td>
+	      <td style="font-family: Arial; font-size: 12px; text-align: center;">APARENTEMENTE SANO</td>
+	      <td>&nbsp;</td>
+        </tr>
+	    <tr>
+	      <td style="font-family: Arial; font-size: 12px; text-align: center;">2</td>
+	      <td style="font-family: Arial; text-align: center; font-size: 12px;">GRUPO II</td>
+	      <td style="font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
+	      <td>&nbsp;</td>
+        </tr>
+	    <tr>
+	      <td style="font-family: Arial; font-size: 12px; text-align: center;">3</td>
+	      <td style="text-align: center; font-family: Arial; font-size: 12px;">GRUPO III</td>
+	      <td style="font-family: Arial; text-align: center; font-size: 12px;">MORBILIDAD</td>
+	      <td>&nbsp;</td>
+        </tr>
+	    <tr>
+	      <td style="font-family: Arial; font-size: 12px; text-align: center;">4</td>
+	      <td style="font-size: 12px; font-family: Arial; text-align: center;">GRUPO IV</td>
+	      <td style="font-family: Arial; text-align: center; font-size: 12px;">DISCAPACIDAD</td>
+	      <td>&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+	<p>&nbsp;</p>
 	</body>
 </html>

@@ -235,7 +235,7 @@ $(function () {
                     type: 'column'
                 },
                 title: {
-                    text: ' GRUPO II - FACTORES DE RIESGO'
+                    text: 'GRUPO III - MORBILIDAD'
                 },
                 subtitle: {
                     text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
