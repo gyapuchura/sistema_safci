@@ -1,12 +1,12 @@
 <?php include("../inc.config.php");
-$iddepartamento = $_POST["departamento"];
+$iddepartamento_m = $_POST["departamento_m"];
 ?>
 <option value="">Elegir Municipio</option>
 <?php
 $numero = 1;
 $sql2 = " SELECT ubicacion_cf.idmunicipio, municipios.municipio FROM ubicacion_cf, municipios  ";
 $sql2.= " WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
-$sql2.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ";
+$sql2.= " AND ubicacion_cf.iddepartamento='$iddepartamento_m' GROUP BY ubicacion_cf.idmunicipio ";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);

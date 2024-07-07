@@ -207,7 +207,7 @@ $(function () {
                     type: 'column'
                 },
                 title: {
-                    text: ' GRUPO II - FACTORES DE RIESGO'
+                    text: 'GRUPO II - FACTORES DE RIESGO'
                 },
                 subtitle: {
                     text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
