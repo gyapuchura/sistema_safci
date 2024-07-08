@@ -29,7 +29,7 @@ $(function () {
             }
         },
         title: {
-            text: 'a) SERVICIOS BASICOS '
+            text: 'a) ABASTECIMIENTO DE AGUA PARA CONSUMO'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

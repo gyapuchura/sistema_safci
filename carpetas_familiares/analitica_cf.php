@@ -223,10 +223,48 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">ANALÍTICA NACIONAL:</h6>
+                        <h6 class="text-primary">IV. SALUD DE LOS INTEGRANTES DE LA FAMILIA:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="analitica_nacional_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MOSTRAR ANALITICA NACIONAL</h6></a>  
+                        <a href="salud_integrantes_grafica.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANALITICA GRUPOS DE SALUD FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA</h6></a>  
                         </div>
                     </div>
                 </div>
