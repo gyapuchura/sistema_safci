@@ -18,8 +18,9 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
       <td><table width="1200" border="1" align="center" cellspacing="0">
         <tbody>
           <tr>
-            <td width="28" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px;">Nº</td>
-            <td width="269" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>INTEGRANTE</strong></td>
+            <td width="20" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px;">Nº</td>
+            <td width="258" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>INTEGRANTE</strong></td>
+            <td width="50" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>EDAD</strong></td>
             <td width="204" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;"><strong>GRUPO I</strong></td>
             <td width="191" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;"><strong>GRUPO II</strong></td>
             <td width="174" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 14px; text-align: center;"><strong>GRUPO III</strong></td>
@@ -47,6 +48,7 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
           <tr>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $numero;?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $rowi[3];?> <?php echo $rowi[4];?> <?php echo $rowi[5];?></td>
+            <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $rowi[9];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;">
             <?php
             $numeroa=1;
@@ -217,8 +219,9 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
       <td><table width="1200" height="225" border="1" cellspacing="0">
         <tbody>
           <tr>
-            <td width="22" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px;"><strong>Nº</strong></td>
-            <td width="268" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>INTEGRANTE</strong></td>
+            <td width="20" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px;"><strong>Nº</strong></td>
+            <td width="262" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>INTEGRANTE</strong></td>
+            <td width="50" rowspan="2" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>EDAD</strong></td>
             <td colspan="3" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>VI. SUBSECTOR</strong></td>
             <td width="207" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>VII. BENEFICIARIO DE PROGRAMAS SOCIALES</strong></td>
             <td colspan="3" bgcolor="#503B92" style="color: #FBF9F9; font-family: arial; font-size: 12px; text-align: center;"><strong>VII MEDICINA TRADICIONAL</strong></td>
@@ -250,6 +253,7 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
           <tr>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $numerof;?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: left;"><?php echo $rowf[3];?> <?php echo $rowf[4];?> <?php echo $rowf[5];?></td>
+            <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $rowf[9];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;">
             <?php
                 
