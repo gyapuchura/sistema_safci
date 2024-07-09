@@ -10,7 +10,7 @@ $sqlav = " SELECT count(idintegrante_cf) FROM integrante_cf ";
 $resultav = mysqli_query($link,$sqlav);
 $rowav = mysqli_fetch_array($resultav);
 
-$regulador = $rowav[0]/4;
+$regulador = $rowav[0]/10;
 
 ?>
 <!DOCTYPE HTML>
