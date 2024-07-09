@@ -2,7 +2,7 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
+$fecha 		  = date("Y-m-d");
 $hora       = date("H:i");
 $gestion    = date("Y");
 
@@ -56,7 +56,11 @@ $row_ar = mysqli_fetch_array($result_ar);
           <tr>
             <td style="font-family: arial; font-size: 12px; color: #503B92;">Código Establecimiento: <?php echo $row_es[2];?> - <?php echo $row_es[1];?></td>
             <td style="font-family: arial; font-size: 12px; color: #503B92;">Código Carpeta Familiar: <?php echo $row_cf[1]; ?></td>
-            <td style="color: #503B92; font-family: arial; font-size: 12px;">Fecha de Apertura: <?php echo $row_cf[7];?></td>
+            <td style="color: #503B92; font-family: arial; font-size: 12px;">Fecha de Apertura: 
+                <?php 
+                $fecha_cf = explode('-',$row_cf[7]);
+                $fecha_reg = $fecha_cf[2].'/'.$fecha_cf[1].'/'.$fecha_cf[0];
+                echo $fecha_reg;?></td>
           </tr>
         </tbody>
       </table></td>
@@ -215,7 +219,7 @@ $row_ar = mysqli_fetch_array($result_ar);
                         echo $fecha_n;?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[9];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[10];?></td>
-            <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[1];?></td>
+            <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[1];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[2];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[3];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[4];?></td>

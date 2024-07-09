@@ -100,10 +100,10 @@ $(function () {
         <tr>
           <td align="center" bgcolor="#FFFFFF" class="Estilo8 Estilo1 Estilo2">1</td>
           <td align="center" bgcolor="#FFFFFF" class="Estilo8 Estilo1 Estilo2">
-          <a href="detalle_consolidado_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php echo $consolidado;?></a>   
+          <a href="detalle_consolidado_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php echo $consolidado;?></a>   
           </td>
           <td align="center" bgcolor="#FFFFFF" class="Estilo7">          
-          <a href="detalle_pendiente_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php echo $pendiente;?></a>           
+          <a href="detalle_pendiente_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php echo $pendiente;?></a>           
           </td>
           <td align="center" bgcolor="#FFFFFF" class="Estilo7"><?php echo $total;?></td>
           <td align="center" bgcolor="#FFFFFF" class="Estilo7"><?php echo $porcentaje_consolidado;?> %</td>
