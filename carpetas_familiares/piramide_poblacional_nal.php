@@ -185,5 +185,44 @@ $(function () {
 
 <div id="container" style="min-width: 410px; max-width: 800px; height: 600px; margin: 0 auto"></div>
 
+<?php
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
+$result_cf = mysqli_query($link,$sql_cf);
+$row_cf = mysqli_fetch_array($result_cf);  
+$total_cf = $row_cf[0];
+?>
+
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
+
+<?php
+$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
+$result_p = mysqli_query($link,$sql_p);
+$municipios = mysqli_num_rows($result_p);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
+
+<?php
+$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
+$result_mun = mysqli_query($link,$sql_mun);
+$establecimientos = mysqli_num_rows($result_mun);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
+
+<?php
+$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
+$result_int = mysqli_query($link,$sql_int);
+$row_int = mysqli_fetch_array($result_int);  
+$integrantes = $row_int[0];
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
+
+<?php
+$sql_per = " SELECT count(idusuario) FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
+$result_per = mysqli_query($link,$sql_per);
+$row_per = mysqli_fetch_array($result_per);  
+$personal = $row_per[0];
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
+
 	</body>
 </html>

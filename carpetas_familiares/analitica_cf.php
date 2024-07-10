@@ -226,7 +226,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">I. POBLACIÓN NIVEL NACIONAL:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="piramide_poblacional_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=620,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PIRÁMIDE POBLACIONAL</h6></a>  
+                        <a href="piramide_poblacional_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PIRÁMIDE POBLACIONAL</h6></a>  
                         </div>
                     </div>
                 </div>
