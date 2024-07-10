@@ -217,10 +217,10 @@ $integrantes = $row_int[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
 
 <?php
-$sql_per = " SELECT count(idusuario) FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
 $result_per = mysqli_query($link,$sql_per);
-$row_per = mysqli_fetch_array($result_per);  
-$personal = $row_per[0];
+$personal = mysqli_num_rows($result_per);  
+
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
 
