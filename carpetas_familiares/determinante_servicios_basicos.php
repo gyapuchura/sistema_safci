@@ -47,7 +47,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='1' ";
@@ -133,7 +133,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='2' ";
@@ -220,7 +220,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='3' ";
@@ -306,7 +306,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' ";
@@ -392,7 +392,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='5' ";
@@ -478,7 +478,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='6' ";
@@ -564,7 +564,7 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
                     $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='7' ";
