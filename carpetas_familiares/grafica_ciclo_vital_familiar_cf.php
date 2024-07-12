@@ -19,7 +19,7 @@ ${demo.css}
 
 		<script type="text/javascript">
 $(function () {
-    $('#suministro_agua').highcharts({
+    $('#ciclo_vital').highcharts({
         chart: {
             type: 'pie',
             options3d: {
@@ -29,7 +29,7 @@ $(function () {
             }
         },
         title: {
-            text: 'ESTRUCTURA FAMILIAR'
+            text: 'ETAPA DEL CICLO VITAL FAMILIAR'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -50,13 +50,13 @@ $(function () {
             name: '% DE FAMILIAS',
             data: [
                 <?php
-                    $sql0 = " SELECT count(idestructura_familiar_cf) FROM estructura_familiar_cf WHERE vigente='SI' ";
+                    $sql0 = " SELECT count(idetapa_familiar_cf) FROM etapa_familiar_cf WHERE vigente='SI' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT idestructura_familiar FROM estructura_familiar_cf WHERE vigente='SI' GROUP BY idestructura_familiar ";
+                    $sql = " SELECT idetapa_familiar FROM etapa_familiar_cf WHERE vigente='SI' GROUP BY idetapa_familiar ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -65,11 +65,11 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT idestructura_familiar, estructura_familiar FROM estructura_familiar WHERE idestructura_familiar='$row[0]' ";
+                    $sql_t = " SELECT idetapa_familiar, etapa_familiar FROM etapa_familiar WHERE idetapa_familiar='$row[0]' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c= " SELECT count(idestructura_familiar_cf) FROM estructura_familiar_cf WHERE vigente='SI' AND idestructura_familiar='$row[0]' ";
+                    $sql_c= " SELECT count(idetapa_familiar_cf) FROM etapa_familiar_cf WHERE vigente='SI' AND idetapa_familiar='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -110,7 +110,8 @@ $(function () {
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="suministro_agua" style="height: 350px"></div>
+<div id="ciclo_vital" style="height: 350px"></div>
+
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
 $result_cf = mysqli_query($link,$sql_cf);

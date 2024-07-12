@@ -49,14 +49,15 @@ $row_sos = mysqli_fetch_array($result_sos);
         <tbody>
           <tr>
             <td width="27" style="font-family: Arial; font-size: 12px; text-align: center;">N°</td>
-            <td width="300" style="font-family: Arial; font-size: 12px; font-style: normal; text-align: center;">CÓDIGO FICHA</td>
+            <td width="250" style="font-family: Arial; font-size: 12px; font-style: normal; text-align: center;">CÓDIGO FICHA</td>
             <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;">FECHA REGISTRO</td>
             <td width="200" style="font-family: Arial; font-size: 12px; font-style: normal; text-align: center;">MUNICIPIO</td>
             <td width="250" style="font-family: Arial; font-size: 12px; text-align: center;">ESTABLECIMIENTO</td>
             <td width="300" style="font-family: Arial; font-size: 12px; text-align: center;">PACIENTE</td>
             <td width="80" style="font-family: Arial; font-size: 12px; text-align: center;">CELULAR</td>
             <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;">SEMANA EPID.</td>
-            <td width="150" style="font-family: Arial; font-size: 12px; text-align: center;">SEGUIMIENTO - MÉDICO</td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;">SEGUIMIENTO - MÉDICO</td>
+            <td width="150" style="font-family: Arial; font-size: 12px; text-align: center;">MÉDICO</td>
           </tr>
           <?php
                 $numero=1;
@@ -71,7 +72,7 @@ $row_sos = mysqli_fetch_array($result_sos);
                 while ($field = mysqli_fetch_field($result)){
                 } do {
 
-                    $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, semana_ep.semana_ep, estado_paciente.estado_paciente FROM seguimiento_ep, semana_ep, estado_paciente ";
+                    $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, semana_ep.semana_ep, estado_paciente.estado_paciente, seguimiento_ep.idusuario FROM seguimiento_ep, semana_ep, estado_paciente ";
                     $sql2.= " WHERE seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND";
                     $sql2.= " seguimiento_ep.idficha_ep='$row[0]' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 1 ";
                     $result2 = mysqli_query($link,$sql2);
@@ -91,11 +92,20 @@ $row_sos = mysqli_fetch_array($result_sos);
             <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
             <td style="font-family: Arial; font-size: 12px;">
             <?php             
-                                if($row2 = mysqli_fetch_array($result2))
-                                {echo "Semana ".$row2[1];}
-                                ?>
+                if($row2 = mysqli_fetch_array($result2))
+                {echo "Semana ".$row2[1];}
+                ?>
             </td>
             <td style="font-family: Arial; font-size: 12px;"><?php echo $row2[2];?></td>
+            <td style="font-family: Arial; font-size: 12px;">
+            <?php
+                $sql4 = " SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre ";
+                $sql4.= " WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row2[3]' ";
+                $result4 = mysqli_query($link,$sql4);
+                $row4 = mysqli_fetch_array($result4);
+                echo mb_strtoupper($row4[0]." ".$row4[1]." ".$row4[2]);
+            ?>
+            </td>
           </tr>
           <?php
                 $numero=$numero+1;

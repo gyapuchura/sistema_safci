@@ -236,7 +236,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">IV. SALUD DE LOS INTEGRANTES DE LA FAMILIA:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="salud_integrantes_grafica.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANALITICA GRUPOS DE SALUD FAMILIAR</h6></a>  
+                        <a href="salud_integrantes_grafica.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">GRUPOS DE SALUD FAMILIAR</h6></a>  
                         </div>
                     </div>
                 </div>
@@ -282,7 +282,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">XII. CARACTERÍSTICAS SOCIOECONÓMICAS</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_socioeconomica_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SOCIOECONOMÍA DE LOS HOGARES</h6></a>  
+                        <a href="grafica_socioeconomica_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SOCIOECONOMÍA DE LOS HOGARES</h6></a>  
                         </div>
                     </div>
                     <div class="form-group row">
@@ -290,7 +290,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">XIII. TENENCIA DE ANIMALES DOMÉSTICOS DE COMPAÑÍA</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_tenencia_animales_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANIMALES DOMESTICOS EN CADA HOGAR</h6></a>  
+                        <a href="grafica_tenencia_animales_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANIMALES DOMESTICOS EN CADA HOGAR</h6></a>  
                         </div>
                     </div>
                     <div class="form-group row">
@@ -298,7 +298,15 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">XIV. ESTRUCTURA FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_estructura_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR</h6></a>  
+                        <a href="grafica_estructura_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XV. ETAPA DEL CICLO VITAL FAMILIAR</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_ciclo_vital_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">CICLO VITAL FAMILIAR</h6></a>  
                         </div>
                     </div>
 
