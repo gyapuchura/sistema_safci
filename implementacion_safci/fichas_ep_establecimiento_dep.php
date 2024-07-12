@@ -190,7 +190,8 @@ $row_sos = mysqli_fetch_array($result_sos);
                                             <th class="text-info">PACIENTE</th> 
                                             <th class="text-info">CELULAR</th> 
                                             <th class="text-info">SEMANA EPID.</th>  
-                                            <th class="text-info">SEGUIMIENTO - MÉDICO</th>            
+                                            <th class="text-info">SEGUIMIENTO - MÉDICO</th>  
+                                            <th class="text-info">MÉDICO</th>           
                                             <th class="text-info">ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -208,11 +209,10 @@ $row_sos = mysqli_fetch_array($result_sos);
                         while ($field = mysqli_fetch_field($result)){
                         } do {
 
-                            $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, semana_ep.semana_ep, estado_paciente.estado_paciente FROM seguimiento_ep, semana_ep, estado_paciente ";
+                            $sql2 = " SELECT seguimiento_ep.idseguimiento_ep, semana_ep.semana_ep, estado_paciente.estado_paciente, seguimiento_ep.idusuario FROM seguimiento_ep, semana_ep, estado_paciente ";
                             $sql2.= " WHERE seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND";
                             $sql2.= " seguimiento_ep.idficha_ep='$row[0]' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 1 ";
                             $result2 = mysqli_query($link,$sql2);
-                            
 
                         ?>
                             <tr>
@@ -255,6 +255,15 @@ $row_sos = mysqli_fetch_array($result_sos);
                                 ?>
                                 </td>
                                 <td> 
+                                    <?php
+                                        $sql4 = " SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre ";
+                                        $sql4.= " WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row2[3]' ";
+                                        $result4 = mysqli_query($link,$sql4);
+                                        $row4 = mysqli_fetch_array($result4);
+                                        echo mb_strtoupper($row4[0]." ".$row4[1]." ".$row4[2]);
+                                    ?>
+                                </td>
+                                <td> 
                                     <button type="submit" class="btn btn-info btn-icon-split">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-user"></i>
@@ -288,8 +297,8 @@ $row_sos = mysqli_fetch_array($result_sos);
                 <div class="text-center">
                 <div class="form-group row">
                         <div class="col-sm-6">
-                        <a href="imprime_reporte_fichas_ep.php?idatencion_safci=<?php echo $row[13];?>&idespecialidad_atencion=<?php echo $row[0];?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
-                        IMPRIMIR REPORTE DE FICHAS EPIDEMIOLÓGICASS</a>   
+                        <a href="imprime_reporte_fichas_ep.php?idatencion_safci=<?php echo $row[13];?>&idespecialidad_atencion=<?php echo $row[0];?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1300,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                        IMPRIMIR REPORTE DE FICHAS EPIDEMIOLÓGICAS</a>   
                         </div>
                         <div class="col-sm-6">
                     <form name="ATENCIONES_SAFCI" action="reporte_fichas_ep_excel.php" method="post">
