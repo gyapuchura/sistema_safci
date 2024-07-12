@@ -23,7 +23,7 @@ ${demo.css}
 		</style>
 		<script type="text/javascript">
 $(function () {
-    $('#container').highcharts({
+    $('#sospechas').highcharts({
         chart: {
             type: 'areaspline'
         },
@@ -159,69 +159,24 @@ Si no se encontraron resultados
 }
 ?>
     ]
-},
-{
-            name: 'RECUPERADOS',
-    data: [
-
-<?php
-
-$numero = 0;
-$sql = " SELECT seguimiento_ep.idsemana_ep FROM notificacion_ep, seguimiento_ep WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
-$sql.= " AND notificacion_ep.gestion ='$gestion' AND notificacion_ep.estado='CONSOLIDADO' GROUP BY seguimiento_ep.idsemana_ep ORDER BY seguimiento_ep.idsemana_ep ";
-$result = mysqli_query($link,$sql);
-
-$total = mysqli_num_rows($result);
-
-if ($row = mysqli_fetch_array($result)){
-
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){
-} do {
-?>
-
-<?php
-$sql7 = " SELECT count(idseguimiento_ep) FROM seguimiento_ep  ";
-$sql7.= " WHERE idestado_paciente='2' AND idsospecha_diag='$idsospecha_diag_nal' AND idsemana_ep='$row[0]' ";
-$result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_fetch_array($result7);
-$recuperados = $row7[0];
-?>
-<?php echo $recuperados; ?>
-
-<?php
-$numero++;
-if ($numero == $total) {
-echo "";
 }
-else {
-echo ",";
-}
-
-} while ($row = mysqli_fetch_array($result));
-
-
-} else {
-
-
-echo ",";
-/*
-Si no se encontraron resultados
-*/
-}
-?>
-
-]   }
  
+
+
+
     ]
     });
 });
 		</script>
+
+
+
 	</head>
 	<body>
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
-<div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
+
+<div id="sospechas" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
 		<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">DEPARTAMENTOS CON SOSPECHAS DE <?php echo mb_strtoupper($row_sos[1]);?></h2>
 		<table width="700" border="1" align="center" cellspacing="0">
