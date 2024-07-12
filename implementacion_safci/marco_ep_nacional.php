@@ -166,39 +166,36 @@ Si no se encontraron resultados
 
 <?php
 
-$numero = 0;
-$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep ";
-$result = mysqli_query($link,$sql);
-
-$total = mysqli_num_rows($result);
-
-if ($row = mysqli_fetch_array($result)){
-
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){
+$numero_r = 0;
+$sql_r = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep ";
+$result_r = mysqli_query($link,$sql_r);
+$total_r = mysqli_num_rows($result_r);
+if ($row_r = mysqli_fetch_array($result_r)){
+mysqli_field_seek($result_r,0);
+while ($field_r = mysqli_fetch_field($result_r)){
 } do {
 ?>
 
 <?php
-$sql7 = " SELECT count(idseguimiento_ep) FROM seguimiento_ep ";
-$sql7.= " WHERE idestado_paciente='2' ";
-$sql7.= " AND idsospecha_diag='$idsospecha_diag_nal' AND idsemana_ep='$row[0]' ";
-$result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_fetch_array($result7);
-$recuperados = $row7[0];
+$sql8 = " SELECT count(seguimiento_ep.idseguimiento_ep) FROM seguimiento_ep, notificacion_ep ";
+$sql8.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idestado_paciente='2' AND notificacion_ep.gestion='$gestion' ";
+$sql8.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_deptal' AND seguimiento_ep.idsemana_ep='$row_r[0]'";
+$result8 = mysqli_query($link,$sql8);
+$row8 = mysqli_fetch_array($result8);
+$recuperados = $row8[0];
 ?>
 <?php echo $recuperados; ?>
 
 <?php
-$numero++;
-if ($numero == $total) {
+$numero_r++;
+if ($numero_r == $total_r) {
 echo "";
 }
 else {
 echo ",";
 }
 
-} while ($row = mysqli_fetch_array($result));
+} while ($row_r = mysqli_fetch_array($result_r));
 
 
 } else {
