@@ -188,12 +188,12 @@ while ($field = mysqli_fetch_field($result)){
 ?>
 
 <?php
-$sql7 = " SELECT seguimiento_ep.idseguimiento_ep, seguimiento_ep.idsospecha_diag, seguimiento_ep.idestado_paciente, semana_ep.semana_ep FROM seguimiento_ep, notificacion_ep, semana_ep ";
-$sql7.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente='2' ";
-$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_estab' AND semana_ep.semana_ep='$row[0]' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql7 = " SELECT count(seguimiento_ep.idseguimiento_ep) FROM seguimiento_ep, notificacion_ep ";
+$sql7.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idestado_paciente='2' ";
+$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_deptal' AND seguimiento_ep.idsemana_ep='$row[0]' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_num_rows($result7);
-$recuperados = $row7;
+$row7 = mysqli_fetch_array($result7);
+$recuperados = $row7[0];
 ?>
 <?php echo $recuperados; ?>
 
