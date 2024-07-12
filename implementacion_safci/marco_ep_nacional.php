@@ -44,7 +44,7 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep";
+$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -179,7 +179,7 @@ while ($field_r = mysqli_fetch_field($result_r)){
 <?php
 $sql8 = " SELECT count(seguimiento_ep.idseguimiento_ep) FROM seguimiento_ep, notificacion_ep ";
 $sql8.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idestado_paciente='2' AND notificacion_ep.gestion='$gestion' ";
-$sql8.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_deptal' AND seguimiento_ep.idsemana_ep='$row_r[0]'";
+$sql8.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_nal' AND seguimiento_ep.idsemana_ep='$row_r[0]'";
 $result8 = mysqli_query($link,$sql8);
 $row8 = mysqli_fetch_array($result8);
 $recuperados = $row8[0];
