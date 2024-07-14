@@ -84,7 +84,7 @@ $row_sos = mysqli_fetch_array($result_sos);
 
                 <p class="mb-4">En esta sección se puede realizar el SEGUIMIENTO de FICHAS EPIDEMIOLÓGICAS por Departamento, se podra ver el 
 
-                    <a href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_ss;?>&departamento_ep=<?php echo $iddepartamento_ss;?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=800,scrollbars=YES,top=60,left=400'); return false;">REPORTE POR SEMANA</a>
+                    <a href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_ss;?>&departamento_ep=<?php echo $iddepartamento_ss;?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=500,scrollbars=YES,top=60,left=400'); return false;">REPORTE POR SEMANA</a>
                     y ver los 
                     <a href="piramide_sospechas_deptal.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_ss;?>&departamento_ep=<?php echo $iddepartamento_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">GRUPOS ETAREOS AFECTADOS</a>
                 </p>
