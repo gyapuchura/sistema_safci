@@ -54,7 +54,9 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep";
+$sql = " SELECT notificacion_ep.semana_ep FROM notificacion_ep, registro_enfermedad WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
+$sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' AND notificacion_ep.idmunicipio='$idmunicipio' AND notificacion_ep.gestion ='$gestion'  ";
+$sql.= " AND notificacion_ep.estado='CONSOLIDADO' GROUP BY notificacion_ep.semana_ep ORDER BY notificacion_ep.semana_ep ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -124,7 +126,9 @@ echo ",";
              <?php
 
 $numero = 0;
-$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep ";
+$sql = " SELECT notificacion_ep.semana_ep FROM notificacion_ep, registro_enfermedad WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
+$sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' AND notificacion_ep.idmunicipio='$idmunicipio' AND notificacion_ep.gestion ='$gestion'  ";
+$sql.= " AND notificacion_ep.estado='CONSOLIDADO' GROUP BY notificacion_ep.semana_ep ORDER BY notificacion_ep.semana_ep ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -178,7 +182,9 @@ Si no se encontraron resultados
 <?php
 
 $numero = 0;
-$sql = " SELECT semana_ep FROM notificacion_ep WHERE gestion ='$gestion' AND estado='CONSOLIDADO' GROUP BY semana_ep ORDER BY semana_ep ";
+$sql_r = " SELECT seguimiento_ep.idsemana_ep FROM seguimiento_ep, notificacion_ep WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
+$sql_r.= " AND notificacion_ep.estado='CONSOLIDADO' AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_mun' AND notificacion_ep.idmunicipio='$idmunicipio' ";
+$sql_r.= " AND notificacion_ep.gestion='$gestion' GROUP BY seguimiento_ep.idsemana_ep ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
