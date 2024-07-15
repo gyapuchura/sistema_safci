@@ -6,11 +6,105 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 ?>
+
+<?php
+$sql_t =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf  ";
+$result_t = mysqli_query($link,$sql_t);
+$row_t = mysqli_fetch_array($result_t);
+$total = $row_t[0];
+
+$sql_8 =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='1' ";
+$sql_8.="  ";
+$result_8 = mysqli_query($link,$sql_8);
+$row_8 = mysqli_fetch_array($result_8);
+$desmemb = $row_8[0];
+
+$sql_b =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='2' ";
+$sql_b.="  ";
+$result_b = mysqli_query($link,$sql_b);
+$row_b = mysqli_fetch_array($result_b);
+$incremento = $row_b[0];
+
+$sql_c =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='3'  ";
+$sql_c.="  ";
+$result_c = mysqli_query($link,$sql_c);
+$row_c = mysqli_fetch_array($result_c);
+$desmoralizacion =$row_c[0];
+
+$sql_d =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='4'  ";
+$sql_d.="  ";
+$result_d = mysqli_query($link,$sql_d);
+$row_d = mysqli_fetch_array($result_d);
+$desorganizacion = $row_d[0];
+
+$sql_e =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='5' ";
+$sql_e.="  ";
+$result_e = mysqli_query($link,$sql_e);
+$row_e = mysqli_fetch_array($result_e);
+$violencia = $row_e[0];
+
+$sql_f =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='6' ";
+$sql_f.="  ";
+$result_f = mysqli_query($link,$sql_f);
+$row_f = mysqli_fetch_array($result_f);
+$tabaquismo = $row_f[0];
+
+$sql_g =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='7' ";
+$sql_g.="  ";
+$result_g = mysqli_query($link,$sql_g);
+$row_g = mysqli_fetch_array($result_g);
+$alcohol =$row_g[0];
+
+$sql_h =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='8' ";
+$sql_h.="  ";
+$result_h = mysqli_query($link,$sql_h);
+$row_h = mysqli_fetch_array($result_h);
+$drogas = $row_h[0];
+
+$sql_i =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='9'  ";
+$sql_i.="  ";
+$result_i = mysqli_query($link,$sql_i);
+$row_i = mysqli_fetch_array($result_i);
+$economica = $row_i[0];
+
+$sql_j =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='10' ";
+$sql_j.="  ";
+$result_j = mysqli_query($link,$sql_j);
+$row_j = mysqli_fetch_array($result_j);
+$educativa = $row_j[0];
+
+$sql_k =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='11' ";
+$sql_k.="  ";
+$result_k = mysqli_query($link,$sql_k);
+$row_k = mysqli_fetch_array($result_k);
+$afectiva = $row_k[0];
+
+$sql_l =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf WHERE idfuncionalidad_familiar ='12' ";
+$sql_l.="  ";
+$result_l = mysqli_query($link,$sql_l);
+$row_l = mysqli_fetch_array($result_l);
+$social = $row_l[0];
+
+
+$desmem_p  = ($desmemb*100)/$total;
+$incremento_p   = ($incremento*100)/$total;
+$desmoralizacion_p  = ($desmoralizacion*100)/$total;
+$desorganizacion_p  = ($desorganizacion*100)/$total;
+$violencia_p        = ($violencia*100)/$total;
+$tabaquismo_p = ($tabaquismo*100)/$total;
+$alcohol_p      = ($alcohol*100)/$total;
+$drogas_p   = ($drogas*100)/$total;
+$economica_p    = ($economica*100)/$total;
+$educativa_p    = ($educativa*100)/$total;
+$afectiva_p     = ($afectiva*100)/$total;
+$social_p    = ($social*100)/$total;
+
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CARPETAS FAMILIARES DEPARTAMENTO</title>
+		<title>FUNCIONALIDAD FAMILIAR</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -88,91 +182,12 @@ $(function () {
 
             // Create the chart
 
-            <?php
-$sql_t =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf  ";
-$result_t = mysqli_query($link,$sql_t);
-$row_t = mysqli_fetch_array($result_t);
-$total = $row_t[0];
-
-$sql_a =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='1' ";
-$sql_a.="  ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-$refrigerador = $row_a[0];
-
-$sql_b =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='2' ";
-$sql_b.="  ";
-$result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$computadora = $row_b[0];
-
-$sql_c =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='3'  ";
-$sql_c.="  ";
-$result_c = mysqli_query($link,$sql_c);
-$row_c = mysqli_fetch_array($result_c);
-$televisor =$row_c[0];
-
-$sql_d =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='4'  ";
-$sql_d.="  ";
-$result_d = mysqli_query($link,$sql_d);
-$row_d = mysqli_fetch_array($result_d);
-$microondas = $row_d[0];
-
-$sql_e =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='5' ";
-$sql_e.="  ";
-$result_e = mysqli_query($link,$sql_e);
-$row_e = mysqli_fetch_array($result_e);
-$lavadora = $row_e[0];
-
-$sql_f =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='6' ";
-$sql_f.="  ";
-$result_f = mysqli_query($link,$sql_f);
-$row_f = mysqli_fetch_array($result_f);
-$aire_acondicionado = $row_f[0];
-
-$sql_g =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='7' ";
-$sql_g.="  ";
-$result_g = mysqli_query($link,$sql_g);
-$row_g = mysqli_fetch_array($result_g);
-$estufa =$row_g[0];
-
-$sql_h =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='8' ";
-$sql_h.="  ";
-$result_h = mysqli_query($link,$sql_h);
-$row_h = mysqli_fetch_array($result_h);
-$automovil = $row_h[0];
-
-$sql_i =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='9'  ";
-$sql_i.="  ";
-$result_i = mysqli_query($link,$sql_i);
-$row_i = mysqli_fetch_array($result_i);
-$internet = $row_i[0];
-
-$sql_j =" SELECT count(idsocio_economica_cf) FROM socio_economica_cf WHERE idsocio_economica ='10' ";
-$sql_j.="  ";
-$result_j = mysqli_query($link,$sql_j);
-$row_j = mysqli_fetch_array($result_j);
-$cable = $row_j[0];
-
-
-$refrigerador_p = ($refrigerador*100)/$total;
-$computadora_p  = ($computadora*100)/$total;
-$televisor_p    = ($televisor*100)/$total;
-$microondas_p   = ($microondas*100)/$total;
-$lavadora_p     = ($lavadora*100)/$total;
-$aire_acondicionado_p = ($aire_acondicionado*100)/$total;
-$estufa_p      = ($estufa*100)/$total;
-$automovil_p   = ($automovil*100)/$total;
-$internet_p    = ($internet*100)/$total;
-$cable_p    = ($cable*100)/$total;
-
-?>
             $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'CANTIDAD DE CARPETAS FAMILIARES POR DEPARTAMENTO'
+                    text: 'FUNCIONALIDAD FAMILIAR '
                 },
                 subtitle: {
                     text: 'Fuente: Modulo de Carpetas Familiares sistema MEDI-SAFCI'
@@ -224,21 +239,22 @@ $cable_p    = ($cable*100)/$total;
 <script src="../js/modules/data.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
 
 <!-- Data from www.netmarketshare.com. Select Browsers => Desktop share by version. Download as tsv. -->
-<pre id="tsv" style="display:none">
-REFRIGERADOR O FREEZER	<?php echo $refrigerador_p;?>%
-COMPUTADORA/LAPTOP	<?php echo $computadora_p;?>%
-TELEVISOR 	<?php echo $televisor_p;?>%
-HORNO MICROONDAS	<?php echo $microondas_p;?>%
-LAVADORA/SECADORA DE ROPA	<?php echo $lavadora_p;?>%
-AIRE ACONDICIONADO	<?php echo $aire_acondicionado_p;?>%
-ESTUFA 	<?php echo $estufa_p;?>%
-AUTOMOVIL (USO DEL HOGAR) 	<?php echo $automovil_p;?>%
-SERVICIO DE INTERNET 	<?php echo $internet_p;?>%
-SERVICIO DE TELEVISIÓN POR CABLE O ANTENA PARABOLICA 	<?php echo $cable_p;?>%
-</pre>
+<pre id="tsv" style="display:none">Funcionalidad Familiar	Total Carpetas Familiares
+DESMEMBRAMIENTO(*)	<?php echo $desmem_p;?>%
+INCREMENTO(*)	<?php echo $incremento_p;?>%
+DESMORALIZACIÓN(*)	<?php echo $desmoralizacion_p;?>%
+DESORGANIZACIÓN(*)	<?php echo $desorganizacion_p;?>%
+VIOLENCIA EN LA FAMILIA(*)	<?php echo $violencia_p;?>%
+TABAQUISMO PASIVO(*)	<?php echo $tabaquismo_p;?>%
+CONSUMO DE ALCOHOL CON REPERCUSIÓN EN LA FAMILIA(*) 	<?php echo $alcohol_p;?>%
+CONSUMO DE DROGAS EN PRESENCIA DE LA FAMILIA(*) 	<?php echo $drogas_p;?>%
+CUMPLE FUNCIÓN ECONÓMICA	<?php echo $economica_p;?>%
+CUMPLE FUNCIÓN EDUCATIVA 	<?php echo $educativa_p;?>%
+CUMPLE FUNCIÓN AFECTIVA	  <?php echo $afectiva_p;?>%
+CUMPLE FUNCIÓN SOCIAL 	<?php echo $social_p;?>% </pre>
 
 	</body>
 </html>

@@ -184,6 +184,8 @@ $fecha_nacimiento = $row_n[5];
                     <a href="integrantes_cf.php" class="text-info"><-- VOLVER</a>
                 </div> 
                 <div class="col-sm-6">
+
+                <form name="GUARDA_INTEGRANTE" action="guarda_integrante_cf.php" method="post">  
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
                     REGISTRAR COMO INTEGRANTE
                     </button>  
