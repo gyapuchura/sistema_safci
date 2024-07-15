@@ -7,7 +7,90 @@ $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 ?>
 
-<?php
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>FUNCIONALIDAD FAMILIAR</title>
+
+		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+		<style type="text/css">
+        ${demo.css}
+		</style>
+
+		<script type="text/javascript">
+$(function () {
+
+    Highcharts.data({
+        csv: document.getElementById('tsv').innerHTML,
+        itemDelimiter: '\t',
+        parsed: function (columns) {
+
+            var brands = {},
+                brandsData = [],
+                versions = {},
+                drilldownSeries = [];
+
+            // Parse percentage strings
+            columns[1] = $.map(columns[1], function (value) {
+                if (value.indexOf('%') === value.length - 1) {
+                    value = parseFloat(value);
+                }
+                return value;
+            });
+
+            $.each(columns[0], function (i, name) {
+                var brand,
+                    version;
+
+                if (i > 0) {
+
+                    // Remove special edition notes
+                    name = name.split(' -')[0];
+
+                    // Split into brand and version
+                    version = name.match(/([0-9]+[\.0-9x]*)/);
+                    if (version) {
+                        version = version[0];
+                    }
+                    brand = name.replace(version, '');
+
+                    // Create the main data
+                    if (!brands[brand]) {
+                        brands[brand] = columns[1][i];
+                    } else {
+                        brands[brand] += columns[1][i];
+                    }
+
+                    // Create the version data
+                    if (version !== null) {
+                        if (!versions[brand]) {
+                            versions[brand] = [];
+                        }
+                        versions[brand].push(['v' + version, columns[1][i]]);
+                    }
+                }
+
+            });
+
+            $.each(brands, function (name, y) {
+                brandsData.push({
+                    name: name,
+                    y: y,
+                    drilldown: versions[name] ? name : null
+                });
+            });
+            $.each(versions, function (key, value) {
+                drilldownSeries.push({
+                    name: key,
+                    id: key,
+                    data: value
+                });
+            });
+
+            // Create the chart
+
+            <?php
 $sql_t =" SELECT count(idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf  ";
 $result_t = mysqli_query($link,$sql_t);
 $row_t = mysqli_fetch_array($result_t);
@@ -100,90 +183,8 @@ $afectiva_p     = ($afectiva*100)/$total;
 $social_p    = ($social*100)/$total;
 
 ?>
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>FUNCIONALIDAD FAMILIAR</title>
 
-		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
-		<style type="text/css">
-${demo.css}
-		</style>
-
-		<script type="text/javascript">
-$(function () {
-
-    Highcharts.data({
-        csv: document.getElementById('tsv').innerHTML,
-        itemDelimiter: '\t',
-        parsed: function (columns) {
-
-            var brands = {},
-                brandsData = [],
-                versions = {},
-                drilldownSeries = [];
-
-            // Parse percentage strings
-            columns[1] = $.map(columns[1], function (value) {
-                if (value.indexOf('%') === value.length - 1) {
-                    value = parseFloat(value);
-                }
-                return value;
-            });
-
-            $.each(columns[0], function (i, name) {
-                var brand,
-                    version;
-
-                if (i > 0) {
-
-                    // Remove special edition notes
-                    name = name.split(' -')[0];
-
-                    // Split into brand and version
-                    version = name.match(/([0-9]+[\.0-9x]*)/);
-                    if (version) {
-                        version = version[0];
-                    }
-                    brand = name.replace(version, '');
-
-                    // Create the main data
-                    if (!brands[brand]) {
-                        brands[brand] = columns[1][i];
-                    } else {
-                        brands[brand] += columns[1][i];
-                    }
-
-                    // Create the version data
-                    if (version !== null) {
-                        if (!versions[brand]) {
-                            versions[brand] = [];
-                        }
-                        versions[brand].push(['v' + version, columns[1][i]]);
-                    }
-                }
-
-            });
-
-            $.each(brands, function (name, y) {
-                brandsData.push({
-                    name: name,
-                    y: y,
-                    drilldown: versions[name] ? name : null
-                });
-            });
-            $.each(versions, function (key, value) {
-                drilldownSeries.push({
-                    name: key,
-                    id: key,
-                    data: value
-                });
-            });
-
-            // Create the chart
-
-            $('#funcionalidad_familiar').highcharts({
+            $('#funcionalidad_cf').highcharts({
                 chart: {
                     type: 'column'
                 },
@@ -232,11 +233,72 @@ $(function () {
     });
 });
 		</script>
+
+<script type="text/javascript">
+$(function () {
+    $('#evaluacion_funcionalidad').highcharts({
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45,
+                beta: 0
+            }
+        },
+        title: {
+            text: 'EVALUACION FUNCIONALIDAD FAMILIAR - NIVEL NACIONAL'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Porcentaje',
+            data: [
+                <?php
+                    $sql0 = " SELECT funcionalidad_familiar_cf.idcarpeta_familiar FROM funcionalidad_familiar_cf, funcionalidad_familiar  ";
+                    $sql0.= " WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
+                    $sql0.= " GROUP BY funcionalidad_familiar_cf.idcarpeta_familiar ";
+                    $result0 = mysqli_query($link,$sql0);
+                    $total = mysqli_num_rows($result0);
+
+                    $sql_t = " SELECT funcionalidad_familiar_cf.idcarpeta_familiar FROM funcionalidad_familiar_cf, funcionalidad_familiar  ";
+                    $sql_t.= " WHERE funcionalidad_familiar_cf.idfuncionalidad_familiar=funcionalidad_familiar.idfuncionalidad_familiar ";
+                    $sql_t.= " AND funcionalidad_familiar.funcional='NO' GROUP BY funcionalidad_familiar_cf.idcarpeta_familiar ";
+                    $result_t = mysqli_query($link,$sql_t);
+                    $disfuncional = mysqli_num_rows($result_t);
+
+                    $funcional = $total - $disfuncional;
+
+                    $p_disfuncional = ($disfuncional*100)/$total;
+                    $porcentaje_disfuncional = number_format($p_disfuncional, 2, '.', '');
+
+                    $p_funcional   = ($funcional*100)/$total;
+                    $porcentaje_funcional    = number_format($p_funcional, 2, '.', '');
+                    ?>
+
+                    ['FUNCIONAL', <?php echo $porcentaje_funcional;?>], ['DISFUNCIONAL', <?php echo $porcentaje_disfuncional;?>]
+
+
+                    ]
+        }]
+    });
+});
+		</script>
 	
 	</head>
 	<body>
-
-<div id="funcionalidad_familiar" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
 
 <!-- Data from www.netmarketshare.com. Select Browsers => Desktop share by version. Download as tsv. -->
 <pre id="tsv" style="display:none">Funcionalidad Familiar	Total Carpetas Familiares
@@ -253,11 +315,12 @@ CUMPLE FUNCIÓN EDUCATIVA 	<?php echo $educativa_p;?>%
 CUMPLE FUNCIÓN AFECTIVA	  <?php echo $afectiva_p;?>%
 CUMPLE FUNCIÓN SOCIAL 	<?php echo $social_p;?>% </pre>
 
-
 <span style="font-size: 12px"></span><span style="font-family: Arial"></span><span style="font-size: 12px"></span><span style="font-size: 12px"></span>
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/data.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 
+<div id="funcionalidad_cf" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
+<div id="evaluacion_funcionalidad" style="height: 300px"></div>
 	</body>
 </html>
