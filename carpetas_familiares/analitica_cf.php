@@ -318,6 +318,24 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XVIII. FORMA DE AYUDA FAMILIAR NECESARIA</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_ayuda_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AYUDA FAMILIAR NECESARIA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XIV. EVALUACIÓN DE SALUD FAMILIAR</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_evaluacion_salud_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=620,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">EVALUACIÓN SALUD FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+
                     </div>
                 </div>
             </div>
