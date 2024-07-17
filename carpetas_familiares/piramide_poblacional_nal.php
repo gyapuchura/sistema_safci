@@ -65,7 +65,7 @@ $(function () {
                 categories: categories,
                 reversed: false,
                 labels: {
-                    step: 1
+                    step: 0
                 }
             }, { // mirror axis on right side
                 opposite: true,
