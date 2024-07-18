@@ -252,7 +252,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">VII. BENEFICIARIOS DE PROGRAMAS SOCIALES:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_programa_social_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES</h6></a>  
+                        <a href="grafica_programa_social_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES</h6></a>  
                         </div>
                     </div>
                     <div class="form-group row">
