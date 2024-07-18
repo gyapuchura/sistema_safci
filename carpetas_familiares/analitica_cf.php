@@ -252,11 +252,29 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
 
                     <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_servicios.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="determinante_estructura_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_estructura.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -270,6 +288,15 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
 
                     <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_funcionalidad.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
@@ -277,6 +304,16 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <a href="determinante_salud_alimentaria.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA</h6></a>  
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_alimentario.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria</h6></a>  
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XII. CARACTERÍSTICAS SOCIOECONÓMICAS</h6>

@@ -450,7 +450,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                             } else {
                                                 if ($durante >= 6) {
                                                     $grado_alimentario = '5';
-                                                } else {  } } } }                                                            # code...
+                                                } else {  } } } }                                                           
 
                                     $sqlcon = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='4' AND idcat_determinante_salud='21' ";
                                     $resultcon = mysqli_query($link,$sqlcon);
