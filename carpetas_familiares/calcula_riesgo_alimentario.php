@@ -1,16 +1,98 @@
-<?php  include("../cabf.php");?>
-<?php  include("../inc.config.php");?>
-<?php 
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
+<?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram				= date("Ymd");
-$fecha 					= date("Y-m-d");
-$gestion                = date("Y");
+$fecha_ram	= date("Ymd");
+$fecha 	    = date("Y-m-d");
+$hora       = date("H:i");
+$gestion    = date("Y");
+
+$num_alimentaria_sin = 0;
+$num_alimentaria_leve = 0;
+$num_alimentaria_moderado = 0;
+$num_alimentaria_grave = 0;
+$num_alimentaria_muy_grave = 0;
+
+            $num_total=0;
+            $sql =" SELECT idcarpeta_familiar FROM determinante_salud_cf GROUP BY idcarpeta_familiar";
+            $result = mysqli_query($link,$sql);
+            if ($row = mysqli_fetch_array($result)){
+            mysqli_field_seek($result,0);
+            while ($field = mysqli_fetch_field($result)){
+            } do {
+                 
+/************ Evaluamos para cada detrminante de la salud  BEGIN ************/
+       
+$sqld = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
+$resultd = mysqli_query($link,$sqld);
+$rowd = mysqli_fetch_array($resultd);
+$durante = $rowd[0];
+
+if ($durante == '0' || $durante == '') {
+   $grado_alimentario = '1';
+} else {
+    if ($durante <= 3) {
+        $grado_alimentario = '3';
+    } else {
+        if ($durante <= 5) {
+            $grado_alimentario = '4';
+        } else {
+            if ($durante >= 6) {
+                $grado_alimentario = '5';
+            } else {  } } } }                                                           
+
+$sqlcon = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='4' AND idcat_determinante_salud='21' ";
+$resultcon = mysqli_query($link,$sqlcon);
+$rowcon = mysqli_fetch_array($resultcon);
+$consumo = $rowcon[0];
+
+$alimentaria = $grado_alimentario + $consumo;
+
+if ($alimentaria <= 7) {
+
+    $num_alimentaria_sin = $num_alimentaria_sin + 1;
+
+} else {
+    if ($alimentaria <= 13) {
+
+        $num_alimentaria_leve = $num_alimentaria_leve + 1;
+
+    } else {
+        if ($alimentaria <= 21) {
+
+            $num_alimentaria_moderado = $num_alimentaria_moderado + 1;
+            
+        } else {
+            if ($alimentaria <= 30) {
+
+                $num_alimentaria_grave = $num_alimentaria_grave + 1;
+
+            } else { 
+                if ($alimentaria <= 35) {
+
+                    $num_alimentaria_muy_grave = $num_alimentaria_muy_grave + 1;
+
+                } else {  } } } } }    
+       
+/************ Evaluamos para cada detrminante de la salud  END  ************/
+                
+                $num_total=$num_total+1;
+            }
+            while ($row = mysqli_fetch_array($result));
+            } else {
+            }
+
+                $num_alimentaria_sin_p       = ($num_alimentaria_sin*100)/$num_total;
+                $num_alimentaria_leve_p      = ($num_alimentaria_leve*100)/$num_total;
+                $num_alimentaria_moderado_p  = ($num_alimentaria_moderado*100)/$num_total;
+                $num_alimentaria_grave_p     = ($num_alimentaria_grave*100)/$num_total;
+                $num_alimentaria_muy_grave_p = ($num_alimentaria_muy_grave*100)/$num_total;
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>EVALUACION DE SALUD FAMILIAR</title>
+		<title>RIESGO DE LA SALUD ALIMENTARIA</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -88,44 +170,15 @@ $(function () {
 
             // Create the chart
 
-            <?php
-$sql_t =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf ";
-$result_t = mysqli_query($link,$sql_t);
-$row_t = mysqli_fetch_array($result_t);
-$total = $row_t[0];
-
-$sql_a =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar='FAMILIA CON RIESGO BAJO' ";
-$sql_a.="  ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-$riesgo_bajo = $row_a[0];
-
-$sql_b =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ";
-$sql_b.="  ";
-$result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$riesgo_mediano = $row_b[0];
-
-$sql_c =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar='FAMILIA CON RIESGO ALTO'  ";
-$sql_c.="  ";
-$result_c = mysqli_query($link,$sql_c);
-$row_c = mysqli_fetch_array($result_c);
-$riesgo_alto =$row_c[0];
-
-$riesgo_bajo_p    = ($riesgo_bajo*100)/$total;
-$riesgo_mediano_p = ($riesgo_mediano*100)/$total;
-$riesgo_alto_p    = ($riesgo_alto*100)/$total;
-
-?>
             $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'EVALUACIÓN DE LA SALUD FAMILIAR - NIVEL NACIONAL'
+                    text: 'RIESGO DE LA SALUD ALIMENTARIA - NIVEL NACIONAL'
                 },
                 subtitle: {
-                    text: 'Fuente: Modulo de Carpetas Familiares sistema MEDI-SAFCI'
+                    text: 'Fuente: Módulo de Carpetas Familiares sistema MEDI-SAFCI'
                 },
                 xAxis: {
                     type: 'category'
@@ -154,7 +207,7 @@ $riesgo_alto_p    = ($riesgo_alto*100)/$total;
                 },
 
                 series: [{
-                    name: 'Carpetas Familiares',
+                    name: '% de Familias :',
                     colorByPoint: true,
                     data: brandsData
                 }],
@@ -178,11 +231,12 @@ $riesgo_alto_p    = ($riesgo_alto*100)/$total;
 
 <!-- Data from www.netmarketshare.com. Select Browsers => Desktop share by version. Download as tsv. -->
 <pre id="tsv" style="display:none">Evaluacion salud	familiar 
-FAMILIAS CON RIESGO BAJO	<?php echo $riesgo_bajo_p;?>%
-FAMILIAS CON RIESGO MEDIANO	<?php echo $riesgo_mediano_p;?>%
-FAMILIAS CON RIESGO ALTO 	<?php echo $riesgo_alto_p;?>%
+SIN RIESGO	  <?php echo $num_alimentaria_sin_p;?>%
+RIESGO LEVE	  <?php echo $num_alimentaria_leve_p;?>%
+RIESGO MODERADO 	<?php echo $num_alimentaria_moderado_p;?>%
+RIESGO GRAVE	<?php echo $num_alimentaria_grave_p;?>%
+RIESGO MUY GRAVE 	<?php echo $num_alimentaria_muy_grave_p;?>%
 </pre>
-
 
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
