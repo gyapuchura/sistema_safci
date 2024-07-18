@@ -10,15 +10,16 @@ $gestion        = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>DETERMINANTES DE LA SALUD</title>
+		<title>PROGRAMAS SOCIALES SALUD FAMILIAR</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
 ${demo.css}
 		</style>
+
 		<script type="text/javascript">
 $(function () {
-    $('#container').highcharts({
+    $('#corresponde_salud').highcharts({
         chart: {
             type: 'pie',
             options3d: {
@@ -28,7 +29,7 @@ $(function () {
             }
         },
         title: {
-            text: 'Browser market shares at a specific website, 2014'
+            text: 'BENEFICIARIOS DE PROGRAMAS SOCIALES - NIVEL NACIONAL'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -46,16 +47,16 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '% DE INTEGRANTES',
             data: [
                 <?php
-                    $sql0 = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='1' ";
+                    $sql0 = " SELECT count(idintegrante_beneficiario) FROM integrante_beneficiario  ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT iditem_determinante_salud FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='1' GROUP BY iditem_determinante_salud ";
+                    $sql = " SELECT idprograma_social FROM integrante_beneficiario GROUP BY idprograma_social ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -64,11 +65,11 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iditem_determinante_salud='$row[0]' ";
+                    $sql_t = " SELECT idprograma_social, programa_social FROM programa_social WHERE idprograma_social='$row[0]' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c= " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='1' AND iditem_determinante_salud='$row[0]' ";
+                    $sql_c= " SELECT count(idintegrante_beneficiario) FROM integrante_beneficiario WHERE idprograma_social='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -101,6 +102,8 @@ $(function () {
     });
 });
 		</script>
+
+
 	</head>
 	<body>
 
@@ -108,6 +111,48 @@ $(function () {
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="height: 400px"></div>
+<div id="corresponde_salud" style="height: 350px"></div>
+
+
+
+<?php
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
+$result_cf = mysqli_query($link,$sql_cf);
+$row_cf = mysqli_fetch_array($result_cf);  
+$total_cf = $row_cf[0];
+?>
+
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
+
+<?php
+$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
+$result_p = mysqli_query($link,$sql_p);
+$municipios = mysqli_num_rows($result_p);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
+
+<?php
+$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
+$result_mun = mysqli_query($link,$sql_mun);
+$establecimientos = mysqli_num_rows($result_mun);  
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
+
+<?php
+$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
+$result_int = mysqli_query($link,$sql_int);
+$row_int = mysqli_fetch_array($result_int);  
+$integrantes = $row_int[0];
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
+
+<?php
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
+$result_per = mysqli_query($link,$sql_per);
+$personal = mysqli_num_rows($result_per);  
+
+?>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
+
 	</body>
 </html>
