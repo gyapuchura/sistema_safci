@@ -89,7 +89,7 @@ $(function () {
             // Create the chart
 
             <?php
-$sql_t =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf ";
+$sql_t =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar !='' ";
 $result_t = mysqli_query($link,$sql_t);
 $row_t = mysqli_fetch_array($result_t);
 $total = $row_t[0];
