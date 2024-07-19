@@ -1,1 +1,202 @@
-REPORTE CARPETAS FAMILIARES POR DEPARTAMENTO
+<?php include("../inc.config.php");
+
+$gestion = date("Y");
+$iddepartamento = $_POST["departamento_d"];
+
+$sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
+$result_dep = mysqli_query($link,$sql_dep);
+$row_dep = mysqli_fetch_array($result_dep);
+?>
+
+            <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES - DEPARTAMENTO DE <?php echo mb_strtoupper($row_dep[1]);?></h6>
+                    </div>
+                     
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">I. POBLACIÓN NIVEL DEPARTAMENTAL:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="piramide_poblacional_deptal.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PIRÁMIDE POBLACIONAL DEPARTAMENTAL</h6></a>  
+                        </div>
+                    </div>
+                </div>
+             <!--   <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">V. SALUD DE LOS INTEGRANTES DE LA FAMILIA:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="salud_integrantes_grafica.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">GRUPOS DE SALUD FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">VI. SUBSECTOR SALUD:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_subsector_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">VII. BENEFICIARIOS DE PROGRAMAS SOCIALES:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_programa_social_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">VIII. MEDICINA TRADICIONAL:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_medicina_tradicional_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">IX. DEFUNCIÓN:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_defuncion_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">DEFUNCIÓN</h6></a>  
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_servicios.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_estructura.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_funcionalidad.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_alimentario.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XII. CARACTERÍSTICAS SOCIOECONÓMICAS</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_socioeconomica_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SOCIOECONOMÍA DE LOS HOGARES</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XIII. TENENCIA DE ANIMALES DOMÉSTICOS DE COMPAÑÍA</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_tenencia_animales_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANIMALES DOMESTICOS EN CADA HOGAR</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XIV. ESTRUCTURA FAMILIAR</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_estructura_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XV. ETAPA DEL CICLO VITAL FAMILIAR</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_ciclo_vital_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">CICLO VITAL FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XVI. FUNCIONALIDAD FAMILIAR</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_evaluacion_funcionalidad_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=720,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XVIII. FORMA DE AYUDA FAMILIAR NECESARIA</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_ayuda_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AYUDA FAMILIAR NECESARIA</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">XIV. EVALUACIÓN DE SALUD FAMILIAR</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_evaluacion_salud_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=620,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">EVALUACIÓN SALUD FAMILIAR</h6></a>  
+                        </div>
+                    </div> -->
+
+                    </div>
+   

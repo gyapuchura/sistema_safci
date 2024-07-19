@@ -176,7 +176,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DEPARTAMENTAL</h6>
                     </div>
  
-                <form name="CARPETAS_FAMILIARES" action="valida_carpetas_eess.php" method="post">
+
                     
                 <div class="card-body">
                     <div class="form-group row">
@@ -207,18 +207,18 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 </div>
                     <div class="card-body" id="departamento_a_cf">                    
                     </div>
-                    </div>
+                </div>
                 <!-- ANALITICA A N9VEL DEPARTAMENTAL END -->
 
 
                        <!-- ANALITICA A N9VEL NACIONAL BEGIN -->
 
-                       <div class="card shadow mb-4">
+                <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL NACIONAL</h6>
                     </div>
  
-                <form name="CARPETAS_FAMILIARES" action="valida_carpetas_eess.php" method="post">
+
                     
                 <div class="card-body">
                     <div class="form-group row">
@@ -408,7 +408,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
             </div>
-                <!-- ANALITICA A N9VEL NACIONAL END -->
+                <!-- ANALITICA A NIVEL NACIONAL END -->
 
             <!-- End of Main Content -->
 
