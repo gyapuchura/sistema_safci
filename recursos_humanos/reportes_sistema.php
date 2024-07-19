@@ -154,6 +154,18 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">8.- CARPETAS FAMILIARES DIARIAS A NIVEL NACIONAL</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="carpetas_familiares_medi_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
           
                     
 <!-- END aqui va el comntenido de la pagina ---->
