@@ -139,7 +139,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">6.- SEGUIMIENTO A CONSOLIDACIÓN DE CARPETAS FAMILIARES</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../carpetas_familiares/avance_carpetas_familiares.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=550,scrollbars=YES'); return false;">
+                    <a href="../carpetas_familiares/avance_carpetas_familiares.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=650,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
@@ -150,7 +150,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">7.- CARPETAS FAMILIARES POR DEPARTAMENTO</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../carpetas_familiares/carpetas_departamento.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES'); return false;">
+                    <a href="../carpetas_familiares/carpetas_departamento.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=580,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
