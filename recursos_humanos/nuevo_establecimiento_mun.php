@@ -13,6 +13,10 @@ $iddepartamento_ss = $_SESSION['iddepartamento_ss'];
 $idred_salud_ss    = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss    = $_SESSION['idmunicipio_ss'];
 
+if($_SESSION['perfil_ss'] != "ADMINISTRADOR" || $_SESSION['perfil_ss'] != "ADM-MUNICIPAL"){      
+    header("Location:../index.php");    
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

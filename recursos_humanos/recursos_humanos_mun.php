@@ -9,6 +9,10 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+if($_SESSION['perfil_ss'] != "ADMINISTRADOR" || $_SESSION['perfil_ss'] != "ADM-MUNICIPAL"){      
+    header("Location:../index.php");    
+}
+
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
