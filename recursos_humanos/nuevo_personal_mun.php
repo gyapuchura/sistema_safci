@@ -9,10 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-if($_SESSION['perfil_ss'] != "ADMINISTRADOR" || $_SESSION['perfil_ss'] != "ADM-MUNICIPAL"){      
-    header("Location:../index.php");    
-}
-
 $sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddepartamento, idred_salud, idestablecimiento_salud ";
 $sql_l.= " FROM dato_laboral WHERE idusuario='$idusuario_ss' AND idnombre='$idnombre_ss' ORDER BY iddato_laboral DESC LIMIT 1 ";
 $result_l = mysqli_query($link,$sql_l);
