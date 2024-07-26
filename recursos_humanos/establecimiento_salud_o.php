@@ -1,4 +1,4 @@
-
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php");
 $idred_salud = $_POST["red_salud"];
 ?>

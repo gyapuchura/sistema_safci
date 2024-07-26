@@ -1,4 +1,4 @@
-
+<?php include("../cabf.php");?>
 <?php 
 include("../inc.config.php");
 $idprofesion = $_POST['profesion'];

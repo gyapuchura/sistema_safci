@@ -1,4 +1,5 @@
-<?php  include("../inc.config.php");?>
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
 <?php 
 $numero2 = 0;
 $sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";

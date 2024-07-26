@@ -1,6 +1,4 @@
-<?php
-	
-?>
+<?php include("../cabf.php");?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

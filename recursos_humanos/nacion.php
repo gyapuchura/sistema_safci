@@ -1,4 +1,4 @@
-
+<?php include("../cabf.php");?>
 <?php 
 include("../inc.config.php");
 $idtipo_area_influencia = $_POST['tipo_area_influencia'];

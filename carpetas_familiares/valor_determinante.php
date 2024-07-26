@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php
 $idcat_determinante_salud = $_POST['cat_determinante_salud'];
 

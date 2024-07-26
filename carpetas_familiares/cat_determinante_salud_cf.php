@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php");
 $iddeterminante_salud = $_POST["determinante_salud"];
 ?>

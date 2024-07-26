@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php
 $idmorbilidad_cf = $_POST['morbilidad_cf'];
 if ($idmorbilidad_cf == '19') { ?>

@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php
 $idfactor_riesgo_cf = $_POST['factor_riesgo_cf'];
 if ($idfactor_riesgo_cf == '15') { ?>

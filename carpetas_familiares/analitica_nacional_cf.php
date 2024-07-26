@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <table width="860" border="0" align="center">
   <tbody>
     <tr>

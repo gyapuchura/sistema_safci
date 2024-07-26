@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php
 
 $integrantes  = 6;

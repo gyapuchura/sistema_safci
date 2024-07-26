@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php 
 $idmunicipio_salud = $_POST["municipio_salud"];
 ?>

@@ -1,3 +1,4 @@
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php");
 $iddepartamento_dep = $_POST["departamento_dep"];
 ?>

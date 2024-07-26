@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php 
 $iddepartamento_mapa = $_POST["departamento_mapa"];
 ?>
