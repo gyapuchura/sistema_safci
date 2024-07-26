@@ -1,3 +1,10 @@
+<?php
+session_start();
+//	SE BORRA LOS ELEMENTOS DE LA VARIABLE SESSION
+$_SESSION = array();
+//	SE DESTRUYE LAS SESIONES EXISTENTES
+session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

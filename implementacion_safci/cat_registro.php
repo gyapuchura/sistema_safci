@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php");
 $idcat_registro = $_POST["cat_registro"];
 ?>

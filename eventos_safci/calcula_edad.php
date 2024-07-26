@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php
 $fecha_nacimiento = '2000-03-12';
 

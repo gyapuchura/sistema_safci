@@ -1,3 +1,4 @@
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php
 $defuncion_cf = $_POST['defuncion_cf'];

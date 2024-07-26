@@ -1,4 +1,4 @@
-
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php");
 $idsospecha_diag = $_POST["sospecha_diag"];
 ?>

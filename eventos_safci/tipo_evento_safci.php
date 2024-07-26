@@ -1,4 +1,4 @@
-
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php");
 $idcat_evento_safci = $_POST["cat_evento_safci"];
 ?>

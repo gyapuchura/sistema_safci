@@ -1,4 +1,4 @@
-<?php include("../cabf.php"); ?>
+<?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php           
     $sql6 =" SELECT idintegrante_subsector_salud, idsubsector_salud, idsubsector_elige FROM integrante_subsector_salud WHERE idintegrante_cf='8' GROUP BY idsubsector_salud ";
