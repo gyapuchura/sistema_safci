@@ -717,7 +717,7 @@ $(function () {
                     type: 'column'
                 },
                 title: {
-                    text: 'GRUPO III - MORBILIDAD'
+                    text: 'GRUPO III - MORBILIDAD - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
                 },
                 subtitle: {
                     text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
