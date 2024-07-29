@@ -33,31 +33,31 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <a href="salud_integrantes_grafica_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">GRUPOS DE SALUD FAMILIAR  - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
-             <!--         <div class="form-group row">
+                 <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">VI. SUBSECTOR SALUD:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_subsector_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD</h6></a>  
+                        <a href="grafica_subsector_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD</h6></a>  
                         </div>
                     </div>
-                    <div class="form-group row">
+                       <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">VII. BENEFICIARIOS DE PROGRAMAS SOCIALES:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_programa_social_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES</h6></a>  
+                        <a href="grafica_programa_social_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES</h6></a>  
                         </div>
                     </div>
-                    <div class="form-group row">
+                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">VIII. MEDICINA TRADICIONAL:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_medicina_tradicional_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL</h6></a>  
+                        <a href="grafica_medicina_tradicional_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL</h6></a>  
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">IX. DEFUNCIÓN:</h6>
                         </div>
