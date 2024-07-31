@@ -38,7 +38,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">VI. SUBSECTOR SALUD:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_subsector_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD</h6></a>  
+                        <a href="grafica_subsector_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
                        <div class="form-group row">
@@ -46,7 +46,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">VII. BENEFICIARIOS DE PROGRAMAS SOCIALES:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_programa_social_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES</h6></a>  
+                        <a href="grafica_programa_social_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
                      <div class="form-group row">
@@ -54,26 +54,80 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">VIII. MEDICINA TRADICIONAL:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_medicina_tradicional_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL</h6></a>  
+                        <a href="grafica_medicina_tradicional_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
-                    <!-- <div class="form-group row">
+                   <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">IX. DEFUNCIÓN:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_defuncion_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">DEFUNCIÓN</h6></a>  
+                        <a href="grafica_defuncion_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">DEFUNCIÓN - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
                 </div>
 
-                <div class="card-body">
+               <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_servicios_basicos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS</h6></a>  
+                        <a href="determinante_servicios_basicos_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                     <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_servicios_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                   <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_estructura_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                   <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                       <div class="form-group row">
+                        <div class="col-sm-7">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-5">
+                        <a href="calcula_riesgo_funcionalidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
 
@@ -82,65 +136,11 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-5">
-                        <a href="calcula_riesgo_servicios.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos</h6></a>  
+                        <a href="calcula_riesgo_alimentario_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-6">
-                        <a href="determinante_estructura_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA</h6></a>  
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_estructura.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda</h6></a>  
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-6">
-                        <a href="determinante_funcionalidad_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA</h6></a>  
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_funcionalidad.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda</h6></a>  
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-6">
-                        <a href="determinante_salud_alimentaria.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA</h6></a>  
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_alimentario.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria</h6></a>  
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XII. CARACTERÍSTICAS SOCIOECONÓMICAS</h6>
                         </div>
