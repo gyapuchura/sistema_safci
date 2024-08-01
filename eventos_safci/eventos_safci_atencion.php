@@ -79,8 +79,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>CÓDIGO</th>
                                             <th>DEPARTAMENTO</th>
                                             <th>MUNICIPIO</th>
-                                            <th>ESTABLECIMIENTO DE SALUD</th>  
-                                            <th>USUARIO REGISTRADOR</th>           
+                                            <th>ESTABLECIMIENTO DE SALUD</th>
+                                            <th>ATENCIONES</th> 
+                                            <th>USUARIO REGISTRADOR</th> 
+                                            <th>FECHA DE REGISTRO</th>            
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -88,7 +90,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                         $numero=1;
                         $sql =" SELECT evento_safci.idevento_safci, evento_safci.codigo, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, ";
-                        $sql.=" cat_evento_safci.cat_evento_safci, tipo_evento_safci.tipo_evento_safci, nombre.nombre, nombre.paterno, nombre.materno ";
+                        $sql.=" cat_evento_safci.cat_evento_safci, tipo_evento_safci.tipo_evento_safci, nombre.nombre, nombre.paterno, nombre.materno, evento_safci.fecha_registro, evento_safci.hora_registro ";
                         $sql.=" FROM evento_safci, departamento, municipios, establecimiento_salud, cat_evento_safci, tipo_evento_safci, usuarios, nombre ";
                         $sql.=" WHERE evento_safci.iddepartamento=departamento.iddepartamento AND evento_safci.idmunicipio=municipios.idmunicipio AND ";
                         $sql.=" evento_safci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND evento_safci.idcat_evento_safci=cat_evento_safci.idcat_evento_safci AND ";
@@ -106,7 +108,19 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
                                 <td><?php echo $row[4];?></td>
+                                <td><?php 
+                                    $sql_r = " SELECT idatencion_safci FROM atencion_safci WHERE idevento_safci='$row[0]'";
+                                    $result_r = mysqli_query($link,$sql_r);        
+                                if ($row_r = mysqli_fetch_array($result_r)) {
+                                    echo "CON ATENCIONES"; } else { }  ?>
+                                </td>                                
                                 <td><?php echo mb_strtoupper($row[7]." ".$row[8]." ".$row[9]);?></td>
+                                <td>
+                                <?php 
+                                    $fecha_r = explode('-',$row[10]);
+                                    $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                                <?php echo $f_registro;?></br><?php echo $row[11];?>     
+                                </td>
                                 <td>
                                 <form name="FORM_EVENTO" action="valida_evento_safci_atencion.php" method="post">
                                 <input name="idevento_safci" type="hidden" value="<?php echo $row[0];?>">
