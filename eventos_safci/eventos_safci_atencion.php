@@ -110,9 +110,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <td><?php echo $row[4];?></td>
                                 <td><?php 
                                     $sql_r = " SELECT idatencion_safci FROM atencion_safci WHERE idevento_safci='$row[0]'";
-                                    $result_r = mysqli_query($link,$sql_r);        
+                                    $result_r = mysqli_query($link,$sql_r); 
+                                    $atenciones = mysqli_num_rows($result_r);
                                 if ($row_r = mysqli_fetch_array($result_r)) {
-                                    echo "CON ATENCIONES"; } else { }  ?>
+                                    echo $atenciones." ATENCIONES MÉDICAS"; } else { }  ?>
                                 </td>                                
                                 <td><?php echo mb_strtoupper($row[7]." ".$row[8]." ".$row[9]);?></td>
                                 <td>
