@@ -140,15 +140,15 @@ $row_dep = mysqli_fetch_array($result_dep);
                         </div>
                     </div>
 
-                    <!-- <div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XII. CARACTERÍSTICAS SOCIOECONÓMICAS</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_socioeconomica_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SOCIOECONOMÍA DE LOS HOGARES</h6></a>  
+                        <a href="grafica_socioeconomica_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SOCIOECONOMÍA DE LOS HOGARES</h6></a>  
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XIII. TENENCIA DE ANIMALES DOMÉSTICOS DE COMPAÑÍA</h6>
                         </div>
