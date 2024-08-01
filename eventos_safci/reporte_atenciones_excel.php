@@ -125,7 +125,7 @@ $row_ev=mysqli_fetch_array($result_ev);
     </tr>
     <tr>
       <td><table width="328" border="0">
-        <tbody>
+        <tbody> 
           <tr>
             <td width="172">&nbsp;</td>
             <td width="73" style="font-size: 14px; font-family: Arial; text-align: center;">M</td>
@@ -136,8 +136,28 @@ $row_ev=mysqli_fetch_array($result_ev);
             <td colspan="2"><table width="150" height="22" border="1" cellspacing="0">
               <tbody>
                 <tr>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
+                  <td style="text-align: center; font-family: Arial; font-size: 14px;">
+                  <?php               
+                    $sql8 =" SELECT count(idespecialidad_atencion) FROM especialidad_atencion, atencion_safci, nombre, genero ";
+                    $sql8.=" WHERE especialidad_atencion.idatencion_safci=atencion_safci.idatencion_safci AND nombre.idgenero=genero.idgenero ";
+                    $sql8.=" AND atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss'  ";
+                    $sql8.="  AND nombre.idgenero='2' ORDER BY atencion_safci.idatencion_safci DESC ";
+                    $result8 = mysqli_query($link,$sql8);
+                    $row8 = mysqli_fetch_array($result8);
+                    echo $row8[0];
+                    ?> 
+                  </td>
+                  <td style="text-align: center; font-family: Arial; font-size: 14px;">
+                  <?php               
+                    $sql9 =" SELECT count(idespecialidad_atencion) FROM especialidad_atencion, atencion_safci, nombre, genero ";
+                    $sql9.=" WHERE especialidad_atencion.idatencion_safci=atencion_safci.idatencion_safci AND nombre.idgenero=genero.idgenero ";
+                    $sql9.=" AND atencion_safci.idnombre=nombre.idnombre AND atencion_safci.idevento_safci='$idevento_safci_ss'  ";
+                    $sql9.="  AND nombre.idgenero='1' ORDER BY atencion_safci.idatencion_safci DESC ";
+                    $result9 = mysqli_query($link,$sql9);
+                    $row9 = mysqli_fetch_array($result9);
+                    echo $row9[0];
+                    ?>  
+                  </td>
                 </tr>
               </tbody>
             </table></td>

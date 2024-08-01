@@ -87,7 +87,9 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT valor FROM socio_economica_cf GROUP BY valor ";
+$sql2 = " SELECT socio_economica_cf.valor FROM socio_economica_cf, carpeta_familiar ";
+$sql2.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql2.= " AND carpeta_familiar.estado='CONSOLIDADO' GROUP BY socio_economica_cf.valor ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -109,9 +111,11 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
-
+ 
 <?php
-$sql_a =" SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row3[0]' AND valor='$row2[0]' ";
+$sql_a = " SELECT COUNT(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar ";
+$sql_a.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql_a.= " AND socio_economica_cf.idsocio_economica='$row3[0]' AND socio_economica_cf.valor='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
