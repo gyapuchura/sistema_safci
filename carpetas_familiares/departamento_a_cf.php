@@ -148,12 +148,12 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <a href="grafica_socioeconomica_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SOCIOECONOMÍA DE LOS HOGARES - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
-                    <!--  <div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XIII. TENENCIA DE ANIMALES DOMÉSTICOS DE COMPAÑÍA</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_tenencia_animales_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANIMALES DOMESTICOS EN CADA HOGAR</h6></a>  
+                        <a href="grafica_tenencia_animales_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ANIMALES DOMESTICOS EN CADA HOGAR - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
                     <div class="form-group row">
@@ -161,18 +161,18 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">XIV. ESTRUCTURA FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_estructura_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR</h6></a>  
+                        <a href="grafica_estructura_familiar_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
-                    <div class="form-group row">
+                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XV. ETAPA DEL CICLO VITAL FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_ciclo_vital_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">CICLO VITAL FAMILIAR</h6></a>  
+                        <a href="grafica_ciclo_vital_familiar_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">CICLO VITAL FAMILIAR</h6></a>  
                         </div>
                     </div>
-                    <div class="form-group row">
+                     <!--<div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XVI. FUNCIONALIDAD FAMILIAR</h6>
                         </div>
