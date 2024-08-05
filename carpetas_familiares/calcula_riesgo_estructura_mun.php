@@ -1,23 +1,93 @@
-<?php  include("../cabf.php");?>
-<?php  include("../inc.config.php");?>
-<?php 
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
+<?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram				= date("Ymd");
-$fecha 					= date("Y-m-d");
-$gestion                = date("Y");
+$fecha_ram	= date("Ymd");
+$fecha 	    = date("Y-m-d");
+$hora       = date("H:i");
+$gestion    = date("Y");
 
-$iddepartamento = $_GET['iddepartamento'];
+$idmunicipio = $_GET['idmunicipio'];
 
-$sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
-$result_dep = mysqli_query($link,$sql_dep);
-$row_dep = mysqli_fetch_array($result_dep);
+$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
+
+$num_estructura_sin = 0;
+$num_estructura_leve = 0;
+$num_estructura_moderado = 0;
+$num_estructura_grave = 0;
+$num_estructura_muy_grave = 0;
+
+            $num_total=0;
+            $sql = " SELECT determinante_salud_cf.idcarpeta_familiar FROM determinante_salud_cf, ubicacion_cf, carpeta_familiar ";
+            $sql.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+            $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+            $sql.= " GROUP BY determinante_salud_cf.idcarpeta_familiar ";
+            $result = mysqli_query($link,$sql);
+            if ($row = mysqli_fetch_array($result)){
+            mysqli_field_seek($result,0);
+            while ($field = mysqli_fetch_field($result)){
+            } do {
+                 
+/************ Evaluamos para cada detrminante de la salud  BEGIN ************/
+       
+        $sqla = " SELECT sum(determinante_salud_cf.valor_cf)  FROM determinante_salud_cf, ubicacion_cf, carpeta_familiar ";
+        $sqla.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sqla.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+        $sqla.= " AND determinante_salud_cf.idcarpeta_familiar='$row[0]' AND determinante_salud_cf.iddeterminante_salud='2'  ";
+        $resulta = mysqli_query($link,$sqla);
+        $rowa = mysqli_fetch_array($resulta);  
+        
+        $sumatoria = $rowa[0];
+        
+        if ($sumatoria <= 16 ) {
+
+            $num_estructura_sin = $num_estructura_sin + 1;
+
+        } else {
+            if ($sumatoria <= 31 ) {
+
+                $num_estructura_leve = $num_estructura_leve + 1;                
+
+            } else {
+                if ($sumatoria <= 41) {
+
+                    $num_estructura_moderado =  $num_estructura_moderado + 1;
+
+                } else {
+                    if ($sumatoria <= 56) {
+
+                        $num_estructura_grave = $num_estructura_grave + 1;                        
+
+                    } else { 
+                        if ($sumatoria <= 80) {
+
+                            $num_estructura_muy_grave = $num_estructura_muy_grave + 1;
+
+                        } else {  } } } } } 
+       
+/************ Evaluamos para cada detrminante de la salud  END  ************/
+                
+                $num_total=$num_total+1;
+            }
+            while ($row = mysqli_fetch_array($result));
+            } else {
+            }
+
+                $num_estructura_sin_p       = ($num_estructura_sin*100)/$num_total;
+                $num_estructura_leve_p      = ($num_estructura_leve*100)/$num_total;
+                $num_estructura_moderado_p  = ($num_estructura_moderado*100)/$num_total;
+                $num_estructura_grave_p     = ($num_estructura_grave*100)/$num_total;
+                $num_estructura_muy_grave_p = ($num_estructura_muy_grave*100)/$num_total;
 
 ?>
+
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>EVALUACION DE SALUD FAMILIAR - DEPTO</title>
+		<title>RIESGO EN ESTRUCTURA DE LA VIVIENDA - MUNICIPIO</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -93,55 +163,17 @@ $(function () {
                 });
             });
 
-            // creamos el grafico
+            // Create the chart
 
-            <?php
-$sql_t =" SELECT count(evaluacion_familiar_cf.idevaluacion_familiar_cf) FROM evaluacion_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_t.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_t.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento'  ";
-$sql_t.=" AND evaluacion_familiar_cf.evaluacion_familiar !='' ";
-$result_t = mysqli_query($link,$sql_t);
-$row_t = mysqli_fetch_array($result_t);
-$total = $row_t[0];
-
-$sql_a =" SELECT count(evaluacion_familiar_cf.idevaluacion_familiar_cf) FROM evaluacion_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_a.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
-$sql_a.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO BAJO' ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-$riesgo_bajo = $row_a[0];
-
-$sql_b =" SELECT count(evaluacion_familiar_cf.idevaluacion_familiar_cf) FROM evaluacion_familiar_cf, carpeta_familiar, ubicacion_cf ";
-$sql_b.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
-$sql_b.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ";
-$result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$riesgo_mediano = $row_b[0];
-
-$sql_c =" SELECT count(evaluacion_familiar_cf.idevaluacion_familiar_cf) FROM evaluacion_familiar_cf, carpeta_familiar, ubicacion_cf ";
-$sql_c.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
-$sql_c.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO ALTO' ";
-$result_c = mysqli_query($link,$sql_c);
-$row_c = mysqli_fetch_array($result_c);
-$riesgo_alto =$row_c[0];
-
-$riesgo_bajo_p    = ($riesgo_bajo*100)/$total;
-$riesgo_mediano_p = ($riesgo_mediano*100)/$total;
-$riesgo_alto_p    = ($riesgo_alto*100)/$total;
-
-?>
             $('#container').highcharts({
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'EVALUACIÓN DE LA SALUD FAMILIAR - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
+                    text: 'RIESGO ESTRUCTURAL DE LA VIVIENDA  - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
                 },
                 subtitle: {
-                    text: 'Fuente: Modulo de Carpetas Familiares sistema MEDI-SAFCI'
+                    text: 'Fuente: Módulo de Carpetas Familiares sistema MEDI-SAFCI'
                 },
                 xAxis: {
                     type: 'category'
@@ -170,7 +202,7 @@ $riesgo_alto_p    = ($riesgo_alto*100)/$total;
                 },
 
                 series: [{
-                    name: 'Carpetas Familiares',
+                    name: '% de Familias :',
                     colorByPoint: true,
                     data: brandsData
                 }],
@@ -194,59 +226,52 @@ $riesgo_alto_p    = ($riesgo_alto*100)/$total;
 
 <!-- Data from www.netmarketshare.com. Select Browsers => Desktop share by version. Download as tsv. -->
 <pre id="tsv" style="display:none">Evaluacion salud	familiar 
-FAMILIAS CON RIESGO BAJO	<?php echo $riesgo_bajo_p;?>%
-FAMILIAS CON RIESGO MEDIANO	<?php echo $riesgo_mediano_p;?>%
-FAMILIAS CON RIESGO ALTO 	<?php echo $riesgo_alto_p;?>%
+SIN RIESGO	  <?php echo $num_estructura_sin_p;?>%
+RIESGO LEVE	  <?php echo $num_estructura_leve_p;?>%
+RIESGO MODERADO 	<?php echo $num_estructura_moderado_p;?>%
+RIESGO GRAVE	<?php echo $num_estructura_grave_p;?>%
+RIESGO MUY GRAVE 	<?php echo $num_estructura_muy_grave;?>%
 </pre>
 
 <?php
 $sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
 $sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
 ?>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES DEPARTAMENTO = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_p = " SELECT ubicacion_cf.idmunicipio FROM carpeta_familiar, ubicacion_cf ";
-$sql_p.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_p.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS DEL DEPARTAMENTO= <?php echo $municipios;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES MUNICIPIO = <?php echo $total_cf;?> </h4></spam>
 
 <?php
 $sql_mun =" SELECT ubicacion_cf.idestablecimiento_salud FROM carpeta_familiar, ubicacion_cf ";
 $sql_mun.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_mun.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idestablecimiento_salud ";
+$sql_mun.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY ubicacion_cf.idestablecimiento_salud ";
 $result_mun = mysqli_query($link,$sql_mun);
 $establecimientos = mysqli_num_rows($result_mun);  
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL DEPARTAMENTO = <?php echo $establecimientos;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL MUNICIPIO = <?php echo $establecimientos;?> </h4></spam>
 
 <?php
 $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
 $sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL DEPARTAMENTO= <?php echo $integrantes;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL MUNICIPIO = <?php echo $integrantes;?> </h4></spam>
 
 <?php
 $sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idusuario ";
+$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idusuario ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
 
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL DEPARTAMENTO = <?php echo $personal;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>

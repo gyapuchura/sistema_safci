@@ -67,8 +67,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE ESTABLECIMIENTO</h6>
                     </div>
- 
-                <form name="CARPETAS_FAMILIARES" action="valida_carpetas_eess.php" method="post">
                     
                 <div class="card-body">
                     <div class="form-group row">
@@ -125,7 +123,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE MUNICIPIO</h6>
                     </div>
  
-                <form name="CARPETAS_FAMILIARES" action="valida_carpetas_eess.php" method="post">
+
                     
                 <div class="card-body">
                     <div class="form-group row">
