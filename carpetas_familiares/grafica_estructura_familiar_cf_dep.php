@@ -5,6 +5,7 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
+
 $iddepartamento = $_GET['iddepartamento'];
 
 $sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
@@ -66,7 +67,7 @@ $(function () {
                     $numero = 0;
                     $sql = " SELECT idestructura_familiar FROM estructura_familiar_cf WHERE vigente='SI' GROUP BY idestructura_familiar ";
                     $sql = " SELECT estructura_familiar_cf.idestructura_familiar FROM estructura_familiar_cf, carpeta_familiar, ubicacion_cf ";
-                    $sql.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
                     $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' AND estructura_familiar_cf.vigente='SI' GROUP BY estructura_familiar_cf.idestructura_familiar ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
@@ -80,9 +81,8 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c= " SELECT count(idestructura_familiar_cf) FROM estructura_familiar_cf WHERE vigente='SI' AND idestructura_familiar='$row[0]' ";
                     $sql_c = " SELECT count(estructura_familiar_cf.idestructura_familiar_cf) FROM estructura_familiar_cf, carpeta_familiar, ubicacion_cf ";
-                    $sql_c.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
+                    $sql_c.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
                     $sql_c.= " AND ubicacion_cf.iddepartamento='$iddepartamento' AND estructura_familiar_cf.vigente='SI' AND estructura_familiar_cf.idestructura_familiar='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);

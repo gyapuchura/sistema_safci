@@ -58,7 +58,7 @@ $(function () {
             data: [
                 <?php
                     $sql0 = " SELECT count(etapa_familiar_cf.idetapa_familiar_cf) FROM etapa_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql0.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
+                    $sql0.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
                     $sql0.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' AND etapa_familiar_cf.vigente='SI' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
@@ -66,7 +66,7 @@ $(function () {
 
                     $numero = 0;
                     $sql = " SELECT etapa_familiar_cf.idetapa_familiar FROM etapa_familiar_cf, carpeta_familiar, ubicacion_cf ";
-                    $sql.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
                     $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' AND etapa_familiar_cf.vigente='SI' GROUP BY etapa_familiar_cf.idetapa_familiar ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
@@ -81,7 +81,7 @@ $(function () {
                     $row_t = mysqli_fetch_array($result_t);
 
                     $sql_c = " SELECT count(etapa_familiar_cf.idetapa_familiar_cf) FROM etapa_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql_c.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql_c.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
                     $sql_c.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' AND etapa_familiar_cf.vigente='SI' AND etapa_familiar_cf.idetapa_familiar='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);

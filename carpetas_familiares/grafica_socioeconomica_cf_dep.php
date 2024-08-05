@@ -30,7 +30,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'CARACTERÍSTICAS SOCIOECONÓMICAS'
+            text: 'CARACTERÍSTICAS SOCIOECONÓMICAS - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
         },
         subtitle: {
             text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
@@ -95,7 +95,7 @@ Si no se encontraron resultados
             <?php 
 $numero2 = 0;
 $sql2 = " SELECT socio_economica_cf.valor FROM socio_economica_cf, carpeta_familiar, ubicacion_cf ";
-$sql2.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql2.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
 $sql2.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY socio_economica_cf.valor ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
