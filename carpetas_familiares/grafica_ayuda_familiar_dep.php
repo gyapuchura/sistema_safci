@@ -17,7 +17,7 @@ $row_dep = mysqli_fetch_array($result_dep);
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>TENENCIA DE ANIMALES DOMESTICOS DEP</title>
+		<title>AYUDA FAMILIAR DEPTO</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -36,7 +36,7 @@ $(function () {
             }
         },
         title: {
-            text: 'TENENCIA DE ANIMALES DOMÉSTICOS - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
+            text: 'FORMA DE AYUDA FAMILIAR NECESARIA - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -54,20 +54,21 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: '% animales domésticos',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
-                    $sql0 = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql0.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql0.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento'  ";
+                    $sql0 = " SELECT count(ayuda_familiar_cf.idayuda_familiar_cf) FROM ayuda_familiar_cf, carpeta_familiar, ubicacion_cf  ";
+                    $sql0.= " WHERE ayuda_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' AND ayuda_familiar_cf.vigente='SI' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT tenencia_animales_cf.idtenencia_animales FROM tenencia_animales_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY tenencia_animales_cf.idtenencia_animales ";
+                    $sql = " SELECT ayuda_familiar_cf.idayuda_familiar FROM ayuda_familiar_cf, carpeta_familiar, ubicacion_cf  ";
+                    $sql.= " WHERE ayuda_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+                    $sql.= " AND ayuda_familiar_cf.vigente='SI' GROUP BY ayuda_familiar_cf.idayuda_familiar ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -76,13 +77,14 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT idtenencia_animales, tenencia_animales FROM tenencia_animales WHERE idtenencia_animales='$row[0]' ";
+                    $sql_t = " SELECT idayuda_familiar, ayuda_familiar FROM ayuda_familiar WHERE idayuda_familiar='$row[0]' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar, ubicacion_cf ";
-                    $sql_c.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql_c.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' AND tenencia_animales_cf.idtenencia_animales='$row[0]' ";
+                    $sql_c = " SELECT count(ayuda_familiar_cf.idayuda_familiar_cf) FROM ayuda_familiar_cf, carpeta_familiar, ubicacion_cf  ";
+                    $sql_c.= " WHERE ayuda_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento'  ";
+                    $sql_c.= " AND ayuda_familiar_cf.vigente='SI' AND ayuda_familiar_cf.idayuda_familiar='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];

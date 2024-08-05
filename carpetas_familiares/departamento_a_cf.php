@@ -169,15 +169,15 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">XV. ETAPA DEL CICLO VITAL FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_ciclo_vital_familiar_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">CICLO VITAL FAMILIAR</h6></a>  
+                        <a href="grafica_ciclo_vital_familiar_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">CICLO VITAL FAMILIAR - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
-                     <!--<div class="form-group row">
+                    <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XVI. FUNCIONALIDAD FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_evaluacion_funcionalidad_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=720,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR</h6></a>  
+                        <a href="grafica_evaluacion_funcionalidad_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=720,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
 
@@ -186,7 +186,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">XVIII. FORMA DE AYUDA FAMILIAR NECESARIA</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_ayuda_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AYUDA FAMILIAR NECESARIA</h6></a>  
+                        <a href="grafica_ayuda_familiar_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AYUDA FAMILIAR NECESARIA - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
 
@@ -195,9 +195,9 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary">XIV. EVALUACIÓN DE SALUD FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_evaluacion_salud_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=620,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">EVALUACIÓN SALUD FAMILIAR</h6></a>  
+                        <a href="grafica_evaluacion_salud_familiar_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=620,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">EVALUACIÓN SALUD FAMILIAR - <?php echo $row_dep[1];?></h6></a>  
                         </div>
-                    </div> -->
+                    </div>
 
                     </div>
    
