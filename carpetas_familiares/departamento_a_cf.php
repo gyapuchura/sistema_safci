@@ -27,7 +27,7 @@ $row_dep = mysqli_fetch_array($result_dep);
               <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">V. SALUD DE LOS INTEGRANTES DE LA FAMILIA DEPARTAMENTO :</h6>
+                        <h6 class="text-primary">V. SALUD DE LOS INTEGRANTES DE LA FAMILIA :</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="salud_integrantes_grafica_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">GRUPOS DE SALUD FAMILIAR  - <?php echo $row_dep[1];?></h6></a>  

@@ -122,9 +122,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE MUNICIPIO</h6>
                     </div>
- 
-
-                    
+           
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-3">
