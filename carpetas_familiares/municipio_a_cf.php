@@ -91,7 +91,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_munructura_vivienda_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <a href="determinante_estructura_vivienda_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - Mun. <?php echo $row_mun[1];?></h6></a>  
                         </div>
                     </div>
 
@@ -100,7 +100,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-5">
-                        <a href="calcula_riesgo_munructura_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <a href="calcula_riesgo_estructura_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda - Mun. <?php echo $row_mun[1];?></h6></a>  
                         </div>
                     </div>
 
@@ -161,7 +161,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary">XIV. ESTRUCTURA FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_munructura_familiar_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <a href="grafica_estructura_familiar_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=520,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA FAMILIAR - Mun. <?php echo $row_mun[1];?></h6></a>  
                         </div>
                     </div>
                      <div class="form-group row">
