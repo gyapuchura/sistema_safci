@@ -11,5 +11,4 @@ if($_SESSION['idusuario_ss'] == "" || $_SESSION['idnombre_ss'] == "" || $_SESSIO
 	header("Location:../index.php");
 }
 /////////////////////////////////////////
-
 ?>

@@ -6,9 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
-$idmunicipio = $_GET['idmunicipio'];
+$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$sql_mun = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
 $result_mun = mysqli_query($link,$sql_mun);
 $row_mun = mysqli_fetch_array($result_mun);
 
@@ -17,7 +17,7 @@ $row_mun = mysqli_fetch_array($result_mun);
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>AYUDA FAMILIAR MUNICIPIO</title>
+		<title>ESTRUCTURA FAMILIAR ESTABLECIMIENTO DE SALUD</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -30,13 +30,13 @@ $(function () {
         chart: {
             type: 'pie',
             options3d: {
-                enabled: true,
+                enabled: true, 
                 alpha: 45,
                 beta: 0
             }
         },
         title: {
-            text: 'FORMA DE AYUDA FAMILIAR NECESARIA - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
+            text: 'ESTRUCTURA FAMILIAR - Establecimiento: <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -57,18 +57,18 @@ $(function () {
             name: '% DE FAMILIAS',
             data: [
                 <?php
-                    $sql0 = " SELECT count(ayuda_familiar_cf.idayuda_familiar_cf) FROM ayuda_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql0.= " WHERE ayuda_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' AND ayuda_familiar_cf.vigente='SI' ";
+                    $sql0 = " SELECT count(estructura_familiar_cf.idestructura_familiar_cf) FROM estructura_familiar_cf, carpeta_familiar, ubicacion_cf ";
+                    $sql0.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql0.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' AND estructura_familiar_cf.vigente='SI' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT ayuda_familiar_cf.idayuda_familiar FROM ayuda_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql.= " WHERE ayuda_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
-                    $sql.= " AND ayuda_familiar_cf.vigente='SI' GROUP BY ayuda_familiar_cf.idayuda_familiar ";
+                    $sql = " SELECT idestructura_familiar FROM estructura_familiar_cf WHERE vigente='SI' GROUP BY idestructura_familiar ";
+                    $sql = " SELECT estructura_familiar_cf.idestructura_familiar FROM estructura_familiar_cf, carpeta_familiar, ubicacion_cf ";
+                    $sql.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' AND estructura_familiar_cf.vigente='SI' GROUP BY estructura_familiar_cf.idestructura_familiar ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -77,14 +77,13 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT idayuda_familiar, ayuda_familiar FROM ayuda_familiar WHERE idayuda_familiar='$row[0]' ";
+                    $sql_t = " SELECT idestructura_familiar, estructura_familiar FROM estructura_familiar WHERE idestructura_familiar='$row[0]' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT count(ayuda_familiar_cf.idayuda_familiar_cf) FROM ayuda_familiar_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql_c.= " WHERE ayuda_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio'  ";
-                    $sql_c.= " AND ayuda_familiar_cf.vigente='SI' AND ayuda_familiar_cf.idayuda_familiar='$row[0]' ";
+                    $sql_c = " SELECT count(estructura_familiar_cf.idestructura_familiar_cf) FROM estructura_familiar_cf, carpeta_familiar, ubicacion_cf ";
+                    $sql_c.= " WHERE estructura_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
+                    $sql_c.= " AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' AND estructura_familiar_cf.vigente='SI' AND estructura_familiar_cf.idestructura_familiar='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -127,46 +126,37 @@ $(function () {
 
 <div id="suministro_agua" style="height: 350px"></div>
 
+
 <?php
 $sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
 $sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
 ?>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES MUNICIPIO = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT ubicacion_cf.idestablecimiento_salud FROM carpeta_familiar, ubicacion_cf ";
-$sql_mun.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_mun.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY ubicacion_cf.idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL MUNICIPIO = <?php echo $establecimientos;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES - ESTABLECIMIENTO DE SALUD = <?php echo $total_cf;?> </h4></spam>
 
 <?php
 $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
 $sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL MUNICIPIO= <?php echo $integrantes;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL ESTABLECIMIENTO DE SALUD= <?php echo $integrantes;?> </h4></spam>
 
 <?php
 $sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idusuario ";
+$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY carpeta_familiar.idusuario ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
 
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
-
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ESTABLECIMIENTO DE SALUD = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>
