@@ -233,6 +233,55 @@ SANTA CRUZ 	<?php echo $santa_cruz_p;?>%
 TARIJA 	<?php echo $tarija_p;?>%
 </pre>
 
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">CANTIDAD DE CARPETAS FAMILIARES POR DEPARTAMENTO </h2>
+		<table width="700" border="1" align="center" cellspacing="0">
+		  <tbody>
+		    <tr>
+		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° CARPETAS FAMILIARES</td>
+		      <td width="101" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIOS</td>
+
+		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
+	        </tr>
+            <?php
+    $numero=1; 
+    $sql =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ";
+    $result = mysqli_query($link,$sql);
+    if ($row = mysqli_fetch_array($result)){
+    mysqli_field_seek($result,0);           
+    while ($field = mysqli_fetch_field($result)){
+    } do {
+
+        $sql_depto =" SELECT count(ubicacion_cf.iddepartamento) FROM ubicacion_cf, carpeta_familiar WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql_depto.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$row[0]' ";
+        $result_depto = mysqli_query($link,$sql_depto);
+        $row_depto = mysqli_fetch_array($result_depto);
+        $carpetas_depto = $row_depto[0];
+
+
+    ?>
+		    <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
+              <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $carpetas_depto;?></td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="carpetas_municipio.php?iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=850,height=1000,scrollbars=YES,top=60,left=400'); return false;">REPORTE MUNICIPIOS</a>
+              </td>
+		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
+	        </tr>
+            <?php
+        $numero=$numero+1;
+        }
+        while ($row = mysqli_fetch_array($result));
+        } else {
+        }
+        ?>
+	      </tbody>
+    </table>
+
+
+    
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
 $result_cf = mysqli_query($link,$sql_cf);
@@ -271,6 +320,7 @@ $personal = mysqli_num_rows($result_per);
 
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
+
 
 	</body>
 </html>
