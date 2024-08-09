@@ -43,7 +43,7 @@ $(function () {
 $numero = 0;
 $sql = " SELECT ubicacion_cf.idmunicipio, municipios.municipio FROM ubicacion_cf, municipios, carpeta_familiar WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
 $sql.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idmunicipio=municipios.idmunicipio  ";
-$sql.= " AND ubicacion_cf.iddepartamento='4' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio ";
+$sql.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
