@@ -116,8 +116,10 @@ data: [
     
     <?php 
 $numero3 = 0;
+
+
 $sql3 = " SELECT ubicacion_cf.idmunicipio FROM ubicacion_cf, municipios, carpeta_familiar WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql3.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
@@ -157,7 +159,7 @@ data: [
     <?php 
 $numero3 = 0;
 $sql3 = " SELECT ubicacion_cf.idmunicipio FROM ubicacion_cf, municipios, carpeta_familiar WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='' ";
+$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql3.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
@@ -198,7 +200,14 @@ echo "";
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
-<div id="container" style="min-width: 310px; max-width: 850px; height: 1400px; margin: 0 auto"></div>
+<?php
+$sql_alto = " SELECT count(carpeta_familiar.idcarpeta_familiar) FROM ubicacion_cf, carpeta_familiar  ";
+$sql_alto.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_alto.= " AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+$result_alto = mysqli_query($link,$sql_alto);
+$row_alto = mysqli_fetch_array($result_alto); 
+?>
+<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $row_alto[0];?>px; margin: 0 auto"></div>
 
 <p>&nbsp;</p>
 </body>
