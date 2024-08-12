@@ -201,7 +201,7 @@ echo "";
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 
-<div id="container" style="min-width: 310px; max-width: 850px; height: 1800px; margin: 0 auto"></div>
+<div id="container" style="min-width: 310px; max-width: 850px; height: 2000px; margin: 0 auto"></div>
 
 <p>&nbsp;</p>
 </body>
