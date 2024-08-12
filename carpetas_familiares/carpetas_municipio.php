@@ -200,13 +200,8 @@ echo "";
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
-<?php
-$sql_alto = " SELECT count(idmunicipio) FROM ubicacion_cf WHERE iddepartamento='$iddepartamento' GROUP BY idmunicipio  ";
-$result_alto = mysqli_query($link,$sql_alto);
-$row_alto = mysqli_fetch_array($result_alto); 
-$alto = $row_alto[0]*45;
-?>
-<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $alto;?>px; margin: 0 auto"></div>
+
+<div id="container" style="min-width: 310px; max-width: 850px; height: 1800px; margin: 0 auto"></div>
 
 <p>&nbsp;</p>
 </body>
