@@ -213,9 +213,75 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL NACIONAL</h6>
                     </div>
- 
 
-                    
+
+                    <div class="card-header py-3">
+                    <h6 class="text-info">CUADRO INFORMATIVO PARA SEGUIMIENTO</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                            <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
+                            <?php
+                            $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
+                            $result_cf = mysqli_query($link,$sql_cf);
+                            $row_cf = mysqli_fetch_array($result_cf);  
+                            $total_cf = $row_cf[0];
+                            ?>
+                            <?php echo $total_cf;?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">N° DE MUNICIPIOS:</h6>
+                            <?php
+                            $sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
+                            $result_p = mysqli_query($link,$sql_p);
+                            $municipios = mysqli_num_rows($result_p);  
+                            ?>
+                            <?php echo $municipios;?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">N° DE ESTABLECIMIENTOS DE SALUD:</h6>
+                            <?php
+                            $sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
+                            $result_mun = mysqli_query($link,$sql_mun);
+                            $establecimientos = mysqli_num_rows($result_mun);  
+                            ?>
+                            <?php echo $establecimientos;?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
+                            <?php
+                            $sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
+                            $result_int = mysqli_query($link,$sql_int);
+                            $row_int = mysqli_fetch_array($result_int);  
+                            $integrantes = $row_int[0];
+                            ?>
+                            <?php echo $integrantes;?> 
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
+
+                            <?php
+                            $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
+                            $result_per = mysqli_query($link,$sql_per);
+                            $personal = mysqli_num_rows($result_per);  
+                            ?>
+                            <?php echo $personal;?>
+                            <h6></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                        </div>   
+                    </div>
+                </div>
+
+                  
+                <div class="card shadow mb-4">
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">

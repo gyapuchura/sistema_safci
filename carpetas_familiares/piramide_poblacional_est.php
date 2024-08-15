@@ -224,7 +224,6 @@ $sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_
 $sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY carpeta_familiar.idusuario ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
-
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ESTABLECIMIENTO DE SALUD = <?php echo $personal;?> </h4></spam>
 
