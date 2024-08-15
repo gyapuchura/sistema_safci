@@ -240,7 +240,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary"></br>N° DE PUERTA:</h6>
-                    <input type="number" class="form-control" name="no_puerta" value="<?php echo $row_cf[10];?>" disabled>            
+                    <input type="text" class="form-control" name="no_puerta" value="<?php echo $row_cf[10];?>" disabled>            
                     </div>
                 </div>
             <hr>
@@ -262,6 +262,9 @@ $row_cf=mysqli_fetch_array($result_cf);
                         <input type="number" class="form-control" name="altura" value="<?php echo $row_cf[14];?>" disabled>                
                     </div>
                 </div>
+                <div class="text-left"> 
+               <a href="modificar_carpeta_familiar.php"><h6 class="text-success">MODIFICAR DATOS CARPETA FAMILIAR</h6></a>                                                                   
+            </div>
 
             <hr>
             <div class="text-center"> 

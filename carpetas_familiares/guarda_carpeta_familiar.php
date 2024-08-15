@@ -22,7 +22,7 @@ $idarea_influencia       = $_POST['idarea_influencia'];
 $fecha_apertura  = $_POST['fecha_apertura'];
 $familia         = $link->real_escape_string(mb_strtoupper($_POST['familia']));
 $avenida_calle   = $link->real_escape_string(mb_strtoupper($_POST[ 'avenida_calle']));
-$no_puerta       = $_POST['no_puerta'];
+$no_puerta       = $link->real_escape_string($_POST['no_puerta']);
 $nombre_edificio = $link->real_escape_string(mb_strtoupper($_POST['nombre_edificio']));
 $latitud         = $_POST['latitud'];
 $longitud        = $_POST['longitud'];
@@ -55,11 +55,11 @@ else {
         $result8 = mysqli_query($link,$sql8);  
         $idcarpeta_familiar = mysqli_insert_id($link);
 
-        $sql8 = " INSERT INTO ubicacion_cf (idcarpeta_familiar, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, ";
-        $sql8.= " avenida_calle, no_puerta, nombre_edificio, latitud, longitud, altura, ubicacion_actual, fecha_registro, hora_registro, idusuario )";
-        $sql8.= " VALUES ('$idcarpeta_familiar','$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud','$idarea_influencia', ";
-        $sql8.= " '$avenida_calle','$no_puerta','$nombre_edificio','$latitud','$longitud','$altura','SI','$fecha','$hora','$idusuario_ss')";
-        $result8 = mysqli_query($link,$sql8);  
+        $sql9 = " INSERT INTO ubicacion_cf (idcarpeta_familiar, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, ";
+        $sql9.= " avenida_calle, no_puerta, nombre_edificio, latitud, longitud, altura, ubicacion_actual, fecha_registro, hora_registro, idusuario )";
+        $sql9.= " VALUES ('$idcarpeta_familiar','$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud','$idarea_influencia', ";
+        $sql9.= " '$avenida_calle','$no_puerta','$nombre_edificio','$latitud','$longitud','$altura','SI','$fecha','$hora','$idusuario_ss')";
+        $result9 = mysqli_query($link,$sql9);  
 
         $_SESSION['idcarpeta_familiar_ss'] = $idcarpeta_familiar;  
     
