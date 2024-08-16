@@ -51,23 +51,14 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
                         <td>
                             <?php if ($row[10] == 'CONSOLIDADO') { ?>
                                 
-                    <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"> 1.- IDENTIFICACIÓN DE LA FAMILIA</h6></a>
+                    <a href="imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                    <h6 class="text-info">IMPRIMIR CARPETA FAMILIAR</h6></a>
                  
-                    <a href="imprime_carpeta_familiar_2.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"> 2.- SALUD DE LOS INTEGRANTES DE LA FAMILIA</h6></a>
-                 
-                    <a href="imprime_carpeta_familiar_3.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"> 3.- DETERMINANTES DE LA SALUD</h6></a>
-                 
-                    <a href="imprime_carpeta_familiar_4.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"> 4.- COMPORTAMIENTO FAMILIAR</h6></a>
-
                             <?php } else { 
                             
                             if ($row[11] == $idusuario_ss) { ?>
 
-                            <h6 class="text-info">EN LA BANDEJA DE CARPETAS FAMILIARES DEL OPERATIVO</h6>
+                            <h6 class="text-primary">EN LA BANDEJA DE CARPETAS FAMILIARES DEL OPERATIVO</h6>
 
                             <?php } else {  ?>
 

@@ -194,13 +194,16 @@ Si no se encontraron resultados
     $sql.=" AND ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND ubicacion_cf.ubicacion_actual='SI' ORDER BY carpeta_familiar.idcarpeta_familiar DESC";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
-    mysqli_field_seek($result2,0);           
+    mysqli_field_seek($result,0);           
     while ($field = mysqli_fetch_field($result)){
     } do {
     ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+              <?php echo $row[1];?></a>  
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[2];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[3];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[4];?></td>

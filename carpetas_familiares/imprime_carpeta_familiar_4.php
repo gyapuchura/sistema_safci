@@ -345,14 +345,3 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
     </tr>
   </tbody>
 </table>
-<?php include("../inc.config.php"); ?>
-<?php
-date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
-$hora       = date("H:i");
-$gestion    = date("Y");
-
-$idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];      
-
-?>
