@@ -14,7 +14,7 @@ $row2 = mysqli_num_rows($result2);
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
-            <span class="text">GENERAR MAPA DEL ESTABLECIMIENTO DE SALUD <?php echo $numero_areas;?></span></a>
+            <span class="text">GENERAR MAPA DEL ESTABLECIMIENTO DE SALUD</span></a>
             </div>
             <div class="col-sm-4">
             <h6 class="text-info-center">NÚMERO DE AREAS DE INFLUENCIA : <?php echo $row2;?></h6> 
