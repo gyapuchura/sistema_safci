@@ -13,9 +13,17 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <a class="nav-link" href="../administrar_sistema/inicio.php">
+    <a class="nav-link" href="../administrar_sistema/inicio.php" data-toggle="collapse" data-target="#collapseadm"
+    aria-expanded="true" aria-controls="collapseadm">
         <i class="fas fa-bahai"></i>
-        <span>ADMINISTRACION DE SISTEMA</span></a>
+        <span>ADMINISTRACION DE SISTEMA</span>
+    </a>
+    <div id="collapseadm" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">ELEGIR:</h6>
+        <a class="collapse-item" href="../recursos_humanos/reportes_sistema.php">REPORTES SISTEMA</a>
+    </div>
+    </div>
 </li>
 
 <!-- Divider -->
@@ -52,7 +60,7 @@
         <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
         <a class="collapse-item" href="../recursos_humanos/personal_municipio.php">PERSONAL</br>POR MUNICIPIO</a>
         <a class="collapse-item" href="../recursos_humanos/reportes_personal.php">REPORTES PERSONAL</a>
-        <a class="collapse-item" href="../recursos_humanos/reportes_sistema.php">REPORTES SISTEMA</a>
+
 
     <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
