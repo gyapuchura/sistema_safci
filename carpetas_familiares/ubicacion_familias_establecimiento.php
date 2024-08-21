@@ -8,13 +8,16 @@ $gestion                = date("Y");
 
 $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sql1 = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud ";
-$sql1.= " WHERE latitud != '' AND longitud != '' AND idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql1 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
+$sql1.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
+$sql1.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
+$sql1.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+$sql1.= " AND carpeta_familiar.estado='CONSOLIDADO' AND  area_influencia.idestablecimiento_salud='$idestablecimiento_salud' LIMIT 1 ";
 $result1 = mysqli_query($link,$sql1);
 $row1 = mysqli_fetch_array($result1);
 
-$latitud_c  = $row1[2];
-$longitud_c = $row1[3];
+$latitud_c  = $row1[6];
+$longitud_c = $row1[7];
 $zoom_c     = "16";
 ?>
 <!DOCTYPE html>
@@ -276,7 +279,13 @@ $zoom_c     = "16";
                         <span class="fa-sr-only">${property.type}</span>
                         </div>
                     <div class="details">
-                    <div class="price">${property.price}</div>
+                    <div class="price">
+                    <a href="imprime_carpeta_familiar.php?idcarpeta_familiar=${property.idcarpeta_familiar}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1280,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                    <span>${property.price}</span>
+                    </a> 
+                    
+                    
+                    </div>
                     <div class="address">${property.address}</div>
                     <div class="features">
                     <div>
@@ -335,7 +344,6 @@ echo ",";
 } else {
 }
 ?>
-
 
             ];
 
