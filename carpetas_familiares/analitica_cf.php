@@ -162,8 +162,55 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                     </div>
 
-                <!-- ANALITICA A N9VEL MUNICIPAL END -->
+                <!-- ANALITICA A NIVEL MUNICIPAL END -->
 
+                <!-- ANALITICA POR RED DE SALUD - BEGIN -->
+                
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES POR RED DE SALUD</h6>
+                    </div>
+           
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">DEPARTAMENTO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="iddepartamento_red"  id="iddepartamento_red" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
+                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">RED DE SALUD:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idred_salud_cf" id="idred_salud_cf" class="form-control" required></select>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body" id="red_salud_a_cf">                    
+                    </div>
+                    </div>
+
+                <!-- ANALITICA POR RED DE SALUD - END -->
        
                        <!-- ANALITICA A N9VEL DEPARTAMENTAL BEGIN -->
 
@@ -577,6 +624,35 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         })
         });
 </script> 
+
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento_red").change(function () {
+                    $("#iddepartamento_red option:selected").each(function () {
+                        departamento_red=$(this).val();
+                    $.post("red_salud_cf.php", {departamento_red:departamento_red}, function(data){
+                    $("#idred_salud_cf").html(data);
+                    });
+                });
+        })
+        });
+</script> 
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#idred_salud_cf").change(function () {
+                    $("#idred_salud_cf option:selected").each(function () {
+                        red_salud_cf=$(this).val();
+                    $.post("red_salud_a_cf.php", {red_salud_cf:red_salud_cf}, function(data){
+                    $("#red_salud_a_cf").html(data);
+                    });
+                });
+        })
+        });
+</script>
+
+
 
 <script language="javascript">
         $(document).ready(function(){
