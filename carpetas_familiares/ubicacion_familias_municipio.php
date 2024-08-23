@@ -6,13 +6,13 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
+$idmunicipio = $_GET['idmunicipio'];
 
-$sql1 = " SELECT carpeta_familiar.idcarpeta_familiar, establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
+$sql1 = " SELECT carpeta_familiar.idcarpeta_familiar, municipios.municipio, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
 $sql1.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
-$sql1.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf, establecimiento_salud WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
-$sql1.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql1.= " AND carpeta_familiar.estado='CONSOLIDADO' AND  ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' LIMIT 1 ";
+$sql1.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf, municipios WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
+$sql1.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND ubicacion_cf.idmunicipio=municipios.idmunicipio ";
+$sql1.= " AND carpeta_familiar.estado='CONSOLIDADO' AND  ubicacion_cf.idmunicipio='$idmunicipio' LIMIT 1 ";
 $result1 = mysqli_query($link,$sql1);
 $row1 = mysqli_fetch_array($result1);
 
@@ -26,7 +26,7 @@ $zoom_c     = "16";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CARPETAS FAMILIARES POR ESTABLECIMIENTO</title>
+    <title>CARPETAS FAMILIARES POR MUNICIPIO</title>
     <style>
         :root {
             --building-color: #FF9800;
@@ -233,7 +233,7 @@ $zoom_c     = "16";
     <script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js"></script>
 </head>
 <body>
-    <div class="sala"><h3 class="text-center">ESTABLECIMIENTO : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
+    <div class="sala"><h3 class="text-center">FAMILIAS EN EL MUNICIPIO DE <?php echo mb_strtoupper($row1[1]);?></h3></div>  
     <div class="map" id="map"></div>   
     
     <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
@@ -310,7 +310,7 @@ $sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, 
 $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
 $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
 $sql4.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND  ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND  ubicacion_cf.idmunicipio='$idmunicipio' ";
 $result4 = mysqli_query($link,$sql4);
 $total4 = mysqli_num_rows($result4);
  if ($row4 = mysqli_fetch_array($result4)){

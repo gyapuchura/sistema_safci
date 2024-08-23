@@ -90,6 +90,18 @@ $row_mun = mysqli_fetch_array($result_mun);
                         </div>
                     </div>
                 </div>
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">II. UBICACIÓN GEOGRAFICA DE LAS FAMILIAS EN EL MUNICIPIO:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="ubicacion_familias_municipio.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">UBICACIÓN GEOGRÁFICA - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
