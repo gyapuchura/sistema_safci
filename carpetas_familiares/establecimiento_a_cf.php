@@ -86,7 +86,7 @@ $row_est = mysqli_fetch_array($result_est);
                         <h6 class="text-primary">II. UBICACIÓN GEOGRÁFICA DE LAS FAMILIAS:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="ubicacion_familias_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">UBICACIÓN GEOGRÁFICA DE LAS FAMILIAS - Establecimiento : <?php echo $row_est[1];?></h6></a>  
+                        <a href="ubicacion_familias_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">UBICACIÓN GEOGRÁFICA DE LAS FAMILIAS - Establecimiento : <?php echo $row_est[1];?></h6></a>  
                         </div>
                     </div>
                 </div>
