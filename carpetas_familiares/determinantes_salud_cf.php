@@ -597,8 +597,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     </form>
 <hr>
                             
-            
-               
+                           
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
           
              <div class="text-center"> 
@@ -653,23 +652,22 @@ $row_cf=mysqli_fetch_array($result_cf);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-
     <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>               
-        <script language="javascript">
-            $(document).ready(function(){
-            $("#iddeterminante_salud").change(function () {
-                        $("#iddeterminante_salud option:selected").each(function () {
-                            determinante_salud=$(this).val();
-                        $.post("cat_determinante_salud_cf.php", {determinante_salud:determinante_salud}, function(data){
-                        $("#cat_determinante_salud_cf").html(data);
-                        });
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>               
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#iddeterminante_salud").change(function () {
+                    $("#iddeterminante_salud option:selected").each(function () {
+                        determinante_salud=$(this).val();
+                    $.post("cat_determinante_salud_cf.php", {determinante_salud:determinante_salud}, function(data){
+                    $("#cat_determinante_salud_cf").html(data);
                     });
-            })
-            });
-        </script> 
+                });
+        })
+        });
+    </script> 
 
 </body>
 </html> 
