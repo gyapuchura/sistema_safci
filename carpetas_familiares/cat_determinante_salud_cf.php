@@ -28,8 +28,6 @@ $iddeterminante_salud = $_POST["determinante_salud"];
 
 <div class="form-group row" id="factor_determinante"></div> 
 
-<!-- <div class="form-group row" id='valor_determinante'></div> -->
-
         <script language="javascript">
             $(document).ready(function(){
             $("#idcat_determinante_salud").change(function () {
@@ -42,16 +40,3 @@ $iddeterminante_salud = $_POST["determinante_salud"];
             })
             });
         </script> 
-
-        <script language="javascript">
-            $(document).ready(function(){
-            $("#idcat_determinante_salud").change(function () {
-                        $("#idcat_determinante_salud option:selected").each(function () {
-                            cat_determinante_salud=$(this).val();
-                        $.post("valor_determinante.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
-                        $("#valor_determinante").html(data);
-                        });
-                    });
-            })
-            });
-        </script>
