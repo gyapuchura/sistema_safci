@@ -62,7 +62,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h1 class="h3 mb-2 text-gray-800">ANALÍTICA DE CARPETAS FAMILIARES SAFCI</h1>
                     <p class="mb-4">En esta seccion se puede encontrar los resultados de los registros de CARPETAS FAMILIARES del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
-                    <!-- DataTales Example -->
+                    <!-- Analitica de Carpetas Familiares -->
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE ESTABLECIMIENTO</h6>
@@ -112,6 +113,68 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
                     <div class="card-body" id="establecimiento_a_cf">                    
+                    </div>
+                    </div>
+
+                 <!-- ANALITICA A NIVEL DE AREA DE INFLUENCIA BEGIN -->
+
+                    <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE ÁREA DE INFLUENCIA</h6>
+                    </div>
+                    
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">DEPARTAMENTO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="iddepartamento_af"  id="iddepartamento_af" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
+                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">MUNICIPIO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idmunicipio_af" id="idmunicipio_af" class="form-control" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idestablecimiento_af" id="idestablecimiento_af" class="form-control" required></select>
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idarea_influencia_af" id="idarea_influencia_af" class="form-control" required></select>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body" id="area_influencia_a_cf">                    
                     </div>
                     </div>
 
@@ -680,5 +743,60 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         });
 </script> 
 
+<!---------- Scripts para CFs por area de influencia Begin ---------->
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento_af").change(function () {
+                    $("#iddepartamento_af option:selected").each(function () {
+                        departamento_af=$(this).val();
+                    $.post("municipio_af.php", {departamento_af:departamento_af}, function(data){
+                    $("#idmunicipio_af").html(data);
+                    });
+                });
+        })
+        });
+</script> 
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#idmunicipio_af").change(function () {
+                    $("#idmunicipio_af option:selected").each(function () {
+                        municipio_af=$(this).val();
+                    $.post("establecimientos_af.php", {municipio_af:municipio_af}, function(data){
+                    $("#idestablecimiento_af").html(data);
+                    });
+                });
+        })
+        });
+</script>
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#idestablecimiento_af").change(function () {
+                    $("#idestablecimiento_af option:selected").each(function () {
+                        establecimiento_af=$(this).val();
+                    $.post("areas_influencia_af.php", {establecimiento_af:establecimiento_af}, function(data){
+                    $("#idarea_influencia_af").html(data);
+                    });
+                });
+        })
+        });
+</script>
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#idarea_influencia_af").change(function () {
+                    $("#idarea_influencia_af option:selected").each(function () {
+                        area_influencia_af=$(this).val();
+                    $.post("area_influencia_a_cf.php", {area_influencia_af:area_influencia_af}, function(data){
+                    $("#area_influencia_a_cf").html(data);
+                    });
+                });
+        })
+        });
+</script>
+
+<!---------- Scripts para CFs por area de influencia End  ---------->
 </body>
 </html>
