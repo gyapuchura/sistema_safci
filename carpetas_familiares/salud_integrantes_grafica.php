@@ -11,7 +11,7 @@ $gestion                = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>SALUD DE INTEGRANTES DE LA FAMILIA</title>
+		<title>SALUD DE INTEGRANTES DE LA FAMILIA A NIVEL NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">

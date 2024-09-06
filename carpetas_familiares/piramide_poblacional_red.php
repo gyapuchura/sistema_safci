@@ -130,7 +130,7 @@ $(function () {
                     <?php
                     $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, ubicacion_cf, carpeta_familiar ";
                     $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql7.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO'  ";
+                    $sql7.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO'  ";
                     $sql7.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idred_salud='$idred_salud' ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
@@ -167,7 +167,7 @@ $(function () {
                         <?php
                         $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, ubicacion_cf, carpeta_familiar ";
                         $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql7.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO'  ";
+                        $sql7.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO'  ";
                         $sql7.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idred_salud='$idred_salud' ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
