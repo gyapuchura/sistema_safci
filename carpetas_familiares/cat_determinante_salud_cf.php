@@ -24,7 +24,7 @@ $iddeterminante_salud = $_POST["determinante_salud"];
             ?>
         </select>
     </div>
-</div>
+</div> 
 
 <div class="form-group row" id="factor_determinante"></div> 
 

@@ -515,6 +515,5 @@ $row_cf=mysqli_fetch_array($result_cf);
         })
         });
     </script> 
-
 </body>
 </html> 
