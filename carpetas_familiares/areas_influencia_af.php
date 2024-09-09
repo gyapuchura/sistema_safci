@@ -6,10 +6,10 @@ $idestablecimiento = $_POST["establecimiento_af"];
 <option value="">Elegir Área de Influencia</option>
 <?php
 $numero3 = 1;
-$sql3 = " SELECT ubicacion_cf.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia  ";
-$sql3.= " FROM ubicacion_cf, area_influencia, tipo_area_influencia WHERE ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia  ";
+$sql3 = " SELECT ubicacion_cf.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia ";
+$sql3.= " FROM ubicacion_cf, area_influencia, tipo_area_influencia, carpeta_familiar WHERE ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia ";
 $sql3.= " AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento' ";
-$sql3.= " GROUP BY ubicacion_cf.idarea_influencia  ";
+$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' GROUP BY ubicacion_cf.idarea_influencia ";
 $result3 = mysqli_query($link,$sql3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
