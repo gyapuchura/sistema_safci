@@ -13,7 +13,7 @@ $perfil_ss     = $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
-/*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
+/*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/ 
 
 $iddeterminante_salud      = $_POST['iddeterminante_salud'];
 $idcat_determinante_salud  = $_POST['idcat_determinante_salud'];
@@ -32,7 +32,7 @@ if ($idcat_determinante_salud == '14') {
     $sql_t.= " AND idcat_determinante_salud='$idcat_determinante_salud' AND iditem_determinante_salud='$iditem_determinante_salud_i' ";
     $result_t = mysqli_query($link,$sql_t);
     if ($row_t = mysqli_fetch_array($result_t)) {
-        header("Location:mensaje_determinantes_salud_cf.php");
+        header("Location:mensaje_determinantes_salud_cf.php"); 
 
     } else { 
 
@@ -176,15 +176,27 @@ if ($idcat_determinante_salud == '14') {
                 
                     } else { 
 
-                                $sql1 = "SELECT iditem_determinante_salud, valor FROM item_determinante_salud WHERE iditem_determinante_salud='$iditem_determinante_salud' ";
-                                $result1 = mysqli_query($link,$sql1);
-                                $row1 = mysqli_fetch_array($result1);
+                        $sql_rev = " SELECT iditem_determinante_salud, iddeterminante_salud, idcat_determinante_salud FROM item_determinante_salud ";
+                        $sql_rev.= " WHERE idcat_determinante_salud='$idcat_determinante_salud' AND iditem_determinante_salud='$iditem_determinante_salud' ";
+                        $result_rev = mysqli_query($link,$sql_rev);
+                        if ($row_rev = mysqli_fetch_array($result_rev)) {
 
-                                $sql2 = " INSERT INTO determinante_salud_cf (idcarpeta_familiar, iddeterminante_salud, idcat_determinante_salud, iditem_determinante_salud, valor_cf, fecha_registro, hora_registro, idusuario) ";
-                                $sql2.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud','$row1[1]','$fecha','$hora','$idusuario_ss') ";
-                                $result2 = mysqli_query($link,$sql2);   
+                            $sql1 = "SELECT iditem_determinante_salud, valor FROM item_determinante_salud WHERE iditem_determinante_salud='$iditem_determinante_salud' ";
+                            $result1 = mysqli_query($link,$sql1);
+                            $row1 = mysqli_fetch_array($result1);
 
-                                header("Location:determinantes_salud_cf.php");
+                            $sql2 = " INSERT INTO determinante_salud_cf (idcarpeta_familiar, iddeterminante_salud, idcat_determinante_salud, iditem_determinante_salud, valor_cf, fecha_registro, hora_registro, idusuario) ";
+                            $sql2.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud','$row1[1]','$fecha','$hora','$idusuario_ss') ";
+                            $result2 = mysqli_query($link,$sql2);   
+
+                            header("Location:determinantes_salud_cf.php");
+                            
+                        } else {
+                           
+                            header("Location:mensaje_determinantes_salud_cf_error.php");
+
+                        }
+                        
                     }     
         }
         }
