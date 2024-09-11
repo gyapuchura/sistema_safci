@@ -135,5 +135,3 @@ if ($idcat_determinante_salud == '17') { ?>
             </div>
             
 <?php         } } } } } ?>
-
-
