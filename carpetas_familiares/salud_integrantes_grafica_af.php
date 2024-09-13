@@ -481,7 +481,7 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 <div id="grupo_riesgo" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
-<a href="cuadro_cf_salud_integrantes.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=600,scrollbars=YES,top=60,left=400'); return false;">             
+<a href="cuadro_cf_salud_integrantes.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
 CUADRO FACTORES DE RIESGO</a></h2>
 
 
@@ -796,7 +796,11 @@ $(function () {
             OTRAS ENFERMEDADES CRONICAS	<?php echo $otra_p;?>%
             </pre>
 
-    <div id="grupo_morbilidad" style="min-width: 310px; height: 400px; margin: 0 auto"></div>       
+    <div id="grupo_morbilidad" style="min-width: 310px; height: 400px; margin: 0 auto"></div>     
+    
+            <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+            <a href="cuadro_cf_morbilidad_integrantes.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
+            CUADRO MORBILIDAD</a></h2>
 
 <!----- MORBILIDAD END ------>
 </br>
