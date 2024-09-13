@@ -484,7 +484,6 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 <a href="cuadro_cf_salud_integrantes.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
 CUADRO FACTORES DE RIESGO</a></h2>
 
-
 <!----- FACTORES DE RIESGO END ------>
 </br>
 </br>
