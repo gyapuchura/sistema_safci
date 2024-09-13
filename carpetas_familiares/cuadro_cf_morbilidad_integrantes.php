@@ -55,7 +55,7 @@ $area_af = $row_area[1]." ".$row_area[2];
           <?php
         $sql_c =" SELECT COUNT(integrante_morbilidad.idmorbilidad_cf) FROM integrante_morbilidad, ubicacion_cf, carpeta_familiar ";
         $sql_c.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='4411' AND integrante_morbilidad.idmorbilidad_cf='$row[0]' ";
+        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' AND integrante_morbilidad.idmorbilidad_cf='$row[0]' ";
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
 
