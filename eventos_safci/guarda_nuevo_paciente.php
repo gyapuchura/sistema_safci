@@ -23,15 +23,7 @@ $fecha_nac     = $_POST['fecha_nac'];
 
 /*********** Crear registros para fichas epidemiologicas (BEGIN) *************/
 
-$sql_p =" SELECT idnombre, nombre, paterno, materno FROM nombre WHERE ci='$ci' ";
-$result_p=mysqli_query($link,$sql_p);
-if ($row_p=mysqli_fetch_array($result_p)) 
-{
-    $_SESSION['idnombre_paciente_ss'] = $row_p[0];
-    header("Location:prepara_paciente.php");
-
-} else {
-
+if ($ci == '0') {
 
     $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
     $sql0.= " VALUES ('$paterno','$materno','$nombre','$ci','','$fecha_nac','','1','$idgenero') ";
@@ -40,7 +32,30 @@ if ($row_p=mysqli_fetch_array($result_p))
 
     $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
 
-header("Location:prepara_paciente.php");
+    header("Location:prepara_paciente.php");
+
+} else {
+
+        $sql_p =" SELECT idnombre, nombre, paterno, materno FROM nombre WHERE ci='$ci' ";
+        $result_p=mysqli_query($link,$sql_p);
+        if ($row_p=mysqli_fetch_array($result_p)) 
+        {
+
+            $_SESSION['idnombre_paciente_ss'] = $row_p[0];
+            header("Location:prepara_paciente.php");
+
+        } else {
+
+            $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
+            $sql0.= " VALUES ('$paterno','$materno','$nombre','$ci','','$fecha_nac','','1','$idgenero') ";
+            $result0 = mysqli_query($link,$sql0);   
+            $idnombre_paciente = mysqli_insert_id($link);
+
+            $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
+
+        header("Location:prepara_paciente.php");
+        }
 }
+
 /*********** Crear registros para fichas epidemiologicas (END) *************/
 ?>

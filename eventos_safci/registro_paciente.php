@@ -233,7 +233,7 @@ $row_sg=mysqli_fetch_array($result_sg);
 
                 <form name="MODIFICA_PACIENTE" action="guarda_paciente_mod_reg.php" method="post">    
                     
-                <div class="form-group row">                               
+                <div class="form-group row">                                
 
                     <div class="col-sm-3">
                     <h6 class="text-primary">CÉDULA DE IDENTIDAD:</h6>
