@@ -366,12 +366,46 @@ $presion = $row_sg[5]."/".$row_sg[10];
                         <a href="nuevo_paciente.php" class="btn btn-info">REGISTRAR NUEVO</a>
                         </div>
                         <div class="col-sm-4">
-                        <a href="registro_pacientes.php" class="btn btn-success">IR A REGISTRO DE PACIENTES</a>
+                        <a href="registro_pacientes.php" class="btn btn-primary">IR A REGISTRO DE PACIENTES</a>
                         </div>
-                        <div class="col-sm-4">                       
+                        <div class="col-sm-4">   
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalc">
+                        ENVIAR A ETAPA DE TRIAGE MÉDICO
+                        </button>                      
                        </div>
                     </div>                               
                 </div> 
+
+<!-- modal envio a triage medico directo -->
+                <hr>
+    
+    <form name="ENVIA_CONSULTA" action="guarda_envio_triage.php" method="post">  
+
+                                                    
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ENVÍO A TRIAGE MÉDICO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de ENVIAR A TRIAGE MÉDICO?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-success pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+    </div>
 
     <!-------- END NUEVO PACIENTE --------->  
                               

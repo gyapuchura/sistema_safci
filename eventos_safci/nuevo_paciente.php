@@ -165,7 +165,7 @@ $row_ev=mysqli_fetch_array($result_ev);
                 <hr>
 
                 <form name="NUEVO_PACIENTE" action="guarda_nuevo_paciente.php" method="post">  
-
+ 
                 <div class="form-group row">                               
                     <div class="col-sm-4">
                     <h6 class="text-primary">NOMBRES:</h6>
