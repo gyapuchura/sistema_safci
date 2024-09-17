@@ -311,7 +311,43 @@ $row_cf=mysqli_fetch_array($result_cf);
                         </table>
                     </div>
                 </div>
-            </div>  
+            </div>
+             <!-------- DESCONSOLIDAR LISTA DE INTEGRANTES (Begin) --------->   
+        <form name="DESCONSOLIDA" action="guarda_desconsolida_lista_familiar.php" method="post">  
+        <hr>
+        <div class="text-right">                                     
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
+                DESCONSOLIDAR LISTA DE INTEGRANTES
+                </button>             
+        </div>
+        <hr>
+
+        <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title_warning" id="exampleModalLabel">DESCONSOLIDA LISTA FAMILIAR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de DESCONSOLIDAR LA LISTA DE INTEGRANTES DE LA FAMILIA?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn- pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>  
+         <!-------- DESCONSOLIDAR LISTA DE INTEGRANTES (End) ---------> 
+
+
+        
      <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
         <hr>
         <div class="text-center">                                     
