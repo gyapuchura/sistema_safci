@@ -9,13 +9,15 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$sqlus =" SELECT nombre, paterno, materno FROM nombre WHERE idnombre='$idnombre_ss'";
-$resultus = mysqli_query($link,$sqlus);
-$rowus = mysqli_fetch_array($resultus);
+$iddepartamento = $_POST["iddepartamento_d"];
+
+$sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
+$result_dep = mysqli_query($link,$sql_dep);
+$row_dep = mysqli_fetch_array($result_dep);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,12 +29,12 @@ $rowus = mysqli_fetch_array($resultus);
 
     <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
     <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/jquery-ui.min.css">
 
 </head>
 
@@ -42,9 +44,7 @@ $rowus = mysqli_fetch_array($resultus);
     <div id="wrapper">
 
         <!-- Sidebar -->
-
         <?php include("../menu.php");?>
-
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -59,21 +59,48 @@ $rowus = mysqli_fetch_array($resultus);
 
                 <!-- Begin Page Content -->
   
+                <body class="bg-gradient-primary">
 
-                <div class="card shadow mb-8">
-                                <div class="card-header py-6">
-                                    <h6 class="m-0 font-weight-bold text-primary"></h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img src="../img/fondo_inicio_safci.jpg" class="rounded" alt="Eniun">
-                                    </div>
-                                    <p>
-                                        
-                                    </p>
+    <div class="container">
+    </br>
+        <div class="card o-hidden border-0 shadow-lg my-2">
+            <div class="card-body p-0">
+<!-- BEGIN aqui va el TITULO de la pagina ---->
+                <div class="row">
+                    <div class="col-lg-12">
+                    <div class="p-3">               
+                    <div class="text-center">   
+                    <a href="analitica_cf.php"><h6>VOLVER</h6></a>
+                    <hr>                     
+                    <h4 class="text-primary">ANALÍTICA SITUACIONAL DEPARTAMENTAL</h4>
+                    <h4><?php echo $row_dep[1];?></h4>
+                    </div>
+<!-- END Del TITULO de la pagina ---->
 
-                                </div>
-                            </div>
+<!-- BEGIN aqui va el comntenido de la pagina ---->
+
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>                  
+                    
+<!-- END aqui va el comntenido de la pagina ---->
+                </div>
+               
+                <div class="text-center">
+                <hr>
+                    <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
+                </div>
+                <div class="text-center">
+                    <a class="small" href="#">Ministerio de Salud y Deportes</a>
+                <hr>
+                </div>
+               
+            </div>   
+        </div> 
+    </div>
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -87,12 +114,13 @@ $rowus = mysqli_fetch_array($resultus);
                 <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="salir.php">Salir de Sistema</a>
+                    <a class="btn btn-primary" href="../salir.php">Salir de Sistema</a>
                 </div>
             </div>
         </div>
     </div>
 
+   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

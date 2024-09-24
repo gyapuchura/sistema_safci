@@ -65,8 +65,8 @@ $row_dep = mysqli_fetch_array($result_dep);
                             $sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
                             $sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
                             $result_int = mysqli_query($link,$sql_int);
-                            $row_int = mysqli_num_rows($result_int);  
-                            $integrantes = $row_int;
+                            $integrantes = mysqli_num_rows($result_int);  
+                            
                             ?>
                             <?php echo $integrantes;?> 
                             <h6></h6>
