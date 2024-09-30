@@ -1,3 +1,13 @@
+
+<?php
+$link = mysqli_connect(
+  'localhost',
+  'root',
+  'root',
+  'safci_db'
+) or die(mysqli_error($mysqli));
+?>
+
 <?php
 $link = mysqli_connect(
   '172.22.23.136',
