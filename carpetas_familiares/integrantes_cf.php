@@ -290,7 +290,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                 <span class="icon text-white-50">
                                     <i class="fas fa-user"></i>
                                 </span>
-                                <span class="text">IDENTIFICACIÓN</span>    
+                                <span class="text">INTEGRANTE</span>    
                                 </button>
                             </form> 
                         <?php } else { ?>

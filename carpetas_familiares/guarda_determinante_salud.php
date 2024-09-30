@@ -176,7 +176,7 @@ if ($idcat_determinante_salud == '14') {
                 
                     } else { 
 
-                        $sql_rev = " SELECT iditem_determinante_salud, iddeterminante_salud, idcat_determinante_salud FROM item_determinante_salud ";
+                        $sql_rev = " SELECT iditem_determinante_salud FROM item_determinante_salud ";
                         $sql_rev.= " WHERE idcat_determinante_salud='$idcat_determinante_salud' AND iditem_determinante_salud='$iditem_determinante_salud' ";
                         $result_rev = mysqli_query($link,$sql_rev);
                         if ($row_rev = mysqli_fetch_array($result_rev)) {
