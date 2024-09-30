@@ -32,7 +32,7 @@ if ($idcat_determinante_salud == '14') {
     $sql_t.= " AND idcat_determinante_salud='$idcat_determinante_salud' AND iditem_determinante_salud='$iditem_determinante_salud_i' ";
     $result_t = mysqli_query($link,$sql_t);
     if ($row_t = mysqli_fetch_array($result_t)) {
-        header("Location:mensaje_determinantes_salud_cf2.php"); 
+        header("Location:mensaje_determinantes_salud_cf.php"); 
 
     } else { 
 
@@ -44,7 +44,7 @@ if ($idcat_determinante_salud == '14') {
         
             $iditem_determinante_salud_i = $iditem_determinante_salud_i+1;
         }   
-        header("Location:determinantes_salud_cf2.php");
+        header("Location:determinantes_salud_cf.php");
         
     }
 
@@ -59,7 +59,7 @@ if ($idcat_determinante_salud == '14') {
         $result_t = mysqli_query($link,$sql_t);
         if ($row_t = mysqli_fetch_array($result_t)) {
 
-            header("Location:mensaje_determinantes_salud_cf2.php");
+            header("Location:mensaje_determinantes_salud_cf.php");
     
         } else { 
     
@@ -72,7 +72,7 @@ if ($idcat_determinante_salud == '14') {
             $iditem_determinante_salud_f = $iditem_determinante_salud_f+1;
         }
         
-        header("Location:determinantes_salud_cf2.php");
+        header("Location:determinantes_salud_cf.php");
     }
 
 } else {
@@ -99,7 +99,7 @@ if ($idcat_determinante_salud == '14') {
             $result_t = mysqli_query($link,$sql_t);
             if ($row_t = mysqli_fetch_array($result_t)) {
                 
-                header("Location:mensaje_determinantes_salud_cf2.php");
+                header("Location:mensaje_determinantes_salud_cf.php");
         
             } else { 
 
@@ -107,7 +107,7 @@ if ($idcat_determinante_salud == '14') {
                     $sql_a.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud_a','$valor_cfea','$fecha','$hora','$idusuario_ss') ";
                     $result_a = mysqli_query($link,$sql_a);   
                 
-                    header("Location:determinantes_salud_cf2.php");
+                    header("Location:determinantes_salud_cf.php");
             }
         
         } else {
@@ -121,7 +121,7 @@ if ($idcat_determinante_salud == '14') {
         $result_t = mysqli_query($link,$sql_t);
         if ($row_t = mysqli_fetch_array($result_t)) {
             
-            header("Location:mensaje_determinantes_salud_cf2.php");
+            header("Location:mensaje_determinantes_salud_cf.php");
     
         } else { 
 
@@ -134,7 +134,7 @@ if ($idcat_determinante_salud == '14') {
                 $iditem_determinante_salud_g = $iditem_determinante_salud_g+1;
             }
             
-            header("Location:determinantes_salud_cf2.php");
+            header("Location:determinantes_salud_cf.php");
         }
 
             } else {
@@ -148,7 +148,7 @@ if ($idcat_determinante_salud == '14') {
             $result_t = mysqli_query($link,$sql_t);
             if ($row_t = mysqli_fetch_array($result_t)) {
                 
-                header("Location:mensaje_determinantes_salud_cf2.php");
+                header("Location:mensaje_determinantes_salud_cf.php");
         
             } else { 
 
@@ -161,7 +161,7 @@ if ($idcat_determinante_salud == '14') {
                         $iditem_determinante_salud_h = $iditem_determinante_salud_h+1;
                     }
                     
-                    header("Location:determinantes_salud_cf2.php");
+                    header("Location:determinantes_salud_cf.php");
                 }
 
                 } else {
@@ -172,11 +172,11 @@ if ($idcat_determinante_salud == '14') {
                     $result_t = mysqli_query($link,$sql_t);
                     if ($row_t = mysqli_fetch_array($result_t)) {
                         
-                        header("Location:mensaje_determinantes_salud_cf2.php");
+                        header("Location:mensaje_determinantes_salud_cf.php");
                 
                     } else { 
 
-                        $sql_rev = " SELECT iditem_determinante_salud FROM item_determinante_salud ";
+                        $sql_rev = " SELECT iditem_determinante_salud, iddeterminante_salud, idcat_determinante_salud FROM item_determinante_salud ";
                         $sql_rev.= " WHERE idcat_determinante_salud='$idcat_determinante_salud' AND iditem_determinante_salud='$iditem_determinante_salud' ";
                         $result_rev = mysqli_query($link,$sql_rev);
                         if ($row_rev = mysqli_fetch_array($result_rev)) {
@@ -189,11 +189,11 @@ if ($idcat_determinante_salud == '14') {
                             $sql2.= " VALUES ('$idcarpeta_familiar_ss','$iddeterminante_salud','$idcat_determinante_salud','$iditem_determinante_salud','$row1[1]','$fecha','$hora','$idusuario_ss') ";
                             $result2 = mysqli_query($link,$sql2);   
 
-                            header("Location:determinantes_salud_cf2.php");
+                            header("Location:determinantes_salud_cf.php");
                             
                         } else {
                            
-                            header("Location:mensaje_determinantes_salud_cf_error2.php");
+                            header("Location:mensaje_determinantes_salud_cf_error.php");
 
                         }
                         
