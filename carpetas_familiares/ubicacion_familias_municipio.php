@@ -280,7 +280,7 @@ $zoom_c     = "12";
                         </div>
                     <div class="details">
                     <div class="price">
-                    <a href="imprime_carpeta_familiar.php?idcarpeta_familiar=${property.idcarpeta_familiar}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1280,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                    <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=${property.idcarpeta_familiar}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1280,height=800,scrollbars=YES,top=60,left=400'); return false;">
                     <span>${property.price}</span>
                     </a> 
                     
@@ -291,7 +291,7 @@ $zoom_c     = "12";
                     <div>
                     <i aria-hidden="true" class="fa fa-users fa-lg users" title="users"></i>
                     <span class="fa-sr-only">Familia:</span>
-                    <a href="imprime_carpeta_familiar.php?idcarpeta_familiar=${property.idcarpeta_familiar}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1280,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                    <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=${property.idcarpeta_familiar}" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1280,height=800,scrollbars=YES,top=60,left=400'); return false;">
                     <span> ${property.users}</span>
                     </a> 
                     </div>

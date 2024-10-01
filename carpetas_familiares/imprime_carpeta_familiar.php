@@ -47,7 +47,6 @@ $row_ar = mysqli_fetch_array($result_ar);
 
 <!-------------- 1ra Pagina de la Carpeta Familiar ------------->
 
-
 <table width="1200" border="0" align="center">
   <tbody>
     <tr>

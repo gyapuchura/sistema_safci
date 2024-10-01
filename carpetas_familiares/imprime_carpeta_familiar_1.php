@@ -47,8 +47,9 @@ $row_ar = mysqli_fetch_array($result_ar);
 <table width="1200" border="0" align="center">
   <tbody>
     <tr>
-      <td width="296" align="center"><img src="../implementacion_safci/mds_logo.jpg" width="363" height="104" alt=""/></td>
-      <td width="586" align="center"><strong style="font-family: arial; font-size: 36px; color: #503B92;">CARPETA FAMILIAR</strong></td>
+    <td width="296" align="center"><img src="../implementacion_safci/mds_logo.jpg" width="363" height="104" alt=""/></td>
+      <td width="586" align="center"><strong style="font-family: arial; font-size: 36px; color: #503B92;">CARPETA FAMILIAR</strong></br>
+      <strong style="font-family: arial; font-size: 24px; color: #503B92;"><?php echo $row_cf[1]; ?></strong></td>
       <td width="296" align="center"><img src="../implementacion_safci/logo_safci_doc.png" width="179" height="117" alt=""/></td>
     </tr>
     <tr>
@@ -244,15 +245,25 @@ $row_ar = mysqli_fetch_array($result_ar);
         </tbody>
       </table></td>
     </tr>
+
     <tr>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="font-family: Arial; font-size: 14px; color: #503B92; text-align: center;">
+      <a href="imprime_carpeta_familiar_2.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+      VER SALUD DE LOS INTEGRANTES</a>
+      </td>
+      <td style="font-family: Arial; font-size: 14px; color: #503B92; text-align: center;">
+      <a href="imprime_carpeta_familiar_3.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+      VER DETERMINANTES DE LA SALUD</a>
+      </td>
+      <td style="font-family: Arial; font-size: 14px; color: #503B92; text-align: center;">
+      <a href="imprime_carpeta_familiar_4.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+      VER COMPORTAMIENTO FAMILIAR</a>
+      </td>
     </tr>
   </tbody>
 </table>
