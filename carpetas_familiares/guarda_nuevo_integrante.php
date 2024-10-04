@@ -18,7 +18,7 @@ $idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 $paterno       = $link->real_escape_string(mb_strtoupper($_POST['paterno']));
 $materno       = $link->real_escape_string(mb_strtoupper($_POST['materno']));
 $nombre        = $link->real_escape_string(mb_strtoupper($_POST['nombre']));
-$ci            = $link->real_escape_string($_POST['ci']);
+$ci            = $_POST['ci'];
 $complemento   = $link->real_escape_string($_POST['complemento']);
 $idgenero       = $_POST['idgenero'];
 $fecha_nac      = $_POST['fecha_nac'];
@@ -102,9 +102,9 @@ if ($edad <= 14) {
                                                                 } else { 
 }}}}} }}}}} }}}}} }}}}}
 
-/*********** Crear registros para fichas epidemiologicas (BEGIN) *************/
+/*********** Crear registros para integrante de la familia (BEGIN) *************/
 
-if ($ci == '') {
+if ($ci == '0') {
 
     $sql_c = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
     $sql_c.= " VALUES ('$paterno','$materno','$nombre','0','','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
@@ -129,7 +129,7 @@ if ($row_p=mysqli_fetch_array($result_p))
     $_SESSION['idnacion_ss'] = $idnacion;
     
     header("Location:integrante_existe.php");
-
+ 
 } else {
 
     $sql0 = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
@@ -144,5 +144,5 @@ if ($row_p=mysqli_fetch_array($result_p))
 header("Location:integrantes_cf.php");
 }
 }
-/*********** Crear registros para fichas epidemiologicas (END) *************/
+/*********** Crear registros para integrante de la familia (END) *************/
 ?>

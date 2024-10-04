@@ -197,6 +197,7 @@ $(function () {
 
 <div id="container" style="min-width: 410px; max-width: 800px; height: 600px; margin: 0 auto"></div>
 
+
 <?php
 $sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
 $sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
@@ -235,6 +236,5 @@ $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
-
 	</body>
 </html>

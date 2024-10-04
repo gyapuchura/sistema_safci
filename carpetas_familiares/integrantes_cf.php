@@ -378,7 +378,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 <div class="form-group row">  
     <div class="col-sm-3">
     <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
-        <input type="text" class="form-control" 
+        <input type="number" class="form-control" 
          name="ci" >
     </div>
     <div class="col-sm-3">
