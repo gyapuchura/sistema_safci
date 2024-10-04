@@ -6,13 +6,14 @@ $idcat_determinante_salud = $_POST["cat_determinante_salud"];
 ?>
 <?php
 if ($idcat_determinante_salud == '17') { ?>
+
   
         <div class="col-sm-4">
         <h6 class="text-info">NÚMERO DE INTEGRANTES DE LA FAMILIA:</h6>
         </div>
         <div class="col-sm-2">   
             <?php 
-                    $sql1 = "SELECT idintegrante_cf, idcarpeta_familiar FROM integrante_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND estado='CONSOLIDADO'";
+                    $sql1 = " SELECT idintegrante_cf, idcarpeta_familiar FROM integrante_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND estado='CONSOLIDADO' AND idnombre!='0' ";
                     $result1 = mysqli_query($link,$sql1);
                     $integrantes = mysqli_num_rows($result1);
                     echo $integrantes;

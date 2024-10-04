@@ -42,6 +42,25 @@ $row_cf=mysqli_fetch_array($result_cf);
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
 
+    <style>
+    .filtro {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    select {
+      margin-right: 10px;
+    }
+    #location {
+      margin-top: 10px;
+    }
+  </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
 </head>
 
 <body id="page-top">
@@ -246,6 +265,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
             <hr>
+            <div class="depa"></div> 
                 <div class="form-group row">                               
                     <div class="col-sm-3">
                     <h6 class="text-primary">NOMBRE DEL EDIFICIO, PISO Y N° DE DEPARTAMENTO:</h6>
@@ -253,11 +273,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>LATITUD:</h6>
-                    <input type="NUMBER" name="latitud" class="form-control" id="LAT" value="<?php echo $row_cf[12];?>" placeholder=" Seleccione LATITUD en el mapa" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>            
+                    <input type="NUMBER" name="latitud" class="form-control" id="lat" value="<?php echo $row_cf[12];?>" placeholder=" Seleccione LATITUD en el mapa" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>            
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>LONGITUD:</h6>
-                    <input type="number"  name="longitud" class="form-control" id="LONGI" value="<?php echo $row_cf[13];?>" placeholder="Seleccione LONGITUD en el mapa" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>              
+                    <input type="number"  name="longitud" class="form-control" id="lng" value="<?php echo $row_cf[13];?>" placeholder="Seleccione LONGITUD en el mapa" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>              
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>ELEVACIÓN [msnm]:</h6>
@@ -265,10 +285,12 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-9" id="safci" style="width: 660px; height: 250px;">
+                    <div class="col-sm-12">
+                    <h6>Arrastre el marcador azul para seleccionar la ubicacion de la VIVIENDA FAMILIAR</h6>
                     </div>
-                    <div class="col-sm-3">
-                    <h6>Arrastre el marcador rojo para seleccionar la ubicacion de la VIVIENDA FAMILIAR</h6>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-sm-12" id="safci" style="width: 700px; height: 400px;">
                     </div>
                 </div> 
             <hr>
@@ -359,9 +381,83 @@ $row_cf=mysqli_fetch_array($result_cf);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <script type="text/javascript" src="../js/localizacion.js"></script>
-    <script type="text/javascript" src="../js/initMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVIUnK94f7R_zUyalAEO6zbfwAEWBMxh4&callback=initMap"></script>
+    <script type="text/javascript" src="../js/municipios.js"></script>
+    <script type="text/javascript" src="../js/establecimientos.js"></script>
+
+    <script>
+/** ubicacion actual de acuerdo a la ubicacion del establecimiento de salud = -16.5113374610014, -68.13400675671315 */
+/** ubicacion prueba -16.536361, -68.154571*/
+
+  var map = L.map('safci').setView([<?php echo $row_cf[12];?>, <?php echo $row_cf[13];?>], 15);
+
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: ' ',
+    maxZoom: 18
+  }).addTo(map);
+  
+  var datosGjson; // Asegúrate de cargar correctamente tus datos GeoJSON
+
+  function Filtrarnivel(DEPARTAMEN) {
+    return datosGjson.features.filter(function(feature) {
+      return feature.properties.DEPARTAMEN === DEPARTAMEN;
+    });
+  }
+
+  document.getElementsByClassName('depa')[0].addEventListener('change', function() {
+    var depsel = this.value;
+    var municipiosel = Filtrarnivel(depsel);
+    var selectmun = document.getElementsByClassName('Mun')[0];
+    selectmun.innerHTML = ''; // Limpiar opciones actuales
+
+    municipiosel.forEach(function(munis) {
+      var option = document.createElement('option');
+      option.value = munis.properties.MUNICIPIO;
+      option.textContent = munis.properties.MUNICIPIO; // Agregar texto de visualización
+      selectmun.appendChild(option);
+    });
+  });
+
+  function getColor(d) {
+    return  d === 'Beni' ? '#E37CA8' :
+            d === 'Chuquisaca' ? '#FD8D3C' : 
+            d === 'Cochabamba' ? '#FC4E2A' :
+            d === 'La Paz' ? '#E3E17C' : 
+            d === 'Oruro' ? '#BD0026' :
+            d === 'Pando' ? '#7CE3A8' : 
+            d === 'Potosí' ? '#00A65A' :  
+            d === 'Santa Cruz' ? '#7C7FE3' :
+            d === 'Tarija' ? '#800026' :
+            '#FFEDA0'; 
+  }
+
+  function style(feature) { 
+    return { 
+      fillColor: getColor(feature.properties.DEPARTAMEN), 
+      weight: 1, 
+      opacity: 1, 
+      color: 'black', 
+      dashArray: '2', 
+      fillOpacity: 0.1 
+    }; 
+  }
+
+  function popup(feature, layer) { 
+    layer.bindPopup('<h3> Municipio: ' + feature.properties.MUNICIPIO + '</h3><h4> Departamento: ' + feature.properties.DEPARTAMEN + '</h4>');
+  }
+  
+  L.geoJson(municipios, { style: style, onEachFeature: popup }).addTo(map);
+  L.control.scale().addTo(map); 
+
+  // Crear un marcador
+  var marker = L.marker([<?php echo $row_cf[12];?>, <?php echo $row_cf[13];?>], { draggable: true }).addTo(map);
+
+  // Listener para el movimiento del marcador
+  marker.on('dragend', function(event) {
+    var position = marker.getLatLng();
+    document.getElementById('lat').value = position.lat.toFixed(6); // Mostrar latitud
+    document.getElementById('lng').value = position.lng.toFixed(6); // Mostrar longitud
+  });
+</script>
 
     <!-- scripts para uso de mapas -->
 

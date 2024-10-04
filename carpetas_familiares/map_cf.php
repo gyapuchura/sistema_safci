@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   
-  
   <style>
   #safci {
-      width: 860px;
-      height: 500px;
+      width: 900px;
+      height: 700px;
       box-shadow: 5px 5px 5px #888;
   }
   </style>
@@ -19,7 +18,7 @@
 <body>
   <div id="safci"></div>         
   
-    <script type="text/javascript" src="municipios.js"></script>
+    <script type="text/javascript" src="../js/municipios.js"></script>
     <script type="text/javascript" src="establecimientos.js"></script>
   <script>
   var map = L.map('safci').
@@ -61,6 +60,9 @@
      
    L.control.scale().addTo(map); 
    L.marker([-16.5113374610014, -68.13400675671315],{draggable: true}).addTo(map);
+
+  
+
     </script>
 </body>
 </html>
