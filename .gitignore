@@ -2,4 +2,5 @@
 implementacion_safci/temp/
 eventos_safci/temp/
 inc.config.php
+inc.config-sample.php
 .DS_Store
