@@ -468,6 +468,10 @@ $row_e = mysqli_fetch_array($result_e);
     document.getElementById('lat').value = position.lat.toFixed(6); // Mostrar latitud
     document.getElementById('lng').value = position.lng.toFixed(6); // Mostrar longitud
   });
+
+ // PARA LA VISTA SATELITAL
+
+
 </script>
 
     <!-- scripts para calendario -->

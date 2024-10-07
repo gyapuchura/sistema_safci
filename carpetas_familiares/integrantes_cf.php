@@ -377,9 +377,9 @@ $row_cf=mysqli_fetch_array($result_cf);
 
 <div class="form-group row">  
     <div class="col-sm-3">
-    <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
+    <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6><h6 class="text-warning"> SI NO CUENTA ASIGNAR=0</h6>
         <input type="number" class="form-control" 
-         name="ci" >
+         name="ci" required >
     </div>
     <div class="col-sm-3">
     <h6 class="text-info">COMPLEMENTO:</h6>
