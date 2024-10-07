@@ -250,7 +250,7 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <h6 class="text-primary">LATITUD</h6>
-                        <input type="NUMBER" name="latitud" class="form-control" id="LAT" value="<?php echo $row[10];?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
+                        <input type="number" name="latitud" class="form-control" id="LAT" value="<?php echo $row[10];?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
                     </div>
                     <div class="col-sm-6">
                         <h6 class="text-primary">LONGITUD</h6>

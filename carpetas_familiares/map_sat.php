@@ -5,51 +5,57 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa</title>
+    <title>Mapa software libre</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
 
+    <style>
+        #mi_mapa { height: 580px; }
+    </style>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
+    
 </head>
-
+ 
 <body>
 
-<div id="mi_mapa" style="width: 100%; height: 600px;"></div>
+<div id="mi_mapa"></div>
 
-<script>
+    <script>
 
-    let map = L.map('mi_mapa').setView([19.432747, -99.133179], 15)
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.marker([19.4327, -99.1331]).addTo(map).bindPopup("Zócalo de la Ciudad de México")
-        L.marker([19.4349, -99.1313]).addTo(map).bindPopup("Templo Mayor")
-
+        var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
+        var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
+        var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        var esri_attribution = '© Esri © OpenStreetMap Contributors';
 
         var lyr_satellite = L.tileLayer(esri_url, {id: 'mi_mapa', maxZoom: 20, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
-          var lyr_streets   = L.tileLayer(mapbox_url, {id: 'mapbox/streets-v11', maxZoom: 28, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
-          ...
-          var map = L.map('map', {
-            center: [54.17747885048963, -6.337641477584839],
+        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'mi_mapa', maxZoom: 20, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
+        var marker = L.marker([-16.528965, -68.189950], {draggable:'false'}).bindPopup('<b>safci ubicacion ej 1</b>');
+        var lg_markers = L.layerGroup([marker]);
+
+            var map = L.map('mi_mapa', {
+            center: [-16.528965, -68.189950],
             zoom: 18,
             layers: [lyr_satellite, lyr_streets, lg_markers]
-          });
+        });
 
-          var baseMaps = {
-              "Streets": lyr_streets,
-              "Satellite": lyr_satellite
-          };
-          var overlayMaps = {
-              "Markers": lg_markers,
-          };
+        var baseMaps = {
+            "CROQUIS": lyr_streets,
+            "SATELITAL": lyr_satellite
+        };
+        var overlayMaps = {
+            "Marcador": lg_markers,
+        };
 
-          L.control.layers(baseMaps, overlayMaps).addTo(map);
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 
+        
 
-</script>
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright"></a> contributors'
+        }).addTo(map);
+
+    </script>
 
 </body>
 

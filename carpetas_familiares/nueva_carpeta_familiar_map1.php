@@ -274,6 +274,8 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                 </div>
 
+                <div class="depa"></div> 
+
                 <div class="form-group row">                               
                     <div class="col-sm-3">
                     <h6 class="text-primary">NOMBRE DEL EDIFICIO, PISO Y N° DE DEPARTAMENTO:</h6>
@@ -299,7 +301,7 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                 </div> 
                 <div class="form-group row">
-                    <div class="col-sm-12" id="safci" style="width: 700px; height: 520px;">
+                    <div class="col-sm-12" id="safci" style="width: 700px; height: 400px;">
                     </div>
                 </div> 
              <hr>   
@@ -397,44 +399,78 @@ $row_e = mysqli_fetch_array($result_e);
 /** ubicacion actual de acuerdo a la ubicacion del establecimiento de salud = -16.5113374610014, -68.13400675671315 */
 /** ubicacion prueba -16.536361, -68.154571*/
 
-        var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
-        var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
-        var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-        var esri_attribution = '© Esri © OpenStreetMap Contributors';
+  var map = L.map('safci').setView([<?php echo $row_e[1];?>, <?php echo $row_e[2];?>], 17);
 
-        
-        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
-        var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
-        var marker = L.marker([<?php echo $row_e[1];?>, <?php echo $row_e[2];?>], {draggable:'false'}).bindPopup('<b>Ubicar encima el domicilio familiar</b>');
-        var lg_markers = L.layerGroup([marker]);
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: ' ',
+    maxZoom: 18
+  }).addTo(map);
+  
+  var datosGjson; // Asegúrate de cargar correctamente tus datos GeoJSON
 
-            var map = L.map('safci', {
-            center: [<?php echo $row_e[1];?>, <?php echo $row_e[2];?>],
-            zoom: 18,
-            layers: [lyr_streets, lyr_satellite,  lg_markers]
-        });  
+  function Filtrarnivel(DEPARTAMEN) {
+    return datosGjson.features.filter(function(feature) {
+      return feature.properties.DEPARTAMEN === DEPARTAMEN;
+    });
+  }
 
-        var baseMaps = {
-            "MAPA": lyr_streets,
-            "SATÉLITE": lyr_satellite
-        };
-        var overlayMaps = {
-            "Marcador": lg_markers,
-        };
+  document.getElementsByClassName('depa')[0].addEventListener('change', function() {
+    var depsel = this.value;
+    var municipiosel = Filtrarnivel(depsel);
+    var selectmun = document.getElementsByClassName('Mun')[0];
+    selectmun.innerHTML = ''; // Limpiar opciones actuales
 
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'PROGRAMA SAFCI-MI SALUD'
-        }).addTo(map);
-
-
-        // Listener para el movimiento del marcador
-        marker.on('dragend', function(event) {
-            var position = marker.getLatLng();
-            document.getElementById('lat').value = position.lat.toFixed(6); // Mostrar latitud
-            document.getElementById('lng').value = position.lng.toFixed(6); // Mostrar longitud
+    municipiosel.forEach(function(munis) {
+      var option = document.createElement('option');
+      option.value = munis.properties.MUNICIPIO;
+      option.textContent = munis.properties.MUNICIPIO; // Agregar texto de visualización
+      selectmun.appendChild(option);
+    });
   });
+
+  function getColor(d) {
+    return  d === 'Beni' ? '#E37CA8' :
+            d === 'Chuquisaca' ? '#FD8D3C' : 
+            d === 'Cochabamba' ? '#FC4E2A' :
+            d === 'La Paz' ? '#E3E17C' : 
+            d === 'Oruro' ? '#BD0026' :
+            d === 'Pando' ? '#7CE3A8' : 
+            d === 'Potosí' ? '#00A65A' :  
+            d === 'Santa Cruz' ? '#7C7FE3' :
+            d === 'Tarija' ? '#800026' :
+            '#FFEDA0'; 
+  }
+
+  function style(feature) { 
+    return { 
+      fillColor: getColor(feature.properties.DEPARTAMEN), 
+      weight: 1, 
+      opacity: 1, 
+      color: 'black', 
+      dashArray: '2', 
+      fillOpacity: 0.1 
+    }; 
+  }
+
+  function popup(feature, layer) { 
+    layer.bindPopup('<h3> Municipio: ' + feature.properties.MUNICIPIO + '</h3><h4> Departamento: ' + feature.properties.DEPARTAMEN + '</h4>');
+  }
+  
+  L.geoJson(municipios, { style: style, onEachFeature: popup }).addTo(map);
+  L.control.scale().addTo(map); 
+
+  // Crear un marcador
+  var marker = L.marker([<?php echo $row_e[1];?>, <?php echo $row_e[2];?>], { draggable: true }).addTo(map);
+
+  // Listener para el movimiento del marcador
+  marker.on('dragend', function(event) {
+    var position = marker.getLatLng();
+    document.getElementById('lat').value = position.lat.toFixed(6); // Mostrar latitud
+    document.getElementById('lng').value = position.lng.toFixed(6); // Mostrar longitud
+  });
+
+ // PARA LA VISTA SATELITAL
+
 
 </script>
 
