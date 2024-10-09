@@ -1,4 +1,3 @@
-
 <?php
 $link = mysqli_connect(
   'localhost',
@@ -7,4 +6,3 @@ $link = mysqli_connect(
   'safci_db'
 ) or die(mysqli_error($mysqli));
 ?>
-

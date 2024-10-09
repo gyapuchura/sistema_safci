@@ -6,4 +6,3 @@ $link = mysqli_connect(
   'safci_db'
 ) or die(mysqli_error($mysqli));
 ?>
-
