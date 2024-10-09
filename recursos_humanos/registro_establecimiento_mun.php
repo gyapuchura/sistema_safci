@@ -38,6 +38,9 @@ $row = mysqli_fetch_array($result);
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
 </head>
 
 <body id="page-top">
@@ -309,6 +312,9 @@ $row = mysqli_fetch_array($result);
                 </div>  
                  <hr>
 
+                <div class="form-group row">
+                <div class="col-sm-12" id="mi_mapa" style="width: 100%; height: 400px;"></div>  
+                </div> 
                 
     <!-------- begin rejilla --------->   
                 <div class="form-group row">
@@ -319,8 +325,6 @@ $row = mysqli_fetch_array($result);
 
                     </div>
                 </div>
-
-
     <!-------- end rejilla --------->                      
                 <div class="text-center">
                     <div class="form-group row">
@@ -408,9 +412,15 @@ $row = mysqli_fetch_array($result);
 
     <!-- scripts para calendario -->
 
-    <script type="text/javascript" src="../js/localizacion.js"></script>
-    <script type="text/javascript" src="../js/initMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwC0dKzZNKNbnzsslPYLNSExYd8uLqRIk&callback=initMap"></script>
+    <script>
+        let map = L.map('mi_mapa').setView([<?php echo $row[11];?>, <?php echo $row[12];?>], 14);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([<?php echo $row[11];?>, <?php echo $row[12];?>]).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row[5];?>")
+    </script>
 
     <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>

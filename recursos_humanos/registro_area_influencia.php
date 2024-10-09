@@ -39,6 +39,9 @@ $row = mysqli_fetch_array($result);
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
 </head>
 
 <body id="page-top">
@@ -191,6 +194,12 @@ $row = mysqli_fetch_array($result);
                         }
                         ?>
                     </select>
+
+                    <?php
+                        $sql_ta = " SELECT idtipo_area_influencia, tipo_area_influencia FROM tipo_area_influencia WHERE idtipo_area_influencia='$row[4]'  ";
+                        $result_ta = mysqli_query($link,$sql_ta);
+                        $row_ta = mysqli_fetch_array($result_ta);
+                    ?>
                     
                     </div>
                     <div class="col-sm-8">
@@ -269,6 +278,9 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>   
                 <hr>
+                <div class="form-group row">
+                <div class="col-sm-12" id="mi_mapa" style="width: 100%; height: 400px;"></div>  
+                </div>  
                 
     <!-------- begin rejilla --------->   
                 <div class="form-group row">
@@ -362,29 +374,21 @@ $row = mysqli_fetch_array($result);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para calendario -->
+    <!-- scripts para mapas -->
 
-    <script type="text/javascript" src="../js/localizacion.js"></script>
-    <script type="text/javascript" src="../js/initMap.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwC0dKzZNKNbnzsslPYLNSExYd8uLqRIk&callback=initMap"></script>
-
-    <!-- scripts para calendario -->
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
 
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idtipo_area_influencia").change(function () {
-                    $("#idtipo_area_influencia option:selected").each(function () {
-                        tipo_area_influencia=$(this).val();
-                    $.post("nacion.php", {tipo_area_influencia:tipo_area_influencia}, function(data){
-                    $("#nacion").html(data);
-                    });
-                });
-        })
-        });
+        <script>
+        let map = L.map('mi_mapa').setView([<?php echo $row[10];?>, <?php echo $row[11];?>], 14);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([<?php echo $row[10];?>, <?php echo $row[11];?>]).addTo(map).bindPopup("<?php echo $row_ta[1];?> <?php echo $row[5];?>")
+
         </script>
 
 </body>

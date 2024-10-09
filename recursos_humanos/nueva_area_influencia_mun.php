@@ -216,17 +216,17 @@ $row_lab=mysqli_fetch_array($result_lab);
                 <div class="form-group row">                               
                     <div class="col-sm-4">
                     <h6 class="text-primary">CANTIDAD DE HABITANTES (Según lista de afiliados):</h6>
-                        <input type="text" class="form-control" 
+                        <input type="number" class="form-control" 
                         placeholder="Cantidad de habitantes" name="habitantes" required>
                     </div>
                     <div class="col-sm-4">
                     <h6 class="text-primary">NÚMERO DE FAMILIAS (Según lista de afiliados):</h6>
-                        <input type="text" class="form-control" 
+                        <input type="number" class="form-control" 
                         placeholder="Cantidad de Familias" name="familias" required>                
                     </div>
                     <div class="col-sm-4">
                     <h6 class="text-primary">DISTANCIA HACIA EL ESTABLECIMIENTO DE SALUD EN Km (Vía Terrestre):</h6>
-                        <input type="text" class="form-control" 
+                        <input type="number" class="form-control" 
                         placeholder="Kilometros" name="distancia" required>                
                     </div>
                 </div>
