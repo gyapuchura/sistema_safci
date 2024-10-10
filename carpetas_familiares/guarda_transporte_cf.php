@@ -16,7 +16,7 @@ $idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
 $idtransporte = $_POST['idtransporte'];
-$tiempo       = $_POST['tiempo'];
+$tiempo       = $link->real_escape_string($_POST['tiempo']); 
 $distancia    = $_POST['distancia'];
 
 /*********** modificar el regsitro de datos personales del paciente (BEGIN) *************/

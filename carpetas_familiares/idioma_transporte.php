@@ -451,7 +451,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-info">TIEMPO EMPLEADO [hh:mm]:</h6>
-                    <input type="time" class="form-control" name="tiempo" required>   
+                    <input type="text" class="form-control" name="tiempo" required>   
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-info">DISTANCIA [KM]:</h6>

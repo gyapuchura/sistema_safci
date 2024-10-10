@@ -198,7 +198,8 @@ L.geoJson(establecimientos, {
         '<h3>' + feature.properties.NOMBRE_EST + '</h3>' +
         '<p><b>Tipo de Establecimiento:</b> ' + feature.properties.TIPO_DESCR + '</p>' +
         '<p><b>Coordenadas:</b> ' + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0] + '</p>' +
-        '<p><b>Código SNI:</b> ' + feature.properties.CODIGO_SNI + '</p>'
+        '<p><b>Código SNI:</b> ' + feature.properties.CODIGO_SNI + '</p>' +
+        '<a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=45" onClick="window.open(this.href, this.target, "width=1400,height=800,top=50, left=200, scrollbars=YES"); return false;">imprime carpeta familiar</a> '
       );
     }
   }
@@ -211,5 +212,8 @@ L.geoJson(establecimientos, {
 map.addLayer(markers);
 
 </script>
+
+
+
 </body>
 </html>
