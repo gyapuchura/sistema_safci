@@ -13,9 +13,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo ";
-$sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$sql_cf =" SELECT idcarpeta_familiar, codigo FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss'";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);   
 ?>
@@ -75,7 +73,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="text-center">                          
                     <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
-                    <h4 class="text-info">CARPETA FAMILIAR:</h4>
+                    <h4 class="text-info">CARPETA FAMILIAR:  <?php echo $idcarpeta_familiar_ss; ?></h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
                     <h4 class="text-info">11.- DETERMINANTES DE LA SALUD</h4>
                     <h4 class="text-info">SERVICIOS BÁSICOS </h4>
@@ -100,13 +98,12 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <th class="text-info">ASPECTO</th>
                                     <th class="text-info">FACTOR DETERMINANTE</th>
                                     <th class="text-info">VALOR</th>
-                                    <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <?php
                                     $numero=1;
-                                    $sql4 =" SELECT determinante_salud_cf.iddeterminante_salud_cf, cat_determinante_salud.cat_determinante_salud, item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM ";
+                                    $sql4 =" SELECT determinante_salud_cf.iddeterminante_salud_cf, cat_determinante_salud.cat_determinante_salud, item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf, determinante_salud_cf.iddeterminante_salud FROM ";
                                     $sql4.=" determinante_salud_cf, cat_determinante_salud, item_determinante_salud WHERE determinante_salud_cf.idcat_determinante_salud=cat_determinante_salud.idcat_determinante_salud AND ";
                                     $sql4.=" determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND determinante_salud_cf.iddeterminante_salud='1' ";
                                     $result4 = mysqli_query($link,$sql4);
@@ -120,11 +117,9 @@ $row_cf=mysqli_fetch_array($result_cf);
                                         <td><?php echo $row4[1];?></td>
                                         <td><?php echo $row4[2];?></td>
                                         <td><?php echo $row4[3];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_determinante_salud_cf.php" method="post">  
-                                        <input type="hidden" name="iddeterminante_salud_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form> </td>
-                                    </tr>                            
+
+                                    </tr>   
+                                    
                                     <?php
                                     $numero=$numero+1;
                                     }
@@ -132,6 +127,16 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     } else {
                                     }
                                 ?>
+                                                                    <tr>                                     
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                        <form name="BORRAR" action="elimina_determinante_salud_cf.php" method="post">  
+                                        <button type="submit" class="btn btn-danger">QUITAR</button></form> 
+                                        </td>
+                                    </tr>
+  
                             </tbody>
                         </table>
                     </div>
@@ -206,36 +211,161 @@ $row_cf=mysqli_fetch_array($result_cf);
         <hr>
  
 <form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">   
- 
+<input type="hidden" name="iddeterminante_salud" value="1"> 
+
 <div class="form-group row">
-<div class="col-sm-3">
-
-<input type="hidden" name="iddeterminante_salud" value="1">
-
-<h6 class="text-info">ASPECTO DETERMINANTE</h6>
-</div>
-    <div class="col-sm-9">    
-        <select name="idcat_determinante_salud" id="idcat_determinante_salud" class="form-control" required>
-        <option value="">Elegir</option>
-            <?php
-            $sql2 = "SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud='1' AND idcat_determinante_salud !='20'";
+<div class="col-sm-4"><h6 class="text-info">a) Abastecimiento de agua para consumo</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[0]" value="1"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='1' ";
             $result2 = mysqli_query($link,$sql2);
             if ($row2 = mysqli_fetch_array($result2)){
             mysqli_field_seek($result2,0);
             while ($field2 = mysqli_fetch_field($result2)){
-            } do {
-            echo "<option value=".$row2[0].">".$row2[1]."</option>";
-            } while ($row2 = mysqli_fetch_array($result2));
+            } do { ?>
+
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[0]" value="<?php echo $row2[0];?>" required></h6>
+
+           <?php } while ($row2 = mysqli_fetch_array($result2));
             } else {
             echo "No se encontraron resultados!";
             }
-            ?>
-        </select>
-    </div>
+            ?> 
+</div>
 </div> 
+<hr>
+<div class="form-group row">
+<div class="col-sm-4"><h6 class="text-info">b) Manejo de basura</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[1]" value="2"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='2' ";
+            $result2 = mysqli_query($link,$sql2);
+            if ($row2 = mysqli_fetch_array($result2)){
+            mysqli_field_seek($result2,0);
+            while ($field2 = mysqli_fetch_field($result2)){
+            } do { ?>
 
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[1]" value="<?php echo $row2[0];?>" required></h6>
 
-<div class="form-group row" id="factor_determinante"></div> 
+           <?php } while ($row2 = mysqli_fetch_array($result2));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?> 
+</div>
+</div> 
+<hr>
+<div class="form-group row">
+<div class="col-sm-4"><h6 class="text-info">c) Uso servicio higiénico o baño</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[2]" value="3"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='3' ";
+            $result2 = mysqli_query($link,$sql2);
+            if ($row2 = mysqli_fetch_array($result2)){
+            mysqli_field_seek($result2,0);
+            while ($field2 = mysqli_fetch_field($result2)){
+            } do { ?>
+
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[2]" value="<?php echo $row2[0];?>" required></h6>
+
+           <?php } while ($row2 = mysqli_fetch_array($result2));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?> 
+</div>
+</div> 
+<hr>
+<div class="form-group row">
+<div class="col-sm-4"><h6 class="text-info">d) Eliminación de excretas</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[3]" value="4"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='4' ";
+            $result2 = mysqli_query($link,$sql2);
+            if ($row2 = mysqli_fetch_array($result2)){
+            mysqli_field_seek($result2,0);
+            while ($field2 = mysqli_fetch_field($result2)){
+            } do { ?>
+
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[3]" value="<?php echo $row2[0];?>" required></h6>
+
+           <?php } while ($row2 = mysqli_fetch_array($result2));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?> 
+</div>
+</div> 
+<hr>
+<div class="form-group row">
+<div class="col-sm-4"><h6 class="text-info">e) Iluminación de la vivienda</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[4]" value="5"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='5' ";
+            $result2 = mysqli_query($link,$sql2);
+            if ($row2 = mysqli_fetch_array($result2)){
+            mysqli_field_seek($result2,0);
+            while ($field2 = mysqli_fetch_field($result2)){
+            } do { ?>
+
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[4]" value="<?php echo $row2[0];?>" required></h6>
+
+           <?php } while ($row2 = mysqli_fetch_array($result2));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?> 
+</div>
+</div> 
+<hr>
+<div class="form-group row">
+<div class="col-sm-4"><h6 class="text-info">f) Combustible/energía para cocinar</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[5]" value="6"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='6' ";
+            $result2 = mysqli_query($link,$sql2);
+            if ($row2 = mysqli_fetch_array($result2)){
+            mysqli_field_seek($result2,0);
+            while ($field2 = mysqli_fetch_field($result2)){
+            } do { ?>
+
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[5]" value="<?php echo $row2[0];?>" required></h6>
+
+           <?php } while ($row2 = mysqli_fetch_array($result2));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?> 
+</div>
+</div>
+<hr>
+<div class="form-group row">
+<div class="col-sm-4"><h6 class="text-info">g) Acceso a comunicación</h6></div>
+<div class="col-sm-8">    
+<input type="hidden" name="idcat_determinante_salud[6]" value="7"> 
+<?php
+            $sql2 = "SELECT iditem_determinante_salud, item_determinante_salud, valor FROM item_determinante_salud WHERE idcat_determinante_salud='7' ";
+            $result2 = mysqli_query($link,$sql2);
+            if ($row2 = mysqli_fetch_array($result2)){
+            mysqli_field_seek($result2,0);
+            while ($field2 = mysqli_fetch_field($result2)){
+            } do { ?>
+
+               <h6><?php echo $row2[1];?> -> <input type="radio" name="iditem_determinante_salud[6]" value="<?php echo $row2[0];?>" required></h6>
+
+           <?php } while ($row2 = mysqli_fetch_array($result2));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?> 
+</div>
+</div>
 
 <div class="form-group row">      
         <div class="col-sm-12"></br>
@@ -243,7 +373,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             <span class="icon text-white-50">
                 <i class="fas fa-file"></i>
             </span>
-            <span class="text">REGISTRAR FACTOR DETERMINANTE</span>    
+            <span class="text">REGISTRAR DETERMINANTE</span>    
             </button>
         </div>    
 </div> 
@@ -308,19 +438,5 @@ $row_cf=mysqli_fetch_array($result_cf);
     <script src="../js/jquery.js"></script>
     <script src="../js/jquery-ui.min.js"></script>
     <script src="../js/datepicker-es.js"></script>               
-
-    <script language="javascript">
-            $(document).ready(function(){
-            $("#idcat_determinante_salud").change(function () {
-                        $("#idcat_determinante_salud option:selected").each(function () {
-                            cat_determinante_salud=$(this).val();
-                        $.post("factor_determinante.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
-                        $("#factor_determinante").html(data);
-                        });
-                    });
-            })
-            });
-        </script> 
-
 </body>
 </html>  
