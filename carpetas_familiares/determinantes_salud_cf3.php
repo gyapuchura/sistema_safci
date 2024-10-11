@@ -13,9 +13,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo ";
-$sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$sql_cf =" SELECT idcarpeta_familiar, codigo FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss'";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);   
 ?>

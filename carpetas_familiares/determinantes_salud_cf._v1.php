@@ -13,7 +13,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss'";
+$sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo ";
+$sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);   
 ?>
@@ -71,12 +73,12 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="determinantes_salud_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="integrantes_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
                     <h4 class="text-info">CARPETA FAMILIAR:</h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
                     <h4 class="text-info">11.- DETERMINANTES DE LA SALUD</h4>
-                    <h4 class="text-info">ESTRUCTURA DE LA VIVIENDA</h4>
+                    <h4 class="text-info">SERVICIOS BÁSICOS </h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -106,7 +108,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     $numero=1;
                                     $sql4 =" SELECT determinante_salud_cf.iddeterminante_salud_cf, cat_determinante_salud.cat_determinante_salud, item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM ";
                                     $sql4.=" determinante_salud_cf, cat_determinante_salud, item_determinante_salud WHERE determinante_salud_cf.idcat_determinante_salud=cat_determinante_salud.idcat_determinante_salud AND ";
-                                    $sql4.=" determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND determinante_salud_cf.iddeterminante_salud='2'";
+                                    $sql4.=" determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' AND determinante_salud_cf.iddeterminante_salud='1' ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
                                     mysqli_field_seek($result4,0);
@@ -119,7 +121,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                         <td><?php echo $row4[2];?></td>
                                         <td><?php echo $row4[3];?></td>
                                         <td>
-                                        <form name="BORRAR" action="elimina_determinante_salud_cf2.php" method="post">  
+                                        <form name="BORRAR" action="elimina_determinante_salud_cf.php" method="post">  
                                         <input type="hidden" name="iddeterminante_salud_cf" value="<?php echo $row4[0];?>">
                                         <button type="submit" class="btn btn-danger">QUITAR</button></form> </td>
                                     </tr>                            
@@ -138,7 +140,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
             <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                    <h6 class="text-info">RIESGO DE LA ESTRUCTURA DE LA VIVIENDA</h6>
+                    <h6 class="text-info">RIESGO DE LOS SERVICIOS BÁSICOS</h6>
                     </div>
 
                     <div class="card-body">
@@ -146,47 +148,47 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <div class="col-sm-4">
                             
                             <?php  
-
-                                    $sqlb = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='2' ";
-                                    $resultb = mysqli_query($link,$sqlb);
-                                    $rowb = mysqli_fetch_array($resultb);
-                                    echo "<h6>VALOR = ".$rowb[0]." </h6>";
+                                    $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='1' ";
+                                    $resulta = mysqli_query($link,$sqla);
+                                    $rowa = mysqli_fetch_array($resulta);
+                                    echo "<h6>VALOR  = ".$rowa[0]." </h6>";
                              ?>
 
                             </div>
                             <div class="col-sm-8">
-                            <?php                                  
-                                  $sumatoria = $rowb[0];
-                                  if ($sumatoria <= 16 ) {
-                                      $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                      $result5 = mysqli_query($link,$sql5);
-                                      $row5 = mysqli_fetch_array($result5);
-                                      echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
-                                  } else {
-                                      if ($sumatoria <= 31 ) {
-                                          $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                          $result6 = mysqli_query($link,$sql6);
-                                          $row6 = mysqli_fetch_array($result6);
-                                          echo "<h6 class='text-info'>".$row6[0]."</h6>";
-                                      } else {
-                                          if ($sumatoria <= 41) {
-                                                  $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                  $result7 = mysqli_query($link,$sql7);
-                                                  $row7 = mysqli_fetch_array($result7);
-                                                  echo "<h6 class='text-primary'>".$row7[0]."</h6>";
-                                          } else {
-                                              if ($sumatoria <= 56) {
-                                                      $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                      $result8 = mysqli_query($link,$sql8);
-                                                      $row8 = mysqli_fetch_array($result8);
-                                                      echo "<h6 class='text-warning'>".$row8[0]."</h6>";
-                                              } else { 
-                                                  if ($sumatoria <= 80) {
-                                                          $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                          $result9 = mysqli_query($link,$sql9);
-                                                          $row9 = mysqli_fetch_array($result9);
-                                                          echo "<h6 class='text-danger'>".$row9[0]."</h6>";
-                                                  } else {  } } } } }
+                            <?php
+                                    $sumatoria = $rowa[0];
+                                        if ($sumatoria <= 7 ) {
+                                            $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
+                                            $result5 = mysqli_query($link,$sql5);
+                                            $row5 = mysqli_fetch_array($result5);
+                                            echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
+                                        } else {
+                                            if ($sumatoria <= 11 ) {
+                                                $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
+                                                $result6 = mysqli_query($link,$sql6);
+                                                $row6 = mysqli_fetch_array($result6);
+                                                echo "<h6 class='text-info'>".$row6[0]."</h6>";
+                                            } else {
+                                                if ($sumatoria <= 17) {
+                                                        $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
+                                                        $result7 = mysqli_query($link,$sql7);
+                                                        $row7 = mysqli_fetch_array($result7);
+                                                        echo "<h6 class='text-primary'>".$row7[0]."</h6>";
+                                                } else {
+                                                    if ($sumatoria <= 24) {
+                                                            $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
+                                                            $result8 = mysqli_query($link,$sql8);
+                                                            $row8 = mysqli_fetch_array($result8);
+                                                            echo "<h6 class='text-warning'>".$row8[0]."</h6>";
+                                                    } else { 
+                                                        if ($sumatoria <= 35) {
+                                                                $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
+                                                                $result9 = mysqli_query($link,$sql9);
+                                                                $row9 = mysqli_fetch_array($result9);
+                                                                echo "<h6 class='text-danger'>".$row9[0]."</h6>";
+                                                        } else {  } } } } }
+
                             ?>
 
                             </div>
@@ -194,19 +196,21 @@ $row_cf=mysqli_fetch_array($result_cf);
                     </div>
                 </div>
             
+
+
      <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
         <hr>
         <div class="text-center">                                     
-            <h4 class="text-info">AGREGAR ESTRUCTURA DE LA VIVIENDA:</h4>                    
+            <h4 class="text-info">AGREGAR SERVICIO BÁSICO:</h4>                    
         </div>
         <hr>
  
-<form name="INTEGRANTE" action="guarda_determinante_salud2.php" method="post">   
+<form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">   
  
 <div class="form-group row">
 <div class="col-sm-3">
 
-<input type="hidden" name="iddeterminante_salud" value="2">
+<input type="hidden" name="iddeterminante_salud" value="1">
 
 <h6 class="text-info">ASPECTO DETERMINANTE</h6>
 </div>
@@ -214,7 +218,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         <select name="idcat_determinante_salud" id="idcat_determinante_salud" class="form-control" required>
         <option value="">Elegir</option>
             <?php
-            $sql2 = "SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud='2' AND idcat_determinante_salud !='20'";
+            $sql2 = "SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud='1' AND idcat_determinante_salud !='20'";
             $result2 = mysqli_query($link,$sql2);
             if ($row2 = mysqli_fetch_array($result2)){
             mysqli_field_seek($result2,0);
@@ -227,7 +231,6 @@ $row_cf=mysqli_fetch_array($result_cf);
             }
             ?>
         </select>
-
     </div>
 </div> 
 
@@ -250,7 +253,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
           
              <div class="text-center"> 
-               <a href="determinantes_salud_cf3.php"><h6 class="text-success">SIGUIENTE DETERMINANTE-></h6></a>                                                                   
+               <a href="determinantes_salud_cf2.php"><h6 class="text-success">SIGUIENTE DETERMINANTE-></h6></a>                                                                   
             </div>
 
         <!-- END aqui va el comntenido de la pagina ---->
