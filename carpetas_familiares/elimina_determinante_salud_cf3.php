@@ -15,11 +15,9 @@ $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
 /*********** ENVIO DATOS PARA ELIMINAR INTEGRANTE *************/
 
-$iddeterminante_salud_cf = $_POST['iddeterminante_salud_cf'];
-
 /* BORRAMOS EL REGISTRO*/
 
-$sql = " DELETE FROM determinante_salud_cf WHERE iddeterminante_salud_cf='$iddeterminante_salud_cf'";
+$sql = " DELETE FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='3'";
 $result = mysqli_query($link,$sql);
 
 

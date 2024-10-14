@@ -15,7 +15,6 @@ $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
 /*********** ENVIO DATOS PARA ELIMINAR INTEGRANTE *************/
 
-
 /* BORRAMOS EL REGISTRO*/
 
 $sql = " DELETE FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='1' ";

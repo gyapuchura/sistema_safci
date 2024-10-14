@@ -210,7 +210,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         </div>
         <hr>
  
-<form name="INTEGRANTE" action="guarda_determinante_salud.php" method="post">   
+<form name="DETERMINANTE" action="guarda_determinante_salud.php" method="post">   
 <input type="hidden" name="iddeterminante_salud" value="1"> 
 
 <div class="form-group row">
@@ -367,16 +367,38 @@ $row_cf=mysqli_fetch_array($result_cf);
 </div>
 </div>
 
-<div class="form-group row">      
-        <div class="col-sm-12"></br>
-            <button type="submit" class="btn btn-info btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-file"></i>
-            </span>
-            <span class="text">REGISTRAR DETERMINANTE</span>    
-            </button>
-        </div>    
+
+<div class="form-group row">  
+<div class="col-sm-4"></div> 
+<div class="col-sm-4">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+    REGISTRAR DETERMINANTE
+    </button>  </div> 
+<div class="col-sm-4"></div> 
 </div> 
+                        
+   <!-- modal de confirmacion de envio de datos-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">DETERMINANTE SERVICIOS BÁSICOS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+            Esta seguro de Registrar el DETERMINANTE DE LA SALUD?
+        
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+        </div>
+    </div>
+</div>
+</div>
     </form>
 <hr>
                                                 
