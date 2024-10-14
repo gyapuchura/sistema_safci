@@ -98,7 +98,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <th class="text-info">ASPECTO</th>
                                     <th class="text-info">FACTOR DETERMINANTE</th>
                                     <th class="text-info">VALOR</th>
-                                    <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -118,10 +117,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                                         <td><?php echo $row4[1];?></td>
                                         <td><?php echo $row4[2];?></td>
                                         <td><?php echo $row4[3];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_determinante_salud_cf4.php" method="post">  
-                                        <input type="hidden" name="iddeterminante_salud_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form> </td>
                                     </tr>                            
                                     <?php
                                     $numero=$numero+1;
@@ -130,6 +125,15 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     } else {
                                     }
                                 ?>
+                                <tr>                                     
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                <form name="BORRAR" action="elimina_determinante_salud_cf4.php" method="post">  
+                                <button type="submit" class="btn btn-danger">QUITAR</button></form> 
+                                </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -224,47 +228,87 @@ $row_cf=mysqli_fetch_array($result_cf);
  
 <form name="INTEGRANTE" action="guarda_determinante_salud4.php" method="post">   
  
-<div class="form-group row">
-<div class="col-sm-3">
-
 <input type="hidden" name="iddeterminante_salud" value="4">
 
-<h6 class="text-info">ASPECTO DETERMINANTE</h6>
+<div class="form-group row">
+<div class="col-sm-12"><h6 class="text-info">- Durante los últimos 3 meses, por falta de dinero u otros factores hubo algún momento en el que:</h6></div>
 </div>
-    <div class="col-sm-9">    
-        <select name="idcat_determinante_salud" id="idcat_determinante_salud" class="form-control" required>
-        <option value="">Elegir</option>
-            <?php
-            $sql2 = "SELECT idcat_determinante_salud, cat_determinante_salud FROM cat_determinante_salud WHERE iddeterminante_salud='4' AND idcat_determinante_salud !='20'";
-            $result2 = mysqli_query($link,$sql2);
-            if ($row2 = mysqli_fetch_array($result2)){
-            mysqli_field_seek($result2,0);
-            while ($field2 = mysqli_fetch_field($result2)){
-            } do {
-            echo "<option value=".$row2[0].">".$row2[1]."</option>";
-            } while ($row2 = mysqli_fetch_array($result2));
-            } else {
-            echo "No se encontraron resultados!";
-            }
-            ?>
-        </select>
+<div class="form-group row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-7">    <h6 class="text-secundary">1, ¿Se preocupó (sintió pena) que en su hogar quedaran sin alimentos? </h6>
+                              <h6 class="text-secundary">2. ¿Realmente en su hogar se quedaron sin alimentos? </h6>
+                              <h6 class="text-secundary">3. ¿Dejó de tener una alimentación nutritiva y saludable? </h6>
+                              <h6 class="text-secundary">4. ¿Tuvo una alimentación con poca variedad de alimentos? </h6>
+                              <h6 class="text-secundary">5. ¿Dejó de desayunar almorzar y cenar? </h6>   
+                              <h6 class="text-secundary">6. ¿Comió menos de lo que está acostumbrado a comer?</h6>
+                              <h6 class="text-secundary">7. ¿Sintió hambre pero no comió? </h6>
+                              <h6 class="text-secundary">8. ¿Comió solo una vez al día o dejó de comer todo el día? </h6>                       
+    </div>        
+    <div class="col-sm-2">
+      <h6 class="text-info"> NO <input type="radio" name="valor3[0]" value="0" checked> SI <input type="radio" name="valor3[0]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor3[1]" value="0" checked> SI <input type="radio" name="valor3[1]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor3[2]" value="0" checked> SI <input type="radio" name="valor3[2]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor3[3]" value="0" checked> SI <input type="radio" name="valor3[3]" value="1" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor3[4]" value="0" checked> SI <input type="radio" name="valor3[4]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor3[5]" value="0" checked> SI <input type="radio" name="valor3[5]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor3[6]" value="0" checked> SI <input type="radio" name="valor3[6]" value="1" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor3[7]" value="0" checked> SI <input type="radio" name="valor3[7]" value="1" ></h6> 
+    </div>  
+</div> 
+<div class="form-group row">
+<div class="col-sm-12"><h6 class="text-info">b) Consumo diario de alimentos:</h6></div>
+</div>
+<div class="form-group row">
+<div class="col-sm-3"></div>
+        <div class="col-sm-5"><h6 class="text-secundary">1. Consumo de cereales, tubérculos y derivados </h6>
+                              <h6 class="text-secundary">2. Consumo de verduras </h6>
+                              <h6 class="text-secundary">3. Consumo de frutas </h6>
+                              <h6 class="text-secundary">4. Consumo de lácteos </h6>
+                              <h6 class="text-secundary">5. Consumo de carnes </h6>  
+                              <h6 class="text-secundary">6. Consumo de sal yodada </h6>                        
+        </div>        
+        <div class="col-sm-3">
+      <h6 class="text-info"> NO <input type="radio" name="valor4[0]" value="5" checked> SI <input type="radio" name="valor4[0]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor4[1]" value="5" checked> SI <input type="radio" name="valor4[1]" value="1" ></h6>  
+      <h6 class="text-info"> NO <input type="radio" name="valor4[2]" value="5" checked> SI <input type="radio" name="valor4[2]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor4[3]" value="5" checked> SI <input type="radio" name="valor4[3]" value="1" ></h6>
+      <h6 class="text-info"> NO <input type="radio" name="valor4[4]" value="5" checked> SI <input type="radio" name="valor4[4]" value="1" ></h6> 
+      <h6 class="text-info"> NO <input type="radio" name="valor4[5]" value="5" checked> SI <input type="radio" name="valor4[5]" value="1" ></h6>
+        </div>
+        <div class="col-sm-1"></div>
+</div>
 
+<div class="form-group row">  
+<div class="col-sm-4"></div> 
+<div class="col-sm-4">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+    REGISTRAR DETERMINANTE
+    </button>  </div> 
+<div class="col-sm-4"></div> 
+</div> 
+                        
+   <!-- modal de confirmacion de envio de datos-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">DETERMINANTE SALUD ALIMENTARIA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+            Esta seguro de Registrar el DETERMINANTE DE LA SALUD?
+        
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+        </div>
     </div>
-</div> 
-
-
-<div class="form-group row" id="factor_determinante"></div> 
-
-<div class="form-group row">      
-        <div class="col-sm-12"></br>
-            <button type="submit" class="btn btn-info btn-icon-split">
-            <span class="icon text-white-50">
-                <i class="fas fa-file"></i>
-            </span>
-            <span class="text">REGISTRAR FACTOR DETERMINANTE</span>    
-            </button>
-        </div>    
-</div> 
+</div>
+</div>
     </form>
 <hr>
                                                 
@@ -326,19 +370,5 @@ $row_cf=mysqli_fetch_array($result_cf);
     <script src="../js/jquery.js"></script>
     <script src="../js/jquery-ui.min.js"></script>
     <script src="../js/datepicker-es.js"></script>               
-
-    <script language="javascript">
-            $(document).ready(function(){
-            $("#idcat_determinante_salud").change(function () {
-                        $("#idcat_determinante_salud option:selected").each(function () {
-                            cat_determinante_salud=$(this).val();
-                        $.post("factor_determinante.php", {cat_determinante_salud:cat_determinante_salud}, function(data){
-                        $("#factor_determinante").html(data);
-                        });
-                    });
-            })
-            });
-        </script> 
-
 </body>
 </html>  
