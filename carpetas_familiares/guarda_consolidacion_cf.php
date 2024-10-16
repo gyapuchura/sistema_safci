@@ -131,9 +131,21 @@ $result_t = mysqli_query($link,$sql_t);
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
     } else {
+        
         /************** guardar consolidacion de carpeta familiar **************/ 
 
-        $sql_a = " UPDATE carpeta_familiar SET estado='CONSOLIDADO' ";
+        $sql_d = " SELECT departamento.sigla FROM departamento, ubicacion_cf, carpeta_familiar WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql_d.= " AND ubicacion_cf.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+        $result_d = mysqli_query($link,$sql_d);
+        $row_d = mysqli_fetch_array($result_d);
+    
+        $departamento_sigla = $row_d[0];
+    
+        $correlativo = $idcarpeta_familiar_ss;
+    
+        $codigo="SAFCI/".$departamento_sigla."-CF-".$correlativo."/".$gestion;
+
+        $sql_a = " UPDATE carpeta_familiar SET estado='CONSOLIDADO', codigo='$codigo', correlativo='$correlativo' ";
         $sql_a.= " WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
         $result_a = mysqli_query($link,$sql_a);  
 

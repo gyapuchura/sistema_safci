@@ -33,25 +33,10 @@ if ($iddepartamento == '' || $idmunicipio == '' || $idestablecimiento_salud == '
     header("Location:mensaje_coordenadas_cf.php");
 }  
 else {
-
-    $sql_d = "SELECT sigla FROM departamento WHERE iddepartamento='$iddepartamento' ";
-    $result_d = mysqli_query($link,$sql_d);
-    $row_d = mysqli_fetch_array($result_d);
-
-    $departamento = $row_d[0];
-
-    $sqlm = "SELECT MAX(correlativo) FROM carpeta_familiar WHERE gestion='$gestion' ";
-    $resultm = mysqli_query($link,$sqlm);
-    $rowm = mysqli_fetch_array($resultm);
-
-    $correlativo=$rowm[0]+1;
-
-    $codigo="SAFCI/".$departamento."-CF-".$correlativo."/".$gestion;
-
         $sql8 = " INSERT INTO carpeta_familiar (gestion, correlativo,";
         $sql8.= " codigo, fecha_apertura, familia, estado, fecha_registro, hora_registro, idusuario )";
-        $sql8.= " VALUES ('$gestion','$correlativo',";
-        $sql8.= " '$codigo','$fecha_apertura','$familia','','$fecha','$hora','$idusuario_ss')";
+        $sql8.= " VALUES ('$gestion','0',";
+        $sql8.= " 'EN ELABORACIÓN','$fecha_apertura','$familia','','$fecha','$hora','$idusuario_ss')";
         $result8 = mysqli_query($link,$sql8);  
         $idcarpeta_familiar = mysqli_insert_id($link);
 
