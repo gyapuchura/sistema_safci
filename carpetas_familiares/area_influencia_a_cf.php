@@ -11,7 +11,7 @@ $row_area = mysqli_fetch_array($result_area);
 $area_af = $row_area[1]." ".$row_area[2];
 
 ?>
-
+<!--- funcion mostrar cuadro informativo --->
             <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES EN EL ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($area_af);?></h6>
