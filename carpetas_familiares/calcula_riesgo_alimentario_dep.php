@@ -302,6 +302,6 @@ $personal = mysqli_num_rows($result_per);
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL DEPARTAMENTO = <?php echo $personal;?> </h4></spam>
 
-
+<!--- fin de scripot -->
 	</body>
 </html>
