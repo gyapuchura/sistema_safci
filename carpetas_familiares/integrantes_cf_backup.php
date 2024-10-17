@@ -13,10 +13,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
+$sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
+$sql_cf.=" ubicacion_cf.latitud, ubicacion_cf.longitud, ubicacion_cf.altura, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro ";
+$sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
-          
+        
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -87,22 +91,147 @@ $row_cf=mysqli_fetch_array($result_cf);
                 <div class="col-lg-12">  
                     <div class="p-2"> 
 
-                
+                    <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">DEPARTAMENTO:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled>
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT iddepartamento, departamento FROM departamento ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[2]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">RED DE SALUD:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idred_salud"  id="idred_salud" class="form-control" disabled>
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idred_salud, red_salud FROM red_salud ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+
+                    </div>
+                </div>
+   
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">MUNICIPIO:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled>
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[4]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ESTABLECIMIENTO DE SALUD:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled>
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[5]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
 
 <!------- DATOS DEL AREA DE INFLUENCIA ---------->
-              
+      
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ÁREA DE INFLUENCIA:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" disabled>
+                      
+                        <?php
+                        $sql1 = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
+                        $sql1.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                        $sql1.= " AND area_influencia.idarea_influencia='$row_cf[6]' ";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[0].">".$row1[1].".- ".$row1[2]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>         
                 <div class="form-group row">   
                     <div class="col-sm-3">
                     <h6 class="text-info">FECHA DE APERTURA:</h6>
                     </div>
                     <div class="col-sm-3">                    
-                    <input type="date" class="form-control" name="fecha_apertura" value="<?php echo $row_cf[3];?>" disabled>                
+                    <input type="date" class="form-control" name="fecha_apertura" value="<?php echo $row_cf[7];?>" disabled>                
                     </div>    
                     <div class="col-sm-2">
                     <h6 class="text-info">FAMILIA:</h6>
                     </div>                        
                     <div class="col-sm-4">    
-                    <input type="text" class="form-control" name="familia" value="<?php echo $row_cf[2];?>" disabled>                                
+                    <input type="text" class="form-control" name="familia" value="<?php echo $row_cf[8];?>" disabled>                                
                     </div>
                 </div>
             <hr>
