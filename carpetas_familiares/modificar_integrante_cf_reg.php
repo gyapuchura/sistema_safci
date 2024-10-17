@@ -13,20 +13,15 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 $idnombre_integrante_ss = $_SESSION['idnombre_integrante_ss'];
-$idparentesco_ss        = $_SESSION['idparentesco_ss'];
-$idnacion_ss            = $_SESSION['idnacion_ss'];
+
 
 $idintegrante_cf_ss     = $_SESSION['idintegrante_cf_ss'];
 $idgenero_ss            = $_SESSION['idgenero_ss'];
 $edad_ss                = $_SESSION['edad_ss'];
 
-$sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
-$sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
-$sql_cf.=" ubicacion_cf.latitud, ubicacion_cf.longitud, ubicacion_cf.altura, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro ";
-$sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);   
+$row_cf=mysqli_fetch_array($result_cf);  
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);

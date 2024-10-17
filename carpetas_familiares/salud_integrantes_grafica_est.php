@@ -197,6 +197,10 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 
 <div id="grupo_salud" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+<a href="cuadro_cf_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=250,scrollbars=YES,top=60,left=400'); return false;">             
+MOSTRAR CUADRO </a></h2>
+
 </br>
 </br>
 <!----- FACTORES DE RIESGO BEGIN ------>
@@ -473,6 +477,10 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 </pre>
 
 <div id="grupo_riesgo" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+<a href="cuadro_cf_salud_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
+CUADRO FACTORES DE RIESGO</a></h2>
 
 <!----- FACTORES DE RIESGO END ------>
 </br>

@@ -83,7 +83,7 @@ $row_ar = mysqli_fetch_array($result_ar);
             <td rowspan="2" align="center"><strong style="font-family: arial; color: #503B92; font-size: 12px;">1. Familia: <?php echo $row_cf[8];?></strong></td>
             <td><strong style="font-family: arial; color: #503B92; font-size: 12px;">1. Departamento: <?php echo $row_dep[1];?></strong></td>
             <td colspan="3"><strong style="font-family: arial; color: #503B92; font-size: 12px;">5. Avenida/Calle/Carretera/Camino: <?php echo $row_cf[9];?></strong></td>
-            <td rowspan="5"><table width="330" border="0" align="center">
+            <td rowspan="5" style="color: #503B92; font-family: Arial; font-size: 12px; text-align: center;" ><table width="330" border="0" align="center">
               <tbody>
                 <tr>
                   <td width="121" style="font-family: Arial; color: #503B92; font-size: 10px; text-align: center;">MEDIO DE TRANSPORTE</td>
@@ -114,7 +114,14 @@ $row_ar = mysqli_fetch_array($result_ar);
                 }
               ?>
               </tbody>
-            </table></td>
+            </table>
+            </br>
+              </br>
+
+            <a href="imprime_mapa_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
+            MAPA DE UBICACIÓN</a>
+          
+          </td> 
           </tr>
           <tr>
             <td><strong style="font-family: arial; color: #503B92; font-size: 12px;">2. Provincia: <?php echo $row_mun[1];?></strong></td>
