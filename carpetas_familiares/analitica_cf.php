@@ -277,12 +277,12 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
        
                        <!-- ANALITICA A N9VEL DEPARTAMENTAL BEGIN -->
 
-                       <div class="card shadow mb-4">
+            <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DEPARTAMENTAL</h6>
                     </div>
  
-
+                    <form name="DEPTAL" action="departamento_a_cf.php" method="post"> 
                     
                 <div class="card-body">
                     <div class="form-group row">
@@ -290,7 +290,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">DEPARTAMENTO:</h6>
                         </div>
                         <div class="col-sm-9">
-                        <select name="iddepartamento_d"  id="iddepartamento_d" class="form-control" required>
+                        <select name="departamento_d"  id="departamento_d" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
                             $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
@@ -310,12 +310,19 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-4">     
+                        </div>
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-primary">VER ANALITICA DEPARTAMNENTAL</button>
+                            </form>
+                        </div>
+                    </div> 
+
                 </div>
-                    <div class="card-body" id="departamento_a_cf">                    
-                    </div>
                 </div>
                 <!-- ANALITICA A N9VEL DEPARTAMENTAL END -->
-
+             
 
                        <!-- ANALITICA A N9VEL NACIONAL BEGIN -->
 
@@ -434,7 +441,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">IV (d). SUSTENTO FAMILIAR:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_sustento_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AUTO-PERTENENCIA CULTURAL</h6></a>  
+                        <a href="grafica_sustento_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUSTENTO FAMILIAR</h6></a>  
                         </div>
                     </div>
 
@@ -767,19 +774,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         })
         });
 </script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento_d").change(function () {
-                    $("#iddepartamento_d option:selected").each(function () {
-                        departamento_d=$(this).val();
-                    $.post("departamento_a_cf.php", {departamento_d:departamento_d}, function(data){
-                    $("#departamento_a_cf").html(data);
-                    });
-                });
-        })
-        });
-</script> 
 
 <!---------- Scripts para CFs por area de influencia Begin ---------->
 

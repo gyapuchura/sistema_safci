@@ -40,7 +40,7 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT fecha FROM log_login GROUP BY fecha ORDER BY fecha";
+$sql = " SELECT fecha FROM log_login WHERE fecha >= '2024-01-01' GROUP BY fecha ORDER BY fecha";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -114,7 +114,7 @@ echo ",";
              <?php
 
 $numero = 0;
-$sql = " SELECT fecha FROM log_login GROUP BY fecha ORDER BY fecha ";
+$sql = " SELECT fecha FROM log_login WHERE fecha >= '2024-01-01' GROUP BY fecha ORDER BY fecha ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
