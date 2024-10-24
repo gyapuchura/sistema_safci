@@ -17,16 +17,16 @@ $row_mun = mysqli_fetch_array($result_mun);
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>PROGRAMAS SOCIALES SALUD FAMILIAR - MUNICIPIO</title>
+		<title>ELIMINACION DE ESCRETAS</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
 ${demo.css}
 		</style>
 
-		<script type="text/javascript">
+<script type="text/javascript">
 $(function () {
-    $('#corresponde_salud').highcharts({
+    $('#eliminacion_excretas').highcharts({
         chart: {
             type: 'pie',
             options3d: {
@@ -36,7 +36,7 @@ $(function () {
             }
         },
         title: {
-            text: 'BENEFICIARIOS DE PROGRAMAS SOCIALES - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
+            text: 'd). ELIMINACIÓN DE EXCRETAS - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -54,20 +54,22 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: '% DE INTEGRANTES',
+            name: '% DE FAMILIAS',
             data: [
                 <?php
-                    $sql0 = " SELECT count(integrante_beneficiario.idintegrante_beneficiario) FROM integrante_beneficiario, carpeta_familiar ";
-                    $sql0.= " WHERE integrante_beneficiario.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio'  ";
+                    $sql0 = " SELECT count(determinante_salud_cf.iddeterminante_salud_cf) FROM determinante_salud_cf, carpeta_familiar ";
+                    $sql0.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+                    $sql0.= " AND determinante_salud_cf.iddeterminante_salud='1' AND determinante_salud_cf.idcat_determinante_salud='4' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT integrante_beneficiario.idprograma_social FROM integrante_beneficiario, carpeta_familiar ";
-                    $sql.= " WHERE integrante_beneficiario.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_beneficiario.idprograma_social ";
+                    $sql = " SELECT determinante_salud_cf.iditem_determinante_salud FROM determinante_salud_cf, carpeta_familiar ";
+                    $sql.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql.= " AND determinante_salud_cf.iddeterminante_salud='1' AND determinante_salud_cf.idcat_determinante_salud='4' ";
+                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY determinante_salud_cf.iditem_determinante_salud ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -76,14 +78,14 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT idprograma_social, programa_social FROM programa_social WHERE idprograma_social='$row[0]' ";
+                    $sql_t = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iditem_determinante_salud='$row[0]' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT count(integrante_beneficiario.idintegrante_beneficiario) FROM integrante_beneficiario, carpeta_familiar ";
-                    $sql_c.= " WHERE integrante_beneficiario.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql_c.= " AND integrante_beneficiario.idprograma_social='$row[0]' ";
-                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio'  ";
+                    $sql_c = " SELECT count(determinante_salud_cf.iddeterminante_salud_cf) FROM determinante_salud_cf, carpeta_familiar ";
+                    $sql_c.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+                    $sql_c.= " AND determinante_salud_cf.iddeterminante_salud='1' AND determinante_salud_cf.idcat_determinante_salud='4' AND determinante_salud_cf.iditem_determinante_salud='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -118,14 +120,14 @@ $(function () {
 		</script>
 
 
-	</head>
+</head>
 	<body>
 
 <script src="../js/highcharts.js"></script>
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="corresponde_salud" style="height: 350px"></div>
+<div id="eliminacion_excretas" style="height: 350px"></div>
 
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
@@ -159,7 +161,6 @@ $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
-
 
 	</body>
 </html>

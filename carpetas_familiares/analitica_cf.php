@@ -229,7 +229,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                 <!-- ANALITICA POR RED DE SALUD - BEGIN -->
                 
-                <div class="card shadow mb-4">
+      <!--          <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES POR RED DE SALUD</h6>
                     </div>
@@ -271,7 +271,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 </div>
                     <div class="card-body" id="red_salud_a_cf">                    
                     </div>
-                    </div>
+                    </div>  -->
 
                 <!-- ANALITICA POR RED DE SALUD - END -->
        

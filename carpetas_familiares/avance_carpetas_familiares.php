@@ -121,14 +121,14 @@ $total_cf = $row_cf[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
 
 <?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
+$sql_p = " SELECT idmunicipio FROM carpeta_familiar GROUP BY idmunicipio ";
 $result_p = mysqli_query($link,$sql_p);
 $municipios = mysqli_num_rows($result_p);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
 
 <?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
+$sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idestablecimiento_salud ";
 $result_mun = mysqli_query($link,$sql_mun);
 $establecimientos = mysqli_num_rows($result_mun);  
 ?>

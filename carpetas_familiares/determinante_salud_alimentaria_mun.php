@@ -23,6 +23,7 @@ $row_mun = mysqli_fetch_array($result_mun);
 		<style type="text/css">
 ${demo.css}
 		</style>
+        
 		<script type="text/javascript">
 $(function () {
     $('#consumo_alimentos').highcharts({
@@ -93,9 +94,9 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT determinante_salud_cf.valor_cf FROM determinante_salud_cf, ubicacion_cf, carpeta_familiar ";
-$sql2.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql2.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql2 = " SELECT determinante_salud_cf.valor_cf FROM determinante_salud_cf, carpeta_familiar ";
+$sql2.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql2.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $sql2.= " AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='19'  ";
 $sql2.= " GROUP BY determinante_salud_cf.valor_cf ";
 $result2 = mysqli_query($link,$sql2);
@@ -121,9 +122,9 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT count(determinante_salud_cf.valor_cf) FROM determinante_salud_cf, ubicacion_cf, carpeta_familiar ";
-$sql_a.=" WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql_a =" SELECT count(determinante_salud_cf.valor_cf) FROM determinante_salud_cf, carpeta_familiar ";
+$sql_a.=" WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $sql_a.=" AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='19' ";
 $sql_a.=" AND determinante_salud_cf.iditem_determinante_salud='$row3[0]' AND determinante_salud_cf.valor_cf='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
@@ -242,9 +243,9 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT determinante_salud_cf.valor_cf FROM determinante_salud_cf, ubicacion_cf, carpeta_familiar ";
-$sql2.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql2.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql2 = " SELECT determinante_salud_cf.valor_cf FROM determinante_salud_cf, carpeta_familiar ";
+$sql2.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql2.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $sql2.= " AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='21'  ";
 $sql2.= " GROUP BY determinante_salud_cf.valor_cf ";
 $result2 = mysqli_query($link,$sql2);
@@ -270,9 +271,9 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT count(determinante_salud_cf.valor_cf) FROM determinante_salud_cf, ubicacion_cf, carpeta_familiar ";
-$sql_a.=" WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql_a =" SELECT count(determinante_salud_cf.valor_cf) FROM determinante_salud_cf, carpeta_familiar ";
+$sql_a.=" WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $sql_a.=" AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='21' ";
 $sql_a.=" AND determinante_salud_cf.iditem_determinante_salud='$row3[0]' AND determinante_salud_cf.valor_cf='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
