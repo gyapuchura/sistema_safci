@@ -72,7 +72,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                         </div>   
                     </div>
                 </div>
-                     
+                      
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
@@ -138,22 +138,47 @@ $row_mun = mysqli_fetch_array($result_mun);
                     </div>
                 </div>
 
-               <div class="card-body">
+                <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_servicios_basicos_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS - Mun. <?php echo $row_mun[1];?></h6></a>  
+                         
                         </div>
                     </div>
-
-                     <div class="form-group row">
-                        <div class="col-sm-7">
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">SERVICIOS BÁSICOS - <?php echo $row_mun[1];?></h6> 
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_mun_1.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Abastecimiento de agua para consumo</h6></a>  
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row">
+                        <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_servicios_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_mun_2.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Manejo de la Basura</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_mun_3.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Uso de servicio higienico o baño</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_mun_4.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Eliminación de escretas</h6></a>  
                         </div>
                     </div>
 
@@ -162,34 +187,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_estructura_vivienda_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - Mun. <?php echo $row_mun[1];?></h6></a>  
-                        </div>
-                    </div>
-
-                   <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_estructura_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda - Mun. <?php echo $row_mun[1];?></h6></a>  
-                        </div>
-                    </div>
-
-                   <div class="form-group row">
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-6">
-                        <a href="determinante_funcionalidad_vivienda_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA - Mun. <?php echo $row_mun[1];?></h6></a>  
-                        </div>
-                    </div>
-
-                       <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_funcionalidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <a href="determinante_servicios_basicos_mun_5.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Iluminación de la vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -198,19 +196,133 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_salud_alimentaria_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <a href="determinante_servicios_basicos_mun_6.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Combustible para cocinar</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_mun_7.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Acceso a comunicación</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - <?php echo $row_mun[1];?></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_1.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Tipo de vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_2.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Techo de la vivienda</h6></a>  
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_alimentario_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_3.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Paredes de la vivienda</h6></a>  
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_4.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Pisos de la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_5.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Revoque en las paredes interiores</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_6.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Tiene cuarto solo para cocinar</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_7.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Riésgos externos con relación a la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_mun_8.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">h) Riésgos internos con relación a la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA - <?php echo $row_mun[1];?></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_mun_1.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Tenencia de la vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_mun_2.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Índice de hacinamiento</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_mun_3.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Tenencia de animales en la vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">SALUD ALIMENTARIA - <?php echo $row_mun[1];?></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_mun_1.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Grados de la seguridad alimentaria:</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_mun_2.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Consumo diario de alimentos</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XII. CARACTERÍSTICAS SOCIOECONÓMICAS</h6>

@@ -134,7 +134,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
                         <?php
-                        $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='4' GROUP BY idusuario ";
+                        $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' GROUP BY idusuario ";
                         $result_per = mysqli_query($link,$sql_per);
                         $personal = mysqli_num_rows($result_per);  
                         ?>
@@ -244,6 +244,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <a href="determinante_servicios_basicos_dep_4.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Eliminación de escretas</h6></a>  
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
@@ -252,6 +253,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <a href="determinante_servicios_basicos_dep_5.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Iluminación de la vivienda</h6></a>  
                         </div>
                     </div>
+
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary"></h6>

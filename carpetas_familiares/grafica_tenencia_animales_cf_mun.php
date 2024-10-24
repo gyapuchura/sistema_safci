@@ -57,17 +57,17 @@ $(function () {
             name: '% animales domésticos',
             data: [
                 <?php
-                    $sql0 = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql0.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql0.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio'  ";
+                    $sql0 = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar  ";
+                    $sql0.= " WHERE tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql0.= " AND carpeta_familiar.idmunicipio='$idmunicipio'  ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT tenencia_animales_cf.idtenencia_animales FROM tenencia_animales_cf, carpeta_familiar, ubicacion_cf  ";
-                    $sql.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY tenencia_animales_cf.idtenencia_animales ";
+                    $sql = " SELECT tenencia_animales_cf.idtenencia_animales FROM tenencia_animales_cf, carpeta_familiar  ";
+                    $sql.= " WHERE tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY tenencia_animales_cf.idtenencia_animales ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -80,9 +80,9 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar, ubicacion_cf ";
-                    $sql_c.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql_c.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' AND tenencia_animales_cf.idtenencia_animales='$row[0]' ";
+                    $sql_c = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar ";
+                    $sql_c.= " WHERE tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql_c.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND tenencia_animales_cf.idtenencia_animales='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -126,9 +126,8 @@ $(function () {
 <div id="suministro_agua" style="height: 350px"></div>
 
 <?php
-$sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-$sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
+
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
@@ -137,19 +136,15 @@ $total_cf = $row_cf[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES MUNICIPIO = <?php echo $total_cf;?> </h4></spam>
 
 <?php
-$sql_mun =" SELECT ubicacion_cf.idestablecimiento_salud FROM carpeta_familiar, ubicacion_cf ";
-$sql_mun.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_mun.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY ubicacion_cf.idestablecimiento_salud ";
+$sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idestablecimiento_salud  ";
 $result_mun = mysqli_query($link,$sql_mun);
 $establecimientos = mysqli_num_rows($result_mun);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL MUNICIPIO = <?php echo $establecimientos;?> </h4></spam>
 
 <?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
@@ -157,14 +152,11 @@ $integrantes = $row_int[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL MUNICIPIO= <?php echo $integrantes;?> </h4></spam>
 
 <?php
-$sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idusuario ";
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idusuario ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
-
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
-
 
 	</body>
 </html>

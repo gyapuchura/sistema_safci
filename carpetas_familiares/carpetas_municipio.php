@@ -41,9 +41,8 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT ubicacion_cf.idmunicipio, municipios.municipio FROM ubicacion_cf, municipios, carpeta_familiar WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
-$sql.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idmunicipio=municipios.idmunicipio  ";
-$sql.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -118,9 +117,8 @@ data: [
 $numero3 = 0;
 
 
-$sql3 = " SELECT ubicacion_cf.idmunicipio FROM ubicacion_cf, municipios, carpeta_familiar WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio  ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -128,9 +126,7 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 = " SELECT count(carpeta_familiar.idcarpeta_familiar) FROM ubicacion_cf, carpeta_familiar  ";
-$sql4.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.= " AND ubicacion_cf.idmunicipio='$row3[0]' AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idmunicipio='$row3[0]' AND estado='CONSOLIDADO' ";
 $result4 = mysqli_query($link,$sql4);
 $row4 = mysqli_fetch_array($result4); 
 ?>
@@ -158,9 +154,8 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT ubicacion_cf.idmunicipio FROM ubicacion_cf, municipios, carpeta_familiar WHERE ubicacion_cf.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ORDER BY ubicacion_cf.idmunicipio  ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -168,9 +163,7 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 = " SELECT count(carpeta_familiar.idcarpeta_familiar) FROM ubicacion_cf, carpeta_familiar  ";
-$sql4.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.= " AND ubicacion_cf.idmunicipio='$row3[0]' AND carpeta_familiar.estado='' ";
+$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idmunicipio='$row3[0]' AND estado='' ";
 $result4 = mysqli_query($link,$sql4);
 $row4 = mysqli_fetch_array($result4); 
 ?>

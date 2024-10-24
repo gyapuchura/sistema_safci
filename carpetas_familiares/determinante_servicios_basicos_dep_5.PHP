@@ -17,7 +17,7 @@ $row_dep = mysqli_fetch_array($result_dep);
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>ILUMINACIÓN DE LA VIVIENDA</title>
+		<title>ILUMINACION DE LA VIVIENDA</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
