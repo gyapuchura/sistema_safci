@@ -33,10 +33,10 @@ if ($iddepartamento == '' || $idmunicipio == '' || $idestablecimiento_salud == '
     header("Location:mensaje_coordenadas_cf.php");
 }  
 else {
-        $sql8 = " INSERT INTO carpeta_familiar (gestion, correlativo,";
-        $sql8.= " codigo, fecha_apertura, familia, estado, fecha_registro, hora_registro, idusuario )";
-        $sql8.= " VALUES ('$gestion','0',";
-        $sql8.= " 'EN ELABORACIÓN','$fecha_apertura','$familia','','$fecha','$hora','$idusuario_ss')";
+        $sql8 = " INSERT INTO carpeta_familiar (gestion, correlativo, codigo, fecha_apertura, familia, estado,";
+        $sql8.= " iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, fecha_registro, hora_registro, idusuario )";
+        $sql8.= " VALUES ('$gestion','0','EN ELABORACIÓN','$fecha_apertura','$familia','',";
+        $sql8.= " '$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud','$idarea_influencia','$fecha','$hora','$idusuario_ss')";
         $result8 = mysqli_query($link,$sql8);  
         $idcarpeta_familiar = mysqli_insert_id($link);
 

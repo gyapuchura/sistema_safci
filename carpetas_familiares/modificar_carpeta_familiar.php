@@ -216,36 +216,42 @@ $row_cf=mysqli_fetch_array($result_cf);
 
 <form name="MODIFICA_CARPETA" action="guarda_carpeta_familiar_mod.php" method="post"> 
       
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                    <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
-                    </div>
-                    <div class="col-sm-9">
-                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" >
-                      
-                        <?php
-                        $sql1 = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
-                        $sql1.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-                        $sql1.= " AND area_influencia.idarea_influencia='$row_cf[6]' ";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1].".- ".$row1[2]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>
-                    </div>
-                </div>         
+                  
             <hr>
             <div class="text-center">                                     
                 <h4 class="text-primary">MODIFICAR DATOS CARPETA FAMILIAR:</h4>                    
             </div>
             <hr> 
+            <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
+                    </div>
+                    <div class="col-sm-9">
+
+                    <select name="idarea_influencia"  id="idarea_influencia" class="form-control" required >
+                            <option selected>Seleccione</option>
+                            
+                            <?php
+                            $numero=1;
+                            $sqlv = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, establecimiento_salud ";
+                            $sqlv.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idestablecimiento_salud='$row_cf[5]' ";
+                            $resultv = mysqli_query($link,$sqlv);
+                            if ($rowv = mysqli_fetch_array($resultv)){
+                            mysqli_field_seek($resultv,0);
+                            while ($fieldv = mysqli_fetch_field($resultv)){
+                            } do {
+                            ?>
+                            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_cf[6]) echo "selected";?> ><?php echo $numero;?>.- <?php echo $rowv[1];?> <?php echo $rowv[2];?></option>
+                            <?php
+                            $numero=$numero+1;
+                            } while ($rowv = mysqli_fetch_array($resultv));
+                            } else {
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>     
+                
                 <div class="form-group row">   
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>FECHA DE APERTURA:</h6>

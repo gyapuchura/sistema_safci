@@ -23,9 +23,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <div class="col-sm-2">
                             <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
                             <?php
-                            $sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-                            $sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                            $sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+                            $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
                             $result_cf = mysqli_query($link,$sql_cf);
                             $row_cf = mysqli_fetch_array($result_cf);  
                             $total_cf = $row_cf[0];
@@ -37,9 +35,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE ESTABLECIMIENTOS DE SALUD:</h6>
                             <?php
-                            $sql_mun =" SELECT ubicacion_cf.idestablecimiento_salud FROM carpeta_familiar, ubicacion_cf ";
-                            $sql_mun.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                            $sql_mun.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY ubicacion_cf.idestablecimiento_salud ";
+                            $sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idestablecimiento_salud ";
                             $result_mun = mysqli_query($link,$sql_mun);
                             $establecimientos = mysqli_num_rows($result_mun);  
                             ?>
@@ -49,10 +45,8 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
                             <?php
-                            $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
-                            $sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                            $sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-                            $sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' ";
+                            $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                            $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
@@ -64,8 +58,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
 
                             <?php
-                            $sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                            $sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idusuario ";
+                            $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idusuario ";
                             $result_per = mysqli_query($link,$sql_per);
                             $personal = mysqli_num_rows($result_per);  
                             ?>

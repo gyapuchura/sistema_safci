@@ -56,17 +56,17 @@ $(function () {
             name: '% DE INTEGRANTES',
             data: [
                 <?php
-                    $sql0 = " SELECT count(integrante_defuncion.idintegrante_defuncion) FROM integrante_defuncion, ubicacion_cf, carpeta_familiar ";
-                    $sql0.= " WHERE integrante_defuncion.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql0.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+                    $sql0 = " SELECT count(integrante_defuncion.idintegrante_defuncion) FROM integrante_defuncion, carpeta_familiar ";
+                    $sql0.= " WHERE integrante_defuncion.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql0.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT integrante_defuncion.defuncion_cf FROM integrante_defuncion, ubicacion_cf, carpeta_familiar ";
-                    $sql.= " WHERE integrante_defuncion.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY defuncion_cf ";
+                    $sql = " SELECT integrante_defuncion.defuncion_cf FROM integrante_defuncion, carpeta_familiar ";
+                    $sql.= " WHERE integrante_defuncion.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY defuncion_cf ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result); 
 
@@ -75,10 +75,10 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_c = " SELECT count(integrante_defuncion.idintegrante_defuncion) FROM integrante_defuncion, ubicacion_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE integrante_defuncion.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql_c.= " AND ubicacion_cf.ubicacion_actual='SI' AND integrante_defuncion.defuncion_cf='$row[0]' ";
-                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento'  ";
+                    $sql_c = " SELECT count(integrante_defuncion.idintegrante_defuncion) FROM integrante_defuncion, carpeta_familiar ";
+                    $sql_c.= " WHERE integrante_defuncion.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql_c.= "  AND integrante_defuncion.defuncion_cf='$row[0]' ";
+                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -122,9 +122,7 @@ $(function () {
 <div id="suministro_agua" style="height: 350px"></div>
 
 <?php
-$sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-$sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento'  ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
@@ -133,28 +131,22 @@ $total_cf = $row_cf[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES DEPARTAMENTO = <?php echo $total_cf;?> </h4></spam>
 
 <?php
-$sql_p = " SELECT ubicacion_cf.idmunicipio FROM carpeta_familiar, ubicacion_cf ";
-$sql_p.= " WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_p.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idmunicipio ";
+$sql_p = " SELECT idmunicipio FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' GROUP BY idmunicipio  ";
 $result_p = mysqli_query($link,$sql_p);
 $municipios = mysqli_num_rows($result_p);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS DEL DEPARTAMENTO= <?php echo $municipios;?> </h4></spam>
 
 <?php
-$sql_mun =" SELECT ubicacion_cf.idestablecimiento_salud FROM carpeta_familiar, ubicacion_cf ";
-$sql_mun.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_mun.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idestablecimiento_salud ";
+$sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' GROUP BY idestablecimiento_salud ";
 $result_mun = mysqli_query($link,$sql_mun);
 $establecimientos = mysqli_num_rows($result_mun);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL DEPARTAMENTO = <?php echo $establecimientos;?> </h4></spam>
 
 <?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' ";
+$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
@@ -162,13 +154,12 @@ $integrantes = $row_int[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL DEPARTAMENTO= <?php echo $integrantes;?> </h4></spam>
 
 <?php
-$sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idusuario ";
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' GROUP BY idusuario  ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
-
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL DEPARTAMENTO = <?php echo $personal;?> </h4></spam>
+	</body>
 
 	</body>
 </html>
