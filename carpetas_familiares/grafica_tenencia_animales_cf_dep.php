@@ -58,7 +58,7 @@ $(function () {
             data: [
                 <?php
                     $sql0 = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar  ";
-                    $sql0.= " WHERE carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql0.= " WHERE carpeta_familiar.estado='CONSOLIDADO' AND tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                     $sql0.= " AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
@@ -66,7 +66,7 @@ $(function () {
 
                     $numero = 0;
                     $sql = " SELECT tenencia_animales_cf.idtenencia_animales FROM tenencia_animales_cf, carpeta_familiar  ";
-                    $sql.= " WHERE carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " WHERE carpeta_familiar.estado='CONSOLIDADO' AND tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                     $sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY tenencia_animales_cf.idtenencia_animales ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
@@ -81,7 +81,7 @@ $(function () {
                     $row_t = mysqli_fetch_array($result_t);
 
                     $sql_c = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql_c.= " WHERE carpeta_familiar.estado='CONSOLIDADO' AND tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                     $sql_c.= " AND carpeta_familiar.iddepartamento='$iddepartamento' AND tenencia_animales_cf.idtenencia_animales='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
