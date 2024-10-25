@@ -57,18 +57,18 @@ $(function () {
             name: '% DE INTEGRANTES',
             data: [
                 <?php
-                    $sql0 = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, ubicacion_cf, carpeta_familiar ";
-                    $sql0.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql0.= " AND integrante_subsector_salud.idsubsector_elige='1' AND ubicacion_cf.ubicacion_actual='SI' ";
-                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud'  ";
+                    $sql0 = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, carpeta_familiar ";
+                    $sql0.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql0.= " AND integrante_subsector_salud.idsubsector_elige='1' ";
+                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud'  ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT integrante_subsector_salud.idsubsector_salud FROM integrante_subsector_salud, ubicacion_cf, carpeta_familiar ";
-                    $sql.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud'  ";
+                    $sql = " SELECT integrante_subsector_salud.idsubsector_salud FROM integrante_subsector_salud, carpeta_familiar ";
+                    $sql.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud'  ";
                     $sql.= " AND integrante_subsector_salud.idsubsector_elige='1' GROUP BY integrante_subsector_salud.idsubsector_salud ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
@@ -82,10 +82,10 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, ubicacion_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql_c.= " AND integrante_subsector_salud.idsubsector_elige='1' AND ubicacion_cf.ubicacion_actual='SI' AND integrante_subsector_salud.idsubsector_salud='$row[0]' ";
-                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+                    $sql_c = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, carpeta_familiar ";
+                    $sql_c.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql_c.= " AND integrante_subsector_salud.idsubsector_elige='1' AND integrante_subsector_salud.idsubsector_salud='$row[0]' ";
+                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -153,18 +153,18 @@ $(function () {
             name: '% DE INTEGRANTES',
             data: [
                 <?php
-                    $sql0 = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, ubicacion_cf, carpeta_familiar ";
-                    $sql0.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql0.= " AND integrante_subsector_salud.idsubsector_elige='2' AND ubicacion_cf.ubicacion_actual='SI' ";
-                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud'  ";
+                    $sql0 = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, carpeta_familiar ";
+                    $sql0.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql0.= " AND integrante_subsector_salud.idsubsector_elige='2' ";
+                    $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud'  ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT integrante_subsector_salud.idsubsector_salud FROM integrante_subsector_salud, ubicacion_cf, carpeta_familiar ";
-                    $sql.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud'  ";
+                    $sql = " SELECT integrante_subsector_salud.idsubsector_salud FROM integrante_subsector_salud, carpeta_familiar ";
+                    $sql.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud'  ";
                     $sql.= " AND integrante_subsector_salud.idsubsector_elige='2' GROUP BY integrante_subsector_salud.idsubsector_salud ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
@@ -178,10 +178,10 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, ubicacion_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql_c.= " AND integrante_subsector_salud.idsubsector_elige='2' AND ubicacion_cf.ubicacion_actual='SI' AND integrante_subsector_salud.idsubsector_salud='$row[0]' ";
-                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+                    $sql_c = " SELECT count(integrante_subsector_salud.idintegrante_subsector_salud) FROM integrante_subsector_salud, carpeta_familiar ";
+                    $sql_c.= " WHERE integrante_subsector_salud.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql_c.= " AND integrante_subsector_salud.idsubsector_elige='2' AND integrante_subsector_salud.idsubsector_salud='$row[0]' ";
+                    $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -226,22 +226,19 @@ $(function () {
 
 <div id="asiste_salud" style="height: 350px"></div>
 
+
 <?php
-$sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-$sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud'  ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
 ?>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES - ESTABLECIMIENTO DE SALUD = <?php echo $total_cf;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES ESTABLECIMIENTO DE SALUD = <?php echo $total_cf;?> </h4></spam>
 
 <?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
@@ -249,15 +246,11 @@ $integrantes = $row_int[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL ESTABLECIMIENTO DE SALUD= <?php echo $integrantes;?> </h4></spam>
 
 <?php
-$sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY carpeta_familiar.idusuario ";
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' GROUP BY idusuario  ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
-
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ESTABLECIMIENTO DE SALUD = <?php echo $personal;?> </h4></spam>
-
-
 
 	</body>
 </html>
