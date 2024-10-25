@@ -19,7 +19,7 @@ $area_af = $row_area[1]." ".$row_area[2];
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CARACTERISTICAS SOCIOECONÓMICAS ÁREA DE INFLUENCIA</title>
+		<title>SALUD ALIMENTARIA CF - ÁREA DE INFLUENCIA</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -27,22 +27,22 @@ ${demo.css}
 		</style>
 		<script type="text/javascript">
 $(function () {
-    $('#container').highcharts({
+    $('#consumo_alimentos').highcharts({
         chart: {
             type: 'column'
         },
         title: {
-            text: 'CARACTERÍSTICAS SOCIOECONÓMICAS - ÁREA DE INFLUENCIA: <?php echo mb_strtoupper($area_af);?>'
+            text: 'Durante los últimos tres meses, por falta de dinero u otros factores hubo algún momento en el que:'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
+            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI - ÁREA DE INFLUENCIA: <?php echo mb_strtoupper($area_af);?> '
         },
         xAxis: {
             categories: [
 
                 <?php 
 $numero = 0;
-$sql = " SELECT idsocio_economica, socio_economica FROM socio_economica ORDER BY idsocio_economica ";
+$sql = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -74,13 +74,13 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: 'SOCIOECONÓMICAS'
+                text: 'Encuenta para grados de seguridad alimentaria'
             }
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} FAMILIAS </b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.1f}  Familias</b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -93,12 +93,13 @@ Si no se encontraron resultados
         },
         series: [
 
-
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT socio_economica_cf.valor FROM socio_economica_cf, carpeta_familiar ";
-$sql2.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql2.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY socio_economica_cf.valor ";
+$sql2 = " SELECT determinante_salud_cf.valor_cf FROM determinante_salud_cf, carpeta_familiar ";
+$sql2.= " WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql2.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+$sql2.= " AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='19'  ";
+$sql2.= " GROUP BY determinante_salud_cf.valor_cf ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -107,12 +108,12 @@ while ($field2 = mysqli_fetch_field($result2)){
 } do {
 	?>
 
-{ name: '<?php  echo $row2[0]; ?>',
+{ name: '<?php  if ($row2[0] == '1') { echo "SI"; } else { echo "NO"; }?>',
 
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT idsocio_economica, socio_economica FROM socio_economica ORDER BY idsocio_economica ";
+$sql3 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iddeterminante_salud='4' AND idcat_determinante_salud='19' ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -120,12 +121,13 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
- 
+
 <?php
-$sql_a =" SELECT COUNT(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar  ";
-$sql_a.=" WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_a.=" AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
-$sql_a.=" AND socio_economica_cf.idsocio_economica='$row3[0]' AND socio_economica_cf.valor='$row2[0]' ";
+$sql_a =" SELECT count(determinante_salud_cf.valor_cf) FROM determinante_salud_cf, carpeta_familiar ";
+$sql_a.=" WHERE determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+$sql_a.=" AND determinante_salud_cf.iddeterminante_salud='4' AND determinante_salud_cf.idcat_determinante_salud='19' ";
+$sql_a.=" AND determinante_salud_cf.iditem_determinante_salud='$row3[0]' AND determinante_salud_cf.valor_cf='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -146,7 +148,6 @@ Si no se encontraron resultados
 */
 }
 ?>
-
 
         ]
 }
@@ -172,12 +173,14 @@ Si no se encontraron resultados
     });
 });
 		</script>
+
+
 	</head>
 	<body>
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
+<div id="consumo_alimentos" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia'  ";
@@ -203,7 +206,6 @@ $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ÁREA DE INFLUENCIA = <?php echo $personal;?> </h4></spam>
-
 
 	</body>
 </html>

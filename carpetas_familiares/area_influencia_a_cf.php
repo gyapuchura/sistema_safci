@@ -26,9 +26,7 @@ $area_af = $row_area[1]." ".$row_area[2];
                             <div class="col-sm-2">
                             <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
                             <?php
-                            $sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-                            $sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                            $sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+                            $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' ";
                             $result_cf = mysqli_query($link,$sql_cf);
                             $row_cf = mysqli_fetch_array($result_cf);  
                             $total_cf = $row_cf[0];
@@ -40,10 +38,10 @@ $area_af = $row_area[1]." ".$row_area[2];
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
                             <?php
-                            $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
+                            $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar  ";
                             $sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                            $sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-                            $sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+                            $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO'  ";
+                            $sql_int.=" AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
@@ -55,8 +53,7 @@ $area_af = $row_area[1]." ".$row_area[2];
                             <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
 
                             <?php
-                            $sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                            $sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' GROUP BY carpeta_familiar.idusuario ";
+                            $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' GROUP BY idusuario ";
                             $result_per = mysqli_query($link,$sql_per);
                             $personal = mysqli_num_rows($result_per);  
                             ?>
@@ -136,22 +133,47 @@ $area_af = $row_area[1]." ".$row_area[2];
                     </div>
                 </div>
 
-               <div class="card-body">
-                    <div class="form-group row">
+         
+                <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_servicios_basicos_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                         
                         </div>
                     </div>
-
-                     <div class="form-group row">
-                        <div class="col-sm-7">
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">SERVICIOS BÁSICOS - <?php echo $area_af;?></h6> 
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_af_1.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Abastecimiento de agua para consumo</h6></a>  
+                        </div>
+                    </div>
+                   
+                    <div class="form-group row">
+                        <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_servicios_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_af_2.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Manejo de la Basura</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_af_3.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Uso de servicio higienico o baño</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_af_4.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Eliminación de escretas</h6></a>  
                         </div>
                     </div>
 
@@ -160,34 +182,7 @@ $area_af = $row_area[1]." ".$row_area[2];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_estructura_vivienda_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
-                        </div>
-                    </div>
-
-                   <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_estructura_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
-                        </div>
-                    </div>
-
-                   <div class="form-group row">
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-6">
-                        <a href="determinante_funcionalidad_vivienda_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
-                        </div>
-                    </div>
-
-                       <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_funcionalidad_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                        <a href="determinante_servicios_basicos_af_5.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Iluminación de la vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -196,18 +191,134 @@ $area_af = $row_area[1]." ".$row_area[2];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_salud_alimentaria_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                        <a href="determinante_servicios_basicos_af_6.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Combustible para cocinar</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_af_7.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Acceso a comunicación</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - <?php echo $area_af;?></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_1.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Tipo de vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_2.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Techo de la vivienda</h6></a>  
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_alimentario_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_3.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Paredes de la vivienda</h6></a>  
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_4.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Pisos de la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_5.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Revoque en las paredes interiores</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_6.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Tiene cuarto solo para cocinar</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_7.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Riésgos externos con relación a la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_af_8.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">h) Riésgos internos con relación a la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA - <?php echo $area_af;?></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_af_1.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Tenencia de la vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_af_2.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Índice de hacinamiento</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_af_3.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Tenencia de animales en la vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">SALUD ALIMENTARIA - <?php echo $area_af;?></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_af_1.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Grados de la seguridad alimentaria:</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_af_2.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Consumo diario de alimentos</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+
 
                     <div class="form-group row">
                         <div class="col-sm-6">

@@ -215,8 +215,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 <!------- DATOS DEL AREA DE INFLUENCIA ---------->
 
 <form name="MODIFICA_CARPETA" action="guarda_carpeta_familiar_mod.php" method="post"> 
-      
-                  
+                       
             <hr>
             <div class="text-center">                                     
                 <h4 class="text-primary">MODIFICAR DATOS CARPETA FAMILIAR:</h4>                    

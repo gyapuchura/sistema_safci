@@ -96,10 +96,10 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT integrante_tradicional.idlugar_atencion_trad, lugar_atencion_trad.lugar_atencion_trad FROM integrante_tradicional, lugar_atencion_trad, ubicacion_cf, carpeta_familiar  ";
-$sql2.= " WHERE integrante_tradicional.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql2 = " SELECT integrante_tradicional.idlugar_atencion_trad, lugar_atencion_trad.lugar_atencion_trad FROM integrante_tradicional, lugar_atencion_trad, carpeta_familiar  ";
+$sql2.= " WHERE integrante_tradicional.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql2.= " AND integrante_tradicional.idlugar_atencion_trad=lugar_atencion_trad.idlugar_atencion_trad AND lugar_atencion_trad.idlugar_atencion_trad !='3'  ";
-$sql2.= " AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' GROUP BY integrante_tradicional.idlugar_atencion_trad ";
+$sql2.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY integrante_tradicional.idlugar_atencion_trad ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -123,10 +123,10 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT count(integrante_tradicional.idintegrante_tradicional) FROM integrante_tradicional, ubicacion_cf, carpeta_familiar ";
-$sql_a.=" WHERE integrante_tradicional.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_a =" SELECT count(integrante_tradicional.idintegrante_tradicional) FROM integrante_tradicional, carpeta_familiar ";
+$sql_a.=" WHERE integrante_tradicional.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql_a.=" AND integrante_tradicional.idmedicina_tradicional='$row3[0]' AND integrante_tradicional.idlugar_atencion_trad='$row2[0]' ";
-$sql_a.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -181,9 +181,7 @@ Si no se encontraron resultados
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
 <?php
-$sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-$sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia'  ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
@@ -192,10 +190,8 @@ $total_cf = $row_cf[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES ÁREA DE INFLUENCIA = <?php echo $total_cf;?> </h4></spam>
 
 <?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
@@ -203,11 +199,9 @@ $integrantes = $row_int[0];
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL ÁREA DE INFLUENCIA= <?php echo $integrantes;?> </h4></spam>
 
 <?php
-$sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' GROUP BY carpeta_familiar.idusuario ";
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' GROUP BY idusuario  ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
-
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ÁREA DE INFLUENCIA = <?php echo $personal;?> </h4></spam>
 

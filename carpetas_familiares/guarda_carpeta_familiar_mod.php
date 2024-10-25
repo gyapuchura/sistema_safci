@@ -36,7 +36,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         $sql8.= " hora_registro='$hora', idusuario='$idusuario_ss' WHERE idubicacion_cf='$row_cf[0]' ";
         $result8 = mysqli_query($link,$sql8); 
 
-        $sql9 = " UPDATE carpeta_familiar SET familia='$familia', fecha_apertura='$fecha_apertura', idarea_influencia='$idarea_influencia' ";
+        $sql9 = " UPDATE carpeta_familiar SET familia='$familia', fecha_apertura='$fecha_apertura', idarea_influencia='$idarea_influencia', ";
         $sql9.= " fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss' WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
         $result9 = mysqli_query($link,$sql9);  
     
