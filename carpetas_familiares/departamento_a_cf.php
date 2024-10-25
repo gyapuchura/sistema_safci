@@ -250,7 +250,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_servicios_basicos_dep_5.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Iluminación de la vivienda</h6></a>  
+                        <a href="determinante_servicios_basicos_dep_5.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Iluminación de la vivienda </h6></a>  
                         </div>
                     </div>
 
