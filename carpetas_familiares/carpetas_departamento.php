@@ -232,6 +232,7 @@ TARIJA 	<?php echo $tarija_p;?>%
               <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° CARPETAS FAMILIARES</td>
 		      <td width="101" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MUNICIPIOS</td>
+              <td width="101" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CFs POR DIA</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
@@ -256,7 +257,10 @@ TARIJA 	<?php echo $tarija_p;?>%
               <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $carpetas_depto;?></td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="carpetas_municipio.php?iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=850,height=1000,scrollbars=YES,top=60,left=400'); return false;">REPORTE MUNICIPIOS</a>
+              <a href="carpetas_municipio.php?iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=850,height=1000,scrollbars=YES,top=60,left=400'); return false;">MUNICIPIOS</a>
+              </td>
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="../recursos_humanos/carpetas_diarias_departamento.php?iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1400,height=850,scrollbars=YES,top=60,left=400'); return false;">REPORTE DIARIO</a>
               </td>
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
 	        </tr>
