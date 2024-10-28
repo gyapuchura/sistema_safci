@@ -6,7 +6,7 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 ?>
-<!DOCTYPE HTML>
+<!DOCTYPE HTML> 
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">

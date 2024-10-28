@@ -493,55 +493,44 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD</h6>
+                        <h6 class="text-primary">XI. DETERMINANTES DE LA SALUD - NACIONAL</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_servicios_basicos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SERVICIOS BÁSICOS</h6></a>  
+                         
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_servicios.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo en los Servicios Básicos</h6></a>  
-                        </div>
-                    </div>
-
+                    <hr>
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary"></h6>
+                        <h6 class="text-info">SERVICIOS BÁSICOS - NACIONAL</h6> 
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_estructura_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTRUCTURA DE LA VIVIENDA</h6></a>  
+                        <a href="determinante_servicios_basicos_1.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Abastecimiento de agua para consumo</h6></a>  
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-7">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_estructura.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Estructural de la Vivienda</h6></a>  
-                        </div>
-                    </div>
-
+                   
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_funcionalidad_vivienda.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA</h6></a>  
+                        <a href="determinante_servicios_basicos_2.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Manejo de la Basura</h6></a>  
                         </div>
                     </div>
-
                     <div class="form-group row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_funcionalidad.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo Funcional de la Vivienda</h6></a>  
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_3.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Uso de servicio higienico o baño</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_4.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Eliminación de escretas</h6></a>  
                         </div>
                     </div>
 
@@ -550,18 +539,143 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_salud_alimentaria.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=1200,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SALUD ALIMENTARIA</h6></a>  
+                        <a href="determinante_servicios_basicos_5.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Iluminación de la vivienda </h6></a>  
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                         <h6 class="text-primary"></h6>
                         </div>
-                        <div class="col-sm-5">
-                        <a href="calcula_riesgo_alimentario.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">-> Riésgo de la Seguridad Alimentaria</h6></a>  
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_6.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Combustible para cocinar</h6></a>  
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_servicios_basicos_7.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Acceso a comunicación</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">ESTRUCTURA DE LA VIVIENDA - NACIONAL</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_1.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Tipo de vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_2.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Techo de la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_3.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Paredes de la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_4.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Pisos de la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_5.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Revoque en las paredes interiores</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_6.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Tiene cuarto solo para cocinar</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_7.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Riésgos externos con relación a la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_estructura_vivienda_8.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">h) Riésgos internos con relación a la vivienda</h6></a>  
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">FUNCIONALIDAD DE LA VIVIENDA - NACIONAL</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_1.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Tenencia de la vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_2.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Índice de hacinamiento</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_funcionalidad_vivienda_3.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Tenencia de animales en la vivienda</h6></a>  
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info">SALUD ALIMENTARIA - NACIONAL</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_1.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">a) Grados de la seguridad alimentaria:</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="determinante_salud_alimentaria_2.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Consumo diario de alimentos</h6></a>  
+                        </div>
+                    </div>
+
+                    <hr>
 
                     <div class="form-group row">
                         <div class="col-sm-6">
