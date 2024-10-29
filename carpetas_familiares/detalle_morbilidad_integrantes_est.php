@@ -6,19 +6,19 @@ $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
 $gestion    = date("Y");
 
-$idarea_influencia = $_GET['idarea_influencia'];
-$idfactor_riesgo_cf = $_GET['idfactor_riesgo_cf']; 
+$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
+$idmorbilidad_cf = $_GET['idmorbilidad_cf']; 
 
-$sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
-$sql_area.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$idarea_influencia' ";
-$result_area = mysqli_query($link,$sql_area);
-$row_area = mysqli_fetch_array($result_area);
-$area_af = $row_area[1]." ".$row_area[2];
+$sql_es = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
+$sql_es.= " WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$result_es = mysqli_query($link,$sql_es);
+$row_es = mysqli_fetch_array($result_es);
+$establecimiento = $row_es[1];
 
-$sql_fr = " SELECT  idfactor_riesgo_cf, factor_riesgo_cf FROM factor_riesgo_cf WHERE idfactor_riesgo_cf='$idfactor_riesgo_cf' ";
-$result_fr = mysqli_query($link,$sql_fr);
-$row_fr = mysqli_fetch_array($result_fr);
-$riesgo = $row_fr[1];
+$sql_morb = " SELECT idmorbilidad_cf, morbilidad_cf FROM morbilidad_cf WHERE idmorbilidad_cf='$idmorbilidad_cf' ";
+$result_morb = mysqli_query($link,$sql_morb);
+$row_morb = mysqli_fetch_array($result_morb);
+$morbilidad = $row_morb[1];
 
 ?>
 <!DOCTYPE html>
@@ -28,12 +28,12 @@ $riesgo = $row_fr[1];
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>DETALLE SALUD DE INTEGRANTES</title>
+  <title>DETALLE MORBILIDAD DE INTEGRANTES</title>
 </head>
 	<body>
-  <h3 style="font-family: Arial; text-align: center;">FACTORES DE RIESGO</h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo mb_strtoupper($riesgo);?></h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo mb_strtoupper($area_af);?></h3>
+  <h3 style="font-family: Arial; text-align: center;">MORBILIDAD</h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo mb_strtoupper($morbilidad);?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo "ESTABLECIMIENTO: ".mb_strtoupper($establecimiento);?></h3>
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
@@ -50,10 +50,10 @@ $riesgo = $row_fr[1];
         <?php
             $numero=1;
             $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, nombre.nombre, nombre.paterno, nombre.materno, integrante_cf.edad  ";
-            $sql.=" FROM carpeta_familiar, integrante_cf, nombre, integrante_factor_riesgo WHERE ";
-            $sql.=" integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idnombre=nombre.idnombre ";
-            $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-            $sql.=" AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+            $sql.=" FROM carpeta_familiar, integrante_cf, nombre, integrante_morbilidad WHERE integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf ";
+            $sql.=" AND integrante_cf.idnombre=nombre.idnombre ";
+            $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'";
+            $sql.=" AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);

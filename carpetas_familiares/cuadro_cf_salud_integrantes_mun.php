@@ -6,13 +6,12 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 
-$idarea_influencia = $_GET['idarea_influencia'];
+$idmunicipio = $_GET['idmunicipio'];
 
-$sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
-$sql_area.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$idarea_influencia' ";
-$result_area = mysqli_query($link,$sql_area);
-$row_area = mysqli_fetch_array($result_area);
-$area_af = $row_area[1]." ".$row_area[2];
+$sql_est = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$result_est = mysqli_query($link,$sql_est);
+$row_est = mysqli_fetch_array($result_est);
+$municipio_cf = $row_est[1];
 
 ?>
 <!DOCTYPE html>
@@ -24,7 +23,7 @@ $area_af = $row_area[1]." ".$row_area[2];
 </head>
 <body>
 
-<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">ÁREA DE INFLUENCIA: <?php echo mb_strtoupper($area_af);?></h2>
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">MUNICIPIO: <?php echo mb_strtoupper($municipio_cf);?></h2>
     
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">INTEGRANTES DE LA FAMILIA CON FACTORES DE RIESGO</h2>
 		<table width="700" border="1" align="center" cellspacing="0">
@@ -41,7 +40,7 @@ $area_af = $row_area[1]." ".$row_area[2];
         $sql ="  SELECT integrante_factor_riesgo.idfactor_riesgo_cf, factor_riesgo_cf.factor_riesgo_cf FROM integrante_factor_riesgo, carpeta_familiar, factor_riesgo_cf  ";
         $sql.="  WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
         $sql.="  AND integrante_factor_riesgo.idfactor_riesgo_cf=factor_riesgo_cf.idfactor_riesgo_cf AND carpeta_familiar.estado='CONSOLIDADO' ";
-        $sql.="  AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY integrante_factor_riesgo.idfactor_riesgo_cf ";
+        $sql.="  AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_factor_riesgo.idfactor_riesgo_cf ";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
@@ -55,7 +54,7 @@ $area_af = $row_area[1]." ".$row_area[2];
           <?php
         $sql_c =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
         $sql_c.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_factor_riesgo.idfactor_riesgo_cf='$row[0]' ";
+        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_factor_riesgo.idfactor_riesgo_cf='$row[0]' ";
 
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
@@ -64,12 +63,12 @@ $area_af = $row_area[1]." ".$row_area[2];
           <?php echo $row_c[0];?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="detalle_salud_integrantes.php?idarea_influencia=<?php echo $idarea_influencia;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              <a href="detalle_salud_integrantes_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="piramide_factores_riesgo.php?idarea_influencia=<?php echo $idarea_influencia;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              <a href="piramide_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>
@@ -80,11 +79,7 @@ $area_af = $row_area[1]." ".$row_area[2];
         } else {
         }
         ?>
-
-
-
 	      </tbody>
     </table>
-
 </body>
 </html>

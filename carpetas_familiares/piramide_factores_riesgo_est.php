@@ -19,9 +19,9 @@ $result_est = mysqli_query($link,$sql_est);
 $row_est = mysqli_fetch_array($result_est);
 $establecimiento = $row_est[1];
 
-$sqlav = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, ubicacion_cf, carpeta_familiar ";
-$sqlav.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sqlav = " SELECT count(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
+$sqlav.= " WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' ";
 $resultav = mysqli_query($link,$sqlav);
 $rowav = mysqli_fetch_array($resultav);
 
@@ -132,11 +132,11 @@ $(function () {
                     ?>
 
                     <?php
-                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_factor_riesgo, integrante_cf, nombre, ubicacion_cf, carpeta_familiar  ";
+                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_factor_riesgo, integrante_cf, nombre, carpeta_familiar  ";
                     $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
-                    $sql7.= " AND integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql7.= " AND integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf";
                     $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql7.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf'  ";
+                    $sql7.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf'  ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
                     $cifra_masculino = $row7[0];
@@ -170,11 +170,11 @@ $(function () {
                         ?>
 
                         <?php
-                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_factor_riesgo, integrante_cf, nombre, ubicacion_cf, carpeta_familiar  ";
+                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_factor_riesgo, integrante_cf, nombre, carpeta_familiar  ";
                         $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql7.= " AND integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                        $sql7.= " AND integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf";
                         $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.estado='CONSOLIDADO' ";
-                        $sql7.= " AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf'  ";
+                        $sql7.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf'  ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
                         $cifra_femenino = $row7[0];

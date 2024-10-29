@@ -49,10 +49,10 @@ $riesgo = $row_fr[1];
         <?php
             $numero=1;
             $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, nombre.nombre, nombre.paterno, nombre.materno, integrante_cf.edad  ";
-            $sql.=" FROM ubicacion_cf, carpeta_familiar, integrante_cf, nombre, integrante_factor_riesgo WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-            $sql.=" AND integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idnombre=nombre.idnombre ";
-            $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
-            $sql.=" AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+            $sql.=" FROM carpeta_familiar, integrante_cf, nombre, integrante_factor_riesgo WHERE  ";
+            $sql.=" integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idnombre=nombre.idnombre ";
+            $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+            $sql.=" AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);

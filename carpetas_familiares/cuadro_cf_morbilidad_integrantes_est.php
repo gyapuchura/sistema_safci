@@ -6,13 +6,13 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 
-$idarea_influencia = $_GET['idarea_influencia'];
+$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
-$sql_area.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$idarea_influencia' ";
-$result_area = mysqli_query($link,$sql_area);
-$row_area = mysqli_fetch_array($result_area);
-$area_af = $row_area[1]." ".$row_area[2];
+$sql_es = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
+$sql_es.= " WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$result_es = mysqli_query($link,$sql_es);
+$row_es = mysqli_fetch_array($result_es);
+$establecimiento = $row_es[1];
 
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ $area_af = $row_area[1]." ".$row_area[2];
 </head>
 <body>
 
-<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">ÁREA DE INFLUENCIA: <?php echo mb_strtoupper($area_af);?></h2>
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">ESTABLECIMIENTO: <?php echo mb_strtoupper($establecimiento);?></h2>
     
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">INTEGRANTES DE LA FAMILIA CON MORBILIDAD</h2>
 		<table width="700" border="1" align="center" cellspacing="0">
@@ -41,7 +41,7 @@ $area_af = $row_area[1]." ".$row_area[2];
         $sql =" SELECT integrante_morbilidad.idmorbilidad_cf, morbilidad_cf.morbilidad_cf FROM integrante_morbilidad, carpeta_familiar, morbilidad_cf ";
         $sql.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
         $sql.=" AND integrante_morbilidad.idmorbilidad_cf=morbilidad_cf.idmorbilidad_cf AND carpeta_familiar.estado='CONSOLIDADO' ";
-        $sql.=" AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY integrante_morbilidad.idmorbilidad_cf  ";
+        $sql.=" AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_morbilidad.idmorbilidad_cf  ";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
@@ -55,7 +55,7 @@ $area_af = $row_area[1]." ".$row_area[2];
           <?php
         $sql_c =" SELECT COUNT(integrante_morbilidad.idmorbilidad_cf) FROM integrante_morbilidad, carpeta_familiar ";
         $sql_c.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
-        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_morbilidad.idmorbilidad_cf='$row[0]' ";
+        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_morbilidad.idmorbilidad_cf='$row[0]' ";
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
 
@@ -63,12 +63,12 @@ $area_af = $row_area[1]." ".$row_area[2];
           <?php echo $row_c[0];?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="detalle_morbilidad_integrantes.php?idarea_influencia=<?php echo $idarea_influencia;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              <a href="detalle_morbilidad_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="piramide_morbilidad.php?idarea_influencia=<?php echo $idarea_influencia;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              <a href="piramide_morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>

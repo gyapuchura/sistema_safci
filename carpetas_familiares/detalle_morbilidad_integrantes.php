@@ -50,10 +50,10 @@ $morbilidad = $row_morb[1];
         <?php
             $numero=1;
             $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, nombre.nombre, nombre.paterno, nombre.materno, integrante_cf.edad  ";
-            $sql.=" FROM ubicacion_cf, carpeta_familiar, integrante_cf, nombre, integrante_morbilidad WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-            $sql.=" AND integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idnombre=nombre.idnombre ";
-            $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
-            $sql.=" AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+            $sql.=" FROM carpeta_familiar, integrante_cf, nombre, integrante_morbilidad WHERE integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf ";
+            $sql.=" AND integrante_cf.idnombre=nombre.idnombre ";
+            $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'";
+            $sql.=" AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
