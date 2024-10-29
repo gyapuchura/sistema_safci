@@ -6,12 +6,12 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 
-$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
+$idmunicipio = $_GET['idmunicipio'];
 
-$sql_est = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
-$result_est = mysqli_query($link,$sql_est);
-$row_est = mysqli_fetch_array($result_est);
-$establecimiento = $row_est[1];
+$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
+$municipio = $row_mun[1];
 
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ $establecimiento = $row_est[1];
 </head>
 <body>
 
-<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">ESTABLECIMIENTO: <?php echo mb_strtoupper($establecimiento);?></h2>
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">MUNICIPIO: <?php echo mb_strtoupper($municipio);?></h2>
     
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">SALUD DE LOS INTEGRANTES DE LA FAMILIA</h2>
 		<table width="700" border="1" align="center" cellspacing="0">
@@ -43,7 +43,7 @@ $establecimiento = $row_est[1];
                 $sql_a =" SELECT COUNT(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, integrante_cf, carpeta_familiar  ";
                 $sql_a.=" WHERE integrante_ap_sano.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND ";
                 $sql_a.=" integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
-                $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
                 $result_a = mysqli_query($link,$sql_a);
                 $row_a = mysqli_fetch_array($result_a);
                 $aparentemente_sano = $row_a[0];
@@ -59,7 +59,7 @@ $establecimiento = $row_est[1];
                 $sql_b =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, integrante_cf, carpeta_familiar  ";
                 $sql_b.=" WHERE integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND ";
                 $sql_b.=" integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
-                $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
                 $result_b = mysqli_query($link,$sql_b);
                 $row_b = mysqli_fetch_array($result_b);
                 $factor_riesgo = $row_b[0];
@@ -75,7 +75,7 @@ $establecimiento = $row_est[1];
                 $sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, integrante_cf, carpeta_familiar  ";
                 $sql_c.=" WHERE integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND ";
                 $sql_c.=" integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
-                $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 
                 $result_c = mysqli_query($link,$sql_c);
                 $row_c = mysqli_fetch_array($result_c);
@@ -92,7 +92,7 @@ $establecimiento = $row_est[1];
                 $sql_d =" SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, integrante_cf, carpeta_familiar  ";
                 $sql_d.=" WHERE integrante_discapacidad.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND  ";
                 $sql_d.=" integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
-                $sql_d.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                $sql_d.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
                 $result_d = mysqli_query($link,$sql_d);
                 $row_d = mysqli_fetch_array($result_d);
                 $discapacidad = $row_d[0];

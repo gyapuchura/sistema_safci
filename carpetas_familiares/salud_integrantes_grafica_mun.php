@@ -6,7 +6,7 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$idmunicipio = $_GET['idmunicipio'];
+$idmunicipio = $_GET['idmunicipio']; 
 
 $sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
 $result_mun = mysqli_query($link,$sql_mun);
@@ -197,6 +197,9 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 
 <div id="grupo_salud" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+<a href="cuadro_cf_municipio.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=250,scrollbars=YES,top=60,left=400'); return false;">             
+MOSTRAR CUADRO</a></h2>
 </br>
 </br>
 <!----- FACTORES DE RIESGO BEGIN ------>
@@ -474,8 +477,11 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 
 <div id="grupo_riesgo" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+<a href="cuadro_cf_salud_integrantes_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
+CUADRO FACTORES DE RIESGO</a></h2>
+
 <!----- FACTORES DE RIESGO END ------>
-</br>
 </br>
 <!----- MORBILIDAD BEGIN ------>
 
@@ -785,10 +791,13 @@ $(function () {
             OTRAS ENFERMEDADES CRONICAS	<?php echo $otra_p;?>%
             </pre>
 
-    <div id="grupo_morbilidad" style="min-width: 310px; height: 400px; margin: 0 auto"></div>       
+    <div id="grupo_morbilidad" style="min-width: 310px; height: 400px; margin: 0 auto"></div>  
+    
+    <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+    <a href="cuadro_cf_morbilidad_integrantes_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
+    CUADRO MORBILIDAD</a></h2>
 
 <!----- MORBILIDAD END ------>
-</br>
 </br>
 <!----- DISCAPACIDAD BEGIN ------>
 

@@ -115,7 +115,7 @@ $row_e = mysqli_fetch_array($result_e);
                     <div class="col-sm-9">
 
                     <input type="hidden" name="iddepartamento" value="<?php echo $row_lab[1];?>">
-                    <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled>
+                    <select name="iddepartamento_cf"  id="iddepartamento_cf" class="form-control" disabled>
 
                         <?php
                         $sqlv = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$row_lab[1]'";
@@ -142,7 +142,7 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                     <div class="col-sm-9">
                     <input type="hidden" name="idred_salud" value="<?php echo $row_lab[2];?>">
-                    <select name="idred_salud"  id="idred_salud" class="form-control" disabled>
+                    <select name="idred_salud_cf"  id="idred_salud_cf" class="form-control" disabled>
                         <?php
                         $sqlv = " SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row_lab[2]'";
                         $resultv = mysqli_query($link,$sqlv);
@@ -168,7 +168,7 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                     <div class="col-sm-9">
                     <input type="hidden" name="idmunicipio" value="<?php echo $row_lab[3];?>">
-                    <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled>
+                    <select name="idmunicipio_cf"  id="idmunicipio_cf" class="form-control" disabled>
                     
                         <?php
                         $sqlv = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$row_lab[3]'";
@@ -194,7 +194,7 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                     <div class="col-sm-9">
                     <input type="hidden" name="idestablecimiento_salud" value="<?php echo $row_lab[4];?>">
-                    <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled>
+                    <select name="idestablecimiento_salud_cf"  id="idestablecimiento_salud_cf" class="form-control" disabled>
                         
                         <?php
                         $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$row_lab[4]'";
@@ -270,14 +270,14 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary"></br>N° DE PUERTA:</h6>
-                    <input type="text" class="form-control" name="no_puerta">            
+                    <input type="text" class="form-control" name="no_puerta" required>            
                     </div>
                 </div>
 
                 <div class="form-group row">                               
                     <div class="col-sm-3">
                     <h6 class="text-primary">NOMBRE DEL EDIFICIO, PISO Y N° DE DEPARTAMENTO:</h6>
-                    <textarea class="form-control" rows="2" name="nombre_edificio" placeholder="" ></textarea>               
+                    <textarea class="form-control" rows="2" name="nombre_edificio" placeholder="" required></textarea>               
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"></br>LATITUD:</h6>

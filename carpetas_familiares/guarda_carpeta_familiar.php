@@ -12,7 +12,7 @@ $hora    = date("H:i");
 $gestion = date("Y");
 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE ESTABLECIMIENTO DE SALUD ----- //
-
+ 
 $iddepartamento          = $_POST['iddepartamento'];
 $idred_salud             = $_POST['idred_salud'];
 $idmunicipio             = $_POST['idmunicipio'];
@@ -26,7 +26,7 @@ $no_puerta       = $link->real_escape_string($_POST['no_puerta']);
 $nombre_edificio = $link->real_escape_string(mb_strtoupper($_POST['nombre_edificio']));
 $latitud         = $_POST['latitud'];
 $longitud        = $_POST['longitud'];
-$altura          = $_POST['altura'];
+$altura          = $link->real_escape_string($_POST['altura']);
 
 if ($iddepartamento == '' || $idmunicipio == '' || $idestablecimiento_salud == '' || $idarea_influencia == '' || $familia == '' || $latitud == '' || $longitud == '') {
     
@@ -50,5 +50,4 @@ else {
     
         header("Location:mensaje_carpeta_familiar.php");
     }
-
 ?>

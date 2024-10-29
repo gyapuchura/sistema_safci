@@ -6,14 +6,13 @@ $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
 $gestion    = date("Y");
 
-$idarea_influencia = $_GET['idarea_influencia'];
+$idmunicipio = $_GET['idmunicipio'];
 $idfactor_riesgo_cf = $_GET['idfactor_riesgo_cf']; 
 
-$sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
-$sql_area.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$idarea_influencia' ";
-$result_area = mysqli_query($link,$sql_area);
-$row_area = mysqli_fetch_array($result_area);
-$area_af = $row_area[1]." ".$row_area[2];
+$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
+$municipio_cf = $row_mun[1];
 
 $sql_fr = " SELECT  idfactor_riesgo_cf, factor_riesgo_cf FROM factor_riesgo_cf WHERE idfactor_riesgo_cf='$idfactor_riesgo_cf' ";
 $result_fr = mysqli_query($link,$sql_fr);
@@ -33,7 +32,7 @@ $riesgo = $row_fr[1];
 	<body>
   <h3 style="font-family: Arial; text-align: center;">FACTORES DE RIESGO</h3>
   <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo mb_strtoupper($riesgo);?></h3>
-  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo mb_strtoupper($area_af);?></h3>
+  <h3 style="font-family: Arial; text-align: center; font-size: 18px;"><?php echo "MUNICIPIO: ".mb_strtoupper($municipio_cf);?></h3>
 	<table width="664" border="1" align="center">
 	  <tbody>
         <tr>
@@ -50,10 +49,10 @@ $riesgo = $row_fr[1];
         <?php
             $numero=1;
             $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, nombre.nombre, nombre.paterno, nombre.materno, integrante_cf.edad  ";
-            $sql.=" FROM carpeta_familiar, integrante_cf, nombre, integrante_factor_riesgo WHERE ";
+            $sql.=" FROM carpeta_familiar, integrante_cf, nombre, integrante_factor_riesgo WHERE  ";
             $sql.=" integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idnombre=nombre.idnombre ";
             $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-            $sql.=" AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+            $sql.=" AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);

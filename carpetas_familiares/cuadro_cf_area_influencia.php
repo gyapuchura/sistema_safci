@@ -41,10 +41,10 @@ $area_af = $row_area[1]." ".$row_area[2];
               <td style="font-size: 12px; font-family: Arial;">APARENTEMENTE SANOS</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
                 <?php
-                $sql_a =" SELECT COUNT(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, integrante_cf, ubicacion_cf, carpeta_familiar  ";
+                $sql_a =" SELECT COUNT(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, integrante_cf, carpeta_familiar  ";
                 $sql_a.=" WHERE integrante_ap_sano.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND ";
-                $sql_a.=" integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+                $sql_a.=" integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
                 $result_a = mysqli_query($link,$sql_a);
                 $row_a = mysqli_fetch_array($result_a);
                 $aparentemente_sano = $row_a[0];
@@ -57,10 +57,10 @@ $area_af = $row_area[1]." ".$row_area[2];
               <td style="font-size: 12px; font-family: Arial;">CON FACTORES DE RIESGO</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
                 <?php
-                $sql_b =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, integrante_cf, ubicacion_cf, carpeta_familiar  ";
+                $sql_b =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, integrante_cf, carpeta_familiar  ";
                 $sql_b.=" WHERE integrante_factor_riesgo.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND ";
-                $sql_b.=" integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+                $sql_b.=" integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
                 $result_b = mysqli_query($link,$sql_b);
                 $row_b = mysqli_fetch_array($result_b);
                 $factor_riesgo = $row_b[0];
@@ -73,10 +73,10 @@ $area_af = $row_area[1]." ".$row_area[2];
               <td style="font-size: 12px; font-family: Arial;">CON MORBILIDAD</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
                 <?php
-                $sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, integrante_cf, ubicacion_cf, carpeta_familiar  ";
+                $sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, integrante_cf, carpeta_familiar  ";
                 $sql_c.=" WHERE integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND ";
-                $sql_c.=" integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+                $sql_c.=" integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
 
                 $result_c = mysqli_query($link,$sql_c);
                 $row_c = mysqli_fetch_array($result_c);
@@ -90,10 +90,10 @@ $area_af = $row_area[1]." ".$row_area[2];
               <td style="font-size: 12px; font-family: Arial;">CON DISCAPACIDAD</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
                 <?php
-                $sql_d =" SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, integrante_cf, ubicacion_cf, carpeta_familiar  ";
+                $sql_d =" SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, integrante_cf, carpeta_familiar  ";
                 $sql_d.=" WHERE integrante_discapacidad.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.estado='CONSOLIDADO' AND  ";
-                $sql_d.=" integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_d.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+                $sql_d.=" integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                $sql_d.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
                 $result_d = mysqli_query($link,$sql_d);
                 $row_d = mysqli_fetch_array($result_d);
                 $discapacidad = $row_d[0];

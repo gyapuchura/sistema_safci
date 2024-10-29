@@ -6,24 +6,23 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
-$idarea_influencia  = $_GET['idarea_influencia'];
+$idmunicipio  = $_GET['idmunicipio'];
 $idmorbilidad_cf = $_GET['idmorbilidad_cf']; 
 
 $sql_fr = " SELECT  idmorbilidad_cf, morbilidad_cf FROM morbilidad_cf WHERE idmorbilidad_cf='$idmorbilidad_cf' ";
 $result_fr = mysqli_query($link,$sql_fr);
 $row_fr = mysqli_fetch_array($result_fr);
-$riesgo = $row_fr[1];
+$morbilidad_cf = $row_fr[1];
 
-$sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
-$sql_area.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$idarea_influencia' ";
-$result_area = mysqli_query($link,$sql_area);
-$row_area = mysqli_fetch_array($result_area);
-$area_af = $row_area[1]." ".$row_area[2];
+$sql_mun = " SELECT idmunicipio, municipio FROM municipios ";
+$sql_mun.= " WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
+$municipio_cf = $row_mun[1];
 
-$sqlav = " SELECT count(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar  ";
-$sqlav.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-
+$sqlav = " SELECT count(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar ";
+$sqlav.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
 $resultav = mysqli_query($link,$sqlav);
 $rowav = mysqli_fetch_array($resultav);
 
@@ -34,7 +33,7 @@ $regulador = $rowav[0]/10;
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>PIRÁMIDE MORBILIDAD - ÁREA DE INFLUENCIA</title>
+		<title>PIRÁMIDE MORBILIDAD - MUNICIPIO</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -73,7 +72,7 @@ $(function () {
                 type: 'bar'
             },
             title: {
-                text: 'PIRÁMIDE MORBILIDAD - ÁREA DE INFLUENCIA <?php echo mb_strtoupper($area_af);?> - <?php echo mb_strtoupper($riesgo);?>'
+                text: 'PIRÁMIDE MORBILIDAD - MUNICIPIO <?php echo mb_strtoupper($municipio_cf);?> - <?php echo mb_strtoupper($morbilidad_cf);?>'
             },
             subtitle: {
                 text: 'Fuente: Sistema Medi-Safci'
@@ -136,9 +135,9 @@ $(function () {
                     <?php
                     $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_morbilidad, integrante_cf, nombre, carpeta_familiar  ";
                     $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
-                    $sql7.= " AND integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf ";
+                    $sql7.= " AND integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf";
                     $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql7.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf'  ";
+                    $sql7.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf'  ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
                     $cifra_masculino = $row7[0];
@@ -174,9 +173,9 @@ $(function () {
                         <?php
                         $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_morbilidad, integrante_cf, nombre, carpeta_familiar  ";
                         $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql7.= " AND integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf ";
+                        $sql7.= " AND integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf";
                         $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.estado='CONSOLIDADO' ";
-                        $sql7.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf'  ";
+                        $sql7.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf'  ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
                         $cifra_femenino = $row7[0];

@@ -37,10 +37,10 @@ $establecimiento = $row_est[1];
 	        </tr>
         <?php
         $numero=1;
-        $sql ="  SELECT integrante_factor_riesgo.idfactor_riesgo_cf, factor_riesgo_cf.factor_riesgo_cf FROM integrante_factor_riesgo, ubicacion_cf, carpeta_familiar, factor_riesgo_cf  ";
-        $sql.="  WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql ="  SELECT integrante_factor_riesgo.idfactor_riesgo_cf, factor_riesgo_cf.factor_riesgo_cf FROM integrante_factor_riesgo, carpeta_familiar, factor_riesgo_cf  ";
+        $sql.="  WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
         $sql.="  AND integrante_factor_riesgo.idfactor_riesgo_cf=factor_riesgo_cf.idfactor_riesgo_cf AND carpeta_familiar.estado='CONSOLIDADO' ";
-        $sql.="  AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_factor_riesgo.idfactor_riesgo_cf ";
+        $sql.="  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_factor_riesgo.idfactor_riesgo_cf ";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
@@ -52,9 +52,9 @@ $establecimiento = $row_est[1];
               <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
           <?php
-        $sql_c =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, ubicacion_cf, carpeta_familiar  ";
-        $sql_c.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$row[0]' ";
+        $sql_c =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
+        $sql_c.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$row[0]' ";
 
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
