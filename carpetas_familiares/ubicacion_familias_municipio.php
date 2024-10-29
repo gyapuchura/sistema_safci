@@ -8,19 +8,16 @@ $gestion                = date("Y");
 
 $idmunicipio = $_GET['idmunicipio'];
 
-$sql1 = " SELECT carpeta_familiar.idcarpeta_familiar, establecimiento_salud.establecimiento_salud, ubicacion_cf.latitud, ubicacion_cf.longitud  ";
-$sql1.= " FROM carpeta_familiar,  ubicacion_cf, establecimiento_salud WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql1.= " AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql1.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idmunicipio='$idmunicipio' LIMIT 1 ";
+$sql1 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, ";
+$sql1.= " municipios.municipio FROM establecimiento_salud, municipios WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio ";
+$sql1.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.idmunicipio='$idmunicipio' LIMIT 1 ";
 $result1 = mysqli_query($link,$sql1);
 $row1 = mysqli_fetch_array($result1);
 
-$latitud_c  = $row1[2];
-$longitud_c = $row1[3];
-$zoom_c     = "14";
-
+$latitud_c  = $row1[1];
+$longitud_c = $row1[2];
+$zoom_c     = "12";
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -28,7 +25,7 @@ $zoom_c     = "14";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UBICACION FAMILIAR POR MUNICIPIO</title>
+    <title>ESTABLECIMIENTOS EN EL MUNICIPIO</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
@@ -36,43 +33,52 @@ $zoom_c     = "14";
 
 <body>
 
-<div class="sala"><h3 class="text-center">UBICACIÓN GEOGRÁFICA DE FAMILIAS EN EL MUNICIPIO : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
+<h2>MUNICIPIO DE <a href="../sala_situacional/detalle_establecimientos_e.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="text-info" onClick="window.open(this.href, this.target, 'width=700,height=400,scrollbars=YES,top=70,left=400'); return false;"><?php echo mb_strtoupper($row1[3]);?></a> </h2>
 
-<div id="mi_mapa" style="width: 100%; height: 800px;"></div>
+<div id="mi_mapa" style="width: 100%; height: 900px;"></div>
 
 <script>
-    let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
+    let map = L.map('mi_mapa').setView([<?php echo $row1[1];?>, <?php echo $row1[2];?>], 12);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        <?php
-/****** Areas de influencia del Establecimiento de salud *********/
-$numero4 = 0;
-$sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
-$sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
-$sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
-$sql4.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO'AND ubicacion_cf.idmunicipio='$idmunicipio' ";
-$result4 = mysqli_query($link,$sql4);
-$total4 = mysqli_num_rows($result4);
- if ($row4 = mysqli_fetch_array($result4)){
-mysqli_field_seek($result4,0);
-while ($field4 = mysqli_fetch_field($result4)){
+        <?php 
+$numero2 = 0;
+$sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";
+$sql2.= " nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
+$sql2.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
+$sql2.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
+$sql2.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.idmunicipio = '$idmunicipio' ORDER BY idestablecimiento_salud ";
+$result2 = mysqli_query($link,$sql2);
+$total2 = mysqli_num_rows($result2);
+ if ($row2 = mysqli_fetch_array($result2)){
+mysqli_field_seek($result2,0);
+while ($field2 = mysqli_fetch_field($result2)){
 } do {
 	?>
-
-        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>]).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5];?>')
+        L.marker([<?php echo $row2[4];?>, <?php echo $row2[5];?>]).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row2[1].' - '.$row2[2].'</br>Tipo:'.$row2[3];?>")
 
         <?php 
-$numero4++;
-} while ($row4 = mysqli_fetch_array($result4));
+$numero2++;
+if ($numero2 == $total2) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row2 = mysqli_fetch_array($result2));
 } else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
 }
 ?>
 
 </script>
 
 </body>
+
 </html>
