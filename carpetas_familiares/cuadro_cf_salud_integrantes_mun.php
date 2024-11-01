@@ -27,7 +27,7 @@ $municipio_cf = $row_est[1];
     
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">INTEGRANTES DE LA FAMILIA CON FACTORES DE RIESGO</h2>
 		<table width="700" border="1" align="center" cellspacing="0">
-		  <tbody>
+		  <tbody> 
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
