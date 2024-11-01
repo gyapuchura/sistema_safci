@@ -55,8 +55,8 @@ $gestion    = date("Y");
           <?php echo $row_c[0];?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="detalle_morbilidad_integrantes_nal.php?idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
-              VER INTEGRANTES</a>
+              <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              DEPARTAMENTOS</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
