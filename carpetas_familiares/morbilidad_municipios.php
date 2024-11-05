@@ -5,11 +5,17 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 
-$iddepartamento = $_GET['iddepartamento'];
+$iddepartamento  = $_GET['iddepartamento']; 
+$idmorbilidad_cf = $_GET['idmorbilidad_cf']; 
 
 $sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
 $result_dep = mysqli_query($link,$sql_dep);
 $row_dep = mysqli_fetch_array($result_dep);
+
+$sql_mr = " SELECT idmorbilidad_cf, morbilidad_cf FROM morbilidad_cf WHERE idmorbilidad_cf='$idmorbilidad_cf' ";
+$result_mr = mysqli_query($link,$sql_mr);
+$row_mr = mysqli_fetch_array($result_mr);
+$morbilidad = $row_mr[1];
 
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
@@ -19,7 +25,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CARPETAS FAMILIARES POR MUNCIIPIO</title>
+		<title>MORBILIDAD EN MUNICIPIOS</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -32,7 +38,7 @@ $(function () {
             type: 'bar'
         },
         title: {
-            text: 'Carpetas Familiares por Municipios - Departamento de <?php echo mb_strtoupper($row_dep[1]);?>'
+            text: 'MORBILIDAD : <?php echo $morbilidad;?> - MUNICIPIOS DEL DEPARTAMENTO DE <?php echo mb_strtoupper($row_dep[1]);?>'
         },
         subtitle: {
             text: 'Fuente: Sistema Integrado MEDI-SAFCI al <?php echo $f_emision;?>'
@@ -41,8 +47,11 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM integrante_morbilidad, carpeta_familiar, municipios ";
+$sql.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql.= " AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -76,7 +85,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: ' Carpetas Familiares por Municipio ',
+                text: ' Integrantes por Municipio',
                 align: 'high'
             },
             labels: {
@@ -84,7 +93,7 @@ Si no se encontraron resultados
             }
         },
         tooltip: {
-            valueSuffix: ' Carpetas Familiares'
+            valueSuffix: ' integrantes'
         },
         plotOptions: {
             bar: {
@@ -110,13 +119,15 @@ Si no se encontraron resultados
       
         series: [
 {
-name: 'Carpetas CONSOLIDADAS',
+name: 'Integrantes con <?php echo $morbilidad;?>',
 data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio  ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio FROM integrante_morbilidad, carpeta_familiar ";
+$sql3.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -124,7 +135,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idmunicipio='$row3[0]' AND estado='CONSOLIDADO' ";
+$sql4 =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
+$sql4.=" AND carpeta_familiar.idmunicipio='$row3[0]' ";
 $result4 = mysqli_query($link,$sql4);
 $row4 = mysqli_fetch_array($result4); 
 ?>
@@ -144,44 +157,9 @@ echo ",";
 echo "";
 
 }
-?> ] }
-,
-{
-name: 'Carpetas SIN CONSOLIDAR',
-data: [
-    
-    <?php 
-$numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio  ";
-$result3 = mysqli_query($link,$sql3);
-$total3 = mysqli_num_rows($result3);
-if ($row3 = mysqli_fetch_array($result3)){
-mysqli_field_seek($result3,0);
-while ($field3 = mysqli_fetch_field($result3)){
-} do {
+?> 
 
-$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idmunicipio='$row3[0]' AND estado='' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
-?>
-
-<?php  echo $row4[0]; ?>
-
-<?php 
-$numero3++;
-if ($numero3 == $total3) {
-echo "";
-}
-else {
-echo ",";
-}
-} while ($row3 = mysqli_fetch_array($result3));
-} else {
-echo "";
-
-}
-?>  ]}]
+] } ]
 
     });
 });
@@ -191,6 +169,7 @@ echo "";
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
+
 
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $numero3*60;?>px; margin: 0 auto"></div>
 

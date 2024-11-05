@@ -63,8 +63,8 @@ $departamento_cf = $row_dep[1];
           <?php echo $row_c[0];?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="detalle_morbilidad_integrantes_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
-              VER INTEGRANTES</a>
+              <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MUNICIPIOS</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">

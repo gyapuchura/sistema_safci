@@ -63,13 +63,13 @@ $municipio_cf = $row_est[1];
           <?php echo $row_c[0];?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="detalle_salud_integrantes_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
-              VER INTEGRANTES</a>
+              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=850,scrollbars=YES,top=60,left=600'); return false;">             
+              ESTABLECIMIENTOS</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
-              VER PIRAMIDE</a>
+              ETÁREO</a>
               </td>
 	        </tr>
         <?php
