@@ -15,13 +15,10 @@ $idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
-$idsocio_economica_cf        = $_POST['idsocio_economica_cf'];
-
 /* BORRAMOS EL REGISTRO*/
 
-$sql = " DELETE FROM socio_economica_cf WHERE idsocio_economica_cf='$idsocio_economica_cf'";
+$sql = " DELETE FROM socio_economica_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss'";
 $result = mysqli_query($link,$sql);
-
 
 header("Location:socioeconomicas_cf.php");
 

@@ -114,7 +114,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <th class="text-info">Nª</th>
                                     <th class="text-info">TENENCIA DE ANIMALES DOMÉSTICOS DE COMPAÑÍA:</th>
                                     <th class="text-info">CANTIDAD</th>
-                                    <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,19 +132,23 @@ $row_cf=mysqli_fetch_array($result_cf);
                                         <td><?php echo $numero;?></td>
                                         <td><?php echo $row4[1];?></td>
                                         <td><?php echo $row4[2];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_tenencia_animal_cf.php" method="post">  
-                                        <input type="hidden" name="idtenencia_animales_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
-                                        </td>
-                                    </tr>                            
+                                    </tr>                           
                                     <?php
-                                    $numero=$numero+1;
+                                     $numero=$numero+1;
                                     }
                                     while ($row4 = mysqli_fetch_array($result4));
                                     } else {
                                     }
                                 ?>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                        <form name="BORRAR" action="elimina_tenencia_animal_cf.php" method="post">  
+                                        <input type="hidden" name="idtenencia_animales_cf" value="<?php echo $row4[0];?>">
+                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
+                                        </td>
+                                    </tr>  
                             </tbody>
                         </table>
                     </div>
