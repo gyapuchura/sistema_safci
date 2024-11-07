@@ -83,7 +83,6 @@ $row_cf=mysqli_fetch_array($result_cf);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-
                 <div class="col-lg-12">  
                     <div class="p-2"> 
 
@@ -116,7 +115,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <th class="text-info">Nª</th>
                                     <th class="text-info">EL HOGAR TIENE:</th>
                                     <th class="text-info">SI / NO</th>
-                                    <th class="text-info">ACCIÓN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,11 +133,6 @@ $row_cf=mysqli_fetch_array($result_cf);
                                         <td><?php echo $numero;?></td>
                                         <td><?php echo $row4[1];?></td>
                                         <td><?php echo $row4[2];?></td>
-                                        <td>
-                                        <form name="BORRAR" action="elimina_socioeconomica_cf.php" method="post">  
-                                        <input type="hidden" name="idsocio_economica_cf" value="<?php echo $row4[0];?>">
-                                        <button type="submit" class="btn btn-danger">QUITAR</button></form>
-                                        </td>
                                     </tr>                            
                                     <?php
                                     $numero=$numero+1;
@@ -148,6 +141,16 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     } else {
                                     }
                                 ?>
+                                <tr>                                     
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                    <form name="BORRAR" action="elimina_socioeconomica_cf.php" method="post">  
+                                        <input type="hidden" name="idsocio_economica_cf" value="<?php echo $row4[0];?>">
+                                        <button type="submit" class="btn btn-danger">QUITAR</button>
+                                    </form>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -166,11 +169,10 @@ $row_cf=mysqli_fetch_array($result_cf);
                    
                     </div>
                     <div class="col-sm-4">
-                    <h6 class="text-info">SI / NO:</h6>
+                    <h6 class="text-info">NO / SI:</h6>
                        
                     </div>
                 </div>
-
                 <div class="form-group row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-6"><h6 class="text-info">1. Refrigerador o freezer </h6>

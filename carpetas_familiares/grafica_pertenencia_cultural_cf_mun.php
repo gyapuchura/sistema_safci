@@ -5,12 +5,19 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
+
+$idmunicipio = $_GET["idmunicipio"];
+
+$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
+
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>AUTOPERTENENCIA CULTURAL</title>
+		<title>AUTOPERTENENCIA CULTURAL - MUNICIPAL </title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -29,7 +36,7 @@ $(function () {
             }
         },
         title: {
-            text: 'AUTOPERTENENCIA CULTURAL DE LOS INTEGRANTES DE LA FAMILIA - NIVEL NACIONAL'
+            text: 'AUTOPERTENENCIA CULTURAL DE LOS INTEGRANTES DE LA FAMILIA - MUNICIPIO DE <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -50,17 +57,17 @@ $(function () {
             name: '% DE INTEGRANTES',
             data: [
                 <?php
-                    $sql0 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar  ";
+                    $sql0 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar ";
                     $sql0.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql0.= " AND integrante_cf.estado='CONSOLIDADO' ";
+                    $sql0.= " AND carpeta_familiar.idmunicipio='$idmunicipio' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
                     $sql = " SELECT integrante_cf.idnacion, nacion.nacion FROM integrante_cf, nacion, carpeta_familiar ";
-                    $sql.= " WHERE integrante_cf.idnacion=nacion.idnacion AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql.= " GROUP BY integrante_cf.idnacion ";
+                    $sql.= " WHERE integrante_cf.idnacion=nacion.idnacion AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'";
+                    $sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_cf.idnacion ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
                     if ($row = mysqli_fetch_array($result)){
@@ -70,7 +77,7 @@ $(function () {
 
                     $sql_c = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar ";
                     $sql_c.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql_c.= " AND integrante_cf.idnacion='$row[0]' ";
+                    $sql_c.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_cf.idnacion='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -112,7 +119,7 @@ $(function () {
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="autopertenencia-cultural" style="height: 700px"></div>
+<div id="autopertenencia-cultural" style="height: 500px"></div>
 
 <table width="646" border="1" align="center" bordercolor="#009999">
 
@@ -127,7 +134,7 @@ $(function () {
 $numeroa = 1;
 $sqla = " SELECT integrante_cf.idnacion, nacion.nacion FROM integrante_cf, nacion, carpeta_familiar ";
 $sqla.= " WHERE integrante_cf.idnacion=nacion.idnacion AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sqla.= " GROUP BY integrante_cf.idnacion ";
+$sqla.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_cf.idnacion ";
 $resulta = mysqli_query($link,$sqla);
 $conteo_tipo = mysqli_num_rows($resulta);
 $resulta = mysqli_query($link,$sqla);
@@ -138,7 +145,7 @@ while ($fielda = mysqli_fetch_field($resulta)){
 
     $sql_c = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar ";
     $sql_c.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-    $sql_c.= " AND integrante_cf.idnacion='$rowa[0]' ";
+    $sql_c.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_cf.idnacion='$rowa[0]' ";
     $result_c = mysqli_query($link,$sql_c);
     $row_c = mysqli_fetch_array($result_c);
     $conteoa = $row_c[0];
@@ -163,44 +170,40 @@ Si no se encontraron resultados
 ?>
     </table>
 
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
+
+    <?php
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
+
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
 $total_cf = $row_cf[0];
 ?>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES MUNICIPIO = <?php echo $total_cf;?> </h4></spam>
 
 <?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
+$sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idestablecimiento_salud  ";
 $result_mun = mysqli_query($link,$sql_mun);
 $establecimientos = mysqli_num_rows($result_mun);  
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL MUNICIPIO = <?php echo $establecimientos;?> </h4></spam>
 
 <?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
+$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL MUNICIPIO= <?php echo $integrantes;?> </h4></spam>
 
 <?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
+$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idusuario ";
 $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
-
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
+
 
 	</body>
 </html>
