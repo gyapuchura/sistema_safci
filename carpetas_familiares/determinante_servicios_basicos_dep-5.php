@@ -13,6 +13,7 @@ $result_dep = mysqli_query($link,$sql_dep);
 $row_dep = mysqli_fetch_array($result_dep);
 
 ?>
+<!---- version modificada para web 2 ---->
 <!DOCTYPE HTML>
 <html>
 	<head>
