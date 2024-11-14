@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idred_salud = $_GET['idred_salud'];
 
 $sql_red = " SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$idred_salud' ";
@@ -33,7 +36,7 @@ $(function () {
             text: 'Durante los últimos tres meses, por falta de dinero u otros factores hubo algún momento en el que:'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI - Red de Salud: <?php echo mb_strtoupper($row_red[1]);?> '
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         xAxis: {
             categories: [

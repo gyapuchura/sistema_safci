@@ -6,6 +6,8 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 $idmunicipio = $_GET['idmunicipio']; 
 
 $sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
@@ -140,7 +142,7 @@ $grupo_4       = ($discapacidad*100)/$total;
                     text: ' SALUD DE LOS INTEGRANTES DE LA FAMILIA - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
                 },
                 subtitle: {
-                    text: 'GRUPOS DE SALUD'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -414,7 +416,7 @@ $(function () {
                     text: 'GRUPO II - FACTORES DE RIESGO - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -726,7 +728,7 @@ $(function () {
                     text: 'GRUPO III - MORBILIDAD - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -808,10 +810,10 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'GRUPO III INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
+            text: 'GRUPO IV INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO DE CARPETAS FAMILIARES - SISTEMA MEDI-SAFCI'
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         xAxis: {
             categories: [

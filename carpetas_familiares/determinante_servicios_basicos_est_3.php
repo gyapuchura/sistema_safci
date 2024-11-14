@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
 $sql_est = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
@@ -37,6 +40,9 @@ $(function () {
         },
         title: {
             text: 'c) SERVICIO HIGIENICO - Establecimiento:  <?php echo mb_strtoupper($row_est[1]);?>'
+        },
+        subtitle: {
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

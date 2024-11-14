@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idcarpeta_familiar =  $_SESSION['idcarpeta_familiar'];
 
 $sql_t =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo";
@@ -210,7 +213,7 @@ $(function () {
                     text: 'GRUPO II - FACTORES DE RIESGO'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'

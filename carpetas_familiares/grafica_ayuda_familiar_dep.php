@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $iddepartamento = $_GET['iddepartamento'];
 
 $sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
@@ -38,6 +41,9 @@ $(function () {
         title: {
             text: 'FORMA DE AYUDA FAMILIAR NECESARIA - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
         },
+            subtitle: {
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
+            },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
@@ -126,6 +132,8 @@ $(function () {
 <script src="../js/modules/exporting.js"></script>
 
 <div id="suministro_agua" style="height: 350px"></div>
+
+
 
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento'  ";

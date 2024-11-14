@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idarea_influencia = $_GET['idarea_influencia'];
 
 $sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
@@ -35,7 +38,7 @@ $(function () {
             text: 'MEDICINA TRADICIONAL - ÁREA DE INFLUENCIA:  <?php echo mb_strtoupper($area_af);?>'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         xAxis: {
             categories: [

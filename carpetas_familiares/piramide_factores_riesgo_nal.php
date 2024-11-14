@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idfactor_riesgo_cf = $_GET['idfactor_riesgo_cf']; 
 
 $sql_fr = " SELECT  idfactor_riesgo_cf, factor_riesgo_cf FROM factor_riesgo_cf WHERE idfactor_riesgo_cf='$idfactor_riesgo_cf' ";
@@ -68,7 +71,7 @@ $(function () {
                 text: 'PIRÁMIDE FACTORES DE RIESGO NACIONAL - <?php echo mb_strtoupper($riesgo);?>'
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci'
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
             },
             xAxis: [{
                 categories: categories,

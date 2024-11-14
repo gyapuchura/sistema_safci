@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $iddepartamento  = $_GET['iddepartamento'];
 $idmorbilidad_cf = $_GET['idmorbilidad_cf']; 
 
@@ -75,7 +78,7 @@ $(function () {
                 text: 'PIRÁMIDE MORBILIDAD - DEPARTAMENTO <?php echo mb_strtoupper($departamento_cf);?> - <?php echo mb_strtoupper($morbilidad_cf);?>'
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci'
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
             },
             xAxis: [{
                 categories: categories,
