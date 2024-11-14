@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idred_salud = $_GET['idred_salud'];
 
 $sql_red = " SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$idred_salud' ";
@@ -143,7 +146,7 @@ $grupo_4       = ($discapacidad*100)/$total;
                     text: ' SALUD DE LOS INTEGRANTES DE LA FAMILIA - Red de Salud: <?php echo mb_strtoupper($row_red[1]);?>'
                 },
                 subtitle: {
-                    text: 'GRUPOS DE SALUD al <?php echo $f_emision;?>'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -414,7 +417,7 @@ $(function () {
                     text: 'GRUPO II - FACTORES DE RIESGO - Red de Salud: <?php echo mb_strtoupper($row_red[1]);?>'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -723,7 +726,7 @@ $(function () {
                     text: 'GRUPO III - MORBILIDAD - Red de Salud: <?php echo mb_strtoupper($row_red[1]);?>'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA al <?php echo $f_emision;?>'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'

@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idarea_influencia = $_GET['idarea_influencia'];
 
 $sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
@@ -142,7 +145,7 @@ $grupo_4       = ($discapacidad*100)/$total;
                     text: ' SALUD DE LOS INTEGRANTES DE LA FAMILIA - ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($area_af);?>'
                 },
                 subtitle: {
-                    text: 'GRUPOS DE SALUD'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -417,7 +420,7 @@ $(function () {
                     text: 'GRUPO II - FACTORES DE RIESGO - ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($area_af);?>'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -730,7 +733,7 @@ $(function () {
                     text: 'GRUPO III - MORBILIDAD - ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($area_af);?>'
                 },
                 subtitle: {
-                    text: 'SALUD DE LOS INTEGRANTES DE LA FAMILIA'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -813,10 +816,10 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'GRUPO III INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($area_af);?>'
+            text: 'GRUPO IV INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($area_af);?>'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO DE CARPETAS FAMILIARES - SISTEMA MEDI-SAFCI'
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         xAxis: {
             categories: [

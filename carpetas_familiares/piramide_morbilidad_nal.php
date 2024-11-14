@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idmorbilidad_cf = $_GET['idmorbilidad_cf']; 
 
 $sql_fr = " SELECT  idmorbilidad_cf, morbilidad_cf FROM morbilidad_cf WHERE idmorbilidad_cf='$idmorbilidad_cf' ";
@@ -68,7 +71,7 @@ $(function () {
                 text: 'PIRÁMIDE MORBILIDAD NIVEL NACIONAL - <?php echo mb_strtoupper($morbilidad_cf);?>'
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci'
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
             },
             xAxis: [{
                 categories: categories,

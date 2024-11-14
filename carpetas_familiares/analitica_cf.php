@@ -314,7 +314,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <div class="col-sm-4">     
                         </div>
                         <div class="col-sm-8">
-                            <button type="submit" class="btn btn-primary">VER ANALITICA DEPARTAMNENTAL</button>
+                            <button type="submit" class="btn btn-primary">VER ANALITICA DEPARTAMENTAL</button>
                             </form>
                         </div>
                     </div> 

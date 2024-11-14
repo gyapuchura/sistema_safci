@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $iddepartamento = $_GET['iddepartamento'];
 
 $sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
@@ -66,7 +69,7 @@ $(function () {
                 text: 'PIRÁMIDE POBLACIONAL DEPARTAMENTO <?php echo mb_strtoupper($row_dep[1]);?>'
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci'
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
             },
             xAxis: [{
                 categories: categories,

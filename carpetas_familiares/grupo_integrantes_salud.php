@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idcarpeta_familiar =  $_SESSION['idcarpeta_familiar'];
  
 $sql_a =" SELECT COUNT(idintegrante_ap_sano) FROM integrante_ap_sano ";
@@ -129,7 +132,7 @@ $(function () {
                     text: ' SALUD DE LOS INTEGRANTES DE LA FAMILIA  '
                 },
                 subtitle: {
-                    text: 'GRUPOS DE SALUD'
+                    text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'

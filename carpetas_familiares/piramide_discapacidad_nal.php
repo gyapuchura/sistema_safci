@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idnivel_discapacidad_cf = $_GET['idnivel_discapacidad_cf']; 
 $idtipo_discapacidad_cf = $_GET['idtipo_discapacidad_cf']; 
 
@@ -74,7 +77,7 @@ $(function () {
                 text: 'PIRÁMIDE DISCAPACIDAD <?php echo mb_strtoupper($tipo_dis);?> <?php echo mb_strtoupper($nivel);?> - NIVEL NACIONAL '
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci'
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
             },
             xAxis: [{
                 categories: categories,

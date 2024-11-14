@@ -6,6 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idmunicipio = $_GET['idmunicipio'];
 
 $sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
@@ -33,7 +36,7 @@ $(function () {
             text: 'CARACTERÍSTICAS SOCIOECONÓMICAS - Mun. <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         xAxis: {
             categories: [

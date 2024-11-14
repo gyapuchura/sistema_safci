@@ -5,6 +5,8 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
 $idmunicipio = $_GET["idmunicipio"];
 
@@ -36,6 +38,9 @@ $(function () {
         },
         title: {
             text: 'ESTADO CIVIL DE LOS INTEGRANTES DE LA FAMILIA - MUNICIPIO DE <?php echo mb_strtoupper($row_mun[1]);?>'
+        },
+        subtitle: {
+            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

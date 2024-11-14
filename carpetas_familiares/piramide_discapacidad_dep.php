@@ -6,6 +6,9 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $iddepartamento          = $_GET['iddepartamento']; 
 $idnivel_discapacidad_cf = $_GET['idnivel_discapacidad_cf']; 
 $idtipo_discapacidad_cf = $_GET['idtipo_discapacidad_cf']; 
@@ -79,7 +82,7 @@ $(function () {
                 text: 'PIRÁMIDE DISCAPACIDAD <?php echo mb_strtoupper($tipo_dis);?> <?php echo mb_strtoupper($nivel);?> - DEPARTAMENTO DE <?php echo $row_dep[1];?> '
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci'
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
             },
             xAxis: [{
                 categories: categories,
@@ -210,7 +213,6 @@ $(function () {
 <script src="../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 410px; max-width: 800px; height: 600px; margin: 0 auto"></div>
-
 
 	</body>
 </html>
