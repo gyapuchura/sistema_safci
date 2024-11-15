@@ -209,7 +209,7 @@ $row_s = mysqli_num_rows($result_s);
 				<?php echo ":";?> 
 
 
-<a href="detalle_areas_influencia.php?iddepartamento=<?php echo $row5[0];?>&idtipo_area_influencia=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
+<a href="detalle_areas_influencia.php?iddepartamento=<?php echo $row5[0];?>&idtipo_area_influencia=<?php echo $row4[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_s !='0') { echo $row_s; } else { } ?></a>  
  
 
 </span></td>
