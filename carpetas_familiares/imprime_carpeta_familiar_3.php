@@ -44,7 +44,7 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                     $sql5 =" SELECT item_determinante_salud.item_determinante_salud, determinante_salud_cf.valor_cf FROM determinante_salud_cf, item_determinante_salud ";
                     $sql5.=" WHERE determinante_salud_cf.iditem_determinante_salud=item_determinante_salud.iditem_determinante_salud ";
                     $sql5.=" AND determinante_salud_cf.iddeterminante_salud='1' AND determinante_salud_cf.idcat_determinante_salud='$row1[0]' ";
-                    $sql5.="  AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                    $sql5.=" AND determinante_salud_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                     $result5 = mysqli_query($link,$sql5);
                     if ($row5 = mysqli_fetch_array($result5)){
                     mysqli_field_seek($result5,0);
@@ -300,38 +300,23 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                                     $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' AND iddeterminante_salud='1' ";
                                     $resulta = mysqli_query($link,$sqla);
                                     $rowa = mysqli_fetch_array($resulta);
-                                    echo " => ".$rowa[0]." - ";
+                                    echo " = ".$rowa[0]." - ";
 
                                     $sumatoria = $rowa[0];
                                         if ($sumatoria <= 7 ) {
-                                            $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                            $result5 = mysqli_query($link,$sql5);
-                                            $row5 = mysqli_fetch_array($result5);
-                                            echo $row5[0];
+                                            echo "SIN RIESGO";
                                         } else {
                                             if ($sumatoria <= 11 ) {
-                                                $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                                $result6 = mysqli_query($link,$sql6);
-                                                $row6 = mysqli_fetch_array($result6);
-                                                echo $row6[0];
+                                                echo "RIESGO LEVE";
                                             } else {
                                                 if ($sumatoria <= 17) {
-                                                        $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                        $result7 = mysqli_query($link,$sql7);
-                                                        $row7 = mysqli_fetch_array($result7);
-                                                        echo $row7[0];
+                                                        echo "RIESGO MODERADO";
                                                 } else {
                                                     if ($sumatoria <= 24) {
-                                                            $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                            $result8 = mysqli_query($link,$sql8);
-                                                            $row8 = mysqli_fetch_array($result8);
-                                                            echo $row8[0];
+                                                            echo "RIESGO GRAVE";
                                                     } else { 
                                                         if ($sumatoria <= 35) {
-                                                                $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                                $result9 = mysqli_query($link,$sql9);
-                                                                $row9 = mysqli_fetch_array($result9);
-                                                                echo $row9[0];
+                                                                echo "RIESGO MUY GRAVE";
                                                         } else {  } } } } }
 
                             ?>
@@ -349,34 +334,19 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
 
                                     $sumatoria = $rowb[0];
                                     if ($sumatoria <= 16 ) {
-                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                        $result5 = mysqli_query($link,$sql5);
-                                        $row5 = mysqli_fetch_array($result5);
-                                        echo $row5[0];
+                                        echo "SIN RIESGO";
                                     } else {
                                         if ($sumatoria <= 31 ) {
-                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                            $result6 = mysqli_query($link,$sql6);
-                                            $row6 = mysqli_fetch_array($result6);
-                                            echo $row6[0];
+                                            echo "RIESGO LEVE";
                                         } else {
                                             if ($sumatoria <= 41) {
-                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                    $result7 = mysqli_query($link,$sql7);
-                                                    $row7 = mysqli_fetch_array($result7);
-                                                    echo $row7[0];
+                                                    echo "RIESGO MODERADO";
                                             } else {
                                                 if ($sumatoria <= 56) {
-                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                        $result8 = mysqli_query($link,$sql8);
-                                                        $row8 = mysqli_fetch_array($result8);
-                                                        echo $row8[0];
+                                                        echo "RIESGO GRAVE";
                                                 } else { 
                                                     if ($sumatoria <= 80) {
-                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                            $result9 = mysqli_query($link,$sql9);
-                                                            $row9 = mysqli_fetch_array($result9);
-                                                            echo $row9[0];
+                                                            echo "RIESGO MUY GRAVE";
                                                     } else {  } } } } }
 
                             ?>
@@ -393,34 +363,19 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
 
                                     $sumatoria = $rowc[0];
                                     if ($sumatoria <= 3) {
-                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                        $result5 = mysqli_query($link,$sql5);
-                                        $row5 = mysqli_fetch_array($result5);
-                                        echo $row5[0];
+                                        echo "SIN RIESGO";
                                     } else {
                                         if ($sumatoria <= 5) {
-                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                            $result6 = mysqli_query($link,$sql6);
-                                            $row6 = mysqli_fetch_array($result6);
-                                            echo $row6[0];
+                                            echo "RIESGO LEVE";
                                         } else {
                                             if ($sumatoria <= 9) {
-                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                    $result7 = mysqli_query($link,$sql7);
-                                                    $row7 = mysqli_fetch_array($result7);
-                                                    echo $row7[0];
+                                                    echo "RIESGO MODERADO";
                                             } else {
                                                 if ($sumatoria <= 11) {
-                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                        $result8 = mysqli_query($link,$sql8);
-                                                        $row8 = mysqli_fetch_array($result8);
-                                                        echo $row8[0];
+                                                        echo "RIESGO GRAVE";
                                                 } else { 
                                                     if ($sumatoria <= 15) {
-                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                            $result9 = mysqli_query($link,$sql9);
-                                                            $row9 = mysqli_fetch_array($result9);
-                                                            echo $row9[0];
+                                                            echo "RIESGO MUY GRAVE";
                                                     } else {  } } } } }
 
                             ?>
@@ -458,34 +413,19 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
                                     echo " => ".$alimentaria." - ";
 
                                     if ($alimentaria <= 7) {
-                                        $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                        $result5 = mysqli_query($link,$sql5);
-                                        $row5 = mysqli_fetch_array($result5);
-                                        echo $row5[0];
+                                        echo "SIN RIESGO";
                                     } else {
                                         if ($alimentaria <= 13) {
-                                            $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                            $result6 = mysqli_query($link,$sql6);
-                                            $row6 = mysqli_fetch_array($result6);
-                                            echo $row6[0];
+                                            echo "RIESGO LEVE";
                                         } else {
                                             if ($alimentaria <= 21) {
-                                                    $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                    $result7 = mysqli_query($link,$sql7);
-                                                    $row7 = mysqli_fetch_array($result7);
-                                                    echo $row7[0];
+                                                    echo "RIESGO MODERADO";
                                             } else {
                                                 if ($alimentaria <= 30) {
-                                                        $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                        $result8 = mysqli_query($link,$sql8);
-                                                        $row8 = mysqli_fetch_array($result8);
-                                                        echo $row8[0];
+                                                        echo "RIESGO GRAVE";
                                                 } else { 
                                                     if ($alimentaria <= 35) {
-                                                            $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                            $result9 = mysqli_query($link,$sql9);
-                                                            $row9 = mysqli_fetch_array($result9);
-                                                            echo $row9[0];
+                                                            echo "RIESGO MUY GRAVE";
                                                     } else {  } } } } }
 
                             ?>
@@ -506,34 +446,19 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
 
 
                                   if ($riesgo_total <= 33) {
-                                    $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                    $result5 = mysqli_query($link,$sql5);
-                                    $row5 = mysqli_fetch_array($result5);
-                                    echo " => ".$riesgo_total." .- ".$row5[0];
+                                    echo " = ".$riesgo_total." .- SIN RIESGO";
                                 } else {
                                     if ($riesgo_total <= 60) {
-                                        $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                        $result6 = mysqli_query($link,$sql6);
-                                        $row6 = mysqli_fetch_array($result6);
-                                        echo " => ".$riesgo_total." .- ".$row6[0];
+                                        echo " = ".$riesgo_total." .- RIESGO LEVE";
                                     } else {
                                         if ($riesgo_total <= 88) {
-                                                $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                $result7 = mysqli_query($link,$sql7);
-                                                $row7 = mysqli_fetch_array($result7);
-                                                echo " => ".$riesgo_total." .- ".$row7[0];
+                                                echo " = ".$riesgo_total." .- RIESGO MODERADO";
                                         } else {
                                             if ($riesgo_total <= 121) {
-                                                    $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                    $result8 = mysqli_query($link,$sql8);
-                                                    $row8 = mysqli_fetch_array($result8);
-                                                    echo " => ".$riesgo_total." .- ".$row8[0];
+                                                    echo " = ".$riesgo_total." .- RIESGO GRAVE";
                                             } else { 
                                                 if ($riesgo_total <= 165) {
-                                                        $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                        $result9 = mysqli_query($link,$sql9);
-                                                        $row9 = mysqli_fetch_array($result9);
-                                                        echo " => ".$riesgo_total." .- ".$row9[0];
+                                                        echo " = ".$riesgo_total." .- RIESGO MUY GRAVE";
                                                 } else {  } } } } }                              
                                 ?></span></td>
                       </tr>
@@ -564,28 +489,16 @@ $idcarpeta_familiar_ss = $_GET['idcarpeta_familiar'];
     $seguridad = $row_seg[0];
 
     if ($seguridad == '0') {
-        $sql5 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='103'  ";
-        $result5 = mysqli_query($link,$sql5);
-        $row5 = mysqli_fetch_array($result5);
-        echo $row5[1];
+        echo "1. Seguridad Alimentaria";
     } else {
         if ($seguridad <= 3) {
-            $sql6 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='104' ";
-            $result6 = mysqli_query($link,$sql6);
-            $row6 = mysqli_fetch_array($result6);
-            echo $row6[1];
+            echo "2. Inseguridad Alimentaria Leve";
         } else {
             if ($seguridad <= 5) {
-                    $sql7 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='105' ";
-                    $result7 = mysqli_query($link,$sql7);
-                    $row7 = mysqli_fetch_array($result7);
-                    echo $row7[1];
+                    echo "3. Inseguridad Alimentaria Moderada";
             } else {
                 if ($seguridad >= 6) {
-                        $sql8 = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE idcat_determinante_salud='20' AND iditem_determinante_salud='106' ";
-                        $result8 = mysqli_query($link,$sql8);
-                        $row8 = mysqli_fetch_array($result8);
-                        echo $row8[1];
+                        echo "4. Inseguridad Alimentaria Severa";
                 } else {  } } } }
 ?>
                     </td>

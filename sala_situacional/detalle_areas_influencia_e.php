@@ -29,6 +29,7 @@ $gestion       =  date("Y");
         <tr>
             <td width="17" style="font-family: Arial; font-size: 12px;"><strong>N°</strong></td>
             <td width="62" style="font-family: Arial; font-size: 12px;"><strong>RED DE SALUD</strong></td>
+            <td width="62" style="font-family: Arial; font-size: 12px;"><strong>MUNICIPIO</strong></td>
             <td width="78" style="font-size: 12px; font-family: Arial;"><strong>ESTABLECIMIENTO DE SALUD</strong></td>
             <td width="88" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>TIPO DE ÁREA DE INFLUENCIA</strong></td>
             <td width="51" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>DENOMINACIÓN</strong></td>
@@ -40,10 +41,10 @@ $gestion       =  date("Y");
             $numero=1;
             $sql =" SELECT area_influencia.idarea_influencia, departamento.departamento, red_salud.red_salud,   ";
             $sql.=" establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, ";
-            $sql.=" area_influencia.habitantes, area_influencia.familias, nombre.nombre, nombre.paterno, nombre.materno   ";
-            $sql.=" FROM area_influencia, departamento, red_salud, tipo_area_influencia, establecimiento_salud, usuarios, nombre ";
-            $sql.=" WHERE area_influencia.iddepartamento=departamento.iddepartamento   ";
-            $sql.=" AND area_influencia.idred_salud=red_salud.idred_salud  ";
+            $sql.=" area_influencia.habitantes, area_influencia.familias, nombre.nombre, nombre.paterno, nombre.materno, municipios.municipio ";
+            $sql.=" FROM area_influencia, departamento, red_salud, tipo_area_influencia, municipios, establecimiento_salud, usuarios, nombre ";
+            $sql.=" WHERE area_influencia.iddepartamento=departamento.iddepartamento ";
+            $sql.=" AND area_influencia.idred_salud=red_salud.idred_salud AND establecimiento_salud.idmunicipio=municipios.idmunicipio ";
             $sql.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
             $sql.=" AND area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
             $sql.=" AND area_influencia.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
@@ -59,10 +60,11 @@ $gestion       =  date("Y");
 	    <tr>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[11];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[3];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[5]);?></td>
-	    <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
+	      <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[7];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[8]." ".$row[9]." ".$row[10]);?></td>
         </tr>

@@ -164,34 +164,19 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <?php
                                 $sumatoria = $rowb[0];
                                 if ($sumatoria <= 16 ) {
-                                    $sql5 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='1'  ";
-                                    $result5 = mysqli_query($link,$sql5);
-                                    $row5 = mysqli_fetch_array($result5);
-                                    echo "<h6 class='text-secundary'>".$row5[0]."</h6>";
+                                    echo "<h6 class='text-secundary'>SIN RIESGO</h6>";
                                 } else {
                                     if ($sumatoria <= 31 ) {
-                                        $sql6 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='2' ";
-                                        $result6 = mysqli_query($link,$sql6);
-                                        $row6 = mysqli_fetch_array($result6);
-                                        echo "<h6 class='text-info'>".$row6[0]."</h6>";
+                                        echo "<h6 class='text-info'>RIESGO LEVE</h6>";
                                     } else {
                                         if ($sumatoria <= 41) {
-                                                $sql7 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='3' ";
-                                                $result7 = mysqli_query($link,$sql7);
-                                                $row7 = mysqli_fetch_array($result7);
-                                                echo "<h6 class='text-primary'>".$row7[0]."</h6>";
+                                            echo "<h6 class='text-primary'>RIESGO MODERADO</h6>";
                                         } else {
                                             if ($sumatoria <= 56) {
-                                                    $sql8 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='4' ";
-                                                    $result8 = mysqli_query($link,$sql8);
-                                                    $row8 = mysqli_fetch_array($result8);
-                                                    echo "<h6 class='text-warning'>".$row8[0]."</h6>";
+                                                echo "<h6 class='text-warning'>RIESGO GRAVE</h6>";
                                             } else { 
                                                 if ($sumatoria <= 80) {
-                                                        $sql9 = " SELECT riesgo_cf FROM riesgo_cf WHERE idriesgo_cf ='5' ";
-                                                        $result9 = mysqli_query($link,$sql9);
-                                                        $row9 = mysqli_fetch_array($result9);
-                                                        echo "<h6 class='text-danger'>".$row9[0]."</h6>";
+                                                    echo "<h6 class='text-danger'>RIESGO MUY GRAVE</h6>";
                                                 } else {  } } } } }
 
                             ?>
