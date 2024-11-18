@@ -9,8 +9,8 @@ $gestion        = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-$sqlav = " SELECT count(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, carpeta_familiar  ";
-$sqlav.= " WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sqlav = " SELECT count(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar  ";
+$sqlav.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' ";
 $resultav = mysqli_query($link,$sqlav);
 $rowav = mysqli_fetch_array($resultav);
@@ -22,7 +22,7 @@ $regulador = $rowav[0]/10;
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>PIRÁMIDE APARENTEMENTE SANOS - NACIONAL</title>
+		<title>PIRÁMIDE GRUPO DE DISCAPACIDAD - NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -61,7 +61,7 @@ $(function () {
                 type: 'bar'
             },
             title: {
-                text: 'PIRÁMIDE APARENTEMENTE SANOS - NACIONAL'
+                text: 'PIRÁMIDE GRUPO IV - DISCAPACIDAD - NACIONAL'
             },
             subtitle: {
                 text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -122,8 +122,8 @@ $(function () {
                     ?>
 
                     <?php
-                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_ap_sano, integrante_cf, nombre  ";
-                    $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_ap_sano.idintegrante_cf=integrante_cf.idintegrante_cf ";
+                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_discapacidad, integrante_cf, nombre  ";
+                    $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_discapacidad.idintegrante_cf=integrante_cf.idintegrante_cf ";
                     $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
@@ -158,8 +158,8 @@ $(function () {
                         ?>
 
                         <?php
-                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_ap_sano, integrante_cf, nombre ";
-                        $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_ap_sano.idintegrante_cf=integrante_cf.idintegrante_cf ";
+                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_discapacidad, integrante_cf, nombre ";
+                        $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_discapacidad.idintegrante_cf=integrante_cf.idintegrante_cf ";
                         $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
