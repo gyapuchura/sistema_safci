@@ -113,11 +113,10 @@ $gestion    = date("Y");
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="piramide_grupo_discapacidad_nal.php?idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="piramide_grupo_discapacidad_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>
-
 	      </tbody>
     </table>
 

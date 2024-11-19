@@ -32,6 +32,8 @@ $establecimiento = $row_est[1];
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GRUPO DE SALUD</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ÁREAS DE INFLUENCIA</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ETÁREO</td>
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
 
@@ -50,6 +52,14 @@ $establecimiento = $row_est[1];
                 echo $aparentemente_sano;
                 ?>
               </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="aparentemente_sanos_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_aparentemente_sanos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
 	        </tr>
             <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">2</td>
@@ -65,6 +75,14 @@ $establecimiento = $row_est[1];
                 $factor_riesgo = $row_b[0];
                 echo $factor_riesgo;
                 ?>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_riesgo_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_grupo_riesgo_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
               </td>
 	        </tr>
             <tr>
@@ -83,6 +101,14 @@ $establecimiento = $row_est[1];
                 echo $morbilidad;
                 ?>
               </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_morbilidad_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_grupo_morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
 	        </tr>
             <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">4</td>
@@ -98,6 +124,14 @@ $establecimiento = $row_est[1];
                 $discapacidad = $row_d[0];
                 echo $discapacidad;
                 ?>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_discapacidad_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_grupo_discapacidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
               </td>
 	        </tr>
 
