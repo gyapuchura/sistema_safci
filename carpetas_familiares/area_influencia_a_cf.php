@@ -394,7 +394,7 @@ $area_af = $row_area[1]." ".$row_area[2];
                         <h6 class="text-primary">XVI. FUNCIONALIDAD FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_evaluacion_funcionalidad_cf_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=720,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                        <a href="grafica_evaluacion_funcionalidad_cf_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=1000,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
                         </div>
                     </div>
 
