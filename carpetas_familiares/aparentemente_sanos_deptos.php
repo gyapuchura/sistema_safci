@@ -66,7 +66,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: '<?php echo $row_fr[1];?>'
+                text: 'APARENTEMENTE SANOS'
             }
         },
         tooltip: {
@@ -118,10 +118,6 @@ echo ",";
 }
 } while ($row3 = mysqli_fetch_array($result3));
 } else {
-echo "";
-/*
-Si no se encontraron resultados
-*/
 }
 ?>
 
@@ -139,9 +135,7 @@ Si no se encontraron resultados
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
-
-
+<div id="container" style="min-width: 400px; height: 420px; margin: 0 auto"></div>
 
 	</body>
 </html>

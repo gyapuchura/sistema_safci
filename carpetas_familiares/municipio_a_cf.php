@@ -396,7 +396,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary">XVI. FUNCIONALIDAD FAMILIAR</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_evaluacion_funcionalidad_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=720,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        <a href="grafica_evaluacion_funcionalidad_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=1000,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">FUNCIONALIDAD FAMILIAR - Mun. <?php echo $row_mun[1];?></h6></a>  
                         </div>
                     </div>
 
