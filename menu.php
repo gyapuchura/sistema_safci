@@ -58,6 +58,7 @@
         <a class="collapse-item" href="../recursos_humanos/recursos_humanos.php">RECURSOS HUMANOS</a>
     <!--<a class="collapse-item" href="../recursos_humanos/recursos_humanos_nal.php">RECURSOS HUMANOS</a>-->
         <a class="collapse-item" href="../recursos_humanos/nuevo_personal.php">NUEVO PERSONAL</a>
+        <a class="collapse-item" href="../recursos_humanos/buscar_personal.php">BUSCAR PERSONAL</a>
         <a class="collapse-item" href="../recursos_humanos/personal_municipio.php">PERSONAL</br>POR MUNICIPIO</a>
         <a class="collapse-item" href="../recursos_humanos/reportes_personal.php">REPORTES PERSONAL</a>
 
