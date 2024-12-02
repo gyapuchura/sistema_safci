@@ -7,6 +7,9 @@ $fecha 	    = date("Y-m-d");
 $hora       = date("H:i");
 $gestion    = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
     $num_servicios_sin = 0;
     $num_servicios_leve = 0;
     $num_servicios_moderado = 0;
@@ -14,7 +17,7 @@ $gestion    = date("Y");
     $num_servicios_muy_grave = 0;
 
             $num_total=0;
-            $sql =" SELECT idcarpeta_familiar FROM determinante_salud_cf GROUP BY idcarpeta_familiar";
+            $sql =" SELECT idcarpeta_familiar FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND fecha_registro='2024-09-26' AND idusuario='433' ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -23,7 +26,7 @@ $gestion    = date("Y");
                  
 /************ Evaluamos para cada detrminante de la salud  BEGIN ************/
        
-        $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='1' ";
+        $sqla = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='1' ";
         $resulta = mysqli_query($link,$sqla);
         $rowa = mysqli_fetch_array($resulta);  
         
@@ -160,7 +163,7 @@ $(function () {
                     text: 'RIESGO EN LOS SERVICIOS BÁSICOS - NIVEL NACIONAL'
                 },
                 subtitle: {
-                    text: 'Fuente: Módulo de Carpetas Familiares sistema MEDI-SAFCI'
+                    text: 'Fuente: Sistema Integrado MEDI-SAFCI al <?php echo $f_emision;?>'
                 },
                 xAxis: {
                     type: 'category'
@@ -220,44 +223,6 @@ RIESGO GRAVE	<?php echo $num_servicios_grave_p;?>%
 RIESGO MUY GRAVE 	<?php echo $num_servicios_muy_grave_p;?>%
 </pre>
 
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
-
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
-
-<?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
-
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>

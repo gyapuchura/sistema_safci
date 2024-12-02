@@ -162,22 +162,21 @@ $fecha_nacimiento = $row_n[5];
                 </div>  
             <hr>
 <!------- datos de los signos vitales del paciente ---------->
-
-    <form name="GUARDA_INTEGRANTE" action="guarda_integrante_cf.php" method="post">   
-        
-                <div class="text-center">
+<form name="GUARDA_CI" action="registrar_ci_medisafci.php" method="post">  
+          
+            <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-6">
-      
+       
                 </div> 
                 <div class="col-sm-6">
-                <form name="GUARDA_CI" action="registrar_ci_medisafci.php" method="post">  
+
                 <button type="submit" class="btn btn-info">CREAR USUARIO MEDI-SAFCI</button></form>
                 </div> 
-            </div>                              
+            </div>                            
                                                
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>
+            </div>
                
                 <div class="text-center">
                 <hr>

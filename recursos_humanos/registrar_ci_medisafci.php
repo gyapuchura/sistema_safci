@@ -9,6 +9,25 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idnombre_reg_ss     =  $_SESSION['idnombre_reg_ss'];
+
+$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_reg_ss' ";
+$result_n=mysqli_query($link,$sql_n);
+$row_n=mysqli_fetch_array($result_n);
+
+$fecha_nacimiento = $row_n[5];
+    $dia=date("d");
+    $mes=date("m");
+    $ano=date("Y");    
+    $dianaz=date("d",strtotime($fecha_nacimiento));
+    $mesnaz=date("m",strtotime($fecha_nacimiento));
+    $anonaz=date("Y",strtotime($fecha_nacimiento));         
+    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+    $ano=($ano-1); }      
+    if ($mesnaz > $mes) {
+    $ano=($ano-1);}       
+    $edad=($ano-$anonaz);  
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,114 +83,82 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="col-lg-12">
                         <div class="p-5">
                         <div class="text-center">                        
-                        <h4 class="text-primary">NUEVO REGISTRO SAFCI</h4>
+                        <h4 class="text-primary">NUEVO PERSONAL SAFCI</h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-<div class="form-group row">
-                                    <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
-                                </div>
-                                <hr>
-                            <form name="FORMREG" action="guarda_personal_safci.php" method="post">  
-                                <div class="form-group row">
-                                
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">NOMBRES</h6>
-                                        <input type="text" class="form-control" 
-                                         placeholder="Nombre Completo" name="nombre" required>
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">PRIMER APELLIDO:</h6>
-                                        <input type="text" class="form-control"
-                                        placeholder="Primer Apellido" name="paterno" required>
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
-                                        <input type="text" class="form-control"
-                                        placeholder="Segundo Apellido" name="materno" required>
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
-                                        <input type="text" id="fecha1" class="form-control" 
-                                         placeholder="ingresar fecha" name="fecha_nac" required>
-                                    </div>
-                              
-                                </div>
+                    <div class="form-group row">
+                            <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
+                        </div>
+                        <hr>
+                <form name="FORMREG" action="guarda_personal_ci_safci.php" method="post">  
+                               
+                <div class="form-group row">                               
 
-                                <div class="form-group row">
-                                
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">CÉDULA DE ID:</h6>
-                                    <input type="number" class="form-control" name="ci" placeholder="N° de CI" required>
-                                    </div>
-                                    <div class="col-sm-2">
-                                    <h6 class="text-primary">COMPLEMENTO:</h6>
-                                    <input type="text" class="form-control" name="complemento" placeholder="COMPLEMENTO">
-                                    </div>
-                                    <div class="col-sm-2">
-                                    <h6 class="text-primary">EXPEDICIÓN:</h6>
-                                    <select name="exp"  id="exp" class="form-control" required>
-                                    <option value="">-SELECCIONE-</option>
-                                    <?php
-                                    $sql1 = "SELECT iddepartamento, departamento, sigla FROM departamento ";
-                                    $result1 = mysqli_query($link,$sql1);
-                                    if ($row1 = mysqli_fetch_array($result1)){
-                                    mysqli_field_seek($result1,0);
-                                    while ($field1 = mysqli_fetch_field($result1)){
-                                    } do {
-                                    echo "<option value=". $row1[2].">". $row1[2]."</option>";
-                                    } while ($row1 = mysqli_fetch_array($result1));
-                                    } else {
-                                    echo "No se encontraron resultados!";
-                                    }
-                                    ?>
-                                    </select>
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">NACIONALIDAD</h6>
-                                    <select name="idnacionalidad"  id="idnacionalidad" class="form-control" required>
-                                    <option value="">-SELECCIONE-</option>
-                                    <?php
-                                    $sql1 = "SELECT idnacionalidad, nacionalidad FROM nacionalidad ";
-                                    $result1 = mysqli_query($link,$sql1);
-                                    if ($row1 = mysqli_fetch_array($result1)){
-                                    mysqli_field_seek($result1,0);
-                                    while ($field1 = mysqli_fetch_field($result1)){
-                                    } do {
-                                    echo "<option value=". $row1[0].">". $row1[1]."</option>";
-                                    } while ($row1 = mysqli_fetch_array($result1));
-                                    } else {
-                                    echo "No se encontraron resultados!";
-                                    }
-                                    ?>
-                                    </select>
-                                    </div>
-                                    <div class="col-sm-2">
-                                    <h6 class="text-primary">GÉNERO</h6>
-                                    <select name="idgenero" id="idgenero" class="form-control" required>
-                                    <option value="">-SELECCIONE-</option>
-                                    <?php
-                                    $sql1 = "SELECT idgenero, genero FROM genero ";
-                                    $result1 = mysqli_query($link,$sql1);
-                                    if ($row1 = mysqli_fetch_array($result1)){
-                                    mysqli_field_seek($result1,0);
-                                    while ($field1 = mysqli_fetch_field($result1)){
-                                    } do {
-                                    echo "<option value=". $row1[0].">". $row1[1]."</option>";
-                                    } while ($row1 = mysqli_fetch_array($result1));
-                                    } else {
-                                    echo "No se encontraron resultados!";
-                                    }
-                                    ?>
-                                    </select>
-                                    </div>
-                              
-                                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6>
+                    <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
+                    name="ci" disabled>
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">NOMBRES:</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
+                    name="nombre" disabled>                
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">PRIMER APELLIDO:</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
+                    name="paterno" disabled >                
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">SEGUNDO APELLIDO:</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
+                    name="materno" disabled>                
+                </div>
+                </div>
 
-                                <hr>
-                                </br>
+                <div class="form-group row">  
+                <div class="col-sm-3">
+                <h6 class="text-info">GÉNERO</h6>
+
+                <select name="idgenero"  id="idgenero" class="form-control" disabled >
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idgenero, genero FROM genero ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+
+                </div>  
+                <div class="col-sm-3">
+                <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
+                    <input type="date"  class="form-control" 
+                        placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
+                </div>   
+
+                <div class="col-sm-3">
+                <h6 class="text-info">EDAD:</h6>
+                    <input type="number" class="form-control" value="<?php echo $edad;?>" 
+                    name="edad_actual" disabled>
+                </div>
+                <div class="col-sm-3">
+                </div>
+                </div>             
+
+                <hr>
+                </br>
                 <div class="form-group row">
                     <h5 class="text-primary">2.- DATOS COMPLEMENTARIOS:</h5>                                 
                 </div>
