@@ -10,7 +10,7 @@ $gestion        = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>PERSONAL FORMACION ACADEMICA</title>
+		<title>PERSONAL ESPECIALIDAD MEDICA</title>
 
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<style type="text/css">
@@ -28,7 +28,7 @@ $(function () {
             }
         },
         title: {
-            text: 'FORMACIÓN ACADÉMICA SAFCI - NIVEL NACIONAL'
+            text: 'ESPECIALIDADES MÉDICAS DEL PERSONAL SAFCI - NIVEL NACIONAL'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -49,12 +49,12 @@ $(function () {
             name: 'Porcentaje',
             data: [
                 <?php
-                    $sql0 = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral AND personal.idnombre=nombre.idnombre ";
+                    $sql0 = " SELECT personal.idpersonal, nombre_datos.idespecialidad_medica FROM personal, nombre, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral AND personal.idnombre=nombre.idnombre ";
                     $result0 = mysqli_query($link,$sql0);
                     $total = mysqli_num_rows($result0);
 
                     $numero = 0;
-                    $sql = " SELECT nombre_datos.idformacion_academica FROM personal, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral GROUP BY nombre_datos.idformacion_academica ORDER BY nombre_datos.idformacion_academica ";
+                    $sql = " SELECT nombre_datos.idespecialidad_medica FROM personal, nombre_datos, dato_laboral WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND personal.iddato_laboral=dato_laboral.iddato_laboral GROUP BY nombre_datos.idespecialidad_medica ORDER BY nombre_datos.idespecialidad_medica ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -63,11 +63,11 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE idformacion_academica='$row[0]' ";
+                    $sql_t = " SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica='$row[0]' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c= " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica='$row[0]'  ";
+                    $sql_c= " SELECT personal.idpersonal, nombre_datos.idespecialidad_medica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idespecialidad_medica='$row[0]'  ";
                     $result_c = mysqli_query($link,$sql_c);
                     $conteo = mysqli_num_rows($result_c);
 
@@ -107,7 +107,7 @@ $(function () {
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="height: 400px"></div>
+<div id="container" style="height: 700px"></div>
 
 <table width="646" border="1" align="center" bordercolor="#009999">
 
@@ -121,23 +121,23 @@ $(function () {
 
 <?php
 
-$sql_ta = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos ";
+$sql_ta = " SELECT personal.idpersonal, nombre_datos.idespecialidad_medica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos ";
 $result_ta = mysqli_query($link,$sql_ta);
 $total_ta = mysqli_num_rows($result_ta);
 
 $numeroa = 1;
-$sqla = " SELECT nombre_datos.idformacion_academica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos GROUP BY nombre_datos.idformacion_academica ORDER BY nombre_datos.idformacion_academica  ";
+$sqla = " SELECT nombre_datos.idespecialidad_medica FROM personal, nombre_datos WHERE personal.idnombre_datos=nombre_datos.idnombre_datos GROUP BY nombre_datos.idespecialidad_medica ORDER BY nombre_datos.idespecialidad_medica  ";
 $resulta = mysqli_query($link,$sqla);
  if ($rowa = mysqli_fetch_array($resulta)){
 mysqli_field_seek($resulta,0);
 while ($fielda = mysqli_fetch_field($resulta)){
 } do {
 
-$sql_ta = "  SELECT idformacion_academica, formacion_academica FROM formacion_academica WHERE idformacion_academica='$rowa[0]'  ";
+$sql_ta = "  SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica='$rowa[0]'  ";
 $result_ta = mysqli_query($link,$sql_ta);
 $row_ta = mysqli_fetch_array($result_ta);
 
-$sql_ca = " SELECT personal.idpersonal, nombre_datos.idformacion_academica FROM personal, nombre, nombre_datos WHERE personal.idnombre=nombre.idnombre AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica='$rowa[0]'";
+$sql_ca = " SELECT personal.idpersonal, nombre_datos.idespecialidad_medica FROM personal, nombre, nombre_datos WHERE personal.idnombre=nombre.idnombre AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idespecialidad_medica='$rowa[0]'";
 $result_ca = mysqli_query($link,$sql_ca);
 $conteoa = mysqli_num_rows($result_ca);
 
@@ -153,7 +153,7 @@ $porcentajea = number_format($p_conteoa, 2, '.', '');
           <td width="73" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $porcentajea;?> %</span></td>
           <td bgcolor="#FFFFFF" align="center">
 
-          <a href="detalle_personal_academico.php?idformacion_academica=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=200'); return false;">VER</a>  
+          <a href="detalle_personal_especialidad.php?idespecialidad_medica=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=200'); return false;">VER</a>  
 
         </td>
         </tr>   
@@ -166,13 +166,13 @@ Si no se encontraron resultados
 */
 }
 ?>
-        <tr>
+ <!--   <tr>
           <td width="21" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"></span></td>
           <td width="315" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"></span></td>
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"><?php echo $total;?></span></td>
           <td width="73" bgcolor="#FFFFFF" align="center"><span class="Estilo7"> 100 %</span></td>
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"></span></td>
-        </tr>
+        </tr> --->
     </table>
 
 	</body>

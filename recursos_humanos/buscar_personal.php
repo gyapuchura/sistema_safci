@@ -80,7 +80,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                                 <div class="form-group row">  
                                     <div class="col-sm-4">
-                                    <h6 class="text-primary">INTRODUZCA EL Nº CÉDULA DE ID:</h6>
+                                    <h6 class="text-primary">INTRODUZCA EL Nº DE CÉDULA DE ID:</h6>
                                     </div>                              
                                     <div class="col-sm-4">
                                     <input type="number" class="form-control" name="ci" placeholder="N° de CI (sólo números)" required>

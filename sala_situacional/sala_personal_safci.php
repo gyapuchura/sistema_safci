@@ -89,22 +89,22 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">2.- FORMACIÓN ACADÉMICA</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="personal_formacion_academica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,scrollbars=YES'); return false;">
+                    <a href="personal_formacion_academica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="fas fa-chart-bar"></i> MOSTRAR REPORTE</h6></a>
                     </div>
                 </div>  
-      <!--          <div class="form-group row">
+                <div class="form-group row">
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">3.- ESPECIALIDAD MÉDICAS</h6>
+                        <h6 class="text-primary">3.- ESPECIALIDADES MÉDICAS</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <a href="personal_especialidad_medica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
-         <div class="form-group row">
+         <!----- <div class="form-group row">
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">

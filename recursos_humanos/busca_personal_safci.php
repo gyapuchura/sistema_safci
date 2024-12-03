@@ -13,23 +13,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $ci = $_POST['ci'];
 
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE ci='$ci' ";
-$result_n=mysqli_query($link,$sql_n);
-$row_n=mysqli_fetch_array($result_n);
-
-$fecha_nacimiento = $row_n[5];
-    $dia=date("d");
-    $mes=date("m");
-    $ano=date("Y");    
-    $dianaz=date("d",strtotime($fecha_nacimiento));
-    $mesnaz=date("m",strtotime($fecha_nacimiento));
-    $anonaz=date("Y",strtotime($fecha_nacimiento));         
-    if (($mesnaz == $mes) && ($dianaz > $dia)) {
-    $ano=($ano-1); }      
-    if ($mesnaz > $mes) {
-    $ano=($ano-1);}       
-    $edad=($ano-$anonaz);  
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -83,19 +66,13 @@ $fecha_nacimiento = $row_n[5];
 <!-- BEGIN aqui va el TITULO de la pagina ---->
                 <div class="row">
                     <div class="col-lg-12">
-                    <div class="p-3">               
+                    <div class="p-3">  
                     <div class="text-center">                          
                     <a href="buscar_personal.php" class="text-info">VOLVER</a>    
                     <hr>             
-                    <h4 class="text-info">REGISTRO ENCONTRADO</h4>
-                    <hr> 
-                    </div>
+                </div>             
 
     <!-------- begin NUEVO PACIENTE --------->   
-                <div class="text-center">                                     
-                    <h4 class="text-info">LA CÉDULA DE IDENTIDAD CORRESPONDE A:</h4>                    
-                </div>
-                <hr> 
 
                 <?php
                 $numero=1; 
@@ -105,32 +82,49 @@ $fecha_nacimiento = $row_n[5];
                 mysqli_field_seek($result,0);
                 while ($field = mysqli_fetch_field($result)){
                 } do {
+
+                    $fecha_nacimiento = $row[5];
+                    $dia=date("d");
+                    $mes=date("m");
+                    $ano=date("Y");    
+                    $dianaz=date("d",strtotime($fecha_nacimiento));
+                    $mesnaz=date("m",strtotime($fecha_nacimiento));
+                    $anonaz=date("Y",strtotime($fecha_nacimiento));         
+                    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                    $ano=($ano-1); }      
+                    if ($mesnaz > $mes) {
+                    $ano=($ano-1);}       
+                    $edad=($ano-$anonaz);  
+
                 ?>
 
-                <form name="SEARCH" action="valida_registro_ci.php" method="post"> 
+                <div class="text-center">    
+                    <h4 class="text-info">REGISTRO ENCONTRADO</h4>                                 
+                    <h4 class="text-info">LA CÉDULA DE IDENTIDAD CORRESPONDE A:</h4>                    
+                </div>
+       
                     <div class="form-group row">    
                     <div class="col-sm-1"></br>
                     <h6 class="text-info"><?php echo $numero;?>.-</h6>
                     </div>                           
                     <div class="col-sm-2">
                     <h6 class="text-info">CÉDULA:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
-                        name="ci" disabled>
-                        <input type="hidden" value="<?php echo $row_n[0];?>" name="idnombre_reg">
+                        <input type="number" class="form-control" value="<?php echo $row[4];?>" 
+                        name="ci" disabled>                   
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-info">NOMBRES:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
+                        <input type="text" class="form-control" value="<?php echo $row[1];?>"
                         name="nombre" disabled>                
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-info">PRIMER APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
+                        <input type="text" class="form-control" value="<?php echo $row[2];?>"             
                         name="paterno" disabled >                
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
+                        <input type="text" class="form-control" value="<?php echo $row[3];?>" 
                         name="materno" disabled>                
                     </div>
                     <div class="col-sm-1">
@@ -140,17 +134,46 @@ $fecha_nacimiento = $row_n[5];
                     </div>
                     <div class="col-sm-2">
                 </br>
-                    <button type="submit" class="btn btn-info">EXAMINAR</button></form>
-                    </div>
-                    </div>
+                <?php
+                $sql_r =" SELECT idpersonal, idnombre FROM personal WHERE idnombre='$row[0]' ";
+                $result_r = mysqli_query($link,$sql_r);
+                if ($row_r = mysqli_fetch_array($result_r)){
+                mysqli_field_seek($result_r,0);
+                while ($field_r = mysqli_fetch_field($result_r)){
+                } do {                
+                ?>
+                    <a class="btn btn-info btn-icon-split" href="imprime_ficha_personal.php?idpersonal=<?php echo $row_r[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=1000,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span class="text">VER FICHA DE PERSONAL</span>
+                    </a>
+                <?php
+                }
+                while ($row_r = mysqli_fetch_array($result_r));
+                } else {
+                ?>                                       
+                    <form name="SEARCH" action="valida_registro_ci.php" method="post"> 
+                    <input type="hidden" value="<?php echo $row[0];?>" name="idnombre_reg">
+                    <button type="submit" class="btn btn-info">VER OPCIONES</button></form>
+                    <?php } ?>
 
+                    </div>
+                    </div>    
                 <?php
                 $numero=$numero+1;
                 }
                 while ($row = mysqli_fetch_array($result));
-                } else {
-                }
-                ?>
+                } else { ?>
+
+                <div class="text-center">                                     
+                    <h4 class="text-danger">LA CÉDULA DE IDENTIDAD NO ESTA REGISTRADA EN SISTEMA!!!</h4>                    
+                </div>     
+           
+
+                <?php } ?>
+
+
                           
 
 

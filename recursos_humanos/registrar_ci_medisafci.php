@@ -82,8 +82,10 @@ $fecha_nacimiento = $row_n[5];
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="p-5">
-                        <div class="text-center">                        
-                        <h4 class="text-primary">NUEVO PERSONAL SAFCI</h4>
+                        <div class="text-center">    
+                        <a href="ci_encontrado_safci.php"><h6 class="text-info">VOLVER</h6></a> 
+                        <hr>                  
+                        <h4 class="text-primary">REGISTRAR COMO NUEVO PERSONAL SAFCI</h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
 

@@ -157,7 +157,7 @@ $fecha_nacimiento = $row_n[5];
                     </div>
                     <div class="col-sm-3">
                     </br>
-                    <a href="modificar_integrante_cf.php"><h6 class="text-info">MODIFICAR</br>DATOS PERSONALES</h6></a>
+                    <!-- <a href="modificar_integrante_cf.php"><h6 class="text-info">MODIFICAR</br>DATOS PERSONALES</h6></a> -->
                     </div>
                 </div>  
             <hr>

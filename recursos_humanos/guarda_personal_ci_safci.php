@@ -7,7 +7,7 @@ $idusuario_ss = $_SESSION['idusuario_ss'];
 $idnombre_ss  = $_SESSION['idnombre_ss'];
 $perfil_ss    = $_SESSION['perfil_ss'];
 
-$idnombre_reg_ss     =  $_SESSION['idnombre_reg_ss'];
+$idnombre_reg_ss = $_SESSION['idnombre_reg_ss'];
 
 $fecha 	      = date("Y-m-d");
 $hora         = date("h:i");
@@ -37,12 +37,12 @@ $iddependencia = $_POST['iddependencia'];
 //para el caso de participante del Ministerio de Salud y Deportes.
 
 //para el caso de participante de una Red de salud.
-$iddepartamento      = $_POST['iddepartamento'];
-$idred_salud         = $_POST['idred_salud'];
+$iddepartamento          = $_POST['iddepartamento'];
+$idred_salud             = $_POST['idred_salud'];
 $idestablecimiento_salud = $_POST['idestablecimiento_salud'];
-$cargo_red_salud     = $link->real_escape_string(mb_strtoupper($_POST['cargo_red_salud']));
-$idcargo_organigrama = $_POST['idcargo_organigrama'];
-$item_red_salud      = $link->real_escape_string($_POST['item_red_salud']);
+$cargo_red_salud         = $link->real_escape_string(mb_strtoupper($_POST['cargo_red_salud']));
+$idcargo_organigrama     = $_POST['idcargo_organigrama'];
+$item_red_salud          = $link->real_escape_string($_POST['item_red_salud']);
 
 //verificamos existencia del número de cedula de identidad y rescatamos los datos en sesion.
 
@@ -63,6 +63,11 @@ else {
     $result_n = mysqli_query($link,$sql_n);
     $row_n = mysqli_fetch_array($result_n);
     $ci = $row_n[1];
+
+    //** / ANULAMOS LOS USUARIOS CREADOS POR ERROR CON ESTE NUMERO DE CI **//
+
+    $sql_up = " UPDATE usuarios SET usuario='INHABILITADO', password='INHABILITADO', condicion='PASIVO' WHERE usuario='$ci' ";
+    $result_up = mysqli_query($link,$sql_up);
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
