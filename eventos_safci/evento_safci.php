@@ -205,6 +205,18 @@ $row_ev=mysqli_fetch_array($result_ev);
                     </form>
                     </div>
                 </div>   
+                <hr>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                    <a href="patologias_evento_safci.php" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=900,height=1000,scrollbars=YES,top=60,left=400'); return false;">
+                    GRÁFICO DE DIAGNOSTICOS MÉDICOS</a>   
+                    </div>
+                    <div class="col-sm-6">
+                    <a href="medicamentos_evento_safci.php" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=900,height=1000,scrollbars=YES,top=60,left=400'); return false;">
+                    GRÁFICO DE TRATAMIENTOS MÉDICOS</a>   
+                    </div>
+                </div> 
+
                 </div>    
 <!-- END aqui va el comntenido de la pagina ---->
                 <hr>

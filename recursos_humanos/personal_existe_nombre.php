@@ -9,6 +9,8 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idnombre_reg_ss     =  $_SESSION['idnombre_reg_ss'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,72 +66,27 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">   
+                    
                     <hr>                     
-                    <h4 class="text-primary">SALA SITUACIONAL PERSONAL SAFCI</h4>
+                    <h4 class="text-danger">El número de Cedula de Identidad</h4>
+                    <h4 class="text-danger">ya existe en PERSONAL SAFCI !!!</h4>
+                    </br>
+                    <a href="registrar_ci_medisafci.php"><h6>VOLVER A REGISTRO DE PERSONAL</h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
-<hr> 
+
                 <div class="form-group row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">1.- PERSONAL A NIVEL NACIONAL</h6>
                     </div>
-                    <div class="col-sm-4">
-                    <a href="personal_genero.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="fas fa-chart-pie"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div>    
-                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">2.- FORMACIÓN ACADÉMICA</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="personal_formacion_academica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="fas fa-chart-bar"></i> MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div>  
-                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">3.- ESPECIALIDADES MÉDICAS</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="personal_especialidad_medica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div> 
-         <!----- <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">4.- PERSONAL POR DEPARTAMENTO</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div> 
-                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">5.- PERSONAL POR DEPARTAMENTO Y RED DE SALUD</h6>
-                    </div>
-                    <div class="col-sm-4">
-                    <a href="establecimientos_tipo.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
-                    </div>
-                </div> 
--->
-</div>                    
+                </div>                  
+                    
 <!-- END aqui va el comntenido de la pagina ---->
-            
+                </div>
+               
                 <div class="text-center">
                 <hr>
                     <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
@@ -149,7 +106,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
@@ -179,5 +136,4 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     <!-- scripts para calendario -->
    
 </body>
-
 </html>

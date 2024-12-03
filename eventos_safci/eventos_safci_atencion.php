@@ -145,11 +145,26 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             </tbody>
                         </table>
                     </div>
+                    </br>
+                    <hr>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                    <a href="patologias_evento_safci_nal.php" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=900,height=1000,scrollbars=YES,top=60,left=400'); return false;">
+                    GRÁFICO DE DIAGNOSTICOS MÉDICOS</a>   
+                    </div>
+                    <div class="col-sm-6">
+                    <a href="medicamentos_evento_safci_nal.php" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=900,height=1000,scrollbars=YES,top=60,left=400'); return false;">
+                    GRÁFICO DE TRATAMIENTOS MÉDICOS</a>   
+                </div>
+
+                </div> 
                 </div>
             </div>
 
         </div>
                 <!-- /.container-fluid -->
+
+
 
             </div>
             <!-- End of Main Content -->
@@ -220,9 +235,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         "lengthMenu": "Mostrar _MENU_ registros por pagina",
                         "zeroRecords": "No se encontraron resultados en su busqueda",
                         "searchPlaceholder": "Buscar registros",
-                        "info": "Mostrando Establecimientos de _START_ al _END_ de un total de  _TOTAL_ Establecimientos",
-                        "infoEmpty": "No existen Establecimientos",
-                        "infoFiltered": "(filtrado de un total de _MAX_ Establecimientos)",
+                        "info": "Mostrando Eventos de _START_ al _END_ de un total de  _TOTAL_ Eventos",
+                        "infoEmpty": "No existen Eventos",
+                        "infoFiltered": "(filtrado de un total de _MAX_ Eventos)",
                         "search": "Buscar:",
                         "paginate": {
                             "first":    "Primero",
