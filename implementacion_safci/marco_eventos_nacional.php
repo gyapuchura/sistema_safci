@@ -311,12 +311,6 @@ Si no se encontraron resultados
     while ($field = mysqli_fetch_field($result)){
     } do {
 
-        $sql_c =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
-        $sql_c.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-        $sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_deptal' ";
-        $sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio='$row[0]' ";
-        $result_c = mysqli_query($link,$sql_c);
-        $row_c = mysqli_fetch_array($result_c);
     ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>

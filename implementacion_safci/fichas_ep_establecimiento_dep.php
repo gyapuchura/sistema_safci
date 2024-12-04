@@ -250,7 +250,8 @@ $row_sos = mysqli_fetch_array($result_sos);
                                 ?>
                                 </td>
                                 <td>
-                                <?php             
+                                <?php 
+         
                                 echo $row2[2];
                                 ?>
                                 </td>

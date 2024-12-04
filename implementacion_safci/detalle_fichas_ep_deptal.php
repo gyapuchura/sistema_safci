@@ -23,14 +23,6 @@ $result_sos = mysqli_query($link,$sql_sos);
 $row_sos = mysqli_fetch_array($result_sos);
 
 $gestion       =  date("Y");
-
-$sql8 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
-$sql8.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
-$sql8.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab' AND registro_enfermedad.gestion='$gestion' ";
-$sql8.= " AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' AND notificacion_ep.estado='CONSOLIDADO'";
-$result8 = mysqli_query($link,$sql8);
-$row8 = mysqli_fetch_array($result8);
-$cifra_establecimiento = $row8[0];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -74,7 +66,8 @@ $cifra_establecimiento = $row8[0];
             $sql2.= " WHERE seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND";
             $sql2.= " seguimiento_ep.idficha_ep='$row3[0]' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 1 ";
             $result2 = mysqli_query($link,$sql2);
-            $row2    = mysqli_fetch_array($result2);
+           if($row2    = mysqli_fetch_array($result2)){
+
             if ($row2[3] == $idestado_paciente) { 
         ?> 
           <tr>
@@ -92,7 +85,8 @@ $cifra_establecimiento = $row8[0];
             </td>
             </tr>
       <?php    
-      $cantidad=$cantidad+1; } else { }      
+                 }
+      $cantidad=$cantidad+1; }     
         }
       while ($row3 = mysqli_fetch_array($result3));
       } else {

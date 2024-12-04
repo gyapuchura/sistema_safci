@@ -81,6 +81,7 @@ $(function () {
         $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idred_salud=red_salud.idred_salud AND ficha_ep.idnombre=nombre.idnombre AND notificacion_ep.gestion='$gestion' ";
         $sql.=" AND ficha_ep.direccion !='' AND notificacion_ep.iddepartamento='$iddepartamento' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' ORDER BY ficha_ep.fecha_registro DESC ";
         $result = mysqli_query($link,$sql);
+        $total = mysqli_num_rows($result);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
         while ($field = mysqli_fetch_field($result)){
@@ -90,13 +91,14 @@ $(function () {
             $sql2.= " WHERE seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND";
             $sql2.= " seguimiento_ep.idficha_ep='$row[0]' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 1 ";
             $result2 = mysqli_query($link,$sql2);
-            $row2    = mysqli_fetch_array($result2);
-            if ($row2[3] == $row0[0]) { $cantidad=$cantidad+1; } else { }  
-    
+            if($row2 = mysqli_fetch_array($result2)){
+                if ($row2[3] == $row0[0]) { $cantidad=$cantidad+1; } else { }  
+            }
         }
         while ($row = mysqli_fetch_array($result));
         } else {
-        }        
+        }  
+            
         ?>
                 
                 ['<?php echo $row0[1];?>',<?php echo $cantidad;?>]
@@ -125,6 +127,8 @@ $(function () {
 <div id="container" style="min-width: 500px; max-width: 600px; height: 450px; margin: 0 auto"></div>
 
 </br>
+
+
 <table width="768" border="1" align="center" bordercolor="#009999">
 
     <tr>
@@ -146,7 +150,6 @@ mysqli_field_seek($result0,0);
 while ($field0 = mysqli_fetch_field($result0)){
 } do {
 
-
     $cantidad=0;
     $sql ="  SELECT ficha_ep.idficha_ep, ficha_ep.codigo FROM ficha_ep, registro_enfermedad, notificacion_ep, establecimiento_salud, red_salud, municipios, nombre ";
     $sql.=" WHERE ficha_ep.idregistro_enfermedad=registro_enfermedad.idregistro_enfermedad  AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
@@ -162,9 +165,10 @@ while ($field0 = mysqli_fetch_field($result0)){
         $sql2.= " WHERE seguimiento_ep.idsemana_ep=semana_ep.idsemana_ep AND seguimiento_ep.idestado_paciente=estado_paciente.idestado_paciente AND";
         $sql2.= " seguimiento_ep.idficha_ep='$row[0]' ORDER BY seguimiento_ep.idseguimiento_ep DESC LIMIT 1 ";
         $result2 = mysqli_query($link,$sql2);
-        $row2    = mysqli_fetch_array($result2);
+       if($row2 = mysqli_fetch_array($result2)){
         if ($row2[3] == $row0[0]) { $cantidad=$cantidad+1; } else { }  
- 
+       }
+        
     }
     while ($row = mysqli_fetch_array($result));
     } else {
@@ -191,9 +195,6 @@ while ($field0 = mysqli_fetch_field($result0)){
         }
     ?>
     </table>
-
-         
-
 
 	</body>
 </html>
