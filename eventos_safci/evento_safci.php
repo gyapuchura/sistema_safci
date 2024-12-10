@@ -194,9 +194,9 @@ $row_ev=mysqli_fetch_array($result_ev);
                 </div>
                 <hr>
                 <div class="text-center">
-                <div class="form-group row">
+                <div class="form-group row"> 
                         <div class="col-sm-6">
-                        <a href="imprime_reporte_atenciones.php?idatencion_safci=<?php echo $row[13];?>&idespecialidad_atencion=<?php echo $row[0];?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                        <a href="imprime_reporte_atenciones.php" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
                         IMPRIMIR REPORTE DE ATENCIONES MÉDICAS</a>   
                         </div>
                         <div class="col-sm-6">

@@ -12,7 +12,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $idevento_safci_ss  =  $_SESSION['idevento_safci_ss'];
 
 $sql_ev =" SELECT evento_safci.idevento_safci, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud,  ";
-$sql_ev.=" evento_safci.codigo FROM evento_safci, departamento, municipios, establecimiento_salud WHERE  ";
+$sql_ev.=" evento_safci.codigo, evento_safci.fecha_registro FROM evento_safci, departamento, municipios, establecimiento_salud WHERE  ";
 $sql_ev.=" evento_safci.iddepartamento=departamento.iddepartamento AND evento_safci.idmunicipio=municipios.idmunicipio AND ";
 $sql_ev.=" evento_safci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND idevento_safci='$idevento_safci_ss' ";
 $result_ev=mysqli_query($link,$sql_ev);
@@ -30,9 +30,9 @@ $row_ev=mysqli_fetch_array($result_ev);
     <tr>
       <td style="font-family: Arial; font-size: 12px;">Municipio: <?php echo $row_ev[2];?>   </td>
       <td style="font-family: Arial; font-size: 12px;">Establecimiento de Salud: <?php echo $row_ev[3];?></td>
-      <td style="font-size: 12px; font-family: Arial;">Fecha: 
+      <td style="font-size: 12px; font-family: Arial;">Fecha de Registro del Evento: 
       <?php 
-              $fecha_p = explode('-',$fecha);
+              $fecha_p = explode('-',$row_ev[5]);
               $fecha_planilla = $fecha_p[2].'/'.$fecha_p[1].'/'.$fecha_p[0];
               echo $fecha_planilla; ?></td>
     </tr>
