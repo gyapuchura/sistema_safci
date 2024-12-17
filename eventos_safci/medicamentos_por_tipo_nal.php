@@ -172,7 +172,7 @@ while ($fielda = mysqli_fetch_field($resulta)){
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $row_ac[0];?> </span></td>
           <td bgcolor="#FFFFFF" align="center">
 
-          <a href="atenciones_medicamentos.php?idmedicamento=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=200'); return false;">TRATAMIENTOS</a>  
+          <a href="detalle_tratamientos_safci.php?idmedicamento=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES,top=50,left=200'); return false;">TRATAMIENTOS</a>  
 
         </td>
         </tr>   
