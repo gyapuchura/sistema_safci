@@ -83,6 +83,18 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">2.- CANTIDAD DE HABITANTES POR ÁREAS DE INFLUENCIA - NIVEL NACIONAL</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="cantidad_habitantes_safci.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1220,height=600,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>   MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
   
           
                     

@@ -6,8 +6,8 @@ $fecha_ram	    = date("Ymd");
 $fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
-$fecha_r = explode('-',$fecha);
-$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+$fecha_r = explode('-',$fecha); 
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0]; 
 
 $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
@@ -118,19 +118,12 @@ $(function () {
                 data: [
                     <?php
                     $numero2 = 0;
-                    $sql2 = " SELECT idgrupo_etareo_cf, grupo_etareo_cf FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";
-                    $result2 = mysqli_query($link,$sql2);
-                    $total2 = mysqli_num_rows($result2);
-                    if ($row2 = mysqli_fetch_array($result2)){
-                    mysqli_field_seek($result2,0);
-                    while ($field2 = mysqli_fetch_field($result2)){
-                    } do {
-                    ?>
 
-                    <?php
+                        for ($idgrupo_etareo = 1; $idgrupo_etareo <= 20; $idgrupo_etareo++) {
+
                     $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, carpeta_familiar ";
                     $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO'  ";
+                    $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$idgrupo_etareo' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO'  ";
                     $sql7.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
@@ -138,15 +131,9 @@ $(function () {
                     ?>
                                 <?php echo "-".$cifra_masculino; ?>
 
-                        <?php    
+                    <?php    
                         $numero2++;
-                        if ($numero2 == $total2) { echo "";} else {echo ",";}
-
-                    } while ($row2 = mysqli_fetch_array($result2));
-                    } else {
-                    /*
-                    Si no se encontraron resultados
-                    */
+                        if ($numero2 == '20') { echo "";} else {echo ",";}
                     }
                     ?>                   
                 ]
@@ -155,19 +142,15 @@ $(function () {
                 data: [
                     <?php
                         $numero3 = 0;
-                        $sql3 = " SELECT idgrupo_etareo_cf, grupo_etareo_cf FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";
-                        $result3 = mysqli_query($link,$sql3);
-                        $total3 = mysqli_num_rows($result3);
-                        if ($row3 = mysqli_fetch_array($result3)){
-                        mysqli_field_seek($result3,0);
-                        while ($field3 = mysqli_fetch_field($result3)){
-                        } do {
+
+                        for ($idgrupo_etareo = 1; $idgrupo_etareo <= 20; $idgrupo_etareo++) {
+
                         ?>
 
                         <?php
                         $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, carpeta_familiar ";
                         $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO'  ";
+                        $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$idgrupo_etareo' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO'  ";
                         $sql7.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
@@ -177,17 +160,12 @@ $(function () {
 
                             <?php    
                             $numero3++;
-                            if ($numero3 == $total3) { echo "";} else {echo ",";}
-
-                        } while ($row3 = mysqli_fetch_array($result3));
-                        } else {
-                        /*
-                        Si no se encontraron resultados
-                        */
+                            if ($numero3 == '20') { echo "";} else {echo ",";}
                         }
                         ?>                   
                 ]
             }]
+
         });
     });
 

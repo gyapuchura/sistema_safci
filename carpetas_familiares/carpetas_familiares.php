@@ -76,7 +76,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>FAMILIA</th>
                                             <th>ESTABLECIMIENTO DE SALUD</th>
                                             <th>ÁREA DE INFLUENCIA</th>
-                                            <th>PERSONAL REGISTRADOR</th>
                                             <th>FECHA DE REGISTRO</th>
                                             <th>ACCIÓN</th>
                                         </tr>
@@ -102,12 +101,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td><?php echo $row[2];?></td>
                                             <td><?php echo $row[5];?></td>
                                             <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
-                                            <td><?php 
-                                                $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                                                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[11]' ";
-                                                $result_r = mysqli_query($link,$sql_r);
-                                                $row_r = mysqli_fetch_array($result_r);                    
-                                            echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?></td>
                                             <td>
                                             <?php 
                                                 $fecha_r = explode('-',$row[8]);

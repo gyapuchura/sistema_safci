@@ -26,7 +26,7 @@ $iddependencia = $_POST['iddependencia'];
 
     $sql2 = " INSERT INTO dato_laboral (idnombre, idusuario, iddependencia, entidad, cargo_entidad, ";
     $sql2.= " idministerio, iddireccion, idarea, cargo_mds, iddepartamento, idred_salud, idestablecimiento_salud, idcargo_organigrama, cargo_red_salud, item_mds, item_red_salud ) ";
-    $sql2.= " VALUES ('$idnombre_ss','$idusuario_ss','$iddependencia','','',";
+    $sql2.= " VALUES ('$idnombre_ss','$idusuario_ss','$iddependencia','','', ";
     $sql2.= "  '0','0','0','','$iddepartamento','$idred_salud','$idestablecimiento_salud','$idcargo_organigrama','$cargo_red_salud','','$item_red_salud' ) ";
     $result2 = mysqli_query($link,$sql2);
 
@@ -34,8 +34,8 @@ $iddependencia = $_POST['iddependencia'];
 
 //---------- Actualizamos el registro personal   ------//
     $sql3.= " UPDATE personal SET iddato_laboral='$iddato_laboral' WHERE idpersonal='$idpersonal' ";
-    $result3 = mysqli_query($link,$sql3);
-
+    $result3 = mysqli_query($link,$sql3); 
+ 
     header("Location:mensaje_laboral_personal_individual.php");
 
 ?>

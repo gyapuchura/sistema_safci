@@ -6,12 +6,19 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$idtipo_medicamento = $_GET['idtipo_medicamento'];
+
+$sql_tm = " SELECT idtipo_medicamento, tipo_medicamento FROM tipo_medicamento WHERE idtipo_medicamento='$idtipo_medicamento' ";
+$result_tm = mysqli_query($link,$sql_tm);
+$row_tm = mysqli_fetch_array($result_tm);
+$tipo_medicamento = $row_tm[1];
+
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>APARENTEMENTE SANOS - DEPARTAMENTOS</title>
+		<title>MEDICAMENTOS - NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -24,7 +31,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'REPORTE DE TIPOS DE MEDICAMENTOS ENTREGADOS - NACIONAL'
+            text: 'REPORTE DE MEDICAMENTOS ENTREGADOS - TIPO : <?php  echo strtoupper($tipo_medicamento);?>'
         },
         subtitle: {
             text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
@@ -34,8 +41,8 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT tratamiento.idtipo_medicamento, tipo_medicamento.tipo_medicamento FROM tipo_medicamento, tratamiento ";
-$sql.= " WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento GROUP BY tratamiento.idtipo_medicamento "; 
+$sql = " SELECT tratamiento.idmedicamento, medicamento.medicamento FROM medicamento, tratamiento ";
+$sql.= " WHERE tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.idtipo_medicamento='$idtipo_medicamento' GROUP BY tratamiento.idmedicamento "; 
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -92,8 +99,8 @@ Si no se encontraron resultados
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT tratamiento.idtipo_medicamento, tipo_medicamento.tipo_medicamento FROM tipo_medicamento, tratamiento ";
-$sql3.= " WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento GROUP BY tratamiento.idtipo_medicamento ";
+$sql3 = " SELECT tratamiento.idmedicamento, medicamento.medicamento FROM medicamento, tratamiento ";
+$sql3.= " WHERE tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.idtipo_medicamento='$idtipo_medicamento' GROUP BY tratamiento.idmedicamento ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -103,7 +110,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
  
 <?php
-$sql_a =" SELECT count(idtratamiento) FROM tratamiento WHERE idtipo_medicamento='$row3[0]' AND entregado_farmacia='SI' ";
+$sql_a =" SELECT count(idtratamiento) FROM tratamiento WHERE idmedicamento='$row3[0]' AND idtipo_medicamento='$idtipo_medicamento' AND entregado_farmacia='SI' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -140,27 +147,24 @@ echo ",";
 
     <tr>
         <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="215" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">TIPO DE MEDICAMENTO</span></td>
+        <td width="215" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">MEDICAMENTO</span></td>
         <td width="215" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD</span></td>
         <td width="188" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">VER</span></td>
     </tr>
 
 <?php
-
-
 $numeroa = 1;
-$sqla = " SELECT tratamiento.idtipo_medicamento, tipo_medicamento.tipo_medicamento FROM tipo_medicamento, tratamiento ";
-$sqla.= " WHERE tratamiento.idtipo_medicamento=tipo_medicamento.idtipo_medicamento GROUP BY tratamiento.idtipo_medicamento ";
+$sqla = " SELECT tratamiento.idmedicamento, medicamento.medicamento FROM medicamento, tratamiento ";
+$sqla.= " WHERE tratamiento.idmedicamento=medicamento.idmedicamento AND tratamiento.idtipo_medicamento='$idtipo_medicamento' GROUP BY tratamiento.idmedicamento ";
 $resulta = mysqli_query($link,$sqla);
  if ($rowa = mysqli_fetch_array($resulta)){
 mysqli_field_seek($resulta,0);
 while ($fielda = mysqli_fetch_field($resulta)){
 } do {
 
-    $sql_ac =" SELECT count(idtratamiento) FROM tratamiento WHERE idtipo_medicamento='$rowa[0]' AND entregado_farmacia='SI' ";
+    $sql_ac =" SELECT count(idtratamiento) FROM tratamiento WHERE idmedicamento='$rowa[0]' AND tratamiento.idtipo_medicamento='$idtipo_medicamento' AND entregado_farmacia='SI' ";
     $result_ac = mysqli_query($link,$sql_ac);
     $row_ac = mysqli_fetch_array($result_ac);
-    
 ?>
         <tr>
           <td width="21" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"> <?php echo $numeroa;?> </span></td>
@@ -168,7 +172,7 @@ while ($fielda = mysqli_fetch_field($resulta)){
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"> <?php echo $row_ac[0];?> </span></td>
           <td bgcolor="#FFFFFF" align="center">
 
-          <a href="medicamentos_por_tipo_nal.php?idtipo_medicamento=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=1000,scrollbars=YES,top=50,left=200'); return false;">VER MEDICAMENTOS</a>  
+          <a href="detalle_tratamientos_safci.php?idmedicamento=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES,top=50,left=200'); return false;">TRATAMIENTOS</a>  
 
         </td>
         </tr>   
@@ -189,6 +193,5 @@ Si no se encontraron resultados
           <td bgcolor="#FFFFFF" align="center"><span class="Estilo7"></span></td>
         </tr> --->
     </table>
-
 	</body>
 </html>

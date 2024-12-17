@@ -88,59 +88,7 @@ $row = mysqli_fetch_array($result);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                 </br> 
-<!---       <div class="text-center">  
-                <h6 class="text-primary">DATOS LABORALES EN EL MINISTERIO DE SALUD</h6>  
-            </div>   
 
-        <div class="form-group row">
-                <div class="col-sm-12">
-                <div class="table-responsive">
-                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Nª</th>
-                                            <th>DEPENDENCIA MSYD</th>
-                                            <th>DIRECCIÓN</th>
-                                            <th>UNIDAD</th>
-                                            <th>CARGO MSYD</th>
-                                            <th>ITEM MSYD</th>
-                                            <th>DEPARTAMENTO</th>
-                                        </tr>
-                                    </thead>
-                                   <tbody>
-                                    <?php
-                                $numero=1;
-                                $sql0 =" SELECT dato_laboral.iddato_laboral, dato_laboral.idusuario, dato_laboral.idnombre, ministerio.ministerio, direccion.direccion, area.area, dato_laboral.cargo_mds, dato_laboral.item_mds,";
-                                $sql0.=" departamento.departamento FROM dato_laboral, ministerio, direccion, area, departamento WHERE dato_laboral.idministerio=ministerio.idministerio AND  ";
-                                $sql0.=" dato_laboral.iddireccion=direccion.iddireccion AND dato_laboral.idarea=area.idarea AND dato_laboral.iddepartamento=departamento.iddepartamento AND ";
-                                $sql0.=" dato_laboral.idnombre='$row[2]' AND dato_laboral.iddependencia='2' ";
-                                $result0 = mysqli_query($link,$sql0);
-                                if ($row0 = mysqli_fetch_array($result0)){
-                                mysqli_field_seek($result0,0);
-                                while ($field0 = mysqli_fetch_field($result0)){
-                                } do {
-                                ?>
-                                    <tr>
-                                        <td><?php echo $numero;?></td>
-                                        <td><?php echo $row0[3];?></td>
-                                        <td><?php echo $row0[4];?></td>
-                                        <td><?php echo $row0[5];?></td>
-                                        <td><?php echo $row0[6];?></td>
-                                        <td><?php echo $row0[7];?></td>
-                                        <td><?php echo $row0[8];?></td>
-                                    </tr>                                    
-                            <?php
-                            $numero=$numero+1;
-                            }
-                            while ($row0 = mysqli_fetch_array($result0));
-                            } else {
-                            }
-                            ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                </div>
-            </div>   
 ---- datos laborales RED DE SALUD --------->
 
             <div class="text-center">  

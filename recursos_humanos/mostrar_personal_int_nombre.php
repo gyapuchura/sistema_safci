@@ -383,7 +383,7 @@ $row_ac    = mysqli_fetch_array($result_ac);
 
                             </div>                              
                             <div class="col-sm-6"> 
-                                <a class="btn btn-success" href="nuevo_personal.php">FINALIZAR REGISTRO SAFCI</a>
+                                <a class="btn btn-success" href="buscar_personal.php">FINALIZAR REGISTRO SAFCI</a>
                             </div>                              
                         </div>
                     </div>
