@@ -70,7 +70,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: 'Riesgos externos con relación a la vivienda'
+                text: 'Riésgos externos con relación a la vivienda'
             }
         },
         tooltip: {
@@ -171,44 +171,54 @@ Si no se encontraron resultados
 
 <div id="riesgos_externos" style="height: 350px"></div>
 
+<table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">Riésgos externos con relación a la vivienda</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">NO</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">SI</span></td>
+    </tr>
 <?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
+                    $numero = 1;
+                    $sql = " SELECT iditem_determinante_salud FROM determinante_salud_cf WHERE iddeterminante_salud='2' AND idcat_determinante_salud='14' GROUP BY iditem_determinante_salud ";
+                    $result = mysqli_query($link,$sql);
+                    if ($row = mysqli_fetch_array($result)){
+                    mysqli_field_seek($result,0);
+                    while ($field = mysqli_fetch_field($result)){
+                    } do {
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
+                    $sql_t = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iditem_determinante_salud='$row[0]' ";
+                    $result_t = mysqli_query($link,$sql_t);
+                    $row_t = mysqli_fetch_array($result_t);
 
-<?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
+                    $sql_si= " SELECT count(valor_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='2' AND idcat_determinante_salud='14' AND iditem_determinante_salud='$row[0]' AND valor_cf='5'  ";
+                    $result_si = mysqli_query($link,$sql_si);
+                    $row_si = mysqli_fetch_array($result_si);
+                    $res_si = $row_si[0];
 
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
+                    $sql_no= " SELECT count(valor_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='2' AND idcat_determinante_salud='14' AND iditem_determinante_salud='$row[0]' AND valor_cf='1'  ";
+                    $result_no = mysqli_query($link,$sql_no);
+                    $row_no = mysqli_fetch_array($result_no);
+                    $res_no = $row_no[0];
 
-<?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
+                    ?>
+                        <tr>
+                            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+                            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row_t[1];?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $res_no;?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $res_si;?></td>
+                            </tr> 
 
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
+                        <?php
+                        $numero++;                    
+                    } while ($row = mysqli_fetch_array($result));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>
+                    </table>
 
 	</body>
 </html>
