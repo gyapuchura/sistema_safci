@@ -74,7 +74,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="text-center">                          
                     <a href="idioma_transporte.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
-                    <h4 class="text-info">CARPETA FAMILIAR:</h4>
+                    <h4 class="text-info">CARPETA FAMILIAR: <?php echo $idcarpeta_familiar_ss;?></h4>
                     <h4 class="text-primary"><?php echo $row_cf[1]; ?></h4>
                     <h4 class="text-info">3.- INTEGRANTES DE LA FAMILIA</h4>
                     <hr> 
@@ -132,8 +132,8 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <?php
                                     $numero=1;
                                     $sql4 =" SELECT integrante_cf.idintegrante_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, ";
-                                    $sql4.=" parentesco.parentesco, genero.genero, integrante_cf.edad, nacion.nacion, integrante_cf.estado, integrante_cf.idnombre, nombre.idgenero FROM integrante_cf, nombre, parentesco, genero, nacion ";
-                                    $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND integrante_cf.idnacion=nacion.idnacion ";
+                                    $sql4.=" parentesco.parentesco, genero.genero, integrante_cf.edad, integrante_cf.estado, integrante_cf.idnombre, nombre.idgenero FROM integrante_cf, nombre, parentesco, genero ";
+                                    $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco ";
                                     $sql4.=" AND nombre.idgenero=genero.idgenero AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ORDER BY integrante_cf.edad DESC ";
                                     $result4 = mysqli_query($link,$sql4);
                                     if ($row4 = mysqli_fetch_array($result4)){
@@ -151,11 +151,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                                         <td><?php echo $row4[7];?></td>
                                         <td><?php echo $row4[8];?></td>
                                         <td>
-                        <?php if ($row4[10] == 'CONSOLIDADO') { ?>
+                        <?php if ($row4[9] == 'CONSOLIDADO') { ?>
                             <form name="INTEGRANTE" action="valida_integrante_cf.php" method="post">
                             <input name="idintegrante_cf" type="hidden" value="<?php echo $row4[0];?>">
-                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row4[11];?>">
-                            <input name="idgenero" type="hidden" value="<?php echo $row4[12];?>">
+                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row4[10];?>">
+                            <input name="idgenero" type="hidden" value="<?php echo $row4[11];?>">
                             <input name="edad" type="hidden" value="<?php echo $row4[8];?>">
                                 <button type="submit" class="btn btn-info btn-icon-split">
                                 <span class="icon text-white-50">
