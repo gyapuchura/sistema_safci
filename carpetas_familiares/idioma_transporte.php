@@ -124,7 +124,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <tbody>
                                         <?php
                                     $numero=1;
-                                    $sql4 =" SELECT idioma_cf.ididioma_cf, idioma.idioma, origen_idioma.origen_idioma  FROM idioma_cf, idioma, origen_idioma ";
+                                    $sql4 =" SELECT idioma_cf.ididioma_cf, idioma.idioma, origen_idioma.origen_idioma FROM idioma_cf, idioma, origen_idioma ";
                                     $sql4.=" WHERE idioma_cf.ididioma=idioma.ididioma AND idioma_cf.idorigen_idioma=origen_idioma.idorigen_idioma ";
                                     $sql4.=" AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                                     $result4 = mysqli_query($link,$sql4);

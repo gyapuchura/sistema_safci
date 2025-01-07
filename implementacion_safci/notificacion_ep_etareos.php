@@ -16,14 +16,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
-$sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
-$sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
-$sql.=" notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, ";
-$sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud ";
-$sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
-$sql.=" WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud ";
-$sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql.=" AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep_ss ' ";
+$sql =" SELECT idnotificacion_ep, codigo FROM notificacion_ep WHERE idnotificacion_ep='$idnotificacion_ep_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
@@ -94,7 +87,7 @@ $row = mysqli_fetch_array($result);
  
                  <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary"> SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
+                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
                     </div>
                     <div class="col-sm-8">
                         <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
@@ -127,12 +120,13 @@ $row = mysqli_fetch_array($result);
                             <th class="text-info">GRUPO ETAREO</th>
                             <th class="text-info">GÉNERO</th>
                             <th class="text-info">CIFRA</th>
-                            <th class="text-info">REGISTRAR</th>
                         </tr>
                     </thead>
                     <tbody>
-                            <?php
-                        $numero=1;
+                    <form name="CIFRA_ENF" action="guarda_cifra_enfermedad.php" method="post">  
+
+                        <?php
+                        $numero=0;
                         $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero, registro_enfermedad.idgrupo_etareo ";
                         $sql4.=" FROM registro_enfermedad, grupo_etareo, genero WHERE registro_enfermedad.idgrupo_etareo=grupo_etareo.idgrupo_etareo ";
                         $sql4.=" AND registro_enfermedad.idgenero=genero.idgenero AND registro_enfermedad.idnotificacion_ep='$idnotificacion_ep_ss' ";
@@ -144,7 +138,7 @@ $row = mysqli_fetch_array($result);
                         } do { 
                         ?>
                         <tr>
-                            <td><?php echo $numero;?></td>
+                            <td><?php echo $numero+1;?></td>
                             <td><?php 
                             if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[1]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[1]."</h6>"; }
                             ?></td>
@@ -152,14 +146,9 @@ $row = mysqli_fetch_array($result);
                             if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[2]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[2]."</h6>"; }
                             ?>
                             </td>
-                            <td>                                
-                            <form name="CIFRA_ENF" action="guarda_cifra_enfermedad.php" method="post">  
-                            <input type="hidden" name="idregistro_enfermedad" value="<?php echo $row4[0];?>">
-                            <input type="hidden" name="idgrupo_etareo" value="<?php echo $row4[5];?>">
-                            <input type="hidden" name="idgenero" value="<?php echo $row4[4];?>">
-                            <input type="number" class="form-control" name="cifra" value="<?php echo $row4[3];?>"></td>
                             <td>
-                            <button type="submit" class="btn btn-info">REGISTRAR</button></form>
+                            <input type="hidden" name="idregistro_enfermedad[<?php echo $numero;?>]" value="<?php echo $row4[0];?>">
+                            <input type="number" class="form-control" name="cifra[<?php echo $numero;?>]" value="<?php echo $row4[3];?>">
                             </td>
                         </tr>                            
                         <?php
@@ -169,6 +158,13 @@ $row = mysqli_fetch_array($result);
                         } else {
                         }
                     ?>
+                    <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button type="submit" class="btn btn-info">REGISTRAR</button></form></td>
+                    <td></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -14,7 +14,7 @@ $hora         = date("h:i");
 $gestion      = date("Y");
  
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
-
+ 
 $idformacion_academica = $_POST['idformacion_academica'];
 $idprofesion           = $_POST['idprofesion'];
 $idespecialidad_medica = $_POST['idespecialidad_medica'];  
@@ -48,7 +48,6 @@ $item_red_salud          = $link->real_escape_string($_POST['item_red_salud']);
 
     $sql9 = " SELECT idpersonal, idnombre FROM personal WHERE idnombre='$idnombre_reg_ss' ";
     $result9 = mysqli_query($link,$sql9);
-
 if ($row9 = mysqli_fetch_array($result9)) {
     
     header("Location:personal_existe_nombre.php");

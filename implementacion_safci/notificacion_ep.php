@@ -15,14 +15,7 @@ $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 
-$sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
-$sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
-$sql.=" notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, ";
-$sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud ";
-$sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
-$sql.=" WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud ";
-$sql.=" AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql.=" AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.idnotificacion_ep='$idnotificacion_ep_ss ' ";
+$sql =" SELECT idnotificacion_ep, codigo FROM notificacion_ep WHERE idnotificacion_ep='$idnotificacion_ep_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 

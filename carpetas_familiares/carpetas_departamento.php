@@ -319,6 +319,5 @@ $personal = mysqli_num_rows($result_per);
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
 
-
 	</body>
 </html>
