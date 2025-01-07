@@ -63,7 +63,7 @@ $(function () {
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT iditem_determinante_salud FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' GROUP BY iditem_determinante_salud ";
+                    $sql = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -71,10 +71,6 @@ $(function () {
                     mysqli_field_seek($result,0);
                     while ($field = mysqli_fetch_field($result)){
                     } do {
-
-                    $sql_t = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iditem_determinante_salud='$row[0]' ";
-                    $result_t = mysqli_query($link,$sql_t);
-                    $row_t = mysqli_fetch_array($result_t);
 
                     $sql_c= " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' AND iditem_determinante_salud='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
@@ -86,7 +82,7 @@ $(function () {
 
                     ?>
 
-                    ['<?php echo $row_t[1];?>', <?php echo $porcentaje;?>]
+                    ['<?php echo $row[1];?>', <?php echo $porcentaje;?>]
 
                         <?php
                         $numero++;
@@ -128,7 +124,7 @@ $(function () {
     </tr>
 <?php
                     $numero = 1;
-                    $sql = " SELECT iditem_determinante_salud FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' GROUP BY iditem_determinante_salud ";
+                    $sql = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4'";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -137,11 +133,7 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT iditem_determinante_salud, item_determinante_salud FROM item_determinante_salud WHERE iditem_determinante_salud='$row[0]' ";
-                    $result_t = mysqli_query($link,$sql_t);
-                    $row_t = mysqli_fetch_array($result_t);
-
-                    $sql_c= " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' AND iditem_determinante_salud='$row[0]' ";
+                    $sql_c = " SELECT count(iddeterminante_salud_cf) FROM determinante_salud_cf WHERE iddeterminante_salud='1' AND idcat_determinante_salud='4' AND iditem_determinante_salud='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -150,9 +142,9 @@ $(function () {
                     $porcentaje    = number_format($p_conteo, 2, '.', '');
 
                     ?>
-                        <tr>
+                            <tr>
                             <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-                            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row_t[1];?></td>
+                            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
                             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentaje;?></td>
                             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteo;?></td>
                             </tr> 

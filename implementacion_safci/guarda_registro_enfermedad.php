@@ -19,7 +19,7 @@ $gestion = date("Y");
 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE ESTABLECIMIENTO DE SALUD ----- //
 
-$idsospecha_diag   = $_POST['idsospecha_diag'];
+$idsospecha_diag = $_POST['idsospecha_diag'];
 
 if ($idsospecha_diag == '') {
     
