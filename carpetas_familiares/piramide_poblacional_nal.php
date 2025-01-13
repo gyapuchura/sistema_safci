@@ -121,7 +121,7 @@ $(function () {
 
                     <?php
                     $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre WHERE integrante_cf.idnombre=nombre.idnombre ";
-                    $sql7.= "  AND idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' ";
+                    $sql7.= "  AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
                     $cifra_masculino = $row7[0];
@@ -156,7 +156,7 @@ $(function () {
 
                         <?php
                         $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre WHERE integrante_cf.idnombre=nombre.idnombre  ";
-                        $sql7.= " AND idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' ";
+                        $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
                         $cifra_femenino = $row7[0];
