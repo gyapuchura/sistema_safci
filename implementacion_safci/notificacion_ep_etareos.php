@@ -124,7 +124,6 @@ $row = mysqli_fetch_array($result);
                     </thead>
                     <tbody>
                     <form name="CIFRA_ENF" action="guarda_cifra_enfermedad.php" method="post">  
-
                         <?php
                         $numero=0;
                         $sql4 =" SELECT registro_enfermedad.idregistro_enfermedad, grupo_etareo.grupo_etareo, genero.genero, registro_enfermedad.cifra, registro_enfermedad.idgenero, registro_enfermedad.idgrupo_etareo ";
