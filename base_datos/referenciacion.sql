@@ -25,20 +25,23 @@ ALTER TABLE area_influencia ADD FOREIGN KEY (iddepartamento) REFERENCES departam
 ALTER TABLE area_influencia ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
 ALTER TABLE area_influencia ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
 ALTER TABLE area_influencia ADD FOREIGN KEY (idnacion) REFERENCES nacion (idnacion);
+ALTER TABLE area_influencia ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE ubicacion_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE ubicacion_cf ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
-ALTER TABLE municipios ADD FOREIGN KEY (idprovincia) REFERENCES provincias (idprovincia);
 ALTER TABLE ubicacion_cf ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
 ALTER TABLE ubicacion_cf ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
 ALTER TABLE ubicacion_cf ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
 ALTER TABLE ubicacion_cf ADD FOREIGN KEY (idarea_influencia) REFERENCES area_influencia (idarea_influencia);
+ALTER TABLE ubicacion_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE transporte_cf ADD FOREIGN KEY (idtransporte) REFERENCES transporte (idtransporte);
 ALTER TABLE transporte_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE idioma_cf ADD FOREIGN KEY (ididioma) REFERENCES idioma (ididioma);
 ALTER TABLE idioma_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE idioma_cf ADD FOREIGN KEY (idorigen_idioma) REFERENCES origen_idioma (idorigen_idioma);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
-ALTER TABLE integrante_cf ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE integrante_cf ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre); 
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idgrupo_etareo_cf) REFERENCES grupo_etareo_cf (idgrupo_etareo_cf);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idparentesco) REFERENCES parentesco (idparentesco);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idnacion) REFERENCES nacion (idnacion);
@@ -76,7 +79,14 @@ ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios 
 
 
 ALTER TABLE red_salud ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+
 ALTER TABLE municipios ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+
+ALTER TABLE municipios ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE municipios ADD FOREIGN KEY (idprovincia) REFERENCES provincias (idprovincia);
+
+ALTER TABLE provincias ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+
 ALTER TABLE establecimiento_salud ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
 ALTER TABLE establecimiento_salud ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
 ALTER TABLE establecimiento_salud ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
@@ -96,8 +106,6 @@ ALTER TABLE integrante_subsector_salud ADD FOREIGN KEY (idintegrante_cf) REFEREN
 ALTER TABLE integrante_subsector_salud ADD FOREIGN KEY (idsubsector_salud) REFERENCES subsector_salud (idsubsector_salud);
 ALTER TABLE integrante_subsector_salud ADD FOREIGN KEY (idsubsector_elige) REFERENCES subsector_elige (idsubsector_elige);
 ALTER TABLE integrante_subsector_salud ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
-
-integrante_beneficiario 
 
 ALTER TABLE integrante_beneficiario ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_beneficiario ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
@@ -215,10 +223,26 @@ ALTER TABLE tratamiento ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpa
 ALTER TABLE tratamiento ADD FOREIGN KEY (idtipo_medicamento) REFERENCES tipo_medicamento (idtipo_medicamento);
 ALTER TABLE tratamiento ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
 
-ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
-ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
-ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
-ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
-ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
-ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idficha_ep) REFERENCES ficha_ep (idficha_ep);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idregistro_enfermedad) REFERENCES registro_enfermedad (idregistro_enfermedad);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idnotificacion_ep) REFERENCES notificacion_ep (idnotificacion_ep);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idsospecha_diag) REFERENCES sospecha_diag (idsospecha_diag);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idsemana_ep) REFERENCES semana_ep (idsemana_ep);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idestado_paciente) REFERENCES estado_paciente (idestado_paciente);
+ALTER TABLE seguimiento_ep ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnotificacion_ep) REFERENCES notificacion_ep (idnotificacion_ep);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idregistro_enfermedad) REFERENCES registro_enfermedad (idregistro_enfermedad);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idsospecha_diag) REFERENCES sospecha_diag (idsospecha_diag);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idgrupo_etareo) REFERENCES grupo_etareo (idgrupo_etareo);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idgenero) REFERENCES genero (idgenero);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+
 

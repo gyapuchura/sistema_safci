@@ -109,7 +109,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td>
                                                 <?php if ($row[10] == 'CONSOLIDADO') { ?>
                                                    
-                                                    <a href="imprime_carpeta_familiar_1.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                                    <a href="imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
                                                     <h6 class="text-info">IMPRIMIR CARPETA FAMILIAR</h6></a>
 
                                                <?php } else { 
