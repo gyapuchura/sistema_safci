@@ -98,47 +98,47 @@ $result_t = mysqli_query($link,$sql_t);
 $row_t = mysqli_fetch_array($result_t);
 $total = $row_t[0];
 
-$sql_a =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='1' ";
+$sql_a =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='1' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 $beni = $row_a[0];
 
-$sql_b =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='2' ";
+$sql_b =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='2' ";
 $result_b = mysqli_query($link,$sql_b);
 $row_b = mysqli_fetch_array($result_b);
 $cbba =    $row_b[0];
 
-$sql_c =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='3'  ";
+$sql_c =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='3'  ";
 $result_c = mysqli_query($link,$sql_c);
 $row_c = mysqli_fetch_array($result_c);
 $chuquisaca =$row_c[0];
 
-$sql_d =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='4'  ";
+$sql_d =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='4'  ";
 $result_d = mysqli_query($link,$sql_d);
 $row_d = mysqli_fetch_array($result_d);
 $la_paz = $row_d[0];
 
-$sql_e =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='5' ";
+$sql_e =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='5' ";
 $result_e = mysqli_query($link,$sql_e);
 $row_e = mysqli_fetch_array($result_e);
 $oruro = $row_e[0];
 
-$sql_f =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='6' ";
+$sql_f =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='6' ";
 $result_f = mysqli_query($link,$sql_f);
 $row_f = mysqli_fetch_array($result_f);
 $pando = $row_f[0];
 
-$sql_g =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='7' ";
+$sql_g =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='7' ";
 $result_g = mysqli_query($link,$sql_g);
 $row_g = mysqli_fetch_array($result_g);
 $potosi =$row_g[0];
 
-$sql_h =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='8' ";
+$sql_h =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='8' ";
 $result_h = mysqli_query($link,$sql_h);
 $row_h = mysqli_fetch_array($result_h);
 $santa_cruz = $row_h[0];
 
-$sql_i ="  SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='9' ";
+$sql_i ="  SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='9' ";
 $result_i = mysqli_query($link,$sql_i);
 $row_i = mysqli_fetch_array($result_i);
 $tarija = $row_i[0];
