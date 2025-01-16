@@ -56,12 +56,12 @@ $(function () {
             name: 'Porcentaje',
             data: [
                 <?php
-                    $sql0 = " SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar  ";
-                    $result0 = mysqli_query($link,$sql0);
-                    $row0 = mysqli_fetch_array($result0);
-                    $total = $row0[0];
+                    $sql0     = " SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE gestion = '$gestion' ";
+                    $result0  = mysqli_query($link,$sql0);
+                    $row0     = mysqli_fetch_array($result0);
+                    $total    = $row0[0];
 
-                    $sql_t    = " SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE  estado='CONSOLIDADO' ";
+                    $sql_t    = " SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE gestion = '$gestion' AND estado='CONSOLIDADO' ";
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t    = mysqli_fetch_array($result_t);
 

@@ -239,9 +239,11 @@ ALTER TABLE ficha_ep ADD FOREIGN KEY (idgenero) REFERENCES genero (idgenero);
 ALTER TABLE ficha_ep ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 
-ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
-ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
-ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE idioma_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE transporte_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
+ALTER TABLE transporte_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE ficha_ep ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 

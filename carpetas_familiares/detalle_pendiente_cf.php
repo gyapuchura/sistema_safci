@@ -56,7 +56,7 @@ $gestion       =  date("Y");
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[3];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[5]);?></td>
-	    <td style="font-family: Arial; font-size: 12px;" align="center"><?php echo $row[6];?> - <?php echo $row[7];?></td>
+	      <td style="font-family: Arial; font-size: 12px;" align="center"><?php echo $row[6];?> - <?php echo $row[7];?></td>
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";

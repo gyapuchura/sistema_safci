@@ -78,8 +78,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
-                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -132,8 +131,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento_af"  id="iddepartamento_af" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
-                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -195,8 +193,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento_m"  id="iddepartamento_m" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
-                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -243,8 +240,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento_red"  id="iddepartamento_red" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
-                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -293,8 +289,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="departamento_d"  id="departamento_d" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
-                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
