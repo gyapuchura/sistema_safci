@@ -17,7 +17,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
     $num_servicios_muy_grave = 0;
 
             $num_total=0;
-            $sql =" SELECT idcarpeta_familiar FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND fecha_registro='2024-09-26' AND idusuario='433' ";
+            $sql =" SELECT idcarpeta_familiar FROM determinante_salud_cf GROUP BY idcarpeta_familiar ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -26,7 +26,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                  
 /************ Evaluamos para cada detrminante de la salud  BEGIN ************/
        
-        $sqla = " SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='1' ";
+        $sqla = " SELECT sum(valor_cf) FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='1' ";
         $resulta = mysqli_query($link,$sqla);
         $rowa = mysqli_fetch_array($resulta);  
         
@@ -72,7 +72,6 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                 $num_servicios_grave_p     = ($num_servicios_grave*100)/$num_total;
                 $num_servicios_muy_grave_p = ($num_servicios_muy_grave*100)/$num_total;
 ?>
-
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -222,7 +221,5 @@ RIESGO MODERADO 	<?php echo $num_servicios_moderado_p;?>%
 RIESGO GRAVE	<?php echo $num_servicios_grave_p;?>%
 RIESGO MUY GRAVE 	<?php echo $num_servicios_muy_grave_p;?>%
 </pre>
-
-
 	</body>
 </html>
