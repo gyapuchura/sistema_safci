@@ -190,6 +190,5 @@ $(function () {
 
                     <span style="font-family: Arial; font-size: 12px;"><h4 align="center">FAMILIAS CON REGISTRO DE DETERMINANTES DE SALUD = <?php echo $total;?></h4></spam>
 
-
 	</body>
 </html>

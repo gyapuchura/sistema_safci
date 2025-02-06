@@ -23,7 +23,7 @@ $num_estructura_muy_grave = 0;
                  
 /************ Evaluamos para cada detrminante de la salud  BEGIN ************/
        
-        $sqla = "SELECT sum(valor_cf)  FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='2' ";
+        $sqla = "SELECT sum(valor_cf) FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' AND iddeterminante_salud='2' ";
         $resulta = mysqli_query($link,$sqla);
         $rowa = mysqli_fetch_array($resulta);  
         
@@ -68,7 +68,6 @@ $num_estructura_muy_grave = 0;
                 $num_estructura_moderado_p  = ($num_estructura_moderado*100)/$num_total;
                 $num_estructura_grave_p     = ($num_estructura_grave*100)/$num_total;
                 $num_estructura_muy_grave_p = ($num_estructura_muy_grave*100)/$num_total;
-
 ?>
 
 <!DOCTYPE HTML>
@@ -213,7 +212,7 @@ $(function () {
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <!-- Data from www.netmarketshare.com. Select Browsers => Desktop share by version. Download as tsv. -->
-<pre id="tsv" style="display:none">Evaluacion salud	familiar 
+<pre id="tsv" style="display:none">Riesgo Estructura de la Vivienda 
 SIN RIESGO	  <?php echo $num_estructura_sin_p;?>%
 RIESGO LEVE	  <?php echo $num_estructura_leve_p;?>%
 RIESGO MODERADO 	<?php echo $num_estructura_moderado_p;?>%
