@@ -278,7 +278,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DEPARTAMENTAL</h6>
                     </div>
  
-                    <form name="DEPTAL" action="departamento_a_cf.php" method="post"> 
+             <form name="DEPTAL" action="departamento_a_cf.php" method="post"> 
                     
                 <div class="card-body">
                     <div class="form-group row">
@@ -310,7 +310,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                         <div class="col-sm-8">
                             <button type="submit" class="btn btn-primary">VER ANALITICA DEPARTAMENTAL</button>
-                            </form>
+                  </form>
                         </div>
                     </div> 
 
