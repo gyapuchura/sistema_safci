@@ -40,37 +40,44 @@ ALTER TABLE transporte_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpet
 ALTER TABLE idioma_cf ADD FOREIGN KEY (ididioma) REFERENCES idioma (ididioma);
 ALTER TABLE idioma_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE idioma_cf ADD FOREIGN KEY (idorigen_idioma) REFERENCES origen_idioma (idorigen_idioma);
+
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre); 
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idgrupo_etareo_cf) REFERENCES grupo_etareo_cf (idgrupo_etareo_cf);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idparentesco) REFERENCES parentesco (idparentesco);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idnacion) REFERENCES nacion (idnacion);
 ALTER TABLE integrante_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE nombre ADD FOREIGN KEY (idgenero) REFERENCES genero (idgenero);
 ALTER TABLE nombre ADD FOREIGN KEY (idnacionalidad) REFERENCES nacionalidad (idnacionalidad);
+
 ALTER TABLE integrante_ap_sano ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_ap_sano ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
 ALTER TABLE integrante_ap_sano ADD FOREIGN KEY (idgrupo_cf) REFERENCES grupo_cf (idgrupo_cf);
 ALTER TABLE integrante_ap_sano ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE integrante_factor_riesgo ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_factor_riesgo ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
 ALTER TABLE integrante_factor_riesgo ADD FOREIGN KEY (idgrupo_cf) REFERENCES grupo_cf (idgrupo_cf);
 ALTER TABLE integrante_factor_riesgo ADD FOREIGN KEY (idfactor_riesgo_cf) REFERENCES factor_riesgo_cf (idfactor_riesgo_cf);
 ALTER TABLE integrante_factor_riesgo ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE integrante_morbilidad ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_morbilidad ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
 ALTER TABLE integrante_morbilidad ADD FOREIGN KEY (idgrupo_cf) REFERENCES grupo_cf (idgrupo_cf);
 ALTER TABLE integrante_morbilidad ADD FOREIGN KEY (idmorbilidad_cf) REFERENCES morbilidad_cf (idmorbilidad_cf);
 ALTER TABLE integrante_morbilidad ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE integrante_discapacidad ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_discapacidad ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
 ALTER TABLE integrante_discapacidad ADD FOREIGN KEY (idgrupo_cf) REFERENCES grupo_cf (idgrupo_cf);
 ALTER TABLE integrante_discapacidad ADD FOREIGN KEY (idtipo_discapacidad_cf) REFERENCES tipo_discapacidad_cf (idtipo_discapacidad_cf);
 ALTER TABLE integrante_discapacidad ADD FOREIGN KEY (idnivel_discapacidad_cf) REFERENCES nivel_discapacidad_cf (idnivel_discapacidad_cf);
 ALTER TABLE integrante_discapacidad ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
-ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrant (idintegrante_cf);
+ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
 ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idestado_civil) REFERENCES estado_civil (idestado_civil);
 ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idnivel_instruccion) REFERENCES nivel_instruccion (idnivel_instruccion);
 ALTER TABLE integrante_datos_cf ADD FOREIGN KEY (idprofesion) REFERENCES profesion (idprofesion);
@@ -244,6 +251,41 @@ ALTER TABLE idioma_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario
 ALTER TABLE transporte_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE transporte_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
-ALTER TABLE ayuda_familiar_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
-ALTER TABLE ayuda_familiar_cf ADD FOREIGN KEY (idayuda_familiar) REFERENCES ayuda_familiar (idayuda_familiar);
-ALTER TABLE ayuda_familiar_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE area ADD FOREIGN KEY (iddireccion) REFERENCES direccion (iddireccion);
+ALTER TABLE cargo_mds ADD FOREIGN KEY (idministerio) REFERENCES ministerio (idministerio);
+ALTER TABLE cargo_mds ADD FOREIGN KEY (iddireccion) REFERENCES direccion (iddireccion);
+ALTER TABLE cargo_mds ADD FOREIGN KEY (idarea) REFERENCES area (idarea);
+
+ALTER TABLE cargo_red_salud ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE cargo_red_salud ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+
+ALTER TABLE medicamento ADD FOREIGN KEY (idtipo_medicamento) REFERENCES tipo_medicamento (idtipo_medicamento);
+
+ALTER TABLE vacunacion_anim ADD FOREIGN KEY (idevento_vacunacion) REFERENCES evento_vacunacion (idevento_vacunacion);
+ALTER TABLE vacunacion_anim ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE vacunacion_anim ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE vacunacion_anim ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE vacunacion_anim ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE eval_docente ADD FOREIGN KEY (iddocente) REFERENCES docente (iddocente);
+ALTER TABLE eval_docente ADD FOREIGN KEY (idevento) REFERENCES evento (idevento);
+ALTER TABLE eval_docente ADD FOREIGN KEY (idponderacion) REFERENCES ponderacion (idponderacion);
+
+ALTER TABLE evento ADD FOREIGN KEY (idobjetivo_anual) REFERENCES objetivo_anual (idobjetivo_anual);
+ALTER TABLE evento ADD FOREIGN KEY (idmacrocurricula) REFERENCES macrocurricula (idmacrocurricula);
+ALTER TABLE evento ADD FOREIGN KEY (idmicrocurricula) REFERENCES microcurricula (idmicrocurricula);
+ALTER TABLE evento ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE evento ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE evento ADD FOREIGN KEY (idprovincia) REFERENCES provincias (idprovincia);
+ALTER TABLE evento ADD FOREIGN KEY (idpublicacion) REFERENCES publicacion (idpublicacion);
+ALTER TABLE evento ADD FOREIGN KEY (idmodalidad) REFERENCES modalidad (idmodalidad);
+ALTER TABLE evento ADD FOREIGN KEY (iddocente) REFERENCES docente (iddocente);
+ALTER TABLE evento ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+ALTER TABLE evento ADD FOREIGN KEY (idestado_registro) REFERENCES estado_registro (idestado_registro);
+ALTER TABLE evento ADD FOREIGN KEY (idestado_ejecucion) REFERENCES estado_ejecucion (idestado_ejecucion);
+ALTER TABLE evento ADD FOREIGN KEY (idtipo_inscripcion) REFERENCES tipo_inscripcion (idtipo_inscripcion);
+
+ALTER TABLE microcurricula ADD FOREIGN KEY (idtipo_evento) REFERENCES tipo_evento (idtipo_evento);
+ALTER TABLE microcurricula ADD FOREIGN KEY (idnivel_curricular) REFERENCES nivel_curricular (idnivel_curricular);
+ALTER TABLE microcurricula ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
