@@ -157,7 +157,7 @@ $area_af = $row_area[1]." ".$row_area[2];
                         <h6 class="text-primary">VIII. MEDICINA TRADICIONAL:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_medicina_tradicional_cf_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL - ÁREA DE INFLUENCIA  : <?php echo $area_af;?></h6></a>  
+                        <a href="grafica_medicina_tradicional_cf_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL - ÁREA DE INFLUENCIA  : <?php echo $area_af;?> </h6></a>  
                         </div>
                     </div>
                    <div class="form-group row">
@@ -352,6 +352,14 @@ $area_af = $row_area[1]." ".$row_area[2];
                         </div>
                         <div class="col-sm-6">
                         <a href="determinante_salud_alimentaria_af_2.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Consumo diario de alimentos</h6></a>  
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <a href="riesgo_determinante_salud_af.php?idarea_influencia=<?php echo $idarea_influencia;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO DE LAS DETERMINANTES DE LA SALUD - ÁREA DE INFLUENCIA  : <?php echo $area_af;?> </h6></a>  
                         </div>
                     </div>
                     <hr>

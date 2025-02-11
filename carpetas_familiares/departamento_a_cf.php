@@ -423,6 +423,15 @@ $row_dep = mysqli_fetch_array($result_dep);
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <a href="riesgo_determinante_salud_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO EN LAS DETERMINANTES DE LA SALUD DEPARTAMENTO - <?php echo $row_dep[1];?> </h6></a>  
+                        </div>
+                    </div>
+
                     <hr>
 
                     <div class="form-group row">

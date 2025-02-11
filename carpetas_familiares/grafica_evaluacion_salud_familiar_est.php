@@ -99,28 +99,26 @@ $(function () {
             // creamos el grafico
 
             <?php
-$sql_t =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar ";
-$sql_t.=" WHERE  estado='CONSOLIDADO' ";
-$sql_t.=" AND idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql_t =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE  estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' ";
 $result_t = mysqli_query($link,$sql_t);
 $row_t = mysqli_fetch_array($result_t);
 $total = $row_t[0];
 
-$sql_a =" SELECT evaluacion_familiar_cf.idevaluacion_familiar_cf FROM evaluacion_familiar_cf, carpeta_familiar  ";
+$sql_a =" SELECT evaluacion_familiar_cf.idcarpeta_familiar FROM evaluacion_familiar_cf, carpeta_familiar  ";
 $sql_a.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
 $sql_a.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO BAJO' GROUP BY evaluacion_familiar_cf.idcarpeta_familiar ";
 $result_a = mysqli_query($link,$sql_a);
 $riesgo_bajo = mysqli_num_rows($result_a);
 
-$sql_b =" SELECT evaluacion_familiar_cf.idevaluacion_familiar_cf FROM evaluacion_familiar_cf, carpeta_familiar ";
+$sql_b =" SELECT evaluacion_familiar_cf.idcarpeta_familiar FROM evaluacion_familiar_cf, carpeta_familiar ";
 $sql_b.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
 $sql_b.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' GROUP BY evaluacion_familiar_cf.idcarpeta_familiar ";
 $result_b = mysqli_query($link,$sql_b);
 $riesgo_mediano = mysqli_num_rows($result_b);
 
-$sql_c =" SELECT evaluacion_familiar_cf.idevaluacion_familiar_cf FROM evaluacion_familiar_cf, carpeta_familiar ";
+$sql_c =" SELECT evaluacion_familiar_cf.idcarpeta_familiar FROM evaluacion_familiar_cf, carpeta_familiar ";
 $sql_c.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
 $sql_c.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO ALTO' GROUP BY evaluacion_familiar_cf.idcarpeta_familiar ";
@@ -233,7 +231,7 @@ $row_cf = mysqli_fetch_array($result_cf);
 $total_cf = $row_cf[0];
 ?>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES ESTABLECIMIENTO DE SALUD = <?php echo $total_cf;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES ESTABLECIMIENTO DE SALUD = <?php echo $total;?> </h4></spam>
 
 <?php
 $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
