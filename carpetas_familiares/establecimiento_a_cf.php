@@ -357,6 +357,16 @@ $row_est = mysqli_fetch_array($result_est);
                         <a href="determinante_salud_alimentaria_est_2.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Consumo diario de alimentos</h6></a>  
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <a href="riesgo_determinante_salud_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIÉSGO DE LAS DETERMINANTES DE LA SALUD - Establecimiento : <?php echo $row_est[1];?></h6></a>  
+                        </div>
+                    </div>
+
                     <hr>
 
                     <div class="form-group row">

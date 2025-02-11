@@ -303,7 +303,7 @@ Si no se encontraron resultados
     $sql.=" WHERE registro_evento_notificacion.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
     $sql.=" AND registro_evento_notificacion.idevento_notificacion=evento_notificacion.idevento_notificacion ";
     $sql.=" AND notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
-    $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND registro_evento_notificacion.numero_eventos != '0' ";
+    $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND registro_evento_notificacion.numero_eventos != '0' AND notificacion_ep.gestion='$gestion' ";
     $sql.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_evento_notificacion.idevento_notificacion='$idevento_notificacion' ORDER BY notificacion_ep.semana_ep ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){

@@ -358,6 +358,14 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <a href="determinante_salud_alimentaria_mun_2.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Consumo diario de alimentos</h6></a>  
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-info"></h6>
+                        </div>
+                        <div class="col-sm-8">
+                        <a href="riesgo_determinante_salud_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO EN LAS DETERMINANTES DE LA SALUD - Mun. <?php echo $row_mun[1];?> </h6></a>  
+                        </div>
+                    </div>
                     <hr>
                     <div class="form-group row">
                         <div class="col-sm-6">
