@@ -182,31 +182,56 @@ Si no se encontraron resultados
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
+<table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">EL HOGAR TIENE:</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">NO</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">SI</span></td>
+    </tr>
 <?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
+            $numero = 1;
+            $sql = " SELECT idsocio_economica, socio_economica FROM socio_economica ";
+            $result = mysqli_query($link,$sql);
+            if ($row = mysqli_fetch_array($result)){
+            mysqli_field_seek($result,0);
+            while ($field = mysqli_fetch_field($result)){
+            } do {
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES ÁREA DE INFLUENCIA = <?php echo $total_cf;?> </h4></spam>
+            $sql_si = " SELECT count(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar ";
+            $sql_si.= " WHERE  socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+            $sql_si.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+            $sql_si.= " AND socio_economica_cf.idsocio_economica='$row[0]' AND socio_economica_cf.valor='SI'  ";
+            $result_si = mysqli_query($link,$sql_si);
+            $row_si = mysqli_fetch_array($result_si);
+            $res_si = $row_si[0];
 
-<?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL ÁREA DE INFLUENCIA= <?php echo $integrantes;?> </h4></spam>
+            $sql_no = " SELECT count(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar ";
+            $sql_no.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+            $sql_no.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+            $sql_no.= " AND socio_economica_cf.idsocio_economica='$row[0]' AND socio_economica_cf.valor='NO'  ";
+            $result_no = mysqli_query($link,$sql_no);
+            $row_no = mysqli_fetch_array($result_no);
+            $res_no = $row_no[0];
 
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' GROUP BY idusuario  ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ÁREA DE INFLUENCIA = <?php echo $personal;?> </h4></spam>
+            ?>
+                <tr>
+                    <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+                    <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
+                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $res_no;?></td>
+                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $res_si;?></td>
+                    </tr> 
 
+                <?php
+                $numero++;                    
+            } while ($row = mysqli_fetch_array($result));
+            } else {
+            /*
+            Si no se encontraron resultados
+            */
+            }
+            ?>
+    </table>
 
 	</body>
 </html>

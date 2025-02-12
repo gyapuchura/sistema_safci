@@ -805,7 +805,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'GRUPO III INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - Red de Salud: <?php echo mb_strtoupper($row_red[1]);?>'
+            text: 'GRUPO IV INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - Red de Salud: <?php echo mb_strtoupper($row_red[1]);?>'
         },
         subtitle: {
             text: 'Fuente: REGISTRO DE CARPETAS FAMILIARES - SISTEMA MEDI-SAFCI'

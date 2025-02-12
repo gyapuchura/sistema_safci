@@ -118,6 +118,58 @@ $(function () {
 
 <div id="ciclo_vital" style="height: 350px"></div>
 
+<table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">ESTRUCTURA FAMILIAR</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">%</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD</span></td>
+    </tr>
+<?php
+                    $numero = 1;
+                    $sql = " SELECT etapa_familiar_cf.idetapa_familiar FROM etapa_familiar_cf, carpeta_familiar ";
+                    $sql.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " AND etapa_familiar_cf.vigente='SI' GROUP BY etapa_familiar_cf.idetapa_familiar ";
+                    $result = mysqli_query($link,$sql);
+                    if ($row = mysqli_fetch_array($result)){
+                    mysqli_field_seek($result,0);
+                    while ($field = mysqli_fetch_field($result)){
+                    } do {
+
+                    $sql_t = " SELECT idetapa_familiar, etapa_familiar FROM etapa_familiar WHERE idetapa_familiar='$row[0]' ";
+                    $result_t = mysqli_query($link,$sql_t);
+                    $row_t = mysqli_fetch_array($result_t);
+
+                    $sql_c = " SELECT count(etapa_familiar_cf.idetapa_familiar_cf) FROM etapa_familiar_cf, carpeta_familiar  ";
+                    $sql_c.= " WHERE etapa_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql_c.= " AND etapa_familiar_cf.vigente='SI' AND etapa_familiar_cf.idetapa_familiar='$row[0]' ";
+
+                    $result_c = mysqli_query($link,$sql_c);
+                    $row_c = mysqli_fetch_array($result_c);
+                    $conteo = $row_c[0];
+
+                    $p_conteo   = ($conteo*100)/$total;
+                    $porcentaje    = number_format($p_conteo, 2, '.', '');
+
+                    ?>
+                        <tr>
+                            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+                            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row_t[1];?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentaje;?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteo;?></td>
+                            </tr> 
+
+                        <?php
+                        $numero++;                    
+                    } while ($row = mysqli_fetch_array($result));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>
+                    </table>
+
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
 $result_cf = mysqli_query($link,$sql_cf);

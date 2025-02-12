@@ -633,14 +633,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <a href="determinante_estructura_vivienda_8.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">h) Riésgos internos con relación a la vivienda</h6></a>  
                         </div>
                     </div>
-                <!--    <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-8">
-                        <a href="calcula_riesgo_estructura.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO ESTRUCTURAL DE LA VIVIENDA</h6></a>  
-                        </div>
-                    </div> -->
 
                     <hr>
 
@@ -699,7 +691,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-8">
-                        <a href="calcula_riesgo_determinante_salud.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">EVALUACIÓN DE LAS DETERMINANTES DE LA SALUD</h6></a>  
+                        <a href="riesgo_determinante_salud_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO NACIONAL EN LAS DETERMINANTES DE LA SALUD</h6></a>  
                         </div>
                     </div>   
 

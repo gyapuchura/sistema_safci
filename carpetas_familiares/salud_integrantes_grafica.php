@@ -769,7 +769,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'DISCAPACIDAD POR TIPO Y NIVEL EN LOS INTEGRANTES DE LA FAMILIA'
+            text: 'GRUPO IV - DISCAPACIDAD POR TIPO Y NIVEL EN LOS INTEGRANTES DE LA FAMILIA'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
