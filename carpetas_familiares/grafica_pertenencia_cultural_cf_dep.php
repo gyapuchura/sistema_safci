@@ -82,7 +82,7 @@ $(function () {
                     } do {
 
                     $sql_c = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql_c.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
                     $sql_c.= " AND carpeta_familiar.iddepartamento='$iddepartamento' AND integrante_cf.idnacion='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);

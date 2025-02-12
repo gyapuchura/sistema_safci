@@ -93,28 +93,31 @@ $(function () {
             // Create the chart
 
             <?php
-$sql_t =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar !='' ";
+$sql_t =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE  estado='CONSOLIDADO' ";
 $result_t = mysqli_query($link,$sql_t);
 $row_t = mysqli_fetch_array($result_t);
 $total = $row_t[0];
 
-$sql_a =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar='FAMILIA CON RIESGO BAJO' ";
-$sql_a.="  ";
+$sql_a =" SELECT evaluacion_familiar_cf.idcarpeta_familiar FROM evaluacion_familiar_cf, carpeta_familiar  ";
+$sql_a.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql_a.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO BAJO' GROUP BY evaluacion_familiar_cf.idcarpeta_familiar ";
 $result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-$riesgo_bajo = $row_a[0];
+$riesgo_bajo = mysqli_num_rows($result_a);
 
-$sql_b =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ";
-$sql_b.="  ";
+$sql_b =" SELECT evaluacion_familiar_cf.idcarpeta_familiar FROM evaluacion_familiar_cf, carpeta_familiar ";
+$sql_b.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql_b.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' GROUP BY evaluacion_familiar_cf.idcarpeta_familiar ";
 $result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$riesgo_mediano = $row_b[0];
+$riesgo_mediano = mysqli_num_rows($result_b);
 
-$sql_c =" SELECT count(idevaluacion_familiar_cf) FROM evaluacion_familiar_cf WHERE evaluacion_familiar='FAMILIA CON RIESGO ALTO'  ";
-$sql_c.="  ";
+$sql_c =" SELECT evaluacion_familiar_cf.idcarpeta_familiar FROM evaluacion_familiar_cf, carpeta_familiar ";
+$sql_c.=" WHERE evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql_c.=" AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO ALTO' GROUP BY evaluacion_familiar_cf.idcarpeta_familiar ";
 $result_c = mysqli_query($link,$sql_c);
-$row_c = mysqli_fetch_array($result_c);
-$riesgo_alto =$row_c[0];
+$riesgo_alto = mysqli_num_rows($result_c);
 
 $riesgo_bajo_p    = ($riesgo_bajo*100)/$total;
 $riesgo_mediano_p = ($riesgo_mediano*100)/$total;
@@ -187,6 +190,33 @@ FAMILIAS CON RIESGO MEDIANO	<?php echo $riesgo_mediano_p;?>%
 FAMILIAS CON RIESGO ALTO 	<?php echo $riesgo_alto_p;?>%
 </pre>
 
+<table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">EVALUACIÓN DE LA SALUD FAMILIAR</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">%</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD</span></td>
+    </tr>
+
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">1</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">FAMILIAS CON RIESGO BAJO</td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo number_format($riesgo_bajo_p, 2, '.', '');?></td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $riesgo_bajo;?></td>
+        </tr> 
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">2</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">FAMILIAS CON RIESGO MEDIANO</td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo number_format($riesgo_mediano_p, 2, '.', '');?></td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $riesgo_mediano;?></td>
+        </tr> 
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">3</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">FAMILIAS CON RIESGO ALTO</td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo number_format($riesgo_alto_p, 2, '.', '');?></td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $riesgo_alto;?></td>
+        </tr> 
+    </table>
 
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";

@@ -72,7 +72,7 @@ $(function () {
 
                     $numero = 0;
                     $sql = " SELECT integrante_datos_cf.idnivel_instruccion FROM integrante_datos_cf, carpeta_familiar ";
-                    $sql.= " WHERE  integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql.= " WHERE  integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
                     $sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_datos_cf.idnivel_instruccion ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);

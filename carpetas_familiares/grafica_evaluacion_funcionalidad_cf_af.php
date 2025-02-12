@@ -495,6 +495,61 @@ $(function () {
 <hr>
 <div id="evaluacion_funcionalidad" style="height: 300px"></div>
 <hr>
+
+<table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">FUNCIONALIDAD FAMILIAR</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">%</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD</span></td>
+    </tr>
+<?php
+                    $numero = 1;
+                    $sql = " SELECT funcionalidad_familiar_cf.idfuncionalidad_familiar FROM funcionalidad_familiar_cf, carpeta_familiar ";
+                    $sql.= " WHERE funcionalidad_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+                    $sql.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND funcionalidad_familiar_cf.vigente='SI' GROUP BY funcionalidad_familiar_cf.idfuncionalidad_familiar ";                  
+                    $result = mysqli_query($link,$sql);
+                    if ($row = mysqli_fetch_array($result)){
+                    mysqli_field_seek($result,0);
+                    while ($field = mysqli_fetch_field($result)){
+                    } do {
+
+                    $sql_t = " SELECT idfuncionalidad_familiar, funcionalidad_familiar FROM funcionalidad_familiar WHERE idfuncionalidad_familiar='$row[0]' ";
+                    $result_t = mysqli_query($link,$sql_t);
+                    $row_t = mysqli_fetch_array($result_t);
+
+                    $sql_c =" SELECT count(funcionalidad_familiar_cf.idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf, carpeta_familiar ";
+                    $sql_c.=" WHERE funcionalidad_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                    $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND funcionalidad_familiar_cf.idfuncionalidad_familiar ='$row[0]' ";
+
+                    $result_c = mysqli_query($link,$sql_c);
+                    $row_c = mysqli_fetch_array($result_c);
+                    $conteo = $row_c[0];
+
+                    $p_conteo   = ($conteo*100)/$total;
+                    $porcentaje    = number_format($p_conteo, 2, '.', '');
+
+                    ?>
+                        <tr>
+                            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+                            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row_t[1];?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentaje;?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteo;?></td>
+                            </tr> 
+
+                        <?php
+                        $numero++;                    
+                    } while ($row = mysqli_fetch_array($result));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>
+                    </table>
+                    <span style="font-family: Arial; font-size: 12px;"><h4 align="center">FAMILIAS CON REGISTRO DE FUNCIONALIDAD FAMILIAR = <?php echo $total;?></h4></spam>
+
+
 <?php
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia'  ";
 $result_cf = mysqli_query($link,$sql_cf);

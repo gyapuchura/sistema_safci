@@ -773,7 +773,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'GRUPO III INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
+            text: 'GRUPO IV INTEGRANTES CON DISCAPACIDAD POR TIPO Y NIVEL - DPTO. <?php echo mb_strtoupper($row_dep[1]);?>'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
