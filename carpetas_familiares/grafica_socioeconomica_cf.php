@@ -8,12 +8,13 @@ $gestion                = date("Y");
 
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CARACTERISTICAS SOCIOECONOMICAS</title>
+		<title>CARACTERISTICAS SOCIOECONÓMICAS - NIVEL NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -24,13 +25,13 @@ $(function () {
     $('#container').highcharts({
         chart: {
             type: 'column'
-        },
+        }, 
         title: {
-            text: 'CARACTERÍSTICAS SOCIOECONÓMICAS'
+            text: 'CARACTERÍSTICAS SOCIOECONÓMICAS - NIVEL NACIONAL'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
-            },
+        },
         xAxis: {
             categories: [
 
@@ -90,9 +91,7 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT socio_economica_cf.valor FROM socio_economica_cf, carpeta_familiar ";
-$sql2.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql2.= " AND carpeta_familiar.estado='CONSOLIDADO' GROUP BY socio_economica_cf.valor ";
+$sql2 = " SELECT valor FROM socio_economica_cf GROUP BY valor ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -116,9 +115,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
  
 <?php
-$sql_a = " SELECT COUNT(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar ";
-$sql_a.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_a.= " AND socio_economica_cf.idsocio_economica='$row3[0]' AND socio_economica_cf.valor='$row2[0]' ";
+$sql_a =" SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row3[0]' AND valor='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -188,18 +185,12 @@ Si no se encontraron resultados
             while ($field = mysqli_fetch_field($result)){
             } do {
 
-            $sql_si = " SELECT count(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar ";
-            $sql_si.= " WHERE  socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-            $sql_si.= " AND carpeta_familiar.estado='CONSOLIDADO' ";
-            $sql_si.= " AND socio_economica_cf.idsocio_economica='$row[0]' AND socio_economica_cf.valor='SI'  ";
+            $sql_si = " SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row[0]' AND valor='SI' ";
             $result_si = mysqli_query($link,$sql_si);
             $row_si = mysqli_fetch_array($result_si);
             $res_si = $row_si[0];
 
-            $sql_no = " SELECT count(socio_economica_cf.valor) FROM socio_economica_cf, carpeta_familiar ";
-            $sql_no.= " WHERE socio_economica_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-            $sql_no.= " AND carpeta_familiar.estado='CONSOLIDADO' ";
-            $sql_no.= " AND socio_economica_cf.idsocio_economica='$row[0]' AND socio_economica_cf.valor='NO'  ";
+            $sql_no = " SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row[0]' AND valor='NO' ";
             $result_no = mysqli_query($link,$sql_no);
             $row_no = mysqli_fetch_array($result_no);
             $res_no = $row_no[0];
@@ -222,46 +213,6 @@ Si no se encontraron resultados
             }
             ?>
     </table>
-
-
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
-
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
-
-<?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
-
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>

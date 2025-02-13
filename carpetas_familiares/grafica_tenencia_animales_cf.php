@@ -128,9 +128,7 @@ $(function () {
     </tr>
 <?php
                     $numero = 1;
-                    $sql = " SELECT tenencia_animales_cf.idtenencia_animales FROM tenencia_animales_cf, carpeta_familiar ";
-                    $sql.= " WHERE tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' GROUP BY tenencia_animales_cf.idtenencia_animales ";
+                    $sql = " SELECT idtenencia_animales FROM tenencia_animales_cf GROUP BY idtenencia_animales ";
                     $result = mysqli_query($link,$sql);
                     if ($row = mysqli_fetch_array($result)){
                     mysqli_field_seek($result,0);
@@ -141,10 +139,7 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT sum(tenencia_animales_cf.valor) FROM tenencia_animales_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE tenencia_animales_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql_c.= " AND tenencia_animales_cf.idtenencia_animales='$row[0]' ";
-
+                    $sql_c = " SELECT sum(valor) FROM tenencia_animales_cf WHERE idtenencia_animales='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];

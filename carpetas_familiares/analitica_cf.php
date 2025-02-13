@@ -347,7 +347,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE MUNICIPIOS:</h6>
                             <?php
-                            $sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
+                            $sql_p = " SELECT idmunicipio FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idmunicipio ";
                             $result_p = mysqli_query($link,$sql_p);
                             $municipios = mysqli_num_rows($result_p);  
                             ?>
@@ -357,7 +357,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE ESTABLECIMIENTOS DE SALUD:</h6>
                             <?php
-                            $sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
+                            $sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idestablecimiento_salud ";
                             $result_mun = mysqli_query($link,$sql_mun);
                             $establecimientos = mysqli_num_rows($result_mun);  
                             ?>
@@ -554,14 +554,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <a href="determinante_servicios_basicos_7.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Acceso a comunicación</h6></a>  
                         </div>
                     </div>
-                   <!-- <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-8">
-                        <a href="calcula_riesgo_servicios.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO DE LOS SERVICIOS BÁSICOS</h6></a>  
-                        </div>
-                    </div>-->
                     <hr>
                     <div class="form-group row">
                         <div class="col-sm-6">
@@ -660,14 +652,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <a href="determinante_funcionalidad_vivienda_3.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Tenencia de animales en la vivienda</h6></a>  
                         </div>
                     </div>
-                    <!-- <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-primary"></h6>
-                        </div>
-                        <div class="col-sm-8">
-                        <a href="calcula_riesgo_funcionalidad.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=600,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">RIESGO FUNCIONAL DE LA VIVIENDA</h6></a>  
-                        </div>
-                    </div> -->
                     <hr>
                     <div class="form-group row">
                         <div class="col-sm-6">

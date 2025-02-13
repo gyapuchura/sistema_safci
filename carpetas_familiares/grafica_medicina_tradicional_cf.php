@@ -186,17 +186,11 @@ Si no se encontraron resultados
             while ($field = mysqli_fetch_field($result)){
             } do {
 
-            $sql_a =" SELECT count(integrante_tradicional.idintegrante_tradicional) FROM integrante_tradicional, carpeta_familiar ";
-            $sql_a.=" WHERE integrante_tradicional.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-            $sql_a.=" AND integrante_tradicional.idmedicina_tradicional='$row[0]' AND integrante_tradicional.idlugar_atencion_trad='1' ";
-            $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
+            $sql_a =" SELECT count(idintegrante_tradicional) FROM integrante_tradicional WHERE idmedicina_tradicional='$row[0]' AND idlugar_atencion_trad='1' ";
             $result_a = mysqli_query($link,$sql_a);
             $row_a = mysqli_fetch_array($result_a);
 
-            $sql_b =" SELECT count(integrante_tradicional.idintegrante_tradicional) FROM integrante_tradicional, carpeta_familiar ";
-            $sql_b.=" WHERE integrante_tradicional.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-            $sql_b.=" AND integrante_tradicional.idmedicina_tradicional='$row[0]' AND integrante_tradicional.idlugar_atencion_trad='2' ";
-            $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
+            $sql_b =" SELECT count(idintegrante_tradicional) FROM integrante_tradicional WHERE idmedicina_tradicional='$row[0]' AND idlugar_atencion_trad='2' ";
             $result_b = mysqli_query($link,$sql_b);
             $row_b = mysqli_fetch_array($result_b);
 
@@ -218,45 +212,6 @@ Si no se encontraron resultados
             }
             ?>
     </table>
-
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
-
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
-
-<?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
-
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>
