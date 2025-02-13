@@ -533,8 +533,5 @@ $(function () {
                     }
                     ?>
                     </table>
-                    <span style="font-family: Arial; font-size: 12px;"><h4 align="center">FAMILIAS CON REGISTRO DE FUNCIONALIDAD FAMILIAR = <?php echo $total;?></h4></spam>
-
-
 	</body>
 </html>

@@ -120,46 +120,51 @@ $(function () {
 
 <div id="corresponde_salud" style="height: 350px"></div>
 
-
-
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
-
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
+<table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">NIVEL DEINSTRUCCIÓN</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">%</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD DE INTEGRANTES</span></td>
+    </tr>
 
 <?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
+$numeroa = 1;
+$sqla = " SELECT idnivel_instruccion FROM integrante_datos_cf GROUP BY idnivel_instruccion ";
+$resulta = mysqli_query($link,$sqla);
+ if ($rowa = mysqli_fetch_array($resulta)){
+mysqli_field_seek($resulta,0);
+while ($fielda = mysqli_fetch_field($resulta)){
+} do {
 
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
+    $sql_t = " SELECT idnivel_instruccion, nivel_instruccion FROM nivel_instruccion WHERE idnivel_instruccion='$rowa[0]' ";
+    $result_t = mysqli_query($link,$sql_t);
+    $row_t = mysqli_fetch_array($result_t);
 
-<?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
+    $sql_c = " SELECT count(idintegrante_datos_cf) FROM integrante_datos_cf WHERE idnivel_instruccion='$rowa[0]' ";
+    $result_c = mysqli_query($link,$sql_c);
+    $row_c = mysqli_fetch_array($result_c);
+    $conteoa = $row_c[0];
 
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-
+    $p_conteoa   = ($conteoa*100)/$total;
+    $porcentajea    = number_format($p_conteoa, 2, '.', '');
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
+        <tr>
+          <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numeroa;?></td>
+          <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row_t[1];?></td>
+          <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentajea;?></td>
+          <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteoa;?></td>
+        </tr>   
+        <?php
+        $numeroa=$numeroa+1;
+} while ($rowa = mysqli_fetch_array($resulta));
+} else {
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+    </table>
 
 	</body>
 </html>

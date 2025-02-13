@@ -128,18 +128,19 @@ $(function () {
 
 <?php
 $numeroa = 1;
-$sqla = " SELECT integrante_datos_cf.idestado_civil, estado_civil.estado_civil FROM integrante_datos_cf, estado_civil, carpeta_familiar WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sqla.= " AND integrante_datos_cf.idestado_civil=estado_civil.idestado_civil AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sqla.= " GROUP BY integrante_datos_cf.idestado_civil ";
+$sqla = " SELECT idestado_civil FROM integrante_datos_cf GROUP BY idestado_civil ";
 $resulta = mysqli_query($link,$sqla);
  if ($rowa = mysqli_fetch_array($resulta)){
 mysqli_field_seek($resulta,0);
 while ($fielda = mysqli_fetch_field($resulta)){
 } do {
 
-    $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar ";
-    $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-    $sql_c.= " AND integrante_datos_cf.idestado_civil='$rowa[0]' ";
+    $sql_t = " SELECT idestado_civil, estado_civil FROM estado_civil WHERE idestado_civil='$rowa[0]' ";
+    $result_t = mysqli_query($link,$sql_t);
+    $row_t = mysqli_fetch_array($result_t);
+
+    $sql_c = " SELECT count(idintegrante_datos_cf) FROM integrante_datos_cf WHERE idestado_civil='$rowa[0]' ";
+
     $result_c = mysqli_query($link,$sql_c);
     $row_c = mysqli_fetch_array($result_c);
     $conteoa = $row_c[0];
@@ -149,7 +150,7 @@ while ($fielda = mysqli_fetch_field($resulta)){
 ?>
         <tr>
           <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numeroa;?></td>
-          <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $rowa[1];?></td>
+          <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row_t[1];?></td>
           <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentajea;?></td>
           <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteoa;?></td>
         </tr>   
@@ -164,44 +165,6 @@ Si no se encontraron resultados
 ?>
     </table>
 
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
-
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_p = " SELECT idmunicipio FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idmunicipio ";
-$result_p = mysqli_query($link,$sql_p);
-$municipios = mysqli_num_rows($result_p);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE MUNICIPIOS = <?php echo $municipios;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM ubicacion_cf WHERE ubicacion_actual='SI' GROUP BY idestablecimiento_salud ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
-
-<?php
-$sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
-
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>
