@@ -120,11 +120,11 @@ $(function () {
                     ?>
 
                     <?php
-                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre WHERE integrante_cf.idnombre=nombre.idnombre ";
-                    $sql7.= "  AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' ";
-                    $result7 = mysqli_query($link,$sql7);
-                    $row7 = mysqli_fetch_array($result7);
-                    $cifra_masculino = $row7[0];
+                    $sql_ma = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre WHERE integrante_cf.idnombre=nombre.idnombre ";
+                    $sql_ma.= "  AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' ";
+                    $result_ma = mysqli_query($link,$sql_ma);
+                    $row_ma = mysqli_fetch_array($result_ma);
+                    $cifra_masculino = $row_ma[0];
                     ?>
                                 <?php echo "-".$cifra_masculino; ?>
 
@@ -155,11 +155,11 @@ $(function () {
                         ?>
 
                         <?php
-                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre WHERE integrante_cf.idnombre=nombre.idnombre  ";
-                        $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' ";
-                        $result7 = mysqli_query($link,$sql7);
-                        $row7 = mysqli_fetch_array($result7);
-                        $cifra_femenino = $row7[0];
+                        $sql_fe = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre WHERE integrante_cf.idnombre=nombre.idnombre  ";
+                        $sql_fe.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' ";
+                        $result_fe = mysqli_query($link,$sql_fe);
+                        $row_fe = mysqli_fetch_array($result_fe);
+                        $cifra_femenino = $row_fe[0];
                         ?>
                                     <?php echo $cifra_femenino; ?>
 
