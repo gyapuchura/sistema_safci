@@ -45,7 +45,7 @@ $row_sos = mysqli_fetch_array($result_sos);
             </div>
 
             <div class="col-sm-3">
-            <a class="btn btn-primary btn-icon-split" href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=480,scrollbars=YES,top=50,left=300'); return false;">
+            <a class="btn btn-primary btn-icon-split" href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_deptal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
