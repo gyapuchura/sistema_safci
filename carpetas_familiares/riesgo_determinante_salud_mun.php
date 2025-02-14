@@ -261,7 +261,7 @@ $row_cf = mysqli_fetch_array($result_cf);
 $total_cf = $row_cf[0];
 ?>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES - ESTABLECIMIENTO DE SALUD = <?php echo $total_cf;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES - MUNICIPIO = <?php echo $total_cf;?> </h4></spam>
 
 <?php
 $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
@@ -272,7 +272,7 @@ $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
 $integrantes = $row_int[0];
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL ESTABLECIMIENTO DE SALUD= <?php echo $integrantes;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL MUNICIPIO= <?php echo $integrantes;?> </h4></spam>
 
 <?php
 $sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
@@ -281,7 +281,7 @@ $result_per = mysqli_query($link,$sql_per);
 $personal = mysqli_num_rows($result_per);  
 
 ?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ESTABLECIMIENTO DE SALUD = <?php echo $personal;?> </h4></spam>
+<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
 
 	</body>
 </html>
