@@ -6,7 +6,7 @@ $iddepartamento_ep = $_POST["departamento_ep"];
 
         <div class="form-group row">
             <div class="col-sm-6">
-            <a class="btn btn-primary btn-icon-split" href="marco_ep_departamental.php?sospecha_diag_nal=<?php echo $idusuario_ss;?>&departamento=<?php echo $iddepartamento_ep;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">
+            <a class="btn btn-primary btn-icon-split" href="marco_ep_departamental.php?sospecha_diag_nal=<?php echo $idusuario_ss;?>&departamento=<?php echo $iddepartamento_ep;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
