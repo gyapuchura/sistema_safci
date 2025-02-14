@@ -261,7 +261,7 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_c[0];?></td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_nal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=400'); return false;">REPORTE</a>
+              <a href="marco_ep_departamental.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_nal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=60,left=400'); return false;">REPORTE</a>
               </td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_sospechas_deptal.php?sospecha_diag_deptal=<?php echo $idsospecha_diag_nal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">             
