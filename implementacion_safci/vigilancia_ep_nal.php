@@ -23,7 +23,7 @@ $row_c = mysqli_fetch_array($result_c);
 
         <div class="form-group row">
             <div class="col-sm-3">
-            <a class="btn btn-primary btn-icon-split" href="marco_ep_nacional.php?sospecha_diag_nal=<?php echo $idsospecha_diag_nal;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=50,left=300'); return false;">
+            <a class="btn btn-primary btn-icon-split" href="marco_ep_nacional.php?sospecha_diag_nal=<?php echo $idsospecha_diag_nal;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=750,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
