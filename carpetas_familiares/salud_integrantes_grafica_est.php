@@ -955,6 +955,11 @@ Si no se encontraron resultados
 
 <div id="grupo_discapacidad" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
+<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+    <a href="cuadro_cf_discapacidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=350,scrollbars=YES,top=80,left=400'); return false;">             
+    CUADRO DISCAPACIDAD</a></h2>
+</br>
+
 <!----- DISCAPACIDAD END ------>
 
 
