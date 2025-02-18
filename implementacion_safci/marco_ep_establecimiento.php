@@ -196,7 +196,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT count(seguimiento_ep.idseguimiento_ep) FROM seguimiento_ep, notificacion_ep ";
 $sql7.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idestado_paciente='2' AND notificacion_ep.gestion='$gestion' ";
-$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_deptal' AND seguimiento_ep.idsemana_ep='$row[0]' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_estab' AND seguimiento_ep.idsemana_ep='$row[0]' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_fetch_array($result7);
 $recuperados = $row7[0];

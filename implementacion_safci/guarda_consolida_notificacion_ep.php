@@ -6,6 +6,7 @@ date_default_timezone_set('America/La_Paz');
 $fecha 	 = date("Y-m-d");
 $hora    = date("H:i");
 $gestion = date("Y");
+$semana  = date('W');
 
 $idusuario_ss  = $_SESSION['idusuario_ss'];
 $idnombre_ss   = $_SESSION['idnombre_ss'];
@@ -17,7 +18,6 @@ $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
-
 
 $sql8 =" UPDATE notificacion_ep SET estado='CONSOLIDADO' ";
 $sql8.=" WHERE idnotificacion_ep ='$idnotificacion_ep_ss' ";

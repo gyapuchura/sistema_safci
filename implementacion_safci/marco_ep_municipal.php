@@ -13,10 +13,6 @@ $sql_sos = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idso
 $result_sos = mysqli_query($link,$sql_sos);
 $row_sos = mysqli_fetch_array($result_sos);
 
-$sql_d = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento_ep' ";
-$result_d = mysqli_query($link,$sql_d);
-$row_d = mysqli_fetch_array($result_d);
-
 $sql_m = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
 $result_m = mysqli_query($link,$sql_m);
 $row_m = mysqli_fetch_array($result_m);
@@ -200,7 +196,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT count(seguimiento_ep.idseguimiento_ep) FROM seguimiento_ep, notificacion_ep ";
 $sql7.= " WHERE seguimiento_ep.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND seguimiento_ep.idestado_paciente='2' AND notificacion_ep.gestion='$gestion' ";
-$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_deptal' AND seguimiento_ep.idsemana_ep='$row[0]' AND notificacion_ep.idmunicipio='$idmunicipio' ";
+$sql7.= " AND seguimiento_ep.idsospecha_diag='$idsospecha_diag_mun' AND seguimiento_ep.idsemana_ep='$row[0]' AND notificacion_ep.idmunicipio='$idmunicipio' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_fetch_array($result7);
 $recuperados = $row7[0];
