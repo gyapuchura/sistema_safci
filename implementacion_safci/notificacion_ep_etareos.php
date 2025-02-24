@@ -137,7 +137,7 @@ $row = mysqli_fetch_array($result);
                         } do { 
                         ?>
                         <tr>
-                            <td><?php echo $numero+1;?></td>
+                            <td><?php echo $numero;?></td>
                             <td><?php 
                             if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[1]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[1]."</h6>"; }
                             ?></td>
