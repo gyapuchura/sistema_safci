@@ -454,6 +454,36 @@
     ?>
    
 
+
+   <li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities8"
+        aria-expanded="true" aria-controls="collapseUtilities8">
+        <i class="fas fa-users"></i>   
+        <span>GESTIÓN PARTICIPATIVA</span>
+    </a>
+    <div id="collapseUtilities8" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">SECCIONES:</h6>
+            <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+        <a class="collapse-item" href="../gestion_participativa/nueva_gestion_participativa.php">NUEVA DECLARACION</br>GESTIÓN PARTICIPATIVA</a>
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
+
+
         </div>
     </div>
 </li>
