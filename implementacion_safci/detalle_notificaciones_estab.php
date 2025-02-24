@@ -67,7 +67,7 @@ $cifra_establecimiento = $row8[0];
             $sql.=" notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, ";
             $sql.=" notificacion_ep.iddepartamento, notificacion_ep.idred_salud, notificacion_ep.idmunicipio, notificacion_ep.idestablecimiento_salud, notificacion_ep.estado ";
             $sql.=" FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre WHERE notificacion_ep.iddepartamento=departamento.iddepartamento ";
-            $sql.=" AND notificacion_ep.idred_salud=red_salud.idred_salud AND notificacion_ep.idmunicipio=municipios.idmunicipio ";
+            $sql.=" AND notificacion_ep.idred_salud=red_salud.idred_salud AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.gestion='$gestion' ";
             $sql.=" AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.idusuario=usuarios.idusuario ";
             $sql.=" AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud'";
             $result = mysqli_query($link,$sql);

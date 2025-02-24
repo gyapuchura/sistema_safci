@@ -189,9 +189,26 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                     <div class="col-sm-6">
                     <h6 class="text-primary">SEMANA EPIDEMIOLÓGICA:</h6>
 
-                    <input type="hidden" name="semana_ep" value="<?php echo $semana;?>">
+                    <select name="semana_ep"  id="semana_ep" class="form-control" required>
+                        <option value="">ELEGIR</option>
+                        <?php
+                        $sql1 = "SELECT idsemana_ep, semana_ep FROM semana_ep ORDER BY idsemana_ep";
+                        $result1 = mysqli_query($link,$sql1);
+                        if ($row1 = mysqli_fetch_array($result1)){
+                        mysqli_field_seek($result1,0);
+                        while ($field1 = mysqli_fetch_field($result1)){
+                        } do {
+                        echo "<option value=".$row1[1].">Semana ".$row1[1]."</option>";
+                        } while ($row1 = mysqli_fetch_array($result1));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                    </select> 
 
-                    <h4 class="text-info"><?php echo " Estamos en la semana epidemiológica " . $semana;?></h4>   
+                  <!--  <input type="hidden" name="semana_ep" value="<?php echo $semana;?>">
+
+                    <h4 class="text-info"><?php echo " Estamos en la semana epidemiológica " . $semana;?></h4>   --> 
                     </div>
                 </div>
                  
