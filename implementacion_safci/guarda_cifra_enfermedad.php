@@ -26,11 +26,11 @@ $idregistro_enfermedad = $row4[0];
     foreach($_POST['cifra'] as $cifra) {
     
         $sql8 =" UPDATE registro_enfermedad SET cifra='$cifra', fecha_registro='$fecha', hora_registro='$hora', ";
-        $sql8.=" idusuario='$idusuario_ss' WHERE idregistro_enfermedad='$idregistro_enfermedad'  ";
+        $sql8.=" idusuario='$idusuario_ss' WHERE idregistro_enfermedad='$idregistro_enfermedad' AND idsospecha_diag='$idsospecha_diag_ss' ";
         $result8 = mysqli_query($link,$sql8);
     
         $idregistro_enfermedad = $idregistro_enfermedad+1;
     }
 
-    header("Location:mensaje_ep_etareos.php");  
+    header("Location:notificacion_ep_etareos.php");   
 ?>
