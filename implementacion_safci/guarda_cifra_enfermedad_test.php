@@ -25,12 +25,8 @@ $idregistro_enfermedad = $row4[0];
 
     foreach($_POST['cifra'] as $cifra) {
     
-        $sql8 =" UPDATE registro_enfermedad SET cifra='$cifra', fecha_registro='$fecha', hora_registro='$hora', idusuario='$idusuario_ss' ";
-        $sql8.=" WHERE idsospecha_diag='$idsospecha_diag_ss' AND idnotificacion_ep ='$idnotificacion_ep_ss' AND idregistro_enfermedad='$idregistro_enfermedad' ";
-        $result8 = mysqli_query($link,$sql8);
+        echo  "idnotificacion_ep=".$idnotificacion_ep_ss." - idregistro_enfermedad= ".$idregistro_enfermedad." - idsospecha_diag=".$idsospecha_diag_ss." - cifra= ".$cifra. "</br>";
     
         $idregistro_enfermedad = $idregistro_enfermedad+1;
     }
 
-    header("Location:notificacion_ep_etareos.php");   
-?>
