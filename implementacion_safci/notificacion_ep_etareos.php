@@ -137,7 +137,7 @@ $row = mysqli_fetch_array($result);
                         } do { 
                         ?>
                         <tr>
-                            <td><?php echo $numero;?></td>
+                            <td><?php echo $numero+1;?></td>
                             <td><?php 
                             if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[1]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[1]."</h6>"; }
                             ?></td>
@@ -146,7 +146,6 @@ $row = mysqli_fetch_array($result);
                             ?>
                             </td>
                             <td>
-                            <input type="hidden" name="idregistro_enfermedad[<?php echo $numero;?>]" value="<?php echo $row4[0];?>">
                             <input type="number" class="form-control" name="cifra[<?php echo $numero;?>]" value="<?php echo $row4[3];?>">
                             </td>
                         </tr>                            
