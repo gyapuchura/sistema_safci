@@ -87,7 +87,7 @@ $row = mysqli_fetch_array($result);
  
                  <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD): <?php echo $idsospecha_diag_ss;?></h6>
+                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
                     </div>
                     <div class="col-sm-8">
                         <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
@@ -146,7 +146,7 @@ $row = mysqli_fetch_array($result);
                             ?>
                             </td>
                             <td>
-                            <input type="number" class="form-control" name="cifra[<?php echo $numero;?>]" value="<?php echo $row4[3];?>">
+                            <input type="number" class="form-control" name="cifra[<?php echo $numero;?>]" value="<?php echo $row4[3];?>"> 
                             </td>
                         </tr>                            
                         <?php
@@ -170,8 +170,6 @@ $row = mysqli_fetch_array($result);
         </div>
     </div>
 </div>   
-
-
                    <!-- modal de confirmacion de envio de datos-->
                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -194,7 +192,7 @@ $row = mysqli_fetch_array($result);
                             </div>
                         </div>
                     </div>
-                </form>
+                </form> 
                     <!-- Modal -->
             <hr>
             <div class="text-center"> 
