@@ -76,7 +76,7 @@ $row = mysqli_fetch_array($result);
                     <div class="text-center"> 
                     <a href="notificacion_ep.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-left"></i>VOLVER</h6></a>              
                     <hr>                     
-                    <h4 class="text-primary">NOTIFICACIÓN</h4>
+                    <h4 class="text-primary">NOTIFICACIÓN <?php echo $idnotificacion_ep_ss;?></h4>
                     <h4 class="text-primary"><?php echo $row[1];?></h4>
                     <h5 class="text-info">I. REGISTRO DE ENFERMEDADES DE NOTIFICACIÓN INMEDIATA</h5>
                     </div>
@@ -87,7 +87,7 @@ $row = mysqli_fetch_array($result);
  
                  <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
+                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD): <?php echo $idsospecha_diag_ss;?></h6>
                     </div>
                     <div class="col-sm-8">
                         <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
