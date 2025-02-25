@@ -18,15 +18,24 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
-$sql4 =" SELECT idregistro_enfermedad, idnotificacion_ep, cifra FROM registro_enfermedad WHERE idnotificacion_ep='$idnotificacion_ep_ss' AND idsospecha_diag='$idsospecha_diag_ss' ORDER BY idregistro_enfermedad LIMIT 1  ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4);
-$idregistro_enfermedad = $row4[0];
+$idregistro_enfermedad = $_POST['idregistro_enfermedad'];
 
-    foreach($_POST['cifra'] as $cifra) {
-    
-        echo  "idnotificacion_ep=".$idnotificacion_ep_ss." - idregistro_enfermedad= ".$idregistro_enfermedad." - idsospecha_diag=".$idsospecha_diag_ss." - cifra= ".$cifra. "</br>";
-    
-        $idregistro_enfermedad = $idregistro_enfermedad+1;
-    }
+$cifra = $_POST['cifra'];
 
+echo " Este script es la solucion al problema </br>";
+
+echo "idregistro_enfermedad = ".$idregistro_enfermedad[0]."</br>";
+echo "idregistro_enfermedad = ".$idregistro_enfermedad[1]."</br>";
+echo "idregistro_enfermedad = ".$idregistro_enfermedad[2]."</br>";
+echo "idregistro_enfermedad = ".$idregistro_enfermedad[3]."</br>";
+echo "idregistro_enfermedad = ".$idregistro_enfermedad[4]."</br>";
+echo "idregistro_enfermedad = ".$idregistro_enfermedad[5]."</br></br>";
+
+echo "cifra = ".$cifra[0]."</br>";
+echo "cifra = ".$cifra[1]."</br>";
+echo "cifra = ".$cifra[2]."</br>";
+echo "cifra = ".$cifra[3]."</br>";
+echo "cifra = ".$cifra[4]."</br>";
+echo "cifra = ".$cifra[5]."</br>";
+
+?>

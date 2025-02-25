@@ -87,7 +87,7 @@ $row = mysqli_fetch_array($result);
  
                  <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD): <?php echo $idsospecha_diag_ss;?></h6>
+                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
                     </div>
                     <div class="col-sm-8">
                         <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
@@ -137,7 +137,8 @@ $row = mysqli_fetch_array($result);
                         } do { 
                         ?>
                         <tr>
-                            <td><?php echo $numero+1;?></td>
+                            <td><?php echo $numero+1;?>   
+                            <input type="hidden" class="form-control" name="idregistro_enfermedad[<?php echo $numero;?>]" value="<?php echo $row4[0];?>"></td>
                             <td><?php 
                             if ($row4[4] == '1') { echo "<h6 class='text-danger'>".$row4[1]."</h6>"; } else { echo "<h6 class='text-primary'>".$row4[1]."</h6>"; }
                             ?></td>
