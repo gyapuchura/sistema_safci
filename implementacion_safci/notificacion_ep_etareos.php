@@ -87,7 +87,7 @@ $row = mysqli_fetch_array($result);
  
                  <div class="form-group row">
                     <div class="col-sm-4">
-                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD):</h6>
+                    <h6 class="text-primary">SOSPECHA DIAGNÓSTICA (ENFERMEDAD): <?php echo $idsospecha_diag_ss;?></h6>
                     </div>
                     <div class="col-sm-8">
                         <select name="idsospecha_diag"  id="idsospecha_diag" class="form-control" disabled >
@@ -160,7 +160,9 @@ $row = mysqli_fetch_array($result);
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><button type="submit" class="btn btn-info">REGISTRAR</button></form></td>
+                    <td>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">REGISTRAR CASOS</button> 
+                    </td>
                     <td></td>
                     </tr>
                 </tbody>
@@ -168,6 +170,32 @@ $row = mysqli_fetch_array($result);
         </div>
     </div>
 </div>   
+
+
+                   <!-- modal de confirmacion de envio de datos-->
+                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">REGISTRAR CASOS</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    Esta seguro de Registrar los casos?
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                    <!-- Modal -->
             <hr>
             <div class="text-center"> 
             <a href="notificacion_ep_eventos.php"><h6 class="text-success"><i class="fas fa-fw fa-arrow-right"></i>IR A REGISTRO DE EVENTOS</h6></a>     
