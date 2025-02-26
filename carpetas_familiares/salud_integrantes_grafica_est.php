@@ -201,8 +201,74 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 <div id="grupo_salud" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
-<a href="cuadro_cf_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=250,scrollbars=YES,top=60,left=400'); return false;">             
-MOSTRAR CUADRO</a></h2>
+<!---  <a href="cuadro_cf_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=250,scrollbars=YES,top=60,left=400'); return false;">             
+MOSTRAR CUADRO</a></h2>  --->
+
+<table width="700" border="1" align="center" cellspacing="0">
+		  <tbody>
+		    <tr>
+		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="120" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GRUPO DE SALUD</td>
+              <td width="80" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ÁREAS DE INFLUENCIA</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ETÁREO</td>
+		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
+	        </tr>
+
+		    <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;">1</td>
+              <td style="font-size: 12px; font-family: Arial;">APARENTEMENTE SANOS</td>
+            <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $aparentemente_sano;?> </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="aparentemente_sanos_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_aparentemente_sanos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
+	        </tr>
+            <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;">2</td>
+              <td style="font-size: 12px; font-family: Arial;">CON FACTORES DE RIESGO</td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $factor_riesgo;?> </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_riesgo_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_grupo_riesgo_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
+	        </tr>
+            <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;">3</td>
+              <td style="font-size: 12px; font-family: Arial;">CON MORBILIDAD</td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $morbilidad;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_morbilidad_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_grupo_morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
+	        </tr>
+            <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;">4</td>
+              <td style="font-size: 12px; font-family: Arial;">CON DISCAPACIDAD</td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $discapacidad;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_discapacidad_af.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              ÁREAS DE INFLUENCIA</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="piramide_grupo_discapacidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
+	        </tr>
+	      </tbody>
+    </table>
 
 </br>
 </br>
@@ -482,8 +548,64 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 <div id="grupo_riesgo" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
-<a href="cuadro_cf_salud_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
-CUADRO FACTORES DE RIESGO</a></h2>
+<!--  <a href="cuadro_cf_salud_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
+CUADRO FACTORES DE RIESGO</a></h2>--->
+<table width="700" border="1" align="center" cellspacing="0">
+		  <tbody>
+		    <tr>
+		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
+          <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
+	        </tr>
+        <?php
+        $numero=1;
+        $sql ="  SELECT integrante_factor_riesgo.idfactor_riesgo_cf, factor_riesgo_cf.factor_riesgo_cf FROM integrante_factor_riesgo, carpeta_familiar, factor_riesgo_cf  ";
+        $sql.="  WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql.="  AND integrante_factor_riesgo.idfactor_riesgo_cf=factor_riesgo_cf.idfactor_riesgo_cf AND carpeta_familiar.estado='CONSOLIDADO' ";
+        $sql.="  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_factor_riesgo.idfactor_riesgo_cf ";
+        $result = mysqli_query($link,$sql);
+        if ($row = mysqli_fetch_array($result)){
+        mysqli_field_seek($result,0);
+        while ($field = mysqli_fetch_field($result)){
+        } do {
+        ?>
+		    <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
+              <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+          <?php
+        $sql_c =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
+        $sql_c.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_factor_riesgo.idfactor_riesgo_cf='$row[0]' ";
+
+        $result_c = mysqli_query($link,$sql_c);
+        $row_c = mysqli_fetch_array($result_c);
+
+          ?>
+          <?php echo $row_c[0];?>
+              </td>
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="detalle_salud_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              VER INTEGRANTES</a>
+              </td>
+
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="piramide_factores_riesgo_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
+	        </tr>
+        <?php
+        $numero=$numero+1;
+        }
+        while ($row = mysqli_fetch_array($result));
+        } else {
+        }
+        ?>
+
+	      </tbody>
+    </table>
 
 <!----- FACTORES DE RIESGO END ------>
 </br>
@@ -799,8 +921,64 @@ $(function () {
     <div id="grupo_morbilidad" style="min-width: 310px; height: 400px; margin: 0 auto"></div>     
     
     <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
-    <a href="cuadro_cf_morbilidad_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
-    CUADRO MORBILIDAD</a></h2>
+  <!--   <a href="cuadro_cf_morbilidad_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=400,scrollbars=YES,top=60,left=400'); return false;">             
+    CUADRO MORBILIDAD</a></h2>  --->
+
+    <table width="700" border="1" align="center" cellspacing="0">
+		  <tbody>
+		    <tr>
+		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MORBILIDAD</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
+          <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
+	        </tr>
+        <?php
+        $numero=1;
+        $sql =" SELECT integrante_morbilidad.idmorbilidad_cf, morbilidad_cf.morbilidad_cf FROM integrante_morbilidad, carpeta_familiar, morbilidad_cf ";
+        $sql.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql.=" AND integrante_morbilidad.idmorbilidad_cf=morbilidad_cf.idmorbilidad_cf AND carpeta_familiar.estado='CONSOLIDADO' ";
+        $sql.=" AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_morbilidad.idmorbilidad_cf  ";
+        $result = mysqli_query($link,$sql);
+        if ($row = mysqli_fetch_array($result)){
+        mysqli_field_seek($result,0);
+        while ($field = mysqli_fetch_field($result)){
+        } do {
+        ?>
+		    <tr>
+		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
+              <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
+		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+          <?php
+        $sql_c =" SELECT COUNT(integrante_morbilidad.idmorbilidad_cf) FROM integrante_morbilidad, carpeta_familiar ";
+        $sql_c.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
+        $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_morbilidad.idmorbilidad_cf='$row[0]' ";
+        $result_c = mysqli_query($link,$sql_c);
+        $row_c = mysqli_fetch_array($result_c);
+
+          ?>
+          <?php echo $row_c[0];?>
+              </td>
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="detalle_morbilidad_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              VER INTEGRANTES</a>
+              </td>
+
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="piramide_morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idmorbilidad_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              VER PIRAMIDE</a>
+              </td>
+	        </tr>
+        <?php
+        $numero=$numero+1;
+        }
+        while ($row = mysqli_fetch_array($result));
+        } else {
+        }
+        ?>
+	      </tbody>
+    </table>
+
 
 <!----- MORBILIDAD END ------>
 </br>
@@ -955,10 +1133,84 @@ Si no se encontraron resultados
 
 <div id="grupo_discapacidad" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
-<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+<!-- <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
     <a href="cuadro_cf_discapacidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=350,scrollbars=YES,top=80,left=400'); return false;">             
-    CUADRO DISCAPACIDAD</a></h2>
+    CUADRO DISCAPACIDAD</a></h2>  -->
 </br>
+
+<table width="700" border="1" align="center" cellspacing="0">
+  <tbody>
+    <tr>
+      <td width="100" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #205332;"><strong>NIVEL DE DISCAPCIDAD</strong></td>
+      <td width="650" bgcolor="#C3EDD7" style="font-family: Arial; font-size: 12px; color: #284A1F; text-align: center;"><strong>TIPOS DE DISCAPACIDAD</strong></td>
+    </tr>
+    <?php 
+$numero2 = 0;
+$sql2 = " SELECT idnivel_discapacidad_cf, nivel_discapacidad_cf FROM nivel_discapacidad_cf ORDER BY idnivel_discapacidad_cf ";
+$result2 = mysqli_query($link,$sql2);
+$total2 = mysqli_num_rows($result2);
+ if ($row2 = mysqli_fetch_array($result2)){
+mysqli_field_seek($result2,0);
+while ($field2 = mysqli_fetch_field($result2)){
+} do {
+	?>
+    <tr>
+      <td bgcolor="#E5F3EC" style="font-family: Arial; font-size: 12px;"><strong>
+      <?php  echo $row2[1]; ?>
+      <span style="color: #ABEDBF"></span>      <span style="color: #CEE9D7"></span></strong></td>
+      <td>
+      
+      <table width="636" border="0">
+        <tbody>
+          <tr>
+          <?php 
+$numero3 = 0;
+$sql3 = " SELECT idtipo_discapacidad_cf, tipo_discapacidad_cf FROM tipo_discapacidad_cf ORDER BY idtipo_discapacidad_cf ";
+$result3 = mysqli_query($link,$sql3);
+$total3 = mysqli_num_rows($result3);
+ if ($row3 = mysqli_fetch_array($result3)){
+mysqli_field_seek($result3,0);
+while ($field3 = mysqli_fetch_field($result3)){
+} do {
+	?>
+            <td width="100 ">              
+              <span style="font-family: Arial; font-size: 12px;">
+        <?php
+        $sql_a = " SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar ";
+        $sql_a.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
+        $sql_a.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$row3[0]' AND integrante_discapacidad.idnivel_discapacidad_cf='$row2[0]' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+        $result_a = mysqli_query($link,$sql_a);
+        $row_a = mysqli_fetch_array($result_a);
+        ?>
+        <?php echo $row3[1]; ?>
+				<?php echo ":";?> 
+
+<a href="discapacidad_cf_areas_influencia.php?idnivel_discapacidad_cf=<?php echo $row2[0];?>&idtipo_discapacidad_cf=<?php echo $row3[0];?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=420,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_a[0] !='0') { echo $row_a[0]; } else { } ?></a>  
+</br>
+<a href="piramide_discapacidad_est.php?idnivel_discapacidad_cf=<?php echo $row2[0];?>&idtipo_discapacidad_cf=<?php echo $row3[0];?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=650,scrollbars=YES,top=60,left=600'); return false;">ETÁREO</a>
+
+</span></td>
+
+<?php 
+$numero3++;
+} while ($row3 = mysqli_fetch_array($result3));
+} else {
+}
+?>
+          </tr>
+        </tbody>
+      </table>
+        
+    </td>
+    </tr>
+    <?php 
+$numero2++;
+} while ($row2 = mysqli_fetch_array($result2));
+} else {
+}
+?>
+  </tbody>
+</table>
 
 <!----- DISCAPACIDAD END ------>
 
