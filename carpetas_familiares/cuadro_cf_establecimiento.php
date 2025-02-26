@@ -4,7 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
-$gestion    = date("Y");
+$gestion    = date("Y");   
 
 $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
