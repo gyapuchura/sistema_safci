@@ -110,7 +110,7 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>
                 <hr>
-    <div class="form-group row">
+    <div class="form-group row"> 
         <div class="col-sm-12">
             <div class="table-responsive">
                 <table class="table table-striped" id="example" width="100%" cellspacing="0">
