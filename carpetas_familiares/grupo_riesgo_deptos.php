@@ -101,13 +101,14 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
  
 <?php
-$sql_a =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
+$sql_a =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar  ";
 $sql_a.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$row3[0]' ";
+$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$row3[0]' GROUP BY integrante_factor_riesgo.idintegrante_cf  ";
 $result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
+$factor_riesgo = mysqli_num_rows($result_a); 
 ?>
-<?php echo $row_a[0]; ?>
+
+<?php  echo $factor_riesgo; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
