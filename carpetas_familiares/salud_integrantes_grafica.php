@@ -98,11 +98,10 @@ $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 $aparentemente_sano = $row_a[0];
 
-$sql_b =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo ";
+$sql_b =" SELECT idintegrante_cf FROM integrante_factor_riesgo GROUP BY idintegrante_cf ";
 $sql_b.="  ";
 $result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$factor_riesgo = $row_b[0];
+$factor_riesgo = mysqli_num_rows($result_b);
 
 $sql_c =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad ";
 $sql_c.="  ";
@@ -1381,7 +1380,7 @@ $(function () {
 $numero = 0;
 $sql = " SELECT idtipo_discapacidad_cf, tipo_discapacidad_cf FROM tipo_discapacidad_cf ORDER BY idtipo_discapacidad_cf";
 $result = mysqli_query($link,$sql);
-$total = mysqli_num_rows($result);
+$total1 = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
 mysqli_field_seek($result,0);
 while ($field = mysqli_fetch_field($result)){
@@ -1391,7 +1390,7 @@ while ($field = mysqli_fetch_field($result)){
 
 <?php 
 $numero++;
-if ($numero == $total) {
+if ($numero == $total1) {
 echo "";
 }
 else {

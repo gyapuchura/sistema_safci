@@ -103,12 +103,11 @@ $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 $aparentemente_sano = $row_a[0];
 
-$sql_b =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
-$sql_b.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+$sql_b =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar  ";
+$sql_b.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql_b.=" AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_factor_riesgo.idintegrante_cf ";
 $result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$factor_riesgo = $row_b[0];
+$factor_riesgo = mysqli_num_rows($result_b);
 
 $sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar  ";
 $sql_c.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";

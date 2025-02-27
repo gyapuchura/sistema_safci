@@ -189,7 +189,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                     <div class="col-sm-6">
                     <h6 class="text-primary">SEMANA EPIDEMIOLÓGICA:</h6>
 
-                    <select name="semana_ep"  id="semana_ep" class="form-control" required>
+               <!--             <select name="semana_ep"  id="semana_ep" class="form-control" required>
                         <option value="">ELEGIR</option>
                         <?php
                         $sql1 = "SELECT idsemana_ep, semana_ep FROM semana_ep ORDER BY idsemana_ep";
@@ -204,11 +204,11 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                         echo "No se encontraron resultados!";
                         }
                         ?>
-                    </select> 
+                    </select>  --> 
 
-                  <!--  <input type="hidden" name="semana_ep" value="<?php echo $semana;?>">
+                    <input type="hidden" name="semana_ep" value="<?php echo $semana;?>">
 
-                    <h4 class="text-info"><?php echo " Estamos en la semana epidemiológica " . $semana;?></h4>   --> 
+                    <h4 class="text-info"><?php echo " Semana epidemiológica Nro. " . $semana;?></h4>  
                     </div>
                 </div>
                  
