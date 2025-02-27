@@ -103,11 +103,11 @@ $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 $aparentemente_sano = $row_a[0];
 
-$sql_b =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
+$sql_b =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar  ";
+$sql_b.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql_b.=" AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY integrante_factor_riesgo.idintegrante_cf ";
 $result_b = mysqli_query($link,$sql_b);
-$row_b = mysqli_fetch_array($result_b);
-$factor_riesgo = $row_b[0];
+$factor_riesgo = mysqli_num_rows($result_b);
 
 $sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
@@ -196,9 +196,9 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 
 <div id="grupo_salud" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+<!--- <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
 <a href="cuadro_cf_departamento.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=250,scrollbars=YES,top=60,left=400'); return false;">             
-MOSTRAR CUADRO</a></h2> 
+MOSTRAR CUADRO</a></h2>   --->
 
 <table width="700" border="1" align="center" cellspacing="0">
 		  <tbody>
@@ -1062,8 +1062,8 @@ $(function () {
 
     <div id="grupo_morbilidad" style="min-width: 310px; height: 400px; margin: 0 auto"></div>       
 
-<h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
-<!--- <a href="cuadro_cf_morbilidad_integrantes_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=60,left=400'); return false;">             
+<!--- <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
+ <a href="cuadro_cf_morbilidad_integrantes_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=60,left=400'); return false;">             
 CUADRO MORBILIDAD</a></h2>  -->
 
 <table width="700" border="1" align="center" cellspacing="0">
@@ -1539,7 +1539,7 @@ while ($field2 = mysqli_fetch_field($result2)){
     <tr>
       <td bgcolor="#E5F3EC" style="font-family: Arial; font-size: 12px;"><strong>
       <?php  echo $row2[1]; ?>
-      <span style="color: #ABEDBF"></span>      <span style="color: #CEE9D7"></span></strong></td>
+      </td>
       <td>
       
       <table width="636" border="0">
