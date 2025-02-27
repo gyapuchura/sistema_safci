@@ -128,13 +128,13 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$row3[0]' ";
+$sql4 =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$row3[0]' GROUP BY integrante_factor_riesgo.idintegrante_cf ";
 $result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
+$factor_riesgo = mysqli_num_rows($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $factor_riesgo; ?>
 
 <?php 
 $numero3++;
