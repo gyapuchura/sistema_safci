@@ -254,36 +254,62 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">MÉDICOS TRADICIONALES CON REGISTRO RUNETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES CON REGISTRO RUMETRAP</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES (GUÍA ESPIRITUAL, NATURISTA, ETC):</h6>
-                    <input type="number" name="med_trad_con_rumetrap" class="form-control" required>             
+                <?php
+            $numero=0;
+            $sqlm =" SELECT idmedicina_tradicional, medicina_tradicional FROM medicina_tradicional WHERE idmedicina_tradicional != '5' ";
+            $resultm = mysqli_query($link,$sqlm);
+            if ($rowm = mysqli_fetch_array($resultm)){
+            mysqli_field_seek($resultm,0);
+            while ($fieldm = mysqli_fetch_field($resultm)){
+            } do {
+            ?>
+                    <div class="col-sm-3">   
+                    <h6 class="text-info"><?php echo $rowm[1];?></h6> 
+                    <input type="hidden" name="idmedicina_tradicional_con[<?php echo $numero;?>]" value="<?php echo $rowm[0];?>">
+                    <input type="number" name="cantidad_con[<?php echo $numero;?>]" class="form-control" required>             
                     </div>
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE PRESTADORES</br> (PARTERAS):</h6>
-                    <input type="number" name="parteras_con_rumetrap" class="form-control" required>             
-                    </div>
+                    <?php
+            $numero=$numero+1;  
+            }
+            while ($rowm = mysqli_fetch_array($resultm));
+            } else {
+            }
+            ?>
                 </div>
                 <hr>
                 <div class="form-group row"> 
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">MÉDICOS TRADICIONALES SIN REGISTRO RUNETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAP</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES (GUÍA ESPIRITUAL, NATURISTA, ETC):</h6>
-                    <input type="number" name="med_trad_sin_rumetrap" class="form-control" required>             
+                <?php
+            $numero=0;
+            $sqlm =" SELECT idmedicina_tradicional, medicina_tradicional FROM medicina_tradicional WHERE idmedicina_tradicional != '5' ";
+            $resultm = mysqli_query($link,$sqlm);
+            if ($rowm = mysqli_fetch_array($resultm)){
+            mysqli_field_seek($resultm,0);
+            while ($fieldm = mysqli_fetch_field($resultm)){
+            } do {
+            ?>
+                    <div class="col-sm-3">   
+                    <h6 class="text-info"><?php echo $rowm[1];?></h6>
+                    <input type="hidden" name="idmedicina_tradicional_sin[<?php echo $numero;?>]" value="<?php echo $rowm[0];?>">
+                    <input type="number" name="cantidad_sin[<?php echo $numero;?>]" class="form-control" required>             
                     </div>
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE PRESTADORES</br> (PARTERAS):</h6>
-                    <input type="number" name="parteras_sin_rumetrap" class="form-control" required>             
-                    </div>
+                    <?php
+            $numero=$numero+1;  
+            }
+            while ($rowm = mysqli_fetch_array($resultm));
+            } else {
+            }
+            ?>
                 </div>
                 <hr>
                 <div class="form-group row"> 

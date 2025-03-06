@@ -30,10 +30,13 @@ $proyectos_planificados  = $_POST['proyectos_planificados'];
 $proyectos_ejecutados    = $_POST['proyectos_ejecutados'];
 $idvigencia_convenio     = $_POST['idvigencia_convenio'];
 $asignacion_presupuestaria = $_POST['asignacion_presupuestaria'];
-$med_trad_con_rumetrap     = $_POST['med_trad_con_rumetrap'];
-$parteras_con_rumetrap     = $_POST['parteras_con_rumetrap'];
-$med_trad_sin_rumetrap     = $_POST['med_trad_sin_rumetrap'];
-$parteras_sin_rumetrap     = $_POST['parteras_sin_rumetrap'];
+
+$idmedicina_tradicional_con = $_POST['idmedicina_tradicional_con'];
+$cantidad_con               = $_POST['cantidad_con'];
+
+$idmedicina_tradicional_sin = $_POST['idmedicina_tradicional_sin'];
+$cantidad_sin               = $_POST['cantidad_sin'];
+
 $salas_parto_intercultural = $_POST['salas_parto_intercultural'];
 $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
 
@@ -53,14 +56,54 @@ $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
 
         $sql8 = " INSERT INTO gestion_participativa (iddepartamento, idred_salud, idmunicipio, numero_areas_influencia, numero_als, numero_eess, numero_cls, cosomusa, autoridad_cosomusa, ";
         $sql8.= " autoridad_vigencia, autoridad_celular, plan_municipal, ley_municipal, proyectos_planificados, proyectos_ejecutados, idvigencia_convenio, ";
-        $sql8.= " asignacion_presupuestaria, med_trad_con_rumetrap, parteras_con_rumetrap, med_trad_sin_rumetrap, parteras_sin_rumetrap, salas_parto_intercultural,";
+        $sql8.= " asignacion_presupuestaria, salas_parto_intercultural,";
         $sql8.= " referencias_medicina_tradicional, correlativo, gestion, codigo, fecha_registro, hora_registro, idusuario) ";
         $sql8.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$numero_areas_influencia','$numero_als','$numero_eess','$numero_cls','$cosomusa','$autoridad_cosomusa', ";
         $sql8.= " '$autoridad_vigencia','$autoridad_celular','$plan_municipal','$ley_municipal','$proyectos_planificados','$proyectos_ejecutados','$idvigencia_convenio', ";
-        $sql8.= " '$asignacion_presupuestaria','$med_trad_con_rumetrap','$parteras_con_rumetrap','$med_trad_sin_rumetrap','$parteras_sin_rumetrap','$salas_parto_intercultural',";
+        $sql8.= " '$asignacion_presupuestaria','$salas_parto_intercultural',";
         $sql8.= " '$referencias_medicina_tradicional','$correlativo','$gestion','$codigo','$fecha','$hora','$idusuario_ss') ";
         $result8 = mysqli_query($link,$sql8);  
         $idgestion_participativa = mysqli_insert_id($link);
+
+            //* medicos con rumetrap ****/
+        $numero=0;
+        $sql_m =" SELECT idmedicina_tradicional, medicina_tradicional FROM medicina_tradicional WHERE idmedicina_tradicional != '5' ";
+        $result_m = mysqli_query($link,$sql_m);
+        if ($row_m = mysqli_fetch_array($result_m)){
+        mysqli_field_seek($result_m,0);
+        while ($field_m = mysqli_fetch_field($result_m)){
+        } do {
+
+            $sql0 = " INSERT INTO medicina_tradicional_gp (idgestion_participativa, idmedicina_tradicional, runetrap, numero_med_trad, fecha_registro, hora_registro, idusuario) ";
+            $sql0.= " VALUES ('$idgestion_participativa','$idmedicina_tradicional_con[$numero]','CON RUMETRAP','$cantidad_con[$numero]','$fecha','$hora','$idusuario_ss') ";
+            $result0 = mysqli_query($link,$sql0); 
+
+            $numero=$numero+1;  
+        }
+        while ($row_m = mysqli_fetch_array($result_m));
+        } else {
+        }
+
+            //* medicos sin rumetrap ****/
+
+        $numero=0;
+        $sql_s =" SELECT idmedicina_tradicional, medicina_tradicional FROM medicina_tradicional WHERE idmedicina_tradicional != '5' ";
+        $result_s = mysqli_query($link,$sql_s);
+        if ($row_s = mysqli_fetch_array($result_s)){
+        mysqli_field_seek($result_s,0);
+        while ($field_s = mysqli_fetch_field($result_s)){
+        } do {
+
+            $sql1 = " INSERT INTO medicina_tradicional_gp (idgestion_participativa, idmedicina_tradicional, runetrap, numero_med_trad, fecha_registro, hora_registro, idusuario) ";
+            $sql1.= " VALUES ('$idgestion_participativa','$idmedicina_tradicional_sin[$numero]','SIN RUMETRAP','$cantidad_sin[$numero]','$fecha','$hora','$idusuario_ss') ";
+            $result1 = mysqli_query($link,$sql1); 
+
+            $numero=$numero+1;  
+        }
+        while ($row_s = mysqli_fetch_array($result_s));
+        } else {
+        }
+
 
         $_SESSION['idgestion_participativa_ss'] = $idgestion_participativa;  
     

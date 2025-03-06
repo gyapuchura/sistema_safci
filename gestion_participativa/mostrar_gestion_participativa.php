@@ -12,8 +12,7 @@ $idgestion_participativa_ss = $_SESSION['idgestion_participativa_ss'];
 
 $sql_gp =" SELECT idgestion_participativa, iddepartamento, idred_salud, idmunicipio, numero_areas_influencia, numero_als, numero_eess, numero_cls, cosomusa, autoridad_cosomusa, ";
 $sql_gp.=" autoridad_vigencia, autoridad_celular, plan_municipal, ley_municipal, proyectos_planificados, proyectos_ejecutados, idvigencia_convenio, ";
-$sql_gp.=" asignacion_presupuestaria, med_trad_con_rumetrap, parteras_con_rumetrap, med_trad_sin_rumetrap, parteras_sin_rumetrap, salas_parto_intercultural, ";
-$sql_gp.=" referencias_medicina_tradicional, correlativo, gestion, codigo, fecha_registro, hora_registro, idusuario ";
+$sql_gp.=" asignacion_presupuestaria, salas_parto_intercultural, referencias_medicina_tradicional, correlativo, gestion, codigo, fecha_registro, hora_registro, idusuario";
 $sql_gp.=" FROM gestion_participativa WHERE idgestion_participativa='$idgestion_participativa_ss' ";
 $result_gp=mysqli_query($link,$sql_gp);
 $row_gp=mysqli_fetch_array($result_gp);
@@ -75,7 +74,7 @@ $row_gp=mysqli_fetch_array($result_gp);
                     <div class="text-center">                     
                     <hr>  
                     <h4 class="text-primary">GESTIÓN PARTICIPATIVA</h4>                   
-                    <h4 class="text-info">CODIGO <?php echo $idgestion_participativa_ss;?></h4>
+                    <h4 class="text-info"><?php echo $row_gp[22];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -170,86 +169,85 @@ $row_gp=mysqli_fetch_array($result_gp);
                 <div class="form-group row"> 
                     <div class="col-sm-3">   
                     <h6 class="text-info">NÚMERO DE COMUNIDADES</br>(ÁREAS DE INFLUENCIA) DE INTERVENCIÓN:</h6>
-                    <input type="number" name="numero_areas_influencia" class="form-control" required>             
+                    <input type="number" name="numero_areas_influencia" class="form-control" value="<?php echo $row_gp[4];?>" disabled>             
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">NÚMERO DE A.L.S.</br>AUTORIDADES LOCALES</br>DE SALUD:</h6>
-                    <input type="number" name="numero_als" class="form-control">             
+                    <input type="number" name="numero_als" class="form-control" value="<?php echo $row_gp[5];?>" disabled>             
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">NÚMERO DE EE.SS.</br>ESTABLECIMIENTOS DE SALUD</br>EN EL MUNICIPIO:</h6>
-                    <input type="number" name="numero_eess" class="form-control" required>             
+                    <input type="number" name="numero_eess" class="form-control" value="<?php echo $row_gp[6];?>" disabled>             
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">NÚMERO DE COMITÉS</br>LOCALES DE SALUD</br>EN EL MUNICIPIO:</h6>
-                    <input type="number" name="numero_cls" class="form-control" required>             
+                    <input type="number" name="numero_cls" class="form-control" value="<?php echo $row_gp[7];?>" disabled>             
                     </div>
                 </div>
 
                 <div class="form-group row"> 
                     <div class="col-sm-3">   
                     <h6 class="text-info">¿CUENTA CON COSOMUSA?</h6></br>
-                    <h6 class="text-info">SI -> <input type="radio" name="cosomusa" value="SI" checked></h6>
-                    <h6 class="text-info">NO -> <input type="radio" name="cosomusa" value="NO">  </h6>        
+                    <input type="text" name="cosomusa" class="form-control" value="<?php echo $row_gp[8];?>" disabled>        
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">NOMBRE Y APELLIDO</br>AUTORIDAD COSOMUSA:</h6>
-                    <textarea class="form-control" rows="2" name="autoridad_cosomusa" required></textarea>              
+                    <textarea class="form-control" rows="2" name="autoridad_cosomusa" disabled><?php echo $row_gp[9];?></textarea>              
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">FECHA DE VIGENCIA</br>AUTORIDAD COSOMUSA:</h6>
-                    <input type="date" name="autoridad_vigencia" class="form-control">             
+                    <input type="date" name="autoridad_vigencia" class="form-control" value="<?php echo $row_gp[10];?>" disabled>             
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">TELÉFONO CELULAR</br>AUTORIDAD COSOMUSA:</h6>
-                    <input type="number" name="autoridad_celular" class="form-control" required>             
+                    <input type="number" name="autoridad_celular" class="form-control" value="<?php echo $row_gp[11];?>" disabled>             
                     </div>
                 </div>
                     
                 <div class="form-group row"> 
                     <div class="col-sm-3">   
                     <h6 class="text-info">¿CUENTA CON PLAN MUNICIPAL DE SALUD?</h6></br>
-                    <h6 class="text-info">SI -> <input type="radio" name="plan_municipal" value="SI" checked></h6>
-                    <h6 class="text-info">NO -> <input type="radio" name="plan_municipal" value="NO">  </h6>        
+                    <input type="text" name="plan_municipal" class="form-control" value="<?php echo $row_gp[12];?>" disabled>    
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">¿CUENTA CON LEY MUNICIPAL DE APROBACIÓN DE PLAN MUNICIPAL DE SALUD?</h6>
-                    <h6 class="text-info">SI -> <input type="radio" name="ley_municipal" value="SI" checked></h6>
-                    <h6 class="text-info">NO -> <input type="radio" name="ley_municipal" value="NO">  </h6>        
+                    <input type="text" name="ley_municipal" class="form-control" value="<?php echo $row_gp[13];?>" disabled>        
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">NÚMERO DE PROYECTOS EN SALUD</br>PLANIFICADOS:</h6>
-                    <input type="number" name="proyectos_planificados" class="form-control" required>             
+                    <input type="number" name="proyectos_planificados" class="form-control" value="<?php echo $row_gp[14];?>" disabled>             
                     </div>
                     <div class="col-sm-3">   
                     <h6 class="text-info">NÚMERO DE PROYECTOS EN SALUD</br>EJECUTADOS:</h6>
-                    <input type="number" name="proyectos_ejecutados" class="form-control" required>             
+                    <input type="number" name="proyectos_ejecutados" class="form-control" value="<?php echo $row_gp[15];?>" disabled>             
                     </div>
                 </div>
 
                 <div class="form-group row"> 
                     <div class="col-sm-6">   
                     <h6 class="text-info">CONVENIO SAFCI</h6>
-                    <select name="idvigencia_convenio"  id="idvigencia_convenio" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT idvigencia_convenio, vigencia_convenio FROM vigencia_convenio";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>     
+
+                    <select name="idvigencia_convenio"  id="idvigencia_convenio" class="form-control" disabled>
+                    <?php
+                    $sqlv = " SELECT idvigencia_convenio, vigencia_convenio FROM vigencia_convenio";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_gp[16]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                    </select>
+ 
                     </div>
                     <div class="col-sm-6">   
                     <h6 class="text-info">ASIGNACIÓN PRESUPUESTARIA [Bs]</h6>
-                    <input type="number" name="asignacion_presupuestaria" class="form-control" required>             
+                    <input type="number" name="asignacion_presupuestaria" class="form-control" value="<?php echo $row_gp[17];?>" disabled>             
                     </div>
                 </div>
                 <hr>
@@ -258,46 +256,75 @@ $row_gp=mysqli_fetch_array($result_gp);
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">MÉDICOS TRADICIONALES CON REGISTRO RUNETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES CON REGISTRO RUMETRAP</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES (GUÍA ESPIRITUAL, NATURISTA, ETC):</h6>
-                    <input type="number" name="med_trad_con_rumetrap" class="form-control" required>             
+                <?php
+            $numero=0;
+            $sqlm =" SELECT medicina_tradicional_gp.idmedicina_tradicional_gp, medicina_tradicional.medicina_tradicional, numero_med_trad ";
+            $sqlm.=" FROM medicina_tradicional_gp, medicina_tradicional WHERE medicina_tradicional_gp.idmedicina_tradicional=medicina_tradicional.idmedicina_tradicional ";
+            $sqlm.=" AND medicina_tradicional_gp.runetrap='CON RUMETRAP' AND medicina_tradicional_gp.idgestion_participativa='$idgestion_participativa_ss' ";
+            $resultm = mysqli_query($link,$sqlm);
+            if ($rowm = mysqli_fetch_array($resultm)){
+            mysqli_field_seek($resultm,0);
+            while ($fieldm = mysqli_fetch_field($resultm)){
+            } do {
+            ?>
+                    <div class="col-sm-3">   
+                    <h6 class="text-info"><?php echo $rowm[1];?></h6> 
+                    <input type="number" name="cantidad_con[<?php echo $numero;?>]" class="form-control" value="<?php echo $rowm[2];?>" disabled>             
                     </div>
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE PRESTADORES</br> (PARTERAS):</h6>
-                    <input type="number" name="parteras_con_rumetrap" class="form-control" required>             
-                    </div>
+                    <?php
+            $numero=$numero+1;  
+            }
+            while ($rowm = mysqli_fetch_array($resultm));
+            } else {
+            }
+            ?>
                 </div>
                 <hr>
                 <div class="form-group row"> 
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">MÉDICOS TRADICIONALES SIN REGISTRO RUNETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAP</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES (GUÍA ESPIRITUAL, NATURISTA, ETC):</h6>
-                    <input type="number" name="med_trad_sin_rumetrap" class="form-control" required>             
+                <?php
+            $numero=0;
+            $sqlm =" SELECT medicina_tradicional_gp.idmedicina_tradicional_gp, medicina_tradicional.medicina_tradicional, numero_med_trad ";
+            $sqlm.=" FROM medicina_tradicional_gp, medicina_tradicional WHERE medicina_tradicional_gp.idmedicina_tradicional=medicina_tradicional.idmedicina_tradicional ";
+            $sqlm.=" AND medicina_tradicional_gp.runetrap='SIN RUMETRAP' AND medicina_tradicional_gp.idgestion_participativa='$idgestion_participativa_ss' ";
+            $resultm = mysqli_query($link,$sqlm);
+            if ($rowm = mysqli_fetch_array($resultm)){
+            mysqli_field_seek($resultm,0);
+            while ($fieldm = mysqli_fetch_field($resultm)){
+            } do {
+            ?>
+                    <div class="col-sm-3">   
+                    <h6 class="text-info"><?php echo $rowm[1];?></h6>
+                    <input type="number" name="cantidad_sin[<?php echo $numero;?>]" class="form-control" value="<?php echo $rowm[2];?>" disabled>             
                     </div>
-                    <div class="col-sm-6">   
-                    <h6 class="text-info">NÚMERO DE PRESTADORES</br> (PARTERAS):</h6>
-                    <input type="number" name="parteras_sin_rumetrap" class="form-control" required>             
-                    </div>
+                    <?php
+            $numero=$numero+1;  
+            }
+            while ($rowm = mysqli_fetch_array($resultm));
+            } else {
+            }
+            ?>
                 </div>
+
                 <hr>
                 <div class="form-group row"> 
                     <div class="col-sm-6">   
                     <h6 class="text-info">NÚMERO DE SALAS DE PARTO INTERCULTURAL IMPLEMENTADAS:</h6>
-                    <input type="number" name="salas_parto_intercultural" class="form-control" required>              
+                    <input type="number" name="salas_parto_intercultural" class="form-control" value="<?php echo $row_gp[18];?>" disabled>              
                     </div>
                     <div class="col-sm-6">   
                     <h6 class="text-info">NÚMERO DE REFERENCIAS Y CONTRAREFERENCIAS CON MEDICINA TRADICIONAL:</h6>
-                    <input type="number" name="referencias_medicina_tradicional" class="form-control" required>             
+                    <input type="number" name="referencias_medicina_tradicional" class="form-control" value="<?php echo $row_gp[19];?>" disabled>             
                     </div>
                 </div>
                 <hr>
