@@ -71,11 +71,10 @@ $row_gp=mysqli_fetch_array($result_gp);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">                     
-                    <hr>  
-                    <h4 class="text-success">LA DECLARACIÓN MUNICIPAL</h4>                   
-                    <h4 class="text-success"><?php echo $row_gp[22];?></h4>
-                    <h4 class="text-success">FUE REGISTRADA CORRECTAMENTE !!!</h4> 
+                    <div class="text-center">   
+                    <a href="declaraciones_gp_info.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <hr>                                     
+                    <h4 class="text-primary">DECLARACIÓN: <?php echo $row_gp[22];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -289,7 +288,7 @@ $row_gp=mysqli_fetch_array($result_gp);
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAB</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 
@@ -329,11 +328,6 @@ $row_gp=mysqli_fetch_array($result_gp);
                     </div>
                 </div>
                 <hr>
-                <div class="text-center">   
-                <a href="../administrar_sistema/inicio.php"><h6 class="text-success">FINALIZAR REGISTRO-></h6></a>
-                </div>
-                <hr>
-
     <!-------- begin rejilla --------->   
 
     <!-------- end rejilla --------->                      

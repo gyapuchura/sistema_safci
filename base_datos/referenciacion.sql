@@ -289,3 +289,12 @@ ALTER TABLE evento ADD FOREIGN KEY (idtipo_inscripcion) REFERENCES tipo_inscripc
 ALTER TABLE microcurricula ADD FOREIGN KEY (idtipo_evento) REFERENCES tipo_evento (idtipo_evento);
 ALTER TABLE microcurricula ADD FOREIGN KEY (idnivel_curricular) REFERENCES nivel_curricular (idnivel_curricular);
 ALTER TABLE microcurricula ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE gestion_participativa ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE gestion_participativa ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE gestion_participativa ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE gestion_participativa ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE medicina_tradicional_gp ADD FOREIGN KEY (idgestion_participativa) REFERENCES gestion_participativa (idgestion_participativa);
+ALTER TABLE medicina_tradicional_gp ADD FOREIGN KEY (idmedicina_tradicional) REFERENCES medicina_tradicional (idmedicina_tradicional);
+ALTER TABLE medicina_tradicional_gp ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
