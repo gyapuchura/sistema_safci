@@ -40,6 +40,14 @@ $cantidad_sin               = $_POST['cantidad_sin'];
 $salas_parto_intercultural = $_POST['salas_parto_intercultural'];
 $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
 
+$sql_mun = "SELECT idgestion_participativa, codigo FROM gestion_participativa WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+if ($row_mun = mysqli_fetch_array($result_mun)) {
+    
+    header("Location:mensaje_gp_existe.php");
+
+} else {
+    
             $sql_d = "SELECT sigla FROM departamento WHERE iddepartamento='$iddepartamento' ";
             $result_d = mysqli_query($link,$sql_d);
             $row_d = mysqli_fetch_array($result_d);
@@ -65,7 +73,7 @@ $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
         $result8 = mysqli_query($link,$sql8);  
         $idgestion_participativa = mysqli_insert_id($link);
 
-            //* medicos con rumetrap ****/
+            //* medicos con RUMETRAB ****/
         $numero=0;
         $sql_m =" SELECT idmedicina_tradicional, medicina_tradicional FROM medicina_tradicional WHERE idmedicina_tradicional != '5' ";
         $result_m = mysqli_query($link,$sql_m);
@@ -74,8 +82,8 @@ $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
         while ($field_m = mysqli_fetch_field($result_m)){
         } do {
 
-            $sql0 = " INSERT INTO medicina_tradicional_gp (idgestion_participativa, idmedicina_tradicional, runetrap, numero_med_trad, fecha_registro, hora_registro, idusuario) ";
-            $sql0.= " VALUES ('$idgestion_participativa','$idmedicina_tradicional_con[$numero]','CON RUMETRAP','$cantidad_con[$numero]','$fecha','$hora','$idusuario_ss') ";
+            $sql0 = " INSERT INTO medicina_tradicional_gp (idgestion_participativa, idmedicina_tradicional, rumetrab, numero_med_trad, fecha_registro, hora_registro, idusuario) ";
+            $sql0.= " VALUES ('$idgestion_participativa','$idmedicina_tradicional_con[$numero]','CON RUMETRAB','$cantidad_con[$numero]','$fecha','$hora','$idusuario_ss') ";
             $result0 = mysqli_query($link,$sql0); 
 
             $numero=$numero+1;  
@@ -84,7 +92,7 @@ $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
         } else {
         }
 
-            //* medicos sin rumetrap ****/
+            //* medicos sin RUMETRAB ****/
 
         $numero=0;
         $sql_s =" SELECT idmedicina_tradicional, medicina_tradicional FROM medicina_tradicional WHERE idmedicina_tradicional != '5' ";
@@ -94,8 +102,8 @@ $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
         while ($field_s = mysqli_fetch_field($result_s)){
         } do {
 
-            $sql1 = " INSERT INTO medicina_tradicional_gp (idgestion_participativa, idmedicina_tradicional, runetrap, numero_med_trad, fecha_registro, hora_registro, idusuario) ";
-            $sql1.= " VALUES ('$idgestion_participativa','$idmedicina_tradicional_sin[$numero]','SIN RUMETRAP','$cantidad_sin[$numero]','$fecha','$hora','$idusuario_ss') ";
+            $sql1 = " INSERT INTO medicina_tradicional_gp (idgestion_participativa, idmedicina_tradicional, rumetrab, numero_med_trad, fecha_registro, hora_registro, idusuario) ";
+            $sql1.= " VALUES ('$idgestion_participativa','$idmedicina_tradicional_sin[$numero]','SIN RUMETRAB','$cantidad_sin[$numero]','$fecha','$hora','$idusuario_ss') ";
             $result1 = mysqli_query($link,$sql1); 
 
             $numero=$numero+1;  
@@ -108,5 +116,7 @@ $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
         $_SESSION['idgestion_participativa_ss'] = $idgestion_participativa;  
     
         header("Location:mostrar_gestion_participativa.php");
-    
+
+    }
+
 ?>

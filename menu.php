@@ -476,14 +476,13 @@
     } do {	?>
 
         <a class="collapse-item" href="../gestion_participativa/nueva_gestion_participativa.php">NUEVA DECLARACION</br>GESTIÓN PARTICIPATIVA</a>
+        <a class="collapse-item" href="../gestion_participativa/declaraciones_gp.php">DECLARACIONES</br>MUNICIPALES</a>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
-
-
-
+<a class="collapse-item" href="../gestion_participativa/declaraciones_gp_info.php">INFORMACIÓN</br>GESTIÓN PARTICIPATIVA</a>
         </div>
     </div>
 </li>
