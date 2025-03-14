@@ -22,7 +22,9 @@ $idatencion_safci_ss  = $_SESSION['idatencion_safci_ss'];
     $result0 = mysqli_query($link,$sql0);   
     $idnombre_paciente = mysqli_insert_id($link);
 
-header("Location:mensaje_triage_paciente.php");
+    header("Location:triage_paciente.php");
+
+// ***** header("Location:mensaje_triage_paciente.php"); ****/
 
 /*********** mmodificar el registro de atencion enviando a triage (END) *************/
 ?>

@@ -14,7 +14,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $idevento_safci_ss    = $_SESSION['idevento_safci_ss'];
 $idnombre_paciente_ss = $_SESSION['idnombre_paciente_ss'];
 $idatencion_safci_ss  = $_SESSION['idatencion_safci_ss'];
-$idsigno_vital_ss     = $_SESSION['idsigno_vital_ss'];
+$idsigno_vital_ss     = $_SESSION['idsigno_vital_ss']; 
 
 $sql_ev =" SELECT idevento_safci, iddepartamento, idmunicipio, idestablecimiento_salud, codigo, idcat_evento_safci, ";
 $sql_ev.=" idtipo_evento_safci, descripcion FROM evento_safci WHERE idevento_safci='$idevento_safci_ss' ";
