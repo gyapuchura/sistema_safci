@@ -161,7 +161,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                 <span class="icon text-white-50">
                                     <i class="fas fa-user"></i>
                                 </span>
-                                <span class="text">INTEGRANTE</span>    
+                                <span class="text">INFORMACIÓN</br>INTEGRANTE</span>    
                                 </button>
                             </form> 
                         <?php } else { ?>
@@ -184,16 +184,17 @@ $row_cf=mysqli_fetch_array($result_cf);
                 </div>
             </div>
              <!-------- DESCONSOLIDAR LISTA DE INTEGRANTES (Begin) --------->   
+             <hr>
+        <div class="form-group row">  
+        <div class="col-sm-4">
+         <h6 class="text-info">OPCIONES DE LISTA FAMILIAR:</h6>                           
+        </div>
+        <div class="col-sm-4">
         <form name="DESCONSOLIDA" action="guarda_desconsolida_lista_familiar.php" method="post">  
-        <hr>
-        <div class="text-right">                                     
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModald">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModald">
                 DESCONSOLIDAR LISTA DE INTEGRANTES
                 </button>             
-        </div>
-        <hr>
-
-        <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -209,16 +210,46 @@ $row_cf=mysqli_fetch_array($result_cf);
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn- pull-center">CONFIRMAR</button>    
+                        <button type="submit" class="btn btn-info">CONFIRMAR</button>    
                         </div>
                     </div>
                 </div>
             </div>
         </form>  
+        </div>
+        <div class="col-sm-4">
+        <form name="ENVIA_CONSULTA" action="guarda_consolida_lista_familiar.php" method="post">  
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalc">
+                    CONSOLIDAR LA LISTA DE INTEGRANTES
+                    </button>  
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title_warning" id="exampleModalLabel">CONSOLIDA LISTA FAMILIAR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de CONSOLIDAR LA LISTA DE INTEGRANTES DE LA FAMILIA?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-warning pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>        
+        </div>
+        </div>
+      
          <!-------- DESCONSOLIDAR LISTA DE INTEGRANTES (End) ---------> 
-
-
-        
+ 
      <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (Begin) --------->                         
         <hr>
         <div class="text-center">                                     
@@ -391,39 +422,7 @@ $row_cf=mysqli_fetch_array($result_cf);
         <hr>
     <!-------- INGRESA NUEVO INTEGRANTE DE LA FAMILIA (End) --------->  
 
-    <form name="ENVIA_CONSULTA" action="guarda_consolida_lista_familiar.php" method="post">  
-        <div class="text-right">
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalc">
-                    CONSOLIDAR LISTA FAMILIAR
-                    </button>  
-                </div> 
-            </div>                              
-
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModalc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title_warning" id="exampleModalLabel">CONSOLIDA LISTA FAMILIAR</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de CONSOLIDAR LA LISTA DE INTEGRANTES DE LA FAMILIA?
-                        
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-warning pull-center">CONFIRMAR</button>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>        
+    
     </div>
                     
         <!-- END aqui va el comntenido de la pagina ---->

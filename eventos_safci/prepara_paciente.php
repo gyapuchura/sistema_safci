@@ -298,22 +298,22 @@ $fecha_nacimiento = $row_n[5];
                     <div class="col-sm-3">
                     <h6 class="text-primary">FRECUENCIA CARDIACA [lpm]:</h6>
                         <input type="number" class="form-control" 
-                         name="frec_cardiaca" required>                
+                         name="frec_cardiaca" value="0">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                         <input type="number" class="form-control"              
-                         name="peso" required>                
+                         name="peso" value="1">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">TALLA </br>[mtrs.]:</h6>
                         <input type="text" class="form-control" placeholder="Ej. 1.65"
-                         name="talla" required>                
+                         name="talla" value="1">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
                         <input type="number" class="form-control" 
-                         name="frec_respiratoria" required>                
+                         name="frec_respiratoria" value="0">                
                     </div>
                 </div>
 
@@ -321,22 +321,22 @@ $fecha_nacimiento = $row_n[5];
                     <div class="col-sm-3">
                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
                         <input type="number" class="form-control"              
-                         name="presion_arterial"  placeholder="Sistólica" required>               
+                         name="presion_arterial"  placeholder="Sistólica" value="0">               
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary"> </br></br></h6>
                          <input type="number" class="form-control"              
-                         name="presion_arterial_d" placeholder="Diastólica" required>                
+                         name="presion_arterial_d" placeholder="Diastólica" value="0">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                         <input type="number" class="form-control" 
-                         name="temperatura" placeholder="" required>                
+                         name="temperatura" placeholder="" value="0">                
                     </div>
                     <div class="col-sm-3">
                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                         <input type="number" class="form-control"
-                         name="saturacion" required>                
+                         name="saturacion" value="0">                
                     </div>
 
                 </div>

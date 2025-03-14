@@ -254,7 +254,7 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES CON REGISTRO RUMETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES CON REGISTRO RUMETRAB</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 
@@ -285,7 +285,7 @@ $row_lab=mysqli_fetch_array($result_lab);
                     <div class="col-sm-2">         
                     </div>
                     <div class="col-sm-10">   
-                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAP</h6>    
+                    <h6 class="text-info">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAB</h6>    
                     </div>
                 </div>
                 <div class="form-group row"> 

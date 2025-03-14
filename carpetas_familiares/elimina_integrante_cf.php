@@ -19,7 +19,7 @@ $idintegrante_cf = $_POST['idintegrante_cf'];
 
 /* BORRAMOS EL REGISTRO*/
 
-$sql = " DELETE FROM integrante_cf WHERE idintegrante_cf='$idintegrante_cf' ";
+$sql = " DELETE FROM integrante_datos_cf WHERE idintegrante_cf='$idintegrante_cf' ";
 $result = mysqli_query($link,$sql);
 
 $sql = " DELETE FROM integrante_ap_sano WHERE idintegrante_cf='$idintegrante_cf' ";
@@ -44,6 +44,10 @@ $sql = " DELETE FROM integrante_tradicional WHERE idintegrante_cf='$idintegrante
 $result = mysqli_query($link,$sql);
 
 $sql = " DELETE FROM integrante_defuncion WHERE idintegrante_cf='$idintegrante_cf' ";
+$result = mysqli_query($link,$sql);
+
+
+$sql = " DELETE FROM integrante_cf WHERE idintegrante_cf='$idintegrante_cf' ";
 $result = mysqli_query($link,$sql);
 
 header("Location:integrantes_cf.php");

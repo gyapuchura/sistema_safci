@@ -185,7 +185,7 @@ $row_n=mysqli_fetch_array($result_n);
             <div class="text-center">                                     
                 <h4 class="text-info">INFORMACIÓN COMPLEMENTARIA DEL INTEGRANTE:</h4>                    
             </div>
-        <hr>
+    
 
     <!-------- ETAPA DE IDENTIFICACIÓN DEL INTEGRANTE FAMILIAR (BEGIN) --------->
 
