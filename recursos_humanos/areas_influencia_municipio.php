@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+$gestion 			    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -161,7 +162,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Ministerio de Salud y Deportes &copy; MSYD 2023</span>
+                        <span>Ministerio de Salud y Deportes &copy; MSYD <?php echo $gestion; ?></span>
                     </div>
                 </div>
             </footer>

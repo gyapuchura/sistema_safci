@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+$gestion 			    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -418,13 +419,22 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">IV (b). NIVEL DE INSTRUCCIÓN:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_nivel_instruccion_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">NIVEL DE INSTRUCCIÓN</h6></a>  
+                        <a href="grafica_nivel_instruccion_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=660,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">NIVEL DE INSTRUCCIÓN</h6></a>  
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">IV (c). AUTO-PERTENENCIA CULTURAL:</h6>
+                        <h6 class="text-primary">IV (c). PROFESIÓN:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_profesion_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROFESIÓN</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">IV (d). AUTO-PERTENENCIA CULTURAL:</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="grafica_pertenencia_cultural_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=700,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AUTO-PERTENENCIA CULTURAL</h6></a>  
@@ -433,7 +443,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">IV (d). SUSTENTO FAMILIAR:</h6>
+                        <h6 class="text-primary">IV (e). SUSTENTO FAMILIAR:</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="grafica_sustento_familiar_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUSTENTO FAMILIAR</h6></a>  
@@ -751,7 +761,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Ministerio de Salud y Deportes &copy; MSYD 2023</span>
+                        <span>Ministerio de Salud y Deportes &copy; MSYD <?php echo $gestion;?></span>
                     </div>
                 </div>
             </footer>

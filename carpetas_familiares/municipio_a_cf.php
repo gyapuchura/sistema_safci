@@ -97,7 +97,16 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary">IV (b). NIVEL DE INSTRUCCIÓN:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_nivel_instruccion_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">NIVEL DE INSTRUCCIÓN - <?php echo $row_mun[1];?></h6></a>  
+                        <a href="grafica_nivel_instruccion_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=760,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">NIVEL DE INSTRUCCIÓN - <?php echo $row_mun[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">IV (c). PROFESIÓN:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_profesión_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROFESIÓN - <?php echo $row_mun[1];?></h6></a>  
                         </div>
                     </div>
 
