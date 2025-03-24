@@ -8,6 +8,7 @@ $fecha 					= date("Y-m-d");
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
+$gestion 			    = date("Y");
 
 
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
@@ -155,7 +156,7 @@ $rowd = mysqli_fetch_array($resultd);
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Ministerio de Salud y Deportes &copy; MSYD 2023</span>
+                        <span>Ministerio de Salud y Deportes &copy; MSYD <?php echo $gestion; ?></span>
                     </div>
                 </div>
             </footer>
