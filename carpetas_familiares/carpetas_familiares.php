@@ -74,10 +74,11 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>N°</th>                                     
                                             <th>CÓDIGO CARPETA</th>
                                             <th>FAMILIA</th>
-                                            <th>ESTABLECIMIENTO DE SALUD</th>
+                                            
                                             <th>ÁREA DE INFLUENCIA</th>
                                             <th>FECHA DE REGISTRO</th>
                                             <th>ACCIÓN</th>
+                                            <th>OBSERVACIONES</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -99,7 +100,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td><?php echo $numero;?></td>
                                             <td><?php echo $row[1];?></td>
                                             <td><?php echo $row[2];?></td>
-                                            <td><?php echo $row[5];?></td>
+                                            
                                             <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
                                             <td>
                                             <?php 
@@ -127,6 +128,70 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                                 
                                                  <?php }} ?>                                                                      
                                         </td>
+                                        <td><?php 
+                                        
+                                        $numero_d=0;
+                                        $sqld =" SELECT idcat_determinante_salud FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' GROUP BY idcat_determinante_salud ";
+                                        $resultd = mysqli_query($link,$sqld);
+                                        if ($rowd = mysqli_fetch_array($resultd)){
+                                        mysqli_field_seek($resultd,0);
+                                        while ($fieldd = mysqli_fetch_field($resultd)){
+                                        } do { 
+                                    
+                                            $numero_d=$numero_d+1;
+                                        }
+                                        while ($rowd = mysqli_fetch_array($resultd));
+                                        } else {
+                                        }
+                                    
+                                        if ($numero_d == '20') {    
+                                                   
+                                        } else {
+                                            echo "<h6 class='text-danger'>- AJUSTAR DETERMINANTES DE LA SALUD </h6>";
+                                        }
+                                    
+                                        $sql_t = " SELECT idintegrante_datos_cf FROM integrante_datos_cf WHERE idcarpeta_familiar = '$row[0]' ";
+                                        $result_t = mysqli_query($link,$sql_t);    
+                                        if ($row_t = mysqli_fetch_array($result_t)) {
+                                    
+                                            } else { 
+                                                echo "<h6 class='text-danger'>- AJUSTAR DATOS DE TODOS LOS INTEGRANTES </h6>";
+                                            }
+                                    
+                                        $sql_t = " SELECT idintegrante_subsector_salud FROM integrante_subsector_salud WHERE idcarpeta_familiar = '$row[0]' ";
+                                        $result_t = mysqli_query($link,$sql_t);    
+                                        if ($row_t = mysqli_fetch_array($result_t)) {
+                                    
+                                            } else { 
+                                                echo "<h6 class='text-danger'>- AJUSTAR DATOS DE SUBSECTOR SALUD </h6>";
+                                            }
+                                    
+                                            $sql_t = " SELECT idintegrante_beneficiario FROM integrante_beneficiario WHERE idcarpeta_familiar = '$row[0]' ";
+                                            $result_t = mysqli_query($link,$sql_t);    
+                                            if ($row_t = mysqli_fetch_array($result_t)) {
+                                        
+                                                } else { 
+                                                    echo "<h6 class='text-danger'>- AJUSTAR DATOS DE PROGRAMAS SOCIALES </h6>";
+                                                }
+                                            $sql_t = " SELECT idintegrante_tradicional FROM integrante_tradicional WHERE idcarpeta_familiar = '$row[0]' ";
+                                            $result_t = mysqli_query($link,$sql_t);    
+                                            if ($row_t = mysqli_fetch_array($result_t)) {
+                                        
+                                                } else { 
+                                                    echo "<h6 class='text-danger'>- AJUSTAR DATOS DE MEDICINA TRADICIONAL </h6>";
+                                                }
+                                    
+                                            $sql_t = " SELECT idintegrante_defuncion FROM integrante_defuncion WHERE idcarpeta_familiar = '$row[0]' ";
+                                            $result_t = mysqli_query($link,$sql_t);    
+                                            if ($row_t = mysqli_fetch_array($result_t)) {
+                                        
+                                                } else { 
+                                                    echo "<h6 class='text-danger'>- AJUSTAR DATOS DE DEFUNCION DE INTEGRANTES </h6>";
+                                                }
+                                    
+                                     //----- INCORPORAR EN BANDEJA DE CARPETAS OPERATIVO END ----- //   
+                                                                                
+                                        ?></td>
                                         <td>
                                         <?php if ($row[10] == 'CONSOLIDADO') { ?>
                                                 
