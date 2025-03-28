@@ -1,10 +1,10 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
-$idestablecimiento_salud = $_POST["establecimiento_salud"];
+$iddepartamento = $_POST["departamento"];
 ?>
 <div class="table-responsive">
-        <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="example2" width="100%" cellspacing="0">
                 <thead>
                     <tr>  
                         <th>N°</th>                                     
@@ -22,10 +22,10 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
     $numero=1;
     $sql =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud,";
     $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro, carpeta_familiar.estado, carpeta_familiar.idusuario ";
-    $sql.=" FROM carpeta_familiar, departamento, municipios, establecimiento_salud, area_influencia, tipo_area_influencia WHERE  ";
+    $sql.=" FROM carpeta_familiar, departamento, municipios, establecimiento_salud, area_influencia, tipo_area_influencia WHERE ";
     $sql.=" carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idmunicipio=municipios.idmunicipio  ";
     $sql.=" AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-    $sql.=" AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar ";
+    $sql.=" AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND carpeta_familiar.iddepartamento='$iddepartamento' ORDER BY carpeta_familiar.idcarpeta_familiar ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);
@@ -91,12 +91,12 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
                 <div class="text-center">
                 <div class="form-group row"> 
                         <div class="col-sm-6">
-                        <a href="imprime_reporte_cfs_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                        <a href="imprime_reporte_cfs_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
                         IMPRIMIR REPORTE DE CARPETAS FAMILIARES</a>   
                         </div>
                         <div class="col-sm-6">
-                    <form name="REPORTE_CF" action="reporte_cf_est_excel.php" method="post">
-                        <input type="hidden" name="idestablecimiento_salud" value="<?php echo $idestablecimiento_salud;?>">
+                    <form name="REPORTE_CF" action="reporte_cf_dep_excel.php" method="post">
+                        <input type="hidden" name="iddepartamento" value="<?php echo $iddepartamento;?>">
                         <button type="submit" class="btn btn-success">REPORTE CARPETAS FAMILIARES EN EXCEL</button>
                     </form>
                     </div>
@@ -111,7 +111,7 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable( {
+            $('#example2').DataTable( {
                         "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]] ,
                         "language": {
                             "lengthMenu": "Mostrar _MENU_ registros por pagina",
