@@ -60,13 +60,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <!-- Page Heading -->
 
-                    <h1 class="h3 mb-2 text-gray-800">CARPETAS FAMILIARES SAFCI</h1>
+                    <h1 class="h3 mb-2 text-gray-800">REPORTES CARPETAS FAMILIARES SAFCI</h1>
                     <p class="mb-4">En esta seccion se puede encontrar los registros de CARPETAS FAMILIARES del PROGRAMA NACIONAL SAFCI - MI SALUD a NIVEL NACIOANL por ESTABLECIMIENTO DE SALUD.</p>
 
                     <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">CARPETAS FAMILIARES A NIVEL NACIONAL</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE DE CARPETAS FAMILIARES A NIVEL ESTABLECIMIENTO</h6>
                     </div>
  
             <form name="CARPETAS_FAMILIARES" action="valida_carpetas_eess.php" method="post">
@@ -117,10 +117,90 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="card-body" id="carpetas_familiares_establecimiento">                    
                     </div>
                 </div>
-                </div>
                 <!-- /.container-fluid -->
 
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE DE CARPETAS FAMILIARES POR MUNICIPIO</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                            <h6 class="text-primary">DEPARTAMENTO:</h6>
+                            </div>
+                            <div class="col-sm-9">
+                            <select name="iddepartamento_mun"  id="iddepartamento_mun" class="form-control" required>
+                                <option value="">-SELECCIONE-</option>
+                                <?php
+                                $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
+                                $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                                $result1 = mysqli_query($link,$sql1);
+                                if ($row1 = mysqli_fetch_array($result1)){
+                                mysqli_field_seek($result1,0);
+                                while ($field1 = mysqli_fetch_field($result1)){
+                                } do {
+                                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                                } while ($row1 = mysqli_fetch_array($result1));
+                                } else {
+                                echo "No se encontraron resultados!";
+                                }
+                                ?>
+                            </select>
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                            <div class="col-sm-3">
+                            <h6 class="text-primary">MUNICIPIO:</h6>
+                            </div>
+                            <div class="col-sm-9">
+                            <select name="idmunicipio_salud_mun" id="idmunicipio_salud_mun" class="form-control" required></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body" id="carpetas_familiares_municipio">                    
+                    </div>
+                </div>
+                
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE DE CARPETAS FAMILIARES POR DEPARTAMENTO</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                            <h6 class="text-primary">DEPARTAMENTO:</h6>
+                            </div>
+                            <div class="col-sm-9">
+                            <select name="iddepartamento_dep"  id="iddepartamento_dep" class="form-control" required>
+                                <option value="">-SELECCIONE-</option>
+                                <?php
+                                $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
+                                $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                                $result1 = mysqli_query($link,$sql1);
+                                if ($row1 = mysqli_fetch_array($result1)){
+                                mysqli_field_seek($result1,0);
+                                while ($field1 = mysqli_fetch_field($result1)){
+                                } do {
+                                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                                } while ($row1 = mysqli_fetch_array($result1));
+                                } else {
+                                echo "No se encontraron resultados!";
+                                }
+                                ?>
+                            </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body" id="carpetas_familiares_departamento">                    
+                    </div>
+                </div>
+
             </div>
+        </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -208,6 +288,45 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         establecimiento_salud=$(this).val();
                     $.post("carpetas_familiares_establecimiento.php", {establecimiento_salud:establecimiento_salud}, function(data){
                     $("#carpetas_familiares_establecimiento").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript">
+            $(document).ready(function(){
+            $("#iddepartamento_mun").change(function () {
+                        $("#iddepartamento_mun option:selected").each(function () {
+                            departamento=$(this).val();
+                        $.post("municipio_cf.php", {departamento:departamento}, function(data){
+                        $("#idmunicipio_salud_mun").html(data);
+                        });
+                    });
+            })
+            });
+    </script> 
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idmunicipio_salud_mun").change(function () {
+                    $("#idmunicipio_salud_mun option:selected").each(function () {
+                        municipio=$(this).val();
+                    $.post("carpetas_familiares_municipio.php", {municipio:municipio}, function(data){
+                    $("#carpetas_familiares_municipio").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+<script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento_dep").change(function () {
+                    $("#iddepartamento_dep option:selected").each(function () {
+                        departamento=$(this).val();
+                    $.post("carpetas_familiares_departamento.php", {departamento:departamento}, function(data){
+                    $("#carpetas_familiares_departamento").html(data);
                     });
                 });
         })
