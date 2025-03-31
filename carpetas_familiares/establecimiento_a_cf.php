@@ -82,6 +82,15 @@ $row_est = mysqli_fetch_array($result_est);
 
                     <div class="form-group row">
                         <div class="col-sm-6">
+                        <h6 class="text-primary">II. IDIOMA :</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="idioma_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=850,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">IDIOMA - Establecimiento : <?php echo $row_est[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
                         <h6 class="text-primary">IV (a). ESTADO CIVIL:</h6>
                         </div>
                         <div class="col-sm-6">

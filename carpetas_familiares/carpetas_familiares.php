@@ -149,46 +149,65 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         } else {
                                             echo "<h6 class='text-danger'>- AJUSTAR DETERMINANTES DE LA SALUD </h6>";
                                         }
-                                    
-                                        $sql_t = " SELECT idintegrante_datos_cf FROM integrante_datos_cf WHERE idcarpeta_familiar = '$row[0]' ";
-                                        $result_t = mysqli_query($link,$sql_t);    
-                                        if ($row_t = mysqli_fetch_array($result_t)) {
-                                    
+
+                                        $sql_in = " SELECT count(idintegrante_cf) FROM integrante_cf WHERE idcarpeta_familiar = '$row[0]' ";
+                                        $result_in = mysqli_query($link,$sql_in);    
+                                        $row_in = mysqli_fetch_array($result_in);
+                                        $integrantes = $row_in[0];
+
+                                        $sql_1 = " SELECT count(idintegrante_datos_cf) FROM integrante_datos_cf WHERE idcarpeta_familiar = '$row[0]' ";
+                                        $result_1 = mysqli_query($link,$sql_1);  
+                                        $row_1 = mysqli_fetch_array($result_1);  
+                                        $integrantes_datos = $row_1[0];
+                                        if ($integrantes <= $integrantes_datos) {                                    
                                             } else { 
                                                 echo "<h6 class='text-danger'>- AJUSTAR DATOS DE TODOS LOS INTEGRANTES </h6>";
                                             }
                                     
-                                        $sql_t = " SELECT idintegrante_subsector_salud FROM integrante_subsector_salud WHERE idcarpeta_familiar = '$row[0]' ";
-                                        $result_t = mysqli_query($link,$sql_t);    
-                                        if ($row_t = mysqli_fetch_array($result_t)) {
+                                        $sql_2 = " SELECT idintegrante_cf FROM integrante_subsector_salud WHERE idcarpeta_familiar = '$row[0]' GROUP BY idintegrante_cf ";
+                                        $result_2 = mysqli_query($link,$sql_2);  
+                                        $integrantes_sub = mysqli_num_rows($result_2);  
+                                        if ($integrantes_sub >= $integrantes) {
                                     
                                             } else { 
                                                 echo "<h6 class='text-danger'>- AJUSTAR DATOS DE SUBSECTOR SALUD </h6>";
                                             }
-                                    
-                                            $sql_t = " SELECT idintegrante_beneficiario FROM integrante_beneficiario WHERE idcarpeta_familiar = '$row[0]' ";
-                                            $result_t = mysqli_query($link,$sql_t);    
-                                            if ($row_t = mysqli_fetch_array($result_t)) {
+                                   
+                                            $sql_3 = " SELECT idintegrante_cf FROM integrante_beneficiario WHERE idcarpeta_familiar = '$row[0]' GROUP BY idintegrante_cf ";
+                                            $result_3 = mysqli_query($link,$sql_3); 
+                                            $integrante_ben = mysqli_num_rows($result_3);   
+                                            if ($integrante_ben >= $integrantes) {
                                         
                                                 } else { 
                                                     echo "<h6 class='text-danger'>- AJUSTAR DATOS DE PROGRAMAS SOCIALES </h6>";
                                                 }
-                                            $sql_t = " SELECT idintegrante_tradicional FROM integrante_tradicional WHERE idcarpeta_familiar = '$row[0]' ";
-                                            $result_t = mysqli_query($link,$sql_t);    
-                                            if ($row_t = mysqli_fetch_array($result_t)) {
+                                            $sql_4 = " SELECT idintegrante_cf FROM integrante_tradicional WHERE idcarpeta_familiar = '$row[0]' GROUP BY idintegrante_cf ";
+                                            $result_4 = mysqli_query($link,$sql_4);   
+                                            $integrante_trad = mysqli_num_rows($result_4); 
+                                            if ($integrante_trad >= $integrantes) {
                                         
                                                 } else { 
                                                     echo "<h6 class='text-danger'>- AJUSTAR DATOS DE MEDICINA TRADICIONAL </h6>";
                                                 }
                                     
-                                            $sql_t = " SELECT idintegrante_defuncion FROM integrante_defuncion WHERE idcarpeta_familiar = '$row[0]' ";
-                                            $result_t = mysqli_query($link,$sql_t);    
-                                            if ($row_t = mysqli_fetch_array($result_t)) {
+                                            $sql_5 = " SELECT idintegrante_cf FROM integrante_defuncion WHERE idcarpeta_familiar = '$row[0]' GROUP BY idintegrante_cf";
+                                            $result_5 = mysqli_query($link,$sql_5);   
+                                            $integrante_def = mysqli_num_rows($result_5); 
+                                            if ($integrante_def >= $integrantes) {
                                         
                                                 } else { 
                                                     echo "<h6 class='text-danger'>- AJUSTAR DATOS DE DEFUNCION DE INTEGRANTES </h6>";
                                                 }
                                     
+
+                                                $sql_soc = " SELECT idsocio_economica FROM socio_economica_cf WHERE idcarpeta_familiar = '$row[0]' ";
+                                                $result_soc = mysqli_query($link,$sql_soc);   
+                                                $socioeconomia = mysqli_num_rows($result_soc); 
+                                                if ($socioeconomia == '10') {
+                                            
+                                                    } else { 
+                                                        echo "<h6 class='text-danger'>- AJUSTAR CARACTERÍSTICAS SOCIOECONÓMICAS </h6>";
+                                                    }
                                      //----- INCORPORAR EN BANDEJA DE CARPETAS OPERATIVO END ----- //   
                                                                                 
                                         ?></td>
