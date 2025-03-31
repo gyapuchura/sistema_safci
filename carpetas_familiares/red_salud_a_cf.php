@@ -89,6 +89,16 @@ $row_red = mysqli_fetch_array($result_red);
                         <a href="piramide_poblacional_red.php?idred_salud=<?php echo $idred_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PIRÁMIDE POBLACIONAL - Red de Salud: <?php echo $row_red[1];?></h6></a>  
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">II. IDIOMA:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="idioma_cf_red.php?idred_salud=<?php echo $idred_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=850,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">IDIOMA - Red de Salud: <?php echo $row_red[1];?></h6></a>  
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-body">
                     <div class="form-group row">
