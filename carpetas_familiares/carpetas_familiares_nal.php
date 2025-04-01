@@ -199,6 +199,67 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
 
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE DE CARPETAS FAMILIARES POR MÉDICO OPERATIVO</h6>
+                    </div>
+                    <div class="card-body">
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">DEPARTAMENTO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="iddepartamento_op"  id="iddepartamento_op" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = " SELECT ubicacion_cf.iddepartamento, departamento.departamento FROM ubicacion_cf, departamento ";
+                            $sql1.= " WHERE ubicacion_cf.iddepartamento=departamento.iddepartamento GROUP BY ubicacion_cf.iddepartamento ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                        </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">MUNICIPIO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idmunicipio_salud_op" id="idmunicipio_salud_op" class="form-control" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="idestablecimiento_salud_op" id="idestablecimiento_salud_op" class="form-control" required></select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">PERSONAL OPERATIVO:</h6>
+                        </div>
+                        <div class="col-sm-9">
+                        <select name="medico_operativo_cf" id="medico_operativo_cf" class="form-control" required></select>
+                        </div>
+                    </div>
+
+                    </div>
+                    <div class="card-body" id="carpetas_familiares_operativo">                    
+                    </div>
+                </div>
+
             </div>
         </div>
             <!-- End of Main Content -->
@@ -281,7 +342,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         });
     </script>
 
-<script language="javascript">
+    <script language="javascript">
         $(document).ready(function(){
         $("#idestablecimiento_salud").change(function () {
                     $("#idestablecimiento_salud option:selected").each(function () {
@@ -320,13 +381,64 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         });
     </script>
 
-<script language="javascript">
+    <script language="javascript">
         $(document).ready(function(){
         $("#iddepartamento_dep").change(function () {
                     $("#iddepartamento_dep option:selected").each(function () {
                         departamento=$(this).val();
                     $.post("carpetas_familiares_departamento.php", {departamento:departamento}, function(data){
                     $("#carpetas_familiares_departamento").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#iddepartamento_op").change(function () {
+                    $("#iddepartamento_op option:selected").each(function () {
+                        departamento=$(this).val();
+                    $.post("municipio_cf.php", {departamento:departamento}, function(data){
+                    $("#idmunicipio_salud_op").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idmunicipio_salud_op").change(function () {
+                    $("#idmunicipio_salud_op option:selected").each(function () {
+                        municipio_salud=$(this).val();
+                    $.post("establecimientos_cf.php", {municipio_salud:municipio_salud}, function(data){
+                    $("#idestablecimiento_salud_op").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#idestablecimiento_salud_op").change(function () {
+                    $("#idestablecimiento_salud_op option:selected").each(function () {
+                        establecimiento_salud=$(this).val();
+                    $.post("medico_operativo_cf.php", {establecimiento_salud:establecimiento_salud}, function(data){
+                    $("#medico_operativo_cf").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript">
+        $(document).ready(function(){
+        $("#medico_operativo_cf").change(function () {
+                    $("#medico_operativo_cf option:selected").each(function () {
+                        medico_operativo=$(this).val();
+                    $.post("carpetas_familiares_operativo.php", {medico_operativo:medico_operativo}, function(data){
+                    $("#carpetas_familiares_operativo").html(data);
                     });
                 });
         })
