@@ -11,6 +11,8 @@ $iddepartamento = $_POST["departamento"];
                         <th>CÓDIGO CARPETA</th>
                         <th>FAMILIA</th>
                         <th>NUMERO DE INTEGRANTES</th>
+                        <th>MUNICIPIO</th>
+                        <th>ESTABLECIMIENTO DE SALUD</th>
                         <th>ÁREA DE INFLUENCIA</th>
                         <th>PERSONAL REGISTRADOR</th>
                         <th>FECHA DE REGISTRO</th>
@@ -42,13 +44,17 @@ $iddepartamento = $_POST["departamento"];
                             $row_i = mysqli_fetch_array($result_i); 
                             echo $row_i[0];
                         ?></td>
+                        <td><?php echo $row[4];?></td>
+                        <td><?php echo $row[5];?></td>
                         <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
-                        <td><?php 
+                        <td>
+                            <?php 
                             $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
                             $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[11]' ";
                             $result_r = mysqli_query($link,$sql_r);
                             $row_r = mysqli_fetch_array($result_r);                    
-                        echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?></td>
+                            echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);
+                        ?></td>
                         <td>
                         <?php 
                             $fecha_r = explode('-',$row[8]);

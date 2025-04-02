@@ -11,6 +11,7 @@ $idmunicipio = $_POST["municipio"];
                         <th>CÓDIGO CARPETA</th>
                         <th>FAMILIA</th>
                         <th>NUMERO DE INTEGRANTES</th>
+                        <th>ESTABLECIMIENTO DE SALUD</th>
                         <th>ÁREA DE INFLUENCIA</th>
                         <th>PERSONAL REGISTRADOR</th>
                         <th>FECHA DE REGISTRO</th>
@@ -42,6 +43,7 @@ $idmunicipio = $_POST["municipio"];
                             $row_i = mysqli_fetch_array($result_i); 
                             echo $row_i[0];
                         ?></td>
+                        <td><?php echo $row[5];?></td>
                         <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
                         <td><?php 
                             $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";

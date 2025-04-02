@@ -128,8 +128,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                                 
                                                  <?php }} ?>                                                                      
                                         </td>
-                                        <td><?php 
-                                        
+                                        <td>
+                                        <?php                                         
                                         $numero_d=0;
                                         $sqld =" SELECT idcat_determinante_salud FROM determinante_salud_cf WHERE idcarpeta_familiar='$row[0]' GROUP BY idcat_determinante_salud ";
                                         $resultd = mysqli_query($link,$sqld);
@@ -210,7 +210,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                                     }
                                      //----- INCORPORAR EN BANDEJA DE CARPETAS OPERATIVO END ----- //   
                                                                                 
-                                        ?></td>
+                                        ?>
+                                        </td>
                                         <td>
                                         <?php if ($row[10] == 'CONSOLIDADO') { ?>
                                                 

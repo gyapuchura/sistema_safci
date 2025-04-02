@@ -58,9 +58,83 @@ $rowus = mysqli_fetch_array($resultus);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+
+
+                <div class="card shadow mb-2">
+                    <div class="card-header py-2">
+                    <h6 class="text-primary">REPORTE DEL DIA DE HOY <?php 
+                    $fecha_r = explode('-',$fecha);
+                    $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                    echo $f_emision;?></h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group row">
+
+                            <div class="col-sm-2">
+                            <h6 class="text-info">Nº DE INGRESOS AL SISTEMA</h6>
+                    <?php
+                    $sql_l =" SELECT COUNT(idlog_login) FROM log_login WHERE fecha='$fecha' ";
+                    $result_l = mysqli_query($link,$sql_l);
+                    $row_l = mysqli_fetch_array($result_l);
+                    $ingresos_medi_safci = $row_l[0];
+                    ?>
+                            <h6><?php echo $ingresos_medi_safci;?></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">NOTIFICACIONES (F302A) </h6>
+                    <?php
+                    $sql_d =" SELECT COUNT(idnotificacion_ep) FROM notificacion_ep WHERE estado='CONSOLIDADO' AND fecha_registro='$fecha'  ";
+                    $result_d = mysqli_query($link,$sql_d);
+                    $row_d = mysqli_fetch_array($result_d);
+                    $notificaciones_ep_hoy = $row_d[0];
+                    ?>
+                            <h6><?php echo $notificaciones_ep_hoy;?></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">N° FICHAS EPIDEMIOLOGICAS:</h6>
+                            <?php
+                    $sql_f =" SELECT COUNT(idficha_ep) FROM ficha_ep WHERE fecha_registro='$fecha' ";
+                    $result_f = mysqli_query($link,$sql_f);
+                    $fichas_ep_hoy = mysqli_num_rows($result_f);
+                    ?>
+                            <h6><?php echo $fichas_ep_hoy;?></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">N° SEGUIMIENTO A PACIENTES (FICHAS EPIDEMIOLÓGICAS):</h6>
+                            <?php
+                    $sql_p =" SELECT idseguimiento_ep FROM seguimiento_ep WHERE fecha_registro='$fecha'";
+                    $result_p = mysqli_query($link,$sql_p);
+                    $fichas_paciente = mysqli_num_rows($result_p);
+                    ?>
+                            <h6><?php echo $fichas_paciente;?></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">NUEVAS ÁREAS DE INFLUENCIA REGISTRADAS:</h6>
+
+                    <?php
+                        $sql_2 = " SELECT count(idarea_influencia) FROM area_influencia WHERE fecha_registro='$fecha' ";
+                        $result_2 = mysqli_query($link,$sql_2);           
+                        $row_2 = mysqli_fetch_array($result_2); 
+                    ?>
+                            <h6><?php echo $row_2[0];?></h6>
+                            </div>
+                            <div class="col-sm-2">
+                            <h6 class="text-info">Nº DE CARPETAS FAMILIARES</h6>
+                    <?php
+                    $sql_cf =" SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND fecha_registro='$fecha' ";
+                    $result_cf = mysqli_query($link,$sql_cf);
+                    $row_cf = mysqli_fetch_array($result_cf);
+                    $carpetas_familiares = $row_cf[0];
+                    ?>
+                            <h6><?php echo $carpetas_familiares;?></h6>
+                            </div>
+                        </div>   
+                    </div>
+                </div>
   
 
-                <div class="card shadow mb-8">
+                            <div class="card shadow mb-8">
                                 <div class="card-header py-6">
                                     <h6 class="m-0 font-weight-bold text-primary"></h6>
                                 </div>
@@ -68,14 +142,12 @@ $rowus = mysqli_fetch_array($resultus);
                                     <div class="text-center">
                                         <img src="../img/fondo_inicio_safci.jpg" class="rounded" alt="Eniun">
                                     </div>
-                                    <p>
-                                        
-                                    </p>
-
                                 </div>
                             </div>
+    </div>
+    </div>
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
