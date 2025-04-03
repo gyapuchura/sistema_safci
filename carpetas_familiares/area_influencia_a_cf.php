@@ -49,18 +49,31 @@ $area_af = $row_area[1]." ".$row_area[2];
                             <?php echo $integrantes;?> 
                             <h6></h6>
                             </div>
-                            <div class="col-sm-2">
-                            <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
-
+                            <div class="col-sm-4">
+                            <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
                             <?php
-                            $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' GROUP BY idusuario ";
-                            $result_per = mysqli_query($link,$sql_per);
-                            $personal = mysqli_num_rows($result_per);  
+                                $numero = 1;
+                                $sql =" SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' GROUP BY idusuario ";   
+                                $result = mysqli_query($link,$sql);
+                                if ($row = mysqli_fetch_array($result)){
+                                mysqli_field_seek($result,0);
+                                while ($field = mysqli_fetch_field($result)){
+                                } do {
+
+                                    $sql_p =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre  ";
+                                    $sql_p.=" WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[0]' ";
+                                    $result_p = mysqli_query($link,$sql_p);
+                                    $row_p = mysqli_fetch_array($result_p);
+                                    echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]."</br>");
+                                    $numero = $numero+1;
+
+                                }
+                                while ($row = mysqli_fetch_array($result));
+                                } else {
+                                }
                             ?>
-                            <?php echo $personal;?>
+                            <?php ?>
                             <h6></h6>
-                            </div>
-                            <div class="col-sm-2">
                             </div>
                             <div class="col-sm-2">
                             </div>
