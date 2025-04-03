@@ -5,8 +5,8 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
 <option value="">Elegir Personal Operativo</option>
 <?php
 $numero3 = 1;
-$sql3 = " SELECT dato_laboral.idusuario, nombre.nombre, nombre.paterno, nombre.materno FROM  nombre, dato_laboral  WHERE  dato_laboral.idnombre=nombre.idnombre ";
-$sql3.= "  AND dato_laboral.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY dato_laboral.idusuario DESC  ";
+$sql3 = " SELECT carpeta_familiar.idusuario, nombre.nombre, nombre.paterno, nombre.materno FROM carpeta_familiar, usuarios, nombre WHERE carpeta_familiar.idusuario=usuarios.idusuario ";
+$sql3.= " AND usuarios.idnombre=nombre.idnombre AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY carpeta_familiar.idusuario  ";
 $result3 = mysqli_query($link,$sql3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);

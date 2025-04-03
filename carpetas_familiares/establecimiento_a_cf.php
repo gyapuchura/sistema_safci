@@ -48,23 +48,30 @@ $row_est = mysqli_fetch_array($result_est);
                             <?php echo $integrantes;?> 
                             <h6></h6>
                             </div>
-                            <div class="col-sm-2">
-                            <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
-
+                            <div class="col-sm-8">
+                            <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
                             <?php
-                            $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE  ";
-                            $sql_per.= " estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' GROUP BY idusuario ";
-                            $result_per = mysqli_query($link,$sql_per);
-                            $personal = mysqli_num_rows($result_per);  
+                                $numero = 1;
+                                $sql =" SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' GROUP BY idusuario ";   
+                                $result = mysqli_query($link,$sql);
+                                if ($row = mysqli_fetch_array($result)){
+                                mysqli_field_seek($result,0);
+                                while ($field = mysqli_fetch_field($result)){
+                                } do {
+                                    $sql_p =" SELECT nombre.nombre, nombre.paterno, nombre.materno, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM usuarios, nombre, carpeta_familiar, tipo_area_influencia, area_influencia  ";
+                                    $sql_p.=" WHERE carpeta_familiar.idusuario=usuarios.idusuario AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
+                                    $sql_p.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+                                    $sql_p.=" AND usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[0]' ";
+                                    $result_p = mysqli_query($link,$sql_p);
+                                    $row_p = mysqli_fetch_array($result_p);
+                                    echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]." -> Area de Influencia : ".$row_p[3]." ".$row_p[4]."</br>");
+                                    $numero = $numero+1;
+                                }
+                                while ($row = mysqli_fetch_array($result));
+                                } else {
+                                }
                             ?>
-                            <?php echo $personal;?>
                             <h6></h6>
-                            </div>
-                            <div class="col-sm-2">
-                            </div>
-                            <div class="col-sm-2">
-                            </div>
-                            <div class="col-sm-2">
                             </div>
                         </div>   
                     </div>

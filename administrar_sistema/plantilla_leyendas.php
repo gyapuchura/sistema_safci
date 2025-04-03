@@ -105,7 +105,7 @@ $rowus = mysqli_fetch_array($resultus);
                     </div>
                 </div>
                 <div class="col-auto">
-                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@ $rowus = mysqli_fetch_array($resultus);
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    Nº DE NOTIFICACIONES (F302A)</div>
+                    NOTIFICACIONES (F302A)</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
                     $sql_d =" SELECT COUNT(idnotificacion_ep) FROM notificacion_ep WHERE estado='CONSOLIDADO' AND fecha_registro='$fecha'  ";
@@ -131,7 +131,7 @@ $rowus = mysqli_fetch_array($resultus);
                     </div>
                 </div>
                 <div class="col-auto">
-                    <i class="fas fa-hospital fa-2x text-gray-300"></i>
+                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                 </div>
             </div>
         </div>
@@ -144,15 +144,26 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    N° FICHAS EPIDEMIOLOGICAS:</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    <?php
-                    $sql_f =" SELECT COUNT(idficha_ep) FROM ficha_ep WHERE fecha_registro='$fecha' ";
-                    $result_f = mysqli_query($link,$sql_f);
-                    $fichas_ep_hoy = mysqli_num_rows($result_f);
-                    echo $fichas_ep_hoy;
-                    ?>
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">N° FICHAS EPIDEMIOLOGICAS:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                            $sql_f =" SELECT COUNT(idficha_ep) FROM ficha_ep WHERE fecha_registro='$fecha' ";
+                            $result_f = mysqli_query($link,$sql_f);
+                            $fichas_ep_hoy = mysqli_num_rows($result_f);
+                            echo $fichas_ep_hoy;
+                            ?>   
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -169,15 +180,26 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    N° SEGUIMIENTO A PACIENTES (FICHAS EPIDEMIOLÓGICAS)::</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    <?php
-                    $sql_p =" SELECT idseguimiento_ep FROM seguimiento_ep WHERE fecha_registro='$fecha'";
-                    $result_p = mysqli_query($link,$sql_p);
-                    $fichas_paciente = mysqli_num_rows($result_p);
-                    echo $fichas_paciente;
-                    ?>
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">N° SEGUIMIENTO A PACIENTES (FICHAS EPIDEMIOLÓGICAS):
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                            $sql_p =" SELECT idseguimiento_ep FROM seguimiento_ep WHERE fecha_registro='$fecha'";
+                            $result_p = mysqli_query($link,$sql_p);
+                            $fichas_paciente = mysqli_num_rows($result_p);
+                            echo $fichas_paciente;
+                            ?>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -189,19 +211,30 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 <!-- Earnings (Monthly) Card Example -->
 <div class="col-xl-2 col-md-6 mb-4">
-    <div class="card border-left-secondary shadow h-100 py-2">
+    <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                    NUEVAS ÁREAS DE INFLUENCIA REGISTRADAS:</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    <?php
-                        $sql_2 = " SELECT count(idarea_influencia) FROM area_influencia WHERE fecha_registro='$fecha' ";
-                        $result_2 = mysqli_query($link,$sql_2);           
-                        $row_2 = mysqli_fetch_array($result_2); 
-                        echo $row_2[0];
-                    ?>
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">NUEVAS ÁREAS DE INFLUENCIA REGISTRADAS:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_2 = " SELECT count(idarea_influencia) FROM area_influencia WHERE fecha_registro='$fecha' ";
+                                $result_2 = mysqli_query($link,$sql_2);           
+                                $row_2 = mysqli_fetch_array($result_2); 
+                                echo $row_2[0];
+                            ?>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -231,7 +264,7 @@ $rowus = mysqli_fetch_array($resultus);
                     </div>
                 </div>
                 <div class="col-auto">
-                    <i class="fas fa-file fa-2x text-gray-300"></i>
+                    <i class="fas fa-comments fa-2x text-gray-300"></i>
                 </div>
             </div>
         </div>
