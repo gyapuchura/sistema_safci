@@ -37,11 +37,14 @@ $area_af = $row_area[1]." ".$row_area[2];
                             $carpetizacion = $row_cf[0];
 
                             $porcentaje_af   = ($carpetizacion*100)/$meta_cf;
-                            $p_area_influencia    = number_format($porcentaje_af, 2, '.', '');
+                            $p_area_influencia    = number_format($porcentaje_af, 2, '.', '.');
+
+                            $meta_af   = number_format($meta_cf, 0, '.', '.');
+                            $carpetizacion_af    = number_format($carpetizacion, 0, '.', '.');
 
                             ?>
-                            <?php echo $carpetizacion;?> 
-                            <h6 class="text-info">De <?php echo $meta_cf;?> Familias</h6>
+                            <?php echo $carpetizacion_af;?> 
+                            <h6 class="text-info">De <?php echo $meta_af;?> Familias</h6>
                             <h6 class="text-primary"><?php echo $p_area_influencia;?>%</h6>
 
                             </div>
@@ -57,9 +60,13 @@ $area_af = $row_area[1]." ".$row_area[2];
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
+
+                            $integrantes_cf   = number_format($integrantes, 0, '.', '.');
+                            $integrantes_meta = number_format($row_f[0], 0, '.', '.');
+
                             ?>
-                            <?php echo $integrantes;?>
-                            <h6 class="text-info">de <?php echo $row_f[0];?> habitantes</h6>
+                            <?php echo $integrantes_cf;?>
+                            <h6 class="text-info">de <?php echo $integrantes_meta;?> habitantes</h6>
                             </div>
                             <div class="col-sm-4">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>

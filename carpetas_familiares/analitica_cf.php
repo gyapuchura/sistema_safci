@@ -349,11 +349,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             $carpetizacion = $row_cf[0];
 
                             $porcentaje_nal = ($carpetizacion*100)/$meta_cf;
-                            $p_nacional     = number_format($porcentaje_nal, 2, '.', '');
+                            $p_nacional     = number_format($porcentaje_nal, 0, ' ', '.');
+
+                            $carpetizacion_nal  = number_format($carpetizacion, 0, '', '.');
+                            $meta_nal  = number_format($meta_cf, 0, '.', '.');
 
                             ?>
-                            <?php echo $carpetizacion;?>
-                            <h6 class="text-info"> De <?php echo $meta_cf;?> Familias</h6>
+                            <?php echo $carpetizacion_nal;?>
+                            <h6 class="text-info"> De <?php echo $meta_nal;?> Familias</h6>
                             <h6 class="text-primary"><?php echo $p_nacional;?>%</h6>
                             </div>
                             <div class="col-sm-2">
@@ -388,9 +391,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
+
+                            $integrantes_meta  = number_format($row_h[0], 0, '', '.');
+                            $integrantes_cf  = number_format($integrantes, 0, '.', '.');
+
                             ?>
-                            <?php echo $integrantes;?> 
-                            <h6 class="text-info"> De <?php echo $row_h[0];?> habitantes</h6>
+                            <?php echo $integrantes_cf;?> 
+                            <h6 class="text-info"> De <?php echo $integrantes_meta;?> habitantes</h6>
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
