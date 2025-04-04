@@ -337,13 +337,24 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <div class="col-sm-2">
                             <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
                             <?php
+
+                                $sql_f =" SELECT sum(familias) FROM area_influencia  ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf =$row_f[0];
+
                             $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
                             $result_cf = mysqli_query($link,$sql_cf);
                             $row_cf = mysqli_fetch_array($result_cf);  
-                            $total_cf = $row_cf[0];
+                            $carpetizacion = $row_cf[0];
+
+                            $porcentaje_nal = ($carpetizacion*100)/$meta_cf;
+                            $p_nacional     = number_format($porcentaje_nal, 2, '.', '');
+
                             ?>
-                            <?php echo $total_cf;?>
-                            <h6></h6>
+                            <?php echo $carpetizacion;?>
+                            <h6 class="text-info"> De <?php echo $meta_cf;?> Familias</h6>
+                            <h6 class="text-primary"><?php echo $p_nacional;?>%</h6>
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE MUNICIPIOS:</h6>
@@ -368,13 +379,18 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
                             <?php
+
+                            $sql_h =" SELECT sum(habitantes) FROM area_influencia ";   
+                            $result_h = mysqli_query($link,$sql_h);
+                            $row_h = mysqli_fetch_array($result_h);
+
                             $sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
                             ?>
                             <?php echo $integrantes;?> 
-                            <h6></h6>
+                            <h6 class="text-info"> De <?php echo $row_h[0];?> habitantes</h6>
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>

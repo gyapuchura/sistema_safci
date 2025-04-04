@@ -23,13 +23,26 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <div class="col-sm-2">
                             <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
                             <?php
+                            $sql_f =" SELECT sum(area_influencia.familias) FROM area_influencia, establecimiento_salud  ";   
+                            $sql_f.=" WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio='$idmunicipio' ";
+                            $result_f = mysqli_query($link,$sql_f);
+                            $row_f = mysqli_fetch_array($result_f);
+                            $meta_cf = $row_f[0];
+
                             $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
                             $result_cf = mysqli_query($link,$sql_cf);
                             $row_cf = mysqli_fetch_array($result_cf);  
-                            $total_cf = $row_cf[0];
+                            $carpetizacion = $row_cf[0];
+
+                            $porcentaje_mun   = ($carpetizacion*100)/$meta_cf;
+                            $p_municipio    = number_format($porcentaje_mun, 2, '.', '');
+
+
                             ?>
-                            <?php echo $total_cf;?>
-                            <h6></h6>
+                            <?php echo $carpetizacion;?>
+                            <h6 class="text-info">De <?php echo $meta_cf;?> Familias</h6>
+                            <h6 class="text-primary"><?php echo $p_municipio;?>%</h6>
+
                             </div>
 
                             <div class="col-sm-2">
@@ -45,6 +58,12 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
                             <?php
+
+                            $sql_h =" SELECT sum(area_influencia.habitantes) FROM area_influencia, establecimiento_salud  ";  
+                            $sql_h.=" WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio='$idmunicipio' "; 
+                            $result_h = mysqli_query($link,$sql_h);
+                            $row_h = mysqli_fetch_array($result_h);
+
                             $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                             $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
                             $result_int = mysqli_query($link,$sql_int);
@@ -52,7 +71,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                             $integrantes = $row_int[0];
                             ?>
                             <?php echo $integrantes;?> 
-                            <h6></h6>
+                            <h6 class="text-info">De <?php echo $row_h[0];?> Habitantes</h6>
                             </div>
                             <div class="col-sm-6">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
