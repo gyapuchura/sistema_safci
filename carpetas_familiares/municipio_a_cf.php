@@ -37,10 +37,11 @@ $row_mun = mysqli_fetch_array($result_mun);
                             $porcentaje_mun   = ($carpetizacion*100)/$meta_cf;
                             $p_municipio    = number_format($porcentaje_mun, 2, '.', '');
 
-
+                            $meta_mun    = number_format($meta_cf, 0, '.', '.');
+                            $carpetizacion_mun    = number_format($carpetizacion, 0, '.', '.');
                             ?>
-                            <?php echo $carpetizacion;?>
-                            <h6 class="text-info">De <?php echo $meta_cf;?> Familias</h6>
+                            <?php echo $carpetizacion_mun;?>
+                            <h6 class="text-info">De <?php echo $meta_mun;?> Familias</h6>
                             <h6 class="text-primary"><?php echo $p_municipio;?>%</h6>
 
                             </div>
@@ -69,9 +70,12 @@ $row_mun = mysqli_fetch_array($result_mun);
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
+
+                            $integrantes_cf   = number_format($integrantes, 0, '.', '.');
+                            $integrantes_meta = number_format($row_h[0], 0, '.', '.');
                             ?>
-                            <?php echo $integrantes;?> 
-                            <h6 class="text-info">De <?php echo $row_h[0];?> Habitantes</h6>
+                            <?php echo $integrantes_cf;?> 
+                            <h6 class="text-info">De <?php echo $integrantes_meta;?> Habitantes</h6>
                             </div>
                             <div class="col-sm-6">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>

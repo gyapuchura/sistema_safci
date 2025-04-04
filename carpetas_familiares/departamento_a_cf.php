@@ -105,10 +105,13 @@ $row_dep = mysqli_fetch_array($result_dep);
 
                         $porcentaje_dep   = ($carpetizacion*100)/$meta_cf;
                         $p_departamento    = number_format($porcentaje_dep, 2, '.', '');
+
+                        $meta_dep    = number_format($meta_cf, 0, '.', '.');
+                        $carpetizacion_dep    = number_format($carpetizacion, 0, '.', '.');
                         
                         ?>
-                        <?php echo $carpetizacion;?>
-                        <h6 class="text-info"> De <?php echo $meta_cf;?> Familias</h6>
+                        <?php echo $carpetizacion_dep;?>
+                        <h6 class="text-info"> De <?php echo $meta_dep;?> Familias</h6>
                         <h6 class="text-primary"><?php echo $p_departamento;?>%</h6>
                         </div>
                         <div class="col-sm-2">
@@ -143,9 +146,13 @@ $row_dep = mysqli_fetch_array($result_dep);
                         $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
                         $result_int = mysqli_query($link,$sql_int);
                         $integrantes = mysqli_num_rows($result_int);  
+
+                        $integrantes_cf   = number_format($integrantes, 0, '.', '.');
+                        $integrantes_meta = number_format($row_h[0], 0, '.', '.');
+
                         ?>
-                        <?php echo $integrantes;?> 
-                        <h6 class="text-info"> De <?php echo $row_h[0];?> habitantes</h6>
+                        <?php echo $integrantes_cf;?> 
+                        <h6 class="text-info"> De <?php echo $integrantes_meta;?> habitantes</h6>
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>

@@ -58,9 +58,13 @@ $row_est = mysqli_fetch_array($result_est);
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
+
+                            $integrantes_cf   = number_format($integrantes, 0, '.', '.');
+                            $integrantes_meta = number_format($row_h[0], 0, '.', '.');
+
                             ?>
-                            <?php echo $integrantes;?> 
-                            <h6 class="text-info">De <?php echo $row_h[0];?> Habitantes</h6>
+                            <?php echo $integrantes_cf;?> 
+                            <h6 class="text-info">De <?php echo $integrantes_meta;?> Habitantes</h6>
                             </div>
                             <div class="col-sm-8">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
