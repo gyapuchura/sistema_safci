@@ -26,18 +26,30 @@ $area_af = $row_area[1]." ".$row_area[2];
                             <div class="col-sm-2">
                             <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
                             <?php
+                            $sql_f =" SELECT habitantes, familias FROM area_influencia WHERE idarea_influencia='$idarea_influencia' ";   
+                            $result_f = mysqli_query($link,$sql_f);
+                            $row_f = mysqli_fetch_array($result_f);
+                            $meta_cf = $row_f[1];
+
                             $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idarea_influencia='$idarea_influencia' ";
                             $result_cf = mysqli_query($link,$sql_cf);
                             $row_cf = mysqli_fetch_array($result_cf);  
-                            $total_cf = $row_cf[0];
+                            $carpetizacion = $row_cf[0];
+
+                            $porcentaje_af   = ($carpetizacion*100)/$meta_cf;
+                            $p_area_influencia    = number_format($porcentaje_af, 2, '.', '');
+
                             ?>
-                            <?php echo $total_cf;?>
-                            <h6></h6>
+                            <?php echo $carpetizacion;?> 
+                            <h6 class="text-info">De <?php echo $meta_cf;?> Familias</h6>
+                            <h6 class="text-primary"><?php echo $p_area_influencia;?>%</h6>
+
                             </div>
 
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
                             <?php
+
                             $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar  ";
                             $sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                             $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO'  ";
@@ -46,8 +58,8 @@ $area_af = $row_area[1]." ".$row_area[2];
                             $row_int = mysqli_fetch_array($result_int);  
                             $integrantes = $row_int[0];
                             ?>
-                            <?php echo $integrantes;?> 
-                            <h6></h6>
+                            <?php echo $integrantes;?>
+                            <h6 class="text-info">de <?php echo $row_f[0];?> habitantes</h6>
                             </div>
                             <div class="col-sm-4">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>

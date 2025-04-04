@@ -239,10 +239,465 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 </div>
 
-<!---- end reporte con fromato ----->
+<!---- end reporte con formato ----->
+
+<!---- begin reporte con formato 2 ----->
+<div class="row">
+
+<!-- % de carpetizacion departamento BENI -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN BENI:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='1' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='1'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- % de carpetizacion departamento  CBBA -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN COCHABAMBA:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='2' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='2'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- % de carpetizacion departamento  CHUQUISACA -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN CHUQUISACA:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='3' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='3'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- % de carpetizacion departamento  LA PAZ -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN LA PAZ:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='4' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='4'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- % de carpetizacion departamento  ORURO -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN ORURO:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='5' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='5'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- % de carpetizacion departamento  PANDO -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN PANDO:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='6' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='6'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 
 
 
+<div class="row">
+
+<!-- % de carpetizacion departamento  POTOSI -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN POTOSI:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='7' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='7'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- % de carpetizacion departamento  SANTA CRUZ -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN SANTA CRUZ:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='8' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='8'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- % de carpetizacion departamento  TARIJA -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">% CARPETIZACIÓN EN TARIJA:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='9' ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='9'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- % de carpetizacion NACIONAL -->
+<div class="col-xl-2 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">% CARPETIZACIÓN NACIONAL:
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php
+                                $sql_f =" SELECT sum(familias) FROM area_influencia ";   
+                                $result_f = mysqli_query($link,$sql_f);
+                                $row_f = mysqli_fetch_array($result_f);
+                                $meta_cf= $row_f[0];
+
+                                $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar  WHERE estado='CONSOLIDADO'  ";
+                                $result_cf = mysqli_query($link,$sql_cf);
+                                $row_cf = mysqli_fetch_array($result_cf);  
+                                $carpetizacion  = $row_cf[0];
+
+                                $p_departamento   = ($carpetizacion*100)/$meta_cf;
+                                $p_beni    = number_format($p_departamento, 2, '.', '');
+                                echo $p_beni;
+                            ?> %
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-warning" role="progressbar"
+                                    style="width: <?php echo $p_beni;?>%" aria-valuenow="50" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-file fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+<!---- end reporte con formato 2 ----->
     </div>
 <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

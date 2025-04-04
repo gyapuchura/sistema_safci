@@ -92,13 +92,24 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <div class="col-sm-2">
                         <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
                         <?php
+
+                        $sql_f =" SELECT sum(familias) FROM area_influencia WHERE iddepartamento='$iddepartamento' ";   
+                        $result_f = mysqli_query($link,$sql_f);
+                        $row_f = mysqli_fetch_array($result_f);
+                        $meta_cf = $row_f[0];
+
                         $sql_cf =" SELECT idcarpeta_familiar FROM carpeta_familiar  WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento'  ";
                         $result_cf = mysqli_query($link,$sql_cf);
                         $row_cf = mysqli_num_rows($result_cf);  
-                        $total_cf = $row_cf;
+                        $carpetizacion = $row_cf;
+
+                        $porcentaje_dep   = ($carpetizacion*100)/$meta_cf;
+                        $p_departamento    = number_format($porcentaje_dep, 2, '.', '');
+                        
                         ?>
-                        <?php echo $total_cf;?>
-                        <h6></h6>
+                        <?php echo $carpetizacion;?>
+                        <h6 class="text-info"> De <?php echo $meta_cf;?> Familias</h6>
+                        <h6 class="text-primary"><?php echo $p_departamento;?>%</h6>
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE MUNICIPIOS:</h6>                        
@@ -123,13 +134,18 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
                         <?php
+
+                        $sql_h =" SELECT sum(habitantes) FROM area_influencia WHERE iddepartamento='$iddepartamento' ";   
+                        $result_h = mysqli_query($link,$sql_h);
+                        $row_h = mysqli_fetch_array($result_h);
+
                         $sql_int =" SELECT integrante_cf.idintegrante_cf FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                         $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
                         $result_int = mysqli_query($link,$sql_int);
                         $integrantes = mysqli_num_rows($result_int);  
                         ?>
                         <?php echo $integrantes;?> 
-                        <h6></h6>
+                        <h6 class="text-info"> De <?php echo $row_h[0];?> habitantes</h6>
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>
