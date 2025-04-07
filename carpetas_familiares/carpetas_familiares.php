@@ -155,11 +155,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         $row_in = mysqli_fetch_array($result_in);
                                         $integrantes = $row_in[0];
 
-                                        $sql_1 = " SELECT count(idintegrante_datos_cf) FROM integrante_datos_cf WHERE idcarpeta_familiar = '$row[0]' ";
+                                        $sql_1 = " SELECT idintegrante_cf FROM integrante_datos_cf WHERE idcarpeta_familiar = '$row[0]' GROUP BY idintegrante_cf ";
                                         $result_1 = mysqli_query($link,$sql_1);  
-                                        $row_1 = mysqli_fetch_array($result_1);  
-                                        $integrantes_datos = $row_1[0];
-                                        if ($integrantes <= $integrantes_datos) {                                    
+                                        $integrantes_datos = mysqli_num_rows($result_1);  
+                                        if ($integrantes == $integrantes_datos) {                                    
                                             } else { 
                                                 echo "<h6 class='text-danger'>- AJUSTAR DATOS DE TODOS LOS INTEGRANTES </h6>";
                                             }

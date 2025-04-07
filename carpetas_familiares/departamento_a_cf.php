@@ -150,9 +150,13 @@ $row_dep = mysqli_fetch_array($result_dep);
                         $integrantes_cf   = number_format($integrantes, 0, '.', '.');
                         $integrantes_meta = number_format($row_h[0], 0, '.', '.');
 
+                        $porcentaje_hab   = ($integrantes*100)/$row_h[0];
+                        $p_habitantes = number_format($porcentaje_hab, 2, '.', ' ');
+
                         ?>
                         <?php echo $integrantes_cf;?> 
                         <h6 class="text-info"> De <?php echo $integrantes_meta;?> habitantes</h6>
+                        <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>     
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>

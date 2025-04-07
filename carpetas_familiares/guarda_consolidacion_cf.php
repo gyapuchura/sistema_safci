@@ -43,44 +43,76 @@ $result_t = mysqli_query($link,$sql_t);
 
         } else {
 
-    $sql_t = " SELECT idintegrante_subsector_salud FROM integrante_subsector_salud WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
-    $result_t = mysqli_query($link,$sql_t);    
-    if (!($row_t = mysqli_fetch_array($result_t))) {
+            $sql_in = " SELECT count(idintegrante_cf) FROM integrante_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+            $result_in = mysqli_query($link,$sql_in);    
+            $row_in = mysqli_fetch_array($result_in);
+            $integrantes = $row_in[0];
 
-        $verificar = 'PUNTO 6 : SUBSECTOR SALUD';
+            $sql_1 = " SELECT idintegrante_cf FROM integrante_datos_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' GROUP BY idintegrante_cf ";
+            $result_1 = mysqli_query($link,$sql_1);  
+            $integrantes_datos = mysqli_num_rows($result_1);  
+
+            if (!($integrantes == $integrantes_datos)) {
+
+                $verificar = 'PUNTO 4 : DATOS DE TODOS LOS INTEGRANTES ';
+                $_SESSION['verificar_ss']     = $verificar;
+                header("Location:mensaje_verificar.php");
+
+                } else {
+
+    $sql_2 = " SELECT idintegrante_cf FROM integrante_subsector_salud WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' GROUP BY idintegrante_cf ";
+    $result_2 = mysqli_query($link,$sql_2);  
+    $integrantes_sub = mysqli_num_rows($result_2);  
+    if (!($integrantes_sub >= $integrantes)) {
+
+        $verificar = 'PUNTO 6 : SUBSECTOR SALUD DE TODOS LOS INTEGRANTES';
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
 
-        } else {
+        } else {   
 
-    $sql_t = " SELECT idintegrante_beneficiario FROM integrante_beneficiario WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
-    $result_t = mysqli_query($link,$sql_t);    
-    if (!($row_t = mysqli_fetch_array($result_t))) {
-        $verificar = 'PUNTO 7 : PROGRAMAS SOCIALES';
+    $sql_3 = " SELECT idintegrante_cf FROM integrante_beneficiario WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' GROUP BY idintegrante_cf ";
+    $result_3 = mysqli_query($link,$sql_3); 
+    $integrante_ben = mysqli_num_rows($result_3);   
+    if (!($integrante_ben >= $integrantes)) {
+
+        $verificar = 'PUNTO 7 : PROGRAMAS SOCIALES EN TODOS LOS INTEGRANTES';
         $_SESSION['verificar_ss']     = $verificar;
+
         header("Location:mensaje_verificar.php");
     } else {
         
-    $sql_t = " SELECT idintegrante_tradicional FROM integrante_tradicional WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
-    $result_t = mysqli_query($link,$sql_t);    
-    if (!($row_t = mysqli_fetch_array($result_t))) {
-        $verificar = 'PUNTO 8 : MEDICINA TRADICIONAL';
+        $sql_4 = " SELECT idintegrante_cf FROM integrante_tradicional WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' GROUP BY idintegrante_cf ";
+        $result_4 = mysqli_query($link,$sql_4);   
+        $integrante_trad = mysqli_num_rows($result_4); 
+        if (!($integrante_trad >= $integrantes)) {
+
+        $verificar = 'PUNTO 8 : MEDICINA TRADICIONAL EN TODOS LOS INTEGRANTES';
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
+
     } else {
-    $sql_t = " SELECT idintegrante_defuncion FROM integrante_defuncion WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
-    $result_t = mysqli_query($link,$sql_t);    
-    if (!($row_t = mysqli_fetch_array($result_t))) {
-        $verificar = 'PUNTO 9 : DEFUNCIÓN DEL INTEGRANTE FAMILIAR';
+
+        $sql_5 = " SELECT idintegrante_cf FROM integrante_defuncion WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' GROUP BY idintegrante_cf";
+        $result_5 = mysqli_query($link,$sql_5);   
+        $integrante_def = mysqli_num_rows($result_5); 
+        if (!($integrante_def >= $integrantes)) {
+
+        $verificar = 'PUNTO 9 : DEFUNCIÓN O NO DEFUNCIÓN DE TODOS LOS INTEGRANTES ';
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
+
     } else {
-    $sql_t = " SELECT idsocio_economica_cf FROM socio_economica_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
-    $result_t = mysqli_query($link,$sql_t);    
-    if (!($row_t = mysqli_fetch_array($result_t))) {
+
+        $sql_soc = " SELECT idsocio_economica FROM socio_economica_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+        $result_soc = mysqli_query($link,$sql_soc);   
+        $socioeconomia = mysqli_num_rows($result_soc); 
+        if (!($socioeconomia == '10')) {
+
         $verificar = 'PUNTO 12 : CARACTERÍSTICAS SOCIOECONÓMICAS';
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
+        
     } else {
     $sql_t = " SELECT idtenencia_animales_cf FROM tenencia_animales_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
     $result_t = mysqli_query($link,$sql_t);    
@@ -131,6 +163,8 @@ $result_t = mysqli_query($link,$sql_t);
         $_SESSION['verificar_ss']     = $verificar;
         header("Location:mensaje_verificar.php");
     } else {
+
+
         
         /************** guardar consolidacion de carpeta familiar **************/ 
 
@@ -151,7 +185,7 @@ $result_t = mysqli_query($link,$sql_t);
 
         header("Location:mensaje_consolidacion_cf.php");
 
-    } } } } } } } } } } } } } } }
+    } } } } } } } } } } } } } } } }
     
         /*********** Guarda el registro de dterminante de la salud (END) *************/
 ?>

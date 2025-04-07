@@ -14,6 +14,14 @@ $perfil_ss     = $_SESSION['perfil_ss'];
 $idcarpeta_familiar_ss  = $_SESSION['idcarpeta_familiar_ss'];
 
 
+$sql_soc = " SELECT idsocio_economica FROM socio_economica_cf WHERE idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+$result_soc = mysqli_query($link,$sql_soc);   
+if ($socioeconomia = mysqli_fetch_array($result_soc)) {
+
+    header("Location:mensaje_socioeconomicas_cf.php");
+
+} else {
+
 $idsocio_economica_i = '1';
     
     foreach($_POST['valor4'] as $valor) {
@@ -27,6 +35,8 @@ $idsocio_economica_i = '1';
     }
 
     header("Location:socioeconomicas_cf.php");
+
+}
 
         /*********** Guarda el registro de dterminante de la salud (END) *************/
         ?>
