@@ -349,7 +349,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             $carpetizacion = $row_cf[0];
 
                             $porcentaje_nal = ($carpetizacion*100)/$meta_cf;
-                            $p_nacional     = number_format($porcentaje_nal, 0, ' ', '.');
+                            $p_nacional     = number_format($porcentaje_nal, 2, ' ', '.');
 
                             $carpetizacion_nal  = number_format($carpetizacion, 0, '', '.');
                             $meta_nal  = number_format($meta_cf, 0, '.', '.');
@@ -357,7 +357,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             ?>
                             <?php echo $carpetizacion_nal;?>
                             <h6 class="text-info"> De <?php echo $meta_nal;?> Familias</h6>
-                            <h6 class="text-primary"><?php echo $p_nacional;?>%</h6>
+                            <h6 class="text-primary"><?php echo $p_nacional;?> %</h6>
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE MUNICIPIOS:</h6>
@@ -395,9 +395,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             $integrantes_meta  = number_format($row_h[0], 0, '', '.');
                             $integrantes_cf  = number_format($integrantes, 0, '.', '.');
 
+                            $porcentaje_hab   = ($integrantes*100)/$row_h[0];
+                            $p_habitantes = number_format($porcentaje_hab, 2, '.', ' ');
+
                             ?>
                             <?php echo $integrantes_cf;?> 
                             <h6 class="text-info"> De <?php echo $integrantes_meta;?> habitantes</h6>
+                            <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE PERSONAL SAFCI REGISTRADOR:</h6>

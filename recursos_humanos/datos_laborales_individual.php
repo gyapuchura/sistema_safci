@@ -75,7 +75,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 
             <div class="text-center">  
-                <h4 class="text-primary">LUGARES DE TRABAJO <?php echo $idusuario_ss;?> <?php  echo $idnombre_ss;?></h4>  
+                <h4 class="text-primary">LUGARES DE TRABAJO </h4>  
             </div>   
             <hr>
             <div class="form-group row">

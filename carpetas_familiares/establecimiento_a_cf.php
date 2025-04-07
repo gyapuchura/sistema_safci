@@ -41,7 +41,7 @@ $row_est = mysqli_fetch_array($result_est);
                             ?>
                             <?php echo $carpetizacion;?>
                             <h6 class="text-info">De <?php echo $meta_cf;?> Familias</h6>
-                            <h6 class="text-primary"><?php echo $p_establecmineto;?>%</h6>
+                            <h6 class="text-primary"><?php echo $p_establecmineto;?> %</h6>
                             </div>
 
                             <div class="col-sm-2">
@@ -62,9 +62,12 @@ $row_est = mysqli_fetch_array($result_est);
                             $integrantes_cf   = number_format($integrantes, 0, '.', '.');
                             $integrantes_meta = number_format($row_h[0], 0, '.', '.');
 
+                            $porcentaje_hab   = ($integrantes*100)/$row_h[0];
+                            $p_habitantes = number_format($porcentaje_hab, 2, '.', ' ');
                             ?>
                             <?php echo $integrantes_cf;?> 
                             <h6 class="text-info">De <?php echo $integrantes_meta;?> Habitantes</h6>
+                            <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>
                             </div>
                             <div class="col-sm-8">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
@@ -76,13 +79,30 @@ $row_est = mysqli_fetch_array($result_est);
                                 mysqli_field_seek($result,0);
                                 while ($field = mysqli_fetch_field($result)){
                                 } do {
-                                    $sql_p =" SELECT nombre.nombre, nombre.paterno, nombre.materno, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM usuarios, nombre, carpeta_familiar, tipo_area_influencia, area_influencia  ";
-                                    $sql_p.=" WHERE carpeta_familiar.idusuario=usuarios.idusuario AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
-                                    $sql_p.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-                                    $sql_p.=" AND usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[0]' ";
+                                    $sql_p =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[0]'  ";
                                     $result_p = mysqli_query($link,$sql_p);
                                     $row_p = mysqli_fetch_array($result_p);
-                                    echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]." -> Area de Influencia : ".$row_p[3]." ".$row_p[4]."</br>");
+                                  
+                                    echo mb_strtoupper("<h6 class='text-info'>".$numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]."</h6>");
+
+                                    $sql_af =" SELECT tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia, carpeta_familiar  WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia";   
+                                    $sql_af.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idusuario='$row[0]' GROUP BY area_influencia.area_influencia ";
+                                    $result_af = mysqli_query($link,$sql_af);
+                                    if ($row_af = mysqli_fetch_array($result_af)){
+                                    mysqli_field_seek($result_af,0);
+                                    while ($field_af = mysqli_fetch_field($result_af)){
+                                    } do {  ?>
+
+                                        <h6 class="text-info"><?php echo mb_strtoupper(" - ". $row_af[0]." ".$row_af[1]);?></h6>
+
+                                        <?php
+                                    }
+                                    while ($row_af = mysqli_fetch_array($result_af));
+                                    } else {
+                                    }
+
+                                    echo "</br>";
+
                                     $numero = $numero+1;
                                 }
                                 while ($row = mysqli_fetch_array($result));

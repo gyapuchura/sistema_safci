@@ -73,9 +73,13 @@ $row_mun = mysqli_fetch_array($result_mun);
 
                             $integrantes_cf   = number_format($integrantes, 0, '.', '.');
                             $integrantes_meta = number_format($row_h[0], 0, '.', '.');
+
+                            $porcentaje_hab   = ($integrantes*100)/$row_h[0];
+                            $p_habitantes = number_format($porcentaje_hab, 2, '.', ' ');
                             ?>
                             <?php echo $integrantes_cf;?> 
                             <h6 class="text-info">De <?php echo $integrantes_meta;?> Habitantes</h6>
+                            <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>
                             </div>
                             <div class="col-sm-6">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
@@ -94,7 +98,11 @@ $row_mun = mysqli_fetch_array($result_mun);
                                     $sql_p.=" AND  usuarios.idnombre=nombre.idnombre AND carpeta_familiar.idusuario='$row[0]' ";
                                     $result_p = mysqli_query($link,$sql_p);
                                     $row_p = mysqli_fetch_array($result_p);
-                                    echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]."  -> Establecimiento: ".$row_p[3]."</br>");
+                                    echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]); 
+                                   ?> 
+                                    <h6 class="text-info">Establecimiento: <?php echo $row_p[3];?></h6> 
+
+                                    <?php
                                     $numero = $numero+1;
 
                                 }

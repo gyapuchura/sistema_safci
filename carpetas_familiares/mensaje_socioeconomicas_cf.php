@@ -12,14 +12,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, ubicacion_cf.iddepartamento, ubicacion_cf.idred_salud, ubicacion_cf.idmunicipio, ubicacion_cf.idestablecimiento_salud, ";
-$sql_cf.=" ubicacion_cf.idarea_influencia, carpeta_familiar.fecha_apertura, carpeta_familiar.familia, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, ";
-$sql_cf.=" ubicacion_cf.latitud, ubicacion_cf.longitud, ubicacion_cf.altura, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro ";
-$sql_cf.=" FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -77,21 +69,11 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="text-center">   
                     
                     <hr>                     
-                    <h4 class="text-success">LA CARPETA FAMILIAR</h4>
-                    <h4 class="text-secundary"><?php echo $row_cf[1]?></h4>
-                    <h4 class="text-success">DE LA FAMILIA : </h4>
-                    <h4 class="text-secundary"><?php echo $row_cf[8]?></h4>
-                    <h4 class="text-success">HA SIDO CONSOLIDADA!</h4>
-                    <hr>
-                    <h4 class="text-info">AHORA PUEDE GENERAR EL DOCUMENTO DE IMPRESIÓN:</h4>
-                    <h4 class="text-primary">
+                    <h4 class="text-danger">USTED YA HA INGRESADO </h4>
+                    <h4 class="text-danger">LAS CARACTERISTICAS SOCIOECONÓMICAS</h4>
+                    <h4 class="text-danger">PARA ESTA FAMILIA!!!</h4>
                     </br>
-                    <a href="imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-info"><i class="far fa-file"></i> IMPRIMIR CARPETA FAMILIAR</h6></a>
-                    </h4>
-                    <hr>
-                    </br>
-                    <a href="carpetas_familiares.php"><h6> IR A BANDEJA DE CARPETAS FAMILIARES -></h6></a>
+                    <a href="socioeconomicas_cf.php"><h6>VOLVER -></h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 

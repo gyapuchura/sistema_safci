@@ -64,9 +64,13 @@ $area_af = $row_area[1]." ".$row_area[2];
                             $integrantes_cf   = number_format($integrantes, 0, '.', '.');
                             $integrantes_meta = number_format($row_f[0], 0, '.', '.');
 
+                            $porcentaje_hab   = ($integrantes*100)/$integrantes_meta;
+                            $p_habitantes = number_format($porcentaje_hab, 2, '.', ' ');
+
                             ?>
                             <?php echo $integrantes_cf;?>
                             <h6 class="text-info">de <?php echo $integrantes_meta;?> habitantes</h6>
+                            <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>  
                             </div>
                             <div class="col-sm-4">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
