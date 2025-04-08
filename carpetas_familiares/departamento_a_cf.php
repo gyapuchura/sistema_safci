@@ -122,7 +122,9 @@ $row_dep = mysqli_fetch_array($result_dep);
                         $municipios = mysqli_num_rows($result_p);  
                         ?>
                         <?php echo $municipios;?>
-                        <h6></h6>
+                        </br></br>
+                        <a href="carpetizacion_municipios_cf.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=50,left=600'); return false;"><h6 class="text-primary">CARPETIZACIÓN MUNICIPAL</h6></a>
+
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-info">N° DE ESTABLECIMIENTOS DE SALUD:</h6>

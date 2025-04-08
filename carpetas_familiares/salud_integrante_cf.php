@@ -172,7 +172,7 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                     <div class="col-sm-3">
                     </br>
-                    <a href="modificar_integrante_cf_reg.php"><h6 class="text-info">MODIFICAR</br>DATOS PERSONALES</h6></a>
+                    
                     </div>
                 </div>  
 
