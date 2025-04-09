@@ -33,7 +33,7 @@ $gestion    =  date("Y");
         <?php
             $numero=1;
             $sql =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM notificacion_ep, registro_enfermedad, sospecha_diag WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
-            $sql.=" AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND notificacion_ep.gestion='$gestion' AND notificacion_ep.semana_ep='$semana_ep' ";
+            $sql.=" AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND notificacion_ep.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.semana_ep='$semana_ep' ";
             $sql.=" AND registro_enfermedad.cifra !='0' GROUP BY sospecha_diag.sospecha_diag ORDER BY sospecha_diag.sospecha_diag ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
@@ -48,7 +48,7 @@ $gestion    =  date("Y");
         <td style="font-family: Arial; font-size: 12px; text-align: center;">
             <?php 
             $sql_c =" SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
-            $sql_c.=" AND registro_enfermedad.idsospecha_diag='$row[0]' AND registro_enfermedad.cifra !='0' AND notificacion_ep.gestion='$gestion' AND notificacion_ep.semana_ep='$semana_ep' ";
+            $sql_c.=" AND registro_enfermedad.idsospecha_diag='$row[0]' AND registro_enfermedad.cifra !='0' AND notificacion_ep.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.semana_ep='$semana_ep' ";
             $result_c = mysqli_query($link,$sql_c);
             $row_c = mysqli_fetch_array($result_c);
             $casos_semana   = number_format($row_c[0], 0, '.', '.');
