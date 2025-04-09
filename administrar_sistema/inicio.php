@@ -118,13 +118,13 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=700,height=800,scrollbars=YES,top=50,left=600'); return false;">
+                    <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=700,height=600,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                     Nº DE NOTIFICACIONES (F302A)
                     </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
-                    $sql_d =" SELECT COUNT(idnotificacion_ep) FROM notificacion_ep WHERE estado='CONSOLIDADO' AND fecha_registro='$fecha'  ";
+                    $sql_d =" SELECT count(idnotificacion_ep) FROM notificacion_ep WHERE estado='CONSOLIDADO' AND fecha_registro='$fecha'  ";
                     $result_d = mysqli_query($link,$sql_d);
                     $row_d = mysqli_fetch_array($result_d);
                     $notificaciones_ep_hoy = $row_d[0];
