@@ -1,3 +1,8 @@
+<?php	
+header('Content-type: application/vnd.ms-excel');
+header("Content-Disposition: attachment; filename=REPORTE CARPETIZACION MUNICIPIOS.xls");
+header("Pragma: no-cache");
+header("Expires: 0");?>
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
 <?php
@@ -7,7 +12,7 @@ $fecha 	    = date("Y-m-d");
 
 $gestion       =  date("Y");
 
-$iddepartamento = $_GET["iddepartamento"];
+$iddepartamento = $_POST["iddepartamento"];
 
 $sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
 $result_dep = mysqli_query($link,$sql_dep);
@@ -25,17 +30,17 @@ $row_dep = mysqli_fetch_array($result_dep);
 	<body>
   <h3 style="font-family: Arial; text-align: center; font-size: 18px; color: #294D7C;">PORCENTAJE DE CARPETIZACIÓN FAMILIAR MUNICIPIOS</h3>
   <h3 style="font-family: Arial; text-align: center; font-size: 18px; color: #294D7C;">DEPARTAMENTO DE <?php echo $row_dep[1];?></h3>
-	<table width="850" border="1" align="center" cellspacing="0">
+	<table width="950" border="1" align="center" cellspacing="0">
 	  <tbody>
         <tr>
-            <td width="17" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>N°</strong></td>
-            <td width="180" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>MUNICIPIO</strong></td>
-            <td width="62" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>FAMILIAS POR ÁREA DE INFLUENCIA</strong></td>
-            <td width="62" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>FAMILIAS CARPETIZADAS EN SISTEMA</strong></td>
-            <td width="62" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>% DE CARPETIZACIÓN</strong></td>
-            <td width="78" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>HABITANTES POR ÁREA DE INFLUENCIA</strong></td>
-            <td width="78" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>INTEGRANTES REGISTRADOS EN SISTEMA</strong></td>
-            <td width="52" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>% DE POBLACIÓN</strong></td>	
+            <td width="50" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>N°</strong></td>
+            <td width="300" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>MUNICIPIO</strong></td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>FAMILIAS POR ÁREA DE INFLUENCIA</strong></td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>FAMILIAS CARPETIZADAS EN SISTEMA</strong></td>
+            <td width="80" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>% DE CARPETIZACIÓN</strong></td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>HABITANTES POR ÁREA DE INFLUENCIA</strong></td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>INTEGRANTES REGISTRADOS EN SISTEMA</strong></td>
+            <td width="80" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>% DE POBLACIÓN</strong></td>	
  
         </tr>
 
@@ -115,12 +120,5 @@ $row_dep = mysqli_fetch_array($result_dep);
       </tbody>
     </table>
 
-	<p>&nbsp;</p>
-
-    <form name="REPORTE_CF_MUN" action="carpetizacion_mun_excel.php" method="post">
-        <input type="hidden" name="iddepartamento" value="<?php echo $iddepartamento;?>">
-        <button type="submit" class="btn btn-success">REPORTE CARPETAS FAMILIARES EN EXCEL</button>
-    </form>
-    <p>&nbsp;</p>
 </body>
 </html>

@@ -54,7 +54,9 @@ $row_mun = mysqli_fetch_array($result_mun);
                             $establecimientos = mysqli_num_rows($result_mun);  
                             ?>
                             <?php echo $establecimientos;?>
-                            <h6></h6>
+                            </br></br>
+                            <a href="carpetizacion_operativos_cf.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=900,scrollbars=YES,top=50,left=600'); return false;"><h6 class="text-primary">CARPETIZACIÓN OPERATIVOS</h6></a>
+
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
