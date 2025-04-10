@@ -84,10 +84,10 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                                     <tr>  
                                         <th>N°</th>                                    
                                         <th>DEPARTAMENTO</th>
-                                        <th>RED DE SALUD</th>
+                                        <th>RED DE SALUD</th> 
                                         <th>ESTABLECIMIENTO DE SALUD</th>
-                                        <th>TIPO DE ÁREA DE INFLUENCIA</th>
                                         <th>DENOMINACIÓN DEL ÁREA DE INFLUENCIA</th>
+                                        <th>NUMERO DE CARPETAS FAMILIARES</th>
                                         <th>ACCIÓN</th>
                                         <th>CARPETAS FAMILIARES</th>
                                     </tr>
@@ -112,8 +112,14 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                                 <td><?php echo $row[1];?></td>
                                 <td><?php echo $row[2];?></td>
                                 <td><?php echo $row[3];?></td>
-                                <td><?php echo $row[4];?></td>
-                                <td><?php echo $row[5];?></td>
+                                <td><?php echo mb_strtoupper($row[4]." ".$row[5]);?></td>
+                                <td><?php 
+                                $sql_cf = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idarea_influencia = '$row[0]' ";
+                                $result_cf = mysqli_query($link,$sql_cf);    
+                                $row_cf = mysqli_fetch_array($result_cf);
+                                $carpetas_familiares = $row_cf[0];
+                                echo $carpetas_familiares;
+                                ?></td>
                                 <td>
                                 <form name="FORM_RED" action="valida_area_influencia_mun.php" method="post">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
@@ -126,7 +132,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                                 </form>                                                                          
                                 </td>
                                 <td>
-                     <!---      <form name="FORM_RED" action="valida_area_influencia_cf.php" method="post">  -->
+                                <form name="FORM_RED" action="valida_area_influencia_cfm.php" method="post">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                                 <button type="submit" class="btn btn-warning btn-icon-split">

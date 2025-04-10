@@ -10,10 +10,10 @@ $idmunicipio = $_POST["municipio_salud"];
                     <th>DEPARTAMENTO</th>
                     <th>RED DE SALUD</th>
                     <th>ESTABLECIMIENTO DE SALUD</th>
-                    <th>TIPO DE ÁREA DE INFLUENCIA</th>
                     <th>DENOMINACIÓN DEL ÁREA DE INFLUENCIA</th>
+                    <th>NUMERO DE CARPETAS FAMILIARES</th>
                     <th>REGISTRADA POR:</th>
-                    <th>ACCIÓN</th>
+                    <th>ACCIÓN</th> 
                     <th>CARPETAS FAMILIARES</th>
                 </tr>
             </thead>
@@ -36,8 +36,15 @@ $idmunicipio = $_POST["municipio_salud"];
                 <td><?php echo $row[1];?></td>
                 <td><?php echo $row[2];?></td>
                 <td><?php echo $row[3];?></td>
-                <td><?php echo $row[4];?></td>
-                <td><?php echo mb_strtoupper($row[5]);?></td>
+                <td><?php echo mb_strtoupper($row[4]." ".$row[5]);?></td>
+                <td><?php 
+
+                        $sql_cf = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idarea_influencia = '$row[0]' ";
+                        $result_cf = mysqli_query($link,$sql_cf);    
+                        $row_cf = mysqli_fetch_array($result_cf);
+                        $carpetas_familiares = $row_cf[0];
+                        echo $carpetas_familiares;
+                ?></td>
                 <td><?php echo mb_strtoupper($row[6]." ".$row[7]." ".$row[8]);?></td>
                 <td>
                 <form name="FORM_RED" action="valida_area_influencia.php" method="post">
@@ -51,7 +58,7 @@ $idmunicipio = $_POST["municipio_salud"];
                 </form>                                                                          
                 </td>
                 <td>
-        <!--          <form name="FORM_RED" action="#valida_area_influencia_cf.php" method="post"> --->
+                <form name="FORM_RED" action="valida_area_influencia_cf.php" method="post">
                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                 <input name="idarea_influencia" type="hidden" value="<?php echo $row[0];?>">
                 <button type="submit" class="btn btn-warning btn-icon-split">

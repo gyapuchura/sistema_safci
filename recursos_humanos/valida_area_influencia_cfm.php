@@ -13,6 +13,6 @@ $idarea_influencia = $_POST['idarea_influencia'];
 
 $_SESSION['idarea_influencia_ss'] = $idarea_influencia;
 
-header("Location:../carpetas_familiares/carpetas_familiares_af.php");
+header("Location:../carpetas_familiares/carpetas_familiares_afm.php");
 
 ?>
