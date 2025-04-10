@@ -118,7 +118,7 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=500,height=700,scrollbars=YES,top=50,left=600'); return false;">
+                    <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=400,height=700,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                     Nº DE NOTIFICACIONES (F302A)
                     </div></a>
