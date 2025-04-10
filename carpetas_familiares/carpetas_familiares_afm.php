@@ -84,7 +84,6 @@ $idarea_influencia_ss =  $_SESSION['idarea_influencia_ss'];
                                             <th>FECHA DE REGISTRO</th>
                                             <th>ACCIÓN</th>
                                             <th>OBSERVACIONES</th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                    <tbody>
@@ -215,16 +214,6 @@ $idarea_influencia_ss =  $_SESSION['idarea_influencia_ss'];
                                      //----- INCORPORAR EN BANDEJA DE CARPETAS OPERATIVO END ----- //   
                                                                                 
                                         ?>
-                                        </td>
-                                        <td>
-                                        <?php if ($row[10] == 'CONSOLIDADO') { ?>
-                                                
-                                                   <form name="FORM_P" action="valida_carpeta_familiar.php" method="post">
-                                                   <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                   <button type="submit" class="btn btn-info btn-user btn-block">ACTUALIZAR</br>CARPETA FAMILIAR</button></form>
-
-                                        <?php } else {  ?>      
-                                        <?php } ?>    
                                         </td>
                                         </tr>
                                      
