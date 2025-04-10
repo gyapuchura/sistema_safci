@@ -76,9 +76,13 @@ $gestion    =  date("Y");
                               <div class="card-body">
                                   <div class="row no-gutters align-items-center">
                                       <div class="col mr-2">
-                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                          <?php echo $row[1];?>
-                                          </div>
+                                                                    
+                                         <a href="../implementacion_safci/marco_ep_nacional.php?sospecha_diag_nal=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=300'); return false;">
+                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"> 
+                                         <?php echo $row[1];?>
+                                         </div>
+                                          </a> 
+                                                                                    
                                           <div class="h5 mb-0 font-weight-bold text-gray-800">
                                           <?php 
                                             $sql_c =" SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
@@ -91,7 +95,7 @@ $gestion    =  date("Y");
                                         
                                       </div>
                                       <div class="col-auto">
-                                      <a class="btn btn-primary btn-icon-split" href="../implementacion_safci/marco_ep_nacional.php?sospecha_diag_nal=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=300'); return false;">
+                                      <a href="notificaciones_ep_semana.php?idsospecha_diag=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES'); return false;">
                                       <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                                       </a>
                                       </div>
