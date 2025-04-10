@@ -47,7 +47,9 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND semana_ep='$semana_ep' AND gestion='$gestion' GROUP BY fecha_registro ORDER BY fecha_registro";
+$sql = " SELECT notificacion_ep.fecha_registro FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
+$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.semana_ep='$semana_ep' AND notificacion_ep.gestion='$gestion' ";
+$sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.fecha_registro ORDER BY notificacion_ep.fecha_registro ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -104,7 +106,7 @@ echo ",";
         },
         tooltip: {
             shared: true,
-            valueSuffix: ' Notificaciones'
+            valueSuffix: ' Casos'
         },
         credits: {
             enabled: false
@@ -115,13 +117,15 @@ echo ",";
             }
         },
         series: [{
-            name: 'Notificaciones F302A',
+            name: 'Casos <?php echo mb_strtoupper($row_sos[1]);?>',
             data: [
 
              <?php
 
 $numero = 0;
-$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND semana_ep='$semana_ep' AND gestion='$gestion' GROUP BY fecha_registro ORDER BY fecha_registro ";
+$sql = " SELECT notificacion_ep.fecha_registro FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
+$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.semana_ep='$semana_ep' AND notificacion_ep.gestion='$gestion' ";
+$sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.fecha_registro ORDER BY notificacion_ep.fecha_registro ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -134,11 +138,12 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT idnotificacion_ep, fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND semana_ep='$semana_ep' AND gestion='$gestion' AND fecha_registro='$row[0]'";
+$sql7 = " SELECT sum(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
+$sql7.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' ";
+$sql7.= " AND notificacion_ep.semana_ep='$semana_ep' AND notificacion_ep.gestion='$gestion' AND notificacion_ep.fecha_registro='$row[0]' ";
 $result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_num_rows($result7);
-
-$cifra_diaria = $row7;
+$row7 = mysqli_fetch_array($result7);
+$cifra_diaria = $row7[0];
 ?>
              <?php echo $cifra_diaria; ?>
 
@@ -174,7 +179,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ÚLTIMAS 100 NOTIFICACIONES - F302A GENERADOS</h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">F302A - <?php echo mb_strtoupper($row_sos[1]);?></h4>
 
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
@@ -188,7 +193,7 @@ Si no se encontraron resultados
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">USUARIO DE SISTEMA</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">PERFIL</td>
-              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA Y HORA DE INGRESO</td>
+              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FECHA Y HORA DE REGISTRO</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
