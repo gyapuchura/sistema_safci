@@ -6,12 +6,19 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 
+$semana_ep  = date("W");
+$idsospecha_diag = $_GET['idsospecha_diag'];
+
+$sql_sos = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag='$idsospecha_diag' ";
+$result_sos = mysqli_query($link,$sql_sos);
+$row_sos = mysqli_fetch_array($result_sos);
+
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>MEDI-SAFCI F302A DIARIA</title>
+		<title>MEDI-SAFCI F302A SEMANAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -24,7 +31,7 @@ $(function () {
             type: 'areaspline'
         },
         title: {
-            text: 'NOTIFICACIONES F302A REGISTRADOS POR DIA SISTEMA MEDI-SAFCI'
+            text: 'NOTIFICACIONES F302A - SEMANA Nº <?php echo $semana_ep;?> CON <?php echo mb_strtoupper($row_sos[1]);?>'
         },
         legend: {
             layout: 'vertical',
@@ -40,7 +47,7 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' GROUP BY fecha_registro ORDER BY fecha_registro";
+$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND semana_ep='$semana_ep' AND gestion='$gestion' GROUP BY fecha_registro ORDER BY fecha_registro";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -114,7 +121,7 @@ echo ",";
              <?php
 
 $numero = 0;
-$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' GROUP BY fecha_registro ORDER BY fecha_registro ";
+$sql = " SELECT fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND semana_ep='$semana_ep' AND gestion='$gestion' GROUP BY fecha_registro ORDER BY fecha_registro ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -127,7 +134,7 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT idnotificacion_ep, fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND fecha_registro='$row[0]'";
+$sql7 = " SELECT idnotificacion_ep, fecha_registro FROM notificacion_ep WHERE estado='CONSOLIDADO' AND semana_ep='$semana_ep' AND gestion='$gestion' AND fecha_registro='$row[0]'";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -190,10 +197,11 @@ Si no se encontraron resultados
     $sql2 = " SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud, ";
     $sql2.= " municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep,  ";
     $sql2.= " notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, usuarios.perfil ";
-    $sql2.= " FROM notificacion_ep, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
+    $sql2.= " FROM notificacion_ep, registro_enfermedad, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
     $sql2.= " WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud AND notificacion_ep.estado='CONSOLIDADO' ";
-    $sql2.= " AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-    $sql2.= " AND notificacion_ep.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ORDER BY notificacion_ep.idnotificacion_ep DESC LIMIT 100 ";
+    $sql2.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio=municipios.idmunicipio";
+    $sql2.= " AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.idusuario=usuarios.idusuario ";
+    $sql2.= " AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.semana_ep='$semana_ep' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.idnotificacion_ep DESC ";
     $result2 = mysqli_query($link,$sql2);
     if ($row2 = mysqli_fetch_array($result2)){
     mysqli_field_seek($result2,0);           
