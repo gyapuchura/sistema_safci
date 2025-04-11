@@ -78,6 +78,14 @@ $idusuario_op = $_POST["medico_operativo"];
                                     } else { 
                                         echo "<h6 class='text-danger'>- AJUSTAR DATOS DE TODOS LOS INTEGRANTES </h6>";
                                     }
+
+                                $sql_dp = " SELECT count(idintegrante_datos_cf) FROM integrante_datos_cf WHERE idcarpeta_familiar = '$row[0]' ";
+                                $result_dp = mysqli_query($link,$sql_dp);  
+                                $datos_dup = mysqli_fetch_array($result_dp);  
+                                if ($integrantes < $datos_dup[0]) {   
+                                        echo "<h6 class='text-danger'>- AJUSTAR DUPLICIDAD DE DATOS DE LOS INTEGRANTES </h6>";
+                                    } else {                                                 
+                                    }
                             
                                 $sql_2 = " SELECT idintegrante_cf FROM integrante_subsector_salud WHERE idcarpeta_familiar = '$row[0]' GROUP BY idintegrante_cf ";
                                 $result_2 = mysqli_query($link,$sql_2);  
