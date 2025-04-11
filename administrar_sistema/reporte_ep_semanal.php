@@ -61,7 +61,7 @@ $gestion    =  date("Y");
                     $numero=1;
                     $sql =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM notificacion_ep, registro_enfermedad, sospecha_diag WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
                     $sql.=" AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND notificacion_ep.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.semana_ep='$semana_ep' ";
-                    $sql.=" AND registro_enfermedad.cifra !='0' GROUP BY sospecha_diag.sospecha_diag ORDER BY sospecha_diag.sospecha_diag ";
+                    $sql.=" AND registro_enfermedad.cifra !='0' GROUP BY sospecha_diag.sospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
                     $result = mysqli_query($link,$sql);
                     if ($row = mysqli_fetch_array($result)){
                     mysqli_field_seek($result,0);
