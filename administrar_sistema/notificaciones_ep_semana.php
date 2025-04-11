@@ -48,7 +48,7 @@ $(function () {
  <?php
 $numero = 0;
 $sql = " SELECT notificacion_ep.fecha_registro FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
-$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.semana_ep='$semana_ep' AND notificacion_ep.gestion='$gestion' ";
+$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.semana_ep='$semana_ep' AND registro_enfermedad.gestion='$gestion' ";
 $sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.fecha_registro ORDER BY notificacion_ep.fecha_registro ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
@@ -124,7 +124,7 @@ echo ",";
 
 $numero = 0;
 $sql = " SELECT notificacion_ep.fecha_registro FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
-$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.semana_ep='$semana_ep' AND notificacion_ep.gestion='$gestion' ";
+$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.semana_ep='$semana_ep' AND registro_enfermedad.gestion='$gestion' ";
 $sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.fecha_registro ORDER BY notificacion_ep.fecha_registro ";
 $result = mysqli_query($link,$sql);
 
@@ -140,7 +140,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT sum(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
 $sql7.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' ";
-$sql7.= " AND notificacion_ep.semana_ep='$semana_ep' AND notificacion_ep.gestion='$gestion' AND notificacion_ep.fecha_registro='$row[0]' ";
+$sql7.= " AND notificacion_ep.semana_ep='$semana_ep' AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.fecha_registro='$row[0]' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_fetch_array($result7);
 $cifra_diaria = $row7[0];

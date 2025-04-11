@@ -87,7 +87,7 @@ $rowus = mysqli_fetch_array($resultus);
 <div class="row">
 
 <!-- Earnings (Monthly) Card Example -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-primary shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -113,12 +113,12 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 
 <!-- Earnings (Monthly) Card Example -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-success shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
-                    <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=400,height=700,scrollbars=YES,top=50,left=600'); return false;">
+                    <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=600,height=900,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                     Nº DE NOTIFICACIONES (F302A)
                     </div></a>
@@ -129,7 +129,7 @@ $rowus = mysqli_fetch_array($resultus);
                     $row_d = mysqli_fetch_array($result_d);
                     $notificaciones_ep_hoy = $row_d[0];
                     echo $notificaciones_ep_hoy;
-                    ?>
+                    ?> 
                     </div>
                    
                 </div>
@@ -142,7 +142,7 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 
 <!-- Earnings (Monthly) Card Example -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -166,8 +166,11 @@ $rowus = mysqli_fetch_array($resultus);
     </div>
 </div>
 
+</div>
+
+<div class="row">
 <!-- Earnings (Monthly) Card Example -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -191,7 +194,7 @@ $rowus = mysqli_fetch_array($resultus);
     </div>
 </div>
 <!-- Earnings (Monthly) Card Example -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-secondary shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -216,7 +219,7 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 
 <!-- Pending Requests Card Example -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-warning shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -240,15 +243,16 @@ $rowus = mysqli_fetch_array($resultus);
         </div>
     </div>
 </div>
+
 </div>
+<div class="row">
 
 <!---- end reporte con formato ----->
 
 <!---- begin reporte con formato 2 ----->
-<div class="row">
 
 <!-- % de carpetizacion departamento BENI -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -292,7 +296,7 @@ $rowus = mysqli_fetch_array($resultus);
     </div>
 </div>
 <!-- % de carpetizacion departamento  CBBA -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -337,7 +341,7 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 
 <!-- % de carpetizacion departamento  CHUQUISACA -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -380,8 +384,12 @@ $rowus = mysqli_fetch_array($resultus);
         </div>
     </div>
 </div>
+
+</div>
+<div class="row">
+
 <!-- % de carpetizacion departamento  LA PAZ -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -426,7 +434,7 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 
 <!-- % de carpetizacion departamento  ORURO -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -470,7 +478,7 @@ $rowus = mysqli_fetch_array($resultus);
     </div>
 </div>
 <!-- % de carpetizacion departamento  PANDO -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -521,7 +529,7 @@ $rowus = mysqli_fetch_array($resultus);
 <div class="row">
 
 <!-- % de carpetizacion departamento  POTOSI -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -565,7 +573,7 @@ $rowus = mysqli_fetch_array($resultus);
     </div>
 </div>
 <!-- % de carpetizacion departamento  SANTA CRUZ -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -610,7 +618,7 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 
 <!-- % de carpetizacion departamento  TARIJA -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-info shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -653,8 +661,13 @@ $rowus = mysqli_fetch_array($resultus);
         </div>
     </div>
 </div>
+
+
+</div>
+<div class="row">
+
 <!-- % de carpetizacion NACIONAL -->
-<div class="col-xl-2 col-md-6 mb-4">
+<div class="col-xl-4 col-md-6 mb-4">
     <div class="card border-left-warning shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">

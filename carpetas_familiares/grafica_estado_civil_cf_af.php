@@ -64,17 +64,17 @@ $(function () {
             name: '% DE INTEGRANTES',
             data: [
                 <?php
-                    $sql0 = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar  ";
-                    $sql0.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql0.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+                    $sql0 = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
+                    $sql0.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
+                    $sql0.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT integrante_datos_cf.idestado_civil FROM integrante_datos_cf, carpeta_familiar ";
-                    $sql.= " WHERE  integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY integrante_datos_cf.idestado_civil ";
+                    $sql = " SELECT integrante_datos_cf.idestado_civil FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
+                    $sql.= " WHERE  integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
+                    $sql.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY integrante_datos_cf.idestado_civil ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
                     if ($row = mysqli_fetch_array($result)){
@@ -86,9 +86,9 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar ";
-                    $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-                    $sql_c.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_datos_cf.idestado_civil='$row[0]' ";
+                    $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
+                    $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
+                    $sql_c.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_datos_cf.idestado_civil='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -143,7 +143,7 @@ $(function () {
 <?php
 $numeroa = 1;
 $sqla = " SELECT integrante_datos_cf.idestado_civil, estado_civil.estado_civil FROM integrante_datos_cf, estado_civil, carpeta_familiar WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sqla.= " AND integrante_datos_cf.idestado_civil=estado_civil.idestado_civil AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sqla.= " AND integrante_datos_cf.idestado_civil=estado_civil.idestado_civil AND carpeta_familiar.estado='CONSOLIDADO'  ";
 $sqla.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' GROUP BY integrante_datos_cf.idestado_civil ";
 $resulta = mysqli_query($link,$sqla);
  if ($rowa = mysqli_fetch_array($resulta)){
@@ -151,9 +151,9 @@ mysqli_field_seek($resulta,0);
 while ($fielda = mysqli_fetch_field($resulta)){
 } do {
 
-    $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar ";
-    $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-    $sql_c.= " AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_datos_cf.idestado_civil='$rowa[0]' ";
+    $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
+    $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
+    $sql_c.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idarea_influencia='$idarea_influencia' AND integrante_datos_cf.idestado_civil='$rowa[0]' ";
     $result_c = mysqli_query($link,$sql_c);
     $row_c = mysqli_fetch_array($result_c);
     $conteoa = $row_c[0];
