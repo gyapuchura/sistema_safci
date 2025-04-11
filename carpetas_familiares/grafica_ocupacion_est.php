@@ -9,18 +9,18 @@ $gestion        = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-$idmunicipio = $_GET["idmunicipio"];
+$idestablecimiento_salud = $_GET["idestablecimiento_salud"];
 
-$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
-$result_mun = mysqli_query($link,$sql_mun);
-$row_mun = mysqli_fetch_array($result_mun);
+$sql_est = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$result_est = mysqli_query($link,$sql_est);
+$row_est = mysqli_fetch_array($result_est);
 
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>PROFESION - MUNICIPIO</title>
+		<title>OCUPACION - ESTABLECIMIENTO </title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -39,7 +39,7 @@ $(function () {
             }
         },
         title: {
-            text: 'OCUPACIÓN DE LOS INTEGRANTES DE LA FAMILIA - MUNICIPIO DE <?php echo $row_mun[1];?>'
+            text: 'OCUPACIÓN DE LOS INTEGRANTES DE LA FAMILIA - ESTABLECIMIENTO  DE <?php echo mb_strtoupper($row_est[1]);?>'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -65,15 +65,15 @@ $(function () {
                 <?php
                     $sql0 = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar, integrante_cf  ";
                     $sql0.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
-                    $sql0.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+                    $sql0.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
 
                     $numero = 0;
-                    $sql = " SELECT integrante_datos_cf.idprofesion FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
+                    $sql = " SELECT integrante_datos_cf.ocupacion FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
                     $sql.= " WHERE  integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
-                    $sql.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_datos_cf.idprofesion ";
+                    $sql.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_datos_cf.ocupacion ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
 
@@ -82,13 +82,9 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_t = " SELECT idprofesion, profesion FROM profesion WHERE idprofesion='$row[0]' ";
-                    $result_t = mysqli_query($link,$sql_t);
-                    $row_t = mysqli_fetch_array($result_t);
-
                     $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
                     $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
-                    $sql_c.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_datos_cf.idprofesion='$row[0]' ";
+                    $sql_c.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_datos_cf.ocupacion='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -98,7 +94,7 @@ $(function () {
 
                     ?>
 
-                    ['<?php echo $row_t[1];?>', <?php echo $porcentaje;?>]
+                    ['<?php echo substr($row[0],0,6);?>', <?php echo $porcentaje;?>]
 
                         <?php
                         $numero++;
@@ -130,7 +126,7 @@ $(function () {
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="corresponde_salud" style="height: 600px"></div>
+<div id="corresponde_salud" style="height: 650px"></div>
 
 <table width="646" border="1" align="center" bordercolor="#009999">
     <tr>
@@ -142,9 +138,9 @@ $(function () {
 
 <?php
 $numeroa = 1;
-$sqla = " SELECT integrante_datos_cf.idprofesion, profesion.profesion FROM integrante_datos_cf, carpeta_familiar, profesion ";
-$sqla.= " WHERE  integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_datos_cf.idprofesion=profesion.idprofesion AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sqla.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY integrante_datos_cf.idprofesion ";
+$sqla = " SELECT integrante_datos_cf.ocupacion FROM integrante_datos_cf, carpeta_familiar ";
+$sqla.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sqla.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY integrante_datos_cf.ocupacion ";
 $resulta = mysqli_query($link,$sqla);
  if ($rowa = mysqli_fetch_array($resulta)){
 mysqli_field_seek($resulta,0);
@@ -153,7 +149,7 @@ while ($fielda = mysqli_fetch_field($resulta)){
 
     $sql_c = " SELECT count(integrante_datos_cf.idintegrante_datos_cf) FROM integrante_datos_cf, carpeta_familiar, integrante_cf ";
     $sql_c.= " WHERE integrante_datos_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
-    $sql_c.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_datos_cf.idprofesion='$rowa[0]' ";
+    $sql_c.= " AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND integrante_datos_cf.ocupacion='$rowa[0]' ";
     $result_c = mysqli_query($link,$sql_c);
     $row_c = mysqli_fetch_array($result_c);
     $conteoa = $row_c[0];
@@ -163,7 +159,7 @@ while ($fielda = mysqli_fetch_field($resulta)){
 ?>
         <tr>
           <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numeroa;?></td>
-          <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $rowa[1];?></td>
+          <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $rowa[0];?></td>
           <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentajea;?></td>
           <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteoa;?></td>
         </tr>   
@@ -180,40 +176,5 @@ Si no se encontraron resultados
 
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">INTEGRANTES CON REGISTRO - OCUPACIÓN = <?php echo $total;?> </h4></spam>
 
-
-<?php
-$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
-
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
-
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES MUNICIPIO = <?php echo $total_cf;?> </h4></spam>
-
-<?php
-$sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idestablecimiento_salud  ";
-$result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD EN EL MUNICIPIO = <?php echo $establecimientos;?> </h4></spam>
-
-<?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL MUNICIPIO= <?php echo $integrantes;?> </h4></spam>
-
-<?php
-$sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL MUNICIPIO = <?php echo $personal;?> </h4></spam>
-
-
-	</body>
+    </body>
 </html>

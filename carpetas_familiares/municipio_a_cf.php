@@ -159,13 +159,22 @@ $row_mun = mysqli_fetch_array($result_mun);
                         <h6 class="text-primary">IV (c). PROFESIÓN:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_profesión_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROFESIÓN - <?php echo $row_mun[1];?></h6></a>  
+                        <a href="grafica_profesion_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROFESIÓN - <?php echo $row_mun[1];?></h6></a>  
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">IV (c). AUTO-PERTENENCIA CULTURAL:</h6>
+                        <h6 class="text-primary">IV (d). OCUPACIÓN:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_ocupacion_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info"> OCUPACIÓN - <?php echo $row_mun[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">IV (e). AUTO-PERTENENCIA CULTURAL:</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="grafica_pertenencia_cultural_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=700,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AUTO-PERTENENCIA CULTURAL - <?php echo $row_mun[1];?></h6></a>  
@@ -174,7 +183,7 @@ $row_mun = mysqli_fetch_array($result_mun);
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">IV (d). SUSTENTO FAMILIAR:</h6>
+                        <h6 class="text-primary">IV (f). SUSTENTO FAMILIAR:</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="grafica_sustento_familiar_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUSTENTO FAMILIAR - <?php echo $row_mun[1];?></h6></a>  

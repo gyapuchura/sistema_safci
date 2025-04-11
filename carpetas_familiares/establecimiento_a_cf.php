@@ -163,7 +163,16 @@ $row_est = mysqli_fetch_array($result_est);
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">IV (d). AUTO-PERTENENCIA CULTURAL:</h6>
+                        <h6 class="text-primary">IV (d). OCUPACIÓN:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="grafica_ocupacion_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">OCUPACIÓN - <?php echo $row_est[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">IV (e). AUTO-PERTENENCIA CULTURAL:</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="grafica_pertenencia_cultural_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=700,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">AUTO-PERTENENCIA CULTURAL - <?php echo $row_est[1];?></h6></a>  
@@ -172,7 +181,7 @@ $row_est = mysqli_fetch_array($result_est);
 
                     <div class="form-group row">
                         <div class="col-sm-6">
-                        <h6 class="text-primary">IV (e). SUSTENTO FAMILIAR:</h6>
+                        <h6 class="text-primary">IV (f). SUSTENTO FAMILIAR:</h6>
                         </div>
                         <div class="col-sm-6">
                         <a href="grafica_sustento_familiar_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUSTENTO FAMILIAR - <?php echo $row_est[1];?></h6></a>  
