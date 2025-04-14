@@ -204,7 +204,7 @@ Si no se encontraron resultados
     $sql2.= " notificacion_ep.fecha_registro, notificacion_ep.hora_registro, nombre.nombre, nombre.paterno, nombre.materno, usuarios.perfil ";
     $sql2.= " FROM notificacion_ep, registro_enfermedad, departamento, red_salud, municipios, establecimiento_salud, usuarios, nombre ";
     $sql2.= " WHERE notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idred_salud=red_salud.idred_salud AND notificacion_ep.estado='CONSOLIDADO' ";
-    $sql2.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio=municipios.idmunicipio";
+    $sql2.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.idmunicipio=municipios.idmunicipio";
     $sql2.= " AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.idusuario=usuarios.idusuario AND registro_enfermedad.cifra !='0' ";
     $sql2.= " AND usuarios.idnombre=nombre.idnombre AND notificacion_ep.semana_ep='$semana_ep' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.idnotificacion_ep DESC ";
     $result2 = mysqli_query($link,$sql2);
