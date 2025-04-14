@@ -4,8 +4,11 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
-$semana_ep  = date("W");
+$semana  = date("W");
 $gestion    =  date("Y");
+
+$semana_ep = $semana-1;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
