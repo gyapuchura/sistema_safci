@@ -14,7 +14,6 @@ $idred_salud_ss             = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
-$idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
 $sql =" SELECT notificacion_ep.idnotificacion_ep, notificacion_ep.codigo, departamento.departamento, red_salud.red_salud,  ";
 $sql.=" municipios.municipio, establecimiento_salud.establecimiento_salud, notificacion_ep.semana_ep, ";
