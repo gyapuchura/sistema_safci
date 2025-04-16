@@ -19,11 +19,21 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnotificacion_ep_ss       = $_SESSION['idnotificacion_ep_ss'];
 $idsospecha_diag_ss         = $_SESSION['idsospecha_diag_ss'];
 
+$sql =" SELECT semana_ep FROM notificacion_ep WHERE idnotificacion_ep ='$idnotificacion_ep_ss' ";
+$result = mysqli_query($link,$sql);
+$row = mysqli_fetch_array($result);
+
+
+if ($row[0] == $semana) {
     
     $sql8 =" UPDATE notificacion_ep SET estado='CONSOLIDADO' ";
     $sql8.=" WHERE idnotificacion_ep ='$idnotificacion_ep_ss' ";
     $result8 = mysqli_query($link,$sql8);
 
     header("Location:mensaje_notificacion_ep_end.php");
+} else {
 
+    header("Location:mensaje_notificacion_ep_err.php");
+
+}
 ?>

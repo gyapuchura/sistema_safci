@@ -255,7 +255,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary">VI. SUBSECTOR SALUD - MÉDICO OPERATIVO:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_subsector_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD </h6></a>  
+                        <a href="grafica_subsector_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=1000,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">SUBSECTOR SALUD </h6></a>  
                         </div>
                     </div>
                        <div class="form-group row">
@@ -263,7 +263,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary">VII. BENEFICIARIOS DE PROGRAMAS SOCIALES:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_programa_social_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES </h6></a>  
+                        <a href="grafica_programa_social_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=760,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PROGRAMAS SOCIALES </h6></a>  
                         </div>
                     </div>
                      <div class="form-group row">
@@ -271,7 +271,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary">VIII. MEDICINA TRADICIONAL:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_medicina_tradicional_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL </h6></a>  
+                        <a href="grafica_medicina_tradicional_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=780,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">MEDICINA TRADICIONAL </h6></a>  
                         </div>
                     </div>
                    <div class="form-group row">
@@ -279,7 +279,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary">IX. DEFUNCIÓN:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="grafica_defuncion_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">DEFUNCIÓN </h6></a>  
+                        <a href="grafica_defuncion_cf_op.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=780,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">DEFUNCIÓN </h6></a>  
                         </div>
                     </div>
                 </div>
@@ -370,7 +370,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_2.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Techo de la vivienda</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_2.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">b) Techo de la vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -379,7 +379,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_3.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Paredes de la vivienda</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_3.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">c) Paredes de la vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -388,7 +388,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_4.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Pisos de la vivienda</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_4.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">d) Pisos de la vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -397,7 +397,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_5.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Revoque en las paredes interiores</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_5.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">e) Revoque en las paredes interiores</h6></a>  
                         </div>
                     </div>
 
@@ -406,7 +406,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_6.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Tiene cuarto solo para cocinar</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_6.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">f) Tiene cuarto solo para cocinar</h6></a>  
                         </div>
                     </div>
 
@@ -415,7 +415,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_7.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Riésgos externos con relación a la vivienda</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_7.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">g) Riésgos externos con relación a la vivienda</h6></a>  
                         </div>
                     </div>
 
@@ -424,7 +424,7 @@ $idusuario = $_GET["idusuario_op"];
                         <h6 class="text-primary"></h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="determinante_opructura_vivienda_op_8.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">h) Riésgos internos con relación a la vivienda</h6></a>  
+                        <a href="determinante_estructura_vivienda_op_8.php?idusuario=<?php echo $idusuario;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">h) Riésgos internos con relación a la vivienda</h6></a>  
                         </div>
                     </div>
 
