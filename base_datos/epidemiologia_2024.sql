@@ -33,3 +33,6 @@ UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDAD
 UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDADO' AND semana_ep='22';
 UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDADO' AND semana_ep='21';
 UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDADO' AND semana_ep='20';
+UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDADO' AND semana_ep='19';
+UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDADO' AND semana_ep='18';
+UPDATE notificacion_ep SET estado='' WHERE gestion='2025' AND estado='CONSOLIDADO' AND semana_ep='17';

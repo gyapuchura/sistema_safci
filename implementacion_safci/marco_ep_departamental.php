@@ -1,6 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php");?>
-<?php
+<?php 
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");

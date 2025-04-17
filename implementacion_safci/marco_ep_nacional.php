@@ -121,7 +121,6 @@ $sql = " SELECT notificacion_ep.semana_ep FROM notificacion_ep, registro_enferme
 $sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' AND notificacion_ep.gestion ='$gestion'  ";
 $sql.= " AND notificacion_ep.estado='CONSOLIDADO' GROUP BY notificacion_ep.semana_ep ORDER BY notificacion_ep.semana_ep ";
 $result = mysqli_query($link,$sql);
-
 $total = mysqli_num_rows($result);
 
  if ($row = mysqli_fetch_array($result)){
@@ -134,7 +133,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
 $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
-$sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' AND registro_enfermedad.cifra !='0' AND notificacion_ep.semana_ep='$row[0]' ";
+$sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' AND notificacion_ep.semana_ep='$row[0]' ";
 $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO'";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_fetch_array($result7);
