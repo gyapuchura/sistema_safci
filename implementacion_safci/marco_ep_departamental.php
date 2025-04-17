@@ -117,7 +117,7 @@ echo ",";
             }
         },
         series: [{
-            name: 'SOSPECHOSOS ',
+            name: 'SOSPECHAS ',
             data: [
 
              <?php

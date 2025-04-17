@@ -30,7 +30,7 @@ ${demo.css}
 
 <script type="text/javascript">
 $(function () {
-    $('#hacinamiento').highcharts({
+    $('#tenencia_animales').highcharts({
         chart: {
             type: 'pie',
             options3d: {
@@ -40,7 +40,7 @@ $(function () {
             }
         },
         title: {
-            text: 'b) ÍNDICE DE HACINAMIENTO - MÉDICO: <?php echo $operativo;?>'
+            text: 'c) TENENCIA DE ANIMALES EN LA VIVIENDA - MÉDICO: <?php echo $operativo;?>'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -61,13 +61,13 @@ $(function () {
         },
         series: [{
             type: 'pie',
-            name: ' % de las Familias',
+            name: '% de Familias',
             data: [
                 <?php
                     $sql0 = " SELECT count(determinante_salud_cf.iddeterminante_salud_cf) FROM determinante_salud_cf, carpeta_familiar ";
                     $sql0.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                     $sql0.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' ";
-                    $sql0.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='17' ";
+                    $sql0.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='18' ";
                     $result0 = mysqli_query($link,$sql0);
                     $row0 = mysqli_fetch_array($result0);
                     $total = $row0[0];
@@ -75,7 +75,7 @@ $(function () {
                     $numero = 0;
                     $sql = " SELECT determinante_salud_cf.iditem_determinante_salud FROM determinante_salud_cf, carpeta_familiar ";
                     $sql.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='17' ";
+                    $sql.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='18' ";
                     $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' GROUP BY determinante_salud_cf.iditem_determinante_salud ";
                     $result = mysqli_query($link,$sql);
                     $conteo_tipo = mysqli_num_rows($result);
@@ -92,7 +92,7 @@ $(function () {
                     $sql_c = " SELECT count(determinante_salud_cf.iddeterminante_salud_cf) FROM determinante_salud_cf, carpeta_familiar ";
                     $sql_c.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                     $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' ";
-                    $sql_c.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='17' AND determinante_salud_cf.iditem_determinante_salud='$row[0]' ";
+                    $sql_c.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='18' AND determinante_salud_cf.iditem_determinante_salud='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
@@ -133,12 +133,12 @@ $(function () {
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="hacinamiento" style="height: 350px"></div>
+<div id="tenencia_animales" style="height: 350px"></div>
 
 <table width="646" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">ÍNDICE DE HACINAMIENTO</span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">TENENCIA DE ANIMALES EN LA VIVIENDA</span></td>
         <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">%</span></td>
         <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">CANTIDAD</span></td>
     </tr>
@@ -146,7 +146,7 @@ $(function () {
                     $numero = 1;
                     $sql = " SELECT determinante_salud_cf.iditem_determinante_salud FROM determinante_salud_cf, carpeta_familiar ";
                     $sql.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                    $sql.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='17' ";
+                    $sql.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='18' ";
                     $sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' GROUP BY determinante_salud_cf.iditem_determinante_salud ";
                     $result = mysqli_query($link,$sql);
 
@@ -162,7 +162,7 @@ $(function () {
                     $sql_c = " SELECT count(determinante_salud_cf.iddeterminante_salud_cf) FROM determinante_salud_cf, carpeta_familiar ";
                     $sql_c.= " WHERE  determinante_salud_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
                     $sql_c.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' ";
-                    $sql_c.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='17' AND determinante_salud_cf.iditem_determinante_salud='$row[0]' ";
+                    $sql_c.= " AND determinante_salud_cf.iddeterminante_salud='3' AND determinante_salud_cf.idcat_determinante_salud='18' AND determinante_salud_cf.iditem_determinante_salud='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
