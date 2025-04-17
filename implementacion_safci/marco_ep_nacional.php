@@ -238,8 +238,8 @@ Si no se encontraron resultados
 	        </tr>
             <?php
     $numero=1; 
-    $sql =" SELECT notificacion_ep.iddepartamento, departamento.departamento FROM notificacion_ep, registro_enfermedad,  departamento ";
-    $sql.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.iddepartamento=departamento.iddepartamento AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal'  ";
+    $sql =" SELECT notificacion_ep.iddepartamento, departamento.departamento FROM notificacion_ep, registro_enfermedad,  departamento  WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+    $sql.=" AND notificacion_ep.iddepartamento=departamento.iddepartamento AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' AND registro_enfermedad.cifra !='0' ";
     $sql.=" AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.gestion='$gestion' GROUP BY notificacion_ep.iddepartamento ORDER BY notificacion_ep.iddepartamento ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
