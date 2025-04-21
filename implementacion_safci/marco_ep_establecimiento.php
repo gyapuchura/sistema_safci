@@ -139,8 +139,8 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
-$sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
+$sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
+$sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
 $sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab' AND notificacion_ep.semana_ep='$row[0]' ";
 $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' AND notificacion_ep.estado='CONSOLIDADO'";
 $result7 = mysqli_query($link,$sql7);

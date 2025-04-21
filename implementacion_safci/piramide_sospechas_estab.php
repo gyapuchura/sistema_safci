@@ -19,7 +19,7 @@ $row_e = mysqli_fetch_array($result_e);
 
 $sqlav = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
 $sqlav.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero ";
-$sqlav.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab' ";
+$sqlav.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab'  ";
 $sqlav.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
 $resultav = mysqli_query($link,$sqlav);
 $rowav = mysqli_fetch_array($resultav);
@@ -130,8 +130,8 @@ $(function () {
                     ?>
 
                     <?php
-                    $sql7 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
-                    $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero ";
+                    $sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
+                    $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero  ";
                     $sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab' AND registro_enfermedad.idgenero='2' AND registro_enfermedad.idgrupo_etareo='$row2[0]'";
                     $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
                     $result7 = mysqli_query($link,$sql7);
@@ -167,8 +167,8 @@ $(function () {
                         ?>
 
                         <?php
-                        $sql7 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
-                        $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero ";
+                        $sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
+                        $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero  ";
                         $sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab' AND registro_enfermedad.idgenero='1' AND registro_enfermedad.idgrupo_etareo='$row3[0]'";
                         $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idestablecimiento_salud='$idestablecimiento_salud' ";
                         $result7 = mysqli_query($link,$sql7);
