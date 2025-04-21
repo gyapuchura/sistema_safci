@@ -138,7 +138,7 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
+$sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
 $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
 $sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_deptal' AND notificacion_ep.semana_ep='$row[0]' ";
 $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.iddepartamento='$iddepartamento_ep' AND notificacion_ep.estado='CONSOLIDADO'";
@@ -249,7 +249,7 @@ Si no se encontraron resultados
             <?php
     $numero_m=1; 
     $sql_m =" SELECT notificacion_ep.idmunicipio, municipios.municipio FROM notificacion_ep, registro_enfermedad, municipios ";
-    $sql_m.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_deptal' ";
+    $sql_m.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND notificacion_ep.idmunicipio=municipios.idmunicipio AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_deptal' AND registro_enfermedad.cifra !='0' ";
     $sql_m.=" AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.gestion='$gestion' AND notificacion_ep.iddepartamento='$iddepartamento_ep' GROUP BY notificacion_ep.idmunicipio ORDER BY municipios.municipio";
     $result_m = mysqli_query($link,$sql_m);
     if ($row_m = mysqli_fetch_array($result_m)){
@@ -257,8 +257,8 @@ Si no se encontraron resultados
     while ($field_m = mysqli_fetch_field($result_m)){
     } do {
 
-        $sql_ci =" SELECT SUM(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
-        $sql_ci.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+        $sql_ci =" SELECT sum(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
+        $sql_ci.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
         $sql_ci.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_deptal' ";
         $sql_ci.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.idmunicipio='$row_m[0]' ";
         $result_ci = mysqli_query($link,$sql_ci);

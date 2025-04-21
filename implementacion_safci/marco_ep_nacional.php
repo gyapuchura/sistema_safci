@@ -250,7 +250,7 @@ Si no se encontraron resultados
         $sql_c =" SELECT sum(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad ";
         $sql_c.=" WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
         $sql_c.=" AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_nal' AND registro_enfermedad.cifra !='0' ";
-        $sql_c.=" AND notificacion_ep.gestion='$gestion' AND notificacion_ep.iddepartamento='$row[0]' ";
+        $sql_c.=" AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.iddepartamento='$row[0]' ";
         $result_c = mysqli_query($link,$sql_c);
         $row_c = mysqli_fetch_array($result_c);
 

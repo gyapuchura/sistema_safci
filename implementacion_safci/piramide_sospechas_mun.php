@@ -17,7 +17,7 @@ $sql_m = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idm
 $result_m = mysqli_query($link,$sql_m);
 $row_m = mysqli_fetch_array($result_m);
 
-$sqlav = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
+$sqlav = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
 $sqlav.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero ";
 $sqlav.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' ";
 $sqlav.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idmunicipio='$idmunicipio' ";
@@ -130,7 +130,7 @@ $(function () {
                     ?>
 
                     <?php
-                    $sql7 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
+                    $sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
                     $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero ";
                     $sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' AND registro_enfermedad.idgenero='2' AND registro_enfermedad.idgrupo_etareo='$row2[0]'";
                     $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idmunicipio='$idmunicipio' ";
@@ -167,7 +167,7 @@ $(function () {
                         ?>
 
                         <?php
-                        $sql7 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
+                        $sql7 = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep, genero  ";
                         $sql7.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idgenero=genero.idgenero ";
                         $sql7.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_mun' AND registro_enfermedad.idgenero='1' AND registro_enfermedad.idgrupo_etareo='$row3[0]'";
                         $sql7.= " AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND notificacion_ep.idmunicipio='$idmunicipio' ";
