@@ -87,7 +87,7 @@ $row_mun = mysqli_fetch_array($result_mun);
             echo $integrantes_cf;?></td>
 	    <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php 
             $sql_hf =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-            $sql_hf.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$row[0]' AND carpeta_familiar.idarea_influencia='$row[7]' ";
+            $sql_hf.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$row[0]' AND carpeta_familiar.idarea_influencia='$row[7]' ";
             $result_hf = mysqli_query($link,$sql_hf);
             $row_hf = mysqli_fetch_array($result_hf);
             $integrantes_cf   = number_format($row_hf[0], 0, '.', '.');
