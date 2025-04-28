@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram  = date("Ymd");
 $fecha 	    = date("Y-m-d");
+$gestion    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -120,7 +121,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <?php
                             $sql1 = " SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, notificacion_ep  ";
                             $sql1.= " WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-                            $sql1.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.cifra != '0' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
+                            $sql1.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.gestion='$gestion' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -158,7 +159,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                             $sql2 = " SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM registro_enfermedad, sospecha_diag, notificacion_ep  ";
                             $sql2.= " WHERE registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-                            $sql2.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.cifra != '0' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
+                            $sql2.= " AND notificacion_ep.estado='CONSOLIDADO' AND registro_enfermedad.gestion='$gestion' GROUP BY registro_enfermedad.idsospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
                             $result2 = mysqli_query($link,$sql2);
                             if ($row2 = mysqli_fetch_array($result2)){
                             mysqli_field_seek($result2,0);
@@ -195,7 +196,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <?php
                             $sql2 = " SELECT evento_notificacion.idevento_notificacion, evento_notificacion.evento_notificacion FROM registro_evento_notificacion, evento_notificacion ";
                             $sql2.= " WHERE registro_evento_notificacion.idevento_notificacion=evento_notificacion.idevento_notificacion ";
-                            $sql2.= " AND registro_evento_notificacion.numero_eventos != '0' GROUP BY evento_notificacion.idevento_notificacion ";
+                            $sql2.= " GROUP BY evento_notificacion.idevento_notificacion ";
                             $result2 = mysqli_query($link,$sql2);
                             if ($row2 = mysqli_fetch_array($result2)){
                             mysqli_field_seek($result2,0);
