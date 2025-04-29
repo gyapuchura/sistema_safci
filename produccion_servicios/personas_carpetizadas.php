@@ -203,7 +203,7 @@ $idestablecimiento_salud = $row_es[1];
                                         <span class="icon text-white-50">
                                             <i class="fas fa-hospital"></i>
                                         </span>
-                                        <span class="text">ATENCIÓN INTEGRAL</span>    
+                                        <span class="text">HISTORIA CLÍNICA SAFCI</span>    
                                         </button>
                                     </form>  
                                         </td> 

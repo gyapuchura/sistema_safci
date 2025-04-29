@@ -64,8 +64,8 @@ $idestablecimiento_salud = $row_es[1];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">ATENCIONES - PSAFCI</h1>
-                    <p class="mb-4">En esta sección se puede encontrar el registro de ATENCIONES PSAFCI registradas a partir de Carpeta Familiar en el SISTEMA INTEGRADO MEDI-SAFCI.</p>
+                    <h1 class="h3 mb-2 text-gray-800">ATENCIONES INTEGRALES - PSAFCI</h1>
+                    <p class="mb-4">En esta sección se puede encontrar el registro de ATENCIONES PSAFCI en el SISTEMA INTEGRADO MEDI-SAFCI.</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -78,26 +78,25 @@ $idestablecimiento_salud = $row_es[1];
                                     <thead>
                                         <tr>  
                                             <th>N°</th>                                     
-                                            <th>CÓDIGO DE ATENCIÓN</th>
-                                            <th>NOMBRE Y APELLIDOS</th>
-                                            <th>EDAD</th>   
-                                            <th>GRUPO DE SALUD</th>                                            
-                                            <th>CARPETA FAMILIAR</th>
-                                            <th>ATENCIÓN (NUEVA/REPETIDA)</th>  
-                                            <th>CONSULTA/VISITA FAMILIAR</th>  
-                                            <th>TIPO DE ATENCIÓN</th>  
+                                            <th>CÓDIGO PSAFCI</th>
+                                            <th>PERSONA ATENDIDA</th>
+                                            <th>EDAD</th>  
+                                            <th>NUEVA/REPETIDA</th>  
+                                            <th>CONSULTA/VISITA FAMILIAR</th>   
+                                            <th>TIPO DE ATENCION SAFCI</th>                                            
+                                            <th>FECHA Y HORA</th>
+                                            <th>CARPETIZADO/NO CARPETIZADO</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
                                    <tbody>
                         <?php
                         $numero=1;
-                        $sql =" SELECT atencion_psafci.idatencion_psafci, integrante_cf.idintegrante_cf, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno,  ";
-                        $sql.=" nombre.fecha_nac, carpeta_familiar.codigo, carpeta_familiar.idcarpeta_familiar, nombre.idnombre, repeticion.repeticion, tipo_consulta.tipo_consulta, ";
-                        $sql.=" tipo_atencion.tipo_atencion, atencion_psafci.codigo FROM atencion_psafci, carpeta_familiar, integrante_cf, nombre, repeticion, tipo_consulta, tipo_atencion  ";
-                        $sql.=" WHERE integrante_cf.idnombre=nombre.idnombre AND atencion_psafci.idnombre=nombre.idnombre AND atencion_psafci.idrepeticion=repeticion.idrepeticion  ";
-                        $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion ";
-                        $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  AND atencion_psafci.idusuario='$idusuario_ss'   ";
+                        $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.idnombre,   ";
+                        $sql.=" repeticion.repeticion, tipo_consulta.tipo_consulta, tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro  ";
+                        $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion  WHERE atencion_psafci.idnombre=nombre.idnombre  ";
+                        $sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta  ";
+                        $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idusuario='$idusuario_ss'   ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
@@ -106,10 +105,10 @@ $idestablecimiento_salud = $row_es[1];
                         ?>
                                         <tr>
                                             <td><?php echo $numero;?></td>
-                                            <td><?php echo $row[13];?></td>
+                                            <td><?php echo $row[1];?></td>
                                             <td><?php echo mb_strtoupper($row[3]." ".$row[4]." ".$row[5]);?></td>
                                             <td><?php 
-                                                    $fecha_nacimiento = $row[5];
+                                                    $fecha_nacimiento = $row[6];
                                                     $dia=date("d");
                                                     $mes=date("m");
                                                     $ano=date("Y");    
@@ -122,96 +121,40 @@ $idestablecimiento_salud = $row_es[1];
                                                     $ano=($ano-1);}       
                                                     $edad=($ano-$anonaz);  
                                                     echo $edad ;?></td>
-                                                    <td><?php 
-                                                                
-                                                        $sql1 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_ap_sano, grupo_cf WHERE integrante_ap_sano.idgrupo_cf=grupo_cf.idgrupo_cf ";
-                                                        $sql1.="  AND integrante_ap_sano.idintegrante_cf='$row[1]' GROUP BY grupo_cf.idgrupo_cf ";
-                                                        $result1 = mysqli_query($link,$sql1);
-                                                        if ($row1 = mysqli_fetch_array($result1)){
-                                                        mysqli_field_seek($result1,0);
-                                                        while ($field1 = mysqli_fetch_field($result1)){
-                                                        } do { 
-                                                        ?>
-                                                           <?php echo "<h6 class='text-primary'>- ".$row1[1]."</h6>";?>
-                                                        <?php
-                                                        
-                                                        }
-                                                        while ($row1 = mysqli_fetch_array($result1));
-                                                        } else {
-                                                        }
-                                                        ?>
-                                                        <?php
-                                                        $sql2 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_factor_riesgo, grupo_cf WHERE integrante_factor_riesgo.idgrupo_cf=grupo_cf.idgrupo_cf ";
-                                                        $sql2.=" AND integrante_factor_riesgo.idintegrante_cf='$row[1]' GROUP BY grupo_cf.idgrupo_cf ";
-                                                        $result2 = mysqli_query($link,$sql2);
-                                                        if ($row2 = mysqli_fetch_array($result2)){
-                                                        mysqli_field_seek($result2,0);
-                                                        while ($field2 = mysqli_fetch_field($result2)){
-                                                        } do { 
-                                                        ?>
-                                                           <?php echo "<h6 class='text-warning'>- ".$row2[1]."</h6>";?>
-                                                        <?php
-                                                        }
-                                                        while ($row2 = mysqli_fetch_array($result2));
-                                                        } else {
-                                                        }
-                                                        ?>
-                                                        <?php
-                                                        $sql3 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_morbilidad, grupo_cf WHERE integrante_morbilidad.idgrupo_cf=grupo_cf.idgrupo_cf  ";
-                                                        $sql3.="  AND integrante_morbilidad.idintegrante_cf='$row[1]' GROUP BY grupo_cf.idgrupo_cf ";
-                                                        $result3 = mysqli_query($link,$sql3);
-                                                        if ($row3 = mysqli_fetch_array($result3)){
-                                                        mysqli_field_seek($result3,0);
-                                                        while ($field3 = mysqli_fetch_field($result3)){
-                                                        } do { 
-                                                        ?>
-                                                           <?php echo "<h6 class='text-danger'>- ".$row3[1]."</h6>";?>
-                                                        <?php
-                                                        }
-                                                        while ($row3 = mysqli_fetch_array($result3));
-                                                        } else {
-                                                        }
-                                                        ?>
-                                                        <?php
-                                                        $sqld =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_discapacidad, grupo_cf WHERE integrante_discapacidad.idgrupo_cf=grupo_cf.idgrupo_cf  ";
-                                                        $sqld.=" AND integrante_discapacidad.idintegrante_cf='$row[1]' GROUP BY grupo_cf.idgrupo_cf ";
-                                                        $resultd = mysqli_query($link,$sqld);
-                                                        if ($rowd = mysqli_fetch_array($resultd)){
-                                                        mysqli_field_seek($resultd,0);
-                                                        while ($fieldd = mysqli_fetch_field($resultd)){
-                                                        } do { 
-                                                        ?>
-                                                           <?php echo "<h6 class='text-info'>- ".$rowd[1]."</h6>";?>
-                                                        <?php
-                                                        }
-                                                        while ($rowd = mysqli_fetch_array($resultd));
-                                                        } else {
-                                                        }
-                                                        
-                                            ?></td>
-                                        <td>
-                                        <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[8];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                                        <h6 class="text-info"><?php echo $row[7];?></h6></a> 
-                                        </td> 
-                                        <td><?php echo $row[10];?></td>
-                                        <td><?php echo $row[11];?></td>
-                                        <td><?php echo $row[12];?></td>
+                                            <td><?php echo $row[8];?></td>
+                                            <td><?php echo $row[9];?></td>
+                                            <td><?php echo $row[10];?></td>
+                                            <td>
+                                            <?php 
+                                                $fecha_r = explode('-',$row[11]);
+                                                $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                                            <?php echo $f_registro;?></br><?php echo $row[12];?>     
+                                            </td>  
+                                            <td><?php 
+                                            $sql1 =" SELECT idintegrante_cf, idcarpeta_familiar FROM integrante_cf WHERE idnombre='$row[7]' AND estado='CONSOLIDADO'";
+                                            $result1 = mysqli_query($link,$sql1);
+                                            if ($row1 = mysqli_fetch_array($result1)){ ?>
+                                                
+                                                <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row1[1];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                                <h6 class="text-info">VER CARPETA FAMILIAR</h6></a> 
 
-                                          
+                                            <?php } else {
+                                                echo "<h6 class='text-warning'>SIN CARPETA FAMILIAR</h6>";
+                                            }
+                                            ?></td>                                        
                                         <td>
-                                    <form name="ATENCION-SAFCI" action="valida_persona_cf.php" method="post">
-                                    <input name="idintegrante_cf" type="hidden" value="<?php echo $row[1];?>">
-                                    <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[8];?>">
-                                    <input name="idestablecimiento_salud" type="hidden" value="<?php echo $idestablecimiento_salud;?>">
-                                    <input name="idnombre_integrante" type="hidden" value="<?php echo $row[9];?>">
-                                    <input name="edad" type="hidden" value="<?php echo $edad;?>">
-                                        <button type="submit" class="btn btn-primary btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-hospital"></i>
-                                        </span>
-                                        <span class="text">VER ATENCIÓN</span>    
-                                        </button>
-                                    </form>  
+                                        <form name="ATENCION-PSAFCI" action="valida_atencion_psafci.php" method="post">
+                                            <input name="idatencion_psafci" type="hidden" value="<?php echo $row[0];?>">
+                                            <input name="idestablecimiento_salud" type="hidden" value="<?php echo $idestablecimiento_salud;?>">
+                                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row[7];?>">
+                                            <input name="edad" type="hidden" value="<?php echo $edad;?>">
+                                            <button type="submit" class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-hospital"></i>
+                                            </span>
+                                            <span class="text">VER ATENCIÓN INTEGRAL</span>    
+                                            </button>
+                                        </form>  
                                         </td> 
                                         </tr>
                                      
@@ -225,16 +168,11 @@ $idestablecimiento_salud = $row_es[1];
                                     </tbody>
                                 </table>
                             </div>
-
-                <hr>
-
-
+                        <hr>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
