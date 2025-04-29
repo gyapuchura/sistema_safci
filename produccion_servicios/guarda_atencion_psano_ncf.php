@@ -81,6 +81,8 @@ $sql_dg.= " VALUES ('$idatencion_psafci','$motivo_consulta','$idpatologia_ap_san
 $result_dg = mysqli_query($link,$sql_dg);   
 
 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
+$_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
+$_SESSION['edad_ss'] = $edad;
 
 header("Location:mostrar_atencion_psafci_ncf.php");
       

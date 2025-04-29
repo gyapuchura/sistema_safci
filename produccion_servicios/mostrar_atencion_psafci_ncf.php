@@ -13,7 +13,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idnombre_paciente_ss       = $_SESSION['idnombre_paciente_ss'];
+$idnombre_paciente_ss       = $_SESSION['idnombre_paciente_ss']; 
 $edad_ss                    = $_SESSION['edad_ss'];
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_paciente_ss' ";

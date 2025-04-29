@@ -298,3 +298,26 @@ ALTER TABLE gestion_participativa ADD FOREIGN KEY (idusuario) REFERENCES usuario
 ALTER TABLE medicina_tradicional_gp ADD FOREIGN KEY (idgestion_participativa) REFERENCES gestion_participativa (idgestion_participativa);
 ALTER TABLE medicina_tradicional_gp ADD FOREIGN KEY (idmedicina_tradicional) REFERENCES medicina_tradicional (idmedicina_tradicional);
 ALTER TABLE medicina_tradicional_gp ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idgenero) REFERENCES nombre (idgenero);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idrepeticion) REFERENCES repeticion (idrepeticion);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idtipo_consulta) REFERENCES tipo_consulta (idtipo_consulta);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idtipo_atencion) REFERENCES tipo_atencion (idtipo_atencion);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idnacion) REFERENCES nacion (idnacion);
+ALTER TABLE atencion_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE diagnostico_psafci ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE diagnostico_psafci ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpatologia);
+ALTER TABLE diagnostico_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (iddiagnostico_psafci) REFERENCES diagnostico_psafci (iddiagnostico_psafci);
+ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idtipo_medicamento) REFERENCES tipo_medicamento (idtipo_medicamento);
+ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
+ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
