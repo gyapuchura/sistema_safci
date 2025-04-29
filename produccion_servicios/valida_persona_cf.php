@@ -10,8 +10,6 @@ $idusuario_ss = $_SESSION['idusuario_ss'];
 $idnombre_ss  = $_SESSION['idnombre_ss'];
 $perfil_ss    = $_SESSION['perfil_ss'];
 
-$idevento_safci_ss = $_SESSION['idevento_safci_ss'];
-
 $idintegrante_cf         = $_POST['idintegrante_cf'];
 $idcarpeta_familiar      = $_POST['idcarpeta_familiar'];
 $idestablecimiento_salud = $_POST['idestablecimiento_salud'];

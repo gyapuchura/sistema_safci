@@ -385,13 +385,13 @@
     } do {	?>
 
         <a class="collapse-item" href="../produccion_servicios/personas_carpetizadas.php">PERSONAS</br>CARPETIZADAS</a>
-     <!---   <a class="collapse-item" href="#">PERSONAS</br>NO CARPETIZADAS</a> ---->
+        <a class="collapse-item" href="../produccion_servicios/atencion_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> 
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
-<a class="collapse-item" href="atenciones_psafci.php">ATENCIONES</br>PSAFCI</a>
+<a class="collapse-item" href="../produccion_servicios/atenciones_psafci.php">ATENCIONES</br>PSAFCI</a>
         </div>
     </div>
 </li>
