@@ -123,7 +123,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 <?php echo $f_registro;?></br><?php echo $row[11];?>     
                                 </td>
                                 <td>
-                                <form name="FORM_EVENTO" action="valida_atencion_psafci.php" method="post">
+                                <form name="FORM_EVENTO" action="valida_evento_safci_atencion.php" method="post">
                                 <input name="idevento_safci" type="hidden" value="<?php echo $row[0];?>">
                                     <button type="submit" class="btn btn-primary btn-icon-split">
                                     <span class="icon text-white-50">
