@@ -26,7 +26,7 @@ if ($row1 = mysqli_fetch_array($result1)){
     $_SESSION['idnombre_integrante_ss']     = $idnombre_integrante;
     $_SESSION['edad_ss']                    = $edad;
      
-    header("Location:mostrar_atencion_psafci.php");
+    header("Location:mostrar_atencion_psafci_nac.php");
 
 } else {
 
@@ -35,6 +35,6 @@ if ($row1 = mysqli_fetch_array($result1)){
     $_SESSION['idnombre_paciente_ss']       = $idnombre_integrante;
     $_SESSION['edad_ss']                    = $edad;
 
-    header("Location:mostrar_atencion_psafci_ncf.php");
+    header("Location:mostrar_atencion_psafci_ncf_nac.php");
 }
 ?>

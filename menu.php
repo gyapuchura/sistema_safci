@@ -391,7 +391,26 @@
     } else {
     }
     ?>
-<a class="collapse-item" href="../produccion_servicios/atenciones_psafci.php">ATENCIONES</br>PSAFCI</a>
+    
+    <a class="collapse-item" href="../produccion_servicios/atenciones_psafci.php">ATENCIONES</br>PSAFCI</a>
+
+<?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+    <a class="collapse-item" href="../produccion_servicios/atenciones_nacional.php">ATENCIONES</br>NACIONAL</a>
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
         </div>
     </div>
 </li>
