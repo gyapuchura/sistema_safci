@@ -66,7 +66,7 @@ if ($idtipo_atencion == '2') { ?>
         <option value="">-SELECCIONE-</option>
         <?php
         $numero=1;
-        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' ORDER BY patologia";
+        $sql1 = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' ORDER BY patologia";
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
         mysqli_field_seek($result1,0);
@@ -235,7 +235,7 @@ if ($idtipo_atencion == '2') { ?>
 
 <?php } ?>
 
-    <script language="javascript">
+    <script language="javascript"> 
         $(document).ready(function(){
         $("#diagnosticos").change(function () {
                     $("#diagnosticos option:selected").each(function () {

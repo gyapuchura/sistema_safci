@@ -67,7 +67,7 @@ $idmedicamento_22      = $_POST['idmedicamento_22'];
 
 /*********** DETERMINACION DE VARIABLES *************/
 
-$sql_e    = "SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+$sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
 $result_e = mysqli_query($link,$sql_e);
 $row_e    = mysqli_fetch_array($result_e);
 
@@ -76,7 +76,7 @@ $idred_salud    = $row_e[1];
 $idmunicipio    = $row_e[2];
 
 
-$sqlm    = "SELECT MAX(correlativo) FROM atencion_psafci WHERE gestion='$gestion'  ";
+$sqlm    = " SELECT MAX(correlativo) FROM atencion_psafci WHERE gestion='$gestion'  ";
 $resultm = mysqli_query($link,$sqlm);
 $rowm    = mysqli_fetch_array($resultm);
 
