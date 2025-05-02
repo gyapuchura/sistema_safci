@@ -79,6 +79,9 @@ $idestablecimiento_salud = $row_es[1];
                                         <tr>  
                                             <th>N°</th>                                     
                                             <th>CÓDIGO PSAFCI</th>
+                                            <th>DEPARTAMENTO</th>
+                                            <th>MUNICIPIO</th>
+                                            <th>ESTABLECIMIENTO</th>
                                             <th>PERSONA ATENDIDA</th>
                                             <th>EDAD</th>  
                                             <th>NUEVA/REPETIDA</th>  
@@ -94,9 +97,11 @@ $idestablecimiento_salud = $row_es[1];
                         <?php
                         $numero=1;
                         $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.idnombre,   ";
-                        $sql.=" repeticion.repeticion, tipo_consulta.tipo_consulta, tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario  ";
-                        $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion  WHERE atencion_psafci.idnombre=nombre.idnombre  ";
-                        $sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta  ";
+                        $sql.=" repeticion.repeticion, tipo_consulta.tipo_consulta, tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario,  ";
+                        $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud  ";
+                        $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento ";
+                        $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
                         $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion ORDER BY atencion_psafci.idatencion_psafci DESC ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
@@ -107,6 +112,9 @@ $idestablecimiento_salud = $row_es[1];
                                         <tr>
                                             <td><?php echo $numero;?></td>
                                             <td><?php echo $row[1];?></td>
+                                            <td><?php echo $row[14];?></td>
+                                            <td><?php echo $row[15];?></td>
+                                            <td><?php echo $row[16];?></td>
                                             <td><?php echo mb_strtoupper($row[3]." ".$row[4]." ".$row[5]);?></td>
                                             <td><?php 
                                                     $fecha_nacimiento = $row[6];

@@ -47,15 +47,15 @@ $idmedicamento_22      = $_POST['idmedicamento_22'];
 
 /*********** DETERMINACION DE VARIABLES *************/
 
-$sql_e    = "SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+$sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
 $result_e = mysqli_query($link,$sql_e);
 $row_e    = mysqli_fetch_array($result_e);
 
-$sql_int    = "SELECT idgenero FROM nombre WHERE idnombre ='$idnombre_integrante_ss' ";
+$sql_int    = " SELECT idgenero FROM nombre WHERE idnombre ='$idnombre_integrante_ss' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int    = mysqli_fetch_array($result_int);
 
-$sql_nac    = "SELECT idnacion FROM integrante_cf WHERE idintegrante_cf ='$idintegrante_cf_ss' ";
+$sql_nac    = " SELECT idnacion FROM integrante_cf WHERE idintegrante_cf ='$idintegrante_cf_ss' ";
 $result_nac = mysqli_query($link,$sql_nac);
 $row_nac    = mysqli_fetch_array($result_nac);
 
@@ -65,7 +65,7 @@ $idmunicipio    = $row_e[2];
 $idgenero       = $row_int[0];
 $idnacion       = $row_nac[0];
 
-$sqlm    = "SELECT MAX(correlativo) FROM atencion_psafci WHERE gestion='$gestion'  ";
+$sqlm    = " SELECT MAX(correlativo) FROM atencion_psafci WHERE gestion='$gestion' ";
 $resultm = mysqli_query($link,$sqlm);
 $rowm    = mysqli_fetch_array($resultm);
 
