@@ -1,4 +1,3 @@
-<?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php
     $tratamientos_1 = $_POST['tratamientos'];
