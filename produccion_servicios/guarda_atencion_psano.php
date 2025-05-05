@@ -2,7 +2,6 @@
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
-
 $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $hora       = date("H:i");
@@ -44,6 +43,7 @@ $row_nac    = mysqli_fetch_array($result_nac);
 $iddepartamento = $row_e[0];
 $idred_salud    = $row_e[1];
 $idmunicipio    = $row_e[2];
+
 $idgenero       = $row_int[0];
 $idnacion       = $row_nac[0];
 

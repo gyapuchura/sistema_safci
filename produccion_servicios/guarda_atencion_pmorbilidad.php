@@ -80,7 +80,7 @@ $sql0.= " '$idrepeticion','$idtipo_consulta','$idtipo_atencion','$idnacion','$co
 $result0 = mysqli_query($link,$sql0);   
 $idatencion_psafci = mysqli_insert_id($link);
 
-if ($diagnosticos == "1" && $tratamientos_1 == "1" && $tratamientos_2 == "0") {
+if ($diagnosticos == "1" && $tratamientos_1 == "1") {
 
     $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
     $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
@@ -92,7 +92,7 @@ if ($diagnosticos == "1" && $tratamientos_1 == "1" && $tratamientos_2 == "0") {
         $result_tr11 = mysqli_query($link,$sql_tr11);
     
     } else {
-       if ($diagnosticos == "1" && $tratamientos_1 == "2" && $tratamientos_2 == "0") {
+       if ($diagnosticos == "1" && $tratamientos_1 == "2") {
     
         $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
         $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
@@ -207,13 +207,15 @@ if ($diagnosticos == "1" && $tratamientos_1 == "1" && $tratamientos_2 == "0") {
                             $sql_tr22.= " VALUES ('$idatencion_psafci','$iddiagnostico_psafci_2','$idtipo_medicamento_22','$idmedicamento_22','$fecha','$hora','$idusuario_ss') ";
                             $result_tr22 = mysqli_query($link,$sql_tr22);
     
-                    } else { } } } } } }
+                    } else { 
+
+                        header("Location:ningun_diagnostico.php");
+
+                    } } } } } }
 
 
                     $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
 
                     header("Location:mostrar_atencion_psafci.php");
-
-
 
 ?>

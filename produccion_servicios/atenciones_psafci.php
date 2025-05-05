@@ -96,7 +96,7 @@ $idestablecimiento_salud = $row_es[1];
                         $sql.=" repeticion.repeticion, tipo_consulta.tipo_consulta, tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro  ";
                         $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion  WHERE atencion_psafci.idnombre=nombre.idnombre  ";
                         $sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta  ";
-                        $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idusuario='$idusuario_ss'   ";
+                        $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idusuario='$idusuario_ss' ORDER BY atencion_psafci.idatencion_psafci DESC  ";
                         $result = mysqli_query($link,$sql);
                         if ($row = mysqli_fetch_array($result)){
                         mysqli_field_seek($result,0);
