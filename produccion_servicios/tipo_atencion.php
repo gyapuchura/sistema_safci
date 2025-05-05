@@ -7,7 +7,7 @@ if ($idtipo_atencion == '2') { ?>
 
 <form name="ATENCIONSANO" action="guarda_atencion_psano.php" method="post">  
 
-    <input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
+<input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
 
     <div class="form-group row"> 
     <div class="col-sm-3"> 
@@ -62,7 +62,7 @@ if ($idtipo_atencion == '2') { ?>
     <div class="form-group row"> 
     <div class="col-sm-5">
     <h6 class="text-info">DIAGNÓSTICO:</h6>
-        <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
+    <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
         <option value="">-SELECCIONE-</option>
         <?php
         $numero=1;
@@ -93,24 +93,24 @@ if ($idtipo_atencion == '2') { ?>
             <h4 class="text-info"></h4>  
             </div> 
             <div class="col-sm-6">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal1">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal0">
                 GUARDAR ATENCIÓN SAFCI
                 </button>  
             </div> 
           
 
     <!-- modal de confirmacion de envio de datos-->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal0" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel0" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ATENCIÓN INTEGRAL SAFCI</h5>
+                        <h5 class="modal-title" id="exampleModalLabel0">ATENCIÓN INTEGRAL SAFCI</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div class="modal-body">                           
-                            Esta seguro de GUARDAR ESTA ATENCIÓN SAFCI?                          
+                            Esta seguro de GUARDAR ESTA ATENCIÓN A UN PACIENTE APARENTEMENTE SANO?                          
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
@@ -212,17 +212,17 @@ if ($idtipo_atencion == '2') { ?>
           
 
     <!-- modal de confirmacion de envio de datos-->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ATENCIÓN INTEGRAL SAFCI</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">ATENCIÓN INTEGRAL SAFCI</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div class="modal-body">                           
-                            Esta seguro de GUARDAR ESTA ATENCIÓN SAFCI?                          
+                            Esta seguro de GUARDAR ESTA ATENCIÓN MÉDICA POR MORBILIDAD?                          
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
