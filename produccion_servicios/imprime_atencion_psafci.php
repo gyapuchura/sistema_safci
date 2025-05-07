@@ -8,7 +8,7 @@ $gestion    = date("Y");
 
 $idatencion_psafci = $_GET['idatencion_psafci'];
 
-$sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ";
+$sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno,";
 $sql.=" departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_consulta.tipo_consulta, ";
 $sql.=" repeticion.repeticion, tipo_atencion.tipo_atencion, atencion_psafci.fecha_registro, nombre.fecha_nac, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.edad, atencion_psafci.idtipo_atencion ";
 $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion, departamento, red_salud, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
@@ -83,7 +83,7 @@ $row = mysqli_fetch_array($result);
     </tr>
 
     <tr>
-      <td colspan="3"><table width="680" border="1" cellspacing="0">
+      <td colspan="3"><table width="680" align="center" border="1" cellspacing="0">
         <tbody>
           <tr>
             <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;">CÉDULA DE IDENTIDAD (PACIENTE):</td>

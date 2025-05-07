@@ -18,8 +18,8 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
+$sql_cf = " SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$result_cf = mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
@@ -471,7 +471,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     <div class="form-group row"> 
     <div class="col-sm-6">
     <h6 class="text-info">MOTIVO DE LA CONSULTA <?php echo $numerod;?>:</h6>
-    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[2]?></textarea>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[2];?></textarea>
     </div> 
     <div class="col-sm-6">
     <h6 class="text-info">C.I.E. :</h6>
@@ -499,7 +499,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
     <?php
     $numerot=1;
-    $sql_tra =" SELECT idtratamiento_psafci, idatencion_psafci, iddiagnostico_psafci, idtipo_medicamento, idmedicamento FROM tratamiento_psafci WHERE iddiagnostico_psafci ='$row_dg[0]' ";
+    $sql_tra =" SELECT idtratamiento_psafci, idatencion_psafci, iddiagnostico_psafci, idtipo_medicamento, idmedicamento FROM tratamiento_psafci WHERE iddiagnostico_psafci ='$row_dg[0]' AND idatencion_psafci='$idatencion_psafci_ss' ";
     $result_tra = mysqli_query($link,$sql_tra);
     if ($row_tra = mysqli_fetch_array($result_tra)){
     mysqli_field_seek($result_tra,0);
