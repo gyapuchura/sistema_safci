@@ -1,4 +1,4 @@
-<?php include("../cabf.php"); ?>
+
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -13,8 +13,8 @@ $sql.=" departamento.departamento, red_salud.red_salud, municipios.municipio, es
 $sql.=" repeticion.repeticion, tipo_atencion.tipo_atencion, atencion_psafci.fecha_registro, nombre.fecha_nac, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.edad, atencion_psafci.idtipo_atencion ";
 $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion, departamento, red_salud, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
 $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento ";
-$sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-$sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idatencion_psafci='$idatencion_psafci'";
+$sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND atencion_psafci.idred_salud=red_salud.idred_salud ";
+$sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio  AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idatencion_psafci='$idatencion_psafci'";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
