@@ -111,7 +111,10 @@ $idestablecimiento_salud = $row_es[1];
                         ?>
                                         <tr>
                                             <td><?php echo $numero;?></td>
-                                            <td><?php echo $row[1];?></td>
+                                            <td>
+                                            <a href="imprime_atencion_psafci.php?idatencion_psafci=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=200, scrollbars=YES'); return false;">
+                                            <?php echo $row[1];?></a> 
+                                            </td>
                                             <td><?php echo $row[14];?></td>
                                             <td><?php echo $row[15];?></td>
                                             <td><?php echo $row[16];?></td>

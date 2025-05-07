@@ -257,7 +257,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     } do {
     ?>
 
-<div class="form-group row"> 
+ <div class="form-group row"> 
     <div class="col-sm-6">
     <h4 class="text-info">DIAGNÓSTICO <?php echo $numerod;?> :</h4>
     </div> 
