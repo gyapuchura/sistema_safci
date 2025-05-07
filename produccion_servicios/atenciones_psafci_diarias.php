@@ -108,7 +108,7 @@ echo ",";
             }
         },
         series: [{
-            name: 'Atenciones integrales',
+            name: 'EN CONSULTA',
             data: [
 
              <?php
@@ -127,7 +127,7 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT idatencion_psafci, fecha_registro FROM atencion_psafci WHERE fecha_registro='$row[0]' ";
+$sql7 = " SELECT idatencion_psafci, fecha_registro FROM atencion_psafci WHERE fecha_registro='$row[0]' AND idtipo_consulta='1'";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -157,7 +157,64 @@ Si no se encontraron resultados
 }
 ?>
             ]
-        }]
+        },
+ 
+        
+        {
+            name: 'EN VISITA FAMILIAR',
+            data: [
+
+             <?php
+
+$numero = 0;
+$sql = " SELECT fecha_registro FROM atencion_psafci GROUP BY fecha_registro ORDER BY fecha_registro ";
+$result = mysqli_query($link,$sql);
+
+$total = mysqli_num_rows($result);
+
+ if ($row = mysqli_fetch_array($result)){
+
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do {
+	?>
+
+<?php
+$sql7 = " SELECT idatencion_psafci, fecha_registro FROM atencion_psafci WHERE fecha_registro='$row[0]' AND idtipo_consulta='2' ";
+$result7 = mysqli_query($link,$sql7);
+$row7 = mysqli_num_rows($result7);
+
+$cifra_diaria2 = $row7;
+?>
+             <?php echo $cifra_diaria2; ?>
+
+<?php
+$numero++;
+if ($numero == $total) {
+echo "";
+}
+else {
+echo ",";
+}
+
+} while ($row = mysqli_fetch_array($result));
+
+
+} else {
+
+
+echo ",";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+            ]
+        }
+
+
+
+    ]
     });
 });
 		</script>
