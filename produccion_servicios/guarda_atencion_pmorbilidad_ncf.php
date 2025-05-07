@@ -46,8 +46,7 @@ $idtipo_atencion = $_POST['idtipo_atencion'];
 
 $diagnosticos    = $_POST['diagnosticos'];
 $tratamientos_1  = $_POST['tratamientos_1'];
-
-$tratamientos_2  = $_POST['tratamientos_2'] ;
+$tratamientos_2  = $_POST['tratamientos_2'];
 
 $motivo_consulta1      = $link->real_escape_string($_POST['motivo_consulta1']);
 $idpatologia1          = $_POST['idpatologia1'];
