@@ -500,7 +500,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
     <?php
     $numerot=1;
-    $sql_tra =" SELECT idtratamiento_psafci, idatencion_psafci, iddiagnostico_psafci, idtipo_medicamento, idmedicamento FROM tratamiento_psafci WHERE iddiagnostico_psafci ='$row_dg[0]' ";
+    $sql_tra =" SELECT idtratamiento_psafci, idatencion_psafci, iddiagnostico_psafci, idtipo_medicamento, idmedicamento FROM tratamiento_psafci WHERE iddiagnostico_psafci ='$row_dg[0]' AND idatencion_psafci='$idatencion_psafci_ss' ";
     $result_tra = mysqli_query($link,$sql_tra);
     if ($row_tra = mysqli_fetch_array($result_tra)){
     mysqli_field_seek($result_tra,0);
