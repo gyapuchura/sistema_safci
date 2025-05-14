@@ -76,7 +76,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <th>FAMILIA</th>   
                                             <th>RIESGO FAMILIAR</th>                                           
                                             <th>ÁREA DE INFLUENCIA</th>
-                                            <th>FECHA DE REGISTRO</th>
+                                            <th>NÚMERO DE INTEGRANTES</th>
                                             <th>UBICACIÓN GEOGRÁFICA</th>
                                             <th></th>
                                         </tr>
@@ -102,8 +102,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <h6 class="text-info"><?php echo $row[1];?></h6></a>     
                                             </td>
                                             <td><?php echo $row[2];?></td>    
-                                            <td><?php 
-                                            
+                                            <td><?php                                             
                                             $sql_r =" SELECT determinante_salud, salud_integrantes, funcionalidad_familiar, evaluacion_familiar FROM evaluacion_familiar_cf WHERE idcarpeta_familiar='$row[0]' ";
                                             $result_r = mysqli_query($link,$sql_r);
                                             $row_r = mysqli_fetch_array($result_r);
@@ -125,23 +124,17 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                                         echo "<h6 class='text-danger'>- ".$row_r[0]."</h6>";
                                                         echo "<h6 class='text-danger'>- ".$row_r[1]."</h6>";
                                                         echo "<h6 class='text-danger'>- ".$row_r[2]."</h6>";
-                                                    } else {
-                                                       
-                                                    }
-                                                    
-
-                                                }
-                                                
-                                            }
-                                            
-
-                                            ?></td>                                         
+                                                    } else { } } } ?>
+                                            </td>                                         
                                             <td><?php echo $row[6];?></br><?php echo $row[7];?></td>
                                             <td>
                                             <?php 
-                                                $fecha_r = explode('-',$row[8]);
-                                                $f_apertura = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
-                                            <?php echo $f_apertura;?></br><?php echo $row[9];?>   
+                                            $sql_i = " SELECT count(idintegrante_cf) FROM integrante_cf WHERE idcarpeta_familiar='$row[0]' ";
+                                            $result_i = mysqli_query($link,$sql_i);
+                                            $row_i = mysqli_fetch_array($result_i); 
+                                            echo $row_i[0];
+                                            ?>
+                                              
                                             </td>
                                             <td>                                                     
                                                     <a href="../carpetas_familiares/imprime_mapa_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
