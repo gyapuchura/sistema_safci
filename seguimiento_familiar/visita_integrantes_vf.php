@@ -72,11 +72,10 @@ $row_cf=mysqli_fetch_array($result_cf);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="planificador_visitas.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="visitas_familiares.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>     
-                    <h4 class="text-info">VISITAS PLANIFICADAS</h4>        
+                    <h4 class="text-info">VISITAS A LA FAMILIA : <?php echo $row_cf[2];?></h4>        
                     <h4 class="text-info">CARPETA FAMILIAR : <?php echo $row_cf[1]; ?></h4>
-                    <h4 class="text-info">FAMILIA : <?php echo $row_cf[2];?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -116,7 +115,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                     ?>                  
             </div>   
             
-            <input type="hidden" name="idintegrante_cf" value="idintegrante_cf_valor">
+     
             <div class="form-group row">
                 <div class="col-sm-12">
                     <div class="table-responsive">
@@ -135,8 +134,8 @@ $row_cf=mysqli_fetch_array($result_cf);
                             <tbody>
                                     <?php
                                     $numero=0;
-                                    $sql4 =" SELECT integrante_cf.idintegrante_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco, genero.genero, ";
-                                    $sql4.=" integrante_cf.edad, integrante_cf.estado, integrante_cf.idnombre, nombre.idgenero, nombre.fecha_nac, seguimiento_cf.idriesgo_personal_vf, seguimiento_cf.idfrecuencia_vf ";
+                                    $sql4 =" SELECT seguimiento_cf.idseguimiento_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco, genero.genero, integrante_cf.edad, integrante_cf.estado, ";
+                                    $sql4.=" integrante_cf.idnombre, nombre.idgenero, nombre.fecha_nac, seguimiento_cf.idriesgo_personal_vf, seguimiento_cf.idfrecuencia_vf ";
                                     $sql4.=" FROM integrante_cf, nombre, parentesco, genero, seguimiento_cf, riesgo_personal_vf, frecuencia_vf ";
                                     $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND nombre.idgenero=genero.idgenero ";
                                     $sql4.=" AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND seguimiento_cf.idintegrante_cf=integrante_cf.idintegrante_cf ";
@@ -148,9 +147,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     } do { 
                                     ?>
                                     <tr>
-                                    <td><?php echo $numero+1;?> 
-                                    <input type="hidden" name="idintegrante_cf[<?php echo $numero;?>]" value="<?php echo $row4[0];?>">
-                                    <input type="hidden" name="fecha_nac[<?php echo $numero;?>]" value="<?php echo $row4[12];?>"></td>
+                                    <td><?php echo $numero+1;?></td>
                                         <td><?php echo mb_strtoupper($row4[5]." ".$row4[3]." ".$row4[4]);?> </td>
                                         <td><?php echo $row4[6];?></td>
                                         <td><?php echo $row4[7];?></td>
@@ -196,6 +193,32 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     </tr> 
 
                                     <?php
+                                    $numero5=1;
+                                    $sql5 =" SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita, visita_cf.numero_visita, estado_visita_cf.estado_visita_cf, estado_visita_cf.valor_color ";
+                                    $sql5.=" FROM visita_cf, estado_visita_cf WHERE visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf  ";
+                                    $sql5.=" AND visita_cf.idseguimiento_cf='$row4[0]' ";  
+                                    $result5 = mysqli_query($link,$sql5);
+                                    if ($row5 = mysqli_fetch_array($result5)){
+                                    mysqli_field_seek($result5,0);
+                                    while ($field5 = mysqli_fetch_field($result5)){
+                                    } do { 
+
+                                        if ($fecha > $row5[1]) {
+
+                                            $sql8 = " UPDATE visita_cf SET idestado_visita_cf = '2' ";
+                                            $sql8.= " WHERE idvisita_cf = '$row5[0]' ";       
+                                            $result8 = mysqli_query($link,$sql8); 
+
+                                        } else { }
+                                
+                                    $numero5=$numero5+1;
+                                    }
+                                    while ($row5 = mysqli_fetch_array($result5));
+                                    } else {
+                                    }
+                                    ?>     
+
+                                    <?php
                                     $numero=$numero+1;
                                     }
                                     while ($row4 = mysqli_fetch_array($result4));
@@ -214,8 +237,8 @@ $row_cf=mysqli_fetch_array($result_cf);
 <div class="form-group row">  
 <div class="col-sm-4"><a href="visitas_familiares.php"><h6 class="text-info"><- VOLVER</h6></a></div> 
 <div class="col-sm-4">
-    <a href="imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=800,top=50, left=200, scrollbars=YES'); return false;">
-    <h6 class="text-info">IMPRIMIR SEGUIMIENTO</h6></a>  
+    <a href="actualiza_seguimiento_familiar.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+    <h6 class="text-info">ACTUALIZA SEGUIMIENTO</h6></a>  
 </div>
 <div class="col-sm-4"></div> 
 </div> 

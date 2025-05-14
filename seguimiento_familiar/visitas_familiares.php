@@ -73,6 +73,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         <tr>  
                                             <th>N°</th>                                     
                                             <th>CÓDIGO CARPETA</th>
+                                            <th>VER SEGUIMIENTO</th>
                                             <th>FAMILIA</th>   
                                             <th>RIESGO FAMILIAR</th>                                           
                                             <th>ÁREA DE INFLUENCIA</th>
@@ -101,6 +102,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td>
                                             <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
                                             <h6 class="text-primary"><?php echo $row[1];?></h6></a>     
+                                            </td>
+                                            <td>
+                                            <a href="imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                            <h6 class="text-info">ESTADO DE SEGUIMIENTO</h6></a>     
                                             </td>
                                             <td><?php echo $row[2];?></td>    
                                             <td><?php                                             
@@ -144,7 +149,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         <td>                                                                                    
                                                    <form name="FORM_P" action="valida_visita_familiar.php" method="post">
                                                    <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                   <button type="submit" class="btn btn-primary btn-user btn-block">EXAMINAR</br>VISITAS</button></form>     
+                                                   <button type="submit" class="btn btn-primary btn-user btn-block">ACTUALIZAR</br>VISITAS</button></form>     
                                         </td>
                                         </tr>
                                      
