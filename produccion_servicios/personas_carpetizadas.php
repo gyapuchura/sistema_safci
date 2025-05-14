@@ -108,19 +108,22 @@ $idestablecimiento_salud = $row_es[1];
                                             <td><?php echo $row[3];?></td>
                                             <td><?php echo $row[4];?></td>
                                             <td><?php 
+
                                                     $fecha_nacimiento = $row[5];
-                                                    $dia=date("d");
-                                                    $mes=date("m");
-                                                    $ano=date("Y");    
-                                                    $dianaz=date("d",strtotime($fecha_nacimiento));
-                                                    $mesnaz=date("m",strtotime($fecha_nacimiento));
-                                                    $anonaz=date("Y",strtotime($fecha_nacimiento));         
+                                                    $dia = date("d");
+                                                    $mes = date("m");
+                                                    $ano = date("Y");    
+                                                    $dianaz = date("d",strtotime($fecha_nacimiento));
+                                                    $mesnaz = date("m",strtotime($fecha_nacimiento));
+                                                    $anonaz = date("Y",strtotime($fecha_nacimiento));         
                                                     if (($mesnaz == $mes) && ($dianaz > $dia)) {
                                                     $ano=($ano-1); }      
                                                     if ($mesnaz > $mes) {
                                                     $ano=($ano-1);}       
                                                     $edad=($ano-$anonaz);  
-                                                    echo $edad ;?></td>
+                                                    echo $edad ;
+                                                    
+                                                    ?></td>
                                                     <td><?php 
                                                                 
                                                         $sql1 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_ap_sano, grupo_cf WHERE integrante_ap_sano.idgrupo_cf=grupo_cf.idgrupo_cf ";
