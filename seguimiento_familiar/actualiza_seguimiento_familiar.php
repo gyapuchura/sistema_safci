@@ -12,9 +12,9 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idcarpeta_familiar = $_GET['idcarpeta_familiar'];
+$idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar' ";
+$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
           
@@ -23,8 +23,8 @@ $row_cf=mysqli_fetch_array($result_cf);
   <tbody>
     <tr>
       <td width="198" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="200" height="140" alt=""/></td>
-      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
-        <p><strong style="text-align: center">SEGUIMIENTO A RIESGOS PERSONALES</strong></p>
+      <td width="521" style="text-align: center; color: #35B9CB; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
+        <p><strong style="text-align: center">ACTUALIZACIÓN DE SEGUIMIENTO</strong></p>
         <p><strong style="text-align: center">FAMILIA :  <?php echo $row_cf[2];?></strong></p>
         <p><strong style="text-align: center"><?php echo $row_cf[1];?></strong></p>
         </td>
@@ -32,7 +32,7 @@ $row_cf=mysqli_fetch_array($result_cf);
     </tr>
         <tr>
       <td width="198" style="text-align: center"></td>
-      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
+      <td width="521" style="text-align: center; color: #35B9CB; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
       </td>
       <td width="167">&nbsp;</td>
     </tr>
@@ -40,12 +40,12 @@ $row_cf=mysqli_fetch_array($result_cf);
       <td colspan="3"><table width="1200" border="1" cellspacing="0">
         <tbody>
           <tr>
-            <td width="50" bgcolor="#4E73DF" style="text-align: center; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; font-size: 14px;"><strong>N°</strong></td>
-            <td width="250" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>INTEGRANTE</strong></td>
-            <td width="100" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>FECHA NACIMIENTO</strong></td>
-            <td width="50" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>EDAD</strong></td>
-            <td width="250" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;"><strong>RIESGO PERSONAL</strong></td>
-            <td width="500" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;">CRONOGRAMA DE VISITAS PLANIFICADO</strong></td>
+            <td width="50" bgcolor="#35B9CB" style="text-align: center; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; font-size: 14px;"><strong>N°</strong></td>
+            <td width="250" bgcolor="#35B9CB" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>INTEGRANTE</strong></td>
+            <td width="100" bgcolor="#35B9CB" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>FECHA NACIMIENTO</strong></td>
+            <td width="50" bgcolor="#35B9CB" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>EDAD</strong></td>
+            <td width="250" bgcolor="#35B9CB" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;"><strong>RIESGO PERSONAL</strong></td>
+            <td width="500" bgcolor="#35B9CB" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;">CRONOGRAMA DE VISITAS PLANIFICADO</strong></td>
           </tr>
             <?php
             $numero=0;
@@ -54,7 +54,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             $sql4.=" FROM integrante_cf, nombre, parentesco, genero, seguimiento_cf, riesgo_personal_vf, frecuencia_vf ";
             $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND nombre.idgenero=genero.idgenero ";
             $sql4.=" AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND seguimiento_cf.idintegrante_cf=integrante_cf.idintegrante_cf ";
-            $sql4.=" AND seguimiento_cf.idfrecuencia_vf=frecuencia_vf.idfrecuencia_vf AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar' ORDER BY integrante_cf.edad DESC ";
+            $sql4.=" AND seguimiento_cf.idfrecuencia_vf=frecuencia_vf.idfrecuencia_vf AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ORDER BY integrante_cf.edad DESC ";
             $result4 = mysqli_query($link,$sql4);
             if ($row4 = mysqli_fetch_array($result4)){
             mysqli_field_seek($result4,0);
@@ -85,16 +85,28 @@ $row_cf=mysqli_fetch_array($result_cf);
             while ($field5 = mysqli_fetch_field($result5)){
             } do { 
             ?>
+            <form name="ACTUALIZADOR" action="guarda_actualizacion_vf.php" method="post">
+
               <td style="text-align: center; font-size: 12px; color: #<?php echo $row5[4];?>; font-family: Arial;">
+                
+              <form name="ACTUALIZADOR" action="guarda_actualizacion_vf.php" method="post">
+                
                 <?php 
                 $fecha_v = explode('-',$row5[1]);
                 $f_visita = $fecha_v[2].'/'.$fecha_v[1].'/'.$fecha_v[0];
 
                 echo "</br>".$row5[2]."</br>";
-                echo $row5[3]."</br></br>";
-                echo $f_visita."</br></br>";
+                echo $row5[3]."</br>";
+                echo $f_visita."</br>";
                 ?>
+                <input type="hidden" name="idvisita_cf" value="<?php echo $row5[0];?>">
+                <input type="hidden" name="fecha_visita" value="<?php echo $row5[1];?>">
+                <input type="checkbox" name="idestado_visita_cf" value="3" required></br>
+                <button type="submit">ACTUALIZAR</button></br></br>
+
+            </form>
                 </td>
+
             <?php
               $numero5=$numero5+1;
               }
