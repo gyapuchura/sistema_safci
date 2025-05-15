@@ -149,7 +149,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                         <td>                                                                                    
                                                    <form name="FORM_P" action="valida_visita_familiar.php" method="post">
                                                    <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[0];?>">
-                                                   <button type="submit" class="btn btn-primary btn-user btn-block">ACTUALIZAR</br>VISITAS</button></form>     
+                                                   <button type="submit" class="btn btn-info btn-user btn-block">ACTUALIZAR</br>VISITAS</button></form>     
                                         </td>
                                         </tr>
                                      

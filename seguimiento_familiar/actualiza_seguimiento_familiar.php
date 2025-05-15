@@ -23,10 +23,10 @@ $row_cf=mysqli_fetch_array($result_cf);
   <tbody>
     <tr>
       <td width="198" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="200" height="140" alt=""/></td>
-      <td width="521" style="text-align: center; color: #35B9CB; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
-        <p><strong style="text-align: center">ACTUALIZACIÓN DE SEGUIMIENTO</strong></p>
-        <p><strong style="text-align: center">FAMILIA :  <?php echo $row_cf[2];?></strong></p>
-        <p><strong style="text-align: center"><?php echo $row_cf[1];?></strong></p>
+      <td width="521" style="text-align: center; color: #35B9CB; font-family: 'Helvetica Condensed Bold';">
+        <h2><strong style="text-align: center">ACTUALIZACIÓN DE SEGUIMIENTO</strong></h2>
+        <h4><strong style="text-align: center">FAMILIA :  <?php echo $row_cf[2];?></strong></h4>
+        <h2><strong style="text-align: center"><?php echo $row_cf[1];?></strong></h2>
         </td>
       <td width="167">&nbsp;</td>
     </tr>
@@ -50,7 +50,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             <?php
             $numero=0;
             $sql4 =" SELECT seguimiento_cf.idseguimiento_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco, genero.genero, integrante_cf.edad, integrante_cf.estado, ";
-            $sql4.=" integrante_cf.idnombre, nombre.idgenero, seguimiento_cf.fecha_inicial, riesgo_personal_vf.riesgo_personal_vf, seguimiento_cf.idfrecuencia_vf, riesgo_personal_vf.color_valor, nombre.fecha_nac ";
+            $sql4.=" integrante_cf.idnombre, nombre.idgenero, seguimiento_cf.fecha_inicial, riesgo_personal_vf.riesgo_personal_vf, seguimiento_cf.idfrecuencia_vf, riesgo_personal_vf.color_valor, nombre.fecha_nac, integrante_cf.celular ";
             $sql4.=" FROM integrante_cf, nombre, parentesco, genero, seguimiento_cf, riesgo_personal_vf, frecuencia_vf ";
             $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND nombre.idgenero=genero.idgenero ";
             $sql4.=" AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND seguimiento_cf.idintegrante_cf=integrante_cf.idintegrante_cf ";
@@ -67,7 +67,10 @@ $row_cf=mysqli_fetch_array($result_cf);
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><?php 
                 $fecha_nac = explode('-',$row4[16]);
                 $f_nacimiento = $fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
-                echo $f_nacimiento;?></td>
+                echo $f_nacimiento;?>
+              </br></br>
+                <?php if ($row4[17] !='' ) { echo "Cel. ".$row4[17]; } ?>  
+              </td>
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><?php echo $row4[8];?></td>
             <td <?php echo 'bgcolor="#'.$row4[15].'" ';?> style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row4[13];?></td>
             <td><table width="800" border="0" cellspacing="0">
@@ -76,7 +79,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 
             <?php
             $numero5=1;
-            $sql5 =" SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita, visita_cf.numero_visita, estado_visita_cf.estado_visita_cf, estado_visita_cf.valor_color ";
+            $sql5 =" SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita, visita_cf.numero_visita, estado_visita_cf.estado_visita_cf, estado_visita_cf.valor_color, visita_cf.idestado_visita_cf ";
             $sql5.=" FROM visita_cf, estado_visita_cf WHERE visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf  ";
             $sql5.=" AND visita_cf.idseguimiento_cf='$row4[0]' ";  
             $result5 = mysqli_query($link,$sql5);
@@ -101,9 +104,12 @@ $row_cf=mysqli_fetch_array($result_cf);
                 ?>
                 <input type="hidden" name="idvisita_cf" value="<?php echo $row5[0];?>">
                 <input type="hidden" name="fecha_visita" value="<?php echo $row5[1];?>">
-                <input type="checkbox" name="idestado_visita_cf" value="3" required></br>
-                <button type="submit">ACTUALIZAR</button></br></br>
-
+                <?php 
+                if ($row5[5] == '1') {  ?>
+                  <input type="checkbox" name="idestado_visita_cf" value="3" required></br></br>
+                  <button type="submit">ACTUALIZAR</button>
+               <?php  } else { } ?>               
+                  </br></br>
             </form>
                 </td>
 
