@@ -148,7 +148,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     } do { 
                                     ?>
                                     <tr>
-                                    <td><?php echo $numero+1;?> </br> <?php echo $row4[15];?></td>
+                                    <td><?php echo $numero+1;?> </td>
                                         <td><?php echo mb_strtoupper($row4[5]." ".$row4[3]." ".$row4[4]);?> </td>
                                         <td><?php echo $row4[6];?></td>
                                         <td><?php echo $row4[7];?></td>
