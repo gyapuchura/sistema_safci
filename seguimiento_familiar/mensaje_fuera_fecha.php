@@ -61,20 +61,20 @@ $row_cf=mysqli_fetch_array($result_cf);
       </td>
     </tr>
     <tr>
-      <td colspan="3" style="text-align: center; color:#FF0000; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">  
+      <td colspan="3" style="text-align: center; color:#FF0000; font-family: 'Helvetica Condensed Bold'; font-size: 20px;">  
           
       </td>
     </tr>
     <tr>
-      <td colspan="3" style="text-align: center; color:#FF0000; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">  
+      <td colspan="3" style="text-align: center; color:#FF0000; font-family: 'Helvetica Condensed Bold'; font-size: 20px;">  
            
       </td>
     </tr>
     <tr>
-      <td colspan="3" style="text-align: center; color:#FF0000; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
-        <h6>NO PUEDE ACTUALIZAR </h6>
-        <h6>FUERA DE LA FECHA PLANIFICADA</h6>  
-        <h6>PARA LA VISITA FAMILIAR !!!</h6> 
+      <td colspan="3" style="text-align: center; color:#FF0000; font-family: 'Helvetica Condensed Bold'; font-size: 20px;">
+        <p>NO PUEDE ACTUALIZAR </p>
+        <p>FUERA DE LA FECHA PLANIFICADA</p>  
+        <p>PARA LA VISITA FAMILIAR !!!</p> 
       </td>
     </tr>
 
@@ -83,8 +83,16 @@ $row_cf=mysqli_fetch_array($result_cf);
       </td>
     </tr>
     <tr>
-      <td colspan="3" style="text-align: center; font-family: 'Helvetica Condensed Bold'; font-size: 12px;">  
-        <a href="actualiza_seguimiento_familiar.php">VOLVER A ACTUALIZACIÓN DE SEGUIMIENTO</a>      
+      <td colspan="3">        
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">        
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" style="text-align: center; font-family: 'Helvetica Condensed Bold'; font-size: 20px;">  
+        <a href="actualiza_seguimiento_familiar.php">VOLVER</a>      
       </td>
     </tr>
     <tr>

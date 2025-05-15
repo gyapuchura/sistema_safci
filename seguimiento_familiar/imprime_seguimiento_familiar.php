@@ -42,7 +42,7 @@ $row_cf=mysqli_fetch_array($result_cf);
           <tr>
             <td width="50" bgcolor="#4E73DF" style="text-align: center; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; font-size: 14px;"><strong>N°</strong></td>
             <td width="250" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>INTEGRANTE</strong></td>
-            <td width="100" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>FECHA NACIMIENTO</strong></td>
+            <td width="100" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>FECHA NACIMIENTO</br>/CELULAR</strong></td>
             <td width="50" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>EDAD</strong></td>
             <td width="250" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;"><strong>RIESGO PERSONAL</strong></td>
             <td width="500" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;">CRONOGRAMA DE VISITAS PLANIFICADO</strong></td>
@@ -50,7 +50,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             <?php
             $numero=0;
             $sql4 =" SELECT seguimiento_cf.idseguimiento_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco, genero.genero, integrante_cf.edad, integrante_cf.estado, ";
-            $sql4.=" integrante_cf.idnombre, nombre.idgenero, seguimiento_cf.fecha_inicial, riesgo_personal_vf.riesgo_personal_vf, seguimiento_cf.idfrecuencia_vf, riesgo_personal_vf.color_valor, nombre.fecha_nac ";
+            $sql4.=" integrante_cf.idnombre, nombre.idgenero, seguimiento_cf.fecha_inicial, riesgo_personal_vf.riesgo_personal_vf, seguimiento_cf.idfrecuencia_vf, riesgo_personal_vf.color_valor, nombre.fecha_nac, integrante_cf.celular ";
             $sql4.=" FROM integrante_cf, nombre, parentesco, genero, seguimiento_cf, riesgo_personal_vf, frecuencia_vf ";
             $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND nombre.idgenero=genero.idgenero ";
             $sql4.=" AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND seguimiento_cf.idintegrante_cf=integrante_cf.idintegrante_cf ";
@@ -67,7 +67,9 @@ $row_cf=mysqli_fetch_array($result_cf);
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><?php 
                 $fecha_nac = explode('-',$row4[16]);
                 $f_nacimiento = $fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];
-                echo $f_nacimiento;?></td>
+                echo $f_nacimiento;?></br></br>
+                <?php if ($row4[17] !='' ) { echo "Cel. ".$row4[17]; } ?>  
+              </td>
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><?php echo $row4[8];?></td>
             <td <?php echo 'bgcolor="#'.$row4[15].'" ';?> style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row4[13];?></td>
             <td><table width="800" border="0" cellspacing="0">

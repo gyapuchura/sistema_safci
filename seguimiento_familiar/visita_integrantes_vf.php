@@ -127,15 +127,16 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     <th class="text-info">PARENTESCO</th>
                                     <th class="text-info">GÉNERO</th>
                                     <th class="text-info">EDAD</th>
-                                    <th class="text-info">RIESGO PERSONAL</th>
-                                    <th class="text-info">FRECUENCIA DE VISITA</th>
+                                    <th class="text-info">RIESGO PERSONAL/FRECUENCIA DE VISITA</th>
+                                    <th class="text-info">N° CELULAR</th>
+                                    <th class="text-info">OPCIONES</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <?php
                                     $numero=0;
                                     $sql4 =" SELECT seguimiento_cf.idseguimiento_cf, nombre.ci, nombre.complemento, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco, genero.genero, integrante_cf.edad, integrante_cf.estado, ";
-                                    $sql4.=" integrante_cf.idnombre, nombre.idgenero, nombre.fecha_nac, seguimiento_cf.idriesgo_personal_vf, seguimiento_cf.idfrecuencia_vf ";
+                                    $sql4.=" integrante_cf.idnombre, nombre.idgenero, nombre.fecha_nac, seguimiento_cf.idriesgo_personal_vf, seguimiento_cf.idfrecuencia_vf, seguimiento_cf.idintegrante_cf, integrante_cf.celular ";
                                     $sql4.=" FROM integrante_cf, nombre, parentesco, genero, seguimiento_cf, riesgo_personal_vf, frecuencia_vf ";
                                     $sql4.=" WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idparentesco=parentesco.idparentesco AND nombre.idgenero=genero.idgenero ";
                                     $sql4.=" AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND seguimiento_cf.idintegrante_cf=integrante_cf.idintegrante_cf ";
@@ -147,7 +148,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                     } do { 
                                     ?>
                                     <tr>
-                                    <td><?php echo $numero+1;?></td>
+                                    <td><?php echo $numero+1;?> </br> <?php echo $row4[15];?></td>
                                         <td><?php echo mb_strtoupper($row4[5]." ".$row4[3]." ".$row4[4]);?> </td>
                                         <td><?php echo $row4[6];?></td>
                                         <td><?php echo $row4[7];?></td>
@@ -170,8 +171,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                                             }
                                             ?>
                                         </select>
-                                        </td>
-                                        <td> 
+                                        </br>
                                         <select name="idfrecuencia_vf[<?php echo $numero;?>]"  id="idfrecuencia_vf" class="form-control" disabled>
                                             <option selected>Seleccione</option>
                                             <?php
@@ -189,6 +189,17 @@ $row_cf=mysqli_fetch_array($result_cf);
                                             }
                                             ?>
                                         </select>
+                                        </td>
+                                        <td><?php echo $row4[16];?></td>
+                                        <td>
+                                            <form name="OPCIONES" action="valida_opciones_integrante.php" method="post">
+                                            <input name="idseguimiento_cf" type="hidden" value="<?php echo $row4[0];?>">
+                                            <input name="idintegrante_cf" type="hidden" value="<?php echo $row4[15];?>">
+                                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row4[10];?>">
+                                            <input name="idgenero" type="hidden" value="<?php echo $row4[11];?>">
+                                            <input name="edad" type="hidden" value="<?php echo $row4[8];?>">
+                                            <button type="submit" class="btn btn-info btn-user btn-block">OPCIONES</button>
+                                            </form>  
                                         </td>
                                     </tr> 
 
@@ -237,10 +248,44 @@ $row_cf=mysqli_fetch_array($result_cf);
 <div class="form-group row">  
 <div class="col-sm-4"><a href="visitas_familiares.php"><h6 class="text-info"><- VOLVER</h6></a></div> 
 <div class="col-sm-4">
-    <a href="actualiza_seguimiento_familiar.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-    <h6 class="text-info">ACTUALIZA SEGUIMIENTO</h6></a>  
+        <a class="btn btn-info btn-icon-split" href="actualiza_seguimiento_familiar.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=200'); return false;">
+        <span class="icon text-white-50">
+            <i class="fas fa-book"></i>
+        </span>
+        <span class="text">ACTUALIZA SEGUIMIENTO</span></a>
 </div>
-<div class="col-sm-4"></div> 
+
+    <div class="col-sm-4">
+        <form name="ELIMINA_VF" action="elimina_seguimiento_vf.php" method="post">
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal_d">
+    ELIMINAR ESTA PLANIFICACIÓN
+    </button>
+   <!-- modal de confirmacion de envio de datos-->
+<div class="modal fade" id="exampleModal_d" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">ELIMINAR PLANIFICACIÓN DE VISITA FAMILIAR</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+            Esta seguro de ELIMINAR LA PLANIFICACIÓN DE VISITAS PARA ESTA FAMILIA?
+        
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+        <button type="submit" class="btn btn-danger pull-center">CONFIRMAR</button>    
+        </div>
+    </div>
+</div>
+</div>
+</form>                
+
+
+</div> 
 </div> 
       
         <hr>
