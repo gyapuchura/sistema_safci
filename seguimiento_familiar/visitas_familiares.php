@@ -163,11 +163,25 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                     </tbody>
                                 </table>
                             </div>
-                            
-                        </div>
+                           
+                <hr>
+                <div class="text-center">
+                <div class="form-group row"> 
+                    <div class="col-sm-6">
+                        <a class="btn btn-info btn-icon-split" href="calendario_visitas_familiares.php?idusuario_op=<?php echo $idusuario_op;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span class="text">CALENDARIO DE VISITAS FAMILIARES</span></a>
                     </div>
+                    <div class="col-sm-6">
 
-                </div>
+                    </div>
+                </div>   
+                <hr>
+            </div>
+        </div>
+    </div>
                 <!-- /.container-fluid -->
 
             </div>

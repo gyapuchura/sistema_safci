@@ -19,11 +19,13 @@ $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
           
 ?>
+
 <table width="1200" border="0" align="center">
   <tbody>
     <tr>
       <td width="198" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="200" height="140" alt=""/></td>
       <td width="521" style="text-align: center; color: #35B9CB; font-family: 'Helvetica Condensed Bold';">
+       <a class="text-center" href="calendario_visitas_familiares.php"><h4><strong style="text-align: center">VOLVER</strong></h4></a>
         <h2><strong style="text-align: center">ACTUALIZACIÓN DE SEGUIMIENTO</strong></h2>
         <h4><strong style="text-align: center">FAMILIA :  <?php echo $row_cf[2];?></strong></h4>
         <h2><strong style="text-align: center"><?php echo $row_cf[1];?></strong></h2>
@@ -88,9 +90,10 @@ $row_cf=mysqli_fetch_array($result_cf);
             while ($field5 = mysqli_fetch_field($result5)){
             } do { 
             ?>
-            <form name="ACTUALIZADOR" action="guarda_actualizacion_vf.php" method="post">
+            <form name="ACTUALIZADOR" action="guarda_actualizacion_vf_ca.php" method="post">
 
-              <td style="text-align: center; font-size: 12px; color: #<?php echo $row5[4];?>; font-family: Arial;">               
+              <td style="text-align: center; font-size: 12px; color: #<?php echo $row5[4];?>; font-family: Arial;">
+                
                 <?php 
                 $fecha_v = explode('-',$row5[1]);
                 $f_visita = $fecha_v[2].'/'.$fecha_v[1].'/'.$fecha_v[0];
