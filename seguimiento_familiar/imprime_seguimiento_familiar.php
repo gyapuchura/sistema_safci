@@ -80,7 +80,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             $numero5=1;
             $sql5 =" SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita, visita_cf.numero_visita, estado_visita_cf.estado_visita_cf, estado_visita_cf.valor_color ";
             $sql5.=" FROM visita_cf, estado_visita_cf WHERE visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf  ";
-            $sql5.=" AND visita_cf.idseguimiento_cf='$row4[0]' ";  
+            $sql5.=" AND visita_cf.idseguimiento_cf='$row4[0]' ORDER BY visita_cf.idvisita_cf ";  
             $result5 = mysqli_query($link,$sql5);
             if ($row5 = mysqli_fetch_array($result5)){
             mysqli_field_seek($result5,0);
