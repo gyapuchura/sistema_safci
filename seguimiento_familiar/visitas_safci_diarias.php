@@ -11,7 +11,7 @@ $gestion    = date("Y");
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>MEDI-SAFCI VISITAS FAMILIARES HOY</title>
+		<title>MEDI-SAFCI VISITAS FAMILIARES </title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -276,12 +276,33 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">VISITAS DE HOY 
-               <?php 
-                $fecha_r = explode('-',$fecha);
-                $f_hoy = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
-                <?php echo $f_hoy;?>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+    N° SEGUIMIENTOS PLANIFICADOS = <?php 
+    $sql_seg =" SELECT count(idseguimiento_cf) FROM seguimiento_cf ";
+    $result_seg = mysqli_query($link,$sql_seg);
+    $row_seg = mysqli_fetch_array($result_seg);
+    $seguimientos_int  = number_format($row_seg[0], 0, '.', '.');
+    echo $seguimientos_int;?> 
 </h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+    N° VISITAS PROGRAMADAS = 
+    <?php 
+    $sql_pr =" SELECT count(idvisita_cf) FROM visita_cf ";
+    $result_pr = mysqli_query($link,$sql_pr);
+    $row_pr = mysqli_fetch_array($result_pr);
+    $programadas  = number_format($row_pr[0], 0, '.', '.');
+    echo $programadas?>
+</h4>
+
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+    N° VISITAS REALIZADAS = <?php 
+    $sql_re =" SELECT count(idvisita_cf) FROM visita_cf WHERE idestado_visita_cf='3'";
+    $result_re = mysqli_query($link,$sql_re);
+    $row_re = mysqli_fetch_array($result_re);
+    $realizadas  = number_format($row_re[0], 0, '.', '.');
+    echo $realizadas;?> 
+</h4>
+
 
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
@@ -289,7 +310,7 @@ Si no se encontraron resultados
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">SEGUIMIENTO</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">PERSONA VISITADA</td>
-            <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">VISITA</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">VISITA</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
@@ -302,9 +323,9 @@ Si no se encontraron resultados
 	        </tr>
             <?php
     $numero=1; 
-    $sql =" SELECT visita_cf.idvisita_cf, visita_cf.idseguimiento_cf, visita_cf.fecha_visita, estado_visita_cf.estado_visita_cf, visita_cf.idusuario, visita_cf.fecha_registro, visita_cf.hora_registro, visita_cf.numero_visita ";
-    $sql.=" FROM visita_cf, estado_visita_cf WHERE visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf  ";
-    $sql.=" ORDER BY visita_cf.idvisita_cf DESC LIMIT 1000 ";
+    $sql =" SELECT visita_cf.idvisita_cf, visita_cf.idseguimiento_cf, visita_cf.fecha_visita, estado_visita_cf.estado_visita_cf, visita_cf.idusuario,";
+    $sql.="  visita_cf.fecha_registro, visita_cf.hora_registro, visita_cf.numero_visita FROM visita_cf, estado_visita_cf  ";
+    $sql.=" WHERE visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf ORDER BY visita_cf.idvisita_cf DESC LIMIT 500 ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
@@ -335,7 +356,6 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_v[7];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_v[8]." ".$row_v[9];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[3];?></td>
-
               <td style="font-size: 12px; font-family: Arial;">
               <?php 
                 $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
