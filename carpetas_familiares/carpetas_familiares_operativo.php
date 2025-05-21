@@ -176,11 +176,15 @@ $idusuario_op = $_POST["medico_operativo"];
                 <hr>
                 <div class="text-center">
                 <div class="form-group row"> 
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <a href="imprime_reporte_cfs_op.php?idusuario_op=<?php echo $idusuario_op;?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
                         IMPRIMIR REPORTE DE CARPETAS FAMILIARES</a>   
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
+                        <a href="operativo_a_cfs.php?idusuario_op=<?php echo $idusuario_op;?>" target="_blank" class="text-primary" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=400'); return false;">
+                        ANALÍTICA DEL MÉDICO OPERATIVO</a>  
+                        </div>
+                        <div class="col-sm-4">
                     <form name="REPORTE_CF" action="reporte_cf_op_excel.php" method="post">
                         <input type="hidden" name="idusuario_op" value="<?php echo $idusuario_op;?>">
                         <button type="submit" class="btn btn-success">REPORTE CARPETAS FAMILIARES EN EXCEL</button>
