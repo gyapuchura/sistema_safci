@@ -167,15 +167,26 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <hr>
                 <div class="text-center">
                 <div class="form-group row"> 
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <a class="btn btn-info btn-icon-split" href="calendario_visitas_familiares.php?idusuario_op=<?php echo $idusuario_op;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=200'); return false;">
                         <span class="icon text-white-50">
                             <i class="fas fa-book"></i>
                         </span>
                         <span class="text">CALENDARIO DE VISITAS FAMILIARES</span></a>
                     </div>
-                    <div class="col-sm-6">
-
+                    <div class="col-sm-4">
+                        <a class="btn btn-primary btn-icon-split" href="visitas_safci_diarias_op.php?idusuario_op=<?php echo $idusuario_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="far fa-chart-bar"></i>
+                        </span>
+                        <span class="text">MOSTRAR REPORTE DIARIO</span></a>
+                    </div>
+                    <div class="col-sm-4">
+                        <a class="btn btn-warning btn-icon-split" href="calendario_reprogramacion_visita.php?idusuario_op=<?php echo $idusuario_ss;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1100,height=800,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span class="text">REPROGRAMACIÓN DE VISITAS</span></a>
                     </div>
                 </div>   
                 <hr>
