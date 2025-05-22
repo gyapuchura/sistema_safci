@@ -393,6 +393,22 @@
     } else {
     }
     ?>
+        <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' ||  $row_menu[0] == 'ADM-MUNICIPAL' ){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+    
+        <a class="collapse-item" href="../seguimiento_familiar/reportes_vf.php">REPORTES VISITAS</a>
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
         </div>
     </div>
 </li>
