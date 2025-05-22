@@ -3,7 +3,7 @@
 $idusuario_op = $_POST["medico_operativo"];
 ?>
     <div class="table-responsive">
-        <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="example_op" width="100%" cellspacing="0">
             <thead>
                 <tr>  
                     <th>N°</th>                                     
@@ -118,7 +118,7 @@ $idusuario_op = $_POST["medico_operativo"];
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable( {
+            $('#example_op').DataTable( {
                         "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]] ,
                         "language": {
                             "lengthMenu": "Mostrar _MENU_ registros por pagina",

@@ -283,7 +283,51 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL</h4>
+<table width="900" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
+          <?php 
+    $sql_seg =" SELECT count(idseguimiento_cf) FROM seguimiento_cf WHERE idusuario='$idusuario_op' ";
+    $result_seg = mysqli_query($link,$sql_seg);
+    $row_seg = mysqli_fetch_array($result_seg);
+    $seguimientos_int  = number_format($row_seg[0], 0, '.', '.');
+    echo $seguimientos_int;?>
+      </span></td>
+      <td width="200">
 
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PROGRAMADAS =
+          <?php 
+    $sql_pr =" SELECT count(idvisita_cf) FROM visita_cf WHERE idusuario='$idusuario_op' ";
+    $result_pr = mysqli_query($link,$sql_pr);
+    $row_pr = mysqli_fetch_array($result_pr);
+    $programadas  = number_format($row_pr[0], 0, '.', '.');
+    echo $programadas?>
+      </span></td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS =
+          <?php 
+    $sql_re =" SELECT count(idvisita_cf) FROM visita_cf WHERE idestado_visita_cf='3' AND idusuario='$idusuario_op'";
+    $result_re = mysqli_query($link,$sql_re);
+    $row_re = mysqli_fetch_array($result_re);
+    $realizadas  = number_format($row_re[0], 0, '.', '.');
+    echo $realizadas;?>
+      </span></td>
+      <td>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</br>
+</br>
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
