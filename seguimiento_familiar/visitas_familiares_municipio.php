@@ -16,6 +16,7 @@ $idmunicipio = $_POST["municipio"];
                             <th>ÁREA DE INFLUENCIA</th>
                             <th>NÚMERO DE INTEGRANTES</th>
                             <th>UBICACIÓN GEOGRÁFICA</th>
+                            <th>MÉDICO</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,6 +79,13 @@ $idmunicipio = $_POST["municipio"];
                                 <td>                                                     
                                         <a href="../carpetas_familiares/imprime_mapa_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
                                         <h6 class="text-info">UBICACIÓN FAMILIAR</h6></a>                                                                                                              
+                            </td>
+                            <td>                                                                        <?php 
+                                $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[11]' ";
+                                $result_r = mysqli_query($link,$sql_r);
+                                $row_r = mysqli_fetch_array($result_r);                    
+                            echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>  
                             </td>
                             </tr>
                                      

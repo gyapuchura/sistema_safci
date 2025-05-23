@@ -47,7 +47,7 @@ $(function () {
             categories: [
  <?php
 $numero = 0;
-$sql = " SELECT fecha_visita FROM visita_cf WHERE fecha_visita LIKE '$gestion%' GROUP BY fecha_visita ORDER BY fecha_visita ";
+$sql = " SELECT fecha_visita FROM visita_cf WHERE fecha_visita LIKE '$gestion%' AND idusuario='$idusuario_op' GROUP BY fecha_visita ORDER BY fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -243,9 +243,9 @@ $sql7 = " SELECT idvisita_cf, fecha_visita FROM visita_cf WHERE fecha_visita='$r
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
-$cifra_diaria = $row7;
+$cifra_diaria3 = $row7;
 ?>
-             <?php echo $cifra_diaria; ?>
+             <?php echo $cifra_diaria3; ?>
 
 <?php
 $numero++;

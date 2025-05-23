@@ -1,6 +1,6 @@
 <?php	
 header('Content-type: application/vnd.ms-excel');
-header("Content-Disposition: attachment; filename=REPORTE PERSONAL DEPARTAMENTO.xls");
+header("Content-Disposition: attachment; filename=REPORTE PERSONAL NACIONAL.xls");
 header("Pragma: no-cache");
 header("Expires: 0");?>
 <?php include("../cabf.php");?>
@@ -33,10 +33,12 @@ $gestion       =  date("Y");
             <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>PATERNO</strong></td>
             <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>MATERNO</strong></td>
             <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>PROFESIÓN</strong></td>	
-            <td width="200" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CARGO</strong></td>	
-            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESPECIALIDAD MÉDICA</strong></td>
+            <td width="200" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CARGO ORGANIGRAMA</strong></td>	
+            <td width="250" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CARGO MEMORÁDUM</strong></td>	
+            <td width="150" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESPECIALIDAD MÉDICA</strong></td>
             <td width="70" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>DEPARTAMENTO</strong></td>
             <td width="150" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>RED DE SALUD</strong></td>
+            <td width="150" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>MUNICIPIO</strong></td>
             <td width="200" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>ESTABLECIMIENTO DE SALUD</strong></td>	
             <td width="60" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>Nro. ITEM</strong></td>	
             <td width="80" style="font-family: Arial; font-size: 12px; text-align: center;"><strong>CELULAR</strong></td>	
@@ -47,10 +49,10 @@ $gestion       =  date("Y");
         <?php
             $numero=1;
             $sql =" SELECT personal.idpersonal, personal.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.ci, nombre.complemento, nombre.exp, profesion.profesion, cargo_organigrama.cargo_organigrama, especialidad_medica.especialidad_medica,";
-            $sql.=" departamento.departamento, dato_laboral.idred_salud, dato_laboral.idestablecimiento_salud, dato_laboral.item_red_salud, nombre_datos.celular, nombre_datos.correo,  usuarios.condicion ";
-            $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, dato_laboral, cargo_organigrama, establecimiento_salud, usuarios ";
+            $sql.=" departamento.departamento, dato_laboral.idred_salud, dato_laboral.idestablecimiento_salud, dato_laboral.item_red_salud, nombre_datos.celular, nombre_datos.correo,  usuarios.condicion, dato_laboral.cargo_red_salud, municipios.municipio ";
+            $sql.=" FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, dato_laboral, cargo_organigrama, municipios, establecimiento_salud, usuarios ";
             $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idnombre_datos=nombre_datos.idnombre_datos ";
-            $sql.=" AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND usuarios.idnombre=nombre.idnombre ";
+            $sql.=" AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND usuarios.idnombre=nombre.idnombre AND establecimiento_salud.idmunicipio=municipios.idmunicipio ";
             $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
             $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY departamento.departamento ";
             $result = mysqli_query($link,$sql);
@@ -67,14 +69,17 @@ $gestion       =  date("Y");
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[4]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[8]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[9]);?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[18]);?></td>
 	      <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[10]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[11]);?></td>
+
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_r =" SELECT idred_salud, red_salud FROM red_salud WHERE idred_salud='$row[12]'";
             $result_r = mysqli_query($link,$sql_r);
             $row_r = mysqli_fetch_array($result_r);
             echo $row_r[1];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[19]);?></td>
         <td style="font-family: Arial; font-size: 12px;">
         <?php 
             $sql_e =" SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$row[13]'";
