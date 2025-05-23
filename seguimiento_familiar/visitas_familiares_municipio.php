@@ -5,7 +5,7 @@ $idmunicipio = $_POST["municipio"];
 ?>
 
             <div class="table-responsive">
-                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="example_mun" width="100%" cellspacing="0">
                     <thead>
                         <tr>  
                             <th>N°</th>                                     
@@ -124,7 +124,7 @@ $idmunicipio = $_POST["municipio"];
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable( {
+            $('#example_mun').DataTable( {
                         "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]] ,
                         "language": {
                             "lengthMenu": "Mostrar _MENU_ registros por pagina",

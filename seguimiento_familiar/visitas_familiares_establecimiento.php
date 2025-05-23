@@ -2,9 +2,8 @@
 <?php include("../inc.config.php"); 
 $idestablecimiento_salud = $_POST["establecimiento_salud"];
 ?>
-
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="example_est" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>  
                                             <th>N°</th>                                     
@@ -126,7 +125,7 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable( {
+            $('#example_est').DataTable( {
                         "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]] ,
                         "language": {
                             "lengthMenu": "Mostrar _MENU_ registros por pagina",
