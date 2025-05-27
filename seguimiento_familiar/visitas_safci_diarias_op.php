@@ -6,6 +6,9 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 $idusuario_op = $_GET['idusuario_op'];
 
 $sqlus =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM nombre, usuarios ";
@@ -283,7 +286,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL</h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL AL <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
