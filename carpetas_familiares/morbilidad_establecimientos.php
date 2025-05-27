@@ -200,7 +200,7 @@ echo "";
             ?>
 
 	    <tr>
-        <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $numero;?></td>
+        <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $numero2;?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row2[1];?></td>
         
         <td style="font-family: Arial; font-size: 12px; text-align: center;">
@@ -232,7 +232,15 @@ echo "";
 
       </tbody>
     </table>
+    <p>&nbsp;</p>
+
+    <form name="REPORTE_CF_MUN" action="morbilidad_est_excel.php" method="post">
+        <input type="hidden" name="idmunicipio" value="<?php echo $idmunicipio;?>">
+        <input type="hidden" name="idmorbilidad_cf" value="<?php echo $idmorbilidad_cf;?>">
+        <button type="submit" class="btn btn-success">REPORTE MORBILIDAD EN EXCEL</button>
+    </form>
 
 <p>&nbsp;</p>
+
 </body>
 </html>
