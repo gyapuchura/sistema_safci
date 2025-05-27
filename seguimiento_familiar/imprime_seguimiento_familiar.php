@@ -23,16 +23,25 @@ $row_cf=mysqli_fetch_array($result_cf);
   <tbody>
     <tr>
       <td width="198" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="200" height="140" alt=""/></td>
-      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
+      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Arial'; font-size: 24px;">
         <p><strong style="text-align: center">SEGUIMIENTO A RIESGOS PERSONALES</strong></p>
-        <p><strong style="text-align: center">FAMILIA :  <?php echo $row_cf[2];?></strong></p>
+        <p><strong style="text-align: center">FAMILIA : <?php echo $row_cf[2];?></strong></p>
         <p><strong style="text-align: center"><?php echo $row_cf[1];?></strong></p>
         </td>
       <td width="167">&nbsp;</td>
     </tr>
         <tr>
       <td width="198" style="text-align: center"></td>
-      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
+      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Arial'; font-size: 18px;">
+</br>
+      <p><strong style="text-align: center">
+      <?php 
+      $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+      $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$idusuario_ss' ";
+      $result_r = mysqli_query($link,$sql_r);
+      $row_r = mysqli_fetch_array($result_r);                    
+  echo mb_strtoupper("MÉDICO : ".$row_r[0]." ".$row_r[1]." ".$row_r[2]);?></strong></p>
+
       </td>
       <td width="167">&nbsp;</td>
     </tr>
@@ -40,12 +49,12 @@ $row_cf=mysqli_fetch_array($result_cf);
       <td colspan="3"><table width="1200" border="1" cellspacing="0">
         <tbody>
           <tr>
-            <td width="50" bgcolor="#4E73DF" style="text-align: center; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; font-size: 14px;"><strong>N°</strong></td>
-            <td width="250" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>INTEGRANTE</strong></td>
-            <td width="100" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>FECHA NACIMIENTO</br>/CELULAR</strong></td>
-            <td width="50" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Helvetica Condensed Bold'; color: #FFFFFF; text-align: center;"><strong>EDAD</strong></td>
-            <td width="250" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;"><strong>RIESGO PERSONAL</strong></td>
-            <td width="500" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Helvetica Condensed Bold'; text-align: center;">CRONOGRAMA DE VISITAS PLANIFICADO</strong></td>
+            <td width="50" bgcolor="#4E73DF" style="text-align: center; color: #FFFFFF; font-family: 'Arial'; font-size: 14px;"><strong>N°</strong></td>
+            <td width="250" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Arial'; color: #FFFFFF; text-align: center;"><strong>INTEGRANTE</strong></td>
+            <td width="100" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Arial'; color: #FFFFFF; text-align: center;"><strong>FECHA NACIMIENTO</br>/CELULAR</strong></td>
+            <td width="50" bgcolor="#4E73DF" style="font-size: 14px; font-family: 'Arial'; color: #FFFFFF; text-align: center;"><strong>EDAD</strong></td>
+            <td width="250" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Arial'; text-align: center;"><strong>RIESGO PERSONAL</strong></td>
+            <td width="500" bgcolor="#4E73DF" style="font-size: 14px; color: #FFFFFF; font-family: 'Arial'; text-align: center;">CRONOGRAMA DE VISITAS PLANIFICADO</strong></td>
           </tr>
             <?php
             $numero=0;
@@ -63,7 +72,7 @@ $row_cf=mysqli_fetch_array($result_cf);
             ?>
           <tr>
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><?php echo $numero+1;?></td>
-            <td style="font-size: 12px; text-align: center; font-family: Arial;"><?php echo mb_strtoupper($row4[5]." ".$row4[3]." ".$row4[4]);?></td>
+            <td style="font-size: 12px; text-align: center; font-family: Arial;"><?php echo mb_strtoupper($row4[5]." ".$row4[3]." ".$row4[4]);?></br></br><?php echo $row4[6];?></td>
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><?php 
                 $fecha_nac = explode('-',$row4[16]);
                 $f_nacimiento = $fecha_nac[2].'/'.$fecha_nac[1].'/'.$fecha_nac[0];

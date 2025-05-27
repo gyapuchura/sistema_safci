@@ -77,7 +77,7 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
                                             ?>                                             
                                             </td>
                                             <td>                                                     
-                                                    <a href="../carpetas_familiares/imprime_mapa_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
+                                                    <a href="../carpetas_familiares/imprime_mapa_familiar_eess.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
                                                     <h6 class="text-info">UBICACIÓN FAMILIAR</h6></a>                                                                                                              
                                         </td>
                                         <td>

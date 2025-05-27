@@ -15,7 +15,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $idmunicipio_ss        =  $_SESSION['idmunicipio_ss'];
 $idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura, idusuario FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
           
@@ -34,7 +34,15 @@ $row_cf=mysqli_fetch_array($result_cf);
     </tr>
         <tr>
       <td width="198" style="text-align: center"></td>
-      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Helvetica Condensed Bold'; font-size: 24px;">
+      <td width="521" style="text-align: center; color: #4E73DF; font-family: 'Helvetica Condensed Bold'; font-size: 18px;">
+</br>
+      <p><strong style="text-align: center">
+      <?php 
+      $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+      $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_cf[3]' ";
+      $result_r = mysqli_query($link,$sql_r);
+      $row_r = mysqli_fetch_array($result_r);                    
+  echo mb_strtoupper("MÉDICO : ".$row_r[0]." ".$row_r[1]." ".$row_r[2]);?></strong></p>
       </td>
       <td width="167">&nbsp;</td>
     </tr>

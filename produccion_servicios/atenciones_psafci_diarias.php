@@ -6,6 +6,9 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -224,7 +227,105 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">ATENCIONES DIARIAS PSAFCI</h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE ATENCIONES MÉDICAS PSAFCI AL <?php echo $f_emision;?></h4>
+<table width="900" border="0" align="center">
+  <tbody>
+    <tr>
+      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL ATENCIONES REGISTRADAS =
+          <?php 
+    $sql_ps =" SELECT count(idatencion_psafci) FROM atencion_psafci ";
+    $result_ps = mysqli_query($link,$sql_ps);
+    $row_ps = mysqli_fetch_array($result_ps);
+    $atenciones_ps  = number_format($row_ps[0], 0, '.', '.');
+    echo $atenciones_ps;?>
+      </span></td>
+      <td width="446">
+        <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES NUEVAS = 
+          <?php 
+    $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idrepeticion ='1' ";
+    $result_vf = mysqli_query($link,$sql_vf);
+    $row_vf = mysqli_fetch_array($result_vf);
+    $visita  = number_format($row_vf[0], 0, '.', '.');
+    echo $visita;?></span>
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES EN CONSULTAA = 
+            <?php 
+            $sql_con =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_consulta='1' ";
+            $result_con = mysqli_query($link,$sql_con);
+            $row_con = mysqli_fetch_array($result_con);
+            $consulta  = number_format($row_con[0], 0, '.', '.');
+            echo $consulta?>
+      </span></td>
+      <td>
+        <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES REPETIDAS = 
+            <?php 
+            $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idrepeticion ='2' ";
+            $result_vf = mysqli_query($link,$sql_vf);
+            $row_vf = mysqli_fetch_array($result_vf);
+            $visita  = number_format($row_vf[0], 0, '.', '.');
+            echo $visita;?></span>
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES EN VISITA FAMILIAR =
+          <?php 
+    $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_consulta='2' ";
+    $result_vf = mysqli_query($link,$sql_vf);
+    $row_vf = mysqli_fetch_array($result_vf);
+    $visita  = number_format($row_vf[0], 0, '.', '.');
+    echo $visita;?>
+      </span></td>
+      <td>
+          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE MUNICIPIOS =
+          <?php 
+            $sql_mun =" SELECT idmunicipio FROM atencion_psafci GROUP BY idmunicipio ";
+            $result_mun = mysqli_query($link,$sql_mun);
+            $municipios = mysqli_num_rows($result_mun);
+            echo $municipios;?>
+      </td>
+    </tr>
+        <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES POR MORBILIDAD =
+          <?php 
+    $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_atencion='1' ";
+    $result_vf = mysqli_query($link,$sql_vf);
+    $row_vf = mysqli_fetch_array($result_vf);
+    $visita  = number_format($row_vf[0], 0, '.', '.');
+    echo $visita;?>
+      </span></td>
+      <td>
+          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE ESTABLECIMIENTOS DE SALUD =
+          <?php 
+            $sql_es =" SELECT idestablecimiento_salud FROM atencion_psafci GROUP BY idestablecimiento_salud ";
+            $result_es = mysqli_query($link,$sql_es);
+            $establecimientos = mysqli_num_rows($result_es);
+            echo $establecimientos;?>
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES A APARENTEMENTE SANO =
+          <?php 
+    $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_atencion='2' ";
+    $result_vf = mysqli_query($link,$sql_vf);
+    $row_vf = mysqli_fetch_array($result_vf);
+    $visita  = number_format($row_vf[0], 0, '.', '.');
+    echo $visita;?>
+      </span></td>
+      <td>
+          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE MÉDICOS =
+          <?php 
+            $sql_op =" SELECT idusuario FROM atencion_psafci GROUP BY idusuario ";
+            $result_op = mysqli_query($link,$sql_op);
+            $medicos = mysqli_num_rows($result_op);
+            echo $medicos;?>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">&nbsp;</p>
+
 
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
@@ -250,7 +351,7 @@ Si no se encontraron resultados
     $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
     $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento  ";
     $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion ORDER BY atencion_psafci.idatencion_psafci DESC  LIMIT 1000";
+    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion ORDER BY atencion_psafci.idatencion_psafci DESC  LIMIT 500";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
