@@ -38,7 +38,7 @@ $row_cf=mysqli_fetch_array($result_cf);
       <p><strong style="text-align: center">
       <?php 
       $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-      $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_cf[3]' ";
+      $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_cf[4]' ";
       $result_r = mysqli_query($link,$sql_r);
       $row_r = mysqli_fetch_array($result_r);                    
   echo mb_strtoupper("MÉDICO : ".$row_r[0]." ".$row_r[1]." ".$row_r[2]);?></strong></p>
