@@ -237,7 +237,7 @@ echo "";
         <form name="REPORTE_CF_MUN" action="morbilidad_mun_excel.php" method="post">
         <input type="hidden" name="iddepartamento" value="<?php echo $iddepartamento;?>">
         <input type="hidden" name="idmorbilidad_cf" value="<?php echo $idmorbilidad_cf;?>">
-        <button type="submit" class="btn btn-success">REPORTE CARPETAS FAMILIARES EN EXCEL</button>
+        <button type="submit" class="btn btn-success">REPORTE MORBILIDAD EN EXCEL</button>
     </form>
 
 <p>&nbsp;</p>
