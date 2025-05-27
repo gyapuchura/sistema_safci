@@ -14,7 +14,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar = $_GET['idcarpeta_familiar'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar' ";
+$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura, idusuario FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar' ";
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
           
@@ -37,7 +37,7 @@ $row_cf=mysqli_fetch_array($result_cf);
       <p><strong style="text-align: center">
       <?php 
       $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-      $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$idusuario_ss' ";
+      $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_cf[4]' ";
       $result_r = mysqli_query($link,$sql_r);
       $row_r = mysqli_fetch_array($result_r);                    
   echo mb_strtoupper("MÉDICO : ".$row_r[0]." ".$row_r[1]." ".$row_r[2]);?></strong></p>

@@ -39,7 +39,7 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
                                             <h6 class="text-primary"><?php echo $row[1];?></h6></a>     
                                             </td>
                                             <td>
-                                            <a href="imprime_seguimiento_familiar_eess.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                            <a href="imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
                                             <h6 class="text-info">ESTADO DE SEGUIMIENTO</h6></a>     
                                             </td>
                                             <td><?php echo $row[2];?></td>    
