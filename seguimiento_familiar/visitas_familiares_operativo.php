@@ -34,7 +34,7 @@ $idusuario_op = $_POST["medico_operativo"];
                         <tr>
                             <td><?php echo $numero;?></td>
                             <td>
-                            <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                            <a href="../carpetas_familiares/imprime_carpeta_familiar_op.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
                             <h6 class="text-primary"><?php echo $row[1];?></h6></a>     
                             </td>
                             <td>

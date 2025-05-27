@@ -37,7 +37,7 @@ $idmunicipio = $_POST["municipio"];
                             <tr>
                                 <td><?php echo $numero;?></td>
                                 <td>
-                                <a href="imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
+                                <a href="imprime_seguimiento_familiar_mun.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1280,height=800,top=50, left=200, scrollbars=YES'); return false;">
                                 <h6 class="text-info"><?php echo $row[1];?></h6></a>     
                                 </td>
                                 <td><?php echo $row[2];?></td>    
@@ -77,7 +77,7 @@ $idmunicipio = $_POST["municipio"];
                                     
                                 </td>
                                 <td>                                                     
-                                        <a href="../carpetas_familiares/imprime_mapa_familiar_mun.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
+                                        <a href="../carpetas_familiares/imprime_mapa_familiar.php?idcarpeta_familiar=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=700,top=50, left=600, scrollbars=YES'); return false;">
                                         <h6 class="text-info">UBICACIÓN FAMILIAR</h6></a>                                                                                                              
                             </td>
                             <td>                                                                        <?php 
