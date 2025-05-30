@@ -69,7 +69,7 @@ $rowus = mysqli_fetch_array($resultus);
                     </div>
                     <div class="card-body">
                         <div class="text-center">
-                            <img src="../img/fondo_inicio_safci.jpg" class="rounded" alt="Eniun">
+                            <img src="../img/fondo_inicio_safci.jpg" class="img-fluid" alt="Eniun">
                         </div>
                     </div>
                 </div>
