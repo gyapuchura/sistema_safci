@@ -7,7 +7,7 @@
 </form>
 
 <!-- Topbar Search -->
-<img src="../img/banner_medisafci.png" alt="10" class="img-thumbnail">
+<img src="../img/banner_medisafci.png" class="img-fluid">
 
 <!-- Topbar Navbar -->
 <ul class="navbar-nav ml-auto">
