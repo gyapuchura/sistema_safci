@@ -125,6 +125,15 @@ $row_est = mysqli_fetch_array($result_est);
                         </div>
                     </div>
 
+                                        <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">I(a). ESTIMACIÓN DE POBLACIÓN A NIVEL DE ESTABLECIMIENTO:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="../sala_situacional/estimacion_poblacion_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTIMACIÓN POBLACIONAL - Establecimiento : <?php echo $row_est[1];?></h6></a>  
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <div class="col-sm-6">
                         <h6 class="text-primary">II. IDIOMA :</h6>

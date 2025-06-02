@@ -55,7 +55,7 @@ $area_af = $row_area[1]." ".$row_area[2];
 
                             $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar  ";
                             $sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                            $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO'  ";
+                            $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' ";
                             $sql_int.=" AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
                             $result_int = mysqli_query($link,$sql_int);
                             $row_int = mysqli_fetch_array($result_int);  

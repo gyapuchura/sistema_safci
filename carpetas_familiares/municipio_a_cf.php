@@ -129,6 +129,15 @@ $row_mun = mysqli_fetch_array($result_mun);
 
                     <div class="form-group row">
                         <div class="col-sm-6">
+                        <h6 class="text-primary">I(a). ESTIMACIÓN POBLACIONAL:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="../sala_situacional/estimacion_poblacion_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=900,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTIMACIÓN POBLACIONAL - Mun. <?php echo $row_mun[1];?></h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
                         <h6 class="text-primary">II. IDIOMA:</h6>
                         </div>
                         <div class="col-sm-6">
