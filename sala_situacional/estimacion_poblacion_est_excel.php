@@ -1,3 +1,8 @@
+<?php	
+header('Content-type: application/vnd.ms-excel');
+header("Content-Disposition: attachment; filename=REPORTE POBLACION ESTABLECIMIENTO.xls");
+header("Pragma: no-cache");
+header("Expires: 0");?>
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
 <?php 
@@ -6,7 +11,7 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$iddepartamento = $_GET['iddepartamento'];
+$idestablecimiento_salud = $_POST['idestablecimiento_salud'];
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +19,7 @@ $iddepartamento = $_GET['iddepartamento'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTIMACION POBLACIONAL DEPARTAMENTO</title>
+    <title>ESTIMACION POBLACIONAL ESTABLECIMIENTO SALUD</title>
 </head>
 <body>
     
@@ -27,7 +32,7 @@ $iddepartamento = $_GET['iddepartamento'];
         <tbody>
 
         <?php
-        $sql =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento ='$iddepartamento'";
+        $sql =" SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud ='$idestablecimiento_salud'";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
@@ -35,11 +40,7 @@ $iddepartamento = $_GET['iddepartamento'];
         } do {
         ?>
 
-          <tr>
-            <td width="1">&nbsp;</td>
-            <td width="588" style="text-align: center; font-family: 'Helvetica Condensed'; color: #496FDB; font-size: 24px;"><strong>POBLACIÓN POR MUNICIPIOS DEPARTAMENTO DE <?php echo mb_strtoupper($row[1]);?></strong></br></td>
-            <td width="628">&nbsp;</td>
-          </tr>
+
           <tr>
             <td>&nbsp;</td>
             <td colspan="16" style="font-size: 12px; font-family: Arial;">
@@ -47,20 +48,22 @@ $iddepartamento = $_GET['iddepartamento'];
               <tbody>
                 <tr>
                   <td width="40" style="text-align: center">Nº</td>
-                  <td colspan="15" style="text-align: center; font-size: 14px;">MUNICIPIO</td>
+                  <td colspan="15" style="text-align: center; font-size: 20px;">POBLACIÓN POR ÁREAS DE INFLUENCIA DEL ESTABLECIMIENTO : <?php echo mb_strtoupper($row[1]);?></td>
                   </tr>
             <?php
             $numero=1;
-            $sql_mun =" SELECT idmunicipio, municipio FROM municipios WHERE iddepartamento='$row[0]' ORDER BY idmunicipio ";
-            $result_mun = mysqli_query($link,$sql_mun);
-            if ($row_mun = mysqli_fetch_array($result_mun)){
-            mysqli_field_seek($result_mun,0);
-            while ($field_mun = mysqli_fetch_field($result_mun)){
+            $sql_af =" SELECT carpeta_familiar.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia, carpeta_familiar  ";
+            $sql_af.=" WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.estado='CONSOLIDADO' ";
+            $sql_af.="  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY carpeta_familiar.idarea_influencia ORDER BY area_influencia.area_influencia ";
+            $result_af = mysqli_query($link,$sql_af);
+            if ($row_af = mysqli_fetch_array($result_af)){
+            mysqli_field_seek($result_af,0);
+            while ($field_af = mysqli_fetch_field($result_af)){
             } do {
             ?>
                 <tr>
                   <td rowspan="4" width="40" style="text-align: center"><?php echo $numero;?></td>
-                  <td colspan="15" style="text-align: center; font-size: 14px;"><?php echo $row_mun[1];?></td>
+                  <td colspan="15" style="text-align: center; font-size: 14px;"><?php echo $row_af[1];?> <?php echo $row_af[2];?></td>
                   </tr>
                 <tr>
                   <td style="text-align: center">Género</td>
@@ -95,8 +98,8 @@ $iddepartamento = $_GET['iddepartamento'];
 
                     <?php 
                     $sql_f =" SELECT integrante_cf.edad FROM integrante_cf, carpeta_familiar, nombre WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql_f.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.estado='CONSOLIDADO' AND nombre.idgenero = '1' ";
-                    $sql_f.=" AND carpeta_familiar.idmunicipio='$row_mun[0]' AND integrante_cf.edad BETWEEN '$row_etf[2]' AND '$row_etf[3]' ";
+                    $sql_f.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' AND nombre.idgenero = '1' ";
+                    $sql_f.=" AND carpeta_familiar.idarea_influencia='$row_af[0]' AND integrante_cf.edad BETWEEN '$row_etf[2]' AND '$row_etf[3]' ";
                     $result_f = mysqli_query($link,$sql_f);
                     $row_f = mysqli_num_rows($result_f);
                     echo $row_f;
@@ -124,8 +127,8 @@ $iddepartamento = $_GET['iddepartamento'];
 
                     <?php 
                     $sql_m =" SELECT integrante_cf.edad FROM integrante_cf, carpeta_familiar, nombre WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql_m.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.estado='CONSOLIDADO' AND nombre.idgenero = '2' ";
-                    $sql_m.=" AND carpeta_familiar.idmunicipio='$row_mun[0]' AND integrante_cf.edad BETWEEN '$row_etm[2]' AND '$row_etm[3]' ";
+                    $sql_m.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' AND nombre.idgenero = '2' ";
+                    $sql_m.=" AND carpeta_familiar.idarea_influencia='$row_af[0]' AND integrante_cf.edad BETWEEN '$row_etm[2]' AND '$row_etm[3]' ";
                     $result_m = mysqli_query($link,$sql_m);
                     $row_m = mysqli_num_rows($result_m);
                     echo $row_m;
@@ -142,7 +145,7 @@ $iddepartamento = $_GET['iddepartamento'];
             <?php
             $numero=$numero+1;  
             }
-            while ($row_mun = mysqli_fetch_array($result_mun));
+            while ($row_af = mysqli_fetch_array($result_af));
             } else {
             }
             ?>
