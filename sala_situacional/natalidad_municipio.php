@@ -6,12 +6,18 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
+$idmunicipio = $_GET['idmunicipio'];
+
+$sql_mun =" SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio ='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
+
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>NATALIDAD A NIVEL NACIONAL</title>
+		<title>NATALIDAD A NIVEL MUNICIPAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -24,10 +30,10 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'NACIMIENTOS POR GESTIONES - NACIONAL'
+            text: 'NACIMIENTOS POR GESTIONES - MUNICIPIO DE <?php echo $row_mun[1]?>'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO DE CARPETAS FAMILIARES SISTEMA MEDI-SAFCI'
+            text: 'Fuente: REGISTRO CARPETAS FAMILIARES SISTEMA MEDI-SAFCI'
         },
         xAxis: {
             categories: [
@@ -66,7 +72,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: 'NACIMIENTOS '
+                text: 'NACIMIENTOS EN EL MUNICIPIO '
             }
         },
         tooltip: {
@@ -101,8 +107,9 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
  
 <?php
-$sql_a =" SELECT count(integrante_cf.idintegrante_cf) FROM nombre, integrante_cf WHERE integrante_cf.idnombre=nombre.idnombre  ";
-$sql_a.=" AND integrante_cf.estado='CONSOLIDADO' AND nombre.fecha_nac LIKE '$row3[1]-%' ";
+$sql_a =" SELECT count(integrante_cf.idintegrante_cf) FROM nombre, integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_a.=" AND  integrante_cf.idnombre=nombre.idnombre AND integrante_cf.estado='CONSOLIDADO' AND nombre.fecha_nac LIKE '$row3[1]-%'  ";
+$sql_a.=" AND carpeta_familiar.idmunicipio='$idmunicipio' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>

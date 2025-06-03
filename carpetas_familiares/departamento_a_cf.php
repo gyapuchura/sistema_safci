@@ -195,6 +195,14 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <a href="../sala_situacional/estimacion_poblacion_depto.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTIMACIÓN POBLACIONAL - <?php echo $row_dep[1];?></h6></a>  
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">I(b). NATALIDAD POR GESTIONES:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="../sala_situacional/natalidad_departamental.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">NATALIDAD POR GESTIONES - <?php echo $row_dep[1];?></h6></a>  
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <div class="col-sm-6">
