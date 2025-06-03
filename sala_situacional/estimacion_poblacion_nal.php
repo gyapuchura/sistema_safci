@@ -6,15 +6,13 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$iddepartamento = $_GET['iddepartamento'];
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTIMACION POBLACIONAL DEPARTAMENTO</title>
+    <title>ESTIMACION POBLACIONAL NACIONAL</title>
 </head>
 <body>
     
@@ -26,18 +24,10 @@ $iddepartamento = $_GET['iddepartamento'];
       <td height="164" colspan="3"><table width="1394" border="0">
         <tbody>
 
-        <?php
-        $sql =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento ='$iddepartamento'";
-        $result = mysqli_query($link,$sql);
-        if ($row = mysqli_fetch_array($result)){
-        mysqli_field_seek($result,0);
-        while ($field = mysqli_fetch_field($result)){
-        } do {
-        ?>
 
           <tr>
             <td width="1">&nbsp;</td>
-            <td width="588" style="text-align: center; font-family: 'Helvetica Condensed'; color: #496FDB; font-size: 24px;"><strong>POBLACIÓN POR MUNICIPIOS DEPARTAMENTO DE <?php echo mb_strtoupper($row[1]);?></strong></br></td>
+            <td width="588" style="text-align: center; font-family: 'Helvetica Condensed'; color: #496FDB; font-size: 24px;"><strong>ESTIMACIÓN POBLACIÓNAL POR DEPARTAMENTOS A NIVEL NACIONAL</strong></br></td>
             <td width="628">&nbsp;</td>
           </tr>
           <tr>
@@ -47,21 +37,20 @@ $iddepartamento = $_GET['iddepartamento'];
               <tbody>
                 <tr>
                   <td width="40" style="text-align: center">Nº</td>
-                  <td colspan="15" style="text-align: center; font-size: 14px;">MUNICIPIO</td>
+                  <td colspan="15" style="text-align: center; font-size: 14px;">DEPARTAMENTO</td>
                   </tr>
             <?php
             $numero=1;
-            $sql_mun =" SELECT carpeta_familiar.idmunicipio, municipio FROM carpeta_familiar, municipios WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-            $sql_mun.=" AND carpeta_familiar.iddepartamento='$row[0]' GROUP BY carpeta_familiar.idmunicipio ";
-            $result_mun = mysqli_query($link,$sql_mun);
-            if ($row_mun = mysqli_fetch_array($result_mun)){
-            mysqli_field_seek($result_mun,0);
-            while ($field_mun = mysqli_fetch_field($result_mun)){
+            $sql_dep =" SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ";
+            $result_dep = mysqli_query($link,$sql_dep);
+            if ($row_dep = mysqli_fetch_array($result_dep)){
+            mysqli_field_seek($result_dep,0);
+            while ($field_dep = mysqli_fetch_field($result_dep)){
             } do {
             ?>
                 <tr>
                   <td rowspan="4" width="40" style="text-align: center"><?php echo $numero;?></td>
-                  <td colspan="15" style="text-align: center; font-size: 14px;"><?php echo $row_mun[1];?></td>
+                  <td colspan="15" style="text-align: center; font-size: 14px;"><?php echo $row_dep[1];?></td>
                   </tr>
                 <tr>
                   <td style="text-align: center">Género</td>
@@ -97,7 +86,7 @@ $iddepartamento = $_GET['iddepartamento'];
                     <?php 
                     $sql_f =" SELECT integrante_cf.edad FROM integrante_cf, carpeta_familiar, nombre WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                     $sql_f.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.estado='CONSOLIDADO' AND nombre.idgenero = '1' ";
-                    $sql_f.=" AND carpeta_familiar.idmunicipio='$row_mun[0]' AND integrante_cf.edad BETWEEN '$row_etf[2]' AND '$row_etf[3]' ";
+                    $sql_f.=" AND carpeta_familiar.iddepartamento='$row_dep[0]' AND integrante_cf.edad BETWEEN '$row_etf[2]' AND '$row_etf[3]' ";
                     $result_f = mysqli_query($link,$sql_f);
                     $row_f = mysqli_num_rows($result_f);
                     echo $row_f;
@@ -126,7 +115,7 @@ $iddepartamento = $_GET['iddepartamento'];
                     <?php 
                     $sql_m =" SELECT integrante_cf.edad FROM integrante_cf, carpeta_familiar, nombre WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                     $sql_m.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.estado='CONSOLIDADO' AND nombre.idgenero = '2' ";
-                    $sql_m.=" AND carpeta_familiar.idmunicipio='$row_mun[0]' AND integrante_cf.edad BETWEEN '$row_etm[2]' AND '$row_etm[3]' ";
+                    $sql_m.=" AND carpeta_familiar.iddepartamento='$row_dep[0]' AND integrante_cf.edad BETWEEN '$row_etm[2]' AND '$row_etm[3]' ";
                     $result_m = mysqli_query($link,$sql_m);
                     $row_m = mysqli_num_rows($result_m);
                     echo $row_m;
@@ -143,25 +132,28 @@ $iddepartamento = $_GET['iddepartamento'];
             <?php
             $numero=$numero+1;  
             }
-            while ($row_mun = mysqli_fetch_array($result_mun));
+            while ($row_dep = mysqli_fetch_array($result_dep));
             } else {
             }
             ?>
               </tbody>
             </table></td>
             </tr>
-        <?php
-        }
-        while ($row = mysqli_fetch_array($result));
-        } else {
-        }
-        ?>
         </tbody>
       </table></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+            <tr>
+      <td>&nbsp;</td>
+      <td>
+                    <form name="REPORTE_POBLACION" action="estimacion_poblacion_nal_excel.php" method="post">
+                        <button type="submit" class="btn btn-success">REPORTE POBLACIÓN NACIONAL EN EXCEL</button>
+                    </form>
+      </td>
       <td>&nbsp;</td>
     </tr>
   </tbody>

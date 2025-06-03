@@ -428,7 +428,25 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">I. POBLACIÓN NIVEL NACIONAL:</h6>
                         </div>
                         <div class="col-sm-6">
-                        <a href="piramide_poblacional_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PIRÁMIDE POBLACIONAL</h6></a>  
+                        <a href="piramide_poblacional_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">PIRÁMIDE POBLACIONAL - NACIONAL</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">I(a). ESTIMACIÓN POBLACIÓNAL NIVEL NACIONAL:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="../sala_situacional/estimacion_poblacion_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=800,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">ESTIMACIÓN POBLACIONAL NACIONAL</h6></a>  
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                        <h6 class="text-primary">I(b). NATALIDAD NIVEL NACIONAL:</h6>
+                        </div>
+                        <div class="col-sm-6">
+                        <a href="../sala_situacional/natalidad_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=500,scrollbars=YES,top=50,left=100'); return false;"><h6 class="text-info">NATALIDAD NACIONAL</h6></a>  
                         </div>
                     </div>
 
