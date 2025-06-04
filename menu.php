@@ -354,6 +354,7 @@
     } do {	?>
 
                 <a class="collapse-item" href="../carpetas_familiares/valida_cf_mun.php">ADMINISTRAR</br>CARPETAS FAMILIARES</br>MUNICIPAL</a>
+                <a class="collapse-item" href="../carpetas_familiares/valida_cf_mun_rcf.php">REASIGNAR</br>CARPETAS FAMILIARES</a>
 
     <?php
         } while ($row_menu = mysqli_fetch_array($result_menu));
