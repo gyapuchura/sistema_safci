@@ -309,14 +309,15 @@ $row_ac    = mysqli_fetch_array($result_ac);
                     <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" required disabled>
                         <option selected>Seleccione</option>
                         <?php
-                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud  ";
+                        $sqlv = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, municipios.municipio FROM establecimiento_salud, municipios ";
+                        $sqlv.=" WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio  ";
                         $resultv = mysqli_query($link,$sqlv);
                         if ($rowv = mysqli_fetch_array($resultv)){
                         mysqli_field_seek($resultv,0);
                         while ($fieldv = mysqli_fetch_field($resultv)){
                         } do {
                         ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_l[12]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_l[12]) echo "selected";?> ><?php echo "Mun : ".$rowv[2]." - ".$rowv[1];?></option>
                         <?php
                         } while ($rowv = mysqli_fetch_array($resultv));
                         } else {

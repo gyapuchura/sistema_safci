@@ -875,7 +875,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         })
         });
     </script> 
-
+ 
     <script language="javascript">
         $(document).ready(function(){
         $("#idmunicipio_salud").change(function () {
