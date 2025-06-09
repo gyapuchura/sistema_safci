@@ -5,9 +5,9 @@ $iddepartamento = $_POST["departamento_red"];
 <option value="">Elegir Red de Salud</option>
 <?php
 $numero = 1;
-$sql2 = " SELECT ubicacion_cf.idred_salud, red_salud.red_salud FROM ubicacion_cf, red_salud, carpeta_familiar  ";
-$sql2.= " WHERE ubicacion_cf.idred_salud=red_salud.idred_salud AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql2.= " AND ubicacion_cf.iddepartamento='$iddepartamento' GROUP BY ubicacion_cf.idred_salud ";
+$sql2 = " SELECT carpeta_familiar.idred_salud, red_salud.red_salud FROM red_salud, carpeta_familiar  ";
+$sql2.= " WHERE carpeta_familiar.idred_salud=red_salud.idred_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql2.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
