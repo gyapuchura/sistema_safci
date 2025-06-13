@@ -6,7 +6,6 @@ $iddepartamento = $_POST["departamento"];
 <?php
 $numero = 1;
 $sql2 = " SELECT idmunicipio, municipio, cod_municipio FROM municipios WHERE iddepartamento='$iddepartamento' ORDER BY municipio ";
-$sql2.= "  ";
 $result2 = mysqli_query($link,$sql2);
 if ($row2 = mysqli_fetch_array($result2)){
 mysqli_field_seek($result2,0);
