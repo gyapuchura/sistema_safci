@@ -119,7 +119,7 @@ $row_dep = mysqli_fetch_array($result_dep);
 
     <form name="REPORTE_CF_MUN" action="carpetizacion_mun_excel.php" method="post">
         <input type="hidden" name="iddepartamento" value="<?php echo $iddepartamento;?>">
-        <button type="submit" class="btn btn-success">REPORTE CARPETAS FAMILIARES EN EXCEL</button>
+        <button type="submit" class="btn btn-success">REPORTE CARPETIZACIÓN EN EXCEL</button>
     </form>
     <p>&nbsp;</p>
 </body>

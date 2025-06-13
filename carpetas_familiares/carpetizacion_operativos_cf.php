@@ -65,14 +65,14 @@ $row_mun = mysqli_fetch_array($result_mun);
             $sql_c =" SELECT sum(familias) FROM area_influencia WHERE idarea_influencia='$row[7]' ";
             $result_c = mysqli_query($link,$sql_c);
             $row_c = mysqli_fetch_array($result_c);
-            $integrantes_cf   = number_format($row_c[0], 0, '.', '.');
-            echo $integrantes_cf;?></td>
+            $familias_a_cf   = number_format($row_c[0], 0, '.', '.');
+            echo $familias_a_cf;?></td>
         <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php 
             $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idusuario='$row[0]' AND idarea_influencia='$row[7]' ";
             $result_cf = mysqli_query($link,$sql_cf);
             $row_cf = mysqli_fetch_array($result_cf);
-            $integrantes_cf   = number_format($row_cf[0], 0, '.', '.');
-            echo $integrantes_cf;?></td>
+            $familias_cf   = number_format($row_cf[0], 0, '.', '.');
+            echo $familias_cf;?></td>
         <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php
                 $porcentaje_mun   = ($row_cf[0]*100)/$row_c[0];
                 $p_municipio    = number_format($porcentaje_mun, 2, ',', '');

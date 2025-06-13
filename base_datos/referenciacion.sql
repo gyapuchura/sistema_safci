@@ -321,17 +321,20 @@ ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idtipo_medicamento) REFERENCES t
 ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idmedicamento) REFERENCES medicamento (idmedicamento);
 ALTER TABLE tratamiento_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
-
 ALTER TABLE seguimiento_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
 ALTER TABLE seguimiento_cf ADD FOREIGN KEY (idintegrante_cf) REFERENCES integrante_cf (idintegrante_cf);
 ALTER TABLE seguimiento_cf ADD FOREIGN KEY (idriesgo_personal_vf) REFERENCES riesgo_personal_vf (idriesgo_personal_vf);
 ALTER TABLE seguimiento_cf ADD FOREIGN KEY (idfrecuencia_vf) REFERENCES frecuencia_vf (idfrecuencia_vf);
 ALTER TABLE seguimiento_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
-
-
 ALTER TABLE visita_cf ADD FOREIGN KEY (idseguimiento_cf) REFERENCES seguimiento_cf (idseguimiento_cf);
 ALTER TABLE visita_cf ADD FOREIGN KEY (idestado_visita_cf) REFERENCES estado_visita_cf (idestado_visita_cf);
-
 ALTER TABLE visita_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idcarpeta_familiar) REFERENCES carpeta_familiar (idcarpeta_familiar);
+ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idmotivo_cambio_cf) REFERENCES motivo_cambio_cf (idmotivo_cambio_cf);
+ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idusuario_origen) REFERENCES usuarios (idusuario);
+ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idusuario_destino) REFERENCES usuarios (idusuario);
+ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 
