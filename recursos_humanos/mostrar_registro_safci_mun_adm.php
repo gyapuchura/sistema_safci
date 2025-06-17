@@ -25,7 +25,7 @@ $row = mysqli_fetch_array($result);
 
 $sql_l = " SELECT iddato_laboral, idusuario, idnombre, iddependencia, entidad, cargo_entidad, idministerio, iddireccion, idarea, cargo_mds,";
 $sql_l.= " iddepartamento, idred_salud, idestablecimiento_salud, cargo_red_salud, item_mds, item_red_salud, idcargo_organigrama ";
-$sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ";
+$sql_l.= " FROM dato_laboral WHERE iddato_laboral='$row[19]' ORDER BY iddato_laboral DESC LIMIT 1 ";
 $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
 
