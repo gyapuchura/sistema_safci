@@ -9,6 +9,17 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$sql = " SELECT personal.idpersonal, personal.idusuario, personal.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, ";
+$sql.= " nombre.ci, nombre.complemento, nombre.exp, nombre.idnacionalidad, nombre.idgenero, nombre_datos.idformacion_academica, nombre_datos.idprofesion, nombre_datos.idespecialidad_medica,";
+$sql.= " nombre_datos.correo, nombre_datos.celular, nombre_datos.direccion_dom, nombre_datos.idprofesion, personal.iddato_laboral, personal.idnombre_datos, nombre_datos.celular_emergencia, personal.codigo  ";
+$sql.= " FROM personal, nombre, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica ";
+$sql.= " WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero ";
+$sql.= " AND personal.idnombre_datos=nombre_datos.idnombre_datos AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica ";
+$sql.= " AND nombre_datos.idprofesion=profesion.idprofesion AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ";
+$sql.= " AND personal.idnombre='$idnombre_ss' AND personal.idusuario='$idusuario_ss'";
+$result = mysqli_query($link,$sql);
+$row = mysqli_fetch_array($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -105,14 +116,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 mysqli_field_seek($result0,0);
                 while ($field0 = mysqli_fetch_field($result0)){
                 } do {
-                ?>
+                ?>  
                     <tr>
                         <td><?php echo $numerodos;?></td>
                         <td><?php echo $row0[4];?></td>
                         <td><?php echo $row0[5];?></td>
                         <td><?php echo $row0[6];?></td>
                         <td><?php echo $row0[7];?></td>
-                        <td><?php echo $row0[3];?></td>
+                        <td><?php echo $row0[3];?> <?php echo $row0[0];?></td>
                         <td>
                         <form name="FORM11" action="elimina_laboral_individual.php" method="post">
                         <input name="iddato_laboral" type="hidden" value="<?php echo $row0[0];?>">
@@ -145,7 +156,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
           
                 </br> 
                 <form name="LABORALES" action="guarda_laboral_int_individual.php" method="post">  
-                <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
+            <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
                 <input type="hidden" name="iddependencia" value="3">
 
 <div class="form-group row">
