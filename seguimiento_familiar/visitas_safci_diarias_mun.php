@@ -9,19 +9,19 @@ $gestion    = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
+$idmunicipio = $_GET['idmunicipio'];
 
-$sql_est =" SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
-$sql_est.=" WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
-$result_est = mysqli_query($link,$sql_est);
-$row_est = mysqli_fetch_array($result_est);
+$sql_mun =" SELECT idmunicipio, municipio FROM municipios ";
+$sql_mun.=" WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
 
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>MEDI-SAFCI VISITAS FAMILIARES - ESTABLECIMIENTO</title>
+		<title>MEDI-SAFCI VISITAS FAMILIARES - MUNICIPIO</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -34,7 +34,7 @@ $(function () {
             type: 'areaspline'
         },
         title: {
-            text: 'VISITAS POR DÍA - <?php echo "ESTABLECIMIENTO : ".$row_est[1];?> '
+            text: 'VISITAS POR DÍA - <?php echo "MUNICIPIO : ".$row_mun[1];?> '
         },
         legend: {
             layout: 'vertical',
@@ -52,7 +52,7 @@ $(function () {
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
-$sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
+$sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -129,7 +129,7 @@ echo ",";
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
-$sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
+$sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
 
@@ -143,7 +143,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql7.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita='$row[0]' ";
-$sql7.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND visita_cf.idestado_visita_cf='1' ";
+$sql7.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='1' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -185,7 +185,7 @@ Si no se encontraron resultados
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
-$sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
+$sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -200,7 +200,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql7.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita='$row[0]' ";
-$sql7.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND visita_cf.idestado_visita_cf='2' ";
+$sql7.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='2' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -240,7 +240,7 @@ Si no se encontraron resultados
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
-$sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
+$sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -255,7 +255,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT visita_cf.idvisita_cf, visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
 $sql7.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita='$row[0]' ";
-$sql7.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND visita_cf.idestado_visita_cf='3' ";
+$sql7.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='3' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -306,7 +306,7 @@ Si no se encontraron resultados
       <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
           <?php 
     $sql_seg =" SELECT count(seguimiento_cf.idseguimiento_cf) FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-    $sql_seg.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+    $sql_seg.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
     $result_seg = mysqli_query($link,$sql_seg);
     $row_seg = mysqli_fetch_array($result_seg);
     $seguimientos_int  = number_format($row_seg[0], 0, '.', '.');
@@ -320,7 +320,7 @@ Si no se encontraron resultados
       <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PROGRAMADAS =
           <?php 
     $sql_pr =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
-    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' ";
     $result_pr = mysqli_query($link,$sql_pr);
     $row_pr = mysqli_fetch_array($result_pr);
     $programadas  = number_format($row_pr[0], 0, '.', '.');
@@ -333,7 +333,7 @@ Si no se encontraron resultados
       <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS =
           <?php 
     $sql_re =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
-    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND visita_cf.idestado_visita_cf='3' ";
+    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='3' ";
     $result_re = mysqli_query($link,$sql_re);
     $row_re = mysqli_fetch_array($result_re);
     $realizadas  = number_format($row_re[0], 0, '.', '.');
@@ -369,7 +369,7 @@ Si no se encontraron resultados
     $sql =" SELECT visita_cf.idvisita_cf, visita_cf.idseguimiento_cf, visita_cf.fecha_visita, estado_visita_cf.estado_visita_cf, visita_cf.idusuario, ";
     $sql.=" visita_cf.fecha_registro, visita_cf.hora_registro, visita_cf.numero_visita FROM visita_cf, estado_visita_cf, seguimiento_cf, carpeta_familiar ";
     $sql.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-    $sql.=" AND visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY visita_cf.idvisita_cf DESC LIMIT 1000";
+    $sql.=" AND visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf AND carpeta_familiar.idmunicipio='$idmunicipio' ORDER BY visita_cf.idvisita_cf DESC LIMIT 1000";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           

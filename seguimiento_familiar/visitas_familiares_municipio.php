@@ -111,7 +111,8 @@ $idmunicipio = $_POST["municipio"];
                         <span class="text">CALENDARIO DE VISITAS FAMILIARES MUNICIPIO</span></a>
                     </div>
                     <div class="col-sm-6">
-
+                   <a href="visitas_safci_diarias_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i> MOSTRAR REPORTE DIARIO</h6></a>
                     </div>
                 </div>   
                 <hr>
