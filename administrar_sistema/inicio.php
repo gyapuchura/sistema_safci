@@ -2,8 +2,8 @@
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram				= date("Ymd");
-$fecha 					= date("Y-m-d");
+$fecha_ram	   = date("Ymd");
+$fecha 		   = date("Y-m-d");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -179,14 +179,14 @@ $rowus = mysqli_fetch_array($resultus);
                 <div class="col mr-2">
                     <a href="reporte_visitas_dia.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=600,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    Nº DE VISITAS FAMILIARES HOY
+                    Nº DE VISITAS FAMILIARES PLANIFICADAS HOY
                     </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
-                    $sql_p =" SELECT idseguimiento_ep FROM seguimiento_ep WHERE fecha_registro='$fecha'";
+                    $sql_p =" SELECT idvisita_cf FROM visita_cf WHERE fecha_visita='$fecha' AND idestado_visita_cf='1' ";
                     $result_p = mysqli_query($link,$sql_p);
-                    $fichas_paciente = mysqli_num_rows($result_p);
-                    echo $fichas_paciente;
+                    $visitas_cf = mysqli_num_rows($result_p);
+                    echo $visitas_cf;
                     ?>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
+$fecha 		  = date("Y-m-d");
 $gestion    = date("Y");
 $mes        = date('m');
 
@@ -96,7 +96,7 @@ echo ",";
         },
         yAxis: {
             title: {
-                text: 'VISITAS SAFCI DIARIAS'
+                text: 'VISITAS DURANTE EL MES'
             }
         },
         tooltip: {
@@ -280,61 +280,33 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL AL <?php echo $f_emision;?></h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">VISITAS POR RIESGO PERSONAL HOY <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
-      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° SEGUIMIENTOS PLANIFICADOS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PROGRAMADAS HOY =
           <?php 
-    $sql_seg =" SELECT count(idseguimiento_cf) FROM seguimiento_cf ";
-    $result_seg = mysqli_query($link,$sql_seg);
-    $row_seg = mysqli_fetch_array($result_seg);
-    $seguimientos_int  = number_format($row_seg[0], 0, '.', '.');
-    echo $seguimientos_int;?>
-      </span></td>
-      <td width="446">
-        <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° MUNICIPIOS =
-          <?php 
-            $sql_mun =" SELECT carpeta_familiar.idmunicipio FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar GROUP BY carpeta_familiar.idmunicipio ";
-            $result_mun = mysqli_query($link,$sql_mun);
-            $municipios = mysqli_num_rows($result_mun);
-            echo $municipios;?>
-      </td>
-    </tr>
-    <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PROGRAMADAS =
-          <?php 
-    $sql_pr =" SELECT count(idvisita_cf) FROM visita_cf ";
+    $sql_pr =" SELECT count(idvisita_cf) FROM visita_cf WHERE idestado_visita_cf='1' AND fecha_visita ='$fecha' ";
     $result_pr = mysqli_query($link,$sql_pr);
     $row_pr = mysqli_fetch_array($result_pr);
     $programadas  = number_format($row_pr[0], 0, '.', '.');
     echo $programadas?>
       </span></td>
       <td>
-          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ESTABLECIMIENTOS  =
-          <?php 
-            $sql_es =" SELECT carpeta_familiar.idestablecimiento_salud FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar GROUP BY carpeta_familiar.idestablecimiento_salud ";
-            $result_es = mysqli_query($link,$sql_es);
-            $establecimientos = mysqli_num_rows($result_es);
-            echo $establecimientos;?>
+
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS HOY =
           <?php 
-    $sql_re =" SELECT count(idvisita_cf) FROM visita_cf WHERE idestado_visita_cf='3'";
+    $sql_re =" SELECT count(idvisita_cf) FROM visita_cf WHERE idestado_visita_cf='3' AND fecha_visita='$fecha'";
     $result_re = mysqli_query($link,$sql_re);
     $row_re = mysqli_fetch_array($result_re);
     $realizadas  = number_format($row_re[0], 0, '.', '.');
     echo $realizadas;?>
       </span></td>
       <td>
-          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE MÉDICOS =
-          <?php 
-            $sql_med =" SELECT carpeta_familiar.idusuario FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar GROUP BY carpeta_familiar.idusuario ";
-            $result_med = mysqli_query($link,$sql_med);
-            $medicos = mysqli_num_rows($result_med);
-            echo $medicos;?>
+
       </td>
     </tr>
   </tbody>
