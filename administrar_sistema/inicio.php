@@ -92,8 +92,10 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
+                    <a href="reporte_login_dia.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=600,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                    Nº DE INGRESOS AL SISTEMA</div>
+                    Nº DE INGRESOS AL SISTEMA
+                    </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
                     $sql_l =" SELECT COUNT(idlog_login) FROM log_login WHERE fecha='$fecha' ";
@@ -175,8 +177,10 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
+                    <a href="reporte_visitas_dia.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=600,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    N° SEGUIMIENTO A PACIENTES (FICHAS EPIDEMIOLÓGICAS)::</div>
+                    Nº DE VISITAS FAMILIARES HOY
+                    </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
                     $sql_p =" SELECT idseguimiento_ep FROM seguimiento_ep WHERE fecha_registro='$fecha'";
@@ -224,8 +228,10 @@ $rowus = mysqli_fetch_array($resultus);
         <div class="card-body">
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
+                    <a href="carpetas_familiares_dia.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=600,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                    Nº DE CARPETAS FAMILIARES</div>
+                    Nº DE CARPETAS FAMILIARES
+                    </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
                     $sql_cf =" SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND fecha_registro='$fecha' ";

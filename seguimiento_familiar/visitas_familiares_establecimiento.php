@@ -112,7 +112,8 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
                         <span class="text">CALENDARIO DE VISITAS FAMILIARES ESTABLECIMIENTO</span></a>
                     </div>
                     <div class="col-sm-6">
-
+                   <a href="visitas_safci_diarias_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i> MOSTRAR REPORTE DIARIO</h6></a>
                     </div>
                 </div>   
                 <hr>
