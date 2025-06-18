@@ -3,7 +3,7 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
-$fecha 		  = date("Y-m-d");
+$fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 $mes        = date('m');
 
@@ -356,7 +356,7 @@ Si no se encontraron resultados
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $row_v[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=100, scrollbars=YES'); return false;">
+              <a href="../seguimiento_familiar/imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $row_v[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=100, scrollbars=YES'); return false;">
               <?php echo $row_v[1];?></a>  
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row_v[2]." ".$row_v[3]." ".$row_v[4]);?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
