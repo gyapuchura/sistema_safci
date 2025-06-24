@@ -3,7 +3,7 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram = date("Ymd");
-$fecha 		 = date("Y-m-d");
+$fecha 	   = date("Y-m-d");
 $gestion   = date("Y");
 $mes       = date("m");
 
@@ -356,10 +356,10 @@ Si no se encontraron resultados
       </span></td>
      
     <td width="400"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
-        % DE CUMPLIMIENTO DE VISITAS = 
+        % DE CUMPLIMIENTO = 
         <?php
             $cumplimiento = $realizadas*100/$planificadas;
-            $p_cumplimiento  = number_format($row_re[0], 0, '.', '.');
+            $p_cumplimiento  = number_format($cumplimiento, 0, '.', '.');
             echo $p_cumplimiento;
         ?> % </span>
       </td>
