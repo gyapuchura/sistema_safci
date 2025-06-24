@@ -358,7 +358,7 @@ Si no se encontraron resultados
         % DE CUMPLIMIENTO DE VISITAS = 
         <?php
             $cumplimiento = $realizadas*100/$planificadas;
-            $p_cumplimiento  = number_format($row_re[0], 0, '.', '.');
+            $p_cumplimiento  = number_format($cumplimiento, 0, '.', '.');
             echo $p_cumplimiento;
         ?> % </span>
       </td>
