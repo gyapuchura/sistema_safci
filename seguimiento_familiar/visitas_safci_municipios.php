@@ -35,7 +35,7 @@ $(function () {
             type: 'areaspline'
         },
         title: {
-            text: 'VISITAS POR DÍA - <?php echo "MUNICIPIO : ".$row_mun[1];?> '
+            text: 'VISITAS DEL MES - <?php echo "MUNICIPIO : ".$row_mun[1];?> '
         },
         legend: {
             layout: 'vertical',
@@ -110,7 +110,7 @@ echo ",";
         },
         tooltip: {
             shared: true,
-            valueSuffix: ' VISITAS FAMILIARES'
+            valueSuffix: ' VISITAS '
         },
         credits: {
             enabled: false
@@ -300,11 +300,25 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL AL <?php echo $f_emision;?></h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR ESTABLECIMIENTOS DE SALUD AL <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
-      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
+    <td width="800"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CON PLANIFICACIÓN DE VISITAS =
+    <?php 
+    $sql_cf =" SELECT seguimiento_cf.idcarpeta_familiar FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+    $sql_cf.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY seguimiento_cf.idcarpeta_familiar ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $row_cf = mysqli_num_rows($result_cf);
+    $seguimientos_cf  = number_format($row_cf, 0, '.', '.');
+    echo $seguimientos_cf;?>
+      </span></td>
+      <td width="200">
+
+      </td>
+    </tr>
+    <tr>
+      <td width="800"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS EN EL MES =
           <?php 
     $sql_seg =" SELECT count(seguimiento_cf.idseguimiento_cf) FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
     $sql_seg.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
@@ -318,103 +332,99 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PROGRAMADAS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PLANIFICADAS EN EL MES =
           <?php 
     $sql_pr =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
-    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
     $result_pr = mysqli_query($link,$sql_pr);
     $row_pr = mysqli_fetch_array($result_pr);
-    $programadas  = number_format($row_pr[0], 0, '.', '.');
-    echo $programadas?>
+    $planificadas  = number_format($row_pr[0], 0, '.', '.');
+    echo $planificadas?>
       </span></td>
       <td>
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS EN EL MES =
           <?php 
     $sql_re =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
-    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='3' ";
+    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='3' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
     $result_re = mysqli_query($link,$sql_re);
     $row_re = mysqli_fetch_array($result_re);
     $realizadas  = number_format($row_re[0], 0, '.', '.');
     echo $realizadas;?>
       </span></td>
-      <td>
+     
+    <td width="400"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+        % DE CUMPLIMIENTO DE VISITAS = 
+        <?php
+            $cumplimiento = $realizadas*100/$planificadas;
+            $p_cumplimiento  = number_format($row_re[0], 0, '.', '.');
+            echo $p_cumplimiento;
+        ?> % </span>
       </td>
     </tr>
   </tbody>
 </table>
 
 </br>
-</br>
-<table width="1000" border="1" align="center" cellspacing="0">
-		  <tbody>
-		    <tr>
-		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">SEGUIMIENTO</td>
-              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">PERSONA VISITADA</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">VISITA</td>
-              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
-              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
-              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ÁREA DE INFLUENCIA</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTADO DE LA VISITA</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO OPERATIVO</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE REGISTRO:</td>
 
-		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
-	        </tr>
-            <?php
+<table width="900" border="1" align="center" cellspacing="0">
+    <tbody>
+    <tr>
+        <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
+        <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ESTABLECIMIENTO</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° FAMILIAS CON PLANIFICACIÓN DE VISITAS</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS EN EL MES</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS EN EL MES</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADAS EN EL MES</td>
+    </tr>
+    <?php
     $numero=1; 
-    $sql =" SELECT visita_cf.idvisita_cf, visita_cf.idseguimiento_cf, visita_cf.fecha_visita, estado_visita_cf.estado_visita_cf, visita_cf.idusuario, ";
-    $sql.=" visita_cf.fecha_registro, visita_cf.hora_registro, visita_cf.numero_visita FROM visita_cf, estado_visita_cf, seguimiento_cf, carpeta_familiar ";
-    $sql.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-    $sql.=" AND visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf AND carpeta_familiar.idmunicipio='$idmunicipio' ORDER BY visita_cf.idvisita_cf DESC LIMIT 1000";
+    $sql =" SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM seguimiento_cf, carpeta_familiar, establecimiento_salud ";
+    $sql.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+    $sql.=" AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
     while ($field = mysqli_fetch_field($result)){
     } do {
 
-        $sql_v =" SELECT seguimiento_cf.idcarpeta_familiar, carpeta_familiar.codigo, nombre.nombre, nombre.paterno, nombre.materno, departamento.departamento, ";
-        $sql_v.=" municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia  ";
-        $sql_v.=" FROM visita_cf, seguimiento_cf, carpeta_familiar, integrante_cf, nombre, departamento, municipios, establecimiento_salud, tipo_area_influencia, area_influencia  ";
-        $sql_v.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-        $sql_v.=" AND integrante_cf.idnombre=nombre.idnombre AND carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-        $sql_v.=" AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
-        $sql_v.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND visita_cf.idvisita_cf ='$row[0]' ";
-        $result_v = mysqli_query($link,$sql_v);
-        $row_v = mysqli_fetch_array($result_v); 
+        $sql_mun =" SELECT seguimiento_cf.idcarpeta_familiar FROM seguimiento_cf, carpeta_familiar  ";
+        $sql_mun.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+        $sql_mun.=" AND carpeta_familiar.idestablecimiento_salud='$row[0]' GROUP BY seguimiento_cf.idcarpeta_familiar ";
+        $result_mun = mysqli_query($link,$sql_mun);
+        $familias_mun = mysqli_num_rows($result_mun);
 
+        $sql_int =" SELECT seguimiento_cf.idintegrante_cf FROM seguimiento_cf, carpeta_familiar  ";
+        $sql_int.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+        $sql_int.=" AND carpeta_familiar.idestablecimiento_salud='$row[0]' GROUP BY seguimiento_cf.idintegrante_cf ";
+        $result_int = mysqli_query($link,$sql_int);
+        $integrantes = mysqli_num_rows($result_int);
+
+        $sql_vf =" SELECT visita_cf.idvisita_cf FROM visita_cf, seguimiento_cf, carpeta_familiar ";
+        $sql_vf.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql_vf.=" AND carpeta_familiar.idestablecimiento_salud='$row[0]' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+        $result_vf = mysqli_query($link,$sql_vf);
+        $visitas = mysqli_num_rows($result_vf);
+
+        $sql_vfr =" SELECT visita_cf.idvisita_cf FROM visita_cf, seguimiento_cf, carpeta_familiar ";
+        $sql_vfr.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql_vfr.=" AND carpeta_familiar.idestablecimiento_salud='$row[0]' AND visita_cf.idestado_visita_cf='3' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+        $result_vfr = mysqli_query($link,$sql_vfr);
+        $visitas_r  = mysqli_num_rows($result_vfr);
+
+        $visitas_nr = $visitas-$visitas_r;
     ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="imprime_seguimiento_familiar.php?idcarpeta_familiar=<?php echo $row_v[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=100, scrollbars=YES'); return false;">
-              <?php echo $row_v[1];?></a>  
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row_v[2]." ".$row_v[3]." ".$row_v[4]);?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
-              </td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_v[5];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_v[6];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_v[7];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_v[8]." ".$row_v[9];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[3];?></td>
-              <td style="font-size: 12px; font-family: Arial;">
-              <?php 
-                $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[4]' ";
-                $result_r = mysqli_query($link,$sql_r);
-                $row_r = mysqli_fetch_array($result_r);                    
-                echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
-              </td>
-		      <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <?php 
-                $fecha_r = explode('-',$row[5]);
-                $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
-                <?php echo $f_registro;?> - <?php echo $row[6];?></td>
-		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
+              <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $familias_mun;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $integrantes;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas_r;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas_nr;?></td>
 	        </tr>
             <?php
         $numero=$numero+1;
@@ -423,5 +433,8 @@ Si no se encontraron resultados
         } else {
         }
         ?>
+	      </tbody>
+    </table>
+
 </body>
 </html>

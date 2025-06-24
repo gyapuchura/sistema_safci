@@ -47,7 +47,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
     $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, carpeta_familiar.fecha_registro, carpeta_familiar.hora_registro, carpeta_familiar.estado, carpeta_familiar.idusuario  ";
     $sql.=" FROM carpeta_familiar, departamento, municipios, establecimiento_salud, area_influencia, tipo_area_influencia WHERE carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idmunicipio=municipios.idmunicipio ";
     $sql.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-    $sql.=" AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND carpeta_familiar.fecha_registro='$fecha' ORDER BY carpeta_familiar.idcarpeta_familiar DESC ";
+    $sql.=" AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND carpeta_familiar.fecha_registro='$fecha' ORDER BY carpeta_familiar.hora_registro DESC ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
