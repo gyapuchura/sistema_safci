@@ -2,9 +2,10 @@
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
-$gestion    = date("Y");
+$fecha_ram = date("Ymd");
+$fecha 		 = date("Y-m-d");
+$gestion   = date("Y");
+$mes       = date("m");
 
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
@@ -25,7 +26,7 @@ $row_est = mysqli_fetch_array($result_est);
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
-${demo.css}
+
 		</style>
 		<script type="text/javascript">
 $(function () {
@@ -51,7 +52,7 @@ $(function () {
  <?php
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
 $sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
@@ -128,7 +129,7 @@ echo ",";
 
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
 $sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
@@ -184,7 +185,7 @@ Si no se encontraron resultados
 
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
 $sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 
@@ -239,7 +240,7 @@ Si no se encontraron resultados
 
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
 $sql.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 

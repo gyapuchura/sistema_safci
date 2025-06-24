@@ -162,7 +162,42 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 </div>
                 
 
- 
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE DE VISITAS FAMILIARES POR DEPARTAMENTO</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                            <h6 class="text-primary">DEPARTAMENTO:</h6>
+                            </div>
+                            <div class="col-sm-9">
+                            <select name="iddepartamento_dep"  id="iddepartamento_dep" class="form-control" required>
+                                <option value="">-SELECCIONE-</option>
+                                <?php
+                                $sql1 = " SELECT carpeta_familiar.iddepartamento, departamento.departamento FROM seguimiento_cf, carpeta_familiar, departamento WHERE carpeta_familiar.iddepartamento=departamento.iddepartamento ";
+                                $sql1.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar GROUP BY carpeta_familiar.iddepartamento ";
+                                $result1 = mysqli_query($link,$sql1);
+                                if ($row1 = mysqli_fetch_array($result1)){
+                                mysqli_field_seek($result1,0);
+                                while ($field1 = mysqli_fetch_field($result1)){
+                                } do {
+                                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                                } while ($row1 = mysqli_fetch_array($result1));
+                                } else {
+                                echo "No se encontraron resultados!";
+                                }
+                                ?>
+                            </select>
+                            </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="card-body" id="visitas_familiares_departamento">                    
+                    </div>
+
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -351,8 +386,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         $("#iddepartamento_dep").change(function () {
                     $("#iddepartamento_dep option:selected").each(function () {
                         departamento=$(this).val();
-                    $.post("carpetas_familiares_departamento.php", {departamento:departamento}, function(data){
-                    $("#carpetas_familiares_departamento").html(data);
+                    $.post("visitas_familiares_departamento.php", {departamento:departamento}, function(data){
+                    $("#visitas_familiares_departamento").html(data);
                     });
                 });
         })
