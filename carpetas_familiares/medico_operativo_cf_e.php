@@ -6,7 +6,7 @@ $idestablecimiento_salud = $_POST["establecimiento_salud"];
 <?php
 $numero3 = 1;
 $sql3 = "  SELECT dato_laboral.idusuario, nombre.nombre, nombre.paterno, nombre.materno FROM dato_laboral, usuarios, nombre WHERE dato_laboral.idusuario=usuarios.idusuario  ";
-$sql3.= "  AND usuarios.idnombre=nombre.idnombre AND dato_laboral.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY dato_laboral.idusuario DESC LIMIT 1   ";
+$sql3.= "  AND usuarios.idnombre=nombre.idnombre AND dato_laboral.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY dato_laboral.idusuario DESC   ";
 $result3 = mysqli_query($link,$sql3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
