@@ -303,6 +303,22 @@ Si no se encontraron resultados
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL AL <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
+
+    <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CON PLANIFICACIÓN DE VISITAS =
+    <?php 
+    $sql_cf =" SELECT seguimiento_cf.idcarpeta_familiar FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+    $sql_cf.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY seguimiento_cf.idcarpeta_familiar ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $row_cf = mysqli_num_rows($result_cf);
+    $seguimientos_cf  = number_format($row_cf, 0, '.', '.');
+    echo $seguimientos_cf;?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
     <tr>
       <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
           <?php 

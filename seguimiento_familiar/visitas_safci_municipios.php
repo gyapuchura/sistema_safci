@@ -300,7 +300,7 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR ESTABLECIMIENTOS DE SALUD AL <?php echo $f_emision;?></h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME MENSUAL DE VISITAS POR ESTABLECIMIENTOS DE SALUD AL <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
@@ -318,7 +318,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td width="800"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS EN EL MES =
+      <td width="800"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTO PLANIFICADO EN EL MES =
           <?php 
     $sql_seg =" SELECT count(seguimiento_cf.idseguimiento_cf) FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
     $sql_seg.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
@@ -422,8 +422,14 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $familias_mun;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $integrantes;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas_r;?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+                    <a href="visitas_safci_mes_est.php?idestablecimiento_salud=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+                    <?php echo $visitas;?></a>
+                </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+                    <a href="visitas_safci_mes_est_r.php?idestablecimiento_salud=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+                    <?php echo $visitas_r;?></a>  
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas_nr;?></td>
 	        </tr>
             <?php
