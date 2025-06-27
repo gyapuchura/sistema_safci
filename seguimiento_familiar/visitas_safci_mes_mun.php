@@ -377,7 +377,7 @@ Si no se encontraron resultados
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ÁREA DE INFLUENCIA</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTADO DE LA VISITA</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO OPERATIVO</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE REGISTRO:</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE LA VISITA:</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
@@ -427,7 +427,7 @@ Si no se encontraron resultados
               </td>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
-                $fecha_r = explode('-',$row[5]);
+                $fecha_r = explode('-',$row[2]);
                 $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
                 <?php echo $f_registro;?> - <?php echo $row[6];?></td>
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->

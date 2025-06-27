@@ -331,7 +331,7 @@ Si no se encontraron resultados
     </tr>
 
     <tr>
-      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTO PLANIFICADO =
           <?php 
     $sql_seg =" SELECT count(idseguimiento_cf) FROM seguimiento_cf ";
     $result_seg = mysqli_query($link,$sql_seg);
@@ -349,7 +349,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS PLANIFICADS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS PLANIFICADAS =
           <?php 
     $sql_pr =" SELECT count(idvisita_cf) FROM visita_cf ";
     $result_pr = mysqli_query($link,$sql_pr);
