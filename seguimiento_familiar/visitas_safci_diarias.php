@@ -131,7 +131,7 @@ while ($field = mysqli_fetch_field($result)){
 	?>
 
 <?php
-$sql7 = " SELECT idvisita_cf, fecha_visita FROM visita_cf WHERE fecha_visita='$row[0]' AND idestado_visita_cf='1'";
+$sql7 = " SELECT idvisita_cf, fecha_visita FROM visita_cf WHERE fecha_visita='$row[0]' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -282,8 +282,56 @@ Si no se encontraron resultados
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR RIESGO PERSONAL AL <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
+
+      <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CARPETIZADAS =
+  <?php
+    $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $row_cf = mysqli_fetch_array($result_cf);  
+    $carpetizacion = $row_cf[0];
+    $carpetizacion_nal  = number_format($carpetizacion, 0, '', '.');
+    echo $carpetizacion_nal;
+  ?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
+        <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CARPETIZADOS =
+    <?php
+      $sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
+      $result_int = mysqli_query($link,$sql_int);
+      $row_int = mysqli_fetch_array($result_int);  
+      $integrantes = $row_int[0];
+      $integrantes_cf  = number_format($integrantes, 0, '.', '.');
+      echo $integrantes_cf;
+    ?>
+      </span></br></br></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
     <tr>
-      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° SEGUIMIENTOS PLANIFICADOS =
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CON PLANIFICACIÓN DE VISITAS =
+    <?php 
+    $sql_cf =" SELECT seguimiento_cf.idcarpeta_familiar FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+    $sql_cf.=" AND carpeta_familiar.estado='CONSOLIDADO' GROUP BY seguimiento_cf.idcarpeta_familiar ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $row_cf = mysqli_num_rows($result_cf);
+    $seguimientos_cf  = number_format($row_cf, 0, '.', '.');
+    echo $seguimientos_cf;?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
+    <tr>
+      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
           <?php 
     $sql_seg =" SELECT count(idseguimiento_cf) FROM seguimiento_cf ";
     $result_seg = mysqli_query($link,$sql_seg);
@@ -301,7 +349,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PROGRAMADAS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS PLANIFICADS =
           <?php 
     $sql_pr =" SELECT count(idvisita_cf) FROM visita_cf ";
     $result_pr = mysqli_query($link,$sql_pr);
@@ -319,7 +367,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS REALIZADAS =
           <?php 
     $sql_re =" SELECT count(idvisita_cf) FROM visita_cf WHERE idestado_visita_cf='3'";
     $result_re = mysqli_query($link,$sql_re);
@@ -328,7 +376,7 @@ Si no se encontraron resultados
     echo $realizadas;?>
       </span></td>
       <td>
-          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE MÉDICOS =
+          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE MÉDICOS OPERATIVOS =
           <?php 
             $sql_med =" SELECT carpeta_familiar.idusuario FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar GROUP BY carpeta_familiar.idusuario ";
             $result_med = mysqli_query($link,$sql_med);
