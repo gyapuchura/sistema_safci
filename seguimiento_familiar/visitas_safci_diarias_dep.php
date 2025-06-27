@@ -52,7 +52,7 @@ $(function () {
  <?php
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita < '$fecha' ";
 $sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
@@ -129,7 +129,7 @@ echo ",";
 
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita < '$fecha' ";
 $sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
@@ -185,7 +185,7 @@ Si no se encontraron resultados
 
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita < '$fecha' ";
 $sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 
@@ -240,7 +240,7 @@ Si no se encontraron resultados
 
 $numero = 0;
 $sql = " SELECT visita_cf.fecha_visita FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf ";
-$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+$sql.= " AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita < '$fecha' ";
 $sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY visita_cf.fecha_visita ORDER BY visita_cf.fecha_visita ";
 $result = mysqli_query($link,$sql);
 
@@ -300,9 +300,41 @@ Si no se encontraron resultados
 <script src="../js/modules/exporting.js"></script>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS POR MUNICIPIOS AL <?php echo $f_emision;?></h4>
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS DEL DEPARTAMENTO AL <?php echo $f_emision;?></h4>
 <table width="900" border="0" align="center">
   <tbody>
+
+    <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CARPETIZADAS =
+  <?php
+    $sql_cf =" SELECT idcarpeta_familiar FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento'  ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $carpetizacion = mysqli_num_rows($result_cf);  
+    $carpetizacion_nal  = number_format($carpetizacion, 0, '', '.');
+    echo $carpetizacion_nal;
+  ?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
+        <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CARPETIZADOS =
+    <?php
+      $sql_int =" SELECT integrante_cf.idintegrante_cf FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+      $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
+      $result_int = mysqli_query($link,$sql_int);
+      $integrantes = mysqli_num_rows($result_int);  
+      $integrantes_cf  = number_format($integrantes, 0, '.', '.');
+      echo $integrantes_cf;
+    ?>
+      </span></br></br></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
     <tr>
       <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CON PLANIFICACIÓN DE VISITAS =
     <?php 
@@ -332,10 +364,10 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PLANIFICADAS EN EL MES =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS PLANIFICADAS =
           <?php 
     $sql_pr =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
-    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.iddepartamento='$iddepartamento' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
     $result_pr = mysqli_query($link,$sql_pr);
     $row_pr = mysqli_fetch_array($result_pr);
     $planificadas  = number_format($row_pr[0], 0, '.', '.');
@@ -345,10 +377,10 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS EN EL MES =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS REALIZADAS =
           <?php 
     $sql_re =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
-    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.iddepartamento='$iddepartamento' AND visita_cf.idestado_visita_cf='3' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.iddepartamento='$iddepartamento' AND visita_cf.idestado_visita_cf='3'  ";
     $result_re = mysqli_query($link,$sql_re);
     $row_re = mysqli_fetch_array($result_re);
     $realizadas  = number_format($row_re[0], 0, '.', '.');
@@ -375,9 +407,9 @@ Si no se encontraron resultados
         <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° FAMILIAS CON PLANIFICACIÓN DE VISITAS</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS EN EL MES</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS EN EL MES</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADAS EN EL MES</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS (TOTAL)</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS (TOTAL)</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADAS (TOTAL)</td>
         <td width="101" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">VISITAS POR ESTABLECIMIENTOS</td>
     </tr>
     <?php
@@ -405,13 +437,13 @@ Si no se encontraron resultados
 
         $sql_vf =" SELECT visita_cf.idvisita_cf FROM visita_cf, seguimiento_cf, carpeta_familiar ";
         $sql_vf.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql_vf.=" AND carpeta_familiar.idmunicipio='$row[0]' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+        $sql_vf.=" AND carpeta_familiar.idmunicipio='$row[0]'  ";
         $result_vf = mysqli_query($link,$sql_vf);
         $visitas = mysqli_num_rows($result_vf);
 
         $sql_vfr =" SELECT visita_cf.idvisita_cf FROM visita_cf, seguimiento_cf, carpeta_familiar ";
         $sql_vfr.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql_vfr.=" AND carpeta_familiar.idmunicipio='$row[0]' AND visita_cf.idestado_visita_cf='3' AND visita_cf.fecha_visita LIKE '$gestion-$mes-%' ";
+        $sql_vfr.=" AND carpeta_familiar.idmunicipio='$row[0]' AND visita_cf.idestado_visita_cf='3' ";
         $result_vfr = mysqli_query($link,$sql_vfr);
         $visitas_r  = mysqli_num_rows($result_vfr);
 
