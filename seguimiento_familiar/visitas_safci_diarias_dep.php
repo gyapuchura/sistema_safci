@@ -389,7 +389,7 @@ Si no se encontraron resultados
      <td width="400"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
         % DE CUMPLIMIENTO DE VISITAS = 
         <?php
-            $cumplimiento = $realizadas*100/$planificadas;
+            $cumplimiento = $row_re[0]*100/$row_pr[0];
             $p_cumplimiento  = number_format($cumplimiento, 0, '.', '.');
             echo $p_cumplimiento;
         ?> % </span>
