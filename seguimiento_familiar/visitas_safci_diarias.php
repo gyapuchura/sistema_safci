@@ -386,7 +386,11 @@ Si no se encontraron resultados
     </tr>
   </tbody>
 </table>
-<p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">&nbsp;</p>
+                    <form name="REPORTE_VF" action="reporte_visitas_nal_excel.php" method="post">
+                        <p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+                        <button type="submit" class="btn btn-success">REPORTE VISITAS EN EXCEL</button>
+                        &nbsp;</p>
+                    </form>
 
 
 <table width="1000" border="1" align="center" cellspacing="0">

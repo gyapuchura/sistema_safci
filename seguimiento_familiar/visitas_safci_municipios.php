@@ -402,6 +402,12 @@ Si no se encontraron resultados
 </table>
 
 </br>
+                    <form name="REPORTE_VF" action="reporte_visitas_mun_excel.php" method="post">
+                      <input type="hidden" name="idmunicipio" value="<?php echo $idmunicipio;?>">
+                        <p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+                        <button type="submit" class="btn btn-success">REPORTE VISITAS EN EXCEL</button>
+                        &nbsp;</p>
+                    </form>
 
 <table width="900" border="1" align="center" cellspacing="0">
     <tbody>
