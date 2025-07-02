@@ -352,7 +352,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td width="800"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTO PLANIFICADO EN EL MES =
+      <td width="800"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTO PLANIFICADO =
           <?php 
     $sql_seg =" SELECT count(seguimiento_cf.idseguimiento_cf) FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
     $sql_seg.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
@@ -366,7 +366,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PLANIFICADAS EN EL MES =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS PLANIFICADAS  =
           <?php 
     $sql_pr =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
     $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' ";
@@ -379,7 +379,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS EN EL MES =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° VISITAS REALIZADAS =
           <?php 
     $sql_re =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
     $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idmunicipio='$idmunicipio' AND visita_cf.idestado_visita_cf='3' ";
@@ -393,7 +393,7 @@ Si no se encontraron resultados
         % DE CUMPLIMIENTO = 
         <?php
             $cumplimiento = $row_re[0]*100/$row_pr[0];
-            $p_cumplimiento  = number_format($cumplimiento, 0, '.', '.');
+            $p_cumplimiento  = number_format($cumplimiento, 2, '.', '.');
             echo $p_cumplimiento;
         ?> % </span>
       </td>
