@@ -369,7 +369,7 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT visita_cf.idvisita_cf, visita_cf.idseguimiento_cf, visita_cf.fecha_visita, estado_visita_cf.estado_visita_cf, visita_cf.idusuario, ";
     $sql.=" visita_cf.fecha_registro, visita_cf.hora_registro, visita_cf.numero_visita FROM visita_cf, estado_visita_cf, seguimiento_cf, carpeta_familiar ";
-    $sql.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.fecha_visita LIKE '$gestion-%' ";
+    $sql.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
     $sql.=" AND visita_cf.idestado_visita_cf=estado_visita_cf.idestado_visita_cf AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND visita_cf.idestado_visita_cf='3' ORDER BY visita_cf.idvisita_cf DESC ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
