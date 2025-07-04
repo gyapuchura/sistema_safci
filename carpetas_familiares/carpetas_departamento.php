@@ -252,7 +252,8 @@ TARIJA 	<?php echo $tarija_p;?>%
         $sql_depto =" SELECT count(iddepartamento) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$row[0]' ";
         $result_depto = mysqli_query($link,$sql_depto);
         $row_depto = mysqli_fetch_array($result_depto);
-        $carpetas_depto = $row_depto[0];
+        $carpetas_d = $row_depto[0];
+        $carpetas_depto  = number_format($carpetas_d, 0, '.', '.');
 
 
     ?>
@@ -284,7 +285,7 @@ TARIJA 	<?php echo $tarija_p;?>%
 $sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO'  ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
+$total_cf  = number_format($row_cf[0], 0, '.', '.');
 ?>
 
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES = <?php echo $total_cf;?> </h4></spam>
@@ -299,7 +300,8 @@ $municipios = mysqli_num_rows($result_p);
 <?php
 $sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idestablecimiento_salud ";
 $result_mun = mysqli_query($link,$sql_mun);
-$establecimientos = mysqli_num_rows($result_mun);  
+$establecimientos_p = mysqli_num_rows($result_mun);  
+$establecimientos  = number_format($establecimientos_p, 0, '.', '.');
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE ESTABLECIMIENTOS DE SALUD = <?php echo $establecimientos;?> </h4></spam>
 
@@ -307,14 +309,16 @@ $establecimientos = mysqli_num_rows($result_mun);
 $sql_int =" SELECT count(idintegrante_cf) FROM integrante_cf WHERE estado='CONSOLIDADO' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
+$integrantes_p = $row_int[0];
+$integrantes  = number_format($integrantes_p, 0, '.', '.');
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS = <?php echo $integrantes;?> </h4></spam>
 
 <?php
 $sql_per = " SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' GROUP BY idusuario ";
 $result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
+$personal_p = mysqli_num_rows($result_per);  
+$personal  = number_format($personal_p, 0, '.', '.');
 
 ?>
 <span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI REGISTRADOR = <?php echo $personal;?> </h4></spam>
