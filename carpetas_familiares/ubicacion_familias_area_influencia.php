@@ -8,16 +8,16 @@ $gestion                = date("Y");
 
 $idarea_influencia = $_GET['idarea_influencia'];
 
-$sql1 = " SELECT carpeta_familiar.idcarpeta_familiar, establecimiento_salud.establecimiento_salud, ubicacion_cf.latitud, ubicacion_cf.longitud  ";
-$sql1.= " FROM carpeta_familiar,  ubicacion_cf, establecimiento_salud WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql1.= " AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql1.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' LIMIT 1 ";
+$sql1 = " SELECT ubicacion_cf.idubicacion_cf, establecimiento_salud.establecimiento_salud, ubicacion_cf.latitud, ubicacion_cf.longitud  ";
+$sql1.= " FROM carpeta_familiar, ubicacion_cf, establecimiento_salud WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql1.= " AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql1.= " AND ubicacion_cf.idarea_influencia='$idarea_influencia' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 1  ";
 $result1 = mysqli_query($link,$sql1);
 $row1 = mysqli_fetch_array($result1);
 
 $latitud_c  = $row1[2];
 $longitud_c = $row1[3];
-$zoom_c     = "17";
+$zoom_c     = 10;
 
 ?>
 
@@ -36,9 +36,9 @@ $zoom_c     = "17";
 
 <body>
 
-<div class="sala"><h3 class="text-center">UBICACIÓN GEOGRÁFICA DE FAMILIAS EN EL ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
+<div class="sala"><h3 class="text-center">ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
 
-<div id="mi_mapa" style="width: 100%; height: 800px;"></div>
+<div id="mi_mapa" style="width: 100%; height: 850px;"></div>
 
 <script>
     let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
@@ -54,7 +54,7 @@ $sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, 
 $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
 $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
 $sql4.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idarea_influencia='$idarea_influencia' ";
+$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idcarpeta_familiar='222417' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 2 ";
 $result4 = mysqli_query($link,$sql4);
 $total4 = mysqli_num_rows($result4);
  if ($row4 = mysqli_fetch_array($result4)){

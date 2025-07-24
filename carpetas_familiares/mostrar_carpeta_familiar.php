@@ -86,8 +86,6 @@ $row_cf=mysqli_fetch_array($result_cf);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-<form name="GUARDA_CARPETA" action="guarda_carpeta_familiar.php" method="post"> 
-
                 <div class="col-lg-12">  
                     <div class="p-2"> 
 
@@ -262,9 +260,52 @@ $row_cf=mysqli_fetch_array($result_cf);
                         <input type="number" class="form-control" name="altura" value="<?php echo $row_cf[14];?>" disabled>                
                     </div>
                 </div>
-                <div class="text-left"> 
-               <a href="modificar_carpeta_familiar.php"><h6 class="text-success">MODIFICAR DATOS CARPETA FAMILIAR</h6></a>                                                                   
+            <hr>
+                <div class="form-group row"> 
+                    <div class="col-sm-4">
+                        <a href="modificar_carpeta_familiar.php"><h6 class="text-success">MODIFICAR DATOS CARPETA FAMILIAR</h6></a>
+
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-4">
+
+                    <form name="ELIMINA_CARPETA" action="elimina_carpeta_familiar.php" method="post"> 
+
+                    <input type="hidden" name="idcarpeta_familiar" value="<?php echo $idcarpeta_familiar_ss;?>">
+
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    ELIMINAR CARPETA FAMILIAR
+                    </button>  
+                    </div>
+                </div>
+                             
+               <hr>             
+                   <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ELIMINACIÓN DE CARPETA FAMILIAR</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de ELIMINAR LA CARPETA FAMILIAR DE MANERA PERMANENTE, ESTA ACCION ELIMINARA TODA LA INFORMACIÓN 
+                            ASOCIADA INCLUIDO EL SEGUIMIENTO A VISITAS FAMILIARES SI SE HUBIESEN REGISTRADO?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-danger pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
             </div>
+        </form>        
+
 
             <hr>
             <div class="text-center"> 
