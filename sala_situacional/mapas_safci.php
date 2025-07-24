@@ -219,6 +219,39 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 </div>
                 </div>
 
+                <form name="COORDENADAS" action="mapa_coordenadas_ej.php" method="post">  
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">MAPA SAFCI POR COORDENADAS</h6>
+                    </div>
+                  
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">LATITUD:</h6>
+                            <input type="text" class="form-control" name="latitud" placeholder="Latitud" >
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-primary">LONGITUD:</h6>
+                            <input type="text" class="form-control" name="longitud" placeholder="Longitud" >
+                        </div>
+                        <div class="col-sm-4">
+                        
+                        </br>
+                            <button type="submit" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-file"></i>
+                            </span>
+                            <span class="text">GENERAR MAPA</span>    
+                            </button>
+                             </form>
+                        </div>
+                    </div>                       
+                </div>
+                </div>
+
+
             </div>
             <!-- End of Main Content -->
 
