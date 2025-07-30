@@ -91,7 +91,7 @@ $row = mysqli_fetch_array($result);
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-        <form name="INFLUENCIA" action="guarda_area_influencia.php" method="post">  
+ 
                 <div class="col-lg-12">  
                     <div class="p-5"> 
 
@@ -296,14 +296,42 @@ $row = mysqli_fetch_array($result);
     <!-------- end rejilla --------->                      
                 <div class="text-center">
                     <div class="form-group row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                         <a href="nueva_area_influencia_mun.php" class="btn btn-success">SALIR DE REGISTRO </a>
                         </div>
-                        <div class="col-sm-3">                       
+                        <div class="col-sm-4">  
+                                <form name="ELIMINA_CARPETA" action="elimina_area_influencia.php" method="post"> 
+                                <input type="hidden" name="idarea_influencia" value="<?php echo $idarea_influencia_ss;?>">
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                ELIMINAR ÁREA DE INFLUENCIA
+                                </button>    
+                                
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">ELIMINAR ÁREA DE INFLUENCIA</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                
+                                                Esta seguro de ELIMINAR LA ÁREA DE INFLUENCIA DE MANERA PERMANENTE ?
+                                            
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                            <button type="submit" class="btn btn-danger pull-center">CONFIRMAR</button>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>    
+                                
+
                         </div>
-                        <div class="col-sm-3">                       
-                       </div>
-                        <div class="col-sm-3"> 
+                        <div class="col-sm-4"> 
                         <a href="editar_area_influencia_mun.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
                         </div>
                     </div>                               
@@ -314,7 +342,9 @@ $row = mysqli_fetch_array($result);
                     </div>
                     <div class="col-sm-6">
                     </div>
-                </div>                  
+                </div>   
+                
+    
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
