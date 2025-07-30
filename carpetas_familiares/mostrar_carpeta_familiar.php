@@ -293,7 +293,7 @@ $row_cf=mysqli_fetch_array($result_cf);
                         </div>
                         <div class="modal-body">
                             
-                            Esta seguro de ELIMINAR LA CARPETA FAMILIAR DE MANERA PERMANENTE, ESTA ACCION ELIMINARA TODA LA INFORMACIÓN 
+                            Esta seguro de ELIMINAR LA CARPETA FAMILIAR DE MANERA PERMANENTE, ESTA ACCIÓN ELIMINARÁ TODA LA INFORMACIÓN 
                             ASOCIADA INCLUIDO EL SEGUIMIENTO A VISITAS FAMILIARES SI SE HUBIESEN REGISTRADO?
                         
                         </div>
