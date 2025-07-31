@@ -72,7 +72,7 @@ $gestion       =  date("Y");
             ?>
 	    <tr>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?></td>
+        <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?> <?php echo $row[6];?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[2]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[3]);?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[4]);?></td>

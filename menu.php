@@ -22,6 +22,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">ELEGIR:</h6>
         <a class="collapse-item" href="../recursos_humanos/reportes_sistema.php">REPORTES SISTEMA</a>
+        <a class="collapse-item" href="../administrar_sistema/credenciales.php">CREDENCIALES</br>DE SISTEMA</a> 
     </div>
     </div>
 </li>
