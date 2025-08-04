@@ -4,11 +4,12 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram  = date("Ymd");
 $fecha 	    = date("Y-m-d");
-$gestion    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
+
+$gestion_ss     =  $_SESSION['gestion_ss'];
 
 ?>
 <!DOCTYPE html>
@@ -59,15 +60,15 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">VIGILANCIA EPIDEMIOLÓGICA SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar informción sobre Vigilancia Epidemiológica del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
+                    <h1 class="h3 mb-2 text-primary-800">GESTIÓN <?php echo $gestion_ss?></h1>
+                    <p class="mb-4">En esta seccion se puede encontrar informción sobre Vigilancia Epidemiológica del PROGRAMA NACIONAL SAFCI - MI SALUD por GESTIÓN</p>
 
                 <!-- REPORTE ENFERMEDAD NACIONAL  -->
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">                    
                         <a href="reporte_enfermedad_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=150'); return false;">
-                        <h6 class="m-0 font-weight-bold text-info">REPORTE PORCENTUAL F302A NACIONAL</h6></a>
+                        <h6 class="m-0 font-weight-bold text-info">REPORTE PORCENTUAL F302A NACIONAL GESTIÓN <?php echo $gestion_ss?></h6></a>
 
                     </div>
                   
@@ -96,7 +97,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
                 </div>
-                    <div class="card-body" id="vigilancia_enf_nal"></div>
+                    <div class="card-body" id="vigilancia_enf_nal_gestion"></div>
                 </div>
 
             
@@ -107,7 +108,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
                     <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">REPORTE EPIDEMIOLÓGICO NACIONAL</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE EPIDEMIOLÓGICO NACIONAL - GESTIÓN <?php echo $gestion_ss?></h6>
                     </div>
                   
                 <div class="card-body">
@@ -135,49 +136,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
                 </div>
-                    <div class="card-body" id="vigilancia_ep_nal"></div>
-                </div>
-
-               
-               
-                    <!-- REPORTE POR MUNICIPIO -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">REPORTE EPIDEMIOLÓGICO DEPARTAMENTAL</h6>
-                    </div>
-
-                <div class="card-body">                  
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-primary">ELEGIR REGISTRO EPIDEMIOLÓGICO:</h6>
-                        </div>
-                        <div class="col-sm-8">
-                        <select name="idsospecha_diag_deptal" id="idsospecha_diag_deptal" class="form-control" required>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                            $sql2 = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag  ";
-                            $result2 = mysqli_query($link,$sql2);
-                            if ($row2 = mysqli_fetch_array($result2)){
-                            mysqli_field_seek($result2,0);
-                            while ($field2 = mysqli_fetch_field($result2)){
-                            } do {
-                            echo "<option value=".$row2[0].">".$row2[1]."</option>";
-                            } while ($row2 = mysqli_fetch_array($result2));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                        ?>
-                        </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body" id="vigilancia_ep_deptal"></div>               
+                    <div class="card-body" id="vigilancia_ep_nal_gestion"></div>
                 </div>
                     
      <!-- REPORTE DE EVENTOS DE NOTIFICACIÓN -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">REPORTE EVENTOS DE NOTIFICACIÓN INMEDIATA</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE EVENTOS DE NOTIFICACIÓN INMEDIATA - GESTIÓN <?php echo $gestion_ss?></h6>
                     </div>
 
                 <div class="card-body">
@@ -206,65 +171,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
                 </div>
-                    <div class="card-body" id="vigilancia_evento"></div>
+                    <div class="card-body" id="vigilancia_evento_gestion"></div>
                 </div>
-
-
-                   <!-- REPORTE EPIDEMIOLOGICO GESTIONES ANTERIORES -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">REPORTE POR GESTIONES</h6>
-                    </div>
-
-                <div class="card-body">
-                   
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-primary">ELEGIR GESTIÓN:</h6>
-                        </div>
-                        <div class="col-sm-8">
-                            <form name="FORM_EP" action="valida_notificacion_gestion.php" method="post">
-                        <select name="gestion" id="gestion" class="form-control" required>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                            $sql2 = " SELECT gestion FROM notificacion_ep GROUP BY gestion  ";
-                            $result2 = mysqli_query($link,$sql2);
-                            if ($row2 = mysqli_fetch_array($result2)){
-                            mysqli_field_seek($result2,0);
-                            while ($field2 = mysqli_fetch_field($result2)){
-                            } do {
-                            echo "<option value=".$row2[0].">".$row2[0]."</option>";
-                            } while ($row2 = mysqli_fetch_array($result2));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                        ?>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-4">
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="submit" class="btn btn-info btn-icon-split">
-                            <span class="icon text-yellow-600">
-                            <i class="fas fa-fw fa-book"></i>
-                            </span>
-                            <span class="text">VER REPORTES POR GRSTIÓN</span>
-                            </button>
-                            </form> 
-                        </div>
-                        <div class="col-sm-4">
-                        </div>
-                    </div>
-                </div>
-                    
-                </div>
-
-
-
-                <!-- MAPA POR ESTABLECIMIENTO DE SALUD Y AREAS DE INFLUENCIA -->
 
        <!-- REPORTE POR MUNICIPIO -->
 
@@ -332,8 +240,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         $("#idcat_registro").change(function () {
                     $("#idcat_registro option:selected").each(function () {
                         cat_registro=$(this).val();
-                    $.post("vigilancia_enf_nal.php", {cat_registro:cat_registro}, function(data){
-                    $("#vigilancia_enf_nal").html(data);
+                    $.post("vigilancia_enf_nal_gestion.php", {cat_registro:cat_registro}, function(data){
+                    $("#vigilancia_enf_nal_gestion").html(data);
                     });
                 });
         })
@@ -345,21 +253,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         $("#idsospecha_diag_nal").change(function () {
                     $("#idsospecha_diag_nal option:selected").each(function () {
                         sospecha_diag_nal=$(this).val();
-                    $.post("vigilancia_ep_nal.php", {sospecha_diag_nal:sospecha_diag_nal}, function(data){
-                    $("#vigilancia_ep_nal").html(data);
-                    });
-                });
-        })
-        });
-    </script>
-
-    <script language="javascript">
-        $(document).ready(function(){
-        $("#idsospecha_diag_deptal").change(function () {
-                    $("#idsospecha_diag_deptal option:selected").each(function () {
-                        sospecha_diag_deptal=$(this).val();
-                    $.post("vigilancia_ep_deptal.php", {sospecha_diag_deptal:sospecha_diag_deptal}, function(data){
-                    $("#vigilancia_ep_deptal").html(data);
+                    $.post("vigilancia_ep_nal_gestion.php", {sospecha_diag_nal:sospecha_diag_nal}, function(data){
+                    $("#vigilancia_ep_nal_gestion").html(data);
                     });
                 });
         })
@@ -371,8 +266,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         $("#idevento_notificacion").change(function () {
                     $("#idevento_notificacion option:selected").each(function () {
                         evento_notificacion=$(this).val();
-                    $.post("vigilancia_evento.php", {evento_notificacion:evento_notificacion}, function(data){
-                    $("#vigilancia_evento").html(data);
+                    $.post("vigilancia_evento_gestion.php", {evento_notificacion:evento_notificacion}, function(data){
+                    $("#vigilancia_evento_gestion").html(data);
                     });
                 });
         })
