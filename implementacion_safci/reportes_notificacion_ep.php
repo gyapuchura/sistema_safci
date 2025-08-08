@@ -251,7 +251,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <span class="icon text-yellow-600">
                             <i class="fas fa-fw fa-book"></i>
                             </span>
-                            <span class="text">VER REPORTES POR GRSTIÓN</span>
+                            <span class="text">VER REPORTES POR GESTIÓN</span>
                             </button>
                             </form> 
                         </div>
