@@ -59,6 +59,11 @@ $gestion_ss     =  $_SESSION['gestion_ss'];
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <div class="text-center">                       
+                    <a href="reportes_notificacion_ep.php"><h6>VOLVER</h6></a>
+                    <hr>
+                    </div>
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-primary-800">GESTIÓN <?php echo $gestion_ss?></h1>
                     <p class="mb-4">En esta seccion se puede encontrar informción sobre Vigilancia Epidemiológica del PROGRAMA NACIONAL SAFCI - MI SALUD por GESTIÓN</p>

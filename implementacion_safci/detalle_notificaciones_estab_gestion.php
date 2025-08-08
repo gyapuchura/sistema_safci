@@ -22,8 +22,6 @@ $sql_sos =" SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsos
 $result_sos = mysqli_query($link,$sql_sos);
 $row_sos = mysqli_fetch_array($result_sos);
 
-$gestion       =  date("Y");
-
 $sql8 = " SELECT SUM(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep ";
 $sql8.= " WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
 $sql8.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag_estab' AND registro_enfermedad.gestion='$gestion' ";
