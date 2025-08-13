@@ -260,6 +260,35 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
 
+
+
+
+
+
+
+
+                      <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">REPORTE DE RIESGO PERSONAL - NIVEL NACIONAL</h6>
+                    </div>
+                    <div class="card-body">
+
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <a class="btn btn-primary btn-icon-split" href="reporte_riesgos_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span class="text">REPORTE DE RIÉSGOS PERSONALES - NIVEL NACIONAL</span></a>
+
+                        </div>
+                        <div class="col-sm-6">
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
             <!-- End of Main Content -->
