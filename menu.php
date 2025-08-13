@@ -392,6 +392,7 @@
     
         <a class="collapse-item" href="../seguimiento_familiar/planificador_visitas.php">PLANIFICADOR</br>DE VISITAS</a>
         <a class="collapse-item" href="../seguimiento_familiar/visitas_familiares.php">VISITAS FAMILIARES</a>
+<!--  <a class="collapse-item" href="../seguimiento_familiar/comportamiento_familiar.php">SEGUIMIENTO</br>COMPORTAMIENTO</br>FAMILIAR</a>  --->
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
