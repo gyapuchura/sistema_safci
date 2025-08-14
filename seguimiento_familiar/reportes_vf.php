@@ -190,14 +190,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 ?>
                             </select>
                             </div>
-                            </div>
-
                         </div>
-
                     </div>
+
+                    
                     <div class="card-body" id="visitas_familiares_departamento">                    
                     </div>
-
+                </div>
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -261,13 +260,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 </div>
 
 
-
-
-
-
-
-
-                      <div class="card shadow mb-4">
+                    <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">REPORTE DE RIESGO PERSONAL - NIVEL NACIONAL</h6>
                     </div>
@@ -280,10 +273,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             <i class="fas fa-book"></i>
                         </span>
                         <span class="text">REPORTE DE RIÉSGOS PERSONALES - NIVEL NACIONAL</span></a>
-
                         </div>
                         <div class="col-sm-6">
-
+                        <a class="btn btn-info btn-icon-split" href="visitas_safci_diarias_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES,top=50,left=200'); return false;">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span class="text">REPORTE DE VISITAS - NIVEL NACIONAL</span></a>
                         </div>
                     </div>
 

@@ -5,6 +5,10 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
+
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -26,7 +30,7 @@ $(function () {
             text: 'VISITAS FAMILIARES POR RIÉSGO PERSONAL - NIVEL NACIONAL'
         },
         subtitle: {
-            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
+            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI al <?php echo $f_emision;?>'
         },
         xAxis: {
             categories: [
@@ -143,9 +147,9 @@ echo ",";
         <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
         <td width="299" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RIÉSGO PERSONAL</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS (TOTAL)</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS (TOTAL)</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADAS (TOTAL)</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS A INTEGRANTES A LA FECHA</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS A INTEGRANTES A LA FECHA</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADAS A LA FECHA</td>
     </tr>
             <?php 
             $numero3 = 1;
@@ -183,10 +187,12 @@ echo ",";
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[1];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $integrantes;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <?php echo $visitas;?>
+              <a href="visitas_safci_rp_nal.php?idriesgo_personal_vf=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+              <?php echo $visitas;?></a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <?php echo $visitas_r;?> 
+              <a href="visitas_safci_rp_r_nal.php?idriesgo_personal_vf=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+              <?php echo $visitas_r;?></a> 
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas_nr;?></td>
 	        </tr>
@@ -200,7 +206,108 @@ echo ",";
     </table>
 
 
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE VISITAS AL <?php echo $f_emision;?> - NIVEL NACIONAL </h4>
+<table width="900" border="0" align="center">
+  <tbody>
 
+    <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CARPETIZADAS =
+  <?php
+    $sql_cf =" SELECT idcarpeta_familiar FROM carpeta_familiar WHERE estado='CONSOLIDADO' ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $carpetizacion = mysqli_num_rows($result_cf);  
+    $carpetizacion_nal  = number_format($carpetizacion, 0, '', '.');
+    echo $carpetizacion_nal;
+  ?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
+        <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CARPETIZADOS =
+    <?php
+      $sql_int =" SELECT integrante_cf.idintegrante_cf FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+      $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
+      $result_int = mysqli_query($link,$sql_int);
+      $integrantes = mysqli_num_rows($result_int);  
+      $integrantes_cf  = number_format($integrantes, 0, '.', '.');
+      echo $integrantes_cf;
+    ?>
+      </span></br></br></td>
+      <td width="400">
+
+      </td>
+    </tr>
+
+    <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE FAMILIAS CON PLANIFICACIÓN DE VISITAS =
+    <?php 
+    $sql_cf =" SELECT seguimiento_cf.idcarpeta_familiar FROM seguimiento_cf, carpeta_familiar WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+    $sql_cf.=" AND carpeta_familiar.estado='CONSOLIDADO' GROUP BY seguimiento_cf.idcarpeta_familiar ";
+    $result_cf = mysqli_query($link,$sql_cf);
+    $row_cf = mysqli_num_rows($result_cf);
+    $seguimientos_cf  = number_format($row_cf, 0, '.', '.');
+    echo $seguimientos_cf;?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+    <tr>
+      <td width="600"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS =
+          <?php 
+
+    $sql_seg =" SELECT seguimiento_cf.idintegrante_cf FROM seguimiento_cf, carpeta_familiar  ";
+    $sql_seg.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+    $sql_seg.=" GROUP BY seguimiento_cf.idintegrante_cf ";
+    $result_seg = mysqli_query($link,$sql_seg);
+    $row_seg = mysqli_num_rows($result_seg); 
+    $seguimientos_int  = number_format($row_seg, 0, '.', '.');
+    echo $seguimientos_int;?>
+      </span></td>
+      <td width="400">
+
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS PLANIFICADAS =
+          <?php 
+    $sql_pr =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
+    $sql_pr.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+    $result_pr = mysqli_query($link,$sql_pr);
+    $row_pr = mysqli_fetch_array($result_pr);
+    $planificadas  = number_format($row_pr[0], 0, '.', '.');
+    echo $planificadas?>
+      </span></td>
+     <td width="400">
+      </td>
+    </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL DE VISITAS REALIZADAS =
+          <?php 
+    $sql_re =" SELECT count(visita_cf.idvisita_cf) FROM visita_cf, seguimiento_cf, carpeta_familiar WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf  ";
+    $sql_re.=" AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND visita_cf.idestado_visita_cf='3' ";
+    $result_re = mysqli_query($link,$sql_re);
+    $row_re = mysqli_fetch_array($result_re);
+    $realizadas  = number_format($row_re[0], 0, '.', '.');
+    echo $realizadas;?>
+      </span></td>
+     <td width="400"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+        % DE CUMPLIMIENTO DE VISITAS = 
+        <?php
+            $cumplimiento = $row_re[0]*100/$row_pr[0];
+            $p_cumplimiento  = number_format($cumplimiento, 2, '.', '.');
+            echo $p_cumplimiento;
+        ?> % </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+            </br>
+            </br>
 
 	</body>
 </html>

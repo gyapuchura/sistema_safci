@@ -7,7 +7,7 @@ $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
 $iddepartamento = $_GET['iddepartamento'];
-$sql_d = " SELECT iddepartamento, departamento FROM departamento ORDER BY iddepartamento ";
+$sql_d = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento ='$iddepartamento'";
 $result_d = mysqli_query($link,$sql_d);
 $row_d = mysqli_fetch_array($result_d);
 
@@ -149,9 +149,9 @@ echo ",";
         <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
         <td width="299" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RIÉSGO PERSONAL</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS (TOTAL)</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS (TOTAL)</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADAS (TOTAL)</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS A INTEGRANTES A LA FECHA</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS A INTEGRANTES A LA FECHA</td>
+        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADASA A LA FECHA</td>
     </tr>
             <?php 
             $numero3 = 1;
