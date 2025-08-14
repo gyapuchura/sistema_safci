@@ -418,8 +418,8 @@ Si no se encontraron resultados
         $result_mun = mysqli_query($link,$sql_mun);
         $familias_mun = mysqli_num_rows($result_mun);
 
-        $sql_int =" SELECT seguimiento_cf.idintegrante_cf FROM seguimiento_cf, carpeta_familiar  ";
-        $sql_int.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+        $sql_int =" SELECT seguimiento_cf.idintegrante_cf FROM seguimiento_cf, carpeta_familiar ";
+        $sql_int.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
         $sql_int.=" AND carpeta_familiar.iddepartamento='$row[0]' GROUP BY seguimiento_cf.idintegrante_cf ";
         $result_int = mysqli_query($link,$sql_int);
         $integrantes = mysqli_num_rows($result_int);
@@ -430,8 +430,8 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial;"><?php echo $row[1];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $familias_mun;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $integrantes;?></td>
-		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="visitas_safci_diarias_dep.php?iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=400'); return false;"><?php echo "Visitas en ".$$row[1];?></a>
+		          <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="visitas_safci_diarias_dep.php?iddepartamento=<?php echo $row[0];?>" target="_blank" class="Estilo12" style="font-size: 12px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=400'); return false;"><?php echo "Visitas en ".$row[1];?></a>
               </td>
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
 	        </tr>
