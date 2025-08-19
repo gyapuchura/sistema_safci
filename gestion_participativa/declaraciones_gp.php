@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+$mes 					= date("m");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -58,7 +59,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">DECLARACIONES GESTIÓN PARTICIPATIVA - SAFCI</h1>
+                    <h1 class="h3 mb-2 text-gray-800">DECLARACIONES GESTIÓN PARTICIPATIVA - SAFCI </h1>
                     <p class="mb-4">En esta sección se puede encontrar el registro de DECLARACIONES DE GESTIÓN PARTICIPATIVA del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
 
                     <!-- DataTales Example -->
@@ -98,7 +99,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                             <td><?php echo $row[1];?></td>
                                             <td><?php echo $row[2];?></td>
                                             <td><?php echo $row[3];?></td>
-                                            <td><?php echo $row[4];?> <?php echo $row[5];?> <?php echo $row[5];?></td>
+                                            <td><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
                                             <td>
                                             <?php 
                                                 $fecha_r = explode('-',$row[7]);
@@ -123,6 +124,27 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                                 </table>
                             </div>
                         </div>
+
+                <hr>
+                <div class="text-center">
+                <div class="form-group row"> 
+                        <div class="col-sm-4">
+                        <a href="imprime_reporte_gp.php" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=1220,height=800,scrollbars=YES,top=60,left=400'); return false;">
+                        MOSTRAR DECLARACIONES GESTIÓN PARTICIPATIVA</a>   
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-4">
+                    <form name="REPORTE_CF" action="reporte_gp_excel.php" method="post">
+                        <input type="hidden" name="idusuario_op" value="<?php echo $idusuario_op;?>">
+                        <button type="submit" class="btn btn-success">REPORTE EXCEL DECLARACIONES</button>
+                    </form>
+                    </div>
+                </div>   
+                <hr>
+
+
                     </div>
 
                 </div>

@@ -10,6 +10,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $fecha 	 = date("Y-m-d");
 $hora    = date("H:i");
 $gestion = date("Y");
+$mes 	 = date("m");
+
 
 //-----DATOS ENVIADOS EN EL FORMULARIO DE ESTABLECIMIENTO DE SALUD ----- //
 
@@ -40,7 +42,7 @@ $cantidad_sin               = $_POST['cantidad_sin'];
 $salas_parto_intercultural = $_POST['salas_parto_intercultural'];
 $referencias_medicina_tradicional = $_POST['referencias_medicina_tradicional'];
 
-$sql_mun = "SELECT idgestion_participativa, codigo FROM gestion_participativa WHERE idmunicipio='$idmunicipio' ";
+$sql_mun = "SELECT idgestion_participativa, codigo FROM gestion_participativa WHERE idmunicipio='$idmunicipio' AND fecha_registro LIKE '%-$mes-%' ";
 $result_mun = mysqli_query($link,$sql_mun);
 if ($row_mun = mysqli_fetch_array($result_mun)) {
     
