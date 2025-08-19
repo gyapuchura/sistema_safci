@@ -4,6 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	   = date("Ymd");
 $fecha 		   = date("Y-m-d");
+$semana        = date("W");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -77,10 +78,12 @@ $rowus = mysqli_fetch_array($resultus);
 <hr>
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h6 class="text-primary">
+                        SEMANA EPIDEMIOLÓGICA. Nº <?php echo $semana;?> </h6>
+                        <h6 class="text-primary">
                         REPORTE DEL DIA DE HOY <?php 
-                    $fecha_r = explode('-',$fecha);
-                    $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
-                    echo $f_emision;?>
+                            $fecha_r = explode('-',$fecha);
+                            $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                            echo $f_emision;?>
                         </h6>
                     </div>
 
@@ -122,7 +125,7 @@ $rowus = mysqli_fetch_array($resultus);
                 <div class="col mr-2">
                     <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=600,height=900,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    Nº DE NOTIFICACIONES (F302A)
+                    Nº DE NOTIFICACIONES (F302A) - SEMANA EPIDEMIOLÓGICA. Nº <?php echo $semana-1;?>
                     </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php
@@ -167,7 +170,6 @@ $rowus = mysqli_fetch_array($resultus);
         </div>
     </div>
 </div>
-
 </div>
 
 <div class="row">

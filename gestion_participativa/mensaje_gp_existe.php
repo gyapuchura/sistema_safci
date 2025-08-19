@@ -67,9 +67,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="text-center">   
                     
                     <hr>                     
-                    <h4 class="text-danger">LA DECLARACIÓN MUNICIPAL </h4>
+                    <h4 class="text-danger">LA DECLARACIÓN MUNICIPAL</h4>
                     <h4 class="text-danger">DE GESTIÓN PARTICIPATIVA</h4>
-                    <h4 class="text-danger">YA FUE REGISTRADA EN SISTEMA!!!</h4>
+                    <h4 class="text-danger">YA FUE REGISTRADA EN EL MES ACTUAL !!!</h4>
                     </br>
                     <a href="declaraciones_gp_info.php"><h6>VOLVER</h6></a>
 
