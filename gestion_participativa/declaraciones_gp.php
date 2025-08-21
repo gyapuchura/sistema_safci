@@ -96,7 +96,10 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         ?>
                                         <tr>
                                             <td><?php echo $numero;?></td>
-                                            <td><?php echo $row[1];?></td>
+                                            <td>
+                                                <a href="formulario_gestion_participativa.php?idgestion_participativa=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=900,top=50, left=200, scrollbars=YES'); return false;">
+                                                <?php echo $row[1];?></a>
+                                            </td>
                                             <td><?php echo $row[2];?></td>
                                             <td><?php echo $row[3];?></td>
                                             <td><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
