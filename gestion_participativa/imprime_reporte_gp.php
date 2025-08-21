@@ -100,7 +100,10 @@ $gestion    = date("Y");
             ?>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[1];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+                <a href="formulario_gestion_participativa.php?idgestion_participativa=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=900,top=50, left=200, scrollbars=YES'); return false;">
+                <?php echo $row[1];?></a>  
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[2];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[3];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[4]." ".$row[5]." ".$row[6]);?></td>
