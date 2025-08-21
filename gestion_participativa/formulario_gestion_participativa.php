@@ -33,75 +33,75 @@ $row_gp=mysqli_fetch_array($result_gp);
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
-      <td width="290" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="116" height="84" alt=""/></td>
-      <td width="306" style="font-family: Arial; font-size: 16px; text-align: center"><h4>GESTIÓN PARTICIPATIVA</h4>
-      <h4>DECLARACIÓN : <?php echo $row_gp[22];?></h4></td>
+      <td width="290" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="200" height="135" alt=""/></td>
+      <td width="306" style="font-family: Arial; font-size: 18px; color: #2D56CF; text-align: center"><h4>GESTIÓN PARTICIPATIVA</h4>
+      <h4>DECLARACIÓN</br> <?php echo $row_gp[22];?></h4></td>
       <td width="296">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3"><table width="900" border="1" cellspacing="0">
+      <td colspan="3"><table width="900" border="1" bordercolor="#2D56CF" cellspacing="0">
         <tbody>
           <tr>
-            <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right">DEPARTAMENTO:</td>
+            <td colspan="2" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: right">DEPARTAMENTO:</td>
             <td colspan="6" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[1];?></td>
             </tr>
           <tr>
-            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: right">RED DE SALUD:</td>
+            <td colspan="2" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: right">RED DE SALUD:</td>
             <td colspan="6" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[2];?></td>
             </tr>
           <tr>
-            <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right">MUNICIPIO:</td>
+            <td colspan="2" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: right">MUNICIPIO:</td>
             <td colspan="6" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[3];?></td>
             </tr>
           <tr>
-            <td width="165" style="font-family: Arial; font-size: 12px; text-align: center">Nº DE COMUNIDADES<br>
+            <td width="165" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">Nº DE COMUNIDADES<br>
               (ÁREAS DE INFLUENCIA) DE INTERVENCIÓN:</td>
             <td width="75" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[4];?></td>
-            <td width="154" style="font-family: Arial; font-size: 12px; text-align: center">Nº DE A.L.S.<br>
+            <td width="154" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">Nº DE A.L.S.<br>
               AUTORIDADES LOCALES<br>
               DE SALUD:</td>
             <td width="47" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[5];?></td>
-            <td width="156" style="font-family: Arial; font-size: 12px; text-align: center">Nº DE ESTABLECIMIENTOS DE SALUD<br>
+            <td width="156" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">Nº DE ESTABLECIMIENTOS DE SALUD<br>
               EN EL MUNICIPIO:</td>
             <td width="67" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[6];?></td>
-            <td width="144" style="font-family: Arial; font-size: 12px; text-align: center">Nº DE COMITÉS<br>
+            <td width="144" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">Nº DE COMITÉS<br>
               LOCALES DE SALUD<br>
               EN EL MUNICIPIO:</td>
             <td width="58" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[7];?></td>
           </tr>
           <tr>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">¿CUENTA CON COSOMUSA?</td>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">¿CUENTA CON COSOMUSA?</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[8];?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">NOMBRE Y APELLIDO<br>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">NOMBRE Y APELLIDO<br>
               AUTORIDAD COSOMUSA:</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[9];?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">FECHA DE VIGENCIA<br>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">FECHA DE VIGENCIA<br>
               AUTORIDAD COSOMUSA:</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center">
             <?php 
                 $fecha_v = explode('-',$row_gp[10]);
                 $f_vigencia = $fecha_v[2].'/'.$fecha_v[1].'/'.$fecha_v[0];?>
                 <?php echo $f_vigencia;?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">TELÉFONO CELULAR<br>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">TELÉFONO CELULAR<br>
               AUTORIDAD COSOMUSA:</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[11];?></td>
           </tr>
           <tr>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">¿CUENTA CON PLAN MUNICIPAL DE SALUD?</td>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">¿CUENTA CON PLAN MUNICIPAL DE SALUD?</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[12];?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">¿CUENTA CON LEY MUNICIPAL DE APROBACIÓN DE PLAN MUNICIPAL DE SALUD?</td>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">¿CUENTA CON LEY MUNICIPAL DE APROBACIÓN DE PLAN MUNICIPAL DE SALUD?</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[13];?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">NÚMERO DE PROYECTOS EN SALUD<br>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">NÚMERO DE PROYECTOS EN SALUD<br>
               PLANIFICADOS:</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[14];?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center">NÚMERO DE PROYECTOS EN SALUD<br>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">NÚMERO DE PROYECTOS EN SALUD<br>
               EJECUTADOS:</td>
             <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[15];?></td>
           </tr>
           <tr>
-            <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: center">CONVENIO SAFCI</td>
+            <td colspan="2" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">CONVENIO SAFCI</td>
             <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[16];?></td>
-            <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: center">ASIGNACIÓN PRESUPUESTARIA [Bs]</td>
+            <td colspan="2" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">ASIGNACIÓN PRESUPUESTARIA [Bs]</td>
             <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: center"><?php 
               $presupuesto_gp  = number_format($row_gp[17], 0, '', '.');
               echo $presupuesto_gp;?></td>
@@ -116,11 +116,11 @@ $row_gp=mysqli_fetch_array($result_gp);
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td style="font-family: Arial; font-size: 14px; text-align: center">NÚMERO DE MÉDICOS TRADICIONALES CON REGISTRO RUMETRAB</td>
+      <td style="font-family: Arial; font-size: 14px; color: #2D56CF; text-align: center">NÚMERO DE MÉDICOS TRADICIONALES CON REGISTRO RUMETRAB</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3"><table width="900" border="1" cellspacing="0">
+      <td colspan="3"><table width="900" border="1" bordercolor="#2D56CF" cellspacing="0">
         <tbody>
           <tr>
             <?php
@@ -131,7 +131,7 @@ $row_gp=mysqli_fetch_array($result_gp);
             while ($fieldm = mysqli_fetch_field($resultm)){
             } do {
             ?>
-            <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $rowm[1];?></td>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center"><?php echo $rowm[1];?></td>
             <?php
             }
             while ($rowm = mysqli_fetch_array($resultm));
@@ -168,11 +168,11 @@ $row_gp=mysqli_fetch_array($result_gp);
     </tr>
     <tr>
       <td>&nbsp;</td>
-      <td style="font-family: Arial; font-size: 14px; text-align: center">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAB</td>
+      <td style="font-family: Arial; font-size: 14px; color: #2D56CF; text-align: center">NÚMERO DE MÉDICOS TRADICIONALES SIN REGISTRO RUMETRAB</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3"><table width="900" border="1" cellspacing="0">
+      <td colspan="3"><table width="900" border="1" bordercolor="#2D56CF" cellspacing="0">
         <tbody>
           <tr>
             <?php
@@ -183,7 +183,7 @@ $row_gp=mysqli_fetch_array($result_gp);
             while ($fieldm = mysqli_fetch_field($resultm)){
             } do {
             ?>
-            <td style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $rowm[1];?></td>
+            <td style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center"><?php echo $rowm[1];?></td>
             <?php
             }
             while ($rowm = mysqli_fetch_array($resultm));
@@ -219,12 +219,12 @@ $row_gp=mysqli_fetch_array($result_gp);
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3"><table width="900" border="1" cellspacing="0">
+      <td colspan="3"><table width="900" border="1" bordercolor="#2D56CF" cellspacing="0">
         <tbody>
           <tr>
-            <td width="284" style="font-family: Arial; font-size: 12px; text-align: center">NÚMERO DE SALAS DE PARTO INTERCULTURAL IMPLEMENTADAS:</td>
+            <td width="284" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">NÚMERO DE SALAS DE PARTO INTERCULTURAL IMPLEMENTADAS:</td>
             <td width="158" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[18];?></td>
-            <td width="320" style="font-family: Arial; font-size: 12px; text-align: center">NÚMERO DE REFERENCIAS Y CONTRAREFERENCIAS CON MEDICINA TRADICIONAL:</td>
+            <td width="320" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center">NÚMERO DE REFERENCIAS Y CONTRAREFERENCIAS CON MEDICINA TRADICIONAL:</td>
             <td width="120" style="font-family: Arial; font-size: 12px; text-align: center"><?php echo $row_gp[19];?></td>
           </tr>
         </tbody>
@@ -250,7 +250,14 @@ $row_gp=mysqli_fetch_array($result_gp);
             $rowus = mysqli_fetch_array($resultus);?>
             
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><p>Yo: <?php echo mb_strtoupper($rowus[0]." ".$rowus[1]." ".$rowus[2]);?></p>
-            <p>Declaro la veracidad de los datos del presente formulario</p></td>
+            <p>Declaro la veracidad de los datos del presente formulario</p>
+            <p>Fecha de la Declaracion Jurada : 
+                <?php 
+                $fecha_d = explode('-',$row_gp[23]);
+                $f_declaracion = $fecha_d[2].'/'.$fecha_d[1].'/'.$fecha_d[0];?>
+                <?php echo $f_declaracion;?> </p>
+          
+          </td>
             <td style="text-align: center; font-size: 12px; font-family: Arial;"><p><span style="text-align: center">............................................................................</span></p>
             <p>FIRMA</p></td>
             <td style="text-align: center; font-size: 12px; font-family: Arial;">
