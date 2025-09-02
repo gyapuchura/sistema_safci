@@ -108,7 +108,7 @@ while ($field3 = mysqli_fetch_field($result3)){
  
 <?php
 $sql_a =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar  ";
-$sql_a.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_a.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
 $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$row3[0]' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
@@ -147,6 +147,12 @@ Si no se encontraron resultados
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
+
+
+
+        <form name="REPORTE_CF_NAL" action="morbilidad_nal_excel.php" method="post">
+        <input type="hidden" name="idmorbilidad_cf" value="<?php echo $idmorbilidad_cf;?>">
+        <button type="submit" class="btn btn-success">REPORTE MORBILIDAD NACIONAL EN EXCEL</button>
 
 
 	</body>
