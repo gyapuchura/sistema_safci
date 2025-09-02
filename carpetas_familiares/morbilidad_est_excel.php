@@ -37,23 +37,28 @@ $morbilidad = $row_mr[1];
 
     <span style="font-family: Arial; font-size: 14px;"><h4 align="center"> <?php echo $morbilidad;?> </h4></spam>
 
-
+ 
 	<table width="850" border="1" align="center" cellspacing="0">
 	  <tbody>
         <tr>
             <td width="200" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>N°</strong></td>
-            <td width="580" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>ESTABLECIMIENTO DE SALUD</strong></td>
-            <td width="200" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>NÚMERO DE INTEGRANTES </strong></td>
+            <td width="280" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>DEPARTAMENTO</strong></td>
+            <td width="280" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>MUNICIPIO</strong></td>
+            <td width="280" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>ESTABLECIMIENTO DE SALUD</strong></td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center; color: #294D7C;"><strong>NÚMERO DE INTEGRANTES </strong></td>
  
         </tr>
 
         <?php
             $numero2=1;
-            $sql2 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM integrante_morbilidad, carpeta_familiar, establecimiento_salud ";
-            $sql2.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-            $sql2.= " AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
-            $sql2.= " AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-            $sql2.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";
+            $sql2 = " SELECT carpeta_familiar.idestablecimiento_salud, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud  ";
+            $sql2.= "  FROM integrante_morbilidad, carpeta_familiar, departamento, municipios, establecimiento_salud  ";
+            $sql2.= "  WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+            $sql2.= "  AND carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idmunicipio=municipios.idmunicipio  ";
+            $sql2.= "  AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
+            $sql2.= "  AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf'  ";
+            $sql2.= "  AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud ";
+
             $result2 = mysqli_query($link,$sql2);
             if ($row2 = mysqli_fetch_array($result2)){
             mysqli_field_seek($result2,0);
@@ -64,6 +69,8 @@ $morbilidad = $row_mr[1];
 	    <tr>
         <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $numero2;?></td>
         <td style="font-family: Arial; font-size: 12px;"><?php echo $row2[1];?></td>
+         <td style="font-family: Arial; font-size: 12px;"><?php echo $row2[2];?></td>
+          <td style="font-family: Arial; font-size: 12px;"><?php echo $row2[3];?></td>
         
         <td style="font-family: Arial; font-size: 12px; text-align: center;">
             <?php 
