@@ -83,6 +83,8 @@ $gestion    = date("Y");
 
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CONVENIO SAFCI</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ASIGNACIÓN PRESUPUESTARIA [Bs]</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">NÚMERO DE SALAS DE PARTO INTERCULTURAL IMPLEMENTADAS:</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">NÚMERO DE REFERENCIAS Y CONTRAREFERENCIAS CON MEDICINA TRADICIONAL:</td>
 
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
@@ -175,8 +177,8 @@ $gestion    = date("Y");
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php 
               $presupuesto_gp  = number_format($row[23], 0, '', '.');
               echo $presupuesto_gp;?></td>
-
-
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[24];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[25];?></td>
 	        </tr>
             <?php
         $numero=$numero+1;
