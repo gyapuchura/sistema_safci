@@ -398,7 +398,7 @@
     } else {
     }
     ?>
-        <?php	
+    <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
@@ -441,6 +441,7 @@
 
         <a class="collapse-item" href="../produccion_servicios/personas_carpetizadas.php">PERSONAS</br>CARPETIZADAS</a>
         <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> 
+        
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
