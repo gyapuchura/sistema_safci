@@ -688,7 +688,7 @@ $(function () {
                 $sql_t.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' ";
                 $result_t = mysqli_query($link,$sql_t);
                 $row_t = mysqli_fetch_array($result_t);
-                $total = $row_t[0];
+                $total_m = $row_t[0];
 
                 $sql_a =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar  ";
                 $sql_a.=" WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar";
@@ -824,25 +824,25 @@ $(function () {
                 $otra = $row_s[0];
 
 
-                $tuberculosis_p   = ($tuberculosis*100)/$total;
-                $sexual_p         = ($sexual*100)/$total;
-                $malaria_p        = ($malaria*100)/$total;
-                $lepra_p          = ($lepra*100)/$total;
-                $leishmaniasis_p  = ($leishmaniasis*100)/$total;
-                $chagas_p         = ($chagas*100)/$total;
-                $hepatitis_p      = ($hepatitis*100)/$total;
-                $cardiovascular_p = ($cardiovascular*100)/$total;
-                $hipertension_p   = ($hipertension*100)/$total;
-                $diabetes_p       = ($diabetes*100)/$total;
-                $obesidad_p       = ($obesidad*100)/$total;
-                $renal_p          = ($renal*100)/$total;
-                $reumatica_p      = ($reumatica*100)/$total;
-                $pulmonar_p       = ($pulmonar*100)/$total;
-                $autoinmune_p     = ($autoinmune*100)/$total;
-                $hematologica_p   = ($hematologica*100)/$total;
-                $asma_p           = ($asma*100)/$total;
-                $cancer_p         = ($cancer*100)/$total;
-                $otra_p         = ($otra*100)/$total;
+                $tuberculosis_p   = ($tuberculosis*100)/$total_m;
+                $sexual_p         = ($sexual*100)/$total_m;
+                $malaria_p        = ($malaria*100)/$total_m;
+                $lepra_p          = ($lepra*100)/$total_m;
+                $leishmaniasis_p  = ($leishmaniasis*100)/$total_m;
+                $chagas_p         = ($chagas*100)/$total_m;
+                $hepatitis_p      = ($hepatitis*100)/$total_m;
+                $cardiovascular_p = ($cardiovascular*100)/$total_m;
+                $hipertension_p   = ($hipertension*100)/$total_m;
+                $diabetes_p       = ($diabetes*100)/$total_m;
+                $obesidad_p       = ($obesidad*100)/$total_m;
+                $renal_p          = ($renal*100)/$total_m;
+                $reumatica_p      = ($reumatica*100)/$total_m;
+                $pulmonar_p       = ($pulmonar*100)/$total_m;
+                $autoinmune_p     = ($autoinmune*100)/$total_m;
+                $hematologica_p   = ($hematologica*100)/$total_m;
+                $asma_p           = ($asma*100)/$total_m;
+                $cancer_p         = ($cancer*100)/$total_m;
+                $otra_p         = ($otra*100)/$total_m;
 
             ?>
             // Create the chart
