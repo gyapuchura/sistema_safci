@@ -101,13 +101,13 @@ $(function () {
 
             // Create the chart
 
-            <?php
-$sql_t =" SELECT count(funcionalidad_familiar_cf.idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf, carpeta_familiar  ";
-$sql_t.=" WHERE funcionalidad_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql_t.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idusuario='$idusuario' ";
-$result_t = mysqli_query($link,$sql_t);
-$row_t = mysqli_fetch_array($result_t);
-$total = $row_t[0];
+<?php
+$sql_cf =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar ";
+$sql_cf.=" WHERE  estado='CONSOLIDADO' ";
+$sql_cf.=" AND idusuario='$idusuario' ";
+$result_cf = mysqli_query($link,$sql_cf);
+$row_cf = mysqli_fetch_array($result_cf);  
+$total_f = $row_cf[0];
 
 $sql_i =" SELECT count(funcionalidad_familiar_cf.idfuncionalidad_familiar_cf) FROM funcionalidad_familiar_cf, carpeta_familiar ";
 $sql_i.=" WHERE funcionalidad_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
@@ -137,10 +137,10 @@ $result_l = mysqli_query($link,$sql_l);
 $row_l = mysqli_fetch_array($result_l);
 $social = $row_l[0];
 
-$economica_p    = ($economica*100)/$total;
-$educativa_p    = ($educativa*100)/$total;
-$afectiva_p     = ($afectiva*100)/$total;
-$social_p    = ($social*100)/$total;
+$economica_p    = ($economica*100)/$total_f;
+$educativa_p    = ($educativa*100)/$total_f;
+$afectiva_p     = ($afectiva*100)/$total_f;
+$social_p    = ($social*100)/$total_f;
 
 ?>
 
@@ -159,7 +159,7 @@ $social_p    = ($social*100)/$total;
                 },
                 yAxis: {
                     title: {
-                        text: 'Porcetaje de un total de <?php echo $total;?>'
+                        text: 'Porcetaje de un total de <?php echo $total_f;?>'
                     }
                 },
                 legend: {
@@ -334,18 +334,18 @@ $result_h = mysqli_query($link,$sql_h);
 $row_h = mysqli_fetch_array($result_h);
 $drogas = $row_h[0];
 
-$desmem_p  = ($desmemb*100)/$total;
-$incremento_p   = ($incremento*100)/$total;
-$desmoralizacion_p  = ($desmoralizacion*100)/$total;
-$desorganizacion_p  = ($desorganizacion*100)/$total;
-$violencia_p        = ($violencia*100)/$total;
-$tabaquismo_p = ($tabaquismo*100)/$total;
-$alcohol_p      = ($alcohol*100)/$total;
-$drogas_p   = ($drogas*100)/$total;
-$economica_p    = ($economica*100)/$total;
-$educativa_p    = ($educativa*100)/$total;
-$afectiva_p     = ($afectiva*100)/$total;
-$social_p    = ($social*100)/$total;
+$desmem_p  = ($desmemb*100)/$total_f;
+$incremento_p   = ($incremento*100)/$total_f;
+$desmoralizacion_p  = ($desmoralizacion*100)/$total_f;
+$desorganizacion_p  = ($desorganizacion*100)/$total_f;
+$violencia_p        = ($violencia*100)/$total_f;
+$tabaquismo_p = ($tabaquismo*100)/$total_f;
+$alcohol_p      = ($alcohol*100)/$total_f;
+$drogas_p   = ($drogas*100)/$total_f;
+$economica_p    = ($economica*100)/$total_f;
+$educativa_p    = ($educativa*100)/$total_f;
+$afectiva_p     = ($afectiva*100)/$total_f;
+$social_p    = ($social*100)/$total_f;
 
 ?>
 
@@ -364,7 +364,7 @@ $social_p    = ($social*100)/$total;
                 },
                 yAxis: {
                     title: {
-                        text: 'Porcetaje de un total de <?php echo $total;?>'
+                        text: 'Porcetaje de un total de <?php echo $total_f;?>'
                     }
                 },
                 legend: {
@@ -451,12 +451,12 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $disfuncional = mysqli_num_rows($result_t);
 
-                    $funcional = $total - $disfuncional;
+                    $funcional = $total_f - $disfuncional;
 
-                    $p_disfuncional = ($disfuncional*100)/$total;
+                    $p_disfuncional = ($disfuncional*100)/$total_f;
                     $porcentaje_disfuncional = number_format($p_disfuncional, 2, '.', '');
 
-                    $p_funcional   = ($funcional*100)/$total;
+                    $p_funcional   = ($funcional*100)/$total_f;
                     $porcentaje_funcional    = number_format($p_funcional, 2, '.', '');
                     ?>
 
@@ -513,7 +513,7 @@ $(function () {
                     $row_c = mysqli_fetch_array($result_c);
                     $conteo = $row_c[0];
 
-                    $p_conteo   = ($conteo*100)/$total;
+                    $p_conteo   = ($conteo*100)/$total_f;
                     $porcentaje    = number_format($p_conteo, 2, '.', '');
 
                     ?>
