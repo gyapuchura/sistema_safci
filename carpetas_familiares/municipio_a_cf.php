@@ -83,7 +83,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                             <h6 class="text-info">De <?php echo $integrantes_meta;?> Habitantes</h6>
                             <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                             <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
 
                             <?php
@@ -112,6 +112,11 @@ $row_mun = mysqli_fetch_array($result_mun);
                                 } else {
                                 }
                             ?>
+                            </div>
+                              
+                            <div class="col-sm-2">
+                                <a href="informe_operativo_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=950,height=900,scrollbars=YES,top=60,left=400'); return false;">
+                                <h6 class="text-primary">INFORME SITUACIONAL - MUNICIPIO</h6></a>
                             </div>
                         </div>   
                     </div>
