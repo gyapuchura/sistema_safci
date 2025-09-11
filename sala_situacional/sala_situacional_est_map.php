@@ -2,9 +2,9 @@
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram = date("Ymd");
-$fecha 	   = date("Y-m-d");
-$gestion   = date("Y");
+$fecha_ram				= date("Ymd");
+$fecha 					= date("Y-m-d");
+$gestion 			    = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -31,6 +31,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 
 </head>
 
@@ -112,7 +113,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                     </div>
                 </div>
-                    <div class="card-body" id="establecimiento_a_cf">                    
+                    <div class="card-body" id="establecimiento_situacional">                    
                     </div>
                     </div>
 
@@ -211,16 +212,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         $("#idestablecimiento_salud").change(function () {
                     $("#idestablecimiento_salud option:selected").each(function () {
                         establecimiento_salud=$(this).val();
-                    $.post("establecimiento_a_sala.php", {establecimiento_salud:establecimiento_salud}, function(data){
-                    $("#establecimiento_a_cf").html(data);
+                    $.post("establecimiento_situacional.php", {establecimiento_salud:establecimiento_salud}, function(data){
+                    $("#establecimiento_situacional").html(data);
                     });
                 });
         })
         });
 </script>
-
-
-
 
 
 <!---------- Scripts para CFs por area de influencia End  ---------->

@@ -1,23 +1,69 @@
-
+<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php");
 $gestion = date("Y");
 
-$idestablecimiento_salud = $_POST["establecimiento_salud"];
+$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sql_est = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql_est = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ubicacion_cf.latitud, ubicacion_cf.longitud  ";
+$sql_est.= " FROM establecimiento_salud, carpeta_familiar, ubicacion_cf WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+$sql_est.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idestablecimiento_salud DESC LIMIT 1 ";
 $result_est = mysqli_query($link,$sql_est);
 $row_est = mysqli_fetch_array($result_est);
 
 $latitud_c  = $row_est[2];
 $longitud_c = $row_est[3];
-$zoom_c     = "1";
-
+$zoom_c     = "16";
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SALA SITUACIONAL DE SALUD - SAFCI</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
 
             <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"> ESTABLECIMIENTO DE SALUD: <?php echo mb_strtoupper($row_est[1]);?> <?php echo $latitud_c;?> <?php echo $longitud_c;?></h6>
+                        <h4 class="m-0 font-weight-bold text-primary">SALA SITUACIONAL DE SALUD</h4>
+                        <h4 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTO DE SALUD: <?php echo mb_strtoupper($row_est[1]);?></h4>
+                        <h4 class="m-0 font-weight-bold text-primary">COORDENADAS: <?php echo $latitud_c;?> <?php echo $longitud_c;?></h4>
                     </div> 
                      
                 <div class="card-body">
@@ -29,9 +75,8 @@ $zoom_c     = "1";
                                             COMPONENTE DE ATENCIÓN INTEGRAL
                                         </div>
                                     </div>
-<hr>
+                                    <hr>
                         <!-------- ATENCION INTEGRAL begin ------>
-
                 <div class="row">
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-primary shadow h-100 py-2">
@@ -190,7 +235,7 @@ $zoom_c     = "1";
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 
-
+                    <div id="mi_mapa" style="width: 100%; height: 700px;"></div>
 
                     <!-------- MAPA PARLANTE begin ------>
                             </div>
@@ -416,51 +461,73 @@ $zoom_c     = "1";
                     </div>
                 </div>   
 
+            </div>
+            <!-- End of Main Content -->
 
-                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-                <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+        </div>
+        <!-- End of Content Wrapper -->
 
-                                <div id="mi_mapa" style="width: 100%; height: 400px;"></div>
+    </div>
+    <!-- End of Page Wrapper -->
 
-                <script>
-                        let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-                        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            }).addTo(map);
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                                /****** Areas de influencia del Establecimiento de salud *********/
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                        <?php 
-                        $numero2 = 0;
-                        $sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";
-                        $sql2.= " nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
-                        $sql2.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
-                        $sql2.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
-                        $sql2.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento_salud' ORDER BY idestablecimiento_salud ";
-                        $result2 = mysqli_query($link,$sql2);
-                        $total2 = mysqli_num_rows($result2);
-                        if ($row2 = mysqli_fetch_array($result2)){
-                        mysqli_field_seek($result2,0);
-                        while ($field2 = mysqli_fetch_field($result2)){
-                        } do {
-                            ?>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
 
-                        L.marker([<?php echo $row2[4];?>,<?php echo $row2[5];?>]).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row2[1].' - '.$row2[2].'</br>Tipo:'.$row2[3];?>")
+    
+    <script>
+        let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>)
 
-                        <?php 
-                        $numero2++;
-                        if ($numero2 == $total2) {
-                        echo "";
-                        }
-                        else {
-                        echo ",";
-                        }
-                        } while ($row2 = mysqli_fetch_array($result2));
-                        } else {
-
-                        }
-                        ?>
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
 
-                        </script>
+            <?php
+            /****** Areas de influencia del Establecimiento de salud *********/
+            $numero4 = 0;
+            $sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, ";
+            $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud ";
+            $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ";
+            $sql4.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+            $sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 50 ";
+            $result4 = mysqli_query($link,$sql4);
+            $total4 = mysqli_num_rows($result4);
+            if ($row4 = mysqli_fetch_array($result4)){
+            mysqli_field_seek($result4,0);
+            while ($field4 = mysqli_fetch_field($result4)){
+            } do {
+                ?>
+
+        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>]).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5];?>')
+
+            <?php 
+            $numero4++;
+            } while ($row4 = mysqli_fetch_array($result4));
+            } else {
+            }
+            ?>
+
+        
+
+        map.on('click', onMapClick)
+
+        function onMapClick(e) {
+            alert("Posición: " + e.latlng)
+        }
+    </script>
+
+</body>
+
+</html>
