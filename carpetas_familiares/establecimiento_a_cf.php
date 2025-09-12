@@ -118,7 +118,7 @@ $row_est = mysqli_fetch_array($result_est);
                         </div>   
                     </div>
                 </div>    
-                     
+                      
                 <div class="card-body">
                     <div class="form-group row">
                         <div class="col-sm-6">

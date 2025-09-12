@@ -2,7 +2,7 @@
 <?php include("../inc.config.php");
 $gestion = date("Y");
 
-$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
+$idestablecimiento_salud = $_POST['establecimiento_salud'];
 
 $sql_est = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ubicacion_cf.latitud, ubicacion_cf.longitud  ";
 $sql_est.= " FROM establecimiento_salud, carpeta_familiar, ubicacion_cf WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
@@ -63,8 +63,7 @@ $zoom_c     = "16";
                     <div class="card-header py-3">
                         <h4 class="m-0 font-weight-bold text-primary">SALA SITUACIONAL DE SALUD</h4>
                         <h4 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTO DE SALUD: <?php echo mb_strtoupper($row_est[1]);?></h4>
-                        </br>
-                        <h6 class="m-0 font-weight-bold text-primary">COORDENADAS: <?php echo $latitud_c;?> <?php echo $longitud_c;?></h6>
+                        <h4 class="m-0 font-weight-bold text-primary">COORDENADAS: <?php echo $latitud_c;?> <?php echo $longitud_c;?></h4>
                     </div> 
                      
                 <div class="card-body">
@@ -84,10 +83,9 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../sala_situacional/estimacion_poblacion_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=800,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                            POBLACIÓN (ÁREA DEMOGRÁFICA)</div></a>  
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            POBLACIÓN (ÁREA DEMOGRÁFICA)</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">40,000</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -104,10 +102,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/piramide_poblacional_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;">  
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                             PIRÁMIDE POBLACIONAL</div>
-                                        </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -124,10 +120,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/grafica_defuncion_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MORTALIDAD</div>
-                                        </a> 
+                                            MORTALIDAD</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -144,10 +138,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MORBILIDAD</div>
-                                        </a>
+                                            MORBILIDAD</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -164,10 +156,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_programa_social_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=560,scrollbars=YES,top=50,left=100'); return false;">
-                                    <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                    MONITOREO DE PROGRAMAS NACIONALES</div>
-                                    </a>
+                                        <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
+                                            MONITOREO DE PROGRAMAS NACIONALES</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -263,10 +253,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="avance_carpetas_familiares.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=400,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             AVANCE DE CARPETAS FAMILIARES</div>
-                                        </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -283,10 +271,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/monitoreo_determinantes_cf.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             MONITOREO DETERMINANTES DE LA SALUD</div>
-                                        </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -303,10 +289,8 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_socioeconomica_cf.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA SOCIOECONÓMICA-PRODUCTIVA</div>
-                                    </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -517,7 +501,7 @@ $zoom_c     = "16";
             $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud ";
             $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ";
             $sql4.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-            $sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 100 ";
+            $sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 50 ";
             $result4 = mysqli_query($link,$sql4);
             $total4 = mysqli_num_rows($result4);
             if ($row4 = mysqli_fetch_array($result4)){
@@ -537,6 +521,11 @@ $zoom_c     = "16";
 
         
 
+        map.on('click', onMapClick)
+
+        function onMapClick(e) {
+            alert("Posición: " + e.latlng)
+        }
     </script>
 
 </body>
