@@ -239,49 +239,56 @@ RIESGO MUY GRAVE EN LAS DETERMINANTES DE LA SALUD	<?php echo $riesgo_muy_grave_p
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $riesgo_moderado;?></td>
         </tr> 
         <tr>
-            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">3</td>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">4</td>
             <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">FAMILIAS CON RIESGO GRAVE</td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo number_format($riesgo_grave_p, 2, '.', '');?></td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $riesgo_grave;?></td>
         </tr> 
         <tr>
-            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">3</td>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">4</td>
             <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">FAMILIAS CON RIESGO MUY GRAVE</td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo number_format($riesgo_muy_grave_p, 2, '.', '');?></td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $riesgo_muy_grave;?></td>
         </tr> 
     </table>
 
-<?php
-$sql_cf =" SELECT count(carpeta_familiar.idcarpeta_familiar) FROM carpeta_familiar, ubicacion_cf ";
-$sql_cf.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql_cf.=" AND ubicacion_cf.ubicacion_actual='SI' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
-$result_cf = mysqli_query($link,$sql_cf);
-$row_cf = mysqli_fetch_array($result_cf);  
-$total_cf = $row_cf[0];
-?>
+</br>
+</br>
 
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">TOTAL DE CARPETAS FAMILIARES - ESTABLECIMIENTO DE SALUD = <?php echo $total_cf;?> </h4></spam>
+    <table width="646" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">VER DETERMINANTES DE LA SALUD</span></td>
 
-<?php
-$sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar, ubicacion_cf  ";
-$sql_int.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_int.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
-$sql_int.=" AND integrante_cf.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
-$result_int = mysqli_query($link,$sql_int);
-$row_int = mysqli_fetch_array($result_int);  
-$integrantes = $row_int[0];
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE INTEGRANTES DE FAMILIA REGISTRADOS EN EL ESTABLECIMIENTO DE SALUD= <?php echo $integrantes;?> </h4></spam>
+    </tr>
 
-<?php
-$sql_per = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_per.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' GROUP BY carpeta_familiar.idusuario ";
-$result_per = mysqli_query($link,$sql_per);
-$personal = mysqli_num_rows($result_per);  
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">1</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">
+            <a href="determinante_servicios_basicos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=400'); return false;">     
+            SERVICIOS BÁSICOS</a> </td>
+        </tr> 
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">2</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">
+            <a href="determinante_estructura_vivienda_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=400'); return false;">    
+            ESTRUCTURA DE LA VIVIENDA</a></td>
 
-?>
-<span style="font-family: Arial; font-size: 12px;"><h4 align="center">N° DE PERSONAL SAFCI EN EL ESTABLECIMIENTO DE SALUD = <?php echo $personal;?> </h4></spam>
+        </tr> 
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">3</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">
+            <a href="determinante_funcionalidad_vivienda_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=400'); return false;">        
+            FUNCIONALIDAD DE LA VIVIENDA</a></td>
+        </tr> 
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">4</td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">
+            <a href="determinante_salud_alimentaria_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,scrollbars=YES,top=60,left=400'); return false;">                       
+            SALUD ALIMENTARIA</a></td>
+        </tr> 
+    </table>
+
 
 	</body>
 </html>

@@ -144,7 +144,7 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="../carpetas_familiares/morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                         MORBILIDAD</div>
                                         </a>
@@ -202,8 +202,9 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
+                                        <a href="../administrar_sistema/reporte_ep_semanal_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=600,height=900,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                            VIGILANCIA EPIDEMIOLÓGICA</div>
+                                            VIGILANCIA EPIDEMIOLÓGICA</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -283,7 +284,7 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/monitoreo_determinantes_cf.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="../carpetas_familiares/monitoreo_determinantes_cf.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=800,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             MONITOREO DETERMINANTES DE LA SALUD</div>
                                         </a>
@@ -303,7 +304,7 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_socioeconomica_cf.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
+                                    <a href="../carpetas_familiares/grafica_socioeconomica_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA SOCIOECONÓMICA-PRODUCTIVA</div>
                                     </a>
@@ -323,9 +324,11 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
+                                    <a href="../carpetas_familiares/grafica_pertenencia_cultural_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA INTERCULTURAL</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                    </a>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -341,8 +344,10 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
+                                    <a href="../carpetas_familiares/grafica_profesion_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"> 
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA INTERSECTORIAL</div>
+                                    </a> 
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -359,8 +364,10 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
+                                        <a href="gestion_participativa_sala_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;">                                        
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA DE GESTIÓN PARTICIPATIVA</div>
+                                        </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
