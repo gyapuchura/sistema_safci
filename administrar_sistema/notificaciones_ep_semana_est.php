@@ -188,6 +188,7 @@ Si no se encontraron resultados
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">SEMANA EPIDEMIOLÓGICA</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">Nª DE CASOS</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RED DE SALUD</td>
@@ -220,6 +221,7 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="../implementacion_safci/imprime_notificacion_ep.php?idnotificacion_ep=<?php echo $row2[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row2[1];?></a>
               </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo "Semana ".$row2[6];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
             <?php 
                     $sql_ca = " SELECT sum(cifra) FROM registro_enfermedad WHERE idsospecha_diag = '$idsospecha_diag' AND idnotificacion_ep='$row2[0]' ";

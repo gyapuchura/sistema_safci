@@ -51,17 +51,22 @@ $row_est = mysqli_fetch_array($result_est);
 
             <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">AVANCE - CARPETAS FAMILIARES DEL ESTABLECIMIENTO : <?php echo mb_strtoupper($row_est[1]);?></h6>
-                    </div>
-
-                    <div class="card-header py-3">
-                    <h6 class="text-info">CUADRO INFORMATIVO PARA SEGUIMIENTO</h6>
+                        <div class="card bg-info text-white shadow">
+                            <div class="card-body">
+                                AVANCE - CARPETAS FAMILIARES DEL ESTABLECIMIENTO : <?php echo mb_strtoupper($row_est[1]);?>
+                                <div class="text-white-50 small">CUADRO DE SEGUIMIENTO</div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-sm-2">
-                            <h6 class="text-info">TOTAL DE CARPETAS FAMILIARES:</h6>
+                            <div class="card bg-info text-white shadow">
+                                <div class="card-body">
+                                    TOTAL DE CARPETAS FAMILIARES:
+                                </div>
+                            </div>
                             <?php
                             $sql_f =" SELECT sum(familias) FROM area_influencia WHERE idestablecimiento_salud='$idestablecimiento_salud' ";   
                             $result_f = mysqli_query($link,$sql_f);
@@ -79,13 +84,20 @@ $row_est = mysqli_fetch_array($result_est);
                             $p_establecmineto    = number_format($porcentaje_est, 2, '.', '');
 
                             ?>
-                            <?php echo $carpetizacion;?>
-                            <h6 class="text-info">De <?php echo $meta_cf;?> Familias</h6>
-                            <h6 class="text-primary"><?php echo $p_establecmineto;?> %</h6>
+                            <div class="card bg-secondary text-white shadow">
+                                <div class="card-body">
+                                    <?php echo $carpetizacion;?> </br> De <?php echo $meta_cf;?> Familias
+                                    <div class="text-white-50 small"><?php echo $p_establecmineto;?> %</div>
+                                </div>
+                            </div>
                             </div>
 
                             <div class="col-sm-2">
-                            <h6 class="text-info">N° DE INTEGRANTES DE FAMILIA REGISTRADOS:</h6>
+                            <div class="card bg-info text-white shadow">
+                                <div class="card-body">
+                                    N° DE INTEGRANTES DE FAMILIA REGISTRADOS:
+                                </div>
+                            </div>
                             <?php
                             $sql_h =" SELECT sum(habitantes) FROM area_influencia WHERE idestablecimiento_salud='$idestablecimiento_salud' ";   
                             $result_h = mysqli_query($link,$sql_h);
@@ -105,12 +117,20 @@ $row_est = mysqli_fetch_array($result_est);
                             $porcentaje_hab   = ($integrantes*100)/$row_h[0];
                             $p_habitantes = number_format($porcentaje_hab, 2, '.', ' ');
                             ?>
-                            <?php echo $integrantes_cf;?> 
-                            <h6 class="text-info">De <?php echo $integrantes_meta;?> Habitantes</h6>
-                            <h6 class="text-primary"><?php echo $p_habitantes;?> %</h6>
+                            <div class="card bg-secondary text-white shadow">
+                                <div class="card-body">
+                                    <?php echo $integrantes_cf;?> </br> De <?php echo $integrantes_meta;?> Habitantes
+                                    <div class="text-white-50 small"><?php echo $p_habitantes;?> %</div>
+                                </div>
+                            </div>
                             </div>
                             <div class="col-sm-4">
-                            <h6 class="text-info">PERSONAL SAFCI REGISTRADOR:</h6>
+                            <div class="card bg-info text-white shadow">
+                                <div class="card-body">
+                                    PERSONAL SAFCI REGISTRADOR:
+                                </div>
+                            </div>
+                            
                             <?php
                                 $numero = 1;
                                 $sql =" SELECT idusuario FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' GROUP BY idusuario ";   
@@ -122,38 +142,55 @@ $row_est = mysqli_fetch_array($result_est);
                                     $sql_p =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[0]'  ";
                                     $result_p = mysqli_query($link,$sql_p);
                                     $row_p = mysqli_fetch_array($result_p);
-                                  
-                                    echo mb_strtoupper("<h6 class='text-info'>".$numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]."</h6>");
+                                  ?>
 
-                                    $sql_af =" SELECT tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia, carpeta_familiar  WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia";   
-                                    $sql_af.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idusuario='$row[0]' GROUP BY area_influencia.area_influencia ";
-                                    $result_af = mysqli_query($link,$sql_af);
-                                    if ($row_af = mysqli_fetch_array($result_af)){
-                                    mysqli_field_seek($result_af,0);
-                                    while ($field_af = mysqli_fetch_field($result_af)){
-                                    } do {  ?>
-
-                                        <h6 class="text-info"><?php echo mb_strtoupper(" - ". $row_af[0]." ".$row_af[1]);?></h6>
-
+                                <div class="card bg-secondary text-white shadow">
+                                    <div class="card-body">
+                                        <?php echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]); ?>
+                                    <div class="text-white-50 small">                                        
                                         <?php
-                                    }
-                                    while ($row_af = mysqli_fetch_array($result_af));
-                                    } else {
-                                    }
+                                        $sql_af =" SELECT tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia, carpeta_familiar  WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia";   
+                                        $sql_af.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idusuario='$row[0]' GROUP BY area_influencia.area_influencia ";
+                                        $result_af = mysqli_query($link,$sql_af);
+                                        if ($row_af = mysqli_fetch_array($result_af)){
+                                        mysqli_field_seek($result_af,0);
+                                        while ($field_af = mysqli_fetch_field($result_af)){
+                                        } do {  ?>
+                                                <?php echo mb_strtoupper(" - ". $row_af[0]." ".$row_af[1]."</br>");?>
 
-                                    echo "</br>";
+                                            <?php
+                                        }
+                                        while ($row_af = mysqli_fetch_array($result_af));
+                                        } else {
+                                        }                                        
+                                        ?>
+                                    </div>
+                                </div>
+                                 </div>
 
-                                    $numero = $numero+1;
+                                <?php
+                                $numero = $numero+1;
                                 }
                                 while ($row = mysqli_fetch_array($result));
                                 } else {
                                 }
-                            ?>
-                            <h6></h6>
-                            </div>
+                            ?>    
+
+                           </div>
                             <div class="col-sm-4">
-                            <a href="informe_operativo_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=950,height=900,scrollbars=YES,top=60,left=400'); return false;">
-                                <h6 class="text-primary">INFORME SITUACIONAL - ESTABLECIMIENTO DE SALUD</h6></a>  
+                            <a class="btn btn-info btn-icon-split" href="../carpetas_familiares/informe_operativo_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=900,scrollbars=YES,top=50,left=300'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-book"></i>
+                            </span>
+                            <span class="text">INFORME SITUACIONAL - ESTABLECIMIENTO DE SALUD</span></a>
+
+                            <hr>
+
+                            <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/establecimiento_a_cf_sala.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=900,scrollbars=YES,top=50,left=300'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-book"></i>
+                            </span>
+                            <span class="text">ANALÍTICA DE CARPETAS FAMILIARES</span></a>
                             </div>
                         </div>   
                     </div>
