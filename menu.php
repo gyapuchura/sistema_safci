@@ -207,6 +207,7 @@
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>   
 
+            <a class="collapse-item" href="../sala_situacional/sala_situacional_est.php">SALA SITUACIONAL</br>ESTABLECIMIENTO</br> DE SALUD</a>
             <a class="collapse-item" href="../sala_situacional/sala_personal_safci.php">PERSONAL SAFCI</a>
             <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
             <a class="collapse-item" href="../sala_situacional/sala_areas_influencia.php">ÁREAS DE INFLUENCIA</a>

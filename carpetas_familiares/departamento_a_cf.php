@@ -171,6 +171,8 @@ $row_dep = mysqli_fetch_array($result_dep);
                         <h6></h6>
                         </div>
                         <div class="col-sm-2">
+                        <a href="informe_operativo_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="text-info" style="font-size: 15px; font-family: Arial;" onClick="window.open(this.href, this.target, 'width=950,height=900,scrollbars=YES,top=60,left=400'); return false;">
+                        <h6 class="text-primary">INFORME SITUACIONAL - DEPARTAMENTAL</h6></a>
                         </div>
                     </div>   
                 </div>

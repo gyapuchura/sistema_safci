@@ -50,11 +50,11 @@ $zoom_c     = "16";
         <?php
 /****** Areas de influencia del Establecimiento de salud *********/
 $numero4 = 0;
-$sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
+$sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,   ";
 $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
 $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
-$sql4.= " ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND  ubicacion_cf.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql4.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia  ";
+$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud'  ";
 $result4 = mysqli_query($link,$sql4);
 $total4 = mysqli_num_rows($result4);
  if ($row4 = mysqli_fetch_array($result4)){
