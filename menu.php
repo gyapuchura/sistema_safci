@@ -208,6 +208,7 @@
     } do {	?>   
 
             <a class="collapse-item" href="../sala_situacional/sala_situacional_est.php">SALA SITUACIONAL</br>ESTABLECIMIENTO</br> DE SALUD</a>
+            <a class="collapse-item" href="../sala_situacional/sala_situacional_mun.php">SALA SITUACIONAL</br>MUNICIPIO</a>
             <a class="collapse-item" href="../sala_situacional/sala_personal_safci.php">PERSONAL SAFCI</a>
             <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
             <a class="collapse-item" href="../sala_situacional/sala_areas_influencia.php">ÁREAS DE INFLUENCIA</a>
