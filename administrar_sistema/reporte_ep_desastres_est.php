@@ -58,7 +58,7 @@ $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
                 </div>
                     <!-- Page Heading -->
 
-                    <h3 class="text-warning">DESASTRES REPORTADOS A LA SEMANA EPIDEMIOLÓGICA. Nº <?php echo $semana_ep;?></h3>
+                    <h3 class="text-info">DESASTRES REPORTADOS A LA SEMANA EPIDEMIOLÓGICA. Nº <?php echo $semana_ep;?></h3>
                 <div class="row">
                   </br>
                 </div>
@@ -78,13 +78,13 @@ $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
                     <div class="row">
                       <!-- begin reporte epidemiologico -->
                       <div class="col-xl-2 col-md-6 mb-4">
-                          <div class="card border-left-warning shadow h-100 py-2">
+                          <div class="card border-left-info shadow h-100 py-2">
                               <div class="card-body">
                                   <div class="row no-gutters align-items-center">
                                       <div class="col mr-2">
                                                                     
                                          <a href="../implementacion_safci/marco_eventos_sala_est.php?idevento_notificacion=<?php echo $row[0];?>&idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=800,scrollbars=YES,top=50,left=300'); return false;">
-                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"> 
+                                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> 
                                          <?php echo $row[1];?>
                                          </div>
                                           </a> 

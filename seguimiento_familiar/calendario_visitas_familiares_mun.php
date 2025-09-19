@@ -13,7 +13,7 @@ $idmunicipio_ss  =  $_SESSION['idmunicipio_ss'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <link href='../scss/fullcalendar.css' rel='stylesheet'/>
 <link href='fullcalendar.print.css' rel='stylesheet' media='print'/>

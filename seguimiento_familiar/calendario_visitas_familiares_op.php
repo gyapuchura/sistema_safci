@@ -13,7 +13,7 @@ $idusuario_op_ss  =  $_SESSION['idusuario_op_ss'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <link href='../scss/fullcalendar.css' rel='stylesheet'/>
 <link href='fullcalendar.print.css' rel='stylesheet' media='print'/>
