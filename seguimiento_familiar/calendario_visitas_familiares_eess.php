@@ -13,7 +13,7 @@ $idestablecimiento_salud_ss  =  $_SESSION['idestablecimiento_salud_ss'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <link href='../scss/fullcalendar.css' rel='stylesheet'/>
 <link href='fullcalendar.print.css' rel='stylesheet' media='print'/>

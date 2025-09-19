@@ -249,7 +249,43 @@ $zoom_c     = "16";
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 
-                    <div id="mi_mapa" style="width: 100%; height: 700px;"></div>
+                    <div id="mi_mapa" style="width: 100%; height: 680px;"></div>
+
+<hr>
+                    <div class="col-xl-12 col-md-3 mb-2">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <a href="../seguimiento_familiar/reporte_riesgos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
+                                        <div class="text-xm font-weight-bold text-info text-uppercase mb-1">
+                                           VISITAS FAMILIARES POR RIÉSGO PERSONAL</div></a>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-3 mb-2">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <a href="../seguimiento_familiar/valida_visitas_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1280,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                        <div class="text-xm font-weight-bold text-danger text-uppercase mb-1">
+                                           CALENDARIO DE VISITAS - ESTABLECIMIENTO</div></a>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-------- MAPA PARLANTE begin ------>
                             </div>
