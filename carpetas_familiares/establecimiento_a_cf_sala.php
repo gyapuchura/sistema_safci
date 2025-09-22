@@ -20,7 +20,7 @@ $row_est = mysqli_fetch_array($result_est);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>REPORTE EPIDEMIOLOGICO SEMANAL - SAFCI</title>
+    <title>ANALITICA DE CARPETA FAMILIAR ESTABLECIMIENTO DE SALUD - SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
