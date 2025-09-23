@@ -65,6 +65,28 @@ $zoom_c     = "16";
                         <h4 class="m-0 font-weight-bold text-primary">SALA SITUACIONAL DE SALUD</h4>
                         <h4 class="m-0 font-weight-bold text-info">ESTABLECIMIENTO DE SALUD: <?php echo mb_strtoupper($row_est[1]);?></h4>
                         </br>
+
+                        <?php
+                        $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                        $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                        $result_int = mysqli_query($link,$sql_int);
+                        $row_int = mysqli_fetch_array($result_int);  
+                        $integrantes = $row_int[0];
+                        $integrantes_cf   = number_format($integrantes, 0, '.', '.');
+                        ?>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL MUNICIPIO = <?php echo $integrantes_cf;?></h6>
+
+                        <?php
+                        $sql_af =" SELECT idarea_influencia FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' ";
+                        $sql_af.=" GROUP BY idarea_influencia ";
+                        $result_af = mysqli_query($link,$sql_af);
+                        $row_af = mysqli_num_rows($result_af);  
+                        $areas_influencia = $row_af;
+                        ?>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE ÁREAS DE INFLUENCIA EN EL MUNICIPIO = <?php echo $areas_influencia;?></h6>                  
+
+
+
                         <h6 class="m-0 font-weight-bold text-info">COORDENADAS: <?php echo $latitud_c;?> <?php echo $longitud_c;?></h6>
                     </div> 
                      
@@ -241,11 +263,12 @@ $zoom_c     = "16";
                             </div>
                             <div class="col-sm-6">                                
                                 <div class="col-lg-12 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
+                                <a href="../carpetas_familiares/ubicacion_familias_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                     <div class="card bg-info text-white shadow">
+                                       <div class="card-body">
                                             MAPA PARLANTE
                                         </div>
-                                    </div>
+                                    </div></a>
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 
@@ -377,26 +400,7 @@ $zoom_c     = "16";
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-12 col-md-3 mb-2">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_profesion_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"> 
-                                        <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
-                                            ÁREA INTERSECTORIAL</div>
-                                    </a> 
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-file fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-success shadow h-100 py-2">
@@ -414,7 +418,7 @@ $zoom_c     = "16";
         ?>
             <a href="gestion_participativa_sala_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;">                                        
             <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
-                ÁREA DE GESTIÓN PARTICIPATIVA</div>
+                ÁREA INTERSECTORIAL</div>
             </a>
         <?php
         }
@@ -423,7 +427,7 @@ $zoom_c     = "16";
             ?>
 
             <div class="text-xm font-weight-bold text-danger text-uppercase mb-1">
-                SIN INFORMACIÓN DE GESTIÓN PARTICIPATIVA</div>
+                SIN INFORMACIÓN DEL ÁREA INTERSECTORIAL</div>
             <?php } ?>
 
 

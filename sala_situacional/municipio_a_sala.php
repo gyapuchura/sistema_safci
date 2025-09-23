@@ -68,8 +68,35 @@ $zoom_c     = "12";
                     <div class="card-header py-3">
 
                         <h4 class="m-0 font-weight-bold text-primary">SALA SITUACIONAL DE SALUD</h4>
-                        <h4 class="m-0 font-weight-bold text-info">MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h4>
+                        <h2 class="m-0 font-weight-bold text-info">MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h2>
                         </br>
+                        <?php
+                        $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                        $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+                        $result_int = mysqli_query($link,$sql_int);
+                        $row_int = mysqli_fetch_array($result_int);  
+                        $integrantes = $row_int[0];
+
+                        $integrantes_cf   = number_format($integrantes, 0, '.', '.');
+                        ?>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL MUNICIPIO = <?php echo $integrantes_cf;?></h6>
+
+                        <?php
+                        $sql_af =" SELECT idarea_influencia FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
+                        $sql_af.=" GROUP BY idarea_influencia ";
+                        $result_af = mysqli_query($link,$sql_af);
+                        $row_af = mysqli_num_rows($result_af);  
+                        $areas_influencia = $row_af;
+                        ?>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE ÁREAS DE INFLUENCIA EN EL MUNICIPIO = <?php echo $areas_influencia;?></h6>                  
+
+                        <?php
+                        $sql_mun =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' GROUP BY idestablecimiento_salud  ";
+                        $result_mun = mysqli_query($link,$sql_mun);
+                        $establecimientos = mysqli_num_rows($result_mun);  
+                        ?>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE ESTABLECIMIENTOS DE SALUD EN EL MUNICIPIO = <?php echo $establecimientos;?></h6>
+
                         <h6 class="m-0 font-weight-bold text-info">COORDENADAS: <?php echo $latitud_c;?> <?php echo $longitud_c;?></h6>
                     </div> 
                      
@@ -382,26 +409,7 @@ $zoom_c     = "12";
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-12 col-md-3 mb-2">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_profesion_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;"> 
-                                        <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
-                                            ÁREA INTERSECTORIAL</div>
-                                    </a> 
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-file fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-success shadow h-100 py-2">
@@ -419,7 +427,7 @@ $zoom_c     = "12";
         ?>
             <a href="gestion_participativa_sala_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;">                                        
             <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
-                ÁREA DE GESTIÓN PARTICIPATIVA</div>
+                ÁREA INTERSECTORIAL</div>
             </a>
         <?php
         }
@@ -428,7 +436,7 @@ $zoom_c     = "12";
             ?>
 
             <div class="text-xm font-weight-bold text-danger text-uppercase mb-1">
-                SIN INFORMACIÓN DE GESTIÓN PARTICIPATIVA</div>
+                SIN INFORMACIÓN DE ÁREA INTERSECTORIAL</div>
             <?php } ?>
 
 
