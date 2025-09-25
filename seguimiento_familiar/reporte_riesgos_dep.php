@@ -39,7 +39,7 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT idriesgo_personal_vf, riesgo_personal_vf FROM riesgo_personal_vf ORDER BY idriesgo_personal_vf ";
+$sql = " SELECT idriesgo_personal_vf, riesgo_personal_vf FROM riesgo_personal_vf WHERE idriesgo_personal_vf != '15' ORDER BY idriesgo_personal_vf ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -96,7 +96,7 @@ Si no se encontraron resultados
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT idriesgo_personal_vf, riesgo_personal_vf FROM riesgo_personal_vf ORDER BY idriesgo_personal_vf ";
+$sql3 = " SELECT idriesgo_personal_vf, riesgo_personal_vf FROM riesgo_personal_vf WHERE idriesgo_personal_vf != '15' ORDER BY idriesgo_personal_vf ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
