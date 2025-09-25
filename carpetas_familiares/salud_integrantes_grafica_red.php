@@ -20,7 +20,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="es">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>SALUD DE INTEGRANTES DE LA FAMILIA - RED DE SALUD</title>

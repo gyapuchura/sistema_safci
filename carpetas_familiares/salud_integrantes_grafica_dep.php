@@ -17,7 +17,7 @@ $row_dep = mysqli_fetch_array($result_dep);
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="es">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>SALUD DE INTEGRANTES DE LA FAMILIA DEPARTAMENTAL</title>

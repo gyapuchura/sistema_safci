@@ -17,7 +17,7 @@ $row_est = mysqli_fetch_array($result_est);
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="es">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>SALUD DE INTEGRANTES DE LA FAMILIA - ESTABLECIMIENTO DE SALUD</title>

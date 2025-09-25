@@ -19,7 +19,7 @@ $area_af = $row_area[1]." ".$row_area[2];
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="es">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>SALUD DE INTEGRANTES DE LA FAMILIA - ÁREA DE INFLUENCIA</title>
