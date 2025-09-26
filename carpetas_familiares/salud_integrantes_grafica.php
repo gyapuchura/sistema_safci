@@ -130,7 +130,7 @@ $grupo_4       = ($discapacidad*100)/$total;
                     type: 'column'
                 },
                 title: {
-                    text: ' SALUD DE LOS INTEGRANTES DE LA FAMILIA  '
+                    text: ' SALUD DE LOS INTEGRANTES DE LA FAMILIA - NIVEL NACIONAL '
                 },
                 subtitle: {
                     text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -452,7 +452,7 @@ $(function () {
                     type: 'column'
                 },
                 title: {
-                    text: 'GRUPO II - FACTORES DE RIESGO'
+                    text: 'GRUPO II - FACTORES DE RIESGO - NIVEL NACIONAL'
                 },
                 subtitle: {
                     text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -984,7 +984,7 @@ $(function () {
                     type: 'column'
                 },
                 title: {
-                    text: 'GRUPO III - MORBILIDAD'
+                    text: 'GRUPO III - MORBILIDAD - NIVEL NACIONAL'
                 },
                 subtitle: {
                     text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -1368,7 +1368,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'GRUPO IV - DISCAPACIDAD POR TIPO Y NIVEL EN LOS INTEGRANTES DE LA FAMILIA'
+            text: 'GRUPO IV - DISCAPACIDAD POR TIPO Y NIVEL EN LOS INTEGRANTES DE LA FAMILIA - NIVEL NACIONAL'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'

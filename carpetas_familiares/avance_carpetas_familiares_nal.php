@@ -1,27 +1,20 @@
-<?php include("../cabf.php"); ?>
-<?php include("../inc.config.php"); ?>
-<?php
-date_default_timezone_set('America/La_Paz');
-$fecha_ram				= date("Ymd");
-$fecha 					= date("Y-m-d");
-$gestion 			    = date("Y");
-
-$idusuario_ss  =  $_SESSION['idusuario_ss'];
-$idnombre_ss   =  $_SESSION['idnombre_ss'];
-$perfil_ss     =  $_SESSION['perfil_ss'];
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");
+$gestion = date("Y");
 
 ?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SISTEMA MEDI-SAFCI</title>
+    <title>AVANCE CARPETAS FAMILIARES - SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -29,8 +22,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -41,10 +32,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
         <!-- Sidebar -->
 
-        <?php include("../menu.php");?>
-
-        <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -52,277 +39,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include("../top_bar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <!-- Page Heading -->
-
-                    <h1 class="h3 mb-2 text-gray-800">ANALÍTICA DE CARPETAS FAMILIARES SAFCI</h1>
-                    <p class="mb-4">En esta seccion se puede encontrar los resultados de los registros de CARPETAS FAMILIARES del PROGRAMA NACIONAL SAFCI - MI SALUD.</p>
-
-                    <!-- Analitica de Carpetas Familiares -->
-
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE ESTABLECIMIENTO</h6>
-                    </div>
-                    
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">DEPARTAMENTO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">MUNICIPIO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idmunicipio_salud" id="idmunicipio_salud" class="form-control" required></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required></select>
-                        </div>
-                    </div>
-                </div>
-                    <div class="card-body" id="establecimiento_a_cf">                    
-                    </div>
-                    </div>
-
-                 <!-- ANALITICA A NIVEL DE AREA DE INFLUENCIA BEGIN -->
-
-                    <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE ÁREA DE INFLUENCIA</h6>
-                    </div>
-                    
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">DEPARTAMENTO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="iddepartamento_af"  id="iddepartamento_af" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">MUNICIPIO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idmunicipio_af" id="idmunicipio_af" class="form-control" required></select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idestablecimiento_af" id="idestablecimiento_af" class="form-control" required></select>
-                    </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">ÁREA DE INFLUENCIA:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idarea_influencia_af" id="idarea_influencia_af" class="form-control" required></select>
-                        </div>
-                    </div>
-                </div>
-                    <div class="card-body" id="area_influencia_a_cf">                    
-                    </div>
-                    </div>
-
-              
-                <!-- ANALITICA A NIVEL MUNICIPAL BEGIN -->
-
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DE MUNICIPIO</h6>
-                    </div>
-           
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">DEPARTAMENTO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="iddepartamento_m"  id="iddepartamento_m" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">MUNICIPIO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idmunicipio_salud_m" id="idmunicipio_salud_m" class="form-control" required></select>
-                        </div>
-                    </div>
-                </div>
-                    <div class="card-body" id="municipio_a_cf">                    
-                    </div>
-                    </div>
-
-                <!-- ANALITICA A NIVEL MUNICIPAL END -->
-
-                <!-- ANALITICA POR RED DE SALUD - BEGIN -->
+  <!------------ Begin Page Content -->
                 
-           <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES POR RED DE SALUD</h6>
-                    </div>
-           
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">DEPARTAMENTO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="iddepartamento_red"  id="iddepartamento_red" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">RED DE SALUD:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="idred_salud_cf" id="idred_salud_cf" class="form-control" required></select>
-                        </div>
-                    </div>
-                </div>
-                    <div class="card-body" id="red_salud_a_cf">                    
-                    </div>
-                    </div> 
-
-                <!-- ANALITICA POR RED DE SALUD - END -->
-       
-                       <!-- ANALITICA A N9VEL DEPARTAMENTAL BEGIN -->
-
-            <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL DEPARTAMENTAL</h6>
-                    </div>
- 
-             <form name="DEPTAL" action="departamento_a_cf.php" method="post"> 
-                    
-                <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        <h6 class="text-primary">DEPARTAMENTO:</h6>
-                        </div>
-                        <div class="col-sm-9">
-                        <select name="departamento_d"  id="departamento_d" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $sql1 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
-                            $result1 = mysqli_query($link,$sql1);
-                            if ($row1 = mysqli_fetch_array($result1)){
-                            mysqli_field_seek($result1,0);
-                            while ($field1 = mysqli_fetch_field($result1)){
-                            } do {
-                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                            } while ($row1 = mysqli_fetch_array($result1));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                        </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-4">     
-                        </div>
-                        <div class="col-sm-8">
-                            <button type="submit" class="btn btn-primary">VER ANALITICA DEPARTAMENTAL</button>
-                  </form>
-                        </div>
-                    </div> 
-
-                </div>
-                </div>
-                <!-- ANALITICA A N9VEL DEPARTAMENTAL END -->
-             
-
-                       <!-- ANALITICA A N9VEL NACIONAL BEGIN -->
-
-                <div class="card shadow mb-4">
+         <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">ANALÍTICA - CARPETAS FAMILIARES A NIVEL NACIONAL</h6>
                     </div>
@@ -419,6 +142,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>   
                     </div>
                 </div>
+
                   
                 <div class="card shadow mb-4">
                 <div class="card-body">
@@ -806,19 +530,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
             </div>
-                <!-- ANALITICA A NIVEL NACIONAL END -->
 
+                  
+ <!------------ end Page Content -->        
+                <!-- /.container-fluid -->
+                </div> 
+
+            </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Ministerio de Salud y Deportes &copy; MSYD <?php echo $gestion;?></span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
@@ -831,182 +550,16 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="salir.php">Salir de Sistema</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../js/sb-admin-2.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento").change(function () {
-                    $("#iddepartamento option:selected").each(function () {
-                        departamento=$(this).val();
-                    $.post("municipio_cf.php", {departamento:departamento}, function(data){
-                    $("#idmunicipio_salud").html(data);
-                    });
-                });
-        })
-        });
-    </script> 
- 
-    <script language="javascript">
-        $(document).ready(function(){
-        $("#idmunicipio_salud").change(function () {
-                    $("#idmunicipio_salud option:selected").each(function () {
-                        municipio_salud=$(this).val();
-                    $.post("establecimientos_cf.php", {municipio_salud:municipio_salud}, function(data){
-                    $("#idestablecimiento_salud").html(data);
-                    });
-                });
-        })
-        });
-    </script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idestablecimiento_salud").change(function () {
-                    $("#idestablecimiento_salud option:selected").each(function () {
-                        establecimiento_salud=$(this).val();
-                    $.post("establecimiento_a_cf.php", {establecimiento_salud:establecimiento_salud}, function(data){
-                    $("#establecimiento_a_cf").html(data);
-                    });
-                });
-        })
-        });
-</script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento_m").change(function () {
-                    $("#iddepartamento_m option:selected").each(function () {
-                        departamento_m=$(this).val();
-                    $.post("municipio_cfa.php", {departamento_m:departamento_m}, function(data){
-                    $("#idmunicipio_salud_m").html(data);
-                    });
-                });
-        })
-        });
-</script> 
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento_red").change(function () {
-                    $("#iddepartamento_red option:selected").each(function () {
-                        departamento_red=$(this).val();
-                    $.post("red_salud_cf.php", {departamento_red:departamento_red}, function(data){
-                    $("#idred_salud_cf").html(data);
-                    });
-                });
-        })
-        });
-</script> 
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idred_salud_cf").change(function () {
-                    $("#idred_salud_cf option:selected").each(function () {
-                        red_salud_cf=$(this).val();
-                    $.post("red_salud_a_cf.php", {red_salud_cf:red_salud_cf}, function(data){
-                    $("#red_salud_a_cf").html(data);
-                    });
-                });
-        })
-        });
-</script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idmunicipio_salud_m").change(function () {
-                    $("#idmunicipio_salud_m option:selected").each(function () {
-                        municipio_salud_m=$(this).val();
-                    $.post("municipio_a_cf.php", {municipio_salud_m:municipio_salud_m}, function(data){
-                    $("#municipio_a_cf").html(data);
-                    });
-                });
-        })
-        });
-</script>
-
-<!---------- Scripts para CFs por area de influencia Begin ---------->
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#iddepartamento_af").change(function () {
-                    $("#iddepartamento_af option:selected").each(function () {
-                        departamento_af=$(this).val();
-                    $.post("municipio_af.php", {departamento_af:departamento_af}, function(data){
-                    $("#idmunicipio_af").html(data);
-                    });
-                });
-        })
-        });
-</script> 
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idmunicipio_af").change(function () {
-                    $("#idmunicipio_af option:selected").each(function () {
-                        municipio_af=$(this).val();
-                    $.post("establecimientos_af.php", {municipio_af:municipio_af}, function(data){
-                    $("#idestablecimiento_af").html(data);
-                    });
-                });
-        })
-        });
-</script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idestablecimiento_af").change(function () {
-                    $("#idestablecimiento_af option:selected").each(function () {
-                        establecimiento_af=$(this).val();
-                    $.post("areas_influencia_af.php", {establecimiento_af:establecimiento_af}, function(data){
-                    $("#idarea_influencia_af").html(data);
-                    });
-                });
-        })
-        });
-</script>
-
-<script language="javascript">
-        $(document).ready(function(){
-        $("#idarea_influencia_af").change(function () {
-                    $("#idarea_influencia_af option:selected").each(function () {
-                        area_influencia_af=$(this).val();
-                    $.post("area_influencia_a_cf.php", {area_influencia_af:area_influencia_af}, function(data){
-                    $("#area_influencia_a_cf").html(data);
-                    });
-                });
-        })
-        });
-</script>
-
-<!---------- Scripts para CFs por area de influencia End  ---------->
 </body>
+
 </html>
