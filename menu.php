@@ -209,7 +209,22 @@
 
             <a class="collapse-item" href="../sala_situacional/sala_situacional_est.php">SALA SITUACIONAL</br>ESTABLECIMIENTO</br> DE SALUD</a>
             <a class="collapse-item" href="../sala_situacional/sala_situacional_mun.php">SALA SITUACIONAL</br>MUNICIPIO</a>
+                <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>  
             <a class="collapse-item" href="../sala_situacional/sala_situacional_dep.php">SALA SITUACIONAL</br>DEPARTAMENTAL</a>
+            <a class="collapse-item" href="../sala_situacional/sala_situacional_nal.php">SALA SITUACIONAL</br>NACIONAL</a>
+                <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
             <a class="collapse-item" href="../sala_situacional/sala_personal_safci.php">PERSONAL SAFCI</a>
             <a class="collapse-item" href="../sala_situacional/sala_establecimientos.php">ESTABLECIMIENTOS</a>
             <a class="collapse-item" href="../sala_situacional/sala_areas_influencia.php">ÁREAS DE INFLUENCIA</a>
