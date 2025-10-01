@@ -63,9 +63,7 @@ $semana_ep = $semana-1;
 
                     <?php
                     $numero=1;
-                    $sql =" SELECT registro_enfermedad.idsospecha_diag, sospecha_diag.sospecha_diag FROM notificacion_ep, registro_enfermedad, sospecha_diag WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
-                    $sql.=" AND registro_enfermedad.idsospecha_diag=sospecha_diag.idsospecha_diag AND notificacion_ep.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' ";
-                    $sql.=" AND registro_enfermedad.cifra !='0' GROUP BY sospecha_diag.sospecha_diag ORDER BY registro_enfermedad.idsospecha_diag ";
+                    $sql =" SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag ORDER BY idsospecha_diag ";
                     $result = mysqli_query($link,$sql);
                     if ($row = mysqli_fetch_array($result)){
                     mysqli_field_seek($result,0);
