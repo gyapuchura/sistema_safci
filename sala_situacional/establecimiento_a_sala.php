@@ -12,7 +12,7 @@ $row_est = mysqli_fetch_array($result_est);
 
 $latitud_c  = $row_est[2];
 $longitud_c = $row_est[3];
-$zoom_c     = "16";
+$zoom_c     = "18";
 ?>
 
 <!DOCTYPE html>
@@ -34,8 +34,24 @@ $zoom_c     = "16";
     <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <style>
+    .filtro {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    select {
+      margin-right: 10px;
+    }
+    #location {
+      margin-top: 10px;
+    }
+  </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 </head>
 
@@ -74,7 +90,7 @@ $zoom_c     = "16";
                         $integrantes = $row_int[0];
                         $integrantes_cf   = number_format($integrantes, 0, '.', '.');
                         ?>
-                        <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL MUNICIPIO = <?php echo $integrantes_cf;?></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL ESTABLECIMIENTO = <?php echo $integrantes_cf;?></h6>
 
                         <?php
                         $sql_af =" SELECT idarea_influencia FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' ";
@@ -83,7 +99,7 @@ $zoom_c     = "16";
                         $row_af = mysqli_num_rows($result_af);  
                         $areas_influencia = $row_af;
                         ?>
-                        <h6 class="m-0 font-weight-bold text-primary">N° DE ÁREAS DE INFLUENCIA EN EL MUNICIPIO = <?php echo $areas_influencia;?></h6>                  
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE ÁREAS DE INFLUENCIA DEL ESTABLECIMIENTO  = <?php echo $areas_influencia;?></h6>                  
 
 
 
@@ -272,7 +288,7 @@ $zoom_c     = "16";
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 
-                    <div id="mi_mapa" style="width: 100%; height: 680px;"></div>
+                    <div id="safci" style="width: 100%; height: 680px;"></div>
 
 <hr>
                     <div class="col-xl-12 col-md-3 mb-2">
@@ -472,14 +488,64 @@ $zoom_c     = "16";
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    
+    <script type="text/javascript" src="../js/municipios.js"></script>
+    <script type="text/javascript" src="../js/establecimientos.js"></script>
+
     <script>
-        let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>)
+        var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
+        var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
+        var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        var esri_attribution = '© Esri © OpenStreetMap Contributors';
+
+        var Icono = L.icon({
+        iconUrl: "marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+      
+        var Icono2 = L.icon({
+        iconUrl: "marcadores/familia_verde.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
+        var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
+
+
+        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>]).bindPopup('<?php echo "Establecimiento : ".$row_est[1];?>');
+
+    
+        var lg_markers = L.layerGroup([marker]);
+
+          var map = L.map('safci', {
+            center: [<?php echo $latitud_c;?>, <?php echo $longitud_c;?>],
+            zoom: <?php echo $zoom_c;?>,
+            layers: [lyr_streets, lyr_satellite,  lg_markers]
+        });  
+
+        var baseMaps = {
+            "MAPA": lyr_streets,
+            "SATÉLITE": lyr_satellite
+        };
+        var overlayMaps = {
+            "Marcador": lg_markers,
+        };
+
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: 'PROGRAMA SAFCI-MI SALUD'
         }).addTo(map);
 
+     
+  
 
             <?php
             /****** Areas de influencia del Establecimiento de salud *********/
@@ -497,7 +563,7 @@ $zoom_c     = "16";
             } do {
                 ?>
 
-        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>]).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5];?>')
+        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], {icon: Icono2}).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5];?>')
 
             <?php 
             $numero4++;
@@ -505,9 +571,7 @@ $zoom_c     = "16";
             } else {
             }
             ?>
-
-        
-
+      L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], {icon: Icono}).addTo(map).bindPopup('<?php echo 'Establecimeinto : '.$row_est[1];?>')
     </script>
 
 </body>

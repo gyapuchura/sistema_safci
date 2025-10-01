@@ -260,7 +260,7 @@ $zoom_c     = "6";
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 
-                    <div id="mi_mapa" style="width: 100%; height: 680px;"></div>
+                    <div id="safci" style="width: 100%; height: 680px;"></div>
 
 <hr>
                     <div class="col-xl-12 col-md-3 mb-2">
@@ -357,7 +357,7 @@ $zoom_c     = "6";
                                     <a href="../carpetas_familiares/grafica_socioeconomica_cf.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA SOCIOECONÓMICA-PRODUCTIVA</div>
-                                    </a>
+                                        </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -410,12 +410,7 @@ $zoom_c     = "6";
                     </div>
                 </div>
                         <!-------- GESTIÓN PARTICIPATIVA end ------>
-
-   
-
-               
-
-            
+         
             <!-- End of Main Content -->
 
         </div>
@@ -438,17 +433,59 @@ $zoom_c     = "6";
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
     
     <script>
+       var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
+        var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
+        var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        var esri_attribution = '© Esri © OpenStreetMap Contributors';
+      
 
-  let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
+        var Icono = L.icon({
+        iconUrl: "marcadores/comunidad.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        var Icono2 = L.icon({
+        iconUrl: "marcadores/marcador_blanco_azul.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
+        var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
+        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>]).bindPopup('<?php echo " ESTADO PLURINACIONAL DE BOLIVIA";?>');
+
+        var lg_markers = L.layerGroup([marker]);
+
+        var map = L.map('safci', {
+            center: [<?php echo $latitud_c;?>, <?php echo $longitud_c;?>],
+            zoom: <?php echo $zoom_c;?>,
+            layers: [lyr_streets, lyr_satellite,  lg_markers]
+        });  
+
+        var baseMaps = {
+            "MAPA": lyr_streets,
+            "SATÉLITE": lyr_satellite
+        };
+        var overlayMaps = {
+            "Marcador": lg_markers,
+        };
+
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'PROGRAMA SAFCI-MI SALUD'
         }).addTo(map);
 
-        <?php 
+         <?php 
 $numero2 = 0;
 $sql2 = " SELECT establecimiento_salud.idmunicipio, municipios.municipio FROM establecimiento_salud, municipios  ";
 $sql2.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.latitud != '' ";

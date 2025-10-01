@@ -64,9 +64,7 @@ $semana_ep = $semana-1;
 
                     <?php
                     $numero=1;
-                    $sql =" SELECT registro_evento_notificacion.idevento_notificacion, evento_notificacion.evento_notificacion FROM notificacion_ep, registro_evento_notificacion, evento_notificacion WHERE registro_evento_notificacion.idnotificacion_ep=notificacion_ep.idnotificacion_ep   ";
-                    $sql.=" AND registro_evento_notificacion.idevento_notificacion=evento_notificacion.idevento_notificacion AND notificacion_ep.gestion='$gestion' AND notificacion_ep.estado='CONSOLIDADO' AND registro_evento_notificacion.numero_eventos !='0' ";
-                    $sql.="  GROUP BY registro_evento_notificacion.idevento_notificacion ORDER BY registro_evento_notificacion.idevento_notificacion  ";
+                    $sql =" SELECT idevento_notificacion, evento_notificacion FROM evento_notificacion ORDER BY idevento_notificacion ";
                     $result = mysqli_query($link,$sql);
                     if ($row = mysqli_fetch_array($result)){
                     mysqli_field_seek($result,0);
