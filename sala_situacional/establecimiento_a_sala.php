@@ -4,7 +4,7 @@ $gestion = date("Y");
 
 $idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sql_est = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ubicacion_cf.latitud, ubicacion_cf.longitud, establecimiento_salud.idmunicipio ";
+$sql_est = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idmunicipio ";
 $sql_est.= " FROM establecimiento_salud, carpeta_familiar, ubicacion_cf WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
 $sql_est.= " AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idestablecimiento_salud DESC LIMIT 1 ";
 $result_est = mysqli_query($link,$sql_est);
@@ -165,7 +165,7 @@ $zoom_c     = "18";
                                     <div class="col mr-2">
                                         <a href="../carpetas_familiares/grafica_defuncion_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MORTALIDAD</div>
+                                        DEFUNCIÓN EN LA FAMILIA</div>
                                         </a> 
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -185,7 +185,7 @@ $zoom_c     = "18";
                                     <div class="col mr-2">
                                         <a href="../carpetas_familiares/morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MORBILIDAD</div>
+                                        ESTADO DE LA SALUD FAMILIAR</div>
                                         </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -205,7 +205,7 @@ $zoom_c     = "18";
                                     <div class="col mr-2">
                                     <a href="../carpetas_familiares/grafica_programa_social_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=100'); return false;">
                                     <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                    MONITOREO DE PROGRAMAS NACIONALES</div>
+                                    MONITOREO DE PROGRAMAS SOCIALES</div>
                                     </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -225,7 +225,7 @@ $zoom_c     = "18";
                                     <div class="col mr-2">
                                         <a href="../produccion_servicios/atenciones_psafci_diarias_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MONITOREO ATENCIONES MÉDICAS PSAFCI</div></a>
+                                        MONITOREO ATENCION INTEGRAL PSAFCI</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
