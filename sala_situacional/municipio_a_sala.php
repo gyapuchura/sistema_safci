@@ -158,7 +158,7 @@ $zoom_c     = "13";
                                     <div class="col mr-2">
                                         <a href="../carpetas_familiares/grafica_defuncion_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MORTALIDAD</div>
+                                        DEFUNCIÓN EN LAS FAMILIAS</div>
                                         </a> 
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -178,7 +178,7 @@ $zoom_c     = "13";
                                     <div class="col mr-2">
                                         <a href="../carpetas_familiares/salud_integrantes_grafica_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MORBILIDAD</div>
+                                        ESTADO DE LA SALUD FAMILIAR</div>
                                         </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -198,7 +198,7 @@ $zoom_c     = "13";
                                     <div class="col mr-2">
                                     <a href="../carpetas_familiares/grafica_programa_social_cf_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=100'); return false;">
                                     <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                    MONITOREO DE PROGRAMAS NACIONALES</div>
+                                    MONITOREO DE PROGRAMAS SOCIALES</div>
                                     </a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -218,7 +218,7 @@ $zoom_c     = "13";
                                     <div class="col mr-2">
                                         <a href="../produccion_servicios/atenciones_psafci_diarias_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MONITOREO ATENCIONES MÉDICAS PSAFCI</div></a>
+                                        MONITOREO ATENCIÓN INTEGRAL PSAFCI</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
