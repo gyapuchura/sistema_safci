@@ -19,7 +19,7 @@ $row_est = mysqli_fetch_array($result_est);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>REPORTE EPIDEMIOLOGICO SEMANAL - SAFCI</title>
+    <title>AVANCE DE CARPETAS FAMILIARES - SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -147,26 +147,29 @@ $row_est = mysqli_fetch_array($result_est);
                                 <div class="card bg-secondary text-white shadow">
                                     <div class="card-body">
                                         <?php echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]); ?>
-                                    <div class="text-white-50 small">                                        
-                                        <?php
-                                        $sql_af =" SELECT tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia, carpeta_familiar  WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia";   
-                                        $sql_af.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idusuario='$row[0]' GROUP BY area_influencia.area_influencia ";
-                                        $result_af = mysqli_query($link,$sql_af);
-                                        if ($row_af = mysqli_fetch_array($result_af)){
-                                        mysqli_field_seek($result_af,0);
-                                        while ($field_af = mysqli_fetch_field($result_af)){
-                                        } do {  ?>
-                                                <?php echo mb_strtoupper(" - ". $row_af[0]." ".$row_af[1]."</br>");?>
+                                <div class="text-white-50 small"> 
+                                    
+                            <?php
+                            $sql_af =" SELECT carpeta_familiar.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia, carpeta_familiar  WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia";   
+                            $sql_af.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idusuario='$row[0]' GROUP BY carpeta_familiar.idarea_influencia ";
+                            $result_af = mysqli_query($link,$sql_af);
+                            if ($row_af = mysqli_fetch_array($result_af)){
+                            mysqli_field_seek($result_af,0);
+                            while ($field_af = mysqli_fetch_field($result_af)){
+                            } do {  ?>
+                            
+                                    <?php echo mb_strtoupper(" - ".$row_af[1]." ".$row_af[2]."</br>");?>
 
-                                            <?php
-                                        }
-                                        while ($row_af = mysqli_fetch_array($result_af));
-                                        } else {
-                                        }                                        
-                                        ?>
-                                    </div>
-                                </div>
-                                 </div>
+                            <?php
+                            }
+                            while ($row_af = mysqli_fetch_array($result_af));
+                            } else {
+                            }                                        
+                            ?>
+                            
+                            </div>
+                        </div>
+                    </div>
 
                                 <?php
                                 $numero = $numero+1;
@@ -192,10 +195,13 @@ $row_est = mysqli_fetch_array($result_est);
                             </span>
                             <span class="text">ANALÍTICA DE CARPETAS FAMILIARES</span></a>
                             </div>
+
                         </div>   
                     </div>
                 </div>    
-                      
+                   
+                
+                                                        
            
                 <!-- /.container-fluid -->
 
