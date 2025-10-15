@@ -93,6 +93,17 @@ $zoom_c     = "18";
                         <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL ESTABLECIMIENTO = <?php echo $integrantes_cf;?></h6>
 
                         <?php
+                        $sql_fam =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE  estado='CONSOLIDADO'  ";
+                        $sql_fam.=" AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                        $result_fam = mysqli_query($link,$sql_fam);
+                        $row_fam = mysqli_fetch_array($result_fam);  
+                        $familias = $row_fam[0];
+                        $familias_cf   = number_format($familias, 0, '.', '.');
+                        ?>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE FAMILIAS CARPETIZADAS EN EL ESTABLECIMIENTO = <?php echo $familias_cf;?></h6>
+
+                        
+                        <?php
                         $sql_af =" SELECT idarea_influencia FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' ";
                         $sql_af.=" GROUP BY idarea_influencia ";
                         $result_af = mysqli_query($link,$sql_af);
@@ -331,11 +342,11 @@ $zoom_c     = "18";
                             <div class="col-sm-3">
                                 <div class="card bg-success text-white shadow">
                                     <div class="card-body">
-                                        COMPONENTE DE GESTIÓN PARTICIPATIVA
+                                        COMPONENTE DE SALA SITUACIONAL
                                     </div>
                                 </div>
                                 <hr>
-                        <!-------- GESTIÓN PARTICIPATIVA begin ------>
+                        <!-------- SALA SITUACIONAL begin ------>
                 <div class="row">
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-success shadow h-100 py-2">
@@ -458,12 +469,11 @@ $zoom_c     = "18";
                         </div>
                     </div>
                 </div>
-                        <!-------- GESTIÓN PARTICIPATIVA end ------>
+                        <!-------- SALA SITUACIONAL end ------>
 
    
 
-               
-
+        
             
             <!-- End of Main Content -->
 
@@ -492,6 +502,7 @@ $zoom_c     = "18";
     <script type="text/javascript" src="../js/establecimientos.js"></script>
 
     <script>
+
         var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
         var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
         var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
@@ -515,7 +526,7 @@ $zoom_c     = "18";
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
-        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
+        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
         var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
 
 

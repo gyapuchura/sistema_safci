@@ -128,9 +128,32 @@ var area_influencia ={"type":"FeatureCollection","features":[
                "properties":{"name":"urn:ogc:def:crs:EPSG::4326"}}}
 
 
+        var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
+        var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
+        var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        var esri_attribution = '© Esri © OpenStreetMap Contributors';
+   
+               
+        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom:18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
+        var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
+        var marker = L.marker([<?php echo $row_est[2];?>, <?php echo $row_est[3];?>]).bindPopup('<?php echo "Establecimiento : ".$row_est[1];?>');
+        var lg_markers = L.layerGroup([marker]);
 
+          var map = L.map('safci', {
+            center: [<?php echo $row_est[2];?>, <?php echo $row_est[3];?>],
+            zoom: <?php echo $zoom_c;?>,
+            layers: [lyr_streets, lyr_satellite,  lg_markers]
+        });  
 
-  var map = L.map('safci').setView([<?php echo $latitud_c;?>,<?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
+          var baseMaps = {
+            "MAPA": lyr_streets,
+            "SATÉLITE": lyr_satellite
+        };
+          var overlayMaps = {
+            "Marcador": lg_markers,
+        };
+
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
