@@ -342,7 +342,7 @@ $zoom_c     = "18";
                             <div class="col-sm-3">
                                 <div class="card bg-success text-white shadow">
                                     <div class="card-body">
-                                        COMPONENTE DE SALA SITUACIONAL
+                                        COMPONENTE DE GESTIÓN PARTICIPATIVA
                                     </div>
                                 </div>
                                 <hr>

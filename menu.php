@@ -96,7 +96,7 @@
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
     /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'PERSONAL' || $row_menu[0] == 'PARTICIPANTE' ){
+    if ($row_menu[0] == 'PERSONAL' || $row_menu[0] == 'PARTICIPANTE' || $row_menu[0] == 'USUARIO MSYD' ){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?> 
@@ -202,7 +202,7 @@
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
     /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'USUARIO MSYD'){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>   
@@ -214,7 +214,7 @@
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
     /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR'){
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'USUARIO MSYD'){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>  
@@ -324,6 +324,25 @@
     } else {
     }
     ?>     
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'USUARIO MSYD'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>   
+    
+        <a class="collapse-item" href="../implementacion_safci/reportes_notificacion_ep.php">VIGILANCIA</br>EPIDEMIOLÓGICA</a>
+
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?> 
+
         </div>
     </div>
 </li>
@@ -355,13 +374,33 @@
         <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES </br> OPERATIVO</a>
         <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares_nal.php">REPORTES</br>CARPETAS FAMILIARES</a>
         <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
-        <a class="collapse-item" href="../carpetas_familiares/analitica_cf.php">ANALITICA CARPETAS</br>FAMILIARES</a>
+        <a class="collapse-item" href="../carpetas_familiares/analitica_cf.php">ANALÍTICA CARPETAS</br>FAMILIARES</a>
 
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'USUARIO MSYD'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>   
+    
+        <a class="collapse-item" href="../carpetas_familiares/analitica_cf.php">ANALÍTICA CARPETAS</br>FAMILIARES</a>
+
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?> 
+
+
     <?php	
         $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
         $result_menu = mysqli_query($link,$sql_menu);
@@ -421,7 +460,7 @@
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
     /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR' ||  $row_menu[0] == 'ADM-MUNICIPAL' ){
+    if ($row_menu[0] == 'ADMINISTRADOR' ||  $row_menu[0] == 'ADM-MUNICIPAL' ||  $row_menu[0] == 'USUARIO MSYD'){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
@@ -607,7 +646,23 @@
     } else {
     }
     ?>
-<a class="collapse-item" href="../gestion_participativa/declaraciones_gp_info.php">INFORMACIÓN</br>GESTIÓN PARTICIPATIVA</a>
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+        <a class="collapse-item" href="../gestion_participativa/declaraciones_gp_info.php">INFORMACIÓN</br>GESTIÓN PARTICIPATIVA</a>
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
         </div>
     </div>
 </li>
