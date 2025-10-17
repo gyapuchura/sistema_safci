@@ -272,12 +272,14 @@ $zoom_c     = "13";
                             </div>
                             <div class="col-sm-6">                                
                                 <div class="col-lg-12 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
+                                <a href="../carpetas_familiares/areas_influencia_municipio.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                     <div class="card bg-info text-white shadow">
+                                       <div class="card-body">
                                             MAPA PARLANTE
                                         </div>
-                                    </div>
+                                    </div></a>
                                 </div>
+
                     <!-------- MAPA PARLANTE begin ------>
 
                     <div id="safci" style="width: 100%; height: 680px;"></div>
