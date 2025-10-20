@@ -723,6 +723,52 @@ $rowus = mysqli_fetch_array($resultus);
 </div>
 <!---- end reporte con formato 2 ----->
     </div>
+
+
+<!---- begin popup comunicado ----->
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<div class="text-center">
+                <a href="#myModal" class="trigger-btn" data-toggle="modal">Click to Open Login Modal</a>
+            </div>   
+
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-login">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">COMUNICADO IMPORTANTE</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                     
+                            <div class="form-group">
+                                <div class="input-group">
+                                <p>Por recomendaciones emitidas por la AGENCIA DE GOBIERNO ELECTRÓNICO Y TECNOLOGÍAS DE INFORMACIÓN Y COMUNICACIÓN (AGETIC) de Bolivia, y en estricto apego a las políticas de seguridad del usuario y de la información almacenada en nuestros sistemas, se comunica la siguiente disposición de carácter obligatorio:</p>
+                                <p>Todos los usuarios con acceso al Sistema Integrado MEDI SAFCI deben realizar el cambio de su contraseña (PASSWORD) de ingreso.</p> 
+                                <p>Esta medida es fundamental para garantizar la robustez y confidencialidad de los datos sensibles manejados en la plataforma, conforme a las directrices de seguridad informática recomendadas.</p>
+                                <p>La nueva contraseña debe ser establecida a más tardar hasta el día miércoles 22 de octubre de 2025.</p>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="modal-footer"> <a href="credenciales.php">CAMBIAR CONTRASEÑA</a></div>
+                </div>
+            </div>
+        </div>
+
+
+
+<!---- end popup comunicado ----->
+
+
+
 <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -755,6 +801,12 @@ $rowus = mysqli_fetch_array($resultus);
     <!-- Page level plugins -->
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $('#myModal').modal('toggle')
+        });
+    </script>
 
     <!-- scripts para calendario -->
    
