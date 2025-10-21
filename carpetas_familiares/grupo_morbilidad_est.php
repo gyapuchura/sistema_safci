@@ -163,7 +163,6 @@ echo "";
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 
-
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $numero3*60;?>px; margin: 0 auto"></div>
 
 <span style="font-family: Arial; font-size: 14px;"><h4 align="center">N° de Establecimientos de Salud = <?php echo $numero3;?></h4></spam>
