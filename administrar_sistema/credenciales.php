@@ -86,21 +86,30 @@ $rowus = mysqli_fetch_array($resultus);
 <div class="form-group row">
     <div class="col-sm-4 mb-3 mb-sm-0">
     <h6 class="text-primary">CONTRASEÑA ACTUAL:</h6>
-    <input type="password" class="form-control" name="password_old" placeholder="Contraseña">
+    <input id="elpassword3" type="password" class="form-control" name="password_old" placeholder="Contraseña">
+
+    <svg id="clickme3" width=25 height=23 xmlns="" viewBox="0 0 576 512">
+<path d="M569.354 231.631C512.97 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-102.556 0-192.091-54.701-240-136 44.157-74.933 123.677-127.27 216.162-135.007C273.958 131.078 280 144.83 280 160c0 30.928-25.072 56-56 56s-56-25.072-56-56l.001-.042C157.794 179.043 152 200.844 152 224c0 75.111 60.889 136 136 136s136-60.889 136-136c0-31.031-10.4-59.629-27.895-82.515C451.704 164.638 498.009 205.106 528 256c-47.908 81.299-137.444 136-240 136z"/></svg>
+
     </div>
     <div class="col-sm-4">
     <h6 class="text-primary">NUEVA CONTRASEÑA:</h6>
-    <input type="password" class="form-control" name="password_new" placeholder="Contraseña"
+    <input id="elpassword" type="password" class="form-control" name="password_new" placeholder="Contraseña"
     required pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,25}$" 
   title="La contraseña debe tener al menos un dígito numérico, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico"
     >
+    <svg id="clickme" width=25 height=23 xmlns="" viewBox="0 0 576 512">
+<path d="M569.354 231.631C512.97 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-102.556 0-192.091-54.701-240-136 44.157-74.933 123.677-127.27 216.162-135.007C273.958 131.078 280 144.83 280 160c0 30.928-25.072 56-56 56s-56-25.072-56-56l.001-.042C157.794 179.043 152 200.844 152 224c0 75.111 60.889 136 136 136s136-60.889 136-136c0-31.031-10.4-59.629-27.895-82.515C451.704 164.638 498.009 205.106 528 256c-47.908 81.299-137.444 136-240 136z"/></svg>
     </div>
         <div class="col-sm-4">
     <h6 class="text-primary">REPETIR NUEVA CONTRASEÑA:</h6>
-    <input type="password" class="form-control" name="password_new_op" placeholder="Contraseña"
+    <input id="elpassword2" type="password" class="form-control" name="password_new_op" placeholder="Repetir Contraseña"
     required pattern="^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,25}$" 
-  title="La contraseña debe tener al menos un dígito numérico, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico"
-    >
+  title="La contraseña debe tener al menos un dígito numérico, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico" >
+<svg id="clickme2" width=25 height=23 xmlns="" viewBox="0 0 576 512">
+<path d="M569.354 231.631C512.97 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-102.556 0-192.091-54.701-240-136 44.157-74.933 123.677-127.27 216.162-135.007C273.958 131.078 280 144.83 280 160c0 30.928-25.072 56-56 56s-56-25.072-56-56l.001-.042C157.794 179.043 152 200.844 152 224c0 75.111 60.889 136 136 136s136-60.889 136-136c0-31.031-10.4-59.629-27.895-82.515C451.704 164.638 498.009 205.106 528 256c-47.908 81.299-137.444 136-240 136z"/></svg>
+
+
     </div>
     </div>
 
@@ -183,6 +192,26 @@ aria-hidden="true">
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
+
+    <script>
+        jQuery('#clickme').on('click', function() {
+        jQuery('#elpassword').attr('type', function(index, attr) {
+            return attr == 'text' ? 'password' : 'text';
+        })
+        })
+
+        jQuery('#clickme2').on('click', function() {
+        jQuery('#elpassword2').attr('type', function(index, attr) {
+            return attr == 'text' ? 'password' : 'text';
+        })
+        })
+
+        jQuery('#clickme3').on('click', function() {
+        jQuery('#elpassword3').attr('type', function(index, attr) {
+            return attr == 'text' ? 'password' : 'text';
+        })
+        })
+    </script>
    
 </body>
 
