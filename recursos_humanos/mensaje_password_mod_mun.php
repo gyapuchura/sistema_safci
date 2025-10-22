@@ -69,7 +69,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h4 class="text-success">La contraseña </h4>
                     <h4 class="text-success">fue modificados Correctamente !!!</h4>
                     </br>
-                    <a href="modifica_registro_safci.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    <a href="modifica_registro_safci_mun.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    
                     </div>
 <!-- END Del TITULO de la pagina ---->
 

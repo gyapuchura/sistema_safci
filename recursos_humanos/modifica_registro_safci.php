@@ -966,7 +966,7 @@ $row_ac = mysqli_fetch_array($result_ac);
 
                     <div class="text-center">
                     <a class="btn btn-warning" href="#" data-toggle="modal" data-target="#ingreso">
-                        REINICIAR CONTRASEÑA DE INGRESO                                
+                        RESETEAR CONTRASEÑA DE INGRESO                                
                     </a>                                    
                     </div>
 

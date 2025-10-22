@@ -33,7 +33,6 @@ $sql_ac = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_ac
 $sql_ac.= " WHERE idnombre='$row[2]' AND idusuario='$row[1]' ";
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac = mysqli_fetch_array($result_ac);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -949,6 +948,54 @@ $row_ac = mysqli_fetch_array($result_ac);
                 </div>
             </form>
                                 <!-- END Datos ESTADO PERSONAL Modal-->  
+
+ <hr>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>  
+
+            <form name="CAMBIA_PASSWORD" action="guarda_password_mod_mun.php" method="post">
+            <input type="hidden" name="idusuario_mod" value="<?php echo $row[1];?>">
+
+            <div class="form-group row">
+                <div class="col-sm-6">  
+                    <div class="text-center">
+                        <h4 class="text-warning">CREDENCIAL DE SISTEMA</h4>
+                        </div>
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="text-center">
+                    <a class="btn btn-warning" href="#" data-toggle="modal" data-target="#ingreso">
+                        RESETEAR CONTRASEÑA DE INGRESO                                
+                    </a>                                    
+                    </div>
+
+                </div>
+            </div>  
+                <div class="modal fade" id="ingreso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">  ¿ESTA SEGURO DE MODIFICAR LA CONTRASEÑA DEL USUARIO PERSONAL?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">La nueva contraseña tendra el formato "Nº de ci seguido de @Safci"</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-warning" type="submit">Confirmar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+                <hr>
 
 
                 <hr>
