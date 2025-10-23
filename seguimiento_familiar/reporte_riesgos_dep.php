@@ -148,6 +148,7 @@ echo ",";
     <tr>
         <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
         <td width="299" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RIÉSGO PERSONAL</td>
+        <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">SEMAFORIZACIÓN</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS A INTEGRANTES A LA FECHA</td>
         <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS A INTEGRANTES A LA FECHA</td>
@@ -155,7 +156,7 @@ echo ",";
     </tr>
             <?php 
             $numero3 = 1;
-            $sql = " SELECT idriesgo_personal_vf, riesgo_personal_vf FROM riesgo_personal_vf ORDER BY idriesgo_personal_vf ";
+            $sql = " SELECT idriesgo_personal_vf, riesgo_personal_vf, color, color_valor FROM riesgo_personal_vf ORDER BY idriesgo_personal_vf ";
             $result = mysqli_query($link,$sql);
             $total = mysqli_num_rows($result);
             if ($row = mysqli_fetch_array($result)){
@@ -187,6 +188,7 @@ echo ",";
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero3;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[1];?></td>
+              <td <?php echo 'bgcolor="#'.$row[3].'" ';?> style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[2];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $integrantes;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="visitas_safci_rp.php?idriesgo_personal_vf=<?php echo $row[0];?>&iddepartamento=<?php echo $iddepartamento;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
