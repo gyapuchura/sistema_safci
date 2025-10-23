@@ -17,6 +17,21 @@ $row_mun = mysqli_fetch_array($result_mun);
 $latitud_c  = $row_cord[3];
 $longitud_c = $row_cord[4];
 $zoom_c     = "12";
+
+        $sql8 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql8.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+        $result8 = mysqli_query($link,$sql8);
+        $row8 = mysqli_fetch_array($result8);
+        $habitantes_m = $row8[0];
+
+        $habitantes_mun   = number_format($habitantes_m, 0, '.', '.');
+
+        $sql9 = " SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
+        $result9 = mysqli_query($link,$sql9);
+        $row9 = mysqli_fetch_array($result9);
+        $familias_m = $row9[0];
+
+        $familias_mun   = number_format($familias_m, 0, '.', '.');
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +92,8 @@ $zoom_c     = "12";
 
                         <h4>MAPA DE UBICACIÓN DE LAS ÁREAS DE INFLUENCIA</h4>
                         <h2>MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h2>
+                        <h4>Habitantes Carpetizados : <?php echo $habitantes_mun;?> </h4>
+                        <h4>Familias Carpetizadas : <?php echo $familias_mun;?> </h4>
 
 <div id="safci"></div>
 
@@ -88,16 +105,35 @@ var area_influencia ={"type":"FeatureCollection","features":[
         <?php
         /****** Areas de influencia del Establecimiento de salud *********/
         $numero5 = 1;
-        $sql5 = "  SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud  ";
-        $sql5.= "  FROM area_influencia, tipo_area_influencia, establecimiento_salud WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-        $sql5.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND establecimiento_salud.idmunicipio='$idmunicipio' ";
+        $sql5 = " SELECT carpeta_familiar.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud, carpeta_familiar.idusuario   ";
+        $sql5.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
+        $sql5.= " AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idarea_influencia ";
         $result5 = mysqli_query($link,$sql5);
         $total5 = mysqli_num_rows($result5);
         if ($row5 = mysqli_fetch_array($result5)){
         mysqli_field_seek($result5,0);
         while ($field5 = mysqli_fetch_field($result5)){
         } do {
-            ?>
+
+        $sql6 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql6.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$row5[0]' ";
+        $result6 = mysqli_query($link,$sql6);
+        $row6 = mysqli_fetch_array($result6);
+        $habitamtes = $row6[0];
+
+        $sql7 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idarea_influencia='$row5[0]' ";
+        $result7 = mysqli_query($link,$sql7);
+        $row7 = mysqli_fetch_array($result7);
+        $familias = $row7[0];
+
+        $sql10 = " SELECT nombre.nombre, nombre.paterno, nombre.materno FROM carpeta_familiar, usuarios, nombre WHERE carpeta_familiar.idusuario=usuarios.idusuario ";
+        $sql10.= " AND usuarios.idnombre=nombre.idnombre AND carpeta_familiar.idusuario='$row5[5]' LIMIT 1 ";
+        $result10 = mysqli_query($link,$sql10);
+        $row10 = mysqli_fetch_array($result10);
+
+        $medico = $row10[0]." ".$row10[1]." ".$row10[2];
+
+        ?>
 
     {"type":"Feature",
       "id":"<?php echo 'Area_influencia.'.$numero5;?>",
@@ -112,7 +148,11 @@ var area_influencia ={"type":"FeatureCollection","features":[
                  "NOMBRE_AREA":"<?php echo $row5[1];?> : <?php echo $row5[2];?>",
                  "LAT":<?php echo $row5[3];?>,
                  "LONG":<?php echo $row5[4];?>,
-                 "CODIGO_SAFCI":"<?php echo $row5[0];?>"}},
+                 "CODIGO_SAFCI":"<?php echo $row5[0];?>",
+                 "HABITANTES_CF":"<?php echo $row6[0];?>",
+                 "FAMILIAS_CF":"<?php echo $row7[0];?>",
+                 "MEDICO":"<?php echo $medico;?>",
+                 }},
         <?php 
         $numero5++;
         } while ($row5 = mysqli_fetch_array($result5));
@@ -214,14 +254,6 @@ var area_influencia ={"type":"FeatureCollection","features":[
   L.geoJson(municipios, { style: style, onEachFeature: popup }).addTo(map);
   L.control.scale().addTo(map); 
 
-  // Crear un marcador
-
-  
-
-
-
-
-
   // Listener para el movimiento del marcador
   marker.on('dragend', function(event) {
     var position = marker.getLatLng();
@@ -265,7 +297,11 @@ L.geoJson(area_influencia, {
         '<h3>' + feature.properties.NOMBRE_AREA + '</h3>' +
         '<p><b>Tipo de Área de Influencia:</b> ' + feature.properties.TIPO_AREA + '</p>' +
         '<p><b>Coordenadas:</b> ' + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0] + '</p>' +
-        '<p><b>Código SAFCI:</b> ' + feature.properties.CODIGO_SAFCI + '</p>'
+        '<p><b>Código SAFCI:</b> ' + feature.properties.CODIGO_SAFCI + '</p>' +
+        '<p><b>Habitantes Carpetizados:</b> ' + feature.properties.HABITANTES_CF + '</p>' +
+        '<p><b>Familias Carpetizadas:</b> ' + feature.properties.FAMILIAS_CF + '</p>' +
+        '<p><b>Médico:</b> ' + feature.properties.MEDICO + '</p>'
+        
       );
     }
   }

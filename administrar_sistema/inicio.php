@@ -728,9 +728,9 @@ $rowus = mysqli_fetch_array($resultus);
 <!---- begin popup comunicado ----->
 
 
-<div class="text-center">
-                <a href="#myModal" class="trigger-btn" data-toggle="modal"></a>
-            </div>   
+        <div class="text-center">
+        <a href="#myModal" class="trigger-btn" data-toggle="modal"></a> 
+        </div>   
 
         <!-- Modal HTML -->
         <div id="myModal" class="modal fade">
