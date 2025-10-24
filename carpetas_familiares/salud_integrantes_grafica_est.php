@@ -587,7 +587,7 @@ CUADRO FACTORES DE RIESGO</a></h2>--->
           <?php echo $row_c[0];?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="detalle_salud_integrantes_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              <a href="ubicacion_factores_riesgo_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>&idfactor_riesgo_cf=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER INTEGRANTES</a>
               </td>
 
