@@ -728,8 +728,40 @@ $rowus = mysqli_fetch_array($resultus);
 <!---- begin popup comunicado ----->
 
 
+        <div class="text-center">
+        <a href="#myModal" class="trigger-btn" data-toggle="modal"></a> 
+        </div>   
+
+        <!-- Modal HTML -->
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-login">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">COMUNICADO IMPORTANTE</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                     
+                            <div class="form-group">
+                                <div class="input-group">
+                                <p>Por recomendaciones emitidas por la AGENCIA DE GOBIERNO ELECTRÓNICO Y TECNOLOGÍAS DE INFORMACIÓN Y COMUNICACIÓN (AGETIC) de Bolivia, y en estricto apego a las políticas de seguridad del usuario y de la información almacenada en nuestros sistemas, se comunica la siguiente disposición de carácter obligatorio:</p>
+                                <p>Todos los usuarios con acceso al Sistema Integrado MEDI SAFCI deben realizar el cambio de su contraseña (PASSWORD) de ingreso.</p> 
+                                <p>Esta medida es fundamental para garantizar la robustez y confidencialidad de los datos sensibles manejados en la plataforma, conforme a las directrices de seguridad informática recomendadas.</p>
+                                <p>La nueva contraseña debe ser establecida a más tardar hasta el día miércoles 22 de octubre de 2025.</p>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="modal-footer"> <a href="credenciales.php">CAMBIAR CONTRASEÑA</a></div>
+                </div>
+            </div>
+        </div>
+
+
 
 <!---- end popup comunicado ----->
+
+
 
 <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -764,7 +796,11 @@ $rowus = mysqli_fetch_array($resultus);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-
+    <script>
+        $( document ).ready(function() {
+            $('#myModal').modal('toggle')
+        });
+    </script>
 
     <!-- scripts para calendario -->
    

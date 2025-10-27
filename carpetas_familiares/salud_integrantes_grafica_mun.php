@@ -218,7 +218,7 @@ MOSTRAR CUADRO</a></h2>  --->
               <td style="font-size: 12px; font-family: Arial;">APARENTEMENTE SANOS</td>
             <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $aparentemente_sano;?> </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="aparentemente_sanos_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="aparentemente_sanos_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               ESTABLECIMIENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
@@ -231,7 +231,7 @@ MOSTRAR CUADRO</a></h2>  --->
               <td style="font-size: 12px; font-family: Arial;">CON FACTORES DE RIESGO</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $factor_riesgo;?> </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="grupo_riesgo_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="grupo_riesgo_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               ESTABLECIMIENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
@@ -244,7 +244,7 @@ MOSTRAR CUADRO</a></h2>  --->
               <td style="font-size: 12px; font-family: Arial;">CON MORBILIDAD</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $morbilidad;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="grupo_morbilidad_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="grupo_morbilidad_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               ESTABLECIMIENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
@@ -257,7 +257,7 @@ MOSTRAR CUADRO</a></h2>  --->
               <td style="font-size: 12px; font-family: Arial;">CON DISCAPACIDAD</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $discapacidad;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="grupo_discapacidad_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="grupo_discapacidad_est.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               ESTABLECIMIENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
@@ -554,7 +554,7 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">MAPA DE INTEGRANTES POR ESTABLECIMIENTO</td> 
           <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
 	        </tr>
             <tr>
@@ -563,8 +563,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $sedentarismo;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -578,8 +578,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $consume_alcohol;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -593,8 +593,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $fumar;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -608,8 +608,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $drogas;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -623,8 +623,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $promiscuidad;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -638,8 +638,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $gaseosas;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -653,8 +653,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $frituras;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -668,8 +668,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $conservas;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -683,8 +683,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $golosinas;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -698,8 +698,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $sal;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -713,8 +713,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $piezas;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -728,8 +728,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $menor;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -743,8 +743,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $embarazo;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -758,8 +758,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $mayor;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -773,8 +773,8 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $otros;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="factores_riesgo_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_factores_riesgo_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1110,7 +1110,7 @@ $(function () {
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MORBILIDAD</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">MAPA DE INTEGRANTES</td> 
           <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
 	        </tr>
 		    <tr>
@@ -1119,8 +1119,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $tuberculosis;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1134,8 +1134,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $sexual;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1149,8 +1149,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $malaria;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=3" target="_blank" class="Estilo32" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=3" target="_blank" class="Estilo32" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1164,8 +1164,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $lepra;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1179,8 +1179,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $leishmaniasis;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1194,8 +1194,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $chagas;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1209,8 +1209,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $hepatitis;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1224,8 +1224,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $cardiovascular;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1239,8 +1239,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $hipertension;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1254,8 +1254,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $diabetes;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1269,8 +1269,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $obesidad;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1284,8 +1284,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $renal;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1299,8 +1299,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $reumatica;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1314,8 +1314,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $pulmonar;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1329,8 +1329,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $autoinmune;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1344,8 +1344,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $hematologica;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1359,8 +1359,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $asma;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1374,8 +1374,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $cancer;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1389,8 +1389,8 @@ $(function () {
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $otra;?>
               </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
-              <a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
-              ESTABLECIMIENTOS</a>
+              <a href="ubicacion_morbilidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=60,left=600'); return false;">             
+              MAPA DE INTEGRANTES</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -1555,7 +1555,7 @@ Si no se encontraron resultados
 <div id="grupo_discapacidad" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
 
 <!-- <h2 style="text-align: center; font-family: Arial; font-size: 14px; color: #2D56CF;">
-    <a href="cuadro_cf_discapacidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=350,scrollbars=YES,top=80,left=400'); return false;">             
+    <a href="cuadro_cf_discapacidad_mun.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=350,scrollbars=YES,top=80,left=400'); return false;">             
     CUADRO DISCAPACIDAD</a></h2>  ---->
 
     <table width="750" border="1" align="center" cellspacing="0">
@@ -1605,7 +1605,7 @@ while ($field3 = mysqli_fetch_field($result3)){
         <?php echo $row3[1]; ?>
 				<?php echo ":";?> 
 
-<a href="discapacidad_cf_establecimientos.php?idnivel_discapacidad_cf=<?php echo $row2[0];?>&idtipo_discapacidad_cf=<?php echo $row3[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=420,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_a[0] !='0') { echo $row_a[0]; } else { } ?></a>  
+<a href="ubicacion_discapacidad_mun.php?idnivel_discapacidad_cf=<?php echo $row2[0];?>&idtipo_discapacidad_cf=<?php echo $row3[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php if ($row_a[0] !='0') { echo $row_a[0]; } else { } ?></a>  
 </br>
 <a href="piramide_discapacidad_mun.php?idnivel_discapacidad_cf=<?php echo $row2[0];?>&idtipo_discapacidad_cf=<?php echo $row3[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=650,scrollbars=YES,top=60,left=600'); return false;">ETÁREO</a>
 

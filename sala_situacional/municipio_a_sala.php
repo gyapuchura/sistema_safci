@@ -564,14 +564,14 @@ $zoom_c     = "13";
             }
             ?>
  
-            <?php
+          <?php
             /****** Areas de influencia del Establecimiento de salud *********/
             $numero4 = 0;
-            $sql4 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";
-            $sql4.= " nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
-            $sql4.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
-            $sql4.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
-            $sql4.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.idmunicipio = '$idmunicipio' ORDER BY establecimiento_salud.idestablecimiento_salud ";
+            $sql4 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, ";
+            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
+            $sql4.= " WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND  establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
+            $sql4.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento  AND establecimiento_salud.latitud !='' ";
+            $sql4.= "  AND establecimiento_salud.longitud !='' AND carpeta_familiar.idmunicipio = '$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";;
             $result4 = mysqli_query($link,$sql4);
             $total4 = mysqli_num_rows($result4);
             if ($row4 = mysqli_fetch_array($result4)){
