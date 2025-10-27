@@ -1,37 +1,27 @@
-<?php include("../cabf.php");?>
+<?php include('../cabf.php');?>
 <?php include("../inc.config.php");
 $gestion = date("Y");
 
 $idmunicipio = $_GET['idmunicipio'];
+$idmorbilidad_cf = $_GET['idmorbilidad_cf'];
 
-$sql_cord = "  SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud  ";
-$sql_cord.= "  FROM area_influencia, tipo_area_influencia, establecimiento_salud WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-$sql_cord.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND establecimiento_salud.idmunicipio='$idmunicipio' ORDER BY area_influencia.idarea_influencia DESC LIMIT 1 ";
+$sql_mor = " SELECT  idmorbilidad_cf, morbilidad_cf FROM morbilidad_cf WHERE idmorbilidad_cf='$idmorbilidad_cf' ";
+$result_mor = mysqli_query($link,$sql_mor);
+$row_mor = mysqli_fetch_array($result_mor);
+$morbilidad = $row_mor[1];
+
+$sql_cord = " SELECT idcarpeta_familiar, latitud, longitud FROM ubicacion_cf WHERE idmunicipio='$idmunicipio' ORDER BY idcarpeta_familiar DESC LIMIT 1  ";
 $result_cord = mysqli_query($link,$sql_cord);
 $row_cord = mysqli_fetch_array($result_cord);
 
-$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$sql_mun = " SELECT establecimiento_salud.idmunicipio, municipios.municipio, establecimiento_salud.latitud, establecimiento_salud.longitud FROM establecimiento_salud, municipios ";
+$sql_mun.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio  AND establecimiento_salud.idmunicipio='$idmunicipio' ORDER BY establecimiento_salud.idmunicipio DESC LIMIT 1 ";
 $result_mun = mysqli_query($link,$sql_mun);
 $row_mun = mysqli_fetch_array($result_mun);
 
-$latitud_c  = $row_cord[3];
-$longitud_c = $row_cord[4];
-$zoom_c     = "12";
-
-        $sql8 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql8.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
-        $result8 = mysqli_query($link,$sql8);
-        $row8 = mysqli_fetch_array($result8);
-        $habitantes_m = $row8[0];
-
-        $habitantes_mun   = number_format($habitantes_m, 0, '.', '.');
-
-        $sql9 = " SELECT COUNT(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idmunicipio='$idmunicipio' ";
-        $result9 = mysqli_query($link,$sql9);
-        $row9 = mysqli_fetch_array($result9);
-        $familias_m = $row9[0];
-
-        $familias_mun   = number_format($familias_m, 0, '.', '.');
+$latitud_c  = $row_cord[1];
+$longitud_c = $row_cord[2];
+$zoom_c     = "16";
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +29,7 @@ $zoom_c     = "12";
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AREAS DE INFLUENCIA DEL MUNICIPIO</title>
+  <title>MORBILIDAD ESTABLECIMIENTO</title>
   
   <style>
     #safci {
@@ -90,11 +80,11 @@ $zoom_c     = "12";
 
 </div>
 
-                        <h4>MAPA DE UBICACIÓN DE LAS ÁREAS DE INFLUENCIA</h4>
-                        <h2>MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h2>
-                        <h4>Habitantes Carpetizados : <?php echo $habitantes_mun;?> </h4>
-                        <h4>Familias Carpetizadas : <?php echo $familias_mun;?> </h4>
+<h2><?php echo $morbilidad;?> - MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h2>
 
+<a href="morbilidad_establecimientos.php?idmunicipio=<?php echo $idmunicipio;?>&idmorbilidad_cf=<?php echo $idmorbilidad_cf;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=800,scrollbars=YES,top=60,left=700'); return false;">             
+INTEGRANTES POR ESTABLECIMIENTO</a>
+</br></br>
 <div id="safci"></div>
 
 <script type="text/javascript" src="../js/municipios.js"></script>
@@ -105,54 +95,34 @@ var area_influencia ={"type":"FeatureCollection","features":[
         <?php
         /****** Areas de influencia del Establecimiento de salud *********/
         $numero5 = 1;
-        $sql5 = " SELECT carpeta_familiar.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud, carpeta_familiar.idusuario   ";
-        $sql5.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
-        $sql5.= " AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idarea_influencia ";
+        $sql5 = " SELECT integrante_cf.idintegrante_cf, nombre.nombre, nombre.paterno, nombre.materno, integrante_cf.edad, ubicacion_cf.latitud, ubicacion_cf.longitud,  ";
+        $sql5.= " ubicacion_cf.avenida_calle , ubicacion_cf.no_puerta FROM integrante_cf, nombre, integrante_morbilidad, carpeta_familiar, ubicacion_cf ";
+        $sql5.= " WHERE integrante_morbilidad.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idnombre=nombre.idnombre  ";
+        $sql5.= " AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql5.= " AND carpeta_familiar.idmunicipio='$idmunicipio' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
         $result5 = mysqli_query($link,$sql5);
         $total5 = mysqli_num_rows($result5);
         if ($row5 = mysqli_fetch_array($result5)){
         mysqli_field_seek($result5,0);
         while ($field5 = mysqli_fetch_field($result5)){
         } do {
-
-        $sql6 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-        $sql6.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$row5[0]' ";
-        $result6 = mysqli_query($link,$sql6);
-        $row6 = mysqli_fetch_array($result6);
-        $habitamtes = $row6[0];
-
-        $sql7 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idarea_influencia='$row5[0]' ";
-        $result7 = mysqli_query($link,$sql7);
-        $row7 = mysqli_fetch_array($result7);
-        $familias = $row7[0];
-
-        $sql10 = " SELECT nombre.nombre, nombre.paterno, nombre.materno FROM carpeta_familiar, usuarios, nombre WHERE carpeta_familiar.idusuario=usuarios.idusuario ";
-        $sql10.= " AND usuarios.idnombre=nombre.idnombre AND carpeta_familiar.idusuario='$row5[5]' LIMIT 1 ";
-        $result10 = mysqli_query($link,$sql10);
-        $row10 = mysqli_fetch_array($result10);
-
-        $medico = $row10[0]." ".$row10[1]." ".$row10[2];
-
-        ?>
+            ?>
 
     {"type":"Feature",
-      "id":"<?php echo 'Area_influencia.'.$numero5;?>",
+      "id":"<?php echo 'Integrante.'.$numero5;?>",
       "geometry":{"type":"Point",
-                  "coordinates":[<?php echo $row5[4];?>,<?php echo $row5[3];?>]},
+                  "coordinates":[<?php echo $row5[6];?>,<?php echo $row5[5];?>]},
       "geometry_name":"the_geom",
       "properties":{"fid":<?php echo $numero5;?>,
-                 "gml_id":"<?php echo 'Area_influencia.'.$numero5;?>",
+                 "gml_id":"<?php echo 'Integrante.'.$numero5;?>",
                  "ID":<?php echo $row5[0];?>,
                  "TIPO":"4",
-                 "TIPO_AREA":"<?php echo $row5[1];?>",
-                 "NOMBRE_AREA":"<?php echo $row5[1];?> : <?php echo $row5[2];?>",
-                 "LAT":<?php echo $row5[3];?>,
-                 "LONG":<?php echo $row5[4];?>,
-                 "CODIGO_SAFCI":"<?php echo $row5[0];?>",
-                 "HABITANTES_CF":"<?php echo $row6[0];?>",
-                 "FAMILIAS_CF":"<?php echo $row7[0];?>",
-                 "MEDICO":"<?php echo $medico;?>",
-                 }},
+                 "INTEGRANTE":"<?php echo $row5[1].' '.$row5[2].' '.$row5[3];?>",
+                 "EDAD":"<?php echo $row5[4];?>",
+                 "MORBILIDAD_R":"<?php echo $morbilidad;?>",
+                 "LAT":<?php echo $row5[5];?>,
+                 "LONG":<?php echo $row5[6];?>,
+                 "CALLE":"<?php echo $row5[7];?> <?php echo 'Nº '.$row5[8];?>"}},
         <?php 
         $numero5++;
         } while ($row5 = mysqli_fetch_array($result5));
@@ -177,11 +147,11 @@ var area_influencia ={"type":"FeatureCollection","features":[
                
         var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom:18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
         var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
-        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], { draggable: true }).bindPopup(' ');
+        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], { draggable: true }).bindPopup('<?php echo "Municipio : ".$row_mun[1];?>');
         var lg_markers = L.layerGroup([marker]);
 
           var map = L.map('safci', {
-            center: [<?php echo $latitud_c;?>, <?php echo $longitud_c;?>],
+            center: [<?php echo $row_mun[2];?>, <?php echo $row_mun[3];?>],
             zoom: <?php echo $zoom_c;?>,
             layers: [lyr_streets, lyr_satellite,  lg_markers]
         });  
@@ -254,6 +224,9 @@ var area_influencia ={"type":"FeatureCollection","features":[
   L.geoJson(municipios, { style: style, onEachFeature: popup }).addTo(map);
   L.control.scale().addTo(map); 
 
+  // Crear un marcador
+
+
   // Listener para el movimiento del marcador
   marker.on('dragend', function(event) {
     var position = marker.getLatLng();
@@ -265,18 +238,18 @@ var area_influencia ={"type":"FeatureCollection","features":[
 
   // Crear el grupo de cluster
 var markers = L.markerClusterGroup();
+
         var Icono = L.icon({
-        iconUrl: "../sala_situacional/marcadores/comunidad.png",
-        iconSize: [35, 35],
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_b.png",
+        iconSize: [25, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
-
-var Icono2 = L.icon({
-        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        var Icono2 = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
         iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
@@ -284,24 +257,21 @@ var Icono2 = L.icon({
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
-// Cargar el archivo GeoJSON desde establecimientos.js (se asume que ya está cargado)
+// Cargar el archivo GeoJSON desde (base de datos) establecimientos.js (se asume que ya está cargado)
 L.geoJson(area_influencia, {
   pointToLayer: function(feature, latlng) {
     // Crea un marcador por cada punto
     return L.marker(latlng, { icon:Icono });
   },
   onEachFeature: function(feature, layer) {
-    // Agregar un popup con la información del establecimiento
+    // Agregar un popup con la información del integrante de la familia
     if (feature.properties) {
       layer.bindPopup(
-        '<h3>' + feature.properties.NOMBRE_AREA + '</h3>' +
-        '<p><b>Tipo de Área de Influencia:</b> ' + feature.properties.TIPO_AREA + '</p>' +
-        '<p><b>Coordenadas:</b> ' + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0] + '</p>' +
-        '<p><b>Código SAFCI:</b> ' + feature.properties.CODIGO_SAFCI + '</p>' +
-        '<p><b>Habitantes Carpetizados:</b> ' + feature.properties.HABITANTES_CF + '</p>' +
-        '<p><b>Familias Carpetizadas:</b> ' + feature.properties.FAMILIAS_CF + '</p>' +
-        '<p><b>Médico:</b> ' + feature.properties.MEDICO + '</p>'
-        
+        '<h3>Integrante : ' + feature.properties.INTEGRANTE + '</h3>' +
+        '<p><b>Edad : </b> ' + feature.properties.EDAD + ' años </p>' +
+        '<p><b>Morbilidad : </b> ' + feature.properties.MORBILIDAD_R + '</p>' +
+        '<p><b>Coordenadas : </b> ' + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0] + '</p>' +
+        '<p><b>Avenida/Calle/Carretera/camino : </b> ' + feature.properties.CALLE + '</p>'
       );
     }
   }
@@ -315,7 +285,7 @@ map.addLayer(markers);
 
 // Datos de todos los areas de influencia 
 
- <?php
+<?php
             /****** Areas de influencia del Establecimiento de salud *********/
             $numero4 = 0;
             $sql4 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, ";
@@ -337,8 +307,6 @@ map.addLayer(markers);
             } else {
             }
             ?>
-    </script>
-
 
 
 </script>
