@@ -12,7 +12,7 @@ $row_est = mysqli_fetch_array($result_est);
 
 $latitud_c  = $row_est[2];
 $longitud_c = $row_est[3];
-$zoom_c     = "18";
+$zoom_c     = "16";
 ?>
 
 <!DOCTYPE html>
@@ -526,6 +526,33 @@ $zoom_c     = "18";
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
+        var Icono_v = L.icon({
+        iconUrl: "marcadores/casa_verde.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Icono_a = L.icon({
+        iconUrl: "marcadores/casa_amarilla.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Icono_r = L.icon({
+        iconUrl: "marcadores/casa_roja.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
         var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
         var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
 
@@ -570,9 +597,20 @@ $zoom_c     = "18";
             mysqli_field_seek($result4,0);
             while ($field4 = mysqli_fetch_field($result4)){
             } do {
-                ?>
 
-        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], {icon: Icono2}).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5];?>')
+                $sql_r = " SELECT idevaluacion_familiar_cf, evaluacion_familiar FROM evaluacion_familiar_cf WHERE idcarpeta_familiar='$row4[0]' ";
+                $sql_r.= " ORDER BY idevaluacion_familiar_cf DESC LIMIT 1  ";
+                $result_r = mysqli_query($link,$sql_r);
+                $total_r = mysqli_num_rows($result_r);
+                $row_r = mysqli_fetch_array($result_r);
+                $riesgo_cf = $row_r[1];
+
+?>
+
+        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
+        {icon:
+        <?php if ($riesgo_cf == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($riesgo_cf == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($riesgo_cf == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
+        }).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5].'</br>'.$riesgo_cf;?>')
 
             <?php 
             $numero4++;
