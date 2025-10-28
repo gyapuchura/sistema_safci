@@ -80,22 +80,32 @@ $zoom_c     = "16";
 <script type="text/javascript" src="../js/municipios.js"></script>
 
 <script>
-var area_influencia ={"type":"FeatureCollection","features":[
+
+
+var familia ={"type":"FeatureCollection","features":[
 
         <?php
         /****** Areas de influencia del Establecimiento de salud *********/
         $numero5 = 1;
-        $sql5 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, ";
-        $sql5.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud ";
-        $sql5.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ";
-        $sql5.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-        $sql5.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC  ";
+        $sql5 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
+        $sql5.= "  ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud, evaluacion_familiar_cf.evaluacion_familiar ";
+        $sql5.= "  FROM evaluacion_familiar_cf, carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE  evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql5.= "  AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
+        $sql5.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
+        $sql5.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ORDER BY carpeta_familiar.idcarpeta_familiar DESC   ";
         $result5 = mysqli_query($link,$sql5);
         $total5 = mysqli_num_rows($result5);
         if ($row5 = mysqli_fetch_array($result5)){
         mysqli_field_seek($result5,0);
         while ($field5 = mysqli_fetch_field($result5)){
         } do {
+
+                $sql_r = " SELECT idevaluacion_familiar_cf, evaluacion_familiar FROM evaluacion_familiar_cf WHERE idcarpeta_familiar='$row5[0]' ";
+                $sql_r.= " ORDER BY idevaluacion_familiar_cf DESC LIMIT 1  ";
+                $result_r = mysqli_query($link,$sql_r);
+                $row_r = mysqli_fetch_array($result_r);
+                $riesgo_cf = $row_r[1];
+
             ?>
 
     {"type":"Feature",
@@ -111,7 +121,10 @@ var area_influencia ={"type":"FeatureCollection","features":[
                  "UBICACION":"<?php echo $row5[2];?> <?php echo $row5[3];?>",
                  "LAT":<?php echo $row5[6];?>,
                  "LONG":<?php echo $row5[7];?>,
-                 "CALLE":"<?php echo $row5[4];?> <?php echo 'Nº '.$row5[5];?>"}},
+                 "CALLE":"<?php echo $row5[4];?> <?php echo 'Nº '.$row5[5];?>",
+                 "RIESGO_CF":"<?php echo $row5[8];?>"
+
+                }},
         <?php 
         $numero5++;
         } while ($row5 = mysqli_fetch_array($result5));
@@ -223,34 +236,42 @@ var area_influencia ={"type":"FeatureCollection","features":[
     document.getElementById('lng').value = position.lng.toFixed(6); // Mostrar longitud
   });
 
+        var Icono_v = L.icon({
+        iconUrl: "../sala_situacional/marcadores/casa_verde.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
 
+        var Icono_a = L.icon({
+        iconUrl: "../sala_situacional/marcadores/casa_amarilla.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Icono_r = L.icon({
+        iconUrl: "../sala_situacional/marcadores/casa_roja.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
 
   // Crear el grupo de cluster
 var markers = L.markerClusterGroup();
 
-        var Icono = L.icon({
-        iconUrl: "../sala_situacional/marcadores/familia_verde.png",
-        iconSize: [35, 35],
-        iconAnchor: [15, 40],
-        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
-        shadowSize: [35, 50],
-        shadowAnchor: [0, 55],
-        popupAnchor: [0, -40]});
-
-        var Icono2 = L.icon({
-        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
-        iconSize: [35, 35],
-        iconAnchor: [15, 40],
-        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
-        shadowSize: [35, 50],
-        shadowAnchor: [0, 55],
-        popupAnchor: [0, -40]});
 
 // Cargar el archivo GeoJSON desde establecimientos.js (se asume que ya está cargado)
-L.geoJson(area_influencia, {
+L.geoJson(familia, {
   pointToLayer: function(feature, latlng) {
     // Crea un marcador por cada punto
-    return L.marker(latlng, { icon:Icono });
+    return L.marker(latlng, { icon: Icono_a });
   },
   onEachFeature: function(feature, layer) {
     // Agregar un popup con la información del establecimiento
@@ -259,7 +280,9 @@ L.geoJson(area_influencia, {
         '<h3>Familia : ' + feature.properties.FAMILY + '</h3>' +
         '<p><b>Ubicación : </b> ' + feature.properties.UBICACION + '</p>' +
         '<p><b>Coordenadas : </b> ' + feature.geometry.coordinates[1] + ', ' + feature.geometry.coordinates[0] + '</p>' +
-        '<p><b>Avenida/Calle/Carretera/camino : </b> ' + feature.properties.CALLE + '</p>'
+        '<p><b>Avenida/Calle/Carretera/camino : </b> ' + feature.properties.CALLE + '</p>' +
+        '<p><b>Riésgo : </b> ' + feature.properties.RIESGO_CF + '</p>' 
+
       );
     }
   }
@@ -272,6 +295,38 @@ L.geoJson(area_influencia, {
 map.addLayer(markers);
 
 // Datos de todos los areas de influencia 
+
+            <?php
+            /****** Areas de influencia del Establecimiento de salud *********/
+            $numero4 = 0;
+            $sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,  ";
+            $sql4.= "  ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud, evaluacion_familiar_cf.evaluacion_familiar ";
+            $sql4.= "  FROM evaluacion_familiar_cf, carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE  evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+            $sql4.= "  AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
+            $sql4.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
+            $sql4.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar !='FAMILIA CON RIESGO MEDIANO' ORDER BY carpeta_familiar.idcarpeta_familiar DESC   ";
+            $result4 = mysqli_query($link,$sql4);
+            $total4 = mysqli_num_rows($result4);
+            if ($row4 = mysqli_fetch_array($result4)){
+            mysqli_field_seek($result4,0);
+            while ($field4 = mysqli_fetch_field($result4)){
+            } do {
+
+?>
+
+        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
+        {icon:
+        <?php if ($row4[8] == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($row4[8] == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($row4[8] == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
+        }).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5].'</br>'.$row4[8];?>')
+
+            <?php 
+            $numero4++;
+            } while ($row4 = mysqli_fetch_array($result4));
+            } else {
+            }
+            ?>
+
+
 
 
 L.marker([<?php echo $row_est[2];?>, <?php echo $row_est[3];?>], {icon: Icono2}).addTo(map).bindPopup('<?php echo 'Establecimeinto : '.$row_est[1];?>')
