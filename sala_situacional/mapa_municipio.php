@@ -40,14 +40,69 @@ $zoom_c     = "12";
 <script>
     let map = L.map('mi_mapa').setView([<?php echo $row1[1];?>, <?php echo $row1[2];?>], 12);
 
+
+        let Vecinal = L.icon({
+        iconUrl: "marcadores/marcador_rojo_bl.png",
+        iconSize: [30, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Puesto_salud = L.icon({
+        iconUrl: "marcadores/marcador_amarillo.png",
+        iconSize: [45, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Ambulatorio = L.icon({
+        iconUrl: "marcadores/marcador_violeta.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Internacion = L.icon({
+        iconUrl: "marcadores/marcador_verde.png",
+        iconSize: [30, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Integral = L.icon({
+        iconUrl: "marcadores/marcador_azul.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Hospital_seg = L.icon({
+        iconUrl: "marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
         <?php 
 $numero2 = 0;
-$sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";
-$sql2.= " nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
+$sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento,  ";
+$sql2.= " tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idtipo_establecimiento  ";
 $sql2.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
 $sql2.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
 $sql2.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.idmunicipio = '$idmunicipio' ORDER BY idestablecimiento_salud ";
@@ -58,7 +113,30 @@ mysqli_field_seek($result2,0);
 while ($field2 = mysqli_fetch_field($result2)){
 } do {
 	?>
-        L.marker([<?php echo $row2[4];?>, <?php echo $row2[5];?>]).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row2[1].' - '.$row2[2].'</br>Tipo:'.$row2[3];?>")
+        L.marker([<?php echo $row2[4];?>, <?php echo $row2[5];?>], { icon: 
+            <?php   
+    switch ($row2[6]) {
+        case 10:
+            echo "Vecinal";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+    }
+                ?> 
+        }).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row2[1].' - '.$row2[2].'</br>Tipo:'.$row2[3];?>")
 
         <?php 
 $numero2++;
