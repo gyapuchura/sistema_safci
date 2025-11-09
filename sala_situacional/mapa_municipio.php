@@ -41,9 +41,9 @@ $zoom_c     = "12";
     let map = L.map('mi_mapa').setView([<?php echo $row1[1];?>, <?php echo $row1[2];?>], 12);
 
 
-        let Vecinal = L.icon({
+     let Vecinal = L.icon({
         iconUrl: "marcadores/marcador_rojo_bl.png",
-        iconSize: [30, 45],
+        iconSize: [25, 35],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -61,7 +61,7 @@ $zoom_c     = "12";
 
         let Ambulatorio = L.icon({
         iconUrl: "marcadores/marcador_violeta.png",
-        iconSize: [35, 35],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -70,7 +70,7 @@ $zoom_c     = "12";
 
         let Internacion = L.icon({
         iconUrl: "marcadores/marcador_verde.png",
-        iconSize: [30, 40],
+        iconSize: [25, 35],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -79,7 +79,7 @@ $zoom_c     = "12";
 
         let Integral = L.icon({
         iconUrl: "marcadores/marcador_azul.png",
-        iconSize: [35, 35],
+        iconSize: [45, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -88,6 +88,24 @@ $zoom_c     = "12";
 
         let Hospital_seg = L.icon({
         iconUrl: "marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Hospital_gen = L.icon({
+        iconUrl: "marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Establecim = L.icon({
+        iconUrl: "marcadores/cruz_roja_blanco.png",
         iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
@@ -115,12 +133,12 @@ while ($field2 = mysqli_fetch_field($result2)){
 	?>
         L.marker([<?php echo $row2[4];?>, <?php echo $row2[5];?>], { icon: 
             <?php   
-    switch ($row2[6]) {
-        case 10:
-            echo "Vecinal";
+      switch ($row2[6]) {
+        case 1:
+            echo "Establecim";
             break;
-        case 18:
-            echo "Puesto_salud";
+        case 2:
+            echo "Establecim";
             break;
         case 3:
             echo "Ambulatorio";
@@ -131,12 +149,54 @@ while ($field2 = mysqli_fetch_field($result2)){
         case 5:
             echo "Integral";
             break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
         case 12:
             echo "Hospital_seg";
             break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
     }
                 ?> 
-        }).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row2[1].' - '.$row2[2].'</br>Tipo:'.$row2[3];?>")
+        }).addTo(map).bindPopup("<?php echo '<p>Establecimiento: '.$row2[1].'</p><p>'.$row2[2].'</p><p>Tipo: '.$row2[3].'</p>';?>")
 
         <?php 
 $numero2++;
