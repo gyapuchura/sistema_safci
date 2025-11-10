@@ -204,7 +204,7 @@ $row = mysqli_fetch_array($result);
                     </div>
                     <div class="col-sm-8">
                     <h6 class="text-primary">NOMBRE O DENOMINACIÓN:</h6>
-                    <textarea class="form-control" rows="2" name="area_influencia" disabled><?php echo $row[5]?></textarea>
+                    <textarea class="form-control" rows="2" name="area_influencia" disabled><?php echo $row[5];?></textarea>
                     </div>
                 </div>
 
@@ -269,7 +269,7 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <h6 class="text-primary">LATITUD</h6>
-                        <input type="NUMBER" name="latitud" class="form-control" value="<?php echo $row[10];?>" disabled>
+                        <input type="number" name="latitud" class="form-control" value="<?php echo $row[10];?>" disabled>
                     </div>
                     <div class="col-sm-6">
                         <h6 class="text-primary">LONGITUD</h6>
@@ -381,7 +381,7 @@ $row = mysqli_fetch_array($result);
         <script src="../js/datepicker-es.js"></script>
 
         <script>
-        let map = L.map('mi_mapa').setView([<?php echo $row[10];?>, <?php echo $row[11];?>], 14);
+        let map = L.map('mi_mapa').setView([<?php echo $row[10];?>, <?php echo $row[11];?>], 15);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

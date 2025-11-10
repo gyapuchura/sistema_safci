@@ -78,7 +78,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+                            $sql1 = "SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
