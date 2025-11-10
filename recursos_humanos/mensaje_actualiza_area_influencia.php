@@ -69,7 +69,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h4 class="text-success">Los Datos del Área de Influencia</h4>
                     <h4 class="text-success">Fueron modificados Correctamente !!!</h4>
                     </br>
-                    <a href="editar_area_influencia.php"><h6>IR A MODIFICACIÓN</h6></a>
+                    <a href="registro_area_influencia.php"><h6>IR A REGISTRO DE ÁREA DE INFLUENCIA</h6></a>
                     <h4><?php echo "";?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->
