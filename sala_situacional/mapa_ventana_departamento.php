@@ -4,7 +4,7 @@ $iddepartamento_mapa = $_POST["departamento_mapa"];
 ?>
         <div class="form-group row">
             <div class="col-sm-6">
-            <a class="btn btn-primary btn-icon-split" href="mapa_departamento.php?iddepartamento_mapa=<?php echo $iddepartamento_mapa;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=50,left=200'); return false;">
+            <a class="btn btn-primary btn-icon-split" href="mapa_departamento.php?iddepartamento_mapa=<?php echo $iddepartamento_mapa;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES,top=50,left=200'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
