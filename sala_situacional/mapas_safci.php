@@ -76,7 +76,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <span class="text">MAPA SAFCI NACIONAL</span></a>
                     </div>
                     <div class="col-sm-6">
-                    <a class="btn btn-primary btn-icon-split" href="mapa_nacional_eess.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=200'); return false;">
+                    <a class="btn btn-primary btn-icon-split" href="mapa_nacional_eess.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=950,scrollbars=YES,top=50,left=200'); return false;">
                     <span class="icon text-white-50">
                         <i class="fas fa-map"></i>
                     </span>

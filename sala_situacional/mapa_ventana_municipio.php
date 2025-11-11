@@ -11,7 +11,7 @@ $row2 = mysqli_num_rows($result2);
 ?>
         <div class="form-group row">
             <div class="col-sm-4">
-            <a class="btn btn-warning btn-icon-split" href="mapa_municipio.php?idmunicipio_salud=<?php echo $idmunicipio_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=50,left=200'); return false;">
+            <a class="btn btn-warning btn-icon-split" href="mapa_municipio.php?idmunicipio_salud=<?php echo $idmunicipio_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES,top=50,left=200'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>

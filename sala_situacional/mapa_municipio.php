@@ -25,7 +25,7 @@ $zoom_c     = "12";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa software libre</title>
+    <title>ESTABLECIMIENTOS SAFCI MUNICIPAL</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
@@ -33,9 +33,54 @@ $zoom_c     = "12";
 
 <body>
 
-<h2>MUNICIPIO DE <a href="detalle_establecimientos_e.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="text-info" onClick="window.open(this.href, this.target, 'width=700,height=400,scrollbars=YES,top=70,left=400'); return false;"><?php echo mb_strtoupper($row1[3]);?></a> </h2>
-<h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI</h2>
-<div id="mi_mapa" style="width: 100%; height: 900px;"></div>
+<h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI - MUNICIPIO DE <a href="detalle_establecimientos_e.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="text-info" onClick="window.open(this.href, this.target, 'width=700,height=400,scrollbars=YES,top=70,left=400'); return false;"><?php echo mb_strtoupper($row1[3]);?></a> </h2>
+<div id="mi_mapa" style="width: 100%; height: 700px;"></div>
+
+</br>
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td width="50" style="text-align: center"><img src="marcadores/marcador_rojo_bl.png" alt="" width="20px" height="26px"/></td>
+      <td width="500" style="font-family: Arial; font-size: 12px;">CONSULTORIO VECINAL</td>
+      <td width="50">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_amarillo.png" alt="" width="38px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">PUESTO DE SALUD</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_violeta.png" alt="" width="23px" height="23px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD AMBULATORIO</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_verde.png" alt="" width="20px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD CON INTERNACIÓN</span></td>
+      <td>&nbsp;</td>
+    </tr>
+        <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_azul.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD INTEGRAL</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/hospital_rojo.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL DE SEGUNDO NIVEL</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/eess_blanco_celeste.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL GENERAL</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/cruz_roja_blanco.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">OTRO TIPO DE ESTABLECIMIENTO</span></td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
 
 <script>
     let map = L.map('mi_mapa').setView([<?php echo $row1[1];?>, <?php echo $row1[2];?>], 12);

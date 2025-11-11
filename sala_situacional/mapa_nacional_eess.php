@@ -27,7 +27,53 @@ $zoom_c     = "5.8";
 
 <h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI - NIVEL NACIONAL</h2>
 
-<div id="mi_mapa" style="width: 100%; height: 900px;"></div>
+<div id="mi_mapa" style="width: 100%; height: 800px;"></div>
+
+</br>
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td width="50" style="text-align: center"><img src="marcadores/marcador_rojo_bl.png" alt="" width="20px" height="26px"/></td>
+      <td width="500" style="font-family: Arial; font-size: 12px;">CONSULTORIO VECINAL</td>
+      <td width="50">&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_amarillo.png" alt="" width="38px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">PUESTO DE SALUD</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_violeta.png" alt="" width="23px" height="23px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD AMBULATORIO</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_verde.png" alt="" width="20px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD CON INTERNACIÓN</span></td>
+      <td>&nbsp;</td>
+    </tr>
+        <tr>
+      <td style="text-align: center"><img src="marcadores/marcador_azul.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD INTEGRAL</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/hospital_rojo.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL DE SEGUNDO NIVEL</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/eess_blanco_celeste.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL GENERAL</span></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><img src="marcadores/cruz_roja_blanco.png" alt="" width="25px" height="25px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">OTRO TIPO DE ESTABLECIMIENTO</span></td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
 
 <script>
     let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>,<?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
