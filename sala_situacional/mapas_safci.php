@@ -69,17 +69,18 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <div class="card-body">
                     <div class="form-group row">
                     <div class="col-sm-6">
-                    <a class="btn btn-success btn-icon-split" href="mapa_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=700,scrollbars=YES,top=50,left=200'); return false;">
+                    <a class="btn btn-success btn-icon-split" href="mapa_nacional.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=200'); return false;">
                     <span class="icon text-white-50">
                         <i class="fas fa-book"></i>
                     </span>
                     <span class="text">MAPA SAFCI NACIONAL</span></a>
                     </div>
                     <div class="col-sm-6">
-                   <!-- <form name="NACIONAL_PERSONAL" action="reporte_personal_nacional_excel.php" method="post">
-                        <input type="hidden" name="idmunicipio_salud" value="<?php echo $idmunicipio_salud;?>">
-                        <button type="submit" class="btn btn-success">REPORTE NACIONAL EN EXCEL</button>
-                    </form> -->
+                    <a class="btn btn-primary btn-icon-split" href="mapa_nacional_eess.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=800,scrollbars=YES,top=50,left=200'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-map"></i>
+                    </span>
+                    <span class="text">MAPA SAFCI DE ESTABLECIMIENTOS DE SALUD</span></a>
                     </div>
                 </div>
             </div>    
@@ -99,7 +100,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento_mapa"  id="iddepartamento_mapa" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+                            $sql1 = "SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -135,7 +136,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento"  id="iddepartamento" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+                            $sql1 = "SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10'";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);
@@ -181,7 +182,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <select name="iddepartamento_e"  id="iddepartamento_e" class="form-control" required>
                             <option value="">-SELECCIONE-</option>
                             <?php
-                            $sql1 = "SELECT iddepartamento, departamento FROM departamento ";
+                            $sql1 = "SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ";
                             $result1 = mysqli_query($link,$sql1);
                             if ($row1 = mysqli_fetch_array($result1)){
                             mysqli_field_seek($result1,0);

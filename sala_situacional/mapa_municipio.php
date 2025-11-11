@@ -34,7 +34,7 @@ $zoom_c     = "12";
 <body>
 
 <h2>MUNICIPIO DE <a href="detalle_establecimientos_e.php?idmunicipio=<?php echo $idmunicipio;?>" target="_blank" class="text-info" onClick="window.open(this.href, this.target, 'width=700,height=400,scrollbars=YES,top=70,left=400'); return false;"><?php echo mb_strtoupper($row1[3]);?></a> </h2>
-
+<h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI</h2>
 <div id="mi_mapa" style="width: 100%; height: 900px;"></div>
 
 <script>
