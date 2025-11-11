@@ -6,17 +6,9 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$iddepartamento = $_GET['iddepartamento_mapa'];
-
-$sql1 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, ";
-$sql1.= " departamento.departamento FROM establecimiento_salud, departamento WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento ";
-$sql1.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.iddepartamento='$iddepartamento' LIMIT 1 ";
-$result1 = mysqli_query($link,$sql1);
-$row1 = mysqli_fetch_array($result1);
-
-$latitud_c  = $row1[1];
-$longitud_c = $row1[2];
-$zoom_c     = "7";
+$latitud_c  = "-17.567775";
+$longitud_c = "-66.346216";
+$zoom_c     = "5.8";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,7 +17,7 @@ $zoom_c     = "7";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAFCI NIVEL DEPARTAMENTAL</title>
+    <title>SAFCI NIVEL NACIONAL</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
@@ -33,8 +25,7 @@ $zoom_c     = "7";
 
 <body>
 
-<h2>DEPARTAMENTO DE <?php echo mb_strtoupper($row1[3]);?></h2>
-<h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI</h2>
+<h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI - NIVEL NACIONAL</h2>
 
 <div id="mi_mapa" style="width: 100%; height: 900px;"></div>
 
@@ -123,7 +114,7 @@ $sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_
 $sql2.= " tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idtipo_establecimiento ";
 $sql2.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
 $sql2.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
-$sql2.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.iddepartamento = '$iddepartamento' ORDER BY idestablecimiento_salud ";
+$sql2.= " AND establecimiento_salud.longitud !='' ORDER BY idestablecimiento_salud ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
