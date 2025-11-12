@@ -252,11 +252,12 @@ $zoom_c     = "6";
                             </div>
                             <div class="col-sm-6">                                
                                 <div class="col-lg-12 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            MAPA PARLANTE
+                                <a href="../sala_situacional/mapa_nacional_eess.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                     <div class="card bg-info text-white shadow">
+                                       <div class="card-body">
+                                            MAPA PARLANTE NACIONAL
                                         </div>
-                                    </div>
+                                    </div></a>
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 

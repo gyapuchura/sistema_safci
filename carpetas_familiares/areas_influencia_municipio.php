@@ -90,13 +90,57 @@ $zoom_c     = "12";
 
 </div>
 
-                        <h4>MAPA DE UBICACIÓN DE LAS ÁREAS DE INFLUENCIA</h4>
                         <h2>MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h2>
-                        <h4>Habitantes Carpetizados : <?php echo $habitantes_mun;?> </h4>
-                        <h4>Familias Carpetizadas : <?php echo $familias_mun;?> </h4>
+                        <h4>Habitantes Carpetizados : <?php echo $habitantes_mun;?> - Familias Carpetizadas : <?php echo $familias_mun;?> </h4>
 
-<div id="safci"></div>
+<div id="safci" style="width: 100%; height: 650px;"></div>
 
+</br>
+<table width="800" border="0" align="center">
+  <tbody>
+    <tr>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_rojo_bl.png" alt="" width="20px" height="26px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CONSULTORIO VECINAL</span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_amarillo.png" alt="" width="38px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">PUESTO DE SALUD</span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_violeta.png" alt="" width="23px" height="23px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD AMBULATORIO</span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_verde.png" alt="" width="20px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD CON INTERNACIÓN</span></td>
+    </tr>
+    <tr>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_azul.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD INTEGRAL</span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/hospital_rojo.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL DE SEGUNDO NIVEL</span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/eess_blanco_celeste.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL GENERAL</span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/cruz_roja_blanco.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">OTRO TIPO DE ESTABLECIMIENTO DE SALUD</span></td>
+    </tr>
+    <tr>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/comunidad.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">ÁREA DE INFLUENCIA (COMUNIDAD, BARRIO, ZONA, UNIDAD VECINAL)</span></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
 <script type="text/javascript" src="../js/municipios.js"></script>
 
 <script>
@@ -174,10 +218,9 @@ var area_influencia ={"type":"FeatureCollection","features":[
         var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
         var esri_attribution = '© Esri © OpenStreetMap Contributors';
    
-               
         var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom:18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
         var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
-        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], { draggable: true }).bindPopup(' ');
+        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], { draggable: true }).bindPopup('MARCADOR SAFCI ');
         var lg_markers = L.layerGroup([marker]);
 
           var map = L.map('safci', {
@@ -189,6 +232,8 @@ var area_influencia ={"type":"FeatureCollection","features":[
           var baseMaps = {
             "MAPA": lyr_streets,
             "SATÉLITE": lyr_satellite
+            
+            
         };
           var overlayMaps = {
             "Marcador": lg_markers,
@@ -265,6 +310,7 @@ var area_influencia ={"type":"FeatureCollection","features":[
 
   // Crear el grupo de cluster
 var markers = L.markerClusterGroup();
+
         var Icono = L.icon({
         iconUrl: "../sala_situacional/marcadores/comunidad.png",
         iconSize: [35, 35],
@@ -275,9 +321,81 @@ var markers = L.markerClusterGroup();
         popupAnchor: [0, -40]});
 
 
-var Icono2 = L.icon({
+        var Icono2 = L.icon({
         iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
         iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Vecinal = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Puesto_salud = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
+        iconSize: [45, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Ambulatorio = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Internacion = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Integral = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
+        iconSize: [45, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_seg = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_gen = L.icon({
+        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Establecim = L.icon({
+        iconUrl: "../sala_situacional/marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -319,10 +437,10 @@ map.addLayer(markers);
             /****** Areas de influencia del Establecimiento de salud *********/
             $numero4 = 0;
             $sql4 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, ";
-            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
+            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idtipo_establecimiento FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
             $sql4.= " WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND  establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
             $sql4.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento  AND establecimiento_salud.latitud !='' ";
-            $sql4.= "  AND establecimiento_salud.longitud !='' AND carpeta_familiar.idmunicipio = '$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";;
+            $sql4.= "  AND establecimiento_salud.longitud !='' AND carpeta_familiar.idmunicipio = '$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";
             $result4 = mysqli_query($link,$sql4);
             $total4 = mysqli_num_rows($result4);
             if ($row4 = mysqli_fetch_array($result4)){
@@ -330,7 +448,72 @@ map.addLayer(markers);
             while ($field4 = mysqli_fetch_field($result4)){
             } do {
                 ?>
-        L.marker([<?php echo $row4[4];?>, <?php echo $row4[5];?>], {icon: Icono2}).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row4[1].' - '.$row4[2].'</br>Tipo:'.$row4[3];?>")
+        L.marker([<?php echo $row4[4];?>, <?php echo $row4[5];?>], {icon: 
+
+<?php   
+    switch ($row4[6]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }  ?> 
+        }).addTo(map).bindPopup("<?php echo '<p>Establecimiento : '.$row4[1].'</p><p>'.$row4[2].'</p><p>Tipo : '.$row4[3].'</p>';?>")
             <?php 
             $numero4++;
             } while ($row4 = mysqli_fetch_array($result4));
