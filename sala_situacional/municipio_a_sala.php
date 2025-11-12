@@ -511,6 +511,78 @@ $zoom_c     = "13";
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
+        var Vecinal = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Puesto_salud = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
+        iconSize: [45, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Ambulatorio = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Internacion = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Integral = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
+        iconSize: [45, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_seg = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_gen = L.icon({
+        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Establecim = L.icon({
+        iconUrl: "../sala_situacional/marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
 
         var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
         var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
@@ -546,17 +618,40 @@ $zoom_c     = "13";
                     <?php
             /****** Areas de influencia del Establecimiento de salud *********/
             $numero5 = 0;
-            $sql5 = "  SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud  ";
-            $sql5.= "  FROM area_influencia, tipo_area_influencia, establecimiento_salud WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-            $sql5.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND establecimiento_salud.idmunicipio='$idmunicipio' ";
+            $sql5 = " SELECT carpeta_familiar.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud, carpeta_familiar.idusuario   ";
+            $sql5.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
+            $sql5.= " AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idarea_influencia ";
             $result5 = mysqli_query($link,$sql5);
             $total5 = mysqli_num_rows($result5);
             if ($row5 = mysqli_fetch_array($result5)){
             mysqli_field_seek($result5,0);
             while ($field5 = mysqli_fetch_field($result5)){
             } do {
+
+
+                    $sql6 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+                    $sql6.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$row5[0]' ";
+                    $result6 = mysqli_query($link,$sql6);
+                    $row6 = mysqli_fetch_array($result6);
+                    $habitamtes = $row6[0];
+
+                    $sql7 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE carpeta_familiar.estado='CONSOLIDADO' AND idarea_influencia='$row5[0]' ";
+                    $result7 = mysqli_query($link,$sql7);
+                    $row7 = mysqli_fetch_array($result7);
+                    $familias = $row7[0];
+
+                    $sql10 = " SELECT nombre.nombre, nombre.paterno, nombre.materno FROM carpeta_familiar, usuarios, nombre WHERE carpeta_familiar.idusuario=usuarios.idusuario ";
+                    $sql10.= " AND usuarios.idnombre=nombre.idnombre AND carpeta_familiar.idusuario='$row5[5]' LIMIT 1 ";
+                    $result10 = mysqli_query($link,$sql10);
+                    $row10 = mysqli_fetch_array($result10);
+
+                    $medico = $row10[0]." ".$row10[1]." ".$row10[2];
+
+
                 ?>
-        L.marker([<?php echo $row5[3];?>, <?php echo $row5[4];?>], {icon: Icono}).addTo(map).bindPopup("<?php echo $row5[1].' : '.$row5[2];?>")
+
+        L.marker([<?php echo $row5[3];?>, <?php echo $row5[4];?>], {icon: Icono}).addTo(map).bindPopup("<?php echo '<p>'.$row5[1].' : '.$row5[2].'</p><p>Habitantes Carpetizados : '.$habitamtes.'</p><p>Familias Carpetizadas : '.$familias.'</p><p>Médico : '.$medico.'</p>';?>")
+
             <?php 
             $numero5++;
             } while ($row5 = mysqli_fetch_array($result5));
@@ -564,14 +659,14 @@ $zoom_c     = "13";
             }
             ?>
  
-          <?php
+        <?php
             /****** Areas de influencia del Establecimiento de salud *********/
             $numero4 = 0;
             $sql4 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, ";
-            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
+            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idtipo_establecimiento FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
             $sql4.= " WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND  establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
             $sql4.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento  AND establecimiento_salud.latitud !='' ";
-            $sql4.= "  AND establecimiento_salud.longitud !='' AND carpeta_familiar.idmunicipio = '$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";;
+            $sql4.= "  AND establecimiento_salud.longitud !='' AND carpeta_familiar.idmunicipio = '$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";
             $result4 = mysqli_query($link,$sql4);
             $total4 = mysqli_num_rows($result4);
             if ($row4 = mysqli_fetch_array($result4)){
@@ -579,7 +674,72 @@ $zoom_c     = "13";
             while ($field4 = mysqli_fetch_field($result4)){
             } do {
                 ?>
-        L.marker([<?php echo $row4[4];?>, <?php echo $row4[5];?>], {icon: Icono2}).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row4[1].' - '.$row4[2].'</br>Tipo:'.$row4[3];?>")
+        L.marker([<?php echo $row4[4];?>, <?php echo $row4[5];?>], {icon: 
+
+<?php   
+    switch ($row4[6]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }  ?> 
+        }).addTo(map).bindPopup("<?php echo '<p>Establecimiento : '.$row4[1].'</p><p>'.$row4[2].'</p><p>Tipo : '.$row4[3].'</p>';?>")
             <?php 
             $numero4++;
             } while ($row4 = mysqli_fetch_array($result4));

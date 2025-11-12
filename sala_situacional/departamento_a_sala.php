@@ -280,11 +280,12 @@ $zoom_c     = "7";
                             </div>
                             <div class="col-sm-6">                                
                                 <div class="col-lg-12 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
+                                <a href="../sala_situacional/mapa_departamento.php?iddepartamento_mapa=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                     <div class="card bg-info text-white shadow">
+                                       <div class="card-body">
                                             MAPA PARLANTE
                                         </div>
-                                    </div>
+                                    </div></a>
                                 </div>
                     <!-------- MAPA PARLANTE begin ------>
 
