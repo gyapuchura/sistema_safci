@@ -15,7 +15,7 @@ $row1 = mysqli_fetch_array($result1);
 
 $latitud_c  = $row1[2];
 $longitud_c = $row1[3];
-$zoom_c     = "12";
+$zoom_c     = "16";
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +35,7 @@ $zoom_c     = "12";
 
 <div class="sala"><h3 class="text-center">ÁREAS DE INFLUENCIA DEL ESTABLECIMIENTO : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
 
-<div id="mi_mapa" style="width: 100%; height: 900px;"></div>
+<div id="mi_mapa" style="width: 100%; height: 700px;"></div>
 
 
 
@@ -43,6 +43,90 @@ $zoom_c     = "12";
 
 
 <script>
+
+
+   let Vecinal = L.icon({
+        iconUrl: "marcadores/marcador_rojo_bl.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Puesto_salud = L.icon({
+        iconUrl: "marcadores/marcador_amarillo.png",
+        iconSize: [45, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Ambulatorio = L.icon({
+        iconUrl: "marcadores/marcador_violeta.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Internacion = L.icon({
+        iconUrl: "marcadores/marcador_verde.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Integral = L.icon({
+        iconUrl: "marcadores/marcador_azul.png",
+        iconSize: [45, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Hospital_seg = L.icon({
+        iconUrl: "marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Hospital_gen = L.icon({
+        iconUrl: "marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        let Establecim = L.icon({
+        iconUrl: "marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Icono = L.icon({
+        iconUrl: "marcadores/comunidad.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+
     let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -67,7 +151,7 @@ while ($field4 = mysqli_fetch_field($result4)){
 } do {
 	?>
 
- L.marker([<?php echo $row4[6];?>,<?php echo $row4[7];?>]).addTo(map).bindPopup("<?php echo 'Area de Influencia: '.$row4[1].' - '.$row4[2];?>")
+ L.marker([<?php echo $row4[6];?>,<?php echo $row4[7];?>], {icon : Icono}).addTo(map).bindPopup("<?php echo 'Area de Influencia: '.$row4[1].' - '.$row4[2];?>")
 
 <?php 
 $numero4++;
@@ -79,8 +163,8 @@ $numero4++;
 
 <?php 
 $numero2 = 0;
-$sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, ";
-$sql2.= " nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
+$sql2 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento,  ";
+$sql2.= " tipo_establecimiento.tipo_establecimiento, establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idtipo_establecimiento ";
 $sql2.= " FROM establecimiento_salud, nivel_establecimiento, tipo_establecimiento WHERE establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
 $sql2.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.latitud !=''  ";
 $sql2.= " AND establecimiento_salud.longitud !='' AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento_e' ORDER BY idestablecimiento_salud ";
@@ -92,7 +176,73 @@ while ($field2 = mysqli_fetch_field($result2)){
 } do {
 	?>
 
-L.marker([<?php echo $row2[4];?>,<?php echo $row2[5];?>]).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row2[1].' - '.$row2[2].'</br>Tipo:'.$row2[3];?>")
+L.marker([<?php echo $row2[4];?>,<?php echo $row2[5];?>],{icon:
+
+     <?php   
+      switch ($row2[6]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }
+                ?> 
+}).addTo(map).bindPopup("<?php echo '<p>Establecimiento: '.$row2[1].' </p><p> '.$row2[2].'</p><p>Tipo:'.$row2[3].'</p>';?>")
 
 <?php 
 $numero2++;
