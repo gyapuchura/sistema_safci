@@ -8,7 +8,12 @@ $sql_cord = " SELECT idcarpeta_familiar, latitud, longitud FROM ubicacion_cf WHE
 $result_cord = mysqli_query($link,$sql_cord);
 $row_cord = mysqli_fetch_array($result_cord);
 
-$sql_est = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql_est = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud,  ";
+$sql_est.= " establecimiento_salud.idmunicipio, tipo_establecimiento.tipo_establecimiento, nivel_establecimiento.nivel_establecimiento, ";
+$sql_est.= " establecimiento_salud.idtipo_establecimiento FROM establecimiento_salud, tipo_establecimiento, nivel_establecimiento, carpeta_familiar, ubicacion_cf  ";
+$sql_est.= " WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento  ";
+$sql_est.= " AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_est.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idestablecimiento_salud DESC LIMIT 1 ";
 $result_est = mysqli_query($link,$sql_est);
 $row_est = mysqli_fetch_array($result_est);
 
@@ -263,6 +268,78 @@ var familia ={"type":"FeatureCollection","features":[
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
+        var Vecinal = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Puesto_salud = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
+        iconSize: [45, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Ambulatorio = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Internacion = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Integral = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
+        iconSize: [45, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_seg = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_gen = L.icon({
+        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Establecim = L.icon({
+        iconUrl: "../sala_situacional/marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
   // Crear el grupo de cluster
 var markers = L.markerClusterGroup();
 
@@ -325,11 +402,72 @@ map.addLayer(markers);
             } else {
             }
             ?>
+  L.marker([<?php echo $row_est[2];?>, <?php echo $row_est[3];?>], {icon:
+<?php   
+    switch ($row_est[7]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }  ?> 
+    }).addTo(map).bindPopup("<?php echo '<p>Establecimiento : '.$row_est[1].'</p><p>'.$row_est[5].'</p><p>Tipo : '.$row_est[6].'</p>';?>")
 
-
-
-
-L.marker([<?php echo $row_est[2];?>, <?php echo $row_est[3];?>], {icon: Icono2}).addTo(map).bindPopup('<?php echo 'Establecimeinto : '.$row_est[1];?>')
 </script>
 
 </body>
