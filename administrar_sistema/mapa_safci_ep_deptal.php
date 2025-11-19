@@ -6,8 +6,8 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$iddepartamento = $_GET['iddepartamento'];
-$idsospecha_diag = $_GET['idsospecha_diag'];
+$iddepartamento = '4';
+$idsospecha_diag = '17';
 
 $sql_dep = " SELECT notificacion_ep.iddepartamento, departamento.departamento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
 $sql_dep.= " FROM registro_enfermedad, notificacion_ep, departamento, establecimiento_salud WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
@@ -39,7 +39,7 @@ $zoom_c     = "7";
 
 <body>
 
-<h2><?php echo $row_dep[1];?> - VIGILANCIA EPIDEMIOLÓGICA : <?php echo $row1[1];?></h2>
+<h2> DEPARTAMENTO DE <?php echo $row_dep[1];?> - VIGILANCIA EPIDEMIOLÓGICA : <?php echo $row1[1];?></h2>
 <a href="http://"></a>
 <div id="mi_mapa" style="width: 100%; height: 800px;"></div>
 
@@ -81,7 +81,7 @@ $zoom_c     = "7";
 
             ?>
 
-   L.marker([<?php echo $row2[2];?>,<?php echo $row2[3];?>], {icon: Icono_ep }).addTo(map).bindPopup("<?php echo '<p>Establecimiento:'.$row2[1].'</p><p>Municipio:'.$row2[4].'</p><p>Casos: '.$casos.'</p><p><a href=../implementacion_safci/marco_ep_establecimiento_sala_mapa.php?idsospecha_diag_estab='.$idsospecha_diag.'&idestablecimiento_salud='.$row2[0].'  onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>VIGILANCIA DEL ESTABLECIMIENTO</a></p>';?>")
+                L.marker([<?php echo $row2[2];?>,<?php echo $row2[3];?>], {icon: Icono_ep }).addTo(map).bindPopup("<?php echo '<p>Establecimiento:'.$row2[1].'</p><p>Municipio:'.$row2[4].'</p><p>Casos: '.$casos.'</p><p><a href=../implementacion_safci/marco_ep_establecimiento_sala_mapa.php?idsospecha_diag_estab='.$idsospecha_diag.'&idestablecimiento_salud='.$row2[0].'>VIGILANCIA DEL ESTABLECIMIENTO</a></p>';?>")
 
                 <?php 
         } while ($row2 = mysqli_fetch_array($result2));

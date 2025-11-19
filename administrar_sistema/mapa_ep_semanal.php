@@ -6,23 +6,15 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$iddepartamento = $_GET['iddepartamento'];
-$idsospecha_diag = $_GET['idsospecha_diag'];
-
-$sql_dep = " SELECT notificacion_ep.iddepartamento, departamento.departamento, establecimiento_salud.latitud, establecimiento_salud.longitud ";
-$sql_dep.= " FROM registro_enfermedad, notificacion_ep, departamento, establecimiento_salud WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
-$sql_dep.= " AND notificacion_ep.iddepartamento=departamento.iddepartamento AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-$sql_dep.= " AND establecimiento_salud.latitud !='' AND notificacion_ep.iddepartamento='$iddepartamento' AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' ORDER BY notificacion_ep.iddepartamento DESC LIMIT 1	 ";
-$result_dep = mysqli_query($link,$sql_dep);
-$row_dep = mysqli_fetch_array($result_dep);
+$idsospecha_diag = '17';
 
 $sql1 = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag = '$idsospecha_diag' ";
 $result1 = mysqli_query($link,$sql1);
 $row1 = mysqli_fetch_array($result1);
 
-$latitud_c  = $row_dep[2];
-$longitud_c = $row_dep[3];
-$zoom_c     = "7";
+$latitud_c  = "-17.567775";
+$longitud_c = "-66.346216";
+$zoom_c     = "5.8";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,7 +23,7 @@ $zoom_c     = "7";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAFCI REPORTE EPIDEMIOLOGICO SEMANAL DEPARTAMENTAL</title>
+    <title>SAFCI REPORTE EPIDEMIOLOGICO SEMANAL NIVEL NACIONAL</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
@@ -39,7 +31,7 @@ $zoom_c     = "7";
 
 <body>
 
-<h2><?php echo $row_dep[1];?> - VIGILANCIA EPIDEMIOLÓGICA : <?php echo $row1[1];?></h2>
+<h2>VIGILANCIA EPIDEMIOLÓGICA : <?php echo $row1[1];?></h2>
 <a href="http://"></a>
 <div id="mi_mapa" style="width: 100%; height: 800px;"></div>
 
@@ -65,7 +57,7 @@ $zoom_c     = "7";
         $sql2.= " FROM registro_enfermedad, notificacion_ep, establecimiento_salud, municipios WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
         $sql2.= " AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.gestion='$gestion' ";
         $sql2.= " AND registro_enfermedad.gestion = '$gestion' AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND registro_enfermedad.cifra !='0' ";
-        $sql2.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' AND notificacion_ep.iddepartamento='$iddepartamento' GROUP BY notificacion_ep.idestablecimiento_salud  ";
+        $sql2.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' GROUP BY notificacion_ep.idestablecimiento_salud  ";
         $result2 = mysqli_query($link,$sql2);
         $total2 = mysqli_num_rows($result2);
         if ($row2 = mysqli_fetch_array($result2)){
@@ -81,7 +73,7 @@ $zoom_c     = "7";
 
             ?>
 
-   L.marker([<?php echo $row2[2];?>,<?php echo $row2[3];?>], {icon: Icono_ep }).addTo(map).bindPopup("<?php echo '<p>Establecimiento:'.$row2[1].'</p><p>Municipio:'.$row2[4].'</p><p>Casos: '.$casos.'</p><p><a href=../implementacion_safci/marco_ep_establecimiento_sala_mapa.php?idsospecha_diag_estab='.$idsospecha_diag.'&idestablecimiento_salud='.$row2[0].'  onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>VIGILANCIA DEL ESTABLECIMIENTO</a></p>';?>")
+                L.marker([<?php echo $row2[2];?>,<?php echo $row2[3];?>], {icon: Icono_ep }).addTo(map).bindPopup("<?php echo '<p>Establecimiento:'.$row2[1].'</p><p>Municipio:'.$row2[4].'</p><p>Casos: '.$casos.'</p><p><a href=../implementacion_safci/marco_ep_establecimiento_sala.php?idsospecha_diag_estab='.$idsospecha_diag.'&idestablecimiento_salud='.$row2[0].' target=_blank class=Estilo12 onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>VIGILANCIA DEL ESTABLECIMIENTO</a></p>';?>")
 
                 <?php 
         } while ($row2 = mysqli_fetch_array($result2));
