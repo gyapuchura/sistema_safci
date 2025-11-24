@@ -310,7 +310,7 @@ $zoom_c     = "16";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../seguimiento_familiar/reporte_riesgos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
+                                        <a href="../seguimiento_familiar/reporte_riesgos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1280,height=850,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-info text-uppercase mb-1">
                                            VISITAS FAMILIARES POR RIÉSGO PERSONAL</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>

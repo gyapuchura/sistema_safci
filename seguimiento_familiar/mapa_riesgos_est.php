@@ -1,116 +1,43 @@
-<?php  include("../cabf.php");?>
-<?php  include("../inc.config.php");?>
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
 <?php 
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$idmunicipio = $_GET['idmunicipio'];
-
-$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio ='$idmunicipio'";
-$result_mun = mysqli_query($link,$sql_mun);
-$row_mun = mysqli_fetch_array($result_mun);
+$idestablecimiento_salud = '3493';
 
 $sql1 = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud ";
-$sql1.= " WHERE latitud != '' AND longitud != '' AND idmunicipio='$idmunicipio' ORDER BY idestablecimiento_salud DESC LIMIT 1";
+$sql1.= " WHERE latitud != '' AND longitud != '' AND idestablecimiento_salud='$idestablecimiento_salud' ";
 $result1 = mysqli_query($link,$sql1);
 $row1 = mysqli_fetch_array($result1);
 
 $latitud_c  = $row1[2];
 $longitud_c = $row1[3];
-$zoom_c     = "14";
-
+$zoom_c     = "16";
 ?>
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>RIESGO PERSONAL - MUNICIPIO</title>   
-        
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-            <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-        
-	</head>
-	<body>
-<div class="sala"><h3 class="text-center">INTEGRANTES IDENTIFICADOS EN EL MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?></h3></div>  
 
-<div id="mi_mapa" style="width: 100%; height: 500px;"></div>
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIESGO PERSONAL - ESTABLECIMIENTO</title>
 
-</br></br>
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+</head>
 
+<body>
 
-<table width="1000" border="1" align="center" cellspacing="0">
-    <tbody>
-    <tr>
-        <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-        <td width="299" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RIÉSGO PERSONAL</td>
-        <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">SEMAFORIZACIÓN</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES CON SEGUIMIENTOS PLANIFICADOS</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS PLANIFICADAS A INTEGRANTES A LA FECHA</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS REALIZADAS A INTEGRANTES A LA FECHA</td>
-        <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° VISITAS NO REALIZADASA A LA FECHA</td>
-    </tr>
-            <?php 
-            $numero3 = 1;
-            $sql = " SELECT idriesgo_personal_vf, riesgo_personal_vf, color, color_valor FROM riesgo_personal_vf ORDER BY idriesgo_personal_vf ";
-            $result = mysqli_query($link,$sql);
-            $total = mysqli_num_rows($result);
-            if ($row = mysqli_fetch_array($result)){
-            mysqli_field_seek($result,0);
-            while ($field = mysqli_fetch_field($result)){
-            } do { 
-                
-                $sql_int =" SELECT seguimiento_cf.idintegrante_cf FROM seguimiento_cf, carpeta_familiar  ";
-                $sql_int.=" WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                $sql_int.=" AND carpeta_familiar.idmunicipio='$idmunicipio' AND seguimiento_cf.idriesgo_personal_vf='$row[0]' GROUP BY seguimiento_cf.idintegrante_cf ";
-                $result_int = mysqli_query($link,$sql_int);
-                $integrantes = mysqli_num_rows($result_int);              
-                
-                $sql_vf =" SELECT visita_cf.idvisita_cf FROM visita_cf, seguimiento_cf, carpeta_familiar ";
-                $sql_vf.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_vf.=" AND carpeta_familiar.idmunicipio='$idmunicipio' AND seguimiento_cf.idriesgo_personal_vf='$row[0]'  ";
-                $result_vf = mysqli_query($link,$sql_vf);
-                $visitas = mysqli_num_rows($result_vf);
+<div class="sala"><h3 class="text-center">INTEGRANTES IDENTIFICADOS DEL ESTABLECIMIENTO : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
 
-                $sql_vfr =" SELECT visita_cf.idvisita_cf FROM visita_cf, seguimiento_cf, carpeta_familiar ";
-                $sql_vfr.=" WHERE visita_cf.idseguimiento_cf=seguimiento_cf.idseguimiento_cf AND seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_vfr.=" AND carpeta_familiar.idmunicipio='$idmunicipio' AND seguimiento_cf.idriesgo_personal_vf='$row[0]' AND visita_cf.idestado_visita_cf='3' ";
-                $result_vfr = mysqli_query($link,$sql_vfr);
-                $visitas_r  = mysqli_num_rows($result_vfr);
+<div id="mi_mapa" style="width: 100%; height: 700px;"></div>
 
-                $visitas_nr = $visitas-$visitas_r;
-                
-                ?>
-		    <tr>
-		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero3;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[1];?></td>
-              <td <?php echo 'bgcolor="#'.$row[3].'" ';?> style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[2];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $integrantes;?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="visitas_safci_rp_mun.php?idriesgo_personal_vf=<?php echo $row[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
-              <?php echo $visitas;?></a>
-              </td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="visitas_safci_rp_r_mun.php?idriesgo_personal_vf=<?php echo $row[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
-              <?php echo $visitas_r;?></a> 
-              </td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $visitas_nr;?></td>
-	        </tr>
-                <?php 
-                $numero3=$numero3+1;
-                } while ($row = mysqli_fetch_array($result));
-                } else {
-                }
-                ?>
-	      </tbody>
-    </table>
-
-   </br></br>
-
-    <script>
+<script>
         let Vecinal = L.icon({
         iconUrl: "marcadores/marcador_rojo_bl.png",
         iconSize: [35, 35],
@@ -272,7 +199,7 @@ $numero4 = 0;
 $sql4 = " SELECT seguimiento_cf.idseguimiento_cf, carpeta_familiar.familia, riesgo_personal_vf.riesgo_personal_vf, seguimiento_cf.idriesgo_personal_vf,  ";
 $sql4.= " ubicacion_cf.latitud, ubicacion_cf.longitud, seguimiento_cf.idcarpeta_familiar FROM riesgo_personal_vf, seguimiento_cf, carpeta_familiar, ubicacion_cf ";
 $sql4.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.= " AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND ubicacion_cf.ubicacion_actual='SI' AND seguimiento_cf.idriesgo_personal_vf !='15' AND carpeta_familiar.idmunicipio='$idmunicipio' ";
+$sql4.= " AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND ubicacion_cf.ubicacion_actual='SI' AND seguimiento_cf.idriesgo_personal_vf !='15' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result4 = mysqli_query($link,$sql4);
  if ($row4 = mysqli_fetch_array($result4)){
 mysqli_field_seek($result4,0);
@@ -341,8 +268,10 @@ $numero4++;
 }
 ?>
 
+
+
+
 </script>
 
-
-	</body>
+</body>
 </html>

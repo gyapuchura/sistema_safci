@@ -556,9 +556,29 @@ $sql3.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND est
 $sql3.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.idmunicipio='$row2[0]' ORDER BY establecimiento_salud.idestablecimiento_salud DESC LIMIT 1 ";
 $result3 = mysqli_query($link,$sql3);
 $row3 = mysqli_fetch_array($result3);
+
+$sql4 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio ='$row2[0]' ";
+$result4 = mysqli_query($link,$sql4);
+$row4 = mysqli_fetch_array($result4);
+
+$sql5 = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar WHERE carpeta_familiar.estado = 'CONSOLIDADO'  ";
+$sql5.= " AND carpeta_familiar.idmunicipio = '$row2[0]' GROUP BY carpeta_familiar.idusuario ";
+$result5 = mysqli_query($link,$sql5);
+$personal = mysqli_num_rows($result5);
+
+$sql6 = " SELECT gestion_participativa.idgestion_participativa, vigencia_convenio.vigencia_convenio FROM gestion_participativa, vigencia_convenio  ";
+$sql6.= " WHERE gestion_participativa.idvigencia_convenio=vigencia_convenio.idvigencia_convenio  AND gestion_participativa.idmunicipio='$row2[0]' ";
+$sql6.= " ORDER BY gestion_participativa.idgestion_participativa DESC LIMIT 1 ";
+$result6 = mysqli_query($link,$sql6);
+if ($row6 = mysqli_fetch_array($result6)) {
+   $convenio = $row6[1];
+} else {
+   $convenio = 'SIN DECLARAR';
+    }
 ?>
 
-        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo 'Municipio: '.$row2[1];?>")
+        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p><p>Población segun CF : '.$row4[0].' Habitantes.</p><p> Personal SAFCI : '.$personal.'</p><p> CONVENIO SAFCI : '.$convenio.'</p>';?>")
 
 <?php 
 $numero2++;
@@ -576,7 +596,6 @@ Si no se encontraron resultados
 */
 }
 ?>
-
     </script>
 
 </body>
