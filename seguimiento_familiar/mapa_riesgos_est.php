@@ -6,7 +6,7 @@ $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
 
-$idestablecimiento_salud = '3495';
+$idestablecimiento_salud = '3493';
 
 $sql1 = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud ";
 $sql1.= " WHERE latitud != '' AND longitud != '' AND idestablecimiento_salud='$idestablecimiento_salud' ";
@@ -40,7 +40,7 @@ $zoom_c     = "16";
 <script>
         let Vecinal = L.icon({
         iconUrl: "marcadores/marcador_rojo_bl.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -49,7 +49,7 @@ $zoom_c     = "16";
 
         let Neonato = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/neonato.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -58,7 +58,7 @@ $zoom_c     = "16";
 
         let Menor_dos = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/mes_vida.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -67,7 +67,7 @@ $zoom_c     = "16";
 
         let Menor_cinco = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/menor_cinco.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -76,7 +76,7 @@ $zoom_c     = "16";
 
         let Desnutricion = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/desnutricion_aguda.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -85,7 +85,7 @@ $zoom_c     = "16";
 
         let Talla_baja = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/talla_baja.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -94,7 +94,7 @@ $zoom_c     = "16";
 
         let Embarazo = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/embarazada.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -103,7 +103,7 @@ $zoom_c     = "16";
 
         let Puerpera = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/puerpera.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -112,7 +112,7 @@ $zoom_c     = "16";
 
         let Tuberculosis = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/tuberculosis.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -121,7 +121,7 @@ $zoom_c     = "16";
 
         let Transmisibles = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/transmisible.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -130,7 +130,7 @@ $zoom_c     = "16";
 
         let No_transmisibles = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/no_transmisible.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -139,7 +139,7 @@ $zoom_c     = "16";
 
         let Vectoriales = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/vectoriales.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -148,7 +148,7 @@ $zoom_c     = "16";
 
         let Mayor_sesenta = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/mayor_sesenta.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -157,7 +157,7 @@ $zoom_c     = "16";
 
         let Discapacidad = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/discapacidad.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -166,7 +166,7 @@ $zoom_c     = "16";
 
         let Violencia = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/violencia.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -175,7 +175,7 @@ $zoom_c     = "16";
 
         let Sin_riesgo = L.icon({
         iconUrl: "../sala_situacional/riesgo_personal/sin_riesgo.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -197,9 +197,9 @@ $zoom_c     = "16";
 
 $numero4 = 0;
 $sql4 = " SELECT seguimiento_cf.idseguimiento_cf, carpeta_familiar.familia, riesgo_personal_vf.riesgo_personal_vf, seguimiento_cf.idriesgo_personal_vf,  ";
-$sql4.= " ubicacion_cf.latitud, ubicacion_cf.longitud FROM riesgo_personal_vf, seguimiento_cf, carpeta_familiar, ubicacion_cf ";
+$sql4.= " ubicacion_cf.latitud, ubicacion_cf.longitud, seguimiento_cf.idcarpeta_familiar FROM riesgo_personal_vf, seguimiento_cf, carpeta_familiar, ubicacion_cf ";
 $sql4.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.= " AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql4.= " AND seguimiento_cf.idriesgo_personal_vf=riesgo_personal_vf.idriesgo_personal_vf AND ubicacion_cf.ubicacion_actual='SI' AND seguimiento_cf.idriesgo_personal_vf !='15' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
 $result4 = mysqli_query($link,$sql4);
  if ($row4 = mysqli_fetch_array($result4)){
 mysqli_field_seek($result4,0);
@@ -258,7 +258,7 @@ while ($field4 = mysqli_fetch_field($result4)){
 
     }
                 ?> 
- }).addTo(map).bindPopup("<?php echo 'Riesgo : '.$row4[2];?>")
+ }).addTo(map).bindPopup("<?php echo '<p>Riesgo : '.$row4[2].'</p><p> Familia : '.$row4[1].'</p><p><a href=../seguimiento_familiar/imprime_seguimiento_familiar_mapa.php?idcarpeta_familiar='.$row4[6].' onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>SEGUIMIENTO DE VISITAS</a></p> ';?>")
 
 <?php 
 $numero4++;
