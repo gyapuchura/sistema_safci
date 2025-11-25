@@ -22,7 +22,7 @@ $row_c = mysqli_fetch_array($result_c);
         </div>
 
         <div class="form-group row">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
             <a class="btn btn-primary btn-icon-split" href="marco_eventos_nacional.php?idevento_notificacion=<?php echo $idevento_notificacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
@@ -34,12 +34,12 @@ $row_c = mysqli_fetch_array($result_c);
             <h5><?php echo $row_c[0];?> [Eventos]</h5>
             </div>
 
-            <div class="col-sm-2">                
-            <!---- <a class="btn btn-info btn-icon-split" href="piramide_sospechas_nal.php?sospecha_diag_nal=<?php echo $idsospecha_diag_nal;?>&departamento_ep=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=400,scrollbars=YES,top=50,left=300'); return false;">
+            <div class="col-sm-4">                
+            <a class="btn btn-warning btn-icon-split" href="mapa_eventos_nal.php?idevento_notificacion=<?php echo $idevento_notificacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES,top=50,left=300'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
-            <span class="text">GRUPOS ETAREOS</span></a> --->
+            <span class="text">MAPA DE EVENTOS DE NOTIFICACIÓN INMEDIATA</span></a> 
             </div>
 
         </div>
