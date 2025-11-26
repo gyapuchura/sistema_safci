@@ -267,8 +267,10 @@ $zoom_c     = "7";
                                            DESASTRES</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-file fa-2x text-gray-300"></i>
+                                    <div class="col-auto"> 
+                                        <a href="../implementacion_safci/mapa_desastres_safci_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=850,scrollbars=YES,top=50,left=400'); return false;">
+                                            <i class="fas fa-map fa-2x text-gray-300"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
