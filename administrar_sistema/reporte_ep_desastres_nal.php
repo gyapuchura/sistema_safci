@@ -98,7 +98,9 @@ $semana_ep = $semana-1;
                                         
                                       </div>
                                       <div class="col-auto">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        <a href="../implementacion_safci/mapa_eventos_nal.php?idevento_notificacion=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=850,scrollbars=YES,top=50,left=500'); return false;">
+                                            <i class="fas fa-map fa-2x text-gray-300"></i>
+                                        </a>
                                       </div>
                                   </div>
                               </div>
