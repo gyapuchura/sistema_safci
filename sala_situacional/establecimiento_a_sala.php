@@ -559,7 +559,7 @@ $zoom_c     = "16";
 
         var Vecinal = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
-        iconSize: [25, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -568,7 +568,7 @@ $zoom_c     = "16";
 
         var Puesto_salud = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
-        iconSize: [45, 45],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -577,7 +577,7 @@ $zoom_c     = "16";
 
         var Ambulatorio = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
-        iconSize: [30, 30],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -586,7 +586,7 @@ $zoom_c     = "16";
 
         var Internacion = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
-        iconSize: [25, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -595,7 +595,7 @@ $zoom_c     = "16";
 
         var Integral = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
-        iconSize: [45, 40],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],

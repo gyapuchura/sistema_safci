@@ -37,17 +37,12 @@ $zoom_c     = "16";
 
 <div id="mi_mapa" style="width: 100%; height: 700px;"></div>
 
-
-
-
-
-
 <script>
 
 
    let Vecinal = L.icon({
         iconUrl: "marcadores/marcador_rojo_bl.png",
-        iconSize: [25, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -56,7 +51,7 @@ $zoom_c     = "16";
 
         let Puesto_salud = L.icon({
         iconUrl: "marcadores/marcador_amarillo.png",
-        iconSize: [45, 45],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -65,7 +60,7 @@ $zoom_c     = "16";
 
         let Ambulatorio = L.icon({
         iconUrl: "marcadores/marcador_violeta.png",
-        iconSize: [30, 30],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -74,7 +69,7 @@ $zoom_c     = "16";
 
         let Internacion = L.icon({
         iconUrl: "marcadores/marcador_verde.png",
-        iconSize: [25, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -83,7 +78,7 @@ $zoom_c     = "16";
 
         let Integral = L.icon({
         iconUrl: "marcadores/marcador_azul.png",
-        iconSize: [45, 40],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -92,7 +87,7 @@ $zoom_c     = "16";
 
         let Hospital_seg = L.icon({
         iconUrl: "marcadores/hospital_rojo.png",
-        iconSize: [35, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -101,7 +96,7 @@ $zoom_c     = "16";
 
         let Hospital_gen = L.icon({
         iconUrl: "marcadores/eess_blanco_celeste.png",
-        iconSize: [35, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -110,7 +105,7 @@ $zoom_c     = "16";
 
         let Establecim = L.icon({
         iconUrl: "marcadores/cruz_roja_blanco.png",
-        iconSize: [35, 35],
+        iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
