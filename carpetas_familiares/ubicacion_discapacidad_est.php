@@ -20,7 +20,7 @@ $sql_cord = " SELECT idcarpeta_familiar, latitud, longitud FROM ubicacion_cf WHE
 $result_cord = mysqli_query($link,$sql_cord);
 $row_cord = mysqli_fetch_array($result_cord);
 
-$sql_est = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+$sql_est = " SELECT idestablecimiento_salud, establecimiento_salud, latitud, longitud, idtipo_establecimiento FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
 $result_est = mysqli_query($link,$sql_est);
 $row_est = mysqli_fetch_array($result_est);
 
@@ -260,6 +260,78 @@ var markers = L.markerClusterGroup();
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
+               var Vecinal = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Puesto_salud = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Ambulatorio = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Internacion = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Integral = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_seg = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_gen = L.icon({
+        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Establecim = L.icon({
+        iconUrl: "../sala_situacional/marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
 // Cargar el archivo GeoJSON desde (base de datos) establecimientos.js (se asume que ya está cargado)
 L.geoJson(area_influencia, {
   pointToLayer: function(feature, latlng) {
@@ -289,7 +361,71 @@ map.addLayer(markers);
 // Datos de todos los areas de influencia 
 
 
-L.marker([<?php echo $row_est[2];?>, <?php echo $row_est[3];?>], {icon: Icono2}).addTo(map).bindPopup('<?php echo 'Establecimeinto : '.$row_est[1];?>')
+L.marker([<?php echo $row_est[2];?>, <?php echo $row_est[3];?>], {icon: 
+   <?php   
+    switch ($row_est[4]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }  ?> 
+}).addTo(map).bindPopup('<?php echo 'Establecimeinto : '.$row_est[1];?>')
 </script>
 
 </body>

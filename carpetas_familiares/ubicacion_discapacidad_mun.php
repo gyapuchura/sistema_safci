@@ -260,6 +260,78 @@ var markers = L.markerClusterGroup();
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
+        var Vecinal = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Puesto_salud = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
+        iconSize: [45, 45],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Ambulatorio = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Internacion = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
+        iconSize: [25, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Integral = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
+        iconSize: [45, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_seg = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_gen = L.icon({
+        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Establecim = L.icon({
+        iconUrl: "../sala_situacional/marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
 // Cargar el archivo GeoJSON desde (base de datos) establecimientos.js (se asume que ya está cargado)
 L.geoJson(area_influencia, {
   pointToLayer: function(feature, latlng) {
@@ -292,7 +364,7 @@ map.addLayer(markers);
             /****** Areas de influencia del Establecimiento de salud *********/
             $numero4 = 0;
             $sql4 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento, ";
-            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
+            $sql4.= " establecimiento_salud.latitud, establecimiento_salud.longitud, establecimiento_salud.idtipo_establecimiento FROM carpeta_familiar, establecimiento_salud, nivel_establecimiento, tipo_establecimiento  ";
             $sql4.= " WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND  establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
             $sql4.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento  AND establecimiento_salud.latitud !='' ";
             $sql4.= " AND establecimiento_salud.longitud !='' AND carpeta_familiar.idmunicipio = '$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";;
@@ -303,7 +375,71 @@ map.addLayer(markers);
             while ($field4 = mysqli_fetch_field($result4)){
             } do {
                 ?>
-        L.marker([<?php echo $row4[4];?>, <?php echo $row4[5];?>], {icon: Icono2}).addTo(map).bindPopup("<?php echo 'Establecimiento: '.$row4[1].' - '.$row4[2].'</br>Tipo:'.$row4[3];?>")
+        L.marker([<?php echo $row4[4];?>, <?php echo $row4[5];?>], {icon:
+          <?php   
+    switch ($row4[6]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }  ?> 
+        }).addTo(map).bindPopup("<?php echo '<p>Establecimiento: '.$row4[1].'</p><p>'.$row4[2].'<p></p>Tipo:'.$row4[3].'</p>';?>")
             <?php 
             $numero4++;
             } while ($row4 = mysqli_fetch_array($result4));

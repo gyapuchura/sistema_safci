@@ -27,7 +27,7 @@ $zoom_c     = "5.8";
 
 <body>
 
-<h2>EVENTO DE NOTIFICACIÓN INMEDIATA </h2>
+<h2>EVENTOS DE NOTIFICACIÓN INMEDIATA - NACIONAL</h2>
 <a href="http://"></a>
 <div id="mi_mapa" style="width: 100%; height: 700px;"></div>
 		
