@@ -1222,7 +1222,7 @@ $numero2++;
 <!----- DISCAPACIDAD END ------>
 
 
-        <script src="../js/highcharts.js"></script>
+        <script src="../js/salud_integrantes.js"></script>
         <script src="../js/modules/data.js"></script>
         <script src="../js/modules/drilldown.js"></script>
 	</body>

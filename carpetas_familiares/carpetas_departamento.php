@@ -249,7 +249,7 @@ TARIJA 	<?php echo $tarija_p;?>%
     while ($field = mysqli_fetch_field($result)){
     } do {
 
-        $sql_depto =" SELECT count(iddepartamento) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$row[0]' ";
+        $sql_depto =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$row[0]' ";
         $result_depto = mysqli_query($link,$sql_depto);
         $row_depto = mysqli_fetch_array($result_depto);
         $carpetas_d = $row_depto[0];
