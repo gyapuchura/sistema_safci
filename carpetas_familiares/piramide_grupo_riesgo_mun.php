@@ -171,7 +171,7 @@ $(function () {
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/piramide.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 410px; max-width: 800px; height: 600px; margin: 0 auto"></div>

@@ -189,7 +189,7 @@ $riesgo_alto_p    = ($riesgo_alto*100)/$total;
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/salud_integrantes.js"></script>
 <script src="../js/modules/data.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 

@@ -216,11 +216,11 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               <td style="font-size: 12px; font-family: Arial;">APARENTEMENTE SANOS</td>
             <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $aparentemente_sano;?> </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="aparentemente_sanos_deptos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="aparentemente_sanos_deptos_fecha.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="piramide_aparentemente_sanos_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="piramide_aparentemente_sanos_nal_fecha.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>
@@ -1600,7 +1600,7 @@ $numero2++;
 <!----- DISCAPACIDAD END ------>
 
 
-        <script src="../js/highcharts.js"></script>
+        <script src="../js/salud_integrantes.js"></script>
         <script src="../js/modules/data.js"></script>
         <script src="../js/modules/drilldown.js"></script>
 	</body>

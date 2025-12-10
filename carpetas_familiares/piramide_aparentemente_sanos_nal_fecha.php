@@ -9,17 +9,18 @@ $gestion        = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-$idarea_influencia = $_GET['idarea_influencia'];
+$inicio = $_GET['inicio'];
+$finalizacion = $_GET['finalizacion'];
 
-$sql_area = " SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM area_influencia, tipo_area_influencia ";
-$sql_area.= " WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$idarea_influencia' ";
-$result_area = mysqli_query($link,$sql_area);
-$row_area = mysqli_fetch_array($result_area);
-$area_af = $row_area[1]." ".$row_area[2];
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
 
-$sqlav = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar ";
-$sqlav.= " WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+
+$sqlav = " SELECT count(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, carpeta_familiar  ";
+$sqlav.= " WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sqlav.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
 $resultav = mysqli_query($link,$sqlav);
 $rowav = mysqli_fetch_array($resultav);
 
@@ -30,7 +31,7 @@ $regulador = $rowav[0]/10;
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>PIRÁMIDE POBLACIONAL - ÁREA DE INFLUENCIA</title>
+		<title>PIRÁMIDE APARENTEMENTE SANOS - NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -69,10 +70,10 @@ $(function () {
                 type: 'bar'
             },
             title: {
-                text: 'PIRÁMIDE POBLACIONAL - ÁREA DE INFLUENCIA <?php echo mb_strtoupper($area_af);?>'
+                text: 'PIRÁMIDE APARENTEMENTE SANOS - NACIONAL'
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
+                text: 'Fuente: Sistema Medi-Safci del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
             },
             xAxis: [{
                 categories: categories,
@@ -130,10 +131,9 @@ $(function () {
                     ?>
 
                     <?php
-                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, carpeta_familiar ";
-                    $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                    $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO'  ";
-                    $sql7.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+                    $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_ap_sano, integrante_cf, nombre  ";
+                    $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_ap_sano.idintegrante_cf=integrante_cf.idintegrante_cf ";
+                    $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row2[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO' AND integrante_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                     $result7 = mysqli_query($link,$sql7);
                     $row7 = mysqli_fetch_array($result7);
                     $cifra_masculino = $row7[0];
@@ -167,10 +167,9 @@ $(function () {
                         ?>
 
                         <?php
-                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, carpeta_familiar ";
-                        $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO'  ";
-                        $sql7.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
+                        $sql7 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_ap_sano, integrante_cf, nombre ";
+                        $sql7.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_ap_sano.idintegrante_cf=integrante_cf.idintegrante_cf ";
+                        $sql7.= " AND integrante_cf.idgrupo_etareo_cf='$row3[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO' AND integrante_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                         $result7 = mysqli_query($link,$sql7);
                         $row7 = mysqli_fetch_array($result7);
                         $cifra_femenino = $row7[0];
@@ -203,52 +202,5 @@ $(function () {
 <div id="container" style="min-width: 410px; max-width: 800px; height: 600px; margin: 0 auto"></div>
 
 
-<table width="446" border="1" align="center" bordercolor="#009999">
-    <tr>
-        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">GRUPO ETÁREO</span></td>
-        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">MASCULINO</span></td>
-        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">FEMENINO</span></td>
-    </tr>
-<?php
-                    $numero = 1;
-                    $sql = " SELECT idgrupo_etareo_cf, grupo_etareo_cf FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";                 
-                    $result = mysqli_query($link,$sql);
-                    if ($row = mysqli_fetch_array($result)){
-                    mysqli_field_seek($result,0);
-                    while ($field = mysqli_fetch_field($result)){
-                    } do {
-
-                        $sql_m = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, carpeta_familiar ";
-                        $sql_m.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql_m.= " AND integrante_cf.idgrupo_etareo_cf='$row[0]' AND nombre.idgenero='2' AND integrante_cf.estado='CONSOLIDADO'  ";
-                        $sql_m.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
-                        $result_m = mysqli_query($link,$sql_m);
-                        $row_m = mysqli_fetch_array($result_m);
-
-                        $sql_f = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, nombre, carpeta_familiar ";
-                        $sql_f.= " WHERE integrante_cf.idnombre=nombre.idnombre AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql_f.= " AND integrante_cf.idgrupo_etareo_cf='$row[0]' AND nombre.idgenero='1' AND integrante_cf.estado='CONSOLIDADO'  ";
-                        $sql_f.= "  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$idarea_influencia' ";
-                        $result_f = mysqli_query($link,$sql_f);
-                        $row_f = mysqli_fetch_array($result_f);
-                    ?>
-                        <tr>
-                            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-                            <td align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
-                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row_m[0];?></td>
-                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row_f[0];?></td>
-                            </tr> 
-
-                        <?php
-                        $numero++;                    
-                    } while ($row = mysqli_fetch_array($result));
-                    } else {
-                    /*
-                    Si no se encontraron resultados
-                    */
-                    }
-                    ?>
-                    </table>
 	</body>
 </html>
