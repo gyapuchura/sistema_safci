@@ -13,7 +13,7 @@ $sql_cf = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia
 $sql_cf.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud   ";
 $sql_cf.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
 $sql_cf.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-$sql_cf.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' and ubicacion_cf.ubicacion_actual='' ";
+$sql_cf.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' AND ubicacion_cf.ubicacion_actual='SI' ";
 $result_cf = mysqli_query($link,$sql_cf);
 $row_cf = mysqli_fetch_array($result_cf);
         
