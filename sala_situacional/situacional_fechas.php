@@ -13,6 +13,12 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 $inicio = $_POST['inicio'];
 $finalizacion = $_POST['finalizacion'];
 
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -89,7 +95,7 @@ $finalizacion = $_POST['finalizacion'];
              <!-- GRAFICA PRODUCCION DE CARPETAS FAMILIARES -->
                 <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">PRODUCCIÓN DE CARPETAS FAMILIARES </h6>
+                    <h6 class="m-0 font-weight-bold text-primary">PRODUCCIÓN DE CARPETAS FAMILIARES - DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h6>
                 </div>
                 <div class="card-body">
 
@@ -112,7 +118,7 @@ $finalizacion = $_POST['finalizacion'];
                 <!-- GRAFICA SALUD DE LOS INTEGRANTES POR RANGO DE FECHAS -->
                 <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">SALUD DE LOS INTEGRANTES DE LA FAMILIA </h6>
+                    <h6 class="m-0 font-weight-bold text-primary">SALUD DE LOS INTEGRANTES DE LA FAMILIA - DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h6>
                 </div>
                 <div class="card-body">
 
@@ -130,11 +136,12 @@ $finalizacion = $_POST['finalizacion'];
                         </div>
                     </div>
                 </div>
+                </div>
 
                 <!-- GRAFICA DETERMINANTES DE LA SALUD POR RANGO DE FECHAS -->
                 <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">RIESGO EN LAS DETERMINANTES DE LA SALUD </h6>
+                    <h6 class="m-0 font-weight-bold text-primary">RIESGO EN LAS DETERMINANTES DE LA SALUD - DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h6>
                 </div>
                 <div class="card-body">
 
@@ -152,11 +159,11 @@ $finalizacion = $_POST['finalizacion'];
                         </div>
                     </div>
                 </div>
-
+                </div>
                 <!-- GRAFICA RIESGO FMILIAR POR RANGO DE FECHAS -->
                 <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">RIÉSGO FAMILIAR </h6>
+                    <h6 class="m-0 font-weight-bold text-primary">EVALUACIÓN DEL RIÉSGO FAMILIAR - DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h6>
                 </div>
                 <div class="card-body">
 
@@ -174,8 +181,31 @@ $finalizacion = $_POST['finalizacion'];
                         </div>
                     </div>
                 </div>
+                </div>
 
 
+                  <!-- GRAFICA VISITAS FMILIARES POR RANGO DE FECHAS -->
+                <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">VISITAS FAMILIARES - DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h6>
+                </div>
+                <div class="card-body">
+
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="btn btn-primary btn-icon-split" href="../seguimiento_familiar/visitas_safci_diarias_fecha.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=300'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-book"></i>
+                            </span>
+                            <span class="text">VISITAS FAMILIARES</span></a>
+                        </div>
+                        <div class="col-sm-4">
+                        </div>
+                    </div>
+                </div>
+                </div>
                         
 
 
