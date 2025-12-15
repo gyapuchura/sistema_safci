@@ -16,7 +16,7 @@ $sql.= " idtipo_establecimiento, idnivel_establecimiento, idsubsector_salud, idd
 $sql.= " latitud, longitud, idusuario, fecha_registro FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
-
+ 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -321,11 +321,11 @@ $row = mysqli_fetch_array($result);
                 <div class="form-group row">
                     <div class="col-sm-6">
                         <h6 class="text-primary">LATITUD</h6>
-                        <input type="NUMBER" name="latitud" class="form-control" id="lat" placeholder=" Seleccione LATITUD en el mapa" value="<?php echo $row[11];?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
+                        <input type="NUMBER" name="latitud" class="form-control" id="lat" placeholder=" Seleccione LATITUD en el mapa" value="<?php if ($row[11] != '') {echo $row[11];} else {echo "-17.567775";}?>" min="-9.662687" max="-22.908152" title="Debe ingresar latitud correspondiente a Bolivia" readonly required>
                     </div>
                     <div class="col-sm-6">
                         <h6 class="text-primary">LONGITUD</h6>
-                        <input type="number"  name="longitud" class="form-control" id="lng" placeholder="Seleccione LONGITUD en el mapa" value="<?php echo $row[12];?>" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>
+                        <input type="number"  name="longitud" class="form-control" id="lng" placeholder="Seleccione LONGITUD en el mapa" value="<?php if ($row[11] != '') {echo $row[12];} else {echo "-66.346216";}?>" min="-57.452675" max="-69.626293" title="Debe ingresar Longitud correspondiente a Bolivia" readonly required>
                        <!-- <input type="number" style="display:none" id="COD_MUN" readonly="readonly" > --->
                     </div>
                 </div>   
@@ -456,7 +456,7 @@ $row = mysqli_fetch_array($result);
 /** ubicacion actual de acuerdo a la ubicacion del establecimiento de salud = -16.5113374610014, -68.13400675671315 */
 /** ubicacion prueba -16.536361, -68.154571*/
 
-  var map = L.map('safci').setView([-16.5113374610014, -68.13400675671315], 6);
+  var map = L.map('safci').setView([<?php if ($row[11] != '') {echo $row[11];} else {echo "-17.567775";}?>, <?php if ($row[11] != '') {echo $row[12];} else {echo "-66.346216";}?>], <?php if ($row[11] != '') {echo "16";} else {echo "6";}?>);
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: ' ',
@@ -517,7 +517,7 @@ $row = mysqli_fetch_array($result);
   L.control.scale().addTo(map); 
 
   // Crear un marcador
-  var marker = L.marker([-16.5113374610014, -68.13400675671315], { draggable: true }).addTo(map);
+  var marker = L.marker([<?php if ($row[11] != '') {echo $row[11];} else {echo "-17.567775";}?>, <?php if ($row[11] != '') {echo $row[12];} else {echo "-66.346216";}?>], { draggable: true }).addTo(map);
 
   // Listener para el movimiento del marcador
   marker.on('dragend', function(event) {
