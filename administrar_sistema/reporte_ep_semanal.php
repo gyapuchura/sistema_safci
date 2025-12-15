@@ -4,7 +4,8 @@
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 	    = date("Y-m-d");
-$semana  = date("W");
+$semana  = date("W"); 
+//  **  date("W") ***//
 $gestion    =  date("Y");
 
 $semana_ep = $semana-1;
@@ -98,8 +99,8 @@ $semana_ep = $semana-1;
                                         
                                       </div>
                                       <div class="col-auto">
-                                      <a href="notificaciones_ep_semana.php?idsospecha_diag=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES'); return false;">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      <a href="notificaciones_ep_semana.php?idsospecha_diag=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1100,height=900,scrollbars=YES'); return false;">
+                                      <i class="fas fa-map fa-2x text-gray-300"></i>
                                       </a>
                                       </div>
                                   </div>
