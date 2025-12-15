@@ -97,7 +97,7 @@ $semana_ep = $semana-1;
                                         
                                       </div>
                                       <div class="col-auto">
-                                      <a href="../administrar_sistema/notificaciones_ep_semana_nal.php?idsospecha_diag=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES'); return false;">
+                                      <a href="../administrar_sistema/notificaciones_ep_semana_nal.php?idsospecha_diag=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1100,height=900,scrollbars=YES'); return false;">
                                       <i class="fas fa-map fa-2x text-gray-300"></i>
                                       </a>
                                       </div>

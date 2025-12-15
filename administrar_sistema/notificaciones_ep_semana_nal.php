@@ -28,7 +28,7 @@ $zoom_c     = "5.8";
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
 
-<div id="mi_mapa" style="width: 100%; height: 600px;"></div>
+<div id="mi_mapa" style="width: 100%; height: 500px;"></div>
         
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">F302A - <?php echo mb_strtoupper($row1[1]);?></h4>
 
