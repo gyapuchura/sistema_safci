@@ -340,7 +340,7 @@ $row = mysqli_fetch_array($result);
                         <div class="col-sm-3">
 
                         <?php
-                            if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'ADM-MUNICIPAL') {
+                            if ($perfil_ss == 'ADMINISTRADOR' || $perfil_ss == 'ADM-MUNICIPAL' || $perfil_ss == 'PERSONAL') {
                             ?>  
                         <a href="editar_establecimiento.php" class="btn btn-warning">MODIFICAR REGISTRO</a>
                         <?php

@@ -58,7 +58,7 @@ $row_dep = mysqli_fetch_array($result_dep);
                 <div class="container-fluid">
 
                 <div class="row">
-                  </br>
+                  </br>b
                 </div>
                     <!-- Page Heading -->
 
@@ -106,8 +106,8 @@ $row_dep = mysqli_fetch_array($result_dep);
                                         
                                       </div>
                                       <div class="col-auto">
-                                      <a href="../administrar_sistema/notificaciones_ep_semana_dep.php?idsospecha_diag=<?php echo $row[0];?>&iddepartamento=<?php echo $iddepartamento;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES'); return false;">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      <a href="../administrar_sistema/notificaciones_ep_semana_dep.php?idsospecha_diag=<?php echo $row[0];?>&iddepartamento=<?php echo $iddepartamento;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1100,height=900,scrollbars=YES'); return false;">
+                                      <i class="fas fa-map fa-2x text-gray-300"></i>
                                       </a>
                                       </div>
                                   </div>

@@ -102,7 +102,7 @@ $zoom_c     = "5.8";
         ?>
 	      </tbody>
     </table>
-
+</br></br>
     <script>
     let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>,<?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
 
