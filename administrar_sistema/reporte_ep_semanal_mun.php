@@ -101,8 +101,8 @@ $idmunicipio = $_GET['idmunicipio'];
                                         
                                       </div>
                                       <div class="col-auto">
-                                      <a href="../administrar_sistema/notificaciones_ep_semana_mun.php?idsospecha_diag=<?php echo $row[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=700,scrollbars=YES'); return false;">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                      <a href="../administrar_sistema/notificaciones_ep_semana_mun.php?idsospecha_diag=<?php echo $row[0];?>&idmunicipio=<?php echo $idmunicipio;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1100,height=900,scrollbars=YES'); return false;">
+                                      <i class="fas fa-map fa-2x text-gray-300"></i>
                                       </a>
                                       </div>
                                   </div>

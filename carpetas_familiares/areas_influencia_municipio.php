@@ -99,27 +99,27 @@ $zoom_c     = "12";
 <table width="800" border="0" align="center">
   <tbody>
     <tr>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_rojo_bl.png" alt="" width="20px" height="26px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_rojo_bl.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">CONSULTORIO VECINAL</span></td>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_amarillo.png" alt="" width="38px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_amarillo.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">PUESTO DE SALUD</span></td>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_violeta.png" alt="" width="23px" height="23px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_violeta.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD AMBULATORIO</span></td>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_verde.png" alt="" width="20px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_verde.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD CON INTERNACIÓN</span></td>
     </tr>
     <tr>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_azul.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/marcador_azul.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD INTEGRAL</span></td>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/hospital_rojo.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/hospital_rojo.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL DE SEGUNDO NIVEL</span></td>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/eess_blanco_celeste.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/eess_blanco_celeste.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL GENERAL</span></td>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/cruz_roja_blanco.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/cruz_roja_blanco.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">OTRO TIPO DE ESTABLECIMIENTO DE SALUD</span></td>
     </tr>
     <tr>
-      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/comunidad.png" alt="" width="25px" height="25px"/></span></td>
+      <td><span style="text-align: center"><img src="../sala_situacional/marcadores/comunidad.png" alt="" width="30px" height="36px"/></span></td>
       <td><span style="font-family: Arial; font-size: 12px;">ÁREA DE INFLUENCIA (COMUNIDAD, BARRIO, ZONA, UNIDAD VECINAL)</span></td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>

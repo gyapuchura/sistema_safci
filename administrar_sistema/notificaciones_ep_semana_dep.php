@@ -9,7 +9,21 @@ $semana  = date("W");
 $semana_ep = $semana-1;
 
 $idsospecha_diag = $_GET['idsospecha_diag'];
-$iddepartamento = $_GET['iddepartamento'];
+$iddepartamento  = $_GET['iddepartamento'];
+
+$sql1 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, ";
+$sql1.= " departamento.departamento FROM establecimiento_salud, departamento WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento ";
+$sql1.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.iddepartamento='$iddepartamento' LIMIT 1 ";
+$result1 = mysqli_query($link,$sql1);
+$row1 = mysqli_fetch_array($result1);
+
+$latitud_c  = $row1[1];
+$longitud_c = $row1[2];
+$zoom_c     = "7";
+
+$sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
+$result_dep = mysqli_query($link,$sql_dep);
+$row_dep = mysqli_fetch_array($result_dep);
 
 $sql_sos = " SELECT idsospecha_diag, sospecha_diag FROM sospecha_diag WHERE idsospecha_diag='$idsospecha_diag' ";
 $result_sos = mysqli_query($link,$sql_sos);
@@ -22,167 +36,14 @@ $row_sos = mysqli_fetch_array($result_sos);
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>MEDI-SAFCI F302A SEMANAL</title>
 
-		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
-		<style type="text/css">
-${demo.css}
-		</style>
-		<script type="text/javascript">
-$(function () {
-    $('#container').highcharts({
-        chart: {
-            type: 'areaspline'
-        },
-        title: {
-            text: 'NOTIFICACIONES F302A - HASTA LA SEMANA Nº <?php echo $semana_ep;?> CON <?php echo mb_strtoupper($row_sos[1]);?>'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        xAxis: { 
-            categories: [
- <?php
-$numero = 0;
-$sql = " SELECT notificacion_ep.fecha_registro FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
-$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.gestion='$gestion' AND registro_enfermedad.cifra !='0' ";
-$sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' AND notificacion_ep.iddepartamento='$iddepartamento' GROUP BY notificacion_ep.fecha_registro ORDER BY notificacion_ep.fecha_registro ";
-$result = mysqli_query($link,$sql);
-$total = mysqli_num_rows($result);
- if ($row = mysqli_fetch_array($result)){
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){
-} do {
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
 
-    $fecha_s = explode('-',$row[0]);
-    $fecha_log = $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0];
-    ?>
+<div id="mi_mapa" style="width: 100%; height: 500px;"></div>
 
-             '<?php echo $fecha_log;?>'
+<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">F302A - <?php echo mb_strtoupper($row_sos[1]);?> - <?php echo $row_dep[1];?></h4>
 
-                           <?php
-
-$numero++;
-
-if ($numero == $total) {
-
-echo "";
-
-
-}
-else {
-
-
-
-echo ",";
-
-}
-
-
-} while ($row = mysqli_fetch_array($result));
-
-
-} else {
-
-
-echo ",";
-
-}
-?>
-            ],
-            plotBands: [{ // visualize the weekend
-                from: 4.5,
-                to: 6.5,
-                color: 'rgba(68, 170, 213, .2)'
-            }]
-        },
-        yAxis: {
-            title: {
-                text: 'F302a'
-            }
-        },
-        tooltip: {
-            shared: true,
-            valueSuffix: ' Casos'
-        },
-        credits: {
-            enabled: false
-        },
-        plotOptions: {
-            areaspline: {
-                fillOpacity: 0.5
-            }
-        },
-        series: [{
-            name: 'Casos <?php echo mb_strtoupper($row_sos[1]);?>',
-            data: [
-
-             <?php
-
-$numero = 0;
-$sql = " SELECT notificacion_ep.fecha_registro FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
-$sql.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.gestion='$gestion' AND registro_enfermedad.cifra !='0' ";
-$sql.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' AND notificacion_ep.iddepartamento='$iddepartamento' GROUP BY notificacion_ep.fecha_registro ORDER BY notificacion_ep.fecha_registro ";
-$result = mysqli_query($link,$sql);
-
-$total = mysqli_num_rows($result);
-
- if ($row = mysqli_fetch_array($result)){
-
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){
-} do {
-	?>
-
-<?php
-$sql7 = " SELECT sum(registro_enfermedad.cifra) FROM notificacion_ep, registro_enfermedad WHERE notificacion_ep.estado='CONSOLIDADO' ";
-$sql7.= " AND registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' AND registro_enfermedad.cifra !='0' ";
-$sql7.= " AND notificacion_ep.iddepartamento='$iddepartamento' AND registro_enfermedad.gestion='$gestion' AND notificacion_ep.fecha_registro='$row[0]' ";
-$result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_fetch_array($result7);
-$cifra_diaria = $row7[0];
-?>
-             <?php echo $cifra_diaria; ?>
-
-<?php
-$numero++;
-if ($numero == $total) {
-echo "";
-}
-else {
-echo ",";
-}
-
-} while ($row = mysqli_fetch_array($result));
-
-
-} else {
-
-
-echo ",";
-/*
-Si no se encontraron resultados
-*/
-}
-?>
-            ]
-        }]
-    });
-});
-		</script>
-	</head>
-	<body>
-<script src="../js/highcharts.js"></script>
-<script src="../js/modules/exporting.js"></script>
-<div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
-
-<h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">F302A - <?php echo mb_strtoupper($row_sos[1]);?></h4>
-
+</br>
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
@@ -252,6 +113,56 @@ Si no se encontraron resultados
         ?>
 	      </tbody>
     </table>
+</br></br>
+  <script>
+    let map = L.map('mi_mapa').setView([<?php echo $latitud_c;?>,<?php echo $longitud_c;?>], <?php echo $zoom_c;?>);
+
+        let Icono_ep = L.icon({
+        iconUrl: "../sala_situacional/marcadores/sospecha_ep.png",
+        iconSize: [25, 25],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        <?php 
+        $sql2 = " SELECT notificacion_ep.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, municipios.municipio ";
+        $sql2.= " FROM registro_enfermedad, notificacion_ep, establecimiento_salud, municipios WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
+        $sql2.= " AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.gestion='$gestion' ";
+        $sql2.= " AND registro_enfermedad.gestion = '$gestion' AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND registro_enfermedad.cifra !='0' ";
+        $sql2.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' AND notificacion_ep.iddepartamento='$iddepartamento' GROUP BY notificacion_ep.idestablecimiento_salud  ";
+        $result2 = mysqli_query($link,$sql2);
+        $total2 = mysqli_num_rows($result2);
+        if ($row2 = mysqli_fetch_array($result2)){
+        mysqli_field_seek($result2,0);
+        while ($field2 = mysqli_fetch_field($result2)){
+        } do {
+
+                $sql_ca = " SELECT sum(registro_enfermedad.cifra) FROM registro_enfermedad, notificacion_ep WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep  ";
+                $sql_ca.= " AND registro_enfermedad.idsospecha_diag = '$idsospecha_diag' AND notificacion_ep.idestablecimiento_salud='$row2[0]' AND notificacion_ep.iddepartamento='$iddepartamento' AND notificacion_ep.gestion='$gestion' ";
+                $result_ca = mysqli_query($link,$sql_ca);    
+                $row_ca = mysqli_fetch_array($result_ca);
+                $casos = $row_ca[0];
+            ?>
+
+                L.marker([<?php echo $row2[2];?>,<?php echo $row2[3];?>], {icon: Icono_ep }).addTo(map).bindPopup("<?php echo '<p>Establecimiento:'.$row2[1].'</p><p>Municipio:'.$row2[4].'</p><p>Casos: '.$casos.'</p><p><a href=../implementacion_safci/marco_ep_establecimiento_sala_mapa.php?idsospecha_diag_estab='.$idsospecha_diag.'&idestablecimiento_salud='.$row2[0].'  onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>VIGILANCIA DEL ESTABLECIMIENTO</a></p>';?>")
+
+                <?php 
+        } while ($row2 = mysqli_fetch_array($result2));
+        } else {
+        echo "";
+        /*
+        Si no se encontraron resultados
+        */
+        }
+        ?>
+</script>
 
 </body>
 </html>
