@@ -277,12 +277,15 @@ $zoom_c     = "6";
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-file fa-2x text-gray-300"></i>
+                                        <a href="../seguimiento_familiar/mapa_visitas_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=1100,scrollbars=YES,top=50,left=400'); return false;">
+                                            <i class="fas fa-map fa-2x text-gray-300"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-danger shadow h-100 py-2">
                             <div class="card-body">
@@ -506,9 +509,15 @@ $sql3.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND est
 $sql3.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.idmunicipio='$row2[0]' LIMIT 1 ";
 $result3 = mysqli_query($link,$sql3);
 $row3 = mysqli_fetch_array($result3);
+
+$sql5 = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar WHERE carpeta_familiar.estado = 'CONSOLIDADO'  ";
+$sql5.= " AND carpeta_familiar.idmunicipio = '$row2[0]' GROUP BY carpeta_familiar.idusuario ";
+$result5 = mysqli_query($link,$sql5);
+$personal = mysqli_num_rows($result5);
+
 ?>
 
-        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo 'Municipio: '.$row2[1];?>")
+        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p><p> Personal SAFCI : '.$personal.'</p>';?>")
 
 <?php 
 $numero2++;
