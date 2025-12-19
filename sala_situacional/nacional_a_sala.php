@@ -503,21 +503,15 @@ mysqli_field_seek($result2,0);
 while ($field2 = mysqli_fetch_field($result2)){
 } do {
 
-$sql3 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud,  ";
-$sql3.= " municipios.municipio, departamento.departamento FROM establecimiento_salud, municipios, departamento ";
-$sql3.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
-$sql3.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.idmunicipio='$row2[0]' LIMIT 1 ";
+$sql3 = " SELECT idestablecimiento_salud, latitud, longitud FROM establecimiento_salud WHERE latitud != '' AND longitud != '' AND idmunicipio='$row2[0]' LIMIT 1 ";
 $result3 = mysqli_query($link,$sql3);
 $row3 = mysqli_fetch_array($result3);
 
-$sql5 = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar WHERE carpeta_familiar.estado = 'CONSOLIDADO'  ";
-$sql5.= " AND carpeta_familiar.idmunicipio = '$row2[0]' GROUP BY carpeta_familiar.idusuario ";
-$result5 = mysqli_query($link,$sql5);
-$personal = mysqli_num_rows($result5);
+
 
 ?>
 
-        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p><p> Personal SAFCI : '.$personal.'</p>';?>")
+        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p>';?>")
 
 <?php 
 $numero2++;
