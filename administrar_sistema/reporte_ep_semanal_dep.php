@@ -7,7 +7,11 @@ $fecha 	    = date("Y-m-d");
 $semana  = date("W");
 $gestion    =  date("Y");
 
-$semana_ep = $semana-1;
+if ($semana == '01') {
+    $semana_ep = '52';
+} else {
+    $semana_ep = $semana-1;
+}
 
 $iddepartamento = $_GET['iddepartamento'];
 
