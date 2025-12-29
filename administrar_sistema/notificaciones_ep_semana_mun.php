@@ -6,7 +6,12 @@ $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $gestion    = date("Y");
 $semana  = date("W");
-$semana_ep = $semana-1;
+
+if ($semana == '01') {
+    $semana_ep = '52';
+} else {
+    $semana_ep = $semana-1;
+}
 
 $idsospecha_diag = $_GET['idsospecha_diag'];
 $idmunicipio = $_GET['idmunicipio'];
