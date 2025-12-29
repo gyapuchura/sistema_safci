@@ -13,7 +13,7 @@ if ($semana == '01') {
 } else {
     $semana_ep = $semana-1;
 }
-?>
+
 
 $idsospecha_diag = $_GET['idsospecha_diag'];
 
