@@ -23,8 +23,14 @@ $sql =" SELECT semana_ep FROM notificacion_ep WHERE idnotificacion_ep ='$idnotif
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
+if ($semana == '01') {
+    $semana_ep = '53';
+} else {
+    $semana_ep = $semana-1;
+}
 
-if ($row[0] <= $semana) {
+
+if ($row[0] <= $semana_ep) {
     
     $sql8 =" UPDATE notificacion_ep SET estado='CONSOLIDADO' ";
     $sql8.=" WHERE idnotificacion_ep ='$idnotificacion_ep_ss' ";
