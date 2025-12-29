@@ -15,6 +15,12 @@ $idred_salud_ss    = $_SESSION['idred_salud_ss'];
 $idmunicipio_ss    = $_SESSION['idmunicipio_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
+if ($semana == '01') {
+    $semana_ep = '53';
+} else {
+    $semana_ep = $semana-1;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -187,12 +193,12 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                         name="" value="<?php echo mb_strtoupper($rowus[0]);?> <?php echo mb_strtoupper($rowus[1]);?> <?php echo mb_strtoupper($rowus[2]);?>" disabled>
                     </div>
                     <div class="col-sm-6">
-                    <h6 class="text-primary">SEMANA EPIDEMIOLÓGICA:</h6>
+                    <h6 class="text-primary">SEMANA EPIDEMIOLÓGICA:  <?php echo $semana;?></h6>
 
                      <select name="semana_ep"  id="semana_ep" class="form-control" required>
                         <option value="">ELEGIR</option>
                         <?php
-                        $sql1 = "SELECT idsemana_ep, semana_ep FROM semana_ep WHERE idsemana_ep <='$semana' ORDER BY idsemana_ep";
+                        $sql1 = "SELECT idsemana_ep, semana_ep FROM semana_ep WHERE idsemana_ep <='$semana_ep' ORDER BY idsemana_ep";
                         $result1 = mysqli_query($link,$sql1);
                         if ($row1 = mysqli_fetch_array($result1)){
                         mysqli_field_seek($result1,0);

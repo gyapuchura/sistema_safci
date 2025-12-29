@@ -125,7 +125,14 @@ $rowus = mysqli_fetch_array($resultus);
                 <div class="col mr-2">
                     <a href="reporte_ep_semanal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=600,height=900,scrollbars=YES,top=50,left=600'); return false;">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    Nº DE NOTIFICACIONES (F302A) - SEMANA EPIDEMIOLÓGICA. Nº <?php echo $semana-1;?>
+                    Nº DE NOTIFICACIONES (F302A) - SEMANA EPIDEMIOLÓGICA. Nº 
+                     <?php 
+                     if ($semana == '01') {
+                            echo "52";
+                        } else {
+                            echo $semana-1;
+                        }
+                     ?>
                     </div></a>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                     <?php

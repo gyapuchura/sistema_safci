@@ -3,13 +3,16 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
-$fecha 	    = date("Y-m-d");
+$fecha 	 = date("Y-m-d");
 $semana  = date("W"); 
 //  **  date("W") ***//
 $gestion    =  date("Y");
 
-$semana_ep = $semana-1;
-
+if ($semana == '01') {
+    $semana_ep = '52';
+} else {
+    $semana_ep = $semana-1;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
