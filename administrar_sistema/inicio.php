@@ -78,7 +78,13 @@ $rowus = mysqli_fetch_array($resultus);
 <hr>
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h6 class="text-primary">
-                        SEMANA EPIDEMIOLÓGICA. Nº <?php echo $semana;?> </h6>
+                        SEMANA EPIDEMIOLÓGICA. Nº <?php 
+                         if ($semana == '01') {
+                            echo "53";
+                        } else {
+                            echo $semana-1;
+                        }
+                        ?> </h6>
                         <h6 class="text-primary">
                         REPORTE DEL DIA DE HOY <?php 
                             $fecha_r = explode('-',$fecha);
