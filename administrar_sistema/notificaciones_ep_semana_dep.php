@@ -140,7 +140,7 @@ $row_sos = mysqli_fetch_array($result_sos);
         $sql2 = " SELECT notificacion_ep.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, municipios.municipio ";
         $sql2.= " FROM registro_enfermedad, notificacion_ep, establecimiento_salud, municipios WHERE registro_enfermedad.idnotificacion_ep=notificacion_ep.idnotificacion_ep ";
         $sql2.= " AND notificacion_ep.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND notificacion_ep.idmunicipio=municipios.idmunicipio AND notificacion_ep.gestion='$gestion' ";
-        $sql2.= " AND registro_enfermedad.gestion = '$gestion' AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND registro_enfermedad.cifra !='0' ";
+        $sql2.= " AND registro_enfermedad.gestion = '$gestion' AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND registro_enfermedad.cifra !='0' AND notificacion_ep.estado='CONSOLIDADO' ";
         $sql2.= " AND registro_enfermedad.idsospecha_diag='$idsospecha_diag' AND notificacion_ep.iddepartamento='$iddepartamento' GROUP BY notificacion_ep.idestablecimiento_salud  ";
         $result2 = mysqli_query($link,$sql2);
         $total2 = mysqli_num_rows($result2);
