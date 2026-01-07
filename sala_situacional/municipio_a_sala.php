@@ -743,7 +743,7 @@ $zoom_c     = "13";
             echo "Establecim";
             break;
     }  ?> 
-        }).addTo(map).bindPopup("<?php echo '<p>Establecimiento : '.$row4[1].'</p><p>'.$row4[2].'</p><p>Tipo : '.$row4[3].'</p>';?>")
+            }).addTo(map).bindPopup("<?php echo '<p>Establecimiento : '.$row4[1].'</p><p>'.$row4[2].'</p><p>Tipo : '.$row4[3].'</p><p><a href=establecimiento_a_sala_s.php?idestablecimiento_salud='.$row4[0].' onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>SALA SITUACIONAL</a></p> ';?>")
             <?php 
             $numero4++;
             } while ($row4 = mysqli_fetch_array($result4));

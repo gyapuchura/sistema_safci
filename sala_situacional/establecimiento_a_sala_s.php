@@ -2,22 +2,20 @@
 <?php include("../inc.config.php");
 $gestion = date("Y");
 
-$iddepartamento = $_GET['iddepartamento'];
+$idestablecimiento_salud = $_GET['idestablecimiento_salud'];
 
-$sql_cord = "  SELECT area_influencia.idarea_influencia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, area_influencia.latitud, area_influencia.longitud  ";
-$sql_cord.= "  FROM area_influencia, tipo_area_influencia, establecimiento_salud WHERE area_influencia.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-$sql_cord.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND establecimiento_salud.iddepartamento='$iddepartamento' ORDER BY area_influencia.idarea_influencia DESC LIMIT 1 ";
-$result_cord = mysqli_query($link,$sql_cord);
-$row_cord = mysqli_fetch_array($result_cord);
+$sql_est = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud,  ";
+$sql_est.= " establecimiento_salud.idmunicipio, tipo_establecimiento.tipo_establecimiento, nivel_establecimiento.nivel_establecimiento, ";
+$sql_est.= " establecimiento_salud.idtipo_establecimiento FROM establecimiento_salud, tipo_establecimiento, nivel_establecimiento, carpeta_familiar, ubicacion_cf  ";
+$sql_est.= " WHERE carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento  ";
+$sql_est.= " AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_est.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idestablecimiento_salud DESC LIMIT 1 ";
+$result_est = mysqli_query($link,$sql_est);
+$row_est = mysqli_fetch_array($result_est);
 
-
-$sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento'  ";
-$result_dep = mysqli_query($link,$sql_dep);
-$row_dep = mysqli_fetch_array($result_dep);
-
-$latitud_c  = $row_cord[3];
-$longitud_c = $row_cord[4];
-$zoom_c     = "7";
+$latitud_c  = $row_est[2];
+$longitud_c = $row_est[3];
+$zoom_c     = "16";
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +37,24 @@ $zoom_c     = "7";
     <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
-        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <style>
+    .filtro {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    select {
+      margin-right: 10px;
+    }
+    #location {
+      margin-top: 10px;
+    }
+  </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 </head>
 
@@ -67,44 +81,47 @@ $zoom_c     = "7";
             <div class="card shadow mb-4">
                     <div class="card-header py-3">
 
+                        <div class="my-2"></div>
+                        <button onclick="history.back();" class="btn btn-info btn-icon-split"> <- VOLVER <- </button>
+                        <div class="my-2"></div>
+
                         <h4 class="m-0 font-weight-bold text-primary">SALA SITUACIONAL DE SALUD</h4>
-                        <h2 class="m-0 font-weight-bold text-info">DEPARTAMENTO : <?php echo mb_strtoupper($row_dep[1]);?></h2>
+                        <h4 class="m-0 font-weight-bold text-info">ESTABLECIMIENTO DE SALUD: <?php echo mb_strtoupper($row_est[1]);?></h4>
                         </br>
+
                         <?php
                         $sql_int =" SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-                        $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
+                        $sql_int.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
                         $result_int = mysqli_query($link,$sql_int);
                         $row_int = mysqli_fetch_array($result_int);  
                         $integrantes = $row_int[0];
-
                         $integrantes_cf   = number_format($integrantes, 0, '.', '.');
                         ?>
-                        <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL DEPARTAMENTO = <?php echo $integrantes_cf;?></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE HABITANTES CARPETIZADOS EN EL ESTABLECIMIENTO = <?php echo $integrantes_cf;?></h6>
 
                         <?php
-                        $sql_mun =" SELECT idmunicipio FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' GROUP BY idmunicipio  ";
-                        $result_mun = mysqli_query($link,$sql_mun);
-                        $municipios = mysqli_num_rows($result_mun);  
+                        $sql_fam =" SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE  estado='CONSOLIDADO'  ";
+                        $sql_fam.=" AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ";
+                        $result_fam = mysqli_query($link,$sql_fam);
+                        $row_fam = mysqli_fetch_array($result_fam);  
+                        $familias = $row_fam[0];
+                        $familias_cf   = number_format($familias, 0, '.', '.');
                         ?>
-                        <h6 class="m-0 font-weight-bold text-primary">N° DE MUNICIPIOS CON COBERTURA SAFCI EN EL DEPARTAMENTO = <?php echo $municipios;?></h6>
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE FAMILIAS CARPETIZADAS EN EL ESTABLECIMIENTO = <?php echo $familias_cf;?></h6>
 
+                        
                         <?php
-                        $sql_dep =" SELECT idestablecimiento_salud FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' GROUP BY idestablecimiento_salud  ";
-                        $result_dep = mysqli_query($link,$sql_dep);
-                        $establecimientos = mysqli_num_rows($result_dep);  
-                        ?>
-                        <h6 class="m-0 font-weight-bold text-primary">N° DE ESTABLECIMIENTOS DE SALUD EN EL DEPARTAMENTO = <?php echo $establecimientos;?></h6>
-
-                        <?php
-                        $sql_af =" SELECT idarea_influencia FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND iddepartamento='$iddepartamento' ";
+                        $sql_af =" SELECT idarea_influencia FROM carpeta_familiar WHERE estado='CONSOLIDADO' AND idestablecimiento_salud='$idestablecimiento_salud' ";
                         $sql_af.=" GROUP BY idarea_influencia ";
                         $result_af = mysqli_query($link,$sql_af);
                         $row_af = mysqli_num_rows($result_af);  
                         $areas_influencia = $row_af;
                         ?>
-                        <h6 class="m-0 font-weight-bold text-primary">N° DE ÁREAS DE INFLUENCIA EN EL DEPARTAMENTO = <?php echo $areas_influencia;?></h6>                  
+                        <h6 class="m-0 font-weight-bold text-primary">N° DE ÁREAS DE INFLUENCIA DEL ESTABLECIMIENTO  = <?php echo $areas_influencia;?></h6>                  
 
 
+
+                        <h6 class="m-0 font-weight-bold text-info">COORDENADAS: <?php echo $latitud_c;?> <?php echo $longitud_c;?></h6>
                     </div> 
                      
                 <div class="card-body">
@@ -124,7 +141,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../sala_situacional/estimacion_poblacion_depto.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=800,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="../sala_situacional/estimacion_poblacion_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1500,height=800,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                             POBLACIÓN (ÁREA DEMOGRÁFICA)</div></a>  
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
@@ -144,7 +161,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/piramide_poblacional_deptal.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;">  
+                                        <a href="../carpetas_familiares/piramide_poblacional_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=750,scrollbars=YES,top=50,left=100'); return false;">  
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                             PIRÁMIDE POBLACIONAL</div>
                                         </a>
@@ -164,9 +181,9 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/grafica_defuncion_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="../carpetas_familiares/grafica_defuncion_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        DEFUNCIÓN EN LAS FAMILIAS</div>
+                                        DEFUNCIÓN EN LA FAMILIA</div>
                                         </a> 
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
@@ -184,7 +201,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/salud_integrantes_grafica_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=800,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="../carpetas_familiares/morbilidad_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=850,height=580,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                         ESTADO DE LA SALUD FAMILIAR</div>
                                         </a>
@@ -204,7 +221,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_programa_social_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=100'); return false;">
+                                    <a href="../carpetas_familiares/grafica_programa_social_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=650,scrollbars=YES,top=50,left=100'); return false;">
                                     <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                     MONITOREO DE PROGRAMAS SOCIALES</div>
                                     </a>
@@ -224,9 +241,9 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../produccion_servicios/atenciones_psafci_diarias_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
+                                        <a href="../produccion_servicios/atenciones_psafci_diarias_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
-                                        MONITOREO ATENCIONES MÉDICAS PSAFCI</div></a>
+                                        MONITOREO ATENCION INTEGRAL PSAFCI</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -243,7 +260,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../administrar_sistema/reporte_ep_semanal_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=600,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                        <a href="../administrar_sistema/reporte_ep_semanal_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=600,height=900,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                             VIGILANCIA EPIDEMIOLÓGICA</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
@@ -262,15 +279,13 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../administrar_sistema/reporte_ep_desastres_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=400,height=750,scrollbars=YES,top=50,left=400'); return false;">
+                                        <a href="../administrar_sistema/reporte_ep_desastres_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=400,height=450,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-primary text-uppercase mb-1">
                                            DESASTRES</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
-                                    <div class="col-auto"> 
-                                        <a href="../implementacion_safci/mapa_desastres_safci_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=850,scrollbars=YES,top=50,left=400'); return false;">
-                                            <i class="fas fa-map fa-2x text-gray-300"></i>
-                                        </a>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -282,7 +297,7 @@ $zoom_c     = "7";
                             </div>
                             <div class="col-sm-6">                                
                                 <div class="col-lg-12 mb-4">
-                                <a href="../sala_situacional/mapa_departamento.php?iddepartamento_mapa=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                <a href="../carpetas_familiares/ubicacion_familias_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=900,scrollbars=YES,top=50,left=400'); return false;">
                                      <div class="card bg-info text-white shadow">
                                        <div class="card-body">
                                             MAPA PARLANTE
@@ -299,15 +314,13 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../seguimiento_familiar/reporte_riesgos_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=400'); return false;">
+                                        <a href="../seguimiento_familiar/reporte_riesgos_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1280,height=850,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-info text-uppercase mb-1">
-                                         RIÉSGO PERSONAL</div></a>
+                                           VISITAS FAMILIARES POR RIÉSGO PERSONAL</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="../seguimiento_familiar/mapa_visitas_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=1100,scrollbars=YES,top=50,left=400'); return false;">
-                                            <i class="fas fa-map fa-2x text-gray-300"></i>
-                                        </a>
+                                        <i class="fas fa-file fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -318,9 +331,9 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../seguimiento_familiar/visitas_safci_diarias_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1280,height=900,scrollbars=YES,top=50,left=400'); return false;">
+                                        <a href="../seguimiento_familiar/valida_visitas_establecimiento.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1280,height=900,scrollbars=YES,top=50,left=400'); return false;">
                                         <div class="text-xm font-weight-bold text-danger text-uppercase mb-1">
-                                           VISITAS DIARIAS - DEPARTAMENTO</div></a>
+                                           CALENDARIO DE VISITAS - ESTABLECIMIENTO</div></a>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -340,14 +353,14 @@ $zoom_c     = "7";
                                     </div>
                                 </div>
                                 <hr>
-                        <!-------- GESTIÓN PARTICIPATIVA begin ------>
+                        <!-------- SALA SITUACIONAL begin ------>
                 <div class="row">
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-success shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="avance_carpetas_familiares_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="avance_carpetas_familiares.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=500,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             AVANCE DE CARPETAS FAMILIARES</div>
                                         </a>
@@ -367,7 +380,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <a href="../carpetas_familiares/monitoreo_determinantes_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=600,scrollbars=YES,top=50,left=100'); return false;">
+                                        <a href="../carpetas_familiares/monitoreo_determinantes_cf.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=800,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             MONITOREO DETERMINANTES DE LA SALUD</div>
                                         </a>
@@ -387,7 +400,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_socioeconomica_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
+                                    <a href="../carpetas_familiares/grafica_socioeconomica_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA SOCIOECONÓMICA-PRODUCTIVA</div>
                                     </a>
@@ -407,7 +420,7 @@ $zoom_c     = "7";
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                    <a href="../carpetas_familiares/grafica_pertenencia_cultural_cf_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=700,scrollbars=YES,top=50,left=100'); return false;">
+                                    <a href="../carpetas_familiares/grafica_pertenencia_cultural_cf_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=950,height=700,scrollbars=YES,top=50,left=100'); return false;">
                                         <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                                             ÁREA INTERCULTURAL</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
@@ -421,7 +434,7 @@ $zoom_c     = "7";
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-xl-12 col-md-3 mb-2">
                         <div class="card border-left-success shadow h-100 py-2">
@@ -430,14 +443,14 @@ $zoom_c     = "7";
                                     <div class="col mr-2">
 <?php
 
-        $sql =" SELECT idgestion_participativa FROM gestion_participativa WHERE iddepartamento = '$iddepartamento' LIMIT 1 ";
+        $sql =" SELECT idgestion_participativa FROM gestion_participativa WHERE idmunicipio = '$row_est[4]' ";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
         while ($field = mysqli_fetch_field($result)){
         } do {
         ?>
-            <a href="gestion_participativa_sala_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;">                                        
+            <a href="gestion_participativa_sala_est.php?idestablecimiento_salud=<?php echo $idestablecimiento_salud;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=860,scrollbars=YES,top=50,left=100'); return false;">                                        
             <div class="text-xm font-weight-bold text-success text-uppercase mb-1">
                 ÁREA INTERSECTORIAL</div>
             </a>
@@ -448,7 +461,7 @@ $zoom_c     = "7";
             ?>
 
             <div class="text-xm font-weight-bold text-danger text-uppercase mb-1">
-                SIN INFORMACIÓN DE ÁREA INTERSECTORIAL</div>
+                SIN INFORMACIÓN DEL ÁREA INTERSECTORIAL</div>
             <?php } ?>
 
 
@@ -463,8 +476,12 @@ $zoom_c     = "7";
                         </div>
                     </div>
                 </div>
-                        <!-------- GESTIÓN PARTICIPATIVA end ------>
+                        <!-------- SALA SITUACIONAL end ------>
 
+   
+
+        
+            
             <!-- End of Main Content -->
 
         </div>
@@ -488,27 +505,27 @@ $zoom_c     = "7";
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-      <script type="text/javascript" src="../js/municipios.js"></script>
+    <script type="text/javascript" src="../js/municipios.js"></script>
     <script type="text/javascript" src="../js/establecimientos.js"></script>
+
     <script>
 
         var mapbox_url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoiam9ubnltY2N1bGxhZ2giLCJhIjoiY2xsYzdveWh4MGhwcjN0cXV5Z3BwMXA1dCJ9.QoEHzPNq9DtTRrdtXfOdrw';
         var mapbox_attribution = '© Mapbox © OpenStreetMap Contributors';
         var esri_url ='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
         var esri_attribution = '© Esri © OpenStreetMap Contributors';
-      
 
         var Icono = L.icon({
-        iconUrl: "marcadores/comunidad.png",
+        iconUrl: "marcadores/eess_blanco_celeste.png",
         iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
-
+      
         var Icono2 = L.icon({
-        iconUrl: "marcadores/marcador_blanco_azul.png",
+        iconUrl: "marcadores/familia_verde.png",
         iconSize: [40, 40],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
@@ -516,13 +533,116 @@ $zoom_c     = "7";
         shadowAnchor: [0, 55],
         popupAnchor: [0, -40]});
 
-        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
-        var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 19, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
-        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>]).bindPopup('<?php echo "Departamento : ".$row_dep[1];?>');
+        var Icono_v = L.icon({
+        iconUrl: "marcadores/casa_verde.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
 
+        var Icono_a = L.icon({
+        iconUrl: "marcadores/casa_amarilla.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Icono_r = L.icon({
+        iconUrl: "marcadores/casa_roja.png",
+        iconSize: [30, 30],
+        iconAnchor: [15, 40],
+        shadowUrl: "marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+
+        var Vecinal = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Puesto_salud = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Ambulatorio = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Internacion = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Integral = L.icon({
+        iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
+        iconSize: [40, 40],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_seg = L.icon({
+        iconUrl: "../sala_situacional/marcadores/hospital_rojo.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Hospital_gen = L.icon({
+        iconUrl: "../sala_situacional/marcadores/eess_blanco_celeste.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var Establecim = L.icon({
+        iconUrl: "../sala_situacional/marcadores/cruz_roja_blanco.png",
+        iconSize: [35, 35],
+        iconAnchor: [15, 40],
+        shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
+        shadowSize: [35, 50],
+        shadowAnchor: [0, 55],
+        popupAnchor: [0, -40]});
+
+        var lyr_streets   = L.tileLayer(mapbox_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: mapbox_attribution});
+        var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
+
+
+        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>]).bindPopup('<?php echo "Establecimiento : ".$row_est[1];?>');
+
+    
         var lg_markers = L.layerGroup([marker]);
 
-        var map = L.map('safci', {
+          var map = L.map('safci', {
             center: [<?php echo $latitud_c;?>, <?php echo $longitud_c;?>],
             zoom: <?php echo $zoom_c;?>,
             layers: [lyr_streets, lyr_satellite,  lg_markers]
@@ -542,64 +662,108 @@ $zoom_c     = "7";
             attribution: 'PROGRAMA SAFCI-MI SALUD'
         }).addTo(map);
 
-<?php 
-$numero2 = 0;
-$sql2 = " SELECT establecimiento_salud.idmunicipio, municipios.municipio FROM establecimiento_salud, municipios  ";
-$sql2.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.latitud != '' ";
-$sql2.= " AND establecimiento_salud.longitud != '' AND establecimiento_salud.iddepartamento='$iddepartamento' GROUP BY establecimiento_salud.idmunicipio ";
-$result2 = mysqli_query($link,$sql2);
-$total2 = mysqli_num_rows($result2);
- if ($row2 = mysqli_fetch_array($result2)){
-mysqli_field_seek($result2,0);
-while ($field2 = mysqli_fetch_field($result2)){
-} do {
+     
+            <?php
+            /****** Areas de influencia del Establecimiento de salud *********/
+            $numero4 = 0;
+            $sql4 = " SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.familia, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, ";
+            $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud ";
+            $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ";
+            $sql4.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+            $sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 50 ";
+            $result4 = mysqli_query($link,$sql4);
+            $total4 = mysqli_num_rows($result4);
+            if ($row4 = mysqli_fetch_array($result4)){
+            mysqli_field_seek($result4,0);
+            while ($field4 = mysqli_fetch_field($result4)){
+            } do {
 
-$sql3 = " SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.latitud, establecimiento_salud.longitud,  ";
-$sql3.= " municipios.municipio, departamento.departamento FROM establecimiento_salud, municipios, departamento ";
-$sql3.= " WHERE establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
-$sql3.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud != '' AND establecimiento_salud.idmunicipio='$row2[0]' ORDER BY establecimiento_salud.idestablecimiento_salud DESC LIMIT 1 ";
-$result3 = mysqli_query($link,$sql3);
-$row3 = mysqli_fetch_array($result3);
+                $sql_r = " SELECT idevaluacion_familiar_cf, evaluacion_familiar FROM evaluacion_familiar_cf WHERE idcarpeta_familiar='$row4[0]' ";
+                $sql_r.= " ORDER BY idevaluacion_familiar_cf DESC LIMIT 1  ";
+                $result_r = mysqli_query($link,$sql_r);
+                $total_r = mysqli_num_rows($result_r);
+                $row_r = mysqli_fetch_array($result_r);
+                $riesgo_cf = $row_r[1];
 
-$sql4 = " SELECT count(integrante_cf.idintegrante_cf) FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_cf.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio ='$row2[0]' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4);
+        ?>
+        L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
+        {icon:
+        <?php if ($riesgo_cf == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($riesgo_cf == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($riesgo_cf == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
+        }).addTo(map).bindPopup('<?php echo '<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>';?>')
 
-$sql5 = " SELECT carpeta_familiar.idusuario FROM carpeta_familiar WHERE carpeta_familiar.estado = 'CONSOLIDADO'  ";
-$sql5.= " AND carpeta_familiar.idmunicipio = '$row2[0]' GROUP BY carpeta_familiar.idusuario ";
-$result5 = mysqli_query($link,$sql5);
-$personal = mysqli_num_rows($result5);
+            <?php 
+            $numero4++;
+            } while ($row4 = mysqli_fetch_array($result4));
+            } else {
+            }
+            ?>
 
-$sql6 = " SELECT gestion_participativa.idgestion_participativa, vigencia_convenio.vigencia_convenio FROM gestion_participativa, vigencia_convenio  ";
-$sql6.= " WHERE gestion_participativa.idvigencia_convenio=vigencia_convenio.idvigencia_convenio  AND gestion_participativa.idmunicipio='$row2[0]' ";
-$sql6.= " ORDER BY gestion_participativa.idgestion_participativa DESC LIMIT 1 ";
-$result6 = mysqli_query($link,$sql6);
-if ($row6 = mysqli_fetch_array($result6)) {
-   $convenio = $row6[1];
-} else {
-   $convenio = 'SIN DECLARAR';
-    }
-?>
+      L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>], {icon:
+<?php   
+    switch ($row_est[7]) {
+        case 1:
+            echo "Establecim";
+            break;
+        case 2:
+            echo "Establecim";
+            break;
+        case 3:
+            echo "Ambulatorio";
+            break;
+        case 4:
+            echo "Internacion";
+            break;
+        case 5:
+            echo "Integral";
+            break;
+        case 6:
+            echo "Establecim";
+            break;
+        case 7:
+            echo "Establecim";
+            break;
+        case 8:
+            echo "Establecim";
+            break;
+        case 9:
+            echo "Establecim";
+            break;
+        case 10:
+            echo "Vecinal";
+            break;
+        case 11:
+            echo "Hospital_gen";
+            break;
+        case 12:
+            echo "Hospital_seg";
+            break;
+        case 13:
+            echo "Establecim";
+            break;
+        case 14:
+            echo "Establecim";
+            break;
+        case 15:
+            echo "Establecim";
+            break;
+        case 16:
+            echo "Establecim";
+            break;
+        case 17:
+            echo "Establecim";
+            break;
+        case 18:
+            echo "Puesto_salud";
+            break;
+        case 19:
+            echo "Establecim";
+            break;
+        case 20:
+            echo "Establecim";
+            break;
+    }  ?> 
+    }).addTo(map).bindPopup("<?php echo '<p>Establecimiento : '.$row_est[1].'</p><p>'.$row_est[5].'</p><p>Tipo : '.$row_est[6].'</p>';?>")
 
-        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p><p>Población segun CF : '.$row4[0].' Habitantes.</p><p> Personal SAFCI : '.$personal.'</p><p> CONVENIO SAFCI : '.$convenio.'</p><p><a href=municipio_a_sala_d.php?idmunicipio='.$row2[0].' onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>SALA SITUACIONAL</a></p> ';?>")
-
-<?php 
-$numero2++;
-if ($numero2 == $total2) {
-echo "";
-}
-else {
-echo ",";
-}
-} while ($row2 = mysqli_fetch_array($result2));
-} else {
-echo "";
-/*
-Si no se encontraron resultados
-*/
-}
-?>
     </script>
 
 </body>

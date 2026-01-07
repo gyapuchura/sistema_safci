@@ -511,7 +511,7 @@ $row3 = mysqli_fetch_array($result3);
 
 ?>
 
-        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p>';?>")
+        L.marker([<?php echo $row3[1];?>, <?php echo $row3[2];?>]).addTo(map).bindPopup("<?php echo '<p>Municipio: '.$row2[1].'</p><p><a href=municipio_a_sala_s.php?idmunicipio='.$row2[0].' onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>SALA SITUACIONAL</a></p> ';?>")
 
 <?php 
 $numero2++;
