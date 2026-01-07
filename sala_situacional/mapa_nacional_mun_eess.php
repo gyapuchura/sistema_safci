@@ -41,8 +41,8 @@ $zoom_c     = "5.8";
 
 </head>
 
-
-          <h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI - NIVEL NACIONAL</h2>
+<h2>ESTABLECIMIENTOS DE SALUD CON IMPLEMENTACIÓN SAFCI - NIVEL NACIONAL</h2>
+          
         <div class="depa"></div>
         <div class="col-sm-12" id="safci" style="width: 100%; height: 700px;"></div>
 
@@ -137,18 +137,6 @@ $zoom_c     = "5.8";
       <td><span style="font-family: Arial; font-size: 12px;">OTRO TIPO DE ESTABLECIMIENTO</span></td>
       <td>&nbsp;</td>
     </tr>
-    <tr>
-      <td style="text-align: center"><span style="font-family: Arial; font-size: 12px;">TOTAL EN EL PAIS:</span></td>
-      <td><span style="font-family: Arial; font-size: 12px;">
-    <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' ";
-        $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
-        ?> 
-      -> ESTABLECIMIENTOS</span></td>
-      <td>&nbsp;</td>
-    </tr>
   </tbody>
 </table>
                 
@@ -163,7 +151,7 @@ $zoom_c     = "5.8";
 
         var Vecinal = L.icon({
         iconUrl: "marcadores/marcador_rojo_bl.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -172,7 +160,7 @@ $zoom_c     = "5.8";
 
         var Puesto_salud = L.icon({
         iconUrl: "marcadores/marcador_amarillo.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -181,7 +169,7 @@ $zoom_c     = "5.8";
 
         var Ambulatorio = L.icon({
         iconUrl: "marcadores/marcador_violeta.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -190,7 +178,7 @@ $zoom_c     = "5.8";
 
         var Internacion = L.icon({
         iconUrl: "marcadores/marcador_verde.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -199,7 +187,7 @@ $zoom_c     = "5.8";
 
         var Integral = L.icon({
         iconUrl: "marcadores/marcador_azul.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -208,7 +196,7 @@ $zoom_c     = "5.8";
 
         var Hospital_seg = L.icon({
         iconUrl: "marcadores/hospital_rojo.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -217,7 +205,7 @@ $zoom_c     = "5.8";
 
         var Hospital_gen = L.icon({
         iconUrl: "marcadores/eess_blanco_celeste.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -226,7 +214,7 @@ $zoom_c     = "5.8";
 
         var Establecim = L.icon({
         iconUrl: "marcadores/cruz_roja_blanco.png",
-        iconSize: [27, 27],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -234,7 +222,7 @@ $zoom_c     = "5.8";
         popupAnchor: [0, -40]});
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: ' ',
+    attribution: 'PROGRAMA SAFCI-MI SALUD',
     maxZoom: 18
   }).addTo(map);
 

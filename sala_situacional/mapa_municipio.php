@@ -40,43 +40,103 @@ $zoom_c     = "12";
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
   <tbody>
     <tr>
-      <td width="50" style="text-align: center"><img src="marcadores/marcador_rojo_bl.png" alt="" width="30px" height="30px"/></td>
-      <td width="500" style="font-family: Arial; font-size: 12px;">CONSULTORIO VECINAL</td>
-      <td width="50">&nbsp;</td>
+      <td width="50" style="text-align: center"><img src="../sala_situacional/marcadores/marcador_rojo_bl.png" alt="" width="30px" height="30px"/></td>
+      <td width="300" style="font-family: Arial; font-size: 12px;">
+        <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '10' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?>   
+      -> CONSULTORIO VECINAL</td>
+      <td width="100">&nbsp;</td>
     </tr>
     <tr>
-      <td style="text-align: center"><img src="marcadores/marcador_amarillo.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">PUESTO DE SALUD</span></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_amarillo.png" alt="" width="30px" height="30px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+    <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '18' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?>   
+      -> PUESTO DE SALUD</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td style="text-align: center"><img src="marcadores/marcador_violeta.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD AMBULATORIO</span></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_violeta.png" alt="" width="30px" height="30px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+        <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '3' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?>   
+      -> CENTRO DE SALUD AMBULATORIO</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td style="text-align: center"><img src="marcadores/marcador_verde.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD CON INTERNACIÓN</span></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_verde.png" alt="" width="30px" height="30px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+        <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '4' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?>   
+      -> CENTRO DE SALUD CON INTERNACIÓN</span></td>
       <td>&nbsp;</td>
     </tr>
         <tr>
-      <td style="text-align: center"><img src="marcadores/marcador_azul.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">CENTRO DE SALUD INTEGRAL</span></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_azul.png" alt="" width="30px" height="30px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+        <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '5' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?>   
+      ->  CENTRO DE SALUD INTEGRAL</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td style="text-align: center"><img src="marcadores/hospital_rojo.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL DE SEGUNDO NIVEL</span></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/hospital_rojo.png" alt="" width="30px" height="30px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+          <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '12' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?>   
+      -> HOSPITAL DE SEGUNDO NIVEL</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td style="text-align: center"><img src="marcadores/eess_blanco_celeste.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">HOSPITAL GENERAL</span></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/eess_blanco_celeste.png" alt="" width="30px" height="30px"/></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+            <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '11' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?> -> HOSPITAL GENERAL</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td style="text-align: center"><img src="marcadores/cruz_roja_blanco.png" alt="" width="30px" height="30px"/></td>
+      <td style="text-align: center"><img src="../sala_situacional/marcadores/cruz_roja_blanco.png" alt="" width="30px" height="30px"/></td>
       <td><span style="font-family: Arial; font-size: 12px;">OTRO TIPO DE ESTABLECIMIENTO</span></td>
+      <td>&nbsp;</td>
+    </tr>
+        <tr>
+      <td style="text-align: center"><span style="font-family: Arial; font-size: 12px;">TOTAL EN EL DEPARTAMENTO:</span></td>
+      <td><span style="font-family: Arial; font-size: 12px;">
+    <?php
+        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idmunicipio ='$idmunicipio' ";
+        $result_est = mysqli_query($link,$sql_est);
+        $row_est = mysqli_fetch_array($result_est);
+        echo $row_est[0];
+        ?> 
+      -> ESTABLECIMIENTOS</span></td>
       <td>&nbsp;</td>
     </tr>
   </tbody>
@@ -88,7 +148,7 @@ $zoom_c     = "12";
 
      let Vecinal = L.icon({
         iconUrl: "marcadores/marcador_rojo_bl.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -97,7 +157,7 @@ $zoom_c     = "12";
 
         let Puesto_salud = L.icon({
         iconUrl: "marcadores/marcador_amarillo.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -106,7 +166,7 @@ $zoom_c     = "12";
 
         let Ambulatorio = L.icon({
         iconUrl: "marcadores/marcador_violeta.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -115,7 +175,7 @@ $zoom_c     = "12";
 
         let Internacion = L.icon({
         iconUrl: "marcadores/marcador_verde.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -124,7 +184,7 @@ $zoom_c     = "12";
 
         let Integral = L.icon({
         iconUrl: "marcadores/marcador_azul.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -133,7 +193,7 @@ $zoom_c     = "12";
 
         let Hospital_seg = L.icon({
         iconUrl: "marcadores/hospital_rojo.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -142,7 +202,7 @@ $zoom_c     = "12";
 
         let Hospital_gen = L.icon({
         iconUrl: "marcadores/eess_blanco_celeste.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -151,7 +211,7 @@ $zoom_c     = "12";
 
         let Establecim = L.icon({
         iconUrl: "marcadores/cruz_roja_blanco.png",
-        iconSize: [40, 40],
+        iconSize: [30, 30],
         iconAnchor: [15, 40],
         shadowUrl: "marcadores/icono_sombra.png",
         shadowSize: [35, 50],
