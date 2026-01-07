@@ -243,7 +243,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Icono_v = L.icon({
         iconUrl: "../sala_situacional/marcadores/casa_verde.png",
-        iconSize: [30, 30],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -252,7 +252,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Icono_a = L.icon({
         iconUrl: "../sala_situacional/marcadores/casa_amarilla.png",
-        iconSize: [30, 30],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -261,7 +261,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Icono_r = L.icon({
         iconUrl: "../sala_situacional/marcadores/casa_roja.png",
-        iconSize: [30, 30],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -270,7 +270,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Vecinal = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_rojo_bl.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -279,7 +279,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Puesto_salud = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_amarillo.png",
-        iconSize: [45, 45],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -288,7 +288,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Ambulatorio = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_violeta.png",
-        iconSize: [30, 30],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -297,7 +297,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Internacion = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_verde.png",
-        iconSize: [25, 35],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -306,7 +306,7 @@ var familia ={"type":"FeatureCollection","features":[
 
         var Integral = L.icon({
         iconUrl: "../sala_situacional/marcadores/marcador_azul.png",
-        iconSize: [45, 40],
+        iconSize: [35, 35],
         iconAnchor: [15, 40],
         shadowUrl: "../sala_situacional/marcadores/icono_sombra.png",
         shadowSize: [35, 50],
@@ -394,7 +394,7 @@ map.addLayer(markers);
         L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
         {icon:
         <?php if ($row4[8] == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($row4[8] == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($row4[8] == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
-        }).addTo(map).bindPopup('<?php echo 'FAMILIA: '.$row4[1].'</br>'.$row4[2].'  '.$row4[3].'</br>Direccion :'.$row4[4].' Nº '.$row4[5].'</br>'.$row4[8];?>')
+        }).addTo(map).bindPopup('<?php echo '<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'<p></p>Direccion :'.$row4[4].' Nº '.$row4[5].'<p></p>'.$row4[8].'</p>';?>')
 
             <?php 
             $numero4++;
