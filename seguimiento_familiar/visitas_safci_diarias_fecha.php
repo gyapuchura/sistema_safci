@@ -395,7 +395,7 @@ Si no se encontraron resultados
     </tr>
   </tbody>
 </table>
-
+</br>
 <table width="1000" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
