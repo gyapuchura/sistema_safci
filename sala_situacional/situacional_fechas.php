@@ -193,15 +193,25 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 
                     <div class="form-group row">
                         <div class="col-sm-4">
-                        </div>
-                        <div class="col-sm-4">
-                            <a class="btn btn-primary btn-icon-split" href="../seguimiento_familiar/visitas_safci_diarias_fecha.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=300'); return false;">
+                            <a class="btn btn-info btn-icon-split" href="../seguimiento_familiar/visitas_safci_diarias_fecha.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=650,scrollbars=YES,top=50,left=300'); return false;">
                             <span class="icon text-white-50">
                                 <i class="fas fa-book"></i>
                             </span>
-                            <span class="text">VISITAS FAMILIARES</span></a>
+                            <span class="text">REGISTRO DIARIO - VISITAS FAMILIARES</span></a>
                         </div>
                         <div class="col-sm-4">
+                            <a class="btn btn-primary btn-icon-split" href="../seguimiento_familiar/mapa_visitas_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=300'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-map"></i>
+                            </span>
+                            <span class="text">MAPA DE PLANIFICACIÓN - VISITAS FAMILIARES</span></a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="btn btn-success btn-icon-split" href="../seguimiento_familiar/mapa_visitas_nal_fechas_ej.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=850,scrollbars=YES,top=50,left=300'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-map"></i>
+                            </span>
+                            <span class="text">MAPA DE EJECUCIÓN - VISITAS FAMILIARES</span></a>
                         </div>
                     </div>
                 </div>
