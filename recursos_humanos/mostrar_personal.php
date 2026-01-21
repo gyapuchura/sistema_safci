@@ -1,10 +1,11 @@
-<?php include("../cabf_o.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $hora       = date("h:i");
+
+session_start(); 
 
 $idpersonal_ss = $_SESSION['idpersonal_ss'];
 $codigo_ss     = $_SESSION['codigo_ss'];

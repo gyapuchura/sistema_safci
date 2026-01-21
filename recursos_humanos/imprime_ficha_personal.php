@@ -28,6 +28,8 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha   	= date("Y-m-d");
 
+session_start(); 
+
 $idpersonal = $_GET['idpersonal'];
 
 //---- CONECTAR CON $_GET['idinscripcion'] ----//

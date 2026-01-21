@@ -1,4 +1,4 @@
-<?php include("../cabf_o.php");?>
+
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -6,6 +6,7 @@ date_default_timezone_set('America/La_Paz');
 $fecha 	 = date("Y-m-d");
 $hora    = date("h:i");
 $gestion = date("Y");
+session_start(); 
  
 //-----DATOS ENVIADOS EN EL FORMULARIO DE PREINSCRIPCION ----- //
 $nombre      = $link->real_escape_string($_POST['nombre']);
@@ -14,6 +15,7 @@ $materno     = $link->real_escape_string($_POST['materno']);
 $ci          = $link->real_escape_string($_POST['ci']);
 $complemento = $link->real_escape_string($_POST['complemento']);
 $exp         = $link->real_escape_string($_POST['exp']);
+$contrasena  = $ci.'@Safci';
 
 $fecha_nac   = $_POST['fecha_nac'];
 
@@ -76,7 +78,7 @@ else {
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
-    $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','USUARIO EXTERNO')";
+    $sql7.= " VALUES ('$idnombre','$ci','$contrasena','$fecha','ACTIVO','PERSONAL')";
     $result7 = mysqli_query($link,$sql7);  
     $idusuario_in = mysqli_insert_id($link);
 

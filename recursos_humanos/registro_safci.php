@@ -1,4 +1,3 @@
-<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -165,10 +164,8 @@ $hora       = date("h:i");
                                     }
                                     ?>
                                     </select>
-                                    </div>
-                              
+                                    </div>                              
                                 </div>
-
                                 <hr>
                                 </br>
                 <div class="form-group row">
