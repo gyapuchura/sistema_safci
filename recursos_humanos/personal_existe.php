@@ -1,9 +1,9 @@
-<?php include("../cabf_o.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
+session_start(); 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -64,7 +64,7 @@ $fecha 					= date("Y-m-d");
                     <h4 class="text-danger">El número de Cedula de Identidad</h4>
                     <h4 class="text-danger">ya existe en sistema !!!</h4>
                     </br>
-                    <a href="../login.php"><h6>SALIR A INICIO DE SESIÓN</h6></a>
+                    <a href="../index.php"><h6>SALIR A INICIO DE SESIÓN</h6></a>
                     <h4><?php echo "";?></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->

@@ -80,7 +80,7 @@ $gestion					= date("Y");
    <a class="nav-link " href="https://virtual-safci.minsalud.gob.bo/aula/login/index.php">CAMPUS DE FORMACIÓN SAFCI</a> 
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="#"> </a>
+    <a class="nav-link " href="recursos_humanos/registro_safci.php">REGISTRO USUARIO MEDI-SAFCI</a>
   </li>
   <li class="nav-item">
     <a class="nav-link active" href="login.php">INGRESO A SISTEMA</a>

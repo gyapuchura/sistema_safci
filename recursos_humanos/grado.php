@@ -1,4 +1,4 @@
-<?php include("../cabf.php");?>
+
 <?php 
 include("../inc.config.php");
 $idformacion_academica = $_POST['formacion_academica'];
