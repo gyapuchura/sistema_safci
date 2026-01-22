@@ -13,7 +13,7 @@ if ($idtipo_atencion == '2') { ?>
     <div class="col-sm-3"> 
     </div> 
     <div class="col-sm-6">
-    <h4 class="text-info">ATENCIÓN APARENTEMENTE SANO(A):</h4>
+    <h4 class="text-info">ATENCIÓN PREVENTIVA:</h4>
     </div> 
     <div class="col-sm-3"> 
     </div> 
@@ -66,7 +66,7 @@ if ($idtipo_atencion == '2') { ?>
         <option value="">-SELECCIONE-</option>
         <?php
         $numero=1;
-        $sql1 = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' ORDER BY patologia";
+        $sql1 = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '939' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
         mysqli_field_seek($result1,0);
