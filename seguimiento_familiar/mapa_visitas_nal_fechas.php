@@ -63,35 +63,44 @@ $zoom_c     = "7";
       <td width="50" style="text-align: center"><img src="../sala_situacional/marcadores/marcador_rojo_bl.png" alt="" width="30px" height="30px"/></td>
       <td width="300" style="font-family: Arial; font-size: 12px;">
         <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '10' ";
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '10'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
         ?>   
       -> CONSULTORIO VECINAL</td>
       <td width="100">&nbsp;</td>
     </tr>
     <tr>
       <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_amarillo.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">
-    <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '18' ";
+      <td><span style="font-family: Arial; font-size: 12px;">  
+        <?php
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '18'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
-        ?>   
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
+        ?> 
       -> PUESTO DE SALUD</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_violeta.png" alt="" width="30px" height="30px"/></td>
-      <td><span style="font-family: Arial; font-size: 12px;">
+      <td><span style="font-family: Arial; font-size: 12px;">  
         <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '3' ";
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '3'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
-        ?>   
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
+        ?> 
       -> CENTRO DE SALUD AMBULATORIO</span></td>
       <td>&nbsp;</td>
     </tr>
@@ -99,10 +108,13 @@ $zoom_c     = "7";
       <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_verde.png" alt="" width="30px" height="30px"/></td>
       <td><span style="font-family: Arial; font-size: 12px;">
         <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '4' ";
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '4'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
         ?>   
       -> CENTRO DE SALUD CON INTERNACIÓN</span></td>
       <td>&nbsp;</td>
@@ -111,10 +123,13 @@ $zoom_c     = "7";
       <td style="text-align: center"><img src="../sala_situacional/marcadores/marcador_azul.png" alt="" width="30px" height="30px"/></td>
       <td><span style="font-family: Arial; font-size: 12px;">
         <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '5' ";
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '5'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
         ?>   
       ->  CENTRO DE SALUD INTEGRAL</span></td>
       <td>&nbsp;</td>
@@ -122,23 +137,29 @@ $zoom_c     = "7";
     <tr>
       <td style="text-align: center"><img src="../sala_situacional/marcadores/hospital_rojo.png" alt="" width="30px" height="30px"/></td>
       <td><span style="font-family: Arial; font-size: 12px;">
-          <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '12' ";
+        <?php
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '12'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
-        ?>   
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
+        ?>  
       -> HOSPITAL DE SEGUNDO NIVEL</span></td>
       <td>&nbsp;</td>
     </tr>
     <tr>
       <td style="text-align: center"><img src="../sala_situacional/marcadores/eess_blanco_celeste.png" alt="" width="30px" height="30px"/></td>
       <td><span style="font-family: Arial; font-size: 12px;">
-            <?php
-        $sql_est = " SELECT count(idestablecimiento_salud) FROM establecimiento_salud WHERE latitud != '' AND longitud !='' AND idtipo_establecimiento = '11' ";
+        <?php
+        $sql_est = " SELECT carpeta_familiar.idestablecimiento_salud FROM carpeta_familiar, seguimiento_cf, establecimiento_salud ";
+        $sql_est.= " WHERE seguimiento_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql_est.= " AND establecimiento_salud.latitud != '' AND establecimiento_salud.longitud !='' AND establecimiento_salud.idtipo_establecimiento = '11'  ";
+        $sql_est.= " AND seguimiento_cf.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idestablecimiento_salud ";
         $result_est = mysqli_query($link,$sql_est);
-        $row_est = mysqli_fetch_array($result_est);
-        echo $row_est[0];
+        $row_est = mysqli_num_rows($result_est);
+        echo $row_est;
         ?> -> HOSPITAL GENERAL</span></td>
       <td>&nbsp;</td>
     </tr>
@@ -331,7 +352,7 @@ while ($field2 = mysqli_fetch_field($result2)){
             break;
     }
                 ?> 
-        }).addTo(map).bindPopup("<?php echo '<p>Planificación de Visitas </p><p>Establecimiento : '.$row2[1].'</p><p>Registradas del '.$f_inicio.' al '.$f_finalizacion.'</p><p>Municipio : '.$row2[4].'</p><p><a href=../seguimiento_familiar/reporte_riesgos_est_nal.php?idestablecimiento_salud='.$row2[0].' onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>MAPA DE VISITAS FAMILIARES</a></p> ';?>")
+        }).addTo(map).bindPopup("<?php echo '<p>Planificación de Visitas </p><p>Registradas del '.$f_inicio.' al '.$f_finalizacion.'</p><p>Establecimiento : '.$row2[1].'</p><p>Municipio : '.$row2[7].'</p><p><a href=../seguimiento_familiar/reporte_riesgos_est_nal.php?idestablecimiento_salud='.$row2[0].' onClick=window.open(this.href, this.target, width=1000,height=650,scrollbars=YES,top=50,left=300); return false;>MAPA DE VISITAS FAMILIARES</a></p> ';?>")
 
         <?php 
 $numero2++;
