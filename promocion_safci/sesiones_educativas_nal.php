@@ -9,17 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-
-    $sqlm = " SELECT dato_laboral.iddato_laboral, dato_laboral.iddepartamento, establecimiento_salud.idmunicipio, dato_laboral.idestablecimiento_salud FROM dato_laboral, establecimiento_salud ";
-    $sqlm.= " WHERE dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-    $sqlm.= " AND dato_laboral.idusuario='$idusuario_ss' ORDER BY dato_laboral.iddato_laboral DESC LIMIT 1 ";
-    $resultm = mysqli_query($link,$sqlm);
-    $rowm = mysqli_fetch_array($resultm);
-
-        $iddepartamento = $rowm[1];
-        $idmunicipio    = $rowm[2];
-        $idestablecimiento_salud = $rowm[3];
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -77,7 +66,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="text-center">   
                                      
                     <hr>                                         
-                    <h2 class="text-primary">SESIONES EDUCATIVAS</h2>
+                    <h2 class="text-primary">SESIONES EDUCATIVAS A NIVEL NACIONAL</h2>
                     <h4 class="text-secundary"></h4>
                     <hr> 
                     </div>
@@ -85,119 +74,14 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-<form name="GUARDA_SESION" action="guarda_sesion_educativa.php" method="post">  
-
-                <div class="col-lg-12">  
-                    <div class="p-3"> 
-   
-                <div class="text-center">
-                <h4 class="text-primary">NUEVO REGISTRO DE SESIÓN EDUCATIVA </h4>
-                <hr>
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"><i class="fas fa-calendar"> </i> FECHA DE LA SESIÓN EDUCATIVA:</h6>
-                        <input type="date" name="fecha_sesion" id="fecha_sesion" class="form-control" required>
-                        </div>
-                        <div class="col-sm-6">
-                        <h6 class="text-primary"><i class="fas fa-clock"> </i> DURACIÓN DE LA SESIÓN EDUCATIVA:</h6>
-                        <input type="number" name="duracion" id="duracion" class="form-control" 
-                        Placeholder="Cantidad de horas" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                        <h6 class="text-primary"> <i class="fas fa-list"> </i> SELECCIONE EL TIPO DE CHARLA EDUCATIVA:</h6>
-
-                    <select name="idcharla_psafci"  id="idcharla_psafci" class="form-control" required>
-                        <option value="">ELEGIR</option>
-                        <?php
-                        $sql1 = "SELECT idcharla_psafci, charla_psafci FROM charla_psafci";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                    </select>  
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                        <h6 class="text-primary"> <i class="fas fa-users"> </i>  INDIVIDUAL/GRUPAL:</h6>
-                            <select name="idsustantivo"  id="idsustantivo" class="form-control" required>
-                                <option value="">ELEGIR</option>
-                                <?php
-                                $sql1 = "SELECT idsustantivo, sustantivo FROM sustantivo";
-                                $result1 = mysqli_query($link,$sql1);
-                                if ($row1 = mysqli_fetch_array($result1)){
-                                mysqli_field_seek($result1,0);
-                                while ($field1 = mysqli_fetch_field($result1)){
-                                } do {
-                                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                                } while ($row1 = mysqli_fetch_array($result1));
-                                } else {
-                                echo "No se encontraron resultados!";
-                                }
-                                ?>
-                            </select>  
-                        </div>
-                    </div>
-
-                    <div id="form_charla"></div>
-
-                </br>
-            <div class="text-center">
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    REGISTRAR SESIÓN EDUCATIVA
-                    </button>  
-                </div> 
-            </div>                              
-                            
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE SESIÓN EDUCATIVA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de Registrar la SESIÓN EDUCATIVA?
-                        
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-primary pull-center">CONFIRMAR</button>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>        
-                    
-                </div>
-             </br>
-
-<hr>
-            <div class="text-center">
-                <h4 class="text-primary">SESIONES EDUCATIVAS REGISTRADAS EN SU MUNICIPIO:</h4>
-            </div>
 <hr>
         <div class="table-responsive">
             <table class="table table-bordered" id="example" width="100%" cellspacing="0">
                 <thead>
                     <tr>  
                         <th>N°</th> 
+                        <th>DEPARTAMENTO</th> 
+                        <th>MUNICIPIO</th> 
                         <th>ESTABLECIMIENTO</th> 
                         <th>FECHA DE SESIÓN</th>   
                         <th>CÓDIGO</th> 
@@ -218,7 +102,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 $sql.=" charla_psafci, sustantivo, usuarios, nombre WHERE sesion_educativa.iddepartamento=departamento.iddepartamento AND sesion_educativa.idmunicipio=municipios.idmunicipio ";
                 $sql.=" AND sesion_educativa.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci  ";
                 $sql.=" AND sesion_educativa.idsustantivo=sustantivo.idsustantivo AND sesion_educativa.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
-                $sql.=" AND sesion_educativa.idmunicipio='$idmunicipio' ORDER BY sesion_educativa.idsesion_educativa DESC  ";
+                $sql.=" ORDER BY sesion_educativa.idsesion_educativa DESC  ";
                 $result = mysqli_query($link,$sql);
                 if ($row = mysqli_fetch_array($result)){
                 mysqli_field_seek($result,0);
@@ -227,6 +111,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 ?>
                     <tr>
                         <td><?php echo $numero;?></td>
+                        <td><?php echo $row[1];?></td>
+                        <td><?php echo $row[2];?></td>
                         <td><?php echo $row[3];?></td>
                         <td><?php 
                         $fecha_e = explode('-',$row[4]);
@@ -260,7 +146,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                
                     
 <!-- END aqui va el comntenido de la pagina ---->
-                </div>
+              
                
                 <div class="text-center">
                 <hr>
@@ -344,19 +230,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 } );
             } );
     </script>
-
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idsustantivo").change(function () {
-                    $("#idsustantivo option:selected").each(function () {
-                        sustantivo=$(this).val();
-                    $.post("form_charla.php", {sustantivo:sustantivo}, function(data){
-                    $("#form_charla").html(data);
-                    });
-                });
-        })
-        });
-        </script>
     
 </body>
 </html>

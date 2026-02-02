@@ -1,10 +1,11 @@
 <?php
-
 $idsustantivo  =  $_POST['sustantivo'];
 
-if ($idsustantivo == '1') {
+if ($idsustantivo == '1') { ?>
     
-} else { ?>
+        <input type="hidden" name="asistentes" value="1" >
+
+<?php } else { ?>
     
         <div class="form-group row">
         <div class="col-sm-6">
