@@ -652,7 +652,7 @@
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>           
-            <a class="collapse-item" href="../promocion_safci/sesiones_educativas.php">SESIONES</br>EDUCATIVAS</a>
+            <a class="collapse-item" href="#">SESIONES</br>EDUCATIVAS</a>
             <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
@@ -669,7 +669,7 @@
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
 
-        <a class="collapse-item" href="../promocion_safci/reportes_promocion.php">REPORTES PROMOCIÓN</br>DE LA SALUD</a>
+        <a class="collapse-item" href="#">REPORTES PROMOCIÓN</br>DE LA SALUD</a>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
