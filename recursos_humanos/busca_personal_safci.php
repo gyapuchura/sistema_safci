@@ -157,7 +157,7 @@ $ci = $_POST['ci'];
                     <input type="hidden" value="<?php echo $row[0];?>" name="idnombre_reg">
                     <button type="submit" class="btn btn-info">VER OPCIONES</button></form>
                     <?php } ?>
-
+ 
                     </div>
                     </div>    
                 <?php

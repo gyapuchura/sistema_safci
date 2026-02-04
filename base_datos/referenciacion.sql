@@ -338,3 +338,12 @@ ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idusuario_destino) REFERENCES usuar
 ALTER TABLE reasignacion_cf ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
 
+ALTER TABLE sesion_educativa ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE sesion_educativa ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE sesion_educativa ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE sesion_educativa ADD FOREIGN KEY (idcharla_psafci) REFERENCES charla_psafci (idcharla_psafci);
+ALTER TABLE sesion_educativa ADD FOREIGN KEY (idsustantivo) REFERENCES sustantivo (idsustantivo);
+ALTER TABLE sesion_educativa ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+
+

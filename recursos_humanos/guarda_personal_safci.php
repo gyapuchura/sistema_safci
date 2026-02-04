@@ -19,6 +19,8 @@ $ci          = $link->real_escape_string($_POST['ci']);
 $complemento = $link->real_escape_string($_POST['complemento']);
 $exp         = $link->real_escape_string($_POST['exp']);
 
+$pass = $ci.'@Safci';
+
 $nacimiento  = $_POST['fecha_nac'];
 $fecha_n     = explode('/',$nacimiento);
 $fecha_nac   = $fecha_n[2].'-'.$fecha_n[1].'-'.$fecha_n[0];
@@ -81,7 +83,7 @@ else {
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
-    $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','PERSONAL')";
+    $sql7.= " VALUES ('$idnombre','$ci','$pass','$fecha','ACTIVO','PERSONAL')";
     $result7 = mysqli_query($link,$sql7);  
     $idusuario_in = mysqli_insert_id($link);
 

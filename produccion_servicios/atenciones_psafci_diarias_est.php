@@ -237,7 +237,7 @@ Si no se encontraron resultados
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
-      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° TOTAL ATENCIONES REGISTRADAS =
+      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #000000; text-align: center;">N° TOTAL ATENCIONES REGISTRADAS =
           <?php 
     $sql_ps =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idestablecimiento_salud='$idestablecimiento_salud'";
     $result_ps = mysqli_query($link,$sql_ps);
@@ -246,7 +246,7 @@ Si no se encontraron resultados
     echo $atenciones_ps;?>
       </span></td>
       <td width="446">
-        <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES NUEVAS = 
+        <span style="font-family: Arial; font-size: 16px; color: #ff70c6; text-align: center;">N° ATENCIONES NUEVAS = 
           <?php 
     $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idrepeticion ='1' AND idestablecimiento_salud='$idestablecimiento_salud' ";
     $result_vf = mysqli_query($link,$sql_vf);
@@ -256,7 +256,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES EN CONSULTAA = 
+      <td><span style="font-family: Arial; font-size: 16px; color: #008f39; text-align: center;">N° ATENCIONES EN CONSULTA = 
             <?php 
             $sql_con =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_consulta='1' AND idestablecimiento_salud='$idestablecimiento_salud' ";
             $result_con = mysqli_query($link,$sql_con);
@@ -265,7 +265,7 @@ Si no se encontraron resultados
             echo $consulta?>
       </span></td>
       <td>
-        <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES REPETIDAS = 
+        <span style="font-family: Arial; font-size: 16px; color: #ff70c6; text-align: center;">N° ATENCIONES REPETIDAS = 
             <?php 
             $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idrepeticion ='2' AND idestablecimiento_salud='$idestablecimiento_salud'";
             $result_vf = mysqli_query($link,$sql_vf);
@@ -275,7 +275,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES EN VISITA FAMILIAR =
+      <td><span style="font-family: Arial; font-size: 16px; color: #008f39; text-align: center;">N° ATENCIONES EN VISITA FAMILIAR =
           <?php 
     $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_consulta='2' AND idestablecimiento_salud='$idestablecimiento_salud'";
     $result_vf = mysqli_query($link,$sql_vf);
@@ -301,7 +301,7 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES A APARENTEMENTE SANO =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES PREVENTIVAS =
           <?php 
     $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_atencion='2' AND idestablecimiento_salud='$idestablecimiento_salud' ";
     $result_vf = mysqli_query($link,$sql_vf);
@@ -310,7 +310,7 @@ Si no se encontraron resultados
     echo $visita;?>
       </span></td>
       <td>
-          <span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° DE MÉDICOS =
+          <span style="font-family: Arial; font-size: 16px; color: #000000; text-align: center;">N° DE MÉDICOS =
           <?php 
             $sql_op =" SELECT idusuario FROM atencion_psafci WHERE idestablecimiento_salud='$idestablecimiento_salud' GROUP BY idusuario ";
             $result_op = mysqli_query($link,$sql_op);
