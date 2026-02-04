@@ -39,6 +39,7 @@ $correlativo = $rowm[1];
 
 $codigo = "PS/MSYD-".$correlativo."-".$ci."-".$gestion;
 
+$pass = $ci.'@Safci';
 
 /****** actualizamos los datos personales *******/
 
@@ -49,7 +50,7 @@ $codigo = "PS/MSYD-".$correlativo."-".$ci."-".$gestion;
     $sql9 =" UPDATE personal SET codigo='$codigo' WHERE idpersonal='$idpersonal_ss' ";
     $result9 = mysqli_query($link,$sql9);
 
-    $sql9 =" UPDATE usuarios SET usuario='$ci', password='$ci' WHERE idusuario='$idusuario_mod' ";
+    $sql9 =" UPDATE usuarios SET usuario='$ci', password='$pass' WHERE idusuario='$idusuario_mod' ";
     $result9 = mysqli_query($link,$sql9);
 
     header("Location:mensaje_personal_mod.php");

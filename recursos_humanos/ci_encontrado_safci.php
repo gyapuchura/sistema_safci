@@ -162,15 +162,21 @@ $fecha_nacimiento = $row_n[5];
                 </div>  
             <hr>
 <!------- datos de los signos vitales del paciente ---------->
-<form name="GUARDA_CI" action="registrar_ci_medisafci.php" method="post">  
+ 
           
             <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-6">
-       
+            <?php
+                $sql_n =" SELECT idusuario FROM usuarios WHERE idnombre='$idnombre_reg_ss' ";
+                $result_n=mysqli_query($link,$sql_n);
+                if ($row_n=mysqli_fetch_array($result_n)) { ?>                   
+                <form name="RESTAURAR" action="restaurar_usuario.php" method="post"> 
+                <button type="submit" class="btn btn-primary">RESTAURAR USUARIO MEDI-SAFCI</button></form>
+                <?php  } ?>  
                 </div> 
                 <div class="col-sm-6">
-
+                <form name="REGISTRAR" action="registrar_ci_medisafci.php" method="post"> 
                 <button type="submit" class="btn btn-info">CREAR USUARIO MEDI-SAFCI</button></form>
                 </div> 
             </div>                            

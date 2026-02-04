@@ -36,6 +36,8 @@ $idgenero       = $_POST['idgenero'];
 
     $codigo = "PS/MSYD-".$correlativo."-".$ci."-".$gestion;
 
+    $pass = $ci.'@Safci';
+
 /************** actualizamos los datos personales *************/
 
     $sql8 =" UPDATE nombre SET nombre='$nombre', paterno='$paterno', materno='$materno', fecha_nac='$fecha_nac', ci='$ci', ";
@@ -45,7 +47,7 @@ $idgenero       = $_POST['idgenero'];
     $sql9 =" UPDATE personal SET codigo='$codigo' WHERE idpersonal='$idpersonal' ";
     $result9 = mysqli_query($link,$sql9);
 
-    $sql9 =" UPDATE usuarios SET usuario='$ci', password='$ci' WHERE idusuario='$idusuario_ss' ";
+    $sql9 =" UPDATE usuarios SET usuario='$ci', password='$pass' WHERE idusuario='$idusuario_ss' ";
     $result9 = mysqli_query($link,$sql9);
 
     header("Location:mensaje_personal_mod_individual.php");

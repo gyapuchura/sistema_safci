@@ -46,6 +46,8 @@ $celular_emergencia = $link->real_escape_string($_POST['celular_emergencia']);
 
 $iddependencia = $_POST['iddependencia'];
 
+$pass = $ci.'@Safci';
+
 //para el caso de participante del Ministerio de Salud y Deportes.
 
 //para el caso de participante de una Red de salud.
@@ -82,7 +84,7 @@ else {
 
     /* Primero Insertamos los datos en la tabla de usuarios */
     $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
-    $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','PERSONAL')";
+    $sql7.= " VALUES ('$idnombre','$ci','$pass','$fecha','ACTIVO','PERSONAL')";
     $result7 = mysqli_query($link,$sql7);  
     $idusuario_in = mysqli_insert_id($link);
 

@@ -88,7 +88,7 @@ $fecha_nacimiento = $row_n[5];
                         <h4 class="text-primary">REGISTRAR COMO NUEVO PERSONAL SAFCI</h4>
                         </div>
 <!-- END aqui va el TITULO de la pagina ---->
-
+ 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
                     <div class="form-group row">

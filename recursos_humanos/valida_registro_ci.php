@@ -13,5 +13,5 @@ $idnombre_reg = $_POST['idnombre_reg'];
 $_SESSION['idnombre_reg_ss'] = $idnombre_reg;
 
 header("Location:ci_encontrado_safci.php");
-
+ 
 ?>

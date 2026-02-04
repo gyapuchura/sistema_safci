@@ -95,7 +95,7 @@ $row_ac = mysqli_fetch_array($result_ac);
 <!-- BEGIN aqui va el comntenido de la pagina ---->
                     <div class="col-lg-12">  
                     <div class="p-5"> 
-
+ 
                     <div class="form-group row">
                                     <h5 class="text-primary">1.- DATOS PERSONALES:</h5>                                 
                                 </div>
