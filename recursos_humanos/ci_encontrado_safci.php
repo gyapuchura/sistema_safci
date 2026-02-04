@@ -87,7 +87,7 @@ $fecha_nacimiento = $row_n[5];
                     <div class="text-center">                          
                     <a href="buscar_personal.php" class="text-info">VOLVER</a>    
                     <hr>             
-                    <h4 class="text-info">REGISTRO ENCONTRADO</h4>
+                    <h4 class="text-info">REGISTRO ENCONTRADO <?php echo $idnombre_reg_ss;?></h4>
                     <hr> 
                     </div>
 
@@ -171,15 +171,42 @@ $fecha_nacimiento = $row_n[5];
                 $sql_n =" SELECT idusuario FROM usuarios WHERE idnombre='$idnombre_reg_ss' ";
                 $result_n=mysqli_query($link,$sql_n);
                 if ($row_n=mysqli_fetch_array($result_n)) { ?>                   
-                <form name="RESTAURAR" action="restaurar_usuario.php" method="post"> 
-                <button type="submit" class="btn btn-primary">RESTAURAR USUARIO MEDI-SAFCI</button></form>
+                <form name="RESTAURAR" action="restaurar_usuario.php" method="post">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    RESTAURAR USUARIO MEDI-SAFCI
+                    </button> 
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">RESTAURAR PERSONAL</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    Esta seguro de Restaurar el usuario personal?
+                                    posteriormenete no se podran realizar cambios.
+
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                <button type="submit" class="btn btn-primary pull-center">CONFIRMAR RESTAURACIÓN</button>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <?php  } ?>  
                 </div> 
                 <div class="col-sm-6">
                 <form name="REGISTRAR" action="registrar_ci_medisafci.php" method="post"> 
                 <button type="submit" class="btn btn-info">CREAR USUARIO MEDI-SAFCI</button></form>
                 </div> 
-            </div>                            
+            </div>  
+            
+            
                                                
 <!-- END aqui va el comntenido de la pagina ---->
             </div>
