@@ -64,7 +64,7 @@ $(function () {
                 borderWidth: 0
             }
         },
-        series: [
+        series: [ 
 
             <?php 
 $numero2 = 0;

@@ -9,13 +9,12 @@ $gestion        = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>REPORTE DIAGNOSTICOS PREVENTIVOS</title>
+		<title>REPORTE DIAGNOSTICOS POR MORBILIDAD</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
     <style type="text/css">
@@ -28,7 +27,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
             type: 'bar'
         },
         title: {
-            text: 'REPORTE DIAGNÓSTICOS PREVENTIVOS PSAFCI - NACIONAL'
+            text: 'REPORTE DIAGNÓSTICOS POR MORBILIDAD PSAFCI - NACIONAL'
         },
         subtitle: {
             text: 'Fuente: Sistema Integrado MEDI-SAFCI al <?php echo $f_emision;?>'
@@ -38,7 +37,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                 <?php 
 $numero = 0;
 $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia ";
-$sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND cie LIKE '%Z%' ";
+$sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie NOT LIKE '%Z%' ";
 $sql.= " GROUP BY diagnostico_psafci.idpatologia ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
@@ -81,7 +80,7 @@ Si no se encontraron resultados
             }
         },
         tooltip: {
-            valueSuffix: ' integrantes'
+            valueSuffix: ' Diagnósticos'
         },
         plotOptions: {
             bar: {
@@ -113,7 +112,7 @@ data: [
     <?php 
 $numero3 = 0;
 $sql3 = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia ";
-$sql3.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND cie LIKE '%Z%' ";
+$sql3.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie NOT LIKE '%Z%' ";
 $sql3.= " GROUP BY diagnostico_psafci.idpatologia ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
@@ -161,11 +160,11 @@ echo "";
 
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $numero3*60;?>px; margin: 0 auto"></div>
 
-<h4 align="center" style="font-family: Arial;">TOTAL DE DIAGNÓSTICOS PREVENTIVOS = 
+<h4 align="center" style="font-family: Arial;">TOTAL DE DIAGNÓSTICOS POR MORBILIDAD = 
                 <?php
                 $sql_dgt = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, patologia ";
                 $sql_dgt.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia ";
-                $sql_dgt.= " AND patologia.cie LIKE '%Z%' ";
+                $sql_dgt.= " AND patologia.cie NOT LIKE '%Z%' ";
                 $result_dgt = mysqli_query($link,$sql_dgt);
                 $row_dgt = mysqli_fetch_array($result_dgt);
                 $diagnostico_nal = $row_dgt[0];
@@ -186,7 +185,7 @@ echo "";
             } do { ?>
                 <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">
                 
-                <a href="reporte_psafci_diag_depto_dos.php?iddepartamento=<?php echo $row_d[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a> </span></td>
+                <a href="reporte_por_morbilidad_dep.php?iddepartamento=<?php echo $row_d[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a> </span></td>
             <?php                  
             } while ($row_d = mysqli_fetch_array($result_d));
             } else {  }
@@ -196,7 +195,7 @@ echo "";
             <?php
             $numero = 1;
             $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia ";
-            $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND cie LIKE '%Z%' ";
+            $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie NOT LIKE '%Z%' ";
             $sql.= " GROUP BY diagnostico_psafci.idpatologia ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){

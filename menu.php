@@ -533,6 +533,7 @@
     } do {	?>
 
     <a class="collapse-item" href="../produccion_servicios/atenciones_nacional.php">ATENCIONES</br>NACIONAL</a>
+    <a class="collapse-item" href="../produccion_servicios/reportes_produccion_servicios.php">REPORTES</br>PRODUCCIÓN</br>DE SERVICIOS</a>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
