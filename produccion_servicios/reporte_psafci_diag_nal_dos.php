@@ -207,7 +207,11 @@ echo "";
                 <tr>
                     <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
                     <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
-                    <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
+                    <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
+                    
+                    <a href="patologias_diario_nal.php?idpatologia=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row[2];?></a>
+                    
+                    </td>
             <?php
             $sql_d = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ORDER BY iddepartamento ";
             $result_d = mysqli_query($link,$sql_d);
