@@ -176,7 +176,7 @@ echo "";
 <table width="1400" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">DIAGNÓSTICOS PSAFCI</span></td>
+        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">SESIONES EDUCATIVAS - PSAFCI</span></td>
             <?php
             $sql_m = " SELECT sesion_educativa.idmunicipio, municipios.municipio FROM sesion_educativa, municipios ";
             $sql_m.= " WHERE sesion_educativa.idmunicipio=municipios.idmunicipio AND sesion_educativa.iddepartamento='$iddepartamento' GROUP BY sesion_educativa.idmunicipio ";
