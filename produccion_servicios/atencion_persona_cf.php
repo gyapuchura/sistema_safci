@@ -370,7 +370,7 @@ $row_n=mysqli_fetch_array($result_n);
                 <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion ";
+                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion != '4' AND idtipo_atencion != '5' ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);
