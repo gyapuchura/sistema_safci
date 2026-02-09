@@ -13,6 +13,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
@@ -370,7 +371,7 @@ $row_n=mysqli_fetch_array($result_n);
                 <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion ";
+                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion != '4' AND idtipo_atencion != '5' ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);

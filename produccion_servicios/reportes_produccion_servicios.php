@@ -96,12 +96,24 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">3.- SESIONES EDUCATIVAS PSAFCI</h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="../produccion_servicios/reporte_sesiones_educativas_nal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div>
+
 
                 <div class="form-group row">
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
-                        <h6 class="text-primary">3.- INCIDENCIA DIARIA PSAFCI</h6>
+                        <h6 class="text-primary">4.- INCIDENCIA DIARIA PSAFCI</h6>
                     </div>
                     <div class="col-sm-4">
                     <a href="../produccion_servicios/atenciones_psafci_diarias.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
