@@ -1,6 +1,7 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php
+
 $idtipo_atencion = $_POST['tipo_atencion'];
 
 
@@ -93,7 +94,7 @@ switch ($idtipo_atencion) {
           
 
     <!-- modal de confirmacion de envio de datos-->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -388,11 +389,23 @@ switch ($idtipo_atencion) {
             <div class="col-sm-6">
             </div> 
             </div> 
-<hr>
+
             <div id="diagnosticos_ps"></div>
 
 
             <!-- BEGIN especialidad medica ---->           
+
+                <hr>
+                    <div class="form-group row"> 
+                    <div class="col-sm-3">
+                    </div> 
+                    <div class="col-sm-6">
+                    <h4 class="text-info">ESPECIALIDAD </h4>
+                    </div> 
+                    <div class="col-sm-3"> 
+                    </div> 
+                    </div> 
+                <hr>
 
                 <div class="form-group row">
                     <div class="col-sm-12">
@@ -443,12 +456,13 @@ switch ($idtipo_atencion) {
 
                           <div class="form-group row">
                     <div class="col-sm-12">
-                    <h6 class="text-info">ESSTABLECIMIENTO DE SALUD:</h6>
-                        <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" required autofocus>
+                    <h6 class="text-info">ESTABLECIMIENTO DE SALUD:</h6>
+                        <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required autofocus>
                         <option value="">-SELECCIONE-</option>
                         <?php
                         $numero=1;
-                        $sql1 = "SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idtipo_establecimiento = '12' AND idsubsector_salud ='6' AND iddepartamento = '4' ORDER BY establecimiento_salud";
+                        $sql1 = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idtipo_establecimiento = '12' ";
+                        $sql1.= " AND idsubsector_salud ='6' AND iddepartamento = '4' ORDER BY establecimiento_salud "; 
                         $result1 = mysqli_query($link,$sql1);
                         if ($row1 = mysqli_fetch_array($result1)){
                         mysqli_field_seek($result1,0);

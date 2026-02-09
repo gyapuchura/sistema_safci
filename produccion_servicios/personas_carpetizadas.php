@@ -10,11 +10,11 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$sql_es = " SELECT iddato_laboral, idestablecimiento_salud FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
+$sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
 $result_es = mysqli_query($link,$sql_es);
 $row_es = mysqli_fetch_array($result_es);
 $idestablecimiento_salud = $row_es[1];
-
+$iddepartamento = $row_es[2];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -200,6 +200,7 @@ $idestablecimiento_salud = $row_es[1];
                                     <input name="idintegrante_cf" type="hidden" value="<?php echo $row[0];?>">
                                     <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[7];?>">
                                     <input name="idestablecimiento_salud" type="hidden" value="<?php echo $idestablecimiento_salud;?>">
+                                    <input name="iddepartamento" type="hidden" value="<?php echo $iddepartamento;?>">
                                     <input name="idnombre_integrante" type="hidden" value="<?php echo $row[8];?>">
                                     <input name="edad" type="hidden" value="<?php echo $edad;?>">
                                         <button type="submit" class="btn btn-info btn-icon-split">

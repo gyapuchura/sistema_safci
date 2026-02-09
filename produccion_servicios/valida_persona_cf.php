@@ -13,16 +13,18 @@ $perfil_ss    = $_SESSION['perfil_ss'];
 $idintegrante_cf         = $_POST['idintegrante_cf'];
 $idcarpeta_familiar      = $_POST['idcarpeta_familiar'];
 $idestablecimiento_salud = $_POST['idestablecimiento_salud'];
+$iddepartamento = $_POST['iddepartamento'];
 $idnombre_integrante     = $_POST['idnombre_integrante'];
 $edad                    = $_POST['edad'];
 
 $_SESSION['idintegrante_cf_ss']         = $idintegrante_cf;
 $_SESSION['idcarpeta_familiar_ss']      = $idcarpeta_familiar;
 $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud;
+$_SESSION['iddepartamento_ss']          = $iddepartamento;
 $_SESSION['idnombre_integrante_ss']     = $idnombre_integrante;
 $_SESSION['edad_ss']                    = $edad;
 
 
-header("Location:atencion_persona_cf.php");
+header("Location:atencion_persona_cf.php");    
 
 ?>
