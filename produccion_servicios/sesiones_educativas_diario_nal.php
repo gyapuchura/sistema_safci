@@ -193,6 +193,7 @@ Si no se encontraron resultados
               <td width="300" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">SESIÓN EDUCATIVA</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ASISTENTES</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO OPERATIVO</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CARGO ORGANIZACIONAL</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE REGISTRO:</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
@@ -226,12 +227,22 @@ Si no se encontraron resultados
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[8]." ".$row[9]." ".$row[10]);?></td>
+            <td style="font-size: 12px; font-family: Arial;">
+              <?php 
+                $sql_c =" SELECT dato_laboral.idcargo_organigrama, cargo_organigrama.cargo_organigrama FROM usuarios, dato_laboral, cargo_organigrama  ";
+                $sql_c.=" WHERE dato_laboral.idusuario=usuarios.idusuario AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama ";
+                $sql_c.=" AND usuarios.idusuario='$row[13]' ORDER BY dato_laboral.idcargo_organigrama DESC LIMIT 1 ";
+                $result_c = mysqli_query($link,$sql_c);
+                $row_c = mysqli_fetch_array($result_c);                    
+                echo $row_c[1];?>
+            </td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;">
                 <?php 
                 $fecha_r = explode('-',$row[11]);
                 $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
                 <?php echo $f_registro;?> - <?php echo $row[12];?>
             </td>
+
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
 	        </tr>
             <?php
