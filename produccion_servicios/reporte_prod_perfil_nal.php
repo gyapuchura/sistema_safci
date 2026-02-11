@@ -53,7 +53,9 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
         <tr>
             <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
             <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
-            <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
+            <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
+             <a href="patologias_diario_nal.php?idpatologia=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row[2];?></a>   
+            </td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php                
                 $sql_ps = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
