@@ -255,6 +255,7 @@ Si no se encontraron resultados
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CONSULTA/VISITA</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">TIPO ATENCIÖN</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO OPERATIVO</td>
+              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CARGO ORGANIZACIONAL</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE REGISTRO:</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
@@ -294,6 +295,15 @@ Si no se encontraron resultados
                 $result_r = mysqli_query($link,$sql_r);
                 $row_r = mysqli_fetch_array($result_r);                    
                 echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
+              </td>
+              <td style="font-size: 12px; font-family: Arial;">
+              <?php 
+                $sql_c =" SELECT dato_laboral.idcargo_organigrama, cargo_organigrama.cargo_organigrama FROM usuarios, dato_laboral, cargo_organigrama  ";
+                $sql_c.=" WHERE dato_laboral.idusuario=usuarios.idusuario AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama ";
+                $sql_c.=" AND usuarios.idusuario='$row[12]' ORDER BY dato_laboral.idcargo_organigrama DESC LIMIT 1 ";
+                $result_c = mysqli_query($link,$sql_c);
+                $row_c = mysqli_fetch_array($result_c);                    
+                echo $row_c[1];?>
               </td>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
