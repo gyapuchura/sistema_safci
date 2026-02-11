@@ -76,13 +76,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
             </td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php
-                $sql_dgt = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
-                $sql_dgt.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
-                $sql_dgt.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
-                $sql_dgt.= " GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
-                $result_dgt = mysqli_query($link,$sql_dgt);
-                $diagnostico_pat = mysqli_num_rows($result_dgt);
-                echo $diagnostico_pat;
+                echo $psafci + $telesalud;
                 ?>
             </td>
                     </tr> 
