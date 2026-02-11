@@ -50,38 +50,38 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
             while ($field = mysqli_fetch_field($result)){
             } do {
            ?>
-                <tr>
-                    <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-                    <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
-                    <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
-                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
-                        <?php                
-                        $sql_ps = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
-                        $sql_ps.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
-                        $sql_ps.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
-                        $sql_ps.= " AND dato_laboral.idcargo_organigrama != '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
-                        $result_ps = mysqli_query($link,$sql_ps);
-                        $psafci = mysqli_num_rows($result_ps);
-                        echo $psafci;?>
-                    </td>
-                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
-                        <?php                
-                        $sql_tel = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
-                        $sql_tel.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
-                        $sql_tel.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
-                        $sql_tel.= " AND dato_laboral.idcargo_organigrama = '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
-                        $result_tel = mysqli_query($link,$sql_tel);
-                        $telesalud = mysqli_num_rows($result_tel);
-                        echo $telesalud;?>
-                    </td>
+        <tr>
+            <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+            <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
+            <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
+                <?php                
+                $sql_ps = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
+                $sql_ps.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
+                $sql_ps.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
+                $sql_ps.= " AND dato_laboral.idcargo_organigrama != '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
+                $result_ps = mysqli_query($link,$sql_ps);
+                $psafci = mysqli_num_rows($result_ps);
+                echo $psafci;?>
+            </td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
+                <?php                
+                $sql_tel = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
+                $sql_tel.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
+                $sql_tel.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
+                $sql_tel.= " AND dato_laboral.idcargo_organigrama = '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
+                $result_tel = mysqli_query($link,$sql_tel);
+                $telesalud = mysqli_num_rows($result_tel);
+                echo $telesalud;?>
+            </td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php
-                $sql_dgt = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
-                $sql_dgt.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-                $sql_dgt.= " AND diagnostico_psafci.idpatologia = '$row[0]' ";
+                $sql_dgt = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
+                $sql_dgt.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
+                $sql_dgt.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
+                $sql_dgt.= " GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
                 $result_dgt = mysqli_query($link,$sql_dgt);
-                $row_dgt = mysqli_fetch_array($result_dgt);
-                $diagnostico_pat = $row_dgt[0];
+                $diagnostico_pat = mysqli_num_rows($result_dgt);
                 echo $diagnostico_pat;
                 ?>
             </td>
