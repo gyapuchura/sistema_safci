@@ -15,15 +15,14 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>REPORTE DIAGNOSTICOS PREVENTIVOS</title>
+		<title>REPORTE DIAGNOSTICOS POR MORBILIDAD</title>
 
 
-
-<h4 align="center" style="font-family: Arial;">TOTAL NACIONAL DE DIAGNÓSTICOS PREVENTIVOS = 
+<h4 align="center" style="font-family: Arial;">TOTAL NACIONAL DE DIAGNÓSTICOS POR MORBILIDAD = 
                 <?php
                 $sql_dgt = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, patologia ";
                 $sql_dgt.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia ";
-                $sql_dgt.= " AND patologia.cie LIKE '%Z%' ";
+                $sql_dgt.= " AND patologia.cie NOT LIKE '%Z%' ";
                 $result_dgt = mysqli_query($link,$sql_dgt);
                 $row_dgt = mysqli_fetch_array($result_dgt);
                 $diagnostico_nal = $row_dgt[0];
@@ -33,7 +32,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 <table width="1000" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">DIAGNÓSTICOS PREVENTIVOS PSAFCI</span></td>
+        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">DIAGNÓSTICOS POR MORBILIDAD PSAFCI</span></td>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">CIE</span></td>
         <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">MÉDICOS SAFCI-MISALUD</td>
         <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">MÉDICOS TELE-SALUD</td>
@@ -42,7 +41,7 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
             <?php
             $numero = 1;
             $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia ";
-            $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND cie LIKE '%Z%' ";
+            $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND cie NOT LIKE '%Z%' ";
             $sql.= " GROUP BY diagnostico_psafci.idpatologia ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
