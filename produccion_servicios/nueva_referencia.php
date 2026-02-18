@@ -890,6 +890,59 @@ $row_ps=mysqli_fetch_array($result_ps);
 
 <?php } ?>
 
+
+    <hr>   
+        <div class="text-center">                                              
+            <h4 class="text-info">RESUMEN ANAMNESIS Y EXAMEN FÍSICO (C4)</h4>                    
+        </div>
+    <hr> 
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ESTUVO INTERNADO:</br>[si o no]:</h6>
+                        SI <input type="radio" name="e_internado" value="SI" > </br>
+                        NO <input type="radio" name="e_internado" value="NO" checked>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">DÍAS DE INTERNACIÓN</br>[Días]:</h6>
+                        <input type="number" class="form-control"              
+                         name="dias_internado" value="1">                
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-info">ANAMNESIS</br>[Descripción]:</h6>
+                        <textarea class="form-control" rows="3" name="anm_descripcion"></textarea>                
+                    </div>
+                </div>
+
+
+        <hr>   
+        <div class="text-center">                                              
+            <h4 class="text-info">REALIZÓ EXAMENES COMPLEMENTARIOS DE DIAGNÓSTICO (C5)</h4>                    
+        </div>
+        <hr> 
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ESTUVO INTERNADO:</br>[si o no]:</h6>
+                        SI <input type="radio" name="e_internado" value="SI" > </br>
+                        NO <input type="radio" name="e_internado" value="NO" checked>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">DÍAS DE INTERNACIÓN</br>[Días]:</h6>
+                        <input type="number" class="form-control"              
+                         name="dias_internado" value="1">                
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-info">ANAMNESIS</br>[Descripción]:</h6>
+                        <textarea class="form-control" rows="3" name="anm_descripcion"></textarea>                
+                    </div>
+                </div>
+
+
+
+
+
+
 <!----- FORMUALRIO DE REFERENCIA DEL INTEGRANTE DE LA FAMILIA - END  ----->
 </div>
 </div>
