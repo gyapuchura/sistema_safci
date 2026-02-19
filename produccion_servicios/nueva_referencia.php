@@ -920,24 +920,17 @@ $row_ps=mysqli_fetch_array($result_ps);
             <h4 class="text-info">REALIZÓ EXAMENES COMPLEMENTARIOS DE DIAGNÓSTICO (C5)</h4>                    
         </div>
         <hr> 
-
-                <div class="form-group row">                               
-                    <div class="col-sm-3">
-                    <h6 class="text-info">ESTUVO INTERNADO:</br>[si o no]:</h6>
-                        SI <input type="radio" name="e_internado" value="SI" > </br>
-                        NO <input type="radio" name="e_internado" value="NO" checked>                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">DÍAS DE INTERNACIÓN</br>[Días]:</h6>
-                        <input type="number" class="form-control"              
-                         name="dias_internado" value="1">                
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-info">ANAMNESIS</br>[Descripción]:</h6>
-                        <textarea class="form-control" rows="3" name="anm_descripcion"></textarea>                
-                    </div>
+            <div class="form-group row">                               
+                <div class="col-sm-12">
+                <h6 class="text-info">¿Realizó exámenes complementarios?:</h6>
+                    <select name="examen_complementario"  id="examen_complementario" class="form-control" >
+                    <option selected>Seleccione</option>
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                    </select>              
                 </div>
-
+            </div>
+        <div class="card-body" id="examenes_complem"></div> 
 
 
 
@@ -1007,11 +1000,11 @@ $row_ps=mysqli_fetch_array($result_ps);
 
         <script language="javascript">
         $(document).ready(function(){
-        $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion.php", {tipo_atencion:tipo_atencion}, function(data){
-                    $("#tipo_atencion").html(data);
+        $("#examen_complementario").change(function () {
+                    $("#examen_complementario option:selected").each(function () {
+                        examen_complementario=$(this).val();
+                    $.post("examenes_complementarios.php", {examen_complementario:examen_complementario}, function(data){
+                    $("#examenes_complem").html(data);
                     });
                 });
         })
