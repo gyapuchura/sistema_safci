@@ -86,10 +86,10 @@ $row_ps=mysqli_fetch_array($result_ps);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="atenciones_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="mostrar_atencion_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
-                    <h4 class="text-info">ATENCIÓN - SAFCI</h4>
-                    <h4 class="text-secundary"><?php echo $row_ps[4]?></h4>
+                    <h4 class="text-info">FORMULARIO DE REFERENCIA</h4>
+                    <h4 class="text-info"><?php echo $row_ps[4]?></h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -664,20 +664,279 @@ $row_ps=mysqli_fetch_array($result_ps);
 
 <?php } ?>
 
+<!----- FORMUALRIO DE REFERENCIA DEL INTEGRANTE DE LA FAMILIA - BEGIN  ----->
 
-    <div class="form-group row"> 
-    <div class="col-sm-4"> 
-        
-    </div> 
-    <div class="col-sm-4"> 
-        <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
-    </div> 
-    <div class="col-sm-4"> 
-       <!-- <a href="nueva_referencia.php"><h6 class="text-primary"> REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a>  -->
-    </div> 
-    </div> 
+            <hr>   
+                <div class="text-center">                                              
+                    <h4 class="text-info">DATOS CLÍNICOS Y SIGNOS VITALES:</h4>                    
+                </div>
+            <hr> 
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA CARDIACA </br> [lpm]:</h6>
+                        <input type="number" class="form-control" 
+                         name="frec_cardiaca" value="0">                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PESO </br>[kg]:</h6>
+                        <input type="number" class="form-control"              
+                         name="peso" value="1">                
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">TALLA [cm]</br>[centímetros]:</h6>
+                        <input type="text" class="form-control" placeholder="Ej. 1.65"
+                         name="talla" value="1">                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
+                        <input type="number" class="form-control" 
+                         name="frec_respiratoria" value="0">                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
+                        <input type="number" class="form-control"              
+                         name="presion_arterial"  placeholder="Sistólica" value="0">               
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info"> </br></br></h6>
+                         <input type="number" class="form-control"              
+                         name="presion_arterial_d" placeholder="Diastólica" value="0">                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+                        <input type="number" class="form-control" 
+                         name="temperatura" placeholder="" value="0">                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
+                        <input type="number" class="form-control"
+                         name="saturacion" value="0">                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                     <h6 class="text-info">GLASCOW:</br>... /15:</h6>
+                        <input type="number" class="form-control"
+                         name="glascow" value="0" >              
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ES ALERGICO? :</h6>
+                    SI <input type="radio" name="alergia" value="SI"> </br>
+                    NO <input type="radio" name="alergia" value="NO" checked>                  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia" placeholder="Solo SI es alérgico"></textarea> 
+                    </div>
+                </div>                       
+            <hr>
+
+<?php if ($row_n[7] == '1') { ?>
+    
+                <div class="text-center">                                              
+                    <h4 class="text-info">ANTECEDENTES OBSTÉTRICOS::</h4>                    
+                </div>
+            <hr> 
+
+                <div class="form-group row">                               
+                    <div class="col-sm-4">
+                    <h6 class="text-info">F.U.M.:</br>[fecha última mestruación]:</h6>
+                        <input type="date" class="form-control" 
+                         name="fecha_fum" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">G </br>[Gestaciones]:</h6>
+                        <input type="number" class="form-control"              
+                         name="gestaviones" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                        <h6 class="text-info">P </br>[Partos]:</h6>
+                        <input type="text" class="form-control" placeholder="Ej. 1.65"
+                         name="partos" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">A </br>[Abortos]:</h6>
+                        <input type="number" class="form-control" 
+                         name="abortos" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">C </br>[Cesáreas]:</h6>
+                        <input type="number" class="form-control" 
+                         name="cesareas" value="0">                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-4">
+                    <h6 class="text-info">F.P.P.:</br>[Fecha de Probale parto]:</h6>
+                        <input type="date" class="form-control" 
+                         name="fecha_fpp" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">R.P.M.</br>[Ruptura Prematura de Membrana]:</h6>
+                        <input type="time" class="form-control"              
+                         name="gestaviones" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                        <h6 class="text-info">F.C.F. </br>[Frecuencia Cardiaca Fetal]:</h6>
+                        <input type="number" class="form-control" placeholder="Ej. 1.65"
+                         name="partos" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                        <h6 class="text-info">NÚMERO DE CONTROLES PRENATALES:</br></h6>
+                        <input type="number" class="form-control" placeholder="Ej. 1.65"
+                         name="controles_prn" value="0">                
+                    </div>
+                    <div class="col-sm-2">
+                    <h6 class="text-info">MADURACIÓN PULMONAR: </br></h6>
+                        SI <input type="radio" name="maduracion_pulmonar" value="SI" checked> </br>
+                        NO <input type="radio" name="maduracion_pulmonar" value="NO" >               
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PARTO:</br>[se realizó o no]:</h6>
+                        SI <input type="radio" name="parto" value="SI" checked> </br>
+                        NO <input type="radio" name="parto" value="NO" >                  
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PARTO EUTÓCICO O POR CESÁREA.</br></h6>
+                        EUTÓCICO <input type="radio" name="tipo_parto" value="EUTÓCICO" checked> </br>
+                        CESÁREA <input type="radio" name="tipo_parto" value="CESÁREA" >              
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">FECHA DE PARTO</br>[Fecha]:</h6>
+                        <input type="date" class="form-control" placeholder=""
+                         name="fecha_parto" value="0">                
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">HORA DE PARTO:</br>[hh:mm]</h6>
+                        <input type="time" class="form-control" placeholder=""
+                         name="hora_parto" value="0">                
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">                                              
+                    <h4 class="text-info">RECIÉN NACIDO:</h4>                    
+                </div>
+                <hr>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">EDAD GESTACIONAL:</br>[Semanas]:</h6>
+                        <input type="number" class="form-control" placeholder="Ej. 1.65"
+                         name="edad_g" value="0">                   
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">LIQ. AMNIÓTICO</br>[Característica]</h6>
+                        <input type="text" class="form-control" placeholder=""
+                         name="liquido_am" value="">             
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">PESO:</br>[Gramos]:</h6>
+                        <input type="number" class="form-control" placeholder=""
+                         name="peso_rn" value="0">                
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">Talla:</br>[Centimetros]</h6>
+                        <input type="time" class="form-control" placeholder=""
+                         name="talla_rn" value="0">                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">P.C.:</br>[Perímetro Cefálico en Centímetros]:</h6>
+                        <input type="number" class="form-control" placeholder="Ej. 1.65"
+                         name="perimetro_cf" value="0">                   
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">P.T.</br>[Perímetro Torácico en Centímetros]</h6>
+                        <input type="text" class="form-control" placeholder=""
+                         name="perimetro_tr" value="0">             
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">APGAR:</br>[Primer Minuto]:</br></h6>
+                        <input type="number" class="form-control" placeholder=""
+                         name="apgar_i" value="0">                
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">APGAR:</br>[A los 5 minutos]</br></h6>
+                        <input type="number" class="form-control" placeholder=""
+                         name="apgar_f" value="0">                
+                    </div>
+                </div>
+                    
+                <div class="form-group row">                               
+                    <div class="col-sm-6">
+                    <h6 class="text-info">INDICE DE CHOQUE:</br>[Anotar si se procedió:</h6>
+                    <textarea class="form-control" rows="2" name="indice_choque"></textarea>                 
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">CRITERIOS SOFA:</br>[Anotar si se procedió]</h6>
+                    <textarea class="form-control" rows="2" name="criterio_sofa"></textarea>             
+                    </div>
+                </div>
+
+<?php } else { ?>
+   
+    <h4>ES VARON</h4>
+
+<?php } ?>
 
 
+    <hr>   
+        <div class="text-center">                                              
+            <h4 class="text-info">RESUMEN ANAMNESIS Y EXAMEN FÍSICO (C4)</h4>                    
+        </div>
+    <hr> 
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ESTUVO INTERNADO:</br>[si o no]:</h6>
+                        SI <input type="radio" name="e_internado" value="SI" > </br>
+                        NO <input type="radio" name="e_internado" value="NO" checked>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">DÍAS DE INTERNACIÓN</br>[Días]:</h6>
+                        <input type="number" class="form-control"              
+                         name="dias_internado" value="1">                
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-info">ANAMNESIS</br>[Descripción]:</h6>
+                        <textarea class="form-control" rows="3" name="anm_descripcion"></textarea>                
+                    </div>
+                </div>
+
+
+        <hr>   
+        <div class="text-center">                                              
+            <h4 class="text-info">REALIZÓ EXAMENES COMPLEMENTARIOS DE DIAGNÓSTICO (C5)</h4>                    
+        </div>
+        <hr> 
+            <div class="form-group row">                               
+                <div class="col-sm-12">
+                <h6 class="text-info">¿Realizó exámenes complementarios?:</h6>
+                    <select name="examen_complementario"  id="examen_complementario" class="form-control" >
+                    <option selected>Seleccione</option>
+                    <option value="NO">NO</option>
+                    <option value="SI">SI</option>
+                    </select>              
+                </div>
+            </div>
+        <div class="card-body" id="examenes_complem"></div> 
+
+
+
+
+
+<!----- FORMUALRIO DE REFERENCIA DEL INTEGRANTE DE LA FAMILIA - END  ----->
 </div>
 </div>
 
@@ -741,11 +1000,11 @@ $row_ps=mysqli_fetch_array($result_ps);
 
         <script language="javascript">
         $(document).ready(function(){
-        $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion.php", {tipo_atencion:tipo_atencion}, function(data){
-                    $("#tipo_atencion").html(data);
+        $("#examen_complementario").change(function () {
+                    $("#examen_complementario option:selected").each(function () {
+                        examen_complementario=$(this).val();
+                    $.post("examenes_complementarios.php", {examen_complementario:examen_complementario}, function(data){
+                    $("#examenes_complem").html(data);
                     });
                 });
         })

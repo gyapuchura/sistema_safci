@@ -153,7 +153,7 @@
           </tr>
           <tr>
             <td style="font-size: 12px; font-family: Arial;">R.N.</td>
-            <td colspan="2">EDAD GESTACIONAL</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial;">EDAD GESTACIONAL</td>
             <td style="font-size: 12px; font-family: Arial;">....sem</td>
             <td style="font-size: 12px; font-family: Arial;">LIQ. AMNIÓTICO</td>
             <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
