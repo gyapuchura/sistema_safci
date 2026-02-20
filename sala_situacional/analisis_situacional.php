@@ -83,7 +83,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <div class="col-sm-6">
                         </br>
                         <input type="hidden" name="idmunicipio_salud" value="<?php echo $idmunicipio_salud;?>">
-                        <button type="submit" class="btn btn-primary">REPORTE NACIONAL EN EXCEL</button>
+                        <button type="submit" class="btn btn-primary">REPORTE POR FECHAS</button>
                     </form>
                         </div>
                     </div>

@@ -9,6 +9,14 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$inicio = $_POST['inicio'];
+$finalizacion = $_POST['finalizacion'];
+
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -59,19 +67,40 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
     </br>
         <div class="card o-hidden border-0 shadow-lg my-2">
             <div class="card-body p-0">
+
+               
+                
+                
 <!-- BEGIN aqui va el TITULO de la pagina ---->
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">   
+                    <div class="text-center">  
+                        <button onclick="history.back();" class="btn btn-info btn-icon-split"> <- VOLVER <- </button> 
                     <hr>                     
-                    <h4 class="text-primary">REPORTES PRODUCCIÓN DE SERVICIOS - PSAFCI</h4>
+                    <h4 class="text-primary">REPORTES PRODUCCIÓN POR FECHAS - PSAFCI</h4>
+                    <h4 class="text-primary"></h4>
+                    <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
-<hr> 
 
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">DESDE:</h6>
+                        <input type="date" name="inicio" id="" class="form-control" value="<?php echo $inicio;?>" disabled>
+                        </div>
+                        <div class="col-sm-3">
+                        <h6 class="text-primary">HASTA:</h6>
+                        <input type="date" name="finalizacion" id="" class="form-control" value="<?php echo $finalizacion;?>" disabled>
+                        </div>
+                        <div class="col-sm-4">
+                        </div>
+                    </div>
+                <hr> 
                 <div class="form-group row">
                     <div class="col-sm-2">
                     </div>
@@ -79,7 +108,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">1.- ATENCIONES PREVENTIVAS PSAFCI</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../produccion_servicios/reporte_psafci_diag_nal_dos.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <a href="../produccion_servicios/reporte_psafci_diag_nal_dos_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div>
@@ -91,7 +120,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">2.- ATENCIONES POR MORBILIDAD PSAFCI</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../produccion_servicios/reporte_por_mobilidad_nal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <a href="../produccion_servicios/reporte_por_mobilidad_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div>
@@ -103,7 +132,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">3.- SESIONES EDUCATIVAS PSAFCI</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../produccion_servicios/reporte_sesiones_educativas_nal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <a href="../produccion_servicios/reporte_sesiones_educativas_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div>
@@ -116,19 +145,19 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">4.- INCIDENCIA DIARIA PSAFCI</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../produccion_servicios/atenciones_psafci_diarias.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
+                    <a href="../produccion_servicios/atenciones_psafci_diarias_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=1000,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div> 
 
-                <div class="form-group row">
+            <!--    <div class="form-group row">
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-6">
                         <h6 class="text-primary">5.- REPORTE POR PERFIL DE PERSONAL (ATENCIONES PREVENTIVAS)</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../produccion_servicios/reporte_prod_perfil_nal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <a href="../produccion_servicios/reporte_prod_perfil_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
                 </div>
@@ -141,45 +170,11 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <h6 class="text-primary">6.- REPORTE POR PERFIL DE PERSONAL (ATENCIONES POR MORBILIDAD)</h6>
                     </div>
                     <div class="col-sm-4">
-                    <a href="../produccion_servicios/reporte_prod_perfil_mb_nal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <a href="../produccion_servicios/reporte_prod_perfil_mb_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
                     <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-2">
-                    </div>
-                    <div class="col-sm-6">
-                        <h6 class="text-primary">7.- REPORTE DE PRODUCCIÓN POR INTERVALO DE FECHAS</h6>
-                    </div>
-                    <div class="col-sm-4">
-
-                    </div>
-                </div>
-
-                 <form name="PRODUCCION_FECHAS" action="produccion_fechas.php" method="post">
-               
-                    <div class="form-group row">
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-3">
-                        <h6 class="text-info">DESDE:</h6>
-                        <input type="date" name="inicio" id="" class="form-control">
-                        </div>
-                        <div class="col-sm-3">
-                        <h6 class="text-info">HASTA:</h6>
-                        <input type="date" name="finalizacion" id="" class="form-control">
-                        </div>
-                        <div class="col-sm-2">
-                        </br>
-                        <input type="hidden" name="idmunicipio_salud" value="<?php echo $idmunicipio_salud;?>">
-                        <button type="submit" class="btn btn-info">REPORTE POR FECHAS</button>
-                </form>
-                        <div class="col-sm-1">
-                        </div>
-        
-                    </div>
-          
+                </div>  --->
+         
                     
 <!-- END aqui va el comntenido de la pagina ---->
                 </div>
