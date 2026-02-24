@@ -206,7 +206,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         <th>PÚBLICO</th>
                         <th>N° ASISTENTES</th>
                         <th>PERSONAL SAFCI</th> 
-                        <th>FECHA Y HORA DE REGISTRO</th>         
+                        <th>FECHA Y HORA DE REGISTRO</th>  
+                        <th>VER REGISTRO</th>        
                     </tr>
                 </thead>
                 <tbody>
@@ -214,7 +215,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 $numero=1;
                 $sql =" SELECT sesion_educativa.idsesion_educativa, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud,  ";
                 $sql.=" sesion_educativa.fecha_sesion, sesion_educativa.codigo, sesion_educativa.duracion, charla_psafci.charla_psafci, sustantivo.sustantivo, sesion_educativa.asistentes, ";
-                $sql.=" nombre.nombre, nombre.paterno, nombre.materno, sesion_educativa.fecha_registro, sesion_educativa.hora_registro FROM sesion_educativa, departamento, municipios, establecimiento_salud, ";
+                $sql.=" nombre.nombre, nombre.paterno, nombre.materno, sesion_educativa.fecha_registro, sesion_educativa.hora_registro, sesion_educativa.idusuario FROM sesion_educativa, departamento, municipios, establecimiento_salud, ";
                 $sql.=" charla_psafci, sustantivo, usuarios, nombre WHERE sesion_educativa.iddepartamento=departamento.iddepartamento AND sesion_educativa.idmunicipio=municipios.idmunicipio ";
                 $sql.=" AND sesion_educativa.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci  ";
                 $sql.=" AND sesion_educativa.idsustantivo=sustantivo.idsustantivo AND sesion_educativa.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
@@ -242,6 +243,23 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         $fecha_r = explode('-',$row[13]);
                         $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                         echo $fecha_reg; ?> - <?php echo $row[14];?></td>
+                        <td>
+                        <?php  if ($row[15] == $idusuario_ss) {  ?>
+                            
+                            <form name="SESION_ED" action="valida_sesion_educativa.php" method="post">
+                            <input name="idsesion_educativa" type="hidden" value="<?php echo $row[0];?>">
+                                <button type="submit" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-hospital"></i>
+                                </span>
+                                <span class="text">VER REGISTRO</span>    
+                                </button>
+                            </form> 
+
+                        <?php  } else { ?>
+                            
+                         <?php }  ?>
+                        </td>
                     </tr>
                                 
                 <?php
