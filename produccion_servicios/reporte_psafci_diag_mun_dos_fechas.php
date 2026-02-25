@@ -18,11 +18,11 @@ $f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
 $fecha_f = explode('-',$finalizacion);
 $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 
-$iddepartamento = $_GET['iddepartamento'];
+$idmunicipio = $_GET['idmunicipio'];
 
-$sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
-$result_dep = mysqli_query($link,$sql_dep);
-$row_dep = mysqli_fetch_array($result_dep);
+$sql_mun = " SELECT idmunicipio, municipio FROM municipios WHERE idmunicipio='$idmunicipio' ";
+$result_mun = mysqli_query($link,$sql_mun);
+$row_mun = mysqli_fetch_array($result_mun);
 
 ?>
 <!DOCTYPE HTML>
@@ -42,7 +42,7 @@ $row_dep = mysqli_fetch_array($result_dep);
             type: 'bar'
         },
         title: {
-            text: 'REPORTE DIAGNÓSTICOS PREVENTIVOS PSAFCI - <?php echo $row_dep[1];?>'
+            text: 'DIAGNÓSTICOS PREVENTIVOS PSAFCI - MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         subtitle: {
             text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
@@ -53,7 +53,7 @@ $row_dep = mysqli_fetch_array($result_dep);
 $numero = 0;
 $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
 $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-$sql.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
+$sql.= " AND cie LIKE '%Z%' AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -128,7 +128,7 @@ data: [
 $numero3 = 0;
 $sql3 = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
 $sql3.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-$sql3.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
+$sql3.= " AND cie LIKE '%Z%' AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -137,7 +137,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
 $sql4 =" SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
-$sql4.=" WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.iddepartamento='$iddepartamento' ";
+$sql4.=" WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$idmunicipio' ";
 $sql4.=" AND diagnostico_psafci.idpatologia = '$row3[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
 $result4 = mysqli_query($link,$sql4);
 $row4 = mysqli_fetch_array($result4); 
@@ -175,11 +175,11 @@ echo "";
 
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $numero3*60;?>px; margin: 0 auto"></div>
 
-<h4 align="center" style="font-family: Arial;">DIAGNÓSTICOS PREVENTIVOS DEPARTAMENTO : <?php echo $row_dep[1];?> = 
+<h4 align="center" style="font-family: Arial;">DIAGNÓSTICOS  MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?> = 
                 <?php
                 $sql_dgto = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, patologia, atencion_psafci ";
                 $sql_dgto.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-                $sql_dgto.= " AND patologia.cie LIKE '%Z%' AND atencion_psafci.iddepartamento='$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $sql_dgto.= " AND patologia.cie LIKE '%Z%' AND atencion_psafci.idmunicipio='$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dgto = mysqli_query($link,$sql_dgto);
                 $row_dgto = mysqli_fetch_array($result_dgto);
                 $diagnostico_nal = $row_dgto[0];
@@ -189,27 +189,27 @@ echo "";
 </h4>
 
 <h4 align="center" style="font-family: Arial;">DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
-<h4 align="center" style="font-family: Arial;">MUNICIPIOS</h4>
+<h4 align="center" style="font-family: Arial;">ESTABLECIMIENTOS DE SALUD</h4>
 <table width="1400" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
         <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">DIAGNÓSTICOS PSAFCI</span></td>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">CIE</span></td>
             <?php
-            $sql_m = " SELECT atencion_psafci.idmunicipio, municipios.municipio FROM atencion_psafci, municipios, diagnostico_psafci, patologia ";
-            $sql_m.= " WHERE atencion_psafci.idmunicipio=municipios.idmunicipio AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-            $sql_m.= " AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
-            $sql_m.= " AND atencion_psafci.iddepartamento='$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idmunicipio ORDER BY municipios.municipio ";
-            $result_m = mysqli_query($link,$sql_m);
-            if ($row_m = mysqli_fetch_array($result_m)){
-            mysqli_field_seek($result_m,0);
-            while ($field_m = mysqli_fetch_field($result_m)){
+            $sql_est = " SELECT atencion_psafci.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM atencion_psafci, establecimiento_salud, diagnostico_psafci, patologia ";
+            $sql_est.= " WHERE atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+            $sql_est.= " AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
+            $sql_est.= " AND atencion_psafci.idmunicipio='$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
+            $result_est = mysqli_query($link,$sql_est);
+            if ($row_est = mysqli_fetch_array($result_est)){
+            mysqli_field_seek($result_est,0);
+            while ($field_est = mysqli_fetch_field($result_est)){
             } do { ?>
                 <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">              
-                <a href="reporte_psafci_diag_mun_dos_fechas.php?idmunicipio=<?php echo $row_m[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_m[1];?></a>
+                <?php echo $row_est[1];?>
                 </span></td>
             <?php                  
-            } while ($row_m = mysqli_fetch_array($result_m));
+            } while ($row_est = mysqli_fetch_array($result_est));
             } else {  }
             ?>
             <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">TOTAL</span></td>
@@ -218,7 +218,7 @@ echo "";
             $numero = 1;
             $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
             $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-            $sql.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
+            $sql.= " AND cie LIKE '%Z%' AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -230,46 +230,35 @@ echo "";
                     <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
                     <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
             <?php
-            $sql_m = " SELECT atencion_psafci.idmunicipio, municipios.municipio FROM atencion_psafci, municipios, diagnostico_psafci, patologia ";
-            $sql_m.= " WHERE atencion_psafci.idmunicipio=municipios.idmunicipio AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-            $sql_m.= " AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
-            $sql_m.= " AND atencion_psafci.iddepartamento='$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idmunicipio ORDER BY municipios.municipio ";
-            $result_m = mysqli_query($link,$sql_m);
-            if ($row_m = mysqli_fetch_array($result_m)){
-            mysqli_field_seek($result_m,0);
-            while ($field_m = mysqli_fetch_field($result_m)){
+            $sql_est = " SELECT atencion_psafci.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM atencion_psafci, establecimiento_salud, diagnostico_psafci, patologia ";
+            $sql_est.= " WHERE atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+            $sql_est.= " AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
+            $sql_est.= " AND atencion_psafci.idmunicipio='$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
+            $result_est = mysqli_query($link,$sql_est);
+            if ($row_est = mysqli_fetch_array($result_est)){
+            mysqli_field_seek($result_est,0);
+            while ($field_est = mysqli_fetch_field($result_est)){
             } do {
                 
                 $sql_dg = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
-                $sql_dg.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$row_m[0]' ";
+                $sql_dg.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idestablecimiento_salud='$row_est[0]' ";
                 $sql_dg.= " AND diagnostico_psafci.idpatologia = '$row[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dg = mysqli_query($link,$sql_dg);
                 $row_dg = mysqli_fetch_array($result_dg);
                 $diagnosticos = $row_dg[0];
                 
                 ?>
-                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
-                        
-                    <a href="patologias_diario_mun_fechas.php?idpatologia=<?php echo $row[0];?>&idmunicipio=<?php echo $row_m[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;">
-                        <?php 
-                        if ($diagnosticos == '0') {
-                            
-                        } else {
-                            echo $diagnosticos;
-                        }  
-                        ?></a>
-
-                    
+                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $diagnosticos;?>
                                 
                 </td>
             <?php                  
-            } while ($row_m = mysqli_fetch_array($result_m));
+            } while ($row_est = mysqli_fetch_array($result_est));
             } else {  }
             ?>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php
                 $sql_dgt = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
-                $sql_dgt.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.iddepartamento='$iddepartamento' ";
+                $sql_dgt.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$idmunicipio' ";
                 $sql_dgt.= " AND diagnostico_psafci.idpatologia = '$row[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dgt = mysqli_query($link,$sql_dgt);
                 $row_dgt = mysqli_fetch_array($result_dgt);

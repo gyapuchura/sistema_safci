@@ -58,13 +58,23 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
             </td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php                
-                $sql_ps = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci, dato_laboral, usuarios, nombre ";
-                $sql_ps.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario ";
-                $sql_ps.= " AND dato_laboral.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre AND diagnostico_psafci.idpatologia = '$row[0]' ";
-                $sql_ps.= " AND dato_laboral.idcargo_organigrama != '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
+                $sql_ps = " SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci,  usuarios, personal, dato_laboral ";
+                $sql_ps.= "  WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idusuario=usuarios.idusuario  ";
+                $sql_ps.= "  AND dato_laboral.idusuario=usuarios.idusuario  AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral ";
+                $sql_ps.= "   AND diagnostico_psafci.idpatologia = '$row[0]' AND dato_laboral.idcargo_organigrama != '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci  ";
                 $result_ps = mysqli_query($link,$sql_ps);
                 $psafci = mysqli_num_rows($result_ps);
-                echo $psafci;?>
+                ?>
+
+                    <a href="patologias_diario_safci.php?idpatologia=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;">
+                        <?php 
+                        if ($psafci == '0') {
+                            
+                        } else {
+                            echo $psafci;
+                        }  
+                        ?> </a>
+
             </td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php                
@@ -74,7 +84,17 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
                 $sql_tel.= " AND dato_laboral.idcargo_organigrama = '54' GROUP BY diagnostico_psafci.iddiagnostico_psafci ";
                 $result_tel = mysqli_query($link,$sql_tel);
                 $telesalud = mysqli_num_rows($result_tel);
-                echo $telesalud;?>
+                ?>
+
+                    <a href="patologias_diario_tele.php?idpatologia=<?php echo $row[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;">
+                        <?php 
+                        if ($telesalud == '0') {
+                            
+                        } else {
+                            echo $telesalud;
+                        }  
+                        ?> </a>
+
             </td>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php
