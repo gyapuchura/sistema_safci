@@ -177,7 +177,7 @@ switch ($idtipo_atencion) {
     </div>  
     </br>
     <div class="form-group row"> 
-    <div class="col-sm-5">
+    <div class="col-sm-9">
     <h6 class="text-info">DIAGNÓSTICO:</h6>
     <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
         <option value="">-SELECCIONE-</option>
@@ -198,11 +198,12 @@ switch ($idtipo_atencion) {
         ?>
         </select>
     </div> 
-    <div class="col-sm-7"> 
-    <h6 class="text-info">ORIENTACIÓN MÉDICA:</h6>
-    <textarea class="form-control" rows="4" name="motivo_consulta" required></textarea>
+    <div class="col-sm-3"> 
     </div> 
     </div> 
+
+    <div id="datos_diagnostico"></div>
+
 
 
     <div class="form-group row">
@@ -526,11 +527,6 @@ switch ($idtipo_atencion) {
     } 
     ?>
 
-
-
-
-
-
     <script language="javascript"> 
         $(document).ready(function(){
         $("#diagnosticos").change(function () {
@@ -538,6 +534,19 @@ switch ($idtipo_atencion) {
                         diagnosticos=$(this).val();
                     $.post("diagnosticos_ps.php", {diagnosticos:diagnosticos}, function(data){
                     $("#diagnosticos_ps").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript"> 
+        $(document).ready(function(){
+        $("#idpatologia_ap_sano").change(function () {
+                    $("#idpatologia_ap_sano option:selected").each(function () {
+                        patologia_ap_sano=$(this).val();
+                    $.post("datos_diagnostico.php", {patologia_ap_sano:patologia_ap_sano}, function(data){
+                    $("#datos_diagnostico").html(data);
                     });
                 });
         })
