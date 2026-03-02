@@ -26,6 +26,15 @@ $idtipo_atencion = $_POST['idtipo_atencion'];
 $idpatologia_ap_sano = $_POST['idpatologia_ap_sano'];
 $motivo_consulta     = $link->real_escape_string($_POST['motivo_consulta']);
 
+$talla              = $_POST['talla'];
+$peso               = $_POST['peso'];
+$temperatura        = $_POST['temperatura'];
+$frec_cardiaca      = $_POST['frec_cardiaca'];
+$frec_respiratoria  = $_POST['frec_respiratoria'];
+$presion_arterial   = $_POST['presion_arterial'];
+$presion_arterial_d = $_POST['presion_arterial_d'];
+$saturacion         = $_POST['saturacion'];
+
 /*********** DETERMINACION DE VARIABLES *************/
 
 $sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
@@ -65,6 +74,21 @@ $idatencion_psafci = mysqli_insert_id($link);
 $sql_dg = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
 $sql_dg.= " VALUES ('$idatencion_psafci','$motivo_consulta','$idpatologia_ap_sano','$fecha','$hora','$idusuario_ss') ";
 $result_dg = mysqli_query($link,$sql_dg);   
+
+if ($talla == '0' || $peso == '0' || $temperatura == '0' || $frec_cardiaca == '0' || $frec_respiratoria == '0' ) 
+{
+    //** no guarda signos vitales si no hay peso ni talla */
+} else {
+
+    $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */
+    $imc = number_format($imc_i, 6, '.', '');
+
+    $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad,  frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, fecha_registro, hora_registro, idusuario) ";
+    $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
+    $result1 = mysqli_query($link,$sql1);
+    $idsigno_vital = mysqli_insert_id($link);   
+
+}
 
 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
 
