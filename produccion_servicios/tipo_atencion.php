@@ -480,12 +480,7 @@ switch ($idtipo_atencion) {
                     </div>
                </div>
                 
-
-
-
-
-
-                <div class="text-center">
+            <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">

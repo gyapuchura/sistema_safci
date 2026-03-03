@@ -4,7 +4,7 @@
 
 $edad_ss = $_SESSION['edad_ss'];
 
-$idpatologia_ap_sano = $_POST['patologia_ap_sano'];
+$idpatologia_ap_sano = '239';
 
 switch ($idpatologia_ap_sano) {
     case "239": //***** CONTROL DEL NIÑO SANO = 239 */  ?>  
@@ -14,7 +14,7 @@ switch ($idpatologia_ap_sano) {
     <div class="col-sm-3"> 
     </div> 
     <div class="col-sm-6">
-    <h6 class="text-info">CONTROL DEL NIÑO SANO - SIGNOS VITALES:</h6>
+    <h6 class="text-info">SIGNOS VITALES:</h6>
     </div> 
     <div class="col-sm-3"> 
     </div> 
@@ -83,12 +83,12 @@ switch ($idpatologia_ap_sano) {
                     name="saturacion" value="0">             
             </div>
             <div class="col-sm-3">
-            <!-- <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>  para menor de 5 anos -->
+            <!-- <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6> -->
                 <input type="hidden" class="form-control"              
                     name="presion_arterial"  placeholder="Sistólica" value="0">               
             </div>
             <div class="col-sm-3">
-            <!-- <h6 class="text-info"> </br>diastólica [mmHg]</h6>   para menor de 5 anos    --> 
+            <!-- <h6 class="text-info"> </br>diastólica [mmHg]</h6>  --> 
                     <input type="hidden" class="form-control"              
                     name="presion_arterial_d" placeholder="Diastólica" value="0">          
             </div>
@@ -114,7 +114,7 @@ switch ($idpatologia_ap_sano) {
     <div class="col-sm-3"> 
     </div> 
     <div class="col-sm-6">
-    <h6 class="text-info">CONTROL PRESION ARTERIAL - SIGNOS VITALES:</h6>
+    <h6 class="text-info">SIGNOS VITALES:</h6>
     </div> 
     <div class="col-sm-3"> 
     </div> 
@@ -184,7 +184,7 @@ switch ($idpatologia_ap_sano) {
             <div class="col-sm-3"> 
             </div> 
             <div class="col-sm-6">
-            <h6 class="text-info">EXAMEN MEDICO GRAL. - SIGNOS VITALES:</h6>
+            <h6 class="text-info">SIGNOS VITALES:</h6>
             </div> 
             <div class="col-sm-3"> 
             </div> 
@@ -254,7 +254,7 @@ switch ($idpatologia_ap_sano) {
             <div class="col-sm-3"> 
             </div> 
             <div class="col-sm-6">
-            <h6 class="text-info">CONTROL MEDICO - SIGNOS VITALES:</h6>
+            <h6 class="text-info">SIGNOS VITALES:</h6>
             </div> 
             <div class="col-sm-3"> 
             </div> 
@@ -324,7 +324,7 @@ switch ($idpatologia_ap_sano) {
             <div class="col-sm-3"> 
             </div> 
             <div class="col-sm-6">
-            <h6 class="text-info">EMBARAZO CONFIRMADO - SIGNOS VITALES:</h6>
+            <h6 class="text-info">SIGNOS VITALES:</h6>
             </div> 
             <div class="col-sm-3"> 
             </div> 
@@ -391,22 +391,22 @@ switch ($idpatologia_ap_sano) {
                 <div class="col-sm-3">
                 <h6 class="text-info">Nº GESTACIONES</br>[G]:</h6> 
                     <input type="number" class="form-control" 
-                        name="gestaciones" value="0">                
+                        name="frec_respiratoria" value="0">                
                 </div> 
                 <div class="col-sm-3">
                 <h6 class="text-info">Nº PARTOS</br>[P]:</h6>   
                     <input type="number" class="form-control"
-                        name="partos" value="0">             
+                        name="saturacion" value="0">             
                 </div>
                 <div class="col-sm-3">
                 <h6 class="text-info">Nª ABORTOS</br>[A]</h6>
                     <input type="number" class="form-control"              
-                        name="abortos"  placeholder="Sistólica" value="0">               
+                        name="presion_arterial"  placeholder="Sistólica" value="0">               
                 </div>
                 <div class="col-sm-3">
                 <h6 class="text-info">Nº CESÁREAS</br>[C]</h6>
                         <input type="number" class="form-control"              
-                        name="cesareas" placeholder="Diastólica" value="0">          
+                        name="presion_arterial_d" placeholder="Diastólica" value="0">          
                 </div>
             </div>
 
@@ -427,7 +427,7 @@ switch ($idpatologia_ap_sano) {
                         name="frecuencia_fcf"  placeholder="Sistólica" value="0">               
                 </div>
                 <div class="col-sm-3">
-                    <!-- <h6 class="text-info"></h6>  -->
+                    <!-- <h6 class="text-info">Nº CESÁREAS</br>[C]</h6>  -->
                         <input type="hidden" name="presion_arterial_d"  value="0">  
 
                 </div>
@@ -469,5 +469,18 @@ switch ($idpatologia_ap_sano) {
     <input type="hidden" name="presion_arterial" value="0"> 
     <input type="hidden" name="presion_arterial_d" value="0"> 
     <input type="hidden" name="saturacion" value="0">  
+
+
+
     <?php }  ?>
 
+
+
+
+
+
+
+
+
+
+?>

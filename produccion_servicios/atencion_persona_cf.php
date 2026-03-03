@@ -388,10 +388,8 @@ $row_n=mysqli_fetch_array($result_n);
             </div>
         </div>
         <div class="card-body" id="tipo_atencion"></div> 
-        
-    
+          
     </div>
-
             
         <!-- END aqui va el comntenido de la pagina ---->
                 </div>
