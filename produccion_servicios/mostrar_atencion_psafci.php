@@ -580,14 +580,13 @@ $row_ps=mysqli_fetch_array($result_ps);
     $sql_dgs =" SELECT iddiagnostico_psafci, idatencion_psafci, motivo_consulta, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
     $result_dgs = mysqli_query($link,$sql_dgs);
     $row_dgs = mysqli_fetch_array($result_dgs);
-
     ?>
     
     <div class="form-group row"> 
     <div class="col-sm-3"> 
     </div> 
     <div class="col-sm-6">
-    <h4 class="text-info">ATENCIÓN APARENTEMENTE SANO(A):</h4>
+    <h4 class="text-info">ATENCIÓN PREVENTIVA:</h4>
     </div> 
     <div class="col-sm-3"> 
     </div> 
@@ -632,7 +631,157 @@ $row_ps=mysqli_fetch_array($result_ps);
                 } else { } ?>
                 </div>
     </div>  
-    </br>
+<?php
+    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia,  ";
+    $sql_sg.="  descripcion_alergia FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+    $result_sg = mysqli_query($link,$sql_sg);
+    if ($row_sg = mysqli_fetch_array($result_sg)){
+    mysqli_field_seek($result_sg,0);           
+    while ($field_sg = mysqli_fetch_field($result_sg)){
+    } do {
+?>
+                <hr>
+                <div class="text-center">                                     
+                    <h6 class="text-info">SIGNOS VITALES:</h6>                    
+                </div>
+                <hr> 
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA CARDIACA</br>[lpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[1];?>" 
+                         name="frec_cardiaca" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PESO</br>[kg]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[2];?>"            
+                         name="peso" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TALLA</br>[mtrs.]:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
+                         name="talla" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info"></br>I.M.C.:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[4];?>"  
+                         name="imc" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[5];?>" 
+                         name="frec_respiratoria" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PRESIÓN ARTERIAL </br>[mmHg]:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[6]."/".$row_sg[7];?>"             
+                         name="presion_arterial" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[8];?>" 
+                         name="temperatura" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">SATURACIÓN </br>[% O2]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[9];?>" 
+                         name="saturacion" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">  
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ES ALERGICO? :</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_sg[10];?>" disabled
+                         name="combe">                  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia" disabled><?php echo $row_sg[11];?></textarea> 
+                    </div>
+                    <div class="col-sm-3">
+                    <!-- <h6 class="text-info">COMBE:</h6>  --->
+                    
+                    </div>
+                </div> 
+           <?php
+        }
+        while ($row_sg = mysqli_fetch_array($result_sg));
+        } else {
+        }
+        ?>
+
+<!---- ANTECEDENTES GINECO-OBSTETRICOS BEGIN ------>
+
+        <?php
+            $sql_gc =" SELECT idgineco_obstetrico, gestaciones, partos, abortos, cesareas, fecha_fum, fecha_fpp, frecuencia_fcf ";
+            $sql_gc.=" FROM gineco_obstetrico WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idgineco_obstetrico DESC LIMIT 1 ";
+            $result_gc = mysqli_query($link,$sql_gc);
+            if ($row_gc = mysqli_fetch_array($result_gc)){
+            mysqli_field_seek($result_gc,0);           
+            while ($field_gc = mysqli_fetch_field($result_gc)){
+            } do {
+        ?>
+                <hr>
+                <div class="text-center">                                     
+                    <h6 class="text-info">ANTECEDENTES OBSTÉTRICOS::</h6>                    
+                </div>
+                <hr> 
+ 
+            <div class="form-group row">
+                <div class="col-sm-3">
+                <h6 class="text-info">Nº GESTACIONES</br>[G]:</h6> 
+                    <input type="number" class="form-control" 
+                        name="gestaciones" value="<?php echo $row_gc[1];?>" disabled>                
+                </div> 
+                <div class="col-sm-3">
+                <h6 class="text-info">Nº PARTOS</br>[P]:</h6>   
+                    <input type="number" class="form-control"
+                        name="partos" value="<?php echo $row_gc[2];?>" disabled>             
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">Nª ABORTOS</br>[A]</h6>
+                    <input type="number" class="form-control"              
+                        name="abortos"  placeholder="Sistólica" value="<?php echo $row_gc[3];?>" disabled>               
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">Nº CESÁREAS</br>[C]</h6>
+                        <input type="number" class="form-control"              
+                        name="cesareas" placeholder="Diastólica" value="<?php echo $row_gc[4];?>" disabled>          
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <h6 class="text-info">FECHA ÚLTIMA MENSTRUACIÓN [FUM]:</h6> 
+                    <input type="date" class="form-control" value="<?php echo $row_gc[5];?>"
+                        name="fecha_fum" disabled >                
+                </div> 
+                <div class="col-sm-3">
+                    <h6 class="text-info">FECHA PROBABLE DE PARTO</br>[FPP]:</h6>   
+                    <input type="date" class="form-control" value="<?php echo $row_gc[6];?>"
+                        name="fecha_fpp" disabled >             
+                </div>
+                <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA CARDIACA FETAL</br>[FCF]</h6>
+                    <input type="number" class="form-control"              
+                        name="frecuencia_fcf"  placeholder="Sistólica" value="<?php echo $row_gc[7];?>" disabled>               
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+                
+           <?php
+        }
+        while ($row_gc = mysqli_fetch_array($result_gc));
+        } else {
+        }
+        ?>
+
+<!---- ANTECEDENTES GINECO-OBSTETRICOS END ------>
+
     <div class="form-group row"> 
     <div class="col-sm-5">
     <h6 class="text-info">DIAGNÓSTICO:</h6>

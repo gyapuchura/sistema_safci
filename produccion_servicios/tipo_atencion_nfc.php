@@ -181,7 +181,7 @@ if ($idtipo_atencion == '2') { ?>
         <option value="">-SELECCIONE-</option>
         <?php
         $numero=1;
-        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '939' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
+        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '939' AND idpatologia != '938' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
         mysqli_field_seek($result1,0);

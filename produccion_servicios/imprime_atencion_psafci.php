@@ -22,10 +22,10 @@ $row = mysqli_fetch_array($result);
 <table width="680" border="0" align="center">
   <tbody>
     <tr>
-      <td width="177" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="116" height="84" alt=""/></td>
+      <td width="166"><img src="../implementacion_safci/mds_logo.jpg" width="193" height="85" alt=""/></td>
       <td width="323" style="text-align: center; font-family: Arial; font-size: 16px;"><p>ATENCIÓN PSAFCI</p>
       <p>CÓDIGO : <?php echo $row[1];?></p></td>
-      <td width="166">&nbsp;</td>
+      <td width="177" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="116" height="84" alt=""/></td>
     </tr>
     <tr>
       <td colspan="3"><table width="700" border="0">

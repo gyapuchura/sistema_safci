@@ -36,6 +36,8 @@ $frec_respiratoria  = $_POST['frec_respiratoria'];
 $presion_arterial   = $_POST['presion_arterial'];
 $presion_arterial_d = $_POST['presion_arterial_d'];
 $saturacion         = $_POST['saturacion'];
+$alergia            = $_POST['alergia'];
+$descripcion_alergia = $_POST['descripcion_alergia'];
 
 /******** ANTECEDENTES GINECOOBSTETRICOS  ********/
 
@@ -93,14 +95,21 @@ if ($talla != '0' || $peso != '0' || $temperatura != '0' )
     $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */
     $imc = number_format($imc_i, 6, '.', '');
 
-    $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad,  frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, fecha_registro, hora_registro, idusuario) ";
-    $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
+    $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad,  frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia, descripcion_alergia, fecha_registro, hora_registro, idusuario) ";
+    $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$alergia','$descripcion_alergia','$fecha','$hora','$idusuario_ss') ";
     $result1 = mysqli_query($link,$sql1);
     $idsigno_vital = mysqli_insert_id($link);   
 
-} else {
+} 
 
-}
+if ($idpatologia_ap_sano == '362') 
+{
+    $sql_g = " INSERT INTO gineco_obstetrico (idatencion_psafci,idnombre, edad,  gestaciones, partos, abortos, cesareas, fecha_fum, fecha_fpp, frecuencia_fcf, fecha_registro, hora_registro, idusuario) ";
+    $sql_g.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$gestaciones','$partos','$abortos','$cesareas','$fecha_fum','$fecha_fpp','$frecuencia_fcf','$fecha','$hora','$idusuario_ss') ";
+    $result_g = mysqli_query($link,$sql_g);
+    $idsigno_vital = mysqli_insert_id($link);   
+
+} 
 
 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
 
