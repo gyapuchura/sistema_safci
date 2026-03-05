@@ -22,7 +22,8 @@ $sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpe
 $result_cf=mysqli_query($link,$sql_cf);
 $row_cf=mysqli_fetch_array($result_cf);
 
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
+$sql_n =" SELECT nombre.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.ci, nombre.fecha_nac, nacionalidad.nacionalidad, genero.genero  ";
+$sql_n.=" FROM nombre, genero, nacionalidad WHERE nombre.idgenero=genero.idgenero AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idnombre='$idnombre_integrante_ss'  ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
         
@@ -55,52 +56,70 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="5"><table width="900" border="0">
               <tbody>
                 <tr>
-                  <td width="502"><table width="502" border="1" cellspacing="0">
+                  <td width="502">
+                  <?php  
+                    $sql_pr =" SELECT nombre.paterno, nombre.materno, nombre.nombre, nombre.fecha_nac, genero.genero, profesion.profesion, integrante_datos_cf.ocupacion, ";
+                    $sql_pr.=" ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, ";
+                    $sql_pr.=" municipios.municipio, provincias.provincia, establecimiento_salud.establecimiento_salud, red_salud.red_salud, integrante_cf.idparentesco FROM nombre, genero, integrante_cf, integrante_datos_cf, ";
+                    $sql_pr.=" carpeta_familiar, ubicacion_cf, profesion, red_salud, municipios, provincias, establecimiento_salud, area_influencia, tipo_area_influencia WHERE nombre.idgenero=genero.idgenero AND ";
+                    $sql_pr.=" integrante_cf.idnombre=nombre.idnombre AND integrante_datos_cf.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  ";
+                    $sql_pr.=" ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_datos_cf.idprofesion=profesion.idprofesion AND ubicacion_cf.idred_salud=red_salud.idred_salud AND ";
+                    $sql_pr.=" ubicacion_cf.idmunicipio=municipios.idmunicipio AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND ";
+                    $sql_pr.=" area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND ";
+                    $sql_pr.=" municipios.idprovincia=provincias.idprovincia AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' AND  integrante_cf.idparentesco='1' ";
+                    $result_pr=mysqli_query($link,$sql_pr);
+                    if ($row_pr=mysqli_fetch_array($result_pr)) {
+                      
+                  ?>
+                  <table width="502" border="1" cellspacing="0">
                     <tbody>
                       <tr>
                         <td width="149" rowspan="9" style="font-family: Arial; font-size: 9px; text-align: center;">Sello Institucional</td>
                         <td colspan="2" bgcolor="#000000" style="text-align: center; font-family: Arial; font-size: 12px; color: #FFFFFF;">RESPONSABLE DE FAMILIA</td>
                       </tr>
                       <tr>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Apellido Paterno: </td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Apellido Paterno: <?php echo $row_pr[0];?></td>
                       </tr>
                       <tr>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Apellido Materno:</td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Apellido Materno: <?php echo $row_pr[1];?></td>
                       </tr>
                       <tr>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Nombres:</td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Nombres: <?php echo $row_pr[2];?></td>
                       </tr>
                       <tr>
                         <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                       </tr>
                       <tr>
-                        <td width="177" style="font-family: Arial; font-size: 12px;">Fecha de nacimiento: </td>
-                        <td width="162" style="font-family: Arial; font-size: 12px;">Sexo:</td>
+                        <td width="177" style="font-family: Arial; font-size: 12px;">Fecha de nacimiento: <?php echo $row_pr[3];?></td>
+                        <td width="162" style="font-family: Arial; font-size: 12px;">Sexo: <?php echo $row_pr[4];?></td>
                       </tr>
                       <tr>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Ocupación: ..... Productivas: </td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Ocupación: ..... Productivas: <?php echo $row_pr[5];?></td>
                       </tr>
                       <tr>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Reproductivas: </td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Reproductivas: <?php echo $row_pr[6];?></td>
                       </tr>
                       <tr>
                         <td colspan="2" style="font-family: Arial; font-size: 12px;">Gestión Comunitaria:</td>
                       </tr>
                       <tr>
-                        <td style="font-family: Arial; font-size: 12px;">Establecimiento:</td>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Dirección: </td>
+                        <td style="font-family: Arial; font-size: 12px;">Establecimiento: </td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Dirección: <?php echo $row_pr[7];?> <?php echo $row_pr[8];?> <?php echo $row_pr[9];?></td>
                       </tr>
                       <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Comunidad: </td>
+                        <td style="font-family: Arial; font-size: 12px;"><?php echo $row_pr[14];?></td>
+                        <td colspan="2" style="font-family: Arial; font-size: 12px;">Comunidad: <?php echo $row_pr[10];?> <?php echo $row_pr[11];?></td>
                       </tr>
                       <tr>
-                        <td style="font-family: Arial; font-size: 12px;">Red de Salud:</td>
-                        <td style="font-family: Arial; font-size: 12px;">Municipio:</td>
-                        <td style="font-family: Arial; font-size: 12px;">Provincia:</td>
+                        <td style="font-family: Arial; font-size: 12px;">Red de Salud: <?php echo $row_pr[15];?></td>
+                        <td style="font-family: Arial; font-size: 12px;">Municipio: <?php echo $row_pr[12];?></td>
+                        <td style="font-family: Arial; font-size: 12px;">Provincia: <?php echo $row_pr[13];?></td>
                       </tr>
                     </tbody>
-                  </table></td>
+                  </table>
+                <?php } ?>
+                
+                </td>
                   <td width="54">&nbsp;</td>
                   <td width="332" valign="top"><table width="333" border="1" cellspacing="0">
                     <tbody>
@@ -110,7 +129,7 @@ $row_n=mysqli_fetch_array($result_n);
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">No Carpeta Familiar</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;"><?php echo $row_cf[1];?></td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">No SUMI</td>
@@ -133,35 +152,71 @@ $row_n=mysqli_fetch_array($result_n);
               <tbody>
                 <tr>
                   <td width="175" style="font-family: Arial; font-size: 12px;">Apellido Paterno: </td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[2];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Apellido Materno:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[3];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Nombres:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[1];?></td>
                   </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">Fecha de nacimiento: </td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">
+                    <?php 
+                    $fecha_n = explode('-',$row_n[5]);
+                    $fecha_nac = $fecha_n[2].'/'.$fecha_n[1].'/'.$fecha_n[0];
+                    echo $fecha_nac; ?></td>
                   <td width="81" style="font-family: Arial; font-size: 12px;">Sexo: </td>
-                  <td width="81" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td width="81" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[7];?></td>
                   <td width="77" style="font-family: Arial; font-size: 12px;">Procedencia: </td>
-                  <td width="74" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td width="74" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[6];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Fecha de Ingreso: </td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                   </tr>
+                      <?php
+                        $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
+                        $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
+                        $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
+                        $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss'";
+                        $result4 = mysqli_query($link,$sql4);
+                        $row4 = mysqli_fetch_array($result4);
+                      ?>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">Idioma Hablado:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">
+                    <?php                                     
+                        $sql_idh =" SELECT idioma.idioma FROM idioma_cf, idioma WHERE idioma_cf.ididioma=idioma.ididioma  ";
+                        $sql_idh.=" AND idioma_cf.idorigen_idioma='2' AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                        $result_idh = mysqli_query($link,$sql_idh);
+                        if ($row_idh = mysqli_fetch_array($result_idh)) {
+                         echo $row_idh[0];
+                        } 
+                        ?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Idioma Materno:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">
+                        <?php                                     
+                        $sql_idm =" SELECT idioma.idioma FROM idioma_cf, idioma WHERE idioma_cf.ididioma=idioma.ididioma  ";
+                        $sql_idm.=" AND idioma_cf.idorigen_idioma='1' AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                        $result_idm = mysqli_query($link,$sql_idm);
+                        if ($row_idm = mysqli_fetch_array($result_idm)) {
+                         echo $row_idm[0];
+                        } ?>
+                  </td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Auto pertenencia cultural:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">
+                    <?php                                     
+                        $sql_nac =" SELECT nacion.nacion FROM integrante_cf, nacion WHERE integrante_cf.idnacion=nacion.idnacion  ";
+                        $sql_nac.=" AND integrante_cf.idnombre='$idnombre_integrante_ss' AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                        $result_nac = mysqli_query($link,$sql_nac);
+                        if ($row_nac = mysqli_fetch_array($result_nac)) {
+                         echo $row_nac[0];
+                        } ?>
+                  </td>
                   </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">Ocupación: Productivas:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row4[3];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Reproductivas:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row4[4];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Gestión Comunitaria:</td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                   </tr>
@@ -180,9 +235,9 @@ $row_n=mysqli_fetch_array($result_n);
                   </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">Estado civil:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row4[1];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Escolaridad:</td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row4[2];?></td>
                   <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                   </tr>
                 <tr>
@@ -698,7 +753,71 @@ $row_n=mysqli_fetch_array($result_n);
                         <td bgcolor="#000000" style="text-align: center; font-family: Arial; font-size: 12px; color: #ffffff;">FAMILIAR</td>
                       </tr>
                       <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Hipertensión Arterial Sistémica</td>
+                        <td style="font-family: Arial; font-size: 12px;">
+                          <?php
+
+                          ?>
+                          </td>
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Diabetes</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Sobrepeso</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Abuso de Alcohol</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Habito de Fumar</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Transfusiones</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Cirugías</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Transtornos del SNC</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Tuberculosis</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Desnutrición</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Drogas</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Sífilis</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Otros</td>
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                       </tr>
@@ -707,67 +826,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                       </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                      </tr>
-                    </tbody>
+                      </tbody>
                   </table></td>
                 </tr>
               </tbody>
@@ -775,6 +834,139 @@ $row_n=mysqli_fetch_array($result_n);
           </tr>
           <tr>
             <td colspan="5">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="5"><table width="900" border="0">
+              <tbody>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;"><strong>INSTRUCTIVO:</strong></td>
+                </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">SUBJETIVO: Motivo de consulta y/o sintomas que el paciente refiere durante la anamnesis.</td>
+                </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">OBJETIVO: Hallazgos del exámen físico y/o resultados de exámenes de laboratorio y complementarios</td>
+                </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">ANÁLISIS: Lista de problemas detectados: diagnóstico, signos o sintomas a seguir, resultados de laboratorio patológico, antecedentes personales.</td>
+                </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">PLAN DE ACCIÓN: Tratamientos, orientaciones, seguimientos, exámenes complementarios necesarios para cada problema.</td>
+                </tr>
+              </tbody>
+            </table></td>
+          </tr>
+          <tr>
+            <td colspan="5">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="5"><table width="900" border="1" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td width="100"><table width="100" border="0" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FECHA:</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">EDAD:</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TALLA:</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PESO:</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TEMP.</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FC</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PA</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FR</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table></td>
+                  <td width="790" valign="top"><table width="800" border="0" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo</strong></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Objetivo</strong></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Análisis</strong></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Plan</strong></td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td width="86" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td width="144" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td width="237" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td width="325" style="font-family: Arial; font-size: 12px; text-align: center;">Nombre y firma</td>
+                      </tr>
+                    </tbody>
+                  </table></td>
+                </tr>
+              </tbody>
+            </table></td>
           </tr>
           <tr>
             <td colspan="5">&nbsp;</td>

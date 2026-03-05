@@ -450,7 +450,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     </div>  
 <hr>
 <?php
-    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia,  ";
+    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
     $sql_sg.="  descripcion_alergia FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
     $result_sg = mysqli_query($link,$sql_sg);
     if ($row_sg = mysqli_fetch_array($result_sg)){
@@ -719,7 +719,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                 </div>
     </div>  
 <?php
-    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia,  ";
+    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
     $sql_sg.="  descripcion_alergia FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
     $result_sg = mysqli_query($link,$sql_sg);
     if ($row_sg = mysqli_fetch_array($result_sg)){
@@ -786,7 +786,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                     <div class="col-sm-3">
                     <h6 class="text-info">ES ALERGICO? :</h6>
                     <input type="text" class="form-control" value="<?php echo $row_sg[10];?>" disabled
-                         name="combe">                  
+                         name="alergia">                  
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>

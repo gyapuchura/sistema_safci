@@ -25,7 +25,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
-        
+         
 ?>
 <!DOCTYPE html>
 <html lang="es">

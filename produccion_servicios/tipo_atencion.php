@@ -105,7 +105,7 @@ switch ($idtipo_atencion) {
         <div class="form-group row">
             <div class="col-sm-3">
             <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
+                <input type="number" class="form-control" 
                     name="frec_respiratoria" value="0" required>                
             </div> 
             <div class="col-sm-3">
@@ -144,7 +144,7 @@ switch ($idtipo_atencion) {
         <div class="form-group row">
             <div class="col-sm-3">
             <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
+                <input type="number" class="form-control" 
                     name="frec_respiratoria" value="0" required>                
             </div> 
             <div class="col-sm-3">
@@ -321,7 +321,7 @@ switch ($idtipo_atencion) {
         <div class="form-group row">
             <div class="col-sm-3">
             <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
+                <input type="number" class="form-control" 
                     name="frec_respiratoria" value="0" required>                
             </div> 
             <div class="col-sm-3">
@@ -360,7 +360,7 @@ switch ($idtipo_atencion) {
         <div class="form-group row">
             <div class="col-sm-3">
             <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
+                <input type="number" class="form-control" 
                     name="frec_respiratoria" value="0" required>                
             </div> 
             <div class="col-sm-3">

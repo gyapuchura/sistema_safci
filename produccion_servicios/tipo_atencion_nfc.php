@@ -214,7 +214,7 @@ if ($idtipo_atencion == '2') { ?>
         <div class="form-group row">
             <div class="col-sm-3">
             <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
+                <input type="number" class="form-control" 
                     name="frec_respiratoria" value="0" required>                
             </div> 
             <div class="col-sm-3">
@@ -223,7 +223,7 @@ if ($idtipo_atencion == '2') { ?>
                     name="presion_arterial"  placeholder="Sistólica" value="0" required>               
             </div>
             <div class="col-sm-3">
-            <h6 class="text-info"> </br>diastólica [mmHg]</h6>
+            <h6 class="text-info"></br>diastólica [mmHg]</h6>
                     <input type="number" class="form-control"              
                     name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
             </div>
@@ -545,7 +545,7 @@ if ($idtipo_atencion == '2') { ?>
         <div class="form-group row">
             <div class="col-sm-3">
             <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
+                <input type="number" class="form-control" 
                     name="frec_respiratoria" value="0" required>                
             </div> 
             <div class="col-sm-3">

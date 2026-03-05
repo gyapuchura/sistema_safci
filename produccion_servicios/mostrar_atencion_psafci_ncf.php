@@ -470,7 +470,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     <div class="col-sm-3"> 
     </div> 
     <div class="col-sm-6">
-    <h4 class="text-info">ATENCIÓN APARENTEMENTE SANO(A):</h4>
+    <h4 class="text-info">ATENCIÓN PREVENTIVA:</h4>
     </div> 
     <div class="col-sm-3"> 
     </div> 
