@@ -62,6 +62,31 @@ $idmedicamento_21      = $_POST['idmedicamento_21'];
 $idtipo_medicamento_22 = $_POST['idtipo_medicamento_22'];
 $idmedicamento_22      = $_POST['idmedicamento_22'];
 
+$subjetivo1  = $link->real_escape_string($_POST['subjetivo1']);
+$objetivo1   = $link->real_escape_string($_POST['objetivo1']);
+$analisis1   = $link->real_escape_string($_POST['analisis1']);
+$plan1       = $link->real_escape_string($_POST['plan1']);
+
+$motivo_consulta1     = 'S.- '.$subjetivo1 .' O.- '.$objetivo1.' A.- '.$analisis1.' P.- '.$plan1;
+
+$subjetivo2  = $link->real_escape_string($_POST['subjetivo2']);
+$objetivo2   = $link->real_escape_string($_POST['objetivo2']);
+$analisis2   = $link->real_escape_string($_POST['analisis2']);
+$plan2       = $link->real_escape_string($_POST['plan2']);
+
+$motivo_consulta2     = 'S.- '.$subjetivo2 .' O.- '.$objetivo2.' A.- '.$analisis2.' P.- '.$plan2;
+
+$talla              = $_POST['talla'];
+$peso               = $_POST['peso'];
+$temperatura        = $_POST['temperatura'];
+$frec_cardiaca      = $_POST['frec_cardiaca'];
+$frec_respiratoria  = $_POST['frec_respiratoria'];
+$presion_arterial   = $_POST['presion_arterial'];
+$presion_arterial_d = $_POST['presion_arterial_d'];
+$saturacion         = $_POST['saturacion'];
+$alergia            = $_POST['alergia'];
+$descripcion_alergia       = $link->real_escape_string($_POST['descripcion_alergia']);
+
 /*********** DETERMINACION DE VARIABLES *************/
 
 $sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
@@ -98,11 +123,17 @@ if ($diagnosticos == '' && $tratamientos_1 == '') {
     $result0 = mysqli_query($link,$sql0);   
     $idatencion_psafci = mysqli_insert_id($link);
 
+        $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */
+        $imc = number_format($imc_i, 6, '.', '');
+
+        $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia, descripcion_alergia, fecha_registro, hora_registro, idusuario) ";
+        $sql1.= " VALUES ('$idatencion_psafci','$idnombre_paciente','$edad','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$alergia','$descripcion_alergia','$fecha','$hora','$idusuario_ss') ";
+        $result1 = mysqli_query($link,$sql1);
 
 if ($diagnosticos == '1' && $tratamientos_1 == '1') {
     
-    $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-    $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
+    $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+    $sql_dg1.= " VALUES ('$idatencion_psafci','$subjetivo1','$objetivo1','$analisis1','$plan1','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
     $result_dg1 = mysqli_query($link,$sql_dg1);   
     $iddiagnostico_psafci_1 = mysqli_insert_id($link);
 
@@ -118,8 +149,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
 } else {
     if ($diagnosticos == '1' && $tratamientos_1 == '2') {
 
-        $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-        $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
+        $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+        $sql_dg1.= " VALUES ('$idatencion_psafci','$subjetivo1','$objetivo1','$analisis1','$plan1','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
         $result_dg1 = mysqli_query($link,$sql_dg1);   
         $iddiagnostico_psafci_1 = mysqli_insert_id($link);
     
@@ -139,8 +170,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
     } else {
             if ($diagnosticos == '2' && $tratamientos_1 == '1' && $tratamientos_2 == '1') {
 
-            $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-            $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
+            $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+            $sql_dg1.= " VALUES ('$idatencion_psafci','$subjetivo1','$objetivo1','$analisis1','$plan1','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
             $result_dg1 = mysqli_query($link,$sql_dg1);   
             $iddiagnostico_psafci_1 = mysqli_insert_id($link);
     
@@ -148,8 +179,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                 $sql_tr11.= " VALUES ('$idatencion_psafci','$iddiagnostico_psafci_1','$idtipo_medicamento_11','$idmedicamento_11','$fecha','$hora','$idusuario_ss') ";
                 $result_tr11 = mysqli_query($link,$sql_tr11);
     
-            $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-            $sql_dg2.= " VALUES ('$idatencion_psafci','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
+            $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+            $sql_dg2.= " VALUES ('$idatencion_psafci','$subjetivo2','$objetivo2','$analisis2','$plan2','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
             $result_dg2 = mysqli_query($link,$sql_dg2);   
             $iddiagnostico_psafci_2 = mysqli_insert_id($link);
     
@@ -165,8 +196,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
             } else {
                 if ($diagnosticos == '2' && $tratamientos_1 == '2' && $tratamientos_2 == '1') {
                     
-                    $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-                    $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
+                    $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+                    $sql_dg1.= " VALUES ('$idatencion_psafci','$subjetivo1','$objetivo1','$analisis1','$plan1','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
                     $result_dg1 = mysqli_query($link,$sql_dg1);   
                     $iddiagnostico_psafci_1 = mysqli_insert_id($link);
             
@@ -178,8 +209,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                         $sql_tr12.= " VALUES ('$idatencion_psafci','$iddiagnostico_psafci_1','$idtipo_medicamento_12','$idmedicamento_12','$fecha','$hora','$idusuario_ss') ";
                         $result_tr12 = mysqli_query($link,$sql_tr12);
             
-                    $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-                    $sql_dg2.= " VALUES ('$idatencion_psafci','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
+                    $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+                    $sql_dg2.= " VALUES ('$idatencion_psafci','$subjetivo2','$objetivo2','$analisis2','$plan2','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
                     $result_dg2 = mysqli_query($link,$sql_dg2);   
                     $iddiagnostico_psafci_2 = mysqli_insert_id($link);
             
@@ -195,8 +226,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                 } else {
                     if ($diagnosticos == '2' && $tratamientos_1 == '1' && $tratamientos_2 == '2') {
                         
-                        $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-                        $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
+                        $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+                        $sql_dg1.= " VALUES ('$idatencion_psafci','$subjetivo1','$objetivo1','$analisis1','$plan1','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
                         $result_dg1 = mysqli_query($link,$sql_dg1);   
                         $iddiagnostico_psafci_1 = mysqli_insert_id($link);
                 
@@ -204,8 +235,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                             $sql_tr11.= " VALUES ('$idatencion_psafci','$iddiagnostico_psafci_1','$idtipo_medicamento_11','$idmedicamento_11','$fecha','$hora','$idusuario_ss') ";
                             $result_tr11 = mysqli_query($link,$sql_tr11);
                 
-                        $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-                        $sql_dg2.= " VALUES ('$idatencion_psafci','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
+                        $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+                        $sql_dg2.= " VALUES ('$idatencion_psafci','$subjetivo2','$objetivo2','$analisis2','$plan2','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
                         $result_dg2 = mysqli_query($link,$sql_dg2);   
                         $iddiagnostico_psafci_2 = mysqli_insert_id($link);
                 
@@ -225,8 +256,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                     } else {
                         if ($diagnosticos == '2' && $tratamientos_1 == '2' && $tratamientos_2 == '2') {
 
-                            $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-                            $sql_dg1.= " VALUES ('$idatencion_psafci','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
+                            $sql_dg1 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+                            $sql_dg1.= " VALUES ('$idatencion_psafci','$subjetivo1','$objetivo1','$analisis1','$plan1','$motivo_consulta1','$idpatologia1','$fecha','$hora','$idusuario_ss') ";
                             $result_dg1 = mysqli_query($link,$sql_dg1);   
                             $iddiagnostico_psafci_1 = mysqli_insert_id($link);
                     
@@ -238,8 +269,8 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                                 $sql_tr12.= " VALUES ('$idatencion_psafci','$iddiagnostico_psafci_1','$idtipo_medicamento_12','$idmedicamento_12','$fecha','$hora','$idusuario_ss') ";
                                 $result_tr12 = mysqli_query($link,$sql_tr12);
                     
-                            $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
-                            $sql_dg2.= " VALUES ('$idatencion_psafci','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
+                            $sql_dg2 = " INSERT INTO diagnostico_psafci (idatencion_psafci, subjetivo, objetivo, analisis, plan, motivo_consulta, idpatologia, fecha_registro, hora_registro, idusuario) ";
+                            $sql_dg2.= " VALUES ('$idatencion_psafci','$subjetivo2','$objetivo2','$analisis2','$plan2','$motivo_consulta2','$idpatologia2','$fecha','$hora','$idusuario_ss') ";
                             $result_dg2 = mysqli_query($link,$sql_dg2);   
                             $iddiagnostico_psafci_2 = mysqli_insert_id($link);
                     
@@ -254,7 +285,7 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                                 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
                                 $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
                                 $_SESSION['edad_ss'] = $edad;
-                                header("Location:mostrar_atencion_psafci.php");
+                                header("Location:mostrar_atencion_psafci_ncf.php");
 
                         } else {
                             $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;

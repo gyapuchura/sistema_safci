@@ -5,7 +5,6 @@
     ?>      
        <input type="hidden" name="diagnosticos" value="<?php echo $diagnosticos;?>">
     
-
 <!-------- 1 diagnostico - 1 o 2 tratamientos -----> 
     <div class="form-group row"> 
     <div class="col-sm-6">
@@ -17,11 +16,7 @@
     </div> 
 
     <div class="form-group row"> 
-    <div class="col-sm-6">
-    <h6 class="text-info">MOTIVO DE LA CONSULTA 1:</h6>
-    <textarea class="form-control" rows="3" name="motivo_consulta1" required ></textarea>
-    </div> 
-    <div class="col-sm-6">
+    <div class="col-sm-12">
     <h6 class="text-info">C.I.E. :</h6>
     <select name="idpatologia1"  id="idpatologia1" class="form-control" required>
         <option value="">-SELECCIONE-</option>
@@ -43,6 +38,28 @@
         </select>
     </div> 
     </div> 
+     <hr>
+        <div class="form-group row"> 
+            <div class="col-sm-6"> 
+            <h6 class="text-info">SUBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="subjetivo1" required></textarea>
+            </div> 
+
+                <div class="col-sm-6"> 
+            <h6 class="text-info">OBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="objetivo1" required></textarea>
+            </div> 
+            </div> 
+                <div class="form-group row"> 
+                <div class="col-sm-6"> 
+            <h6 class="text-info">ANÁLISIS:</h6>
+            <textarea class="form-control" rows="3" name="analisis1" required></textarea>
+            </div>
+                <div class="col-sm-6"> 
+            <h6 class="text-info">PLAN:</h6>
+            <textarea class="form-control" rows="3" name="plan1" required></textarea>
+            </div> 
+        </div>
     <hr>
             <div class="form-group row"> 
             <div class="col-sm-3">
@@ -72,13 +89,8 @@
     <h6 class="text-info">DIAGNÓSTICO 2 :</h6>
     </div> 
     </div> 
-
     <div class="form-group row"> 
-    <div class="col-sm-6">
-    <h6 class="text-info">MOTIVO DE LA CONSULTA 2:</h6>
-    <textarea class="form-control" rows="3" name="motivo_consulta2" required></textarea>
-    </div> 
-    <div class="col-sm-6">
+    <div class="col-sm-12">
     <h6 class="text-info">C.I.E. :</h6>
     <select name="idpatologia2"  id="idpatologia2" class="form-control" required>
         <option value="">-SELECCIONE-</option>
@@ -100,7 +112,29 @@
         </select>
     </div> 
     </div> 
-<hr>
+     <hr>
+    <div class="form-group row"> 
+            <div class="col-sm-6"> 
+            <h6 class="text-info">SUBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="subjetivo2" required></textarea>
+            </div> 
+
+                <div class="col-sm-6"> 
+            <h6 class="text-info">OBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="objetivo2" required></textarea>
+            </div> 
+            </div> 
+                <div class="form-group row"> 
+                <div class="col-sm-6"> 
+            <h6 class="text-info">ANÁLISIS:</h6>
+            <textarea class="form-control" rows="3" name="analisis2" required></textarea>
+            </div>
+                <div class="col-sm-6"> 
+            <h6 class="text-info">PLAN:</h6>
+            <textarea class="form-control" rows="3" name="plan2" required></textarea>
+            </div> 
+        </div>
+    <hr>
 <div class="form-group row"> 
             <div class="col-sm-3">
             <h6 class="text-info">NÚMERO DE TRATAMIENTOS:</h6>
@@ -119,6 +153,7 @@
             <div id="tratamientos_ps_2"></div>
 
 <?php  } else { }  ?>
+
 
     <script language="javascript">
         $(document).ready(function(){

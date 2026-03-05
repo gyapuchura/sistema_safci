@@ -1,9 +1,9 @@
-<?php include("../cabf.php");?>
+737442<?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php
 
 $idtipo_atencion = $_POST['tipo_atencion'];
-$edad_ss = $_SESSION['edad_ss'];
+
 
 switch ($idtipo_atencion) {
     case 1: ?>
@@ -63,109 +63,6 @@ switch ($idtipo_atencion) {
                 } else { } ?>
                 </div>
     </div>  
-
-
-<hr>
-    <div class="form-group row"> 
-    <div class="col-sm-6">
-    <h6 class="text-info">SIGNOS VITALES:</h6>
-    </div> 
-    <div class="col-sm-3"> 
-    </div> 
-    <div class="col-sm-3"> 
-    </div> 
-    </div> 
-<hr>  
-
-    <div class="form-group row">  
-        <div class="col-sm-3">
-        <h6 class="text-info">TALLA </br>[Centímetros]:</h6>
-            <input type="text" class="form-control" placeholder="En Centrimetros"
-                name="talla" value="1" required>                
-        </div>                             
-        <div class="col-sm-3">
-        <h6 class="text-info">PESO </br>[kg]:</h6>
-            <input type="number" class="form-control"              
-                name="peso" value="1" required>                
-        </div>
-        <div class="col-sm-3">
-        <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
-            <input type="number" class="form-control" 
-                name="temperatura" placeholder="" value="0" required>                
-        </div>
-        <div class="col-sm-3">
-        <h6 class="text-info">FRECUENCIA CARDIACA </br>[lpm]:</h6>
-            <input type="text" class="form-control" 
-                name="frec_cardiaca" value="0" required>                
-        </div>
-    </div>
-
-    <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
-    
-        <div class="form-group row">
-            <div class="col-sm-3">
-            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
-                    name="frec_respiratoria" value="0" required>                
-            </div> 
-            <div class="col-sm-3">
-            <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
-                <input type="number" class="form-control"              
-                    name="presion_arterial"  placeholder="Sistólica" value="0" required>               
-            </div>
-            <div class="col-sm-3">
-            <h6 class="text-info"> </br>diastólica [mmHg]</h6>
-                    <input type="number" class="form-control"              
-                    name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
-            </div>
-            <div class="col-sm-3">
-            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
-                <input type="number" class="form-control"
-                    name="saturacion" value="0" required>                
-            </div>
-        </div>
-
-                <div class="form-group row">    
-                    <div class="col-sm-3">
-                    <h6 class="text-info">ALÉRGIAS:</h6>
-                    SI <input type="radio" name="alergia" value="SI" > </br>
-                    NO <input type="radio" name="alergia" value="NO" checked >  
-                    </div>
-                    <div class="col-sm-6">
-                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
-                    </div>
-                    <div class="col-sm-3">             
-                    </div>
-                </div>
-
-    <?php } else { ?>
-
-        <div class="form-group row">
-            <div class="col-sm-3">
-            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
-                    name="frec_respiratoria" value="0" required>                
-            </div> 
-            <div class="col-sm-3">
-            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>   
-                <input type="number" class="form-control"
-                    name="saturacion" value="0" required>             
-            </div>
-            <div class="col-sm-3">
-            <!-- <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>  para menor de 5 anos -->
-                <input type="hidden" class="form-control"              
-                    name="presion_arterial"  placeholder="Sistólica" value="0">               
-            </div>
-            <div class="col-sm-3">
-            <!-- <h6 class="text-info"> </br>diastólica [mmHg]</h6>   para menor de 5 anos    --> 
-                    <input type="hidden" class="form-control"              
-                    name="presion_arterial_d" placeholder="Diastólica" value="0">          
-            </div>
-        </div>
-
-    <?php } ?>
-
 <hr>
             <div class="form-group row"> 
             <div class="col-sm-3">
@@ -279,112 +176,8 @@ switch ($idtipo_atencion) {
                 </div>
     </div>  
     </br>
-
-
-<hr>
     <div class="form-group row"> 
-    <div class="col-sm-6">
-    <h6 class="text-info">SIGNOS VITALES:</h6>
-    </div> 
-    <div class="col-sm-3"> 
-    </div> 
-    <div class="col-sm-3"> 
-    </div> 
-    </div> 
-<hr>  
-
-    <div class="form-group row">  
-        <div class="col-sm-3">
-        <h6 class="text-info">TALLA </br>[Centímetros]:</h6>
-            <input type="text" class="form-control" placeholder="En Centrimetros"
-                name="talla" value="1" required>                
-        </div>                             
-        <div class="col-sm-3">
-        <h6 class="text-info">PESO </br>[kg]:</h6>
-            <input type="number" class="form-control"              
-                name="peso" value="1" required>                
-        </div>
-        <div class="col-sm-3">
-        <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
-            <input type="number" class="form-control" 
-                name="temperatura" placeholder="" value="0" required>                
-        </div>
-        <div class="col-sm-3">
-        <h6 class="text-info">FRECUENCIA CARDIACA </br>[lpm]:</h6>
-            <input type="text" class="form-control" 
-                name="frec_cardiaca" value="0" required>                
-        </div>
-    </div>
-
-    <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
-    
-        <div class="form-group row">
-            <div class="col-sm-3">
-            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
-                    name="frec_respiratoria" value="0" required>                
-            </div> 
-            <div class="col-sm-3">
-            <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
-                <input type="number" class="form-control"              
-                    name="presion_arterial"  placeholder="Sistólica" value="0" required>               
-            </div>
-            <div class="col-sm-3">
-            <h6 class="text-info"> </br>diastólica [mmHg]</h6>
-                    <input type="number" class="form-control"              
-                    name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
-            </div>
-            <div class="col-sm-3">
-            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
-                <input type="number" class="form-control"
-                    name="saturacion" value="0" required>                
-            </div>
-        </div>
-
-                <div class="form-group row">    
-                    <div class="col-sm-3">
-                    <h6 class="text-info">ALÉRGIAS:</h6>
-                    SI <input type="radio" name="alergia" value="SI" > </br>
-                    NO <input type="radio" name="alergia" value="NO" checked >  
-                    </div>
-                    <div class="col-sm-6">
-                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
-                    </div>
-                    <div class="col-sm-3">             
-                    </div>
-                </div>
-
-    <?php } else { ?>
-
-        <div class="form-group row">
-            <div class="col-sm-3">
-            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                <input type="text" class="form-control" 
-                    name="frec_respiratoria" value="0" required>                
-            </div> 
-            <div class="col-sm-3">
-            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>   
-                <input type="number" class="form-control"
-                    name="saturacion" value="0" required>             
-            </div>
-            <div class="col-sm-3">
-            <!-- <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>  para menor de 5 anos -->
-                <input type="hidden" class="form-control"              
-                    name="presion_arterial"  placeholder="Sistólica" value="0">               
-            </div>
-            <div class="col-sm-3">
-            <!-- <h6 class="text-info"> </br>diastólica [mmHg]</h6>   para menor de 5 anos    --> 
-                    <input type="hidden" class="form-control"              
-                    name="presion_arterial_d" placeholder="Diastólica" value="0">          
-            </div>
-        </div>
-
-    <?php } ?>
-
-
-    <div class="form-group row"> 
-    <div class="col-sm-12">
+    <div class="col-sm-9">
     <h6 class="text-info">DIAGNÓSTICO:</h6>
     <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
         <option value="">-SELECCIONE-</option>
@@ -405,32 +198,15 @@ switch ($idtipo_atencion) {
         ?>
         </select>
     </div> 
+    <div class="col-sm-3"> 
+    </div> 
     </div> 
 
-        <div class="form-group row"> 
-            <div class="col-sm-6"> 
-            <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo" required></textarea>
-            </div> 
+    <div id="datos_diagnostico"></div>
 
-                <div class="col-sm-6"> 
-            <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo" required></textarea>
-            </div> 
-            </div> 
-                <div class="form-group row"> 
-                <div class="col-sm-6"> 
-            <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis" required></textarea>
-            </div>
-                <div class="col-sm-6"> 
-            <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan" required></textarea>
-            </div> 
-        </div>
-        <hr>
 
-            <div class="form-group row">
+
+    <div class="form-group row">
             <div class="col-sm-6">
             <h4 class="text-info"></h4>  
             </div> 
@@ -704,12 +480,7 @@ switch ($idtipo_atencion) {
                     </div>
                </div>
                 
-
-
-
-
-
-                <div class="text-center">
+            <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
@@ -751,11 +522,6 @@ switch ($idtipo_atencion) {
     } 
     ?>
 
-
-
-
-
-
     <script language="javascript"> 
         $(document).ready(function(){
         $("#diagnosticos").change(function () {
@@ -763,6 +529,19 @@ switch ($idtipo_atencion) {
                         diagnosticos=$(this).val();
                     $.post("diagnosticos_ps.php", {diagnosticos:diagnosticos}, function(data){
                     $("#diagnosticos_ps").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+    <script language="javascript"> 
+        $(document).ready(function(){
+        $("#idpatologia_ap_sano").change(function () {
+                    $("#idpatologia_ap_sano option:selected").each(function () {
+                        patologia_ap_sano=$(this).val();
+                    $.post("datos_diagnostico.php", {patologia_ap_sano:patologia_ap_sano}, function(data){
+                    $("#datos_diagnostico").html(data);
                     });
                 });
         })
