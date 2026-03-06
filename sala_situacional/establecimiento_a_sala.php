@@ -681,11 +681,13 @@ $zoom_c     = "16";
                 $row_r = mysqli_fetch_array($result_r);
                 $riesgo_cf = $row_r[1];
 
+               $popup_familia = '<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>';
+
         ?>
         L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
         {icon:
         <?php if ($riesgo_cf == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($riesgo_cf == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($riesgo_cf == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
-        }).addTo(map).bindPopup('<?php echo '<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>';?>')
+        }).addTo(map).bindPopup('<?php echo $popup_familia;?>')
 
             <?php 
             $numero4++;

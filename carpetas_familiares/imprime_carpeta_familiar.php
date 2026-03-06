@@ -50,7 +50,7 @@ $row_ar = mysqli_fetch_array($result_ar);
 <table width="1200" border="0" align="center">
   <tbody>
     <tr>
-      <td width="296" align="center"><img src="../implementacion_safci/mds_logo.jpg" width="363" height="104" alt=""/></td>
+      <td width="296" align="center"><img src="../implementacion_safci/mds_logo.jpg" width="200" height="100" alt=""/></td>
       <td width="586" align="center"><strong style="font-family: arial; font-size: 36px; color: #503B92;">CARPETA FAMILIAR</strong></br>
       <strong style="font-family: arial; font-size: 24px; color: #503B92;"><?php echo $row_cf[1]; ?></strong></td>
       <td width="296" align="center"><img src="../implementacion_safci/logo_safci_doc.png" width="179" height="117" alt=""/></td>

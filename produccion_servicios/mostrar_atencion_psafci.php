@@ -449,6 +449,93 @@ $row_ps=mysqli_fetch_array($result_ps);
                 </div>
     </div>  
 <hr>
+<?php
+    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
+    $sql_sg.="  descripcion_alergia FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+    $result_sg = mysqli_query($link,$sql_sg);
+    if ($row_sg = mysqli_fetch_array($result_sg)){
+    mysqli_field_seek($result_sg,0);           
+    while ($field_sg = mysqli_fetch_field($result_sg)){
+    } do {
+?>
+                <hr>
+                <div class="text-center">                                     
+                    <h6 class="text-info">SIGNOS VITALES:</h6>                    
+                </div>
+                <hr> 
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA CARDIACA</br>[lpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[1];?>" 
+                         name="frec_cardiaca" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PESO</br>[kg]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[2];?>"            
+                         name="peso" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TALLA</br>[mtrs.]:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
+                         name="talla" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info"></br>I.M.C.:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[4];?>"  
+                         name="imc" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[5];?>" 
+                         name="frec_respiratoria" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PRESIÓN ARTERIAL </br>[mmHg]:</h6>
+
+                     <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[6]."/".$row_sg[7];?>"             
+                         name="presion_arterial" disabled>   
+                    <?php } else { echo 'MENOR DE 5 AÑOS';}?>    
+
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[8];?>" 
+                         name="temperatura" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">SATURACIÓN </br>[% O2]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[9];?>" 
+                         name="saturacion" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">  
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ES ALERGICO? :</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_sg[10];?>" disabled
+                         name="combe">                  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia" disabled><?php echo $row_sg[11];?></textarea> 
+                    </div>
+                    <div class="col-sm-3">
+                    <!-- <h6 class="text-info">COMBE:</h6>  --->
+                    
+                    </div>
+                </div> 
+           <?php
+        }
+        while ($row_sg = mysqli_fetch_array($result_sg));
+        } else {
+        }
+        ?>
+
+<hr>
 
     <?php
     $numerod=1;
@@ -580,14 +667,13 @@ $row_ps=mysqli_fetch_array($result_ps);
     $sql_dgs =" SELECT iddiagnostico_psafci, idatencion_psafci, motivo_consulta, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
     $result_dgs = mysqli_query($link,$sql_dgs);
     $row_dgs = mysqli_fetch_array($result_dgs);
-
     ?>
     
     <div class="form-group row"> 
     <div class="col-sm-3"> 
     </div> 
     <div class="col-sm-6">
-    <h4 class="text-info">ATENCIÓN APARENTEMENTE SANO(A):</h4>
+    <h4 class="text-info">ATENCIÓN PREVENTIVA:</h4>
     </div> 
     <div class="col-sm-3"> 
     </div> 
@@ -632,7 +718,93 @@ $row_ps=mysqli_fetch_array($result_ps);
                 } else { } ?>
                 </div>
     </div>  
-    </br>
+<?php
+    $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
+    $sql_sg.="  descripcion_alergia FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+    $result_sg = mysqli_query($link,$sql_sg);
+    if ($row_sg = mysqli_fetch_array($result_sg)){
+    mysqli_field_seek($result_sg,0);           
+    while ($field_sg = mysqli_fetch_field($result_sg)){
+    } do {
+?>
+                <hr>
+                <div class="text-center">                                     
+                    <h6 class="text-info">SIGNOS VITALES:</h6>                    
+                </div>
+                <hr> 
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA CARDIACA</br>[lpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[1];?>" 
+                         name="frec_cardiaca" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PESO</br>[kg]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[2];?>"            
+                         name="peso" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TALLA</br>[mtrs.]:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
+                         name="talla" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info"></br>I.M.C.:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[4];?>"  
+                         name="imc" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[5];?>" 
+                         name="frec_respiratoria" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PRESIÓN ARTERIAL </br>[mmHg]:</h6>
+
+                     <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
+                        <input type="text" class="form-control" value="<?php echo $row_sg[6]."/".$row_sg[7];?>"             
+                         name="presion_arterial" disabled>   
+                    <?php } else { echo 'MENOR DE 5 AÑOS';}?>    
+
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[8];?>" 
+                         name="temperatura" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">SATURACIÓN </br>[% O2]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sg[9];?>" 
+                         name="saturacion" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">  
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ES ALERGICO? :</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_sg[10];?>" disabled
+                         name="alergia">                  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia" disabled><?php echo $row_sg[11];?></textarea> 
+                    </div>
+                    <div class="col-sm-3">
+                    <!-- <h6 class="text-info">COMBE:</h6>  --->
+                    
+                    </div>
+                </div> 
+           <?php
+        }
+        while ($row_sg = mysqli_fetch_array($result_sg));
+        } else {
+        }
+        ?>
+
+
     <div class="form-group row"> 
     <div class="col-sm-5">
     <h6 class="text-info">DIAGNÓSTICO:</h6>
@@ -657,7 +829,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
     </div> 
     <div class="col-sm-7"> 
-    <h6 class="text-info">ORIENTACIÓN MÉDICA:</h6>
+    <h6 class="text-info">S.O.A.P. MÉDICO:</h6>
     <textarea class="form-control" rows="4" name="motivo_consulta" disabled><?php echo $row_dgs[2];?></textarea>
     </div> 
     </div> 

@@ -52,6 +52,8 @@ $idestablecimiento_salud = $_POST['idestablecimiento_salud'];
 $cargo_red_salud = $link->real_escape_string($_POST['cargo_red_salud']);
 $item_red_salud = $link->real_escape_string($_POST['item_red_salud']);
 
+$pass = $ci.'@Safci';
+
 //----- Guardamos datos de usuario nuevo ------//
 
 //verificamos existencia del número de cedula de identidad y rescatamos los datos en sesion.
@@ -78,7 +80,7 @@ $item_red_salud = $link->real_escape_string($_POST['item_red_salud']);
 
  /* Primero Insertamos los datos en la tabla de usuarios */
   $sql7 = " INSERT INTO usuarios (idnombre, usuario, password, fecha, condicion, perfil ) ";
-  $sql7.= " VALUES ('$idnombre','$ci','$ci','$fecha','ACTIVO','PERSONAL')";
+  $sql7.= " VALUES ('$idnombre','$ci','$pass','$fecha','ACTIVO','PERSONAL')";
   $result7 = mysqli_query($link,$sql7);  
 
   $idusuario_in = mysqli_insert_id($link);

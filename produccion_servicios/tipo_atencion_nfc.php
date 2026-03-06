@@ -174,14 +174,89 @@ if ($idtipo_atencion == '2') { ?>
                 </div>
     </div>  
     </br>
+
+    
+    <hr>
     <div class="form-group row"> 
-    <div class="col-sm-5">
+    <div class="col-sm-6">
+    <h6 class="text-info">SIGNOS VITALES:</h6>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+<hr>  
+
+    <div class="form-group row">  
+        <div class="col-sm-3">
+        <h6 class="text-info">TALLA </br>[Centímetros]:</h6>
+            <input type="text" class="form-control" placeholder="En Centrimetros"
+                name="talla" value="1" required>                
+        </div>                             
+        <div class="col-sm-3">
+        <h6 class="text-info">PESO </br>[kg]:</h6>
+            <input type="number" class="form-control"              
+                name="peso" value="1" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+            <input type="number" class="form-control" 
+                name="temperatura" placeholder="" value="0" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">FRECUENCIA CARDIACA </br>[lpm]:</h6>
+            <input type="text" class="form-control" 
+                name="frec_cardiaca" value="0" required>                
+        </div>
+    </div>
+    
+        <div class="form-group row">
+            <div class="col-sm-3">
+            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
+                <input type="number" class="form-control" 
+                    name="frec_respiratoria" value="0" required>                
+            </div> 
+            <div class="col-sm-3">
+            <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
+                <input type="number" class="form-control"              
+                    name="presion_arterial"  placeholder="Sistólica" value="0" required>               
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info"></br>diastólica [mmHg]</h6>
+                    <input type="number" class="form-control"              
+                    name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
+                <input type="number" class="form-control"
+                    name="saturacion" value="0" required>                
+            </div>
+        </div>
+
+            <div class="form-group row">    
+                <div class="col-sm-3">
+                <h6 class="text-info">ALÉRGIAS:</h6>
+                SI <input type="radio" name="alergia" value="SI" > </br>
+                NO <input type="radio" name="alergia" value="NO" checked >  
+                </div>
+                <div class="col-sm-6">
+                <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                </div>
+                <div class="col-sm-3">             
+                </div>
+            </div>
+
+
+    <div class="form-group row"> 
+    <div class="col-sm-12">
     <h6 class="text-info">DIAGNÓSTICO:</h6>
-        <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
+    <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
         <option value="">-SELECCIONE-</option>
         <?php
         $numero=1;
-        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '939' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
+        $sql1 = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '938' AND idpatologia != '939' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
         mysqli_field_seek($result1,0);
@@ -196,11 +271,30 @@ if ($idtipo_atencion == '2') { ?>
         ?>
         </select>
     </div> 
-    <div class="col-sm-7"> 
-    <h6 class="text-info">ORIENTACIÓN MÉDICA:</h6>
-    <textarea class="form-control" rows="4" name="motivo_consulta" required></textarea>
     </div> 
-    </div> 
+
+        <div class="form-group row"> 
+            <div class="col-sm-6"> 
+            <h6 class="text-info">SUBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="subjetivo" required></textarea>
+            </div> 
+
+                <div class="col-sm-6"> 
+            <h6 class="text-info">OBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="objetivo" required></textarea>
+            </div> 
+            </div> 
+                <div class="form-group row"> 
+                <div class="col-sm-6"> 
+            <h6 class="text-info">ANÁLISIS:</h6>
+            <textarea class="form-control" rows="3" name="analisis" required></textarea>
+            </div>
+                <div class="col-sm-6"> 
+            <h6 class="text-info">PLAN:</h6>
+            <textarea class="form-control" rows="3" name="plan" required></textarea>
+            </div> 
+        </div>
+        <hr>
 
 
     <div class="form-group row">
@@ -412,6 +506,78 @@ if ($idtipo_atencion == '2') { ?>
                 } else { } ?>
                 </div>
     </div>  
+
+  <hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">SIGNOS VITALES:</h6>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+<hr>  
+
+    <div class="form-group row">  
+        <div class="col-sm-3">
+        <h6 class="text-info">TALLA </br>[Centímetros]:</h6>
+            <input type="text" class="form-control" placeholder="En Centrimetros"
+                name="talla" value="1" required>                
+        </div>                             
+        <div class="col-sm-3">
+        <h6 class="text-info">PESO </br>[kg]:</h6>
+            <input type="number" class="form-control"              
+                name="peso" value="1" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+            <input type="number" class="form-control" 
+                name="temperatura" placeholder="" value="0" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">FRECUENCIA CARDIACA </br>[lpm]:</h6>
+            <input type="text" class="form-control" 
+                name="frec_cardiaca" value="0" required>                
+        </div>
+    </div>
+    
+        <div class="form-group row">
+            <div class="col-sm-3">
+            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
+                <input type="number" class="form-control" 
+                    name="frec_respiratoria" value="0" required>                
+            </div> 
+            <div class="col-sm-3">
+            <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
+                <input type="number" class="form-control"              
+                    name="presion_arterial"  placeholder="Sistólica" value="0" required>               
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info"> </br>diastólica [mmHg]</h6>
+                    <input type="number" class="form-control"              
+                    name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
+                <input type="number" class="form-control"
+                    name="saturacion" value="0" required>                
+            </div>
+        </div>
+
+            <div class="form-group row">    
+                <div class="col-sm-3">
+                <h6 class="text-info">ALÉRGIAS:</h6>
+                SI <input type="radio" name="alergia" value="SI" > </br>
+                NO <input type="radio" name="alergia" value="NO" checked >  
+                </div>
+                <div class="col-sm-6">
+                <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                </div>
+                <div class="col-sm-3">             
+                </div>
+            </div>
 <hr>
             <div class="form-group row"> 
             <div class="col-sm-3">

@@ -25,7 +25,7 @@ $row_cf=mysqli_fetch_array($result_cf);
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
-        
+         
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -192,15 +192,20 @@ $row_n=mysqli_fetch_array($result_n);
 
                     </div>
                     <div class="form-group row"> 
-                    <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <h6 class="text-info">OCUPACIÓN:</h6>
                             <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
                             name="" disabled>                
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <h6 class="text-info">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
                             <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
                             name="" disabled>                
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-info">HISTORIA CLÍNICA:</h6>
+                            <a href="imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                            <h6 class="text-primary">VER HISTORIA CLÍNICA DIGITAL</h6></a>                                      
                         </div>
                     </div> 
                 <?php
@@ -388,10 +393,8 @@ $row_n=mysqli_fetch_array($result_n);
             </div>
         </div>
         <div class="card-body" id="tipo_atencion"></div> 
-        
-    
+          
     </div>
-
             
         <!-- END aqui va el comntenido de la pagina ---->
                 </div>
