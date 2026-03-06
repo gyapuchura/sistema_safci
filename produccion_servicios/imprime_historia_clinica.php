@@ -754,32 +754,84 @@ $row_n=mysqli_fetch_array($result_n);
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Hipertensión Arterial Sistémica</td>
-                        <td style="font-family: Arial; font-size: 12px;">
-                          <?php
-
-                          ?>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr1 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '9' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $result_fr1 = mysqli_query($link,$sql_fr1);
+                        if ($row_fr1 = mysqli_fetch_array($result_fr1)) {
+                         echo 'X';
+                        } ?>
                           </td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr1 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '9' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $result_fr1 = mysqli_query($link,$sql_fr1);
+                        if ($row_fr1 = mysqli_fetch_array($result_fr1)) {
+                         echo 'X';
+                        } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Diabetes</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '10' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $result_fr2 = mysqli_query($link,$sql_fr2);
+                        if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
+                         echo 'X';
+                        } ?>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '10' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $result_fr2 = mysqli_query($link,$sql_fr2);
+                        if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
+                         echo 'X';
+                        } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Sobrepeso</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Abuso de Alcohol</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;  text-align: center;">
+                          <?php                                     
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '2' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                          $result_fr3 = mysqli_query($link,$sql_fr3);
+                          if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
+                          echo 'X';
+                          } ?>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          <?php                                     
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '2' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                          $result_fr3 = mysqli_query($link,$sql_fr3);
+                          if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
+                          echo 'X';
+                          } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Habito de Fumar</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          <?php                                     
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '3' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                          $result_fr3 = mysqli_query($link,$sql_fr3);
+                          if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
+                          echo 'X';
+                          } ?>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          <?php                                     
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '3' AND idcarpeta_familiar = '$idcarpeta_familiar_ss'  ";
+                          $result_fr3 = mysqli_query($link,$sql_fr3);
+                          if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
+                          echo 'X';
+                          } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Transfusiones</td>
@@ -798,18 +850,48 @@ $row_n=mysqli_fetch_array($result_n);
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Tuberculosis</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">                         
+                        <?php                                     
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '1' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $result_fr2 = mysqli_query($link,$sql_fr2);
+                        if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
+                         echo 'X';
+                        } ?>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '1' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $result_fr2 = mysqli_query($link,$sql_fr2);
+                        if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
+                         echo 'X';
+                        } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Desnutrición</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          
+                        </td>
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Drogas</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          <?php                                     
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '4' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                          $result_fr3 = mysqli_query($link,$sql_fr3);
+                          if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
+                          echo 'X';
+                          } ?>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          <?php                                     
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '4' AND idcarpeta_familiar = '$idcarpeta_familiar_ss'  ";
+                          $result_fr3 = mysqli_query($link,$sql_fr3);
+                          if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
+                          echo 'X';
+                          } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Sífilis</td>
@@ -818,8 +900,22 @@ $row_n=mysqli_fetch_array($result_n);
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">Otros</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '19' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $result_fr2 = mysqli_query($link,$sql_fr2);
+                        if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
+                         echo 'X';
+                        } ?>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                        <?php                                     
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '19' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $result_fr2 = mysqli_query($link,$sql_fr2);
+                        if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
+                         echo 'X';
+                        } ?>
+                        </td>
                       </tr>
                       <tr>
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>

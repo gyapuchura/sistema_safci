@@ -40,11 +40,13 @@ $row_cf = mysqli_fetch_array($result_cf);
 <script>
     let map = L.map('mi_mapa').setView([<?php echo $row_cf[6];?>,<?php echo $row_cf[7];?>], 15);
 
+   <?php $popup_familia ='<p>FAMILIA: '.addslashes($row_cf[1]).'</p><p>'.addslashes($row_cf[2]).' '.addslashes($row_cf[3]).'</p><p>Direccion :'.addslashes($row_cf[4]).'</p>'; ?>
+
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        L.marker([<?php echo $row_cf[6];?>,<?php echo $row_cf[7];?>]).addTo(map).bindPopup("<?php echo 'FAMILIA: '.$row_cf[1].'</br>'.$row_cf[2].'  '.$row_cf[3].'</br>Direccion :'.$row_cf[4].' Nº '.$row_cf[5];?>")
+        L.marker([<?php echo $row_cf[6];?>,<?php echo $row_cf[7];?>]).addTo(map).bindPopup("<?php  echo $popup_familia; ?>")
 
 </script>
 
