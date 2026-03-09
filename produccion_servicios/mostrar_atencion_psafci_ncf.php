@@ -271,7 +271,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                          name="peso" disabled>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-info">TALLA</br>[mtrs.]:</h6>
+                    <h6 class="text-info">TALLA</br>[Centimetros]:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
                          name="talla" disabled>                
                     </div>
@@ -542,7 +542,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                          name="peso" disabled>                
                     </div>
                     <div class="col-sm-3">
-                    <h6 class="text-info">TALLA</br>[mtrs.]:</h6>
+                    <h6 class="text-info">TALLA</br>[Centimetros]:</h6>
                         <input type="text" class="form-control" value="<?php echo $row_sg[3];?>"  
                          name="talla" disabled>                
                     </div>

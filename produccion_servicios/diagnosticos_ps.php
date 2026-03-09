@@ -15,37 +15,19 @@
     </div> 
     </div> 
 
-    <div class="form-group row"> 
-    <div class="col-sm-12">
-    <h6 class="text-info">C.I.E. :</h6>
-    <select name="idpatologia1"  id="idpatologia1" class="form-control" required>
-        <option value="">-SELECCIONE-</option>
-        <?php
-        $numero=1;
-        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
-        $result1 = mysqli_query($link,$sql1);
-        if ($row1 = mysqli_fetch_array($result1)){
-        mysqli_field_seek($result1,0);
-        while ($field1 = mysqli_fetch_field($result1)){
-        } do {
-        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-        $numero=$numero+1;
-        } while ($row1 = mysqli_fetch_array($result1));
-        } else {
-        echo "No se encontraron resultados!";
-        }
-        ?>
-        </select>
-    </div> 
-    </div> 
      <hr>
+        <div class="form-group row"> 
+            <div class="col-sm-12"> 
+            <h6 class="text-info">MOTIVO DE CONSULTA 1:</h6>
+            <textarea class="form-control" rows="2" name="motivo_consulta1" placeholder="Motivo Consulta/hospitalizacion" required></textarea>
+            </div> 
+        </div> 
         <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo1" required></textarea>
+            <textarea class="form-control" rows="3" name="subjetivo1" placeholder="Historia Enfermedad Actual" required></textarea>
             </div> 
-
-                <div class="col-sm-6"> 
+            <div class="col-sm-6"> 
             <h6 class="text-info">OBJETIVO:</h6>
             <textarea class="form-control" rows="3" name="objetivo1" required></textarea>
             </div> 
@@ -60,7 +42,31 @@
             <textarea class="form-control" rows="3" name="plan1" required></textarea>
             </div> 
         </div>
-    <hr>
+
+        <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">C.I.E. :</h6>
+        <select name="idpatologia1"  id="idpatologia1" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+            </select>
+        </div> 
+        </div>         
+        <hr>
             <div class="form-group row"> 
             <div class="col-sm-3">
             <h6 class="text-info">NÚMERO DE TRATAMIENTOS:</h6>
@@ -89,7 +95,36 @@
     <h6 class="text-info">DIAGNÓSTICO 2 :</h6>
     </div> 
     </div> 
-    <div class="form-group row"> 
+   
+     <hr>
+            <div class="form-group row"> 
+            <div class="col-sm-12"> 
+            <h6 class="text-info">MOTIVO DE CONSULTA 2:</h6>
+            <textarea class="form-control" rows="2" name="motivo_consulta2" placeholder="Motivo Consulta/hospitalizacion" required></textarea>
+            </div> 
+            </div> 
+            <div class="form-group row"> 
+            <div class="col-sm-6"> 
+            <h6 class="text-info">SUBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="subjetivo2" placeholder="Historia Enfermedad Actual" required></textarea>
+            </div> 
+
+                <div class="col-sm-6"> 
+            <h6 class="text-info">OBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="objetivo2" required></textarea>
+            </div> 
+            </div> 
+                <div class="form-group row"> 
+                <div class="col-sm-6"> 
+            <h6 class="text-info">ANÁLISIS:</h6>
+            <textarea class="form-control" rows="3" name="analisis2" required></textarea>
+            </div>
+                <div class="col-sm-6"> 
+            <h6 class="text-info">PLAN:</h6>
+            <textarea class="form-control" rows="3" name="plan2" required></textarea>
+            </div> 
+        </div>
+     <div class="form-group row"> 
     <div class="col-sm-12">
     <h6 class="text-info">C.I.E. :</h6>
     <select name="idpatologia2"  id="idpatologia2" class="form-control" required>
@@ -112,28 +147,6 @@
         </select>
     </div> 
     </div> 
-     <hr>
-    <div class="form-group row"> 
-            <div class="col-sm-6"> 
-            <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo2" required></textarea>
-            </div> 
-
-                <div class="col-sm-6"> 
-            <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo2" required></textarea>
-            </div> 
-            </div> 
-                <div class="form-group row"> 
-                <div class="col-sm-6"> 
-            <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis2" required></textarea>
-            </div>
-                <div class="col-sm-6"> 
-            <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan2" required></textarea>
-            </div> 
-        </div>
     <hr>
 <div class="form-group row"> 
             <div class="col-sm-3">

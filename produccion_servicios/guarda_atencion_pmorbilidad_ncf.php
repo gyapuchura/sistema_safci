@@ -67,14 +67,14 @@ $objetivo1   = $link->real_escape_string($_POST['objetivo1']);
 $analisis1   = $link->real_escape_string($_POST['analisis1']);
 $plan1       = $link->real_escape_string($_POST['plan1']);
 
-$motivo_consulta1     = 'S.- '.$subjetivo1 .' O.- '.$objetivo1.' A.- '.$analisis1.' P.- '.$plan1;
+$motivo_consulta1 = $link->real_escape_string($_POST['motivo_consulta1']);
 
 $subjetivo2  = $link->real_escape_string($_POST['subjetivo2']);
 $objetivo2   = $link->real_escape_string($_POST['objetivo2']);
 $analisis2   = $link->real_escape_string($_POST['analisis2']);
 $plan2       = $link->real_escape_string($_POST['plan2']);
 
-$motivo_consulta2     = 'S.- '.$subjetivo2 .' O.- '.$objetivo2.' A.- '.$analisis2.' P.- '.$plan2;
+$motivo_consulta2 = $link->real_escape_string($_POST['motivo_consulta2']);
 
 $talla              = $_POST['talla'];
 $peso               = $_POST['peso'];
@@ -165,7 +165,7 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
             $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
             $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
             $_SESSION['edad_ss'] = $edad;
-            header("Location:mostrar_atencion_psafci.php");
+            header("Location:mostrar_atencion_psafci_nfc.php");
 
     } else {
             if ($diagnosticos == '2' && $tratamientos_1 == '1' && $tratamientos_2 == '1') {
@@ -191,7 +191,7 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
                 $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
                 $_SESSION['edad_ss'] = $edad;
-                header("Location:mostrar_atencion_psafci.php");
+                header("Location:mostrar_atencion_psafci_nfc.php");
 
             } else {
                 if ($diagnosticos == '2' && $tratamientos_1 == '2' && $tratamientos_2 == '1') {
@@ -221,7 +221,7 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                         $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
                         $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
                         $_SESSION['edad_ss'] = $edad;
-                        header("Location:mostrar_atencion_psafci.php");
+                        header("Location:mostrar_atencion_psafci_nfc.php");
 
                 } else {
                     if ($diagnosticos == '2' && $tratamientos_1 == '1' && $tratamientos_2 == '2') {
@@ -251,7 +251,7 @@ if ($diagnosticos == '1' && $tratamientos_1 == '1') {
                             $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
                             $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente;
                             $_SESSION['edad_ss'] = $edad;
-                            header("Location:mostrar_atencion_psafci.php");
+                            header("Location:mostrar_atencion_psafci_nfc.php");
 
                     } else {
                         if ($diagnosticos == '2' && $tratamientos_1 == '2' && $tratamientos_2 == '2') {

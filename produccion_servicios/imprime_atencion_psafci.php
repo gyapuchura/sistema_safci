@@ -117,6 +117,55 @@ $row = mysqli_fetch_array($result);
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" >INFORMACIÓN DE LA ATENCIÓN</td>
     </tr>
     <tr>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">SIGNOS VITALES</td>
+    </tr>
+        <tr>
+      <td colspan="3">
+        <?php
+        $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia, descripcion_alergia FROM signo_vital_psafci WHERE idatencion_psafci ='$idatencion_psafci' ";
+        $result_sg=mysqli_query($link,$sql_sg);
+        $row_sg=mysqli_fetch_array($result_sg);
+        ?>
+        <table width="680" border="1" align="center" cellspacing="0">
+        <tbody>
+          <tr>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">FRECUENCIA CARDIACA [lpm]::</td>
+            <td width="111" style="text-align: center; font-family: ARIAL; font-style: normal; font-weight: 400; font-size: 12px;"><?php echo $row_sg[1];?></td>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">PESO [kg]:</td>
+            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[2];?></td>
+          </tr>
+          <tr>
+            <td style="font-family: Arial; font-size: 12px; text-align: right;">TALLA [mtrs.]:</td>
+            <td style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[3];?></td>
+            <td style="font-family: Arial; font-size: 12px; text-align: right;">I.M.C.:</td>
+            <td style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[4];?></td>
+          </tr>
+          <tr>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">FRECUENCIA RESPIRATORIA [cpm]:</td>
+            <td width="111" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[5];?></td>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">PRESIÓN ARTERIAL [mmHg]:</td>
+            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[6];?>/<?php echo $row_sg[7];?></td>
+          </tr>
+          <tr>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">TEMPERATURA [°C]:</td>
+            <td width="111" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[8];?></td>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">SATURACIÓN [% O2]:</td>
+            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[9];?></td>
+          </tr>
+          <tr>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">PADECE ALERGIA:</td>
+            <td width="111" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[10];?></td>
+            <td width="217" style="font-family: Arial; font-size: 12px; text-align: right;">DESCRIPCIÓN DE LA ALERGIA</td>
+            <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[11];?></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">DIAGNÓSTICO</td>
+    </tr>
+    <tr>
       <td colspan="3">
         <table width="680" border="1" align="center" cellspacing="0">
         <tbody>
@@ -128,7 +177,8 @@ $row = mysqli_fetch_array($result);
           </tr>
           <?php
             $numero_s=1;
-            $sql_s =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.motivo_consulta, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia  ";
+            $sql_s =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.motivo_consulta, patologia.patologia, patologia.cie  ";
+            $sql_s.=" , diagnostico_psafci.subjetivo, diagnostico_psafci.objetivo, diagnostico_psafci.analisis, diagnostico_psafci.plan FROM diagnostico_psafci, patologia  ";
             $sql_s.=" WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci='$idatencion_psafci' ";
             $result_s = mysqli_query($link,$sql_s);
             if ($row_s = mysqli_fetch_array($result_s)){
@@ -138,7 +188,13 @@ $row = mysqli_fetch_array($result);
               ?>
           <tr>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo "Diagnóstico ".$numero_s;?></td>
-            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_s[1];?></td>
+            <td style="font-family: Arial; font-size: 12px;"><?php 
+            if ($row[4]=='' || $row_s[5]=='') {
+              echo 'Motico de Consulta.- '.$row_s[1];
+            } else {
+              echo 'Subjetivo.- '.$row_s[4].'</br>Objetivo.- '.$row_s[5].'</br>Análisis.- '.$row_s[6].'</br>Plan.- '.$row_s[7];
+            }          
+            ?></td>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[2]." - ".$row_s[3];?></td>
             <td style="text-align: center; font-family: Arial; font-size: 12px;">
             <?php 

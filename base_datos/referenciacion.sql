@@ -345,5 +345,8 @@ ALTER TABLE sesion_educativa ADD FOREIGN KEY (idcharla_psafci) REFERENCES charla
 ALTER TABLE sesion_educativa ADD FOREIGN KEY (idsustantivo) REFERENCES sustantivo (idsustantivo);
 ALTER TABLE sesion_educativa ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
+ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
 
