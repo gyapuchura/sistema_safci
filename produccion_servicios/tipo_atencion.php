@@ -382,7 +382,18 @@ switch ($idtipo_atencion) {
 
     <?php } ?>
 
+        <div class="form-group row"> 
+            <div class="col-sm-6"> 
+            <h6 class="text-info">SUBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="subjetivo" required></textarea>
+            </div> 
 
+                <div class="col-sm-6"> 
+            <h6 class="text-info">OBJETIVO:</h6>
+            <textarea class="form-control" rows="3" name="objetivo" required></textarea>
+            </div> 
+            </div> 
+    </div> 
     <div class="form-group row"> 
     <div class="col-sm-12">
     <h6 class="text-info">DIAGNÓSTICO:</h6>
@@ -407,17 +418,8 @@ switch ($idtipo_atencion) {
     </div> 
     </div> 
 
-        <div class="form-group row"> 
-            <div class="col-sm-6"> 
-            <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo" required></textarea>
-            </div> 
+     </div> 
 
-                <div class="col-sm-6"> 
-            <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo" required></textarea>
-            </div> 
-            </div> 
                 <div class="form-group row"> 
                 <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
@@ -705,11 +707,7 @@ switch ($idtipo_atencion) {
                </div>
                 
 
-
-
-
-
-                <div class="text-center">
+            <div class="text-center">
             <div class="form-group row">
                 <div class="col-sm-12">
                     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
@@ -750,10 +748,6 @@ switch ($idtipo_atencion) {
      break; 
     } 
     ?>
-
-
-
-
 
 
     <script language="javascript"> 
