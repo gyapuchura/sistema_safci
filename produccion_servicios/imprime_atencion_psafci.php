@@ -116,16 +116,20 @@ $row = mysqli_fetch_array($result);
     <tr>
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" >INFORMACIÓN DE LA ATENCIÓN</td>
     </tr>
-    <tr>
-      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">SIGNOS VITALES</td>
-    </tr>
         <tr>
-      <td colspan="3">
+      <td colspan="3">&nbsp;</td>
+    </tr>
+
         <?php
         $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia, descripcion_alergia FROM signo_vital_psafci WHERE idatencion_psafci ='$idatencion_psafci' ";
         $result_sg=mysqli_query($link,$sql_sg);
-        $row_sg=mysqli_fetch_array($result_sg);
-        ?>
+        if ($row_sg=mysqli_fetch_array($result_sg)) { ?> 
+
+      <tr>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">SIGNOS VITALES</td>
+      </tr>
+        <tr>
+      <td colspan="3">
         <table width="680" border="1" align="center" cellspacing="0">
         <tbody>
           <tr>
@@ -160,8 +164,10 @@ $row = mysqli_fetch_array($result);
           </tr>
         </tbody>
       </table>
+          </tr>
+       <?php }  ?>
       </td>
-    </tr>
+
     <tr>
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">DIAGNÓSTICO</td>
     </tr>
@@ -219,9 +225,7 @@ $row = mysqli_fetch_array($result);
       <tr>
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" ></td>
       </tr>
-      <tr>
-        <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" >&nbsp;</td>
-      </tr>
+
 
       <?php  if ($row[18] == '1') {  ?>
             
