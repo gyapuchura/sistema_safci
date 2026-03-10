@@ -349,4 +349,6 @@ ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idatencion_psafci) REFERENCES at
 ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
+ALTER TABLE dato_laboral ADD FOREIGN KEY (idcargo_organigrama) REFERENCES cargo_organigrama (idcargo_organigrama);
+
 
