@@ -126,15 +126,14 @@ $iddepartamento = $row_es[2];
                                                     ?></td>
                                                     <td><?php 
                                                                 
-                                                        $sql1 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_ap_sano, grupo_cf WHERE integrante_ap_sano.idgrupo_cf=grupo_cf.idgrupo_cf ";
-                                                        $sql1.="  AND integrante_ap_sano.idintegrante_cf='$row[0]' GROUP BY grupo_cf.idgrupo_cf ";
+                                                        $sql1 ="  SELECT idintegrante_ap_sano FROM integrante_ap_sano WHERE idintegrante_cf='$row[0]' LIMIT 1 ";
                                                         $result1 = mysqli_query($link,$sql1);
                                                         if ($row1 = mysqli_fetch_array($result1)){
                                                         mysqli_field_seek($result1,0);
                                                         while ($field1 = mysqli_fetch_field($result1)){
                                                         } do { 
                                                         ?>
-                                                           <?php echo "<h6 class='text-primary'>- ".$row1[1]."</h6>";?>
+                                                           <?php echo "<h6 class='text-primary'>- GRUPO I</h6>";?>
                                                         <?php
                                                         
                                                         }
@@ -143,15 +142,14 @@ $iddepartamento = $row_es[2];
                                                         }
                                                         ?>
                                                         <?php
-                                                        $sql2 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_factor_riesgo, grupo_cf WHERE integrante_factor_riesgo.idgrupo_cf=grupo_cf.idgrupo_cf ";
-                                                        $sql2.=" AND integrante_factor_riesgo.idintegrante_cf='$row[0]' GROUP BY grupo_cf.idgrupo_cf ";
+                                                        $sql2 =" SELECT idintegrante_factor_riesgo FROM integrante_factor_riesgo WHERE idintegrante_cf='$row[0]' LIMIT 1  ";
                                                         $result2 = mysqli_query($link,$sql2);
                                                         if ($row2 = mysqli_fetch_array($result2)){
                                                         mysqli_field_seek($result2,0);
                                                         while ($field2 = mysqli_fetch_field($result2)){
                                                         } do { 
                                                         ?>
-                                                           <?php echo "<h6 class='text-warning'>- ".$row2[1]."</h6>";?>
+                                                           <?php echo "<h6 class='text-warning'>- GRUPO II</h6>";?>
                                                         <?php
                                                         }
                                                         while ($row2 = mysqli_fetch_array($result2));
@@ -159,15 +157,14 @@ $iddepartamento = $row_es[2];
                                                         }
                                                         ?>
                                                         <?php
-                                                        $sql3 =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_morbilidad, grupo_cf WHERE integrante_morbilidad.idgrupo_cf=grupo_cf.idgrupo_cf  ";
-                                                        $sql3.="  AND integrante_morbilidad.idintegrante_cf='$row[0]' GROUP BY grupo_cf.idgrupo_cf ";
+                                                        $sql3 =" SELECT idintegrante_morbilidad FROM integrante_morbilidad WHERE idintegrante_cf='$row[0]' LIMIT 1  ";
                                                         $result3 = mysqli_query($link,$sql3);
                                                         if ($row3 = mysqli_fetch_array($result3)){
                                                         mysqli_field_seek($result3,0);
                                                         while ($field3 = mysqli_fetch_field($result3)){
                                                         } do { 
                                                         ?>
-                                                           <?php echo "<h6 class='text-danger'>- ".$row3[1]."</h6>";?>
+                                                           <?php echo "<h6 class='text-danger'>- GRUPO III</h6>";?>
                                                         <?php
                                                         }
                                                         while ($row3 = mysqli_fetch_array($result3));
@@ -175,15 +172,14 @@ $iddepartamento = $row_es[2];
                                                         }
                                                         ?>
                                                         <?php
-                                                        $sqld =" SELECT grupo_cf.idgrupo_cf, grupo_cf.grupo_cf FROM integrante_discapacidad, grupo_cf WHERE integrante_discapacidad.idgrupo_cf=grupo_cf.idgrupo_cf  ";
-                                                        $sqld.=" AND integrante_discapacidad.idintegrante_cf='$row[0]' GROUP BY grupo_cf.idgrupo_cf ";
+                                                        $sqld ="  SELECT idintegrante_discapacidad FROM integrante_discapacidad WHERE idintegrante_cf='$row[0]' LIMIT 1  ";
                                                         $resultd = mysqli_query($link,$sqld);
                                                         if ($rowd = mysqli_fetch_array($resultd)){
                                                         mysqli_field_seek($resultd,0);
                                                         while ($fieldd = mysqli_fetch_field($resultd)){
                                                         } do { 
                                                         ?>
-                                                           <?php echo "<h6 class='text-info'>- ".$rowd[1]."</h6>";?>
+                                                           <?php echo "<h6 class='text-info'>- GRUPO IV</h6>";?>
                                                         <?php
                                                         }
                                                         while ($rowd = mysqli_fetch_array($resultd));
