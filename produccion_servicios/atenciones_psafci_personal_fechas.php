@@ -27,12 +27,26 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     <title>REPORTE PRODUCCION PERSONAL SAFCI</title>
 </head>
 <body>
+<span style="font-size: 12px"></span>
 <table width="1200" border="0" align="center" cellspacing="0">
   <tbody>
     <tr>
-      <td>&nbsp;</td>
-      <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;"><strong>REPORTE PRODUCCION DE SERVICIOS DEL PERSONAL SAFCI-MISALUD</strong></td>
-      <td>&nbsp;</td>
+      <td>
+      
+      <a href="produccion_personal_diaria_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" style="font-family: Arial" onClick="window.open(this.href, this.target, 'width=1200,height=820,scrollbars=YES,top=50,left=200'); return false;">ATENCIONES POR DIA - NACIONAL</a>
+
+      </td>
+      <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;">
+        <strong>REPORTE PRODUCCION DE SERVICIOS DEL PERSONAL SAFCI-MISALUD</strong></br></br>
+         <strong>DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></strong>
+    </td>
+      <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;">
+              <form action="produccion_personal_nal_excel.php" method="post">
+              <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
+              <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
+              <button type="submit">DESCARGAR REPORTE NACIONAL EN EXCEL</button>
+              </form> 
+      </td>
     </tr>
     <tr>
       <td width="200">&nbsp;</td>
@@ -51,9 +65,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             mysqli_field_seek($result_d,0);
             while ($field_d = mysqli_fetch_field($result_d)){
             } do { ?>
-            <td width="106" align="center" bgcolor="#AEC6DB" style="font-family: Arial; font-size: 12px; color: #FFFFFF;"><span class="Estilo7">
+            <td width="106" align="center" bgcolor="#ffd5b1" class="Estilo7" style="font-family: Arial; font-size: 12px; color: #FFFFFF;">
                 
-                <a href="produccion_personal_dep_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a></span></td>
+                <a href="produccion_personal_dep_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a></td>
             <?php                  
             } while ($row_d = mysqli_fetch_array($result_d));
             } else {  }
@@ -67,7 +81,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             mysqli_field_seek($result_d,0);
             while ($field_d = mysqli_fetch_field($result_d)){
             } do { ?>
-            <td>
+            <td valign="top">
                 <table width="133" border="0" cellspacing="0">
               <tbody>
                     <?php
@@ -81,7 +95,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
                     } do {
                 ?>
                 <tr>
-                  <td bgcolor="#F3E4BB" style="font-family: Arial; font-size: 12px;">
+                  <td valign="top" bgcolor="#fff2cd" style="font-family: Arial; font-size: 12px;">
                   <a href="produccion_personal_mun_fechas.php?idmunicipio=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $numero.'.- '.$row[1];?></a>
                     </br></br>
                     </td>

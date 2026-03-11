@@ -18,15 +18,6 @@ $f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
 $fecha_f = explode('-',$finalizacion);
 $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 
-
-$idusuario = $_GET['idusuario'];
-
-
-$sql_us =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-$sql_us.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$idusuario' ";
-$result_us = mysqli_query($link,$sql_us);
-$row_us = mysqli_fetch_array($result_us);
-
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -45,7 +36,7 @@ $row_us = mysqli_fetch_array($result_us);
             type: 'areaspline'
         },
         title: {
-            text: 'ATENCIONES - Personal Médico : <?php echo mb_strtoupper($row_us[0]." ".$row_us[1]." ".$row_us[2]);?>'
+            text: 'ATENCIONES - Todo el Personal Médico SAFCI MI SALUD'
         },
         subtitle: {
             text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
@@ -65,7 +56,7 @@ $row_us = mysqli_fetch_array($result_us);
  <?php
 $numero = 0;
 $sql = " SELECT atencion_psafci.fecha_registro FROM atencion_psafci, diagnostico_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-$sql.= " AND atencion_psafci.idusuario='$idusuario' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro ";
+$sql.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -139,7 +130,7 @@ echo ",";
 
 $numero = 0;
 $sql = " SELECT atencion_psafci.fecha_registro FROM atencion_psafci, diagnostico_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-$sql.= " AND atencion_psafci.idusuario='$idusuario' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro ";
+$sql.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -154,7 +145,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT diagnostico_psafci.iddiagnostico_psafci  FROM diagnostico_psafci, atencion_psafci ";
 $sql7.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.fecha_registro='$row[0]'  ";
-$sql7.= " AND atencion_psafci.idusuario='$idusuario' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.idtipo_consulta = '1' ";
+$sql7.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.idtipo_consulta = '1' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -195,7 +186,7 @@ Si no se encontraron resultados
 
 $numero = 0;
 $sql = " SELECT atencion_psafci.fecha_registro FROM atencion_psafci, diagnostico_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
-$sql.= " AND atencion_psafci.idusuario='$idusuario' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro ";
+$sql.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -210,7 +201,7 @@ while ($field = mysqli_fetch_field($result)){
 <?php
 $sql7 = " SELECT diagnostico_psafci.iddiagnostico_psafci  FROM diagnostico_psafci, atencion_psafci ";
 $sql7.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.fecha_registro='$row[0]'  ";
-$sql7.= " AND atencion_psafci.idusuario='$idusuario' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.idtipo_consulta = '2' ";
+$sql7.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.idtipo_consulta = '2' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -256,13 +247,11 @@ Si no se encontraron resultados
 
 <p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
 <div align="center">
-<!-- <form action="reporte_diagnosticos_preventivos_excel_us.php" method="post">
-    <input type="hidden" name="idpatologia" value="<?php echo $idpatologia;?>">
-    <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
-    <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
-    <input type="hidden" name="idmunicipio" value="<?php echo $idmunicipio;?>">
-    <button type="submit">DESCARGAR CUADRO EN EXCEL</button>
-</form>  -->
+              <form action="produccion_personal_nal_excel.php" method="post">
+              <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
+              <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
+              <button type="submit">DESCARGAR REPORTE NACIONAL EN EXCEL</button>
+              </form> 
 </p></div>
 </br>
 <table width="1000" border="1" align="center" cellspacing="0">
@@ -291,7 +280,7 @@ Si no se encontraron resultados
     $sql.=" WHERE atencion_psafci.idnombre=nombre.idnombre AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
     $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento ";
     $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idusuario='$idusuario' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC ";
+    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
