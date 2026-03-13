@@ -41,7 +41,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
          <strong>DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></strong>
     </td>
       <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;">
-              <form action="produccion_personal_nal_excel.php" method="post">
+              <form action="produccion_personal_nacional_excel.php" method="post">
               <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
               <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
               <button type="submit">DESCARGAR REPORTE NACIONAL EN EXCEL</button>
@@ -67,7 +67,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             } do { ?>
             <td width="106" align="center" bgcolor="#ffd5b1" class="Estilo7" style="font-family: Arial; font-size: 12px; color: #FFFFFF;">
                 
-                <a href="produccion_personal_dep_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a></td>
+                <a href="produccion_personal_dep_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a></td>
             <?php                  
             } while ($row_d = mysqli_fetch_array($result_d));
             } else {  }

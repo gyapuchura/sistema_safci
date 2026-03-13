@@ -9,8 +9,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idsesion_educativa_ss  =  $_SESSION['idsesion_educativa_ss'];
-
 ?>
 <!DOCTYPE html>
 <html lang="es">

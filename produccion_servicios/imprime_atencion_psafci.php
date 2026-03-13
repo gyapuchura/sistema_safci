@@ -189,7 +189,7 @@ $row = mysqli_fetch_array($result);
         <tbody>
           <tr>
             <td width="41" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
-            <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">MOTIVO CONSULTA</td>
+            <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">CONSULTA MÉDICA</td>
             <td width="143" style="font-family: Arial; font-size: 12px; text-align: center;">DIAGNÓSTICO</td>
             <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">MÉDICO</td>
           </tr>

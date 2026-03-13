@@ -1,3 +1,8 @@
+<?php	
+header('Content-type: application/vnd.ms-excel');
+header("Content-Disposition: attachment; filename=REPORTE PRODUCCION SERVICIOS DEPARTAMENTAL.xls");
+header("Pragma: no-cache");
+header("Expires: 0");?>
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
 <?php
@@ -9,8 +14,8 @@ $gestion        = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-$inicio = $_GET['inicio'];
-$finalizacion = $_GET['finalizacion'];
+$inicio = $_POST['inicio'];
+$finalizacion = $_POST['finalizacion'];
 
 $fecha_i = explode('-',$inicio);
 $f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
@@ -18,7 +23,7 @@ $f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
 $fecha_f = explode('-',$finalizacion);
 $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 
-$iddepartamento = $_GET['iddepartamento'];
+$iddepartamento = $_POST['iddepartamento'];
 
 $sql_dep = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento='$iddepartamento' ";
 $result_dep = mysqli_query($link,$sql_dep);
@@ -44,19 +49,7 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
       </td>
       <td>&nbsp;</td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td style="font-family: Arial; font-size: 14px; text-align: center;">
-          <form action="produccion_personal_dep_excel.php" method="post">
-            <input type="hidden" name="iddepartamento" value="<?php echo $iddepartamento;?>">
-          <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
-          <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
-          <button type="submit">DESCARGAR REPORTE DEPARTAMENTAL EN EXCEL</button>
-          </form> 
-        </br>
-      </td>
-      <td>&nbsp;</td>
-    </tr>
+
     <tr>
       <td colspan="3"><table width="900" border="1" cellspacing="0">
         <tbody>
@@ -92,7 +85,7 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
             $sql_c.= " AND dato_laboral.idusuario='$row[0]' ORDER BY dato_laboral.iddato_laboral DESC  ";
             $result_c = mysqli_query($link,$sql_c);
             if ($row_c = mysqli_fetch_array($result_c)){ ?>
-            <span class="Estilo7"><a href="produccion_operativo_prev_fechas.php?idusuario=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1200,height=920,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_c[1];?></a></span>
+            <?php echo $row_c[1];?>
            <?php }  ?>
 
             </td>
