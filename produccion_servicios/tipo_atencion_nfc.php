@@ -352,7 +352,6 @@ if ($idtipo_atencion == '2') { ?>
         </div> 
         </div> 
         <hr>
-
         <div class="card shadow mb-4">
                 <div class="card-header py-2">
                     <h6 class="m-0 font-weight-bold text-info">1.- INFORMACIÓN DE FILIACIÓN</h6>

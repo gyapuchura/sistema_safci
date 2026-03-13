@@ -859,23 +859,59 @@ $row_ps=mysqli_fetch_array($result_ps);
 
 
     <div class="form-group row"> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-6">
+    <h4 class="text-info">OPCIONES ADICIONALES DE ATENCIÓN</h4>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+ <form name="ELIMINA_SESION" action="elimina_atencion_psafci.php" method="post">  
+    <div class="form-group row"> 
     <div class="col-sm-4"> 
-        
+         <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">
+            ELIMINAR ATENCIÓN MÉDICA
+        </button> 
+                <!--  MODAL DE ELIMINACION DE ATENCION MEDICA BEGIN ---->
+            <div class="modal fade" id="exampleModald" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ELIMINAR DE ATENCIÓN MÉDICA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            Esta seguro de ELIMINAR la ATENCIÓN MÉDICA?
+                        
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-danger pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>  
+ <!--  MODAL DE ELIMINACION DE ATENCION MEDICA BEGIN ---->
     </div> 
     <div class="col-sm-4"> 
         <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
     </div> 
     <div class="col-sm-4"> 
-       <!-- <a href="nueva_referencia.php"><h6 class="text-primary"> REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a>  -->
+    <a href="nueva_referencia.php"><h6 class="text-primary"> REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a> 
     </div> 
     </div> 
 
 
 </div>
 </div>
+ <!-- END aqui va el comntenido de la pagina ---->
 
-            
-        <!-- END aqui va el comntenido de la pagina ---->
                 </div>
                
                 <div class="text-center">

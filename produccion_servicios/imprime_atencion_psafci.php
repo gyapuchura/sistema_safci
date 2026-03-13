@@ -10,7 +10,7 @@ $idatencion_psafci = $_GET['idatencion_psafci'];
 
 $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno,";
 $sql.=" departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_consulta.tipo_consulta, ";
-$sql.=" repeticion.repeticion, tipo_atencion.tipo_atencion, atencion_psafci.fecha_registro, nombre.fecha_nac, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.edad, atencion_psafci.idtipo_atencion ";
+$sql.=" repeticion.repeticion, tipo_atencion.tipo_atencion, atencion_psafci.fecha_registro, nombre.fecha_nac, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.edad, atencion_psafci.idtipo_atencion, atencion_psafci.idnombre, atencion_psafci.idestablecimiento_salud ";
 $sql.=" FROM atencion_psafci, nombre, repeticion, tipo_consulta, tipo_atencion, departamento, red_salud, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
 $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento ";
 $sql.=" AND atencion_psafci.idrepeticion=repeticion.idrepeticion AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND atencion_psafci.idred_salud=red_salud.idred_salud ";
@@ -55,7 +55,9 @@ $row = mysqli_fetch_array($result);
             <td style="font-size: 12px; font-family: Arial; text-align: right;">MUNICIPIO:</td>
             <td style="font-family: Arial; font-size: 12px;"><?php echo $row[8];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: right;">ESTABLECIMIENTO DE SALUD:</td>
-            <td style="font-family: Arial; font-size: 12px;"><?php echo $row[9];?></td>
+            <td style="font-family: Arial; font-size: 12px;">
+            <a href="../sala_situacional/establecimiento_a_sala.php?idestablecimiento_salud=<?php echo $row[20];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=800,top=50, left=400, scrollbars=YES'); return false;">        
+            <?php echo $row[9];?></a></td>
           </tr>
           <tr>
             <td style="font-size: 12px; font-family: Arial; text-align: right;">CONSULTA/VISITA:</td>
@@ -116,9 +118,19 @@ $row = mysqli_fetch_array($result);
     <tr>
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;" >INFORMACIÓN DE LA ATENCIÓN</td>
     </tr>
-        <tr>
-      <td colspan="3">&nbsp;</td>
+    <?php
+        $sql_cf =" SELECT idintegrante_cf, idcarpeta_familiar FROM integrante_cf WHERE idnombre ='$row[19]' ";
+        $result_cf=mysqli_query($link,$sql_cf);
+        if ($row_cf=mysqli_fetch_array($result_cf)) { ?> 
+    <tr>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">
+        <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row_cf[1];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=800,top=50, left=400, scrollbars=YES'); return false;">        
+      CARPETA FAMILIAR</a> - 
+        <a href="imprime_historia_clinica_ps.php?idcarpeta_familiar=<?php echo $row_cf[1];?>&idintegrante_cf=<?php echo $row_cf[0];?>&idnombre_integrante=<?php echo $row[19];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">        
+      HISTORIA CLÍNICA</a>
+      </td>
     </tr>
+    <?php } ?>
 
         <?php
         $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia, descripcion_alergia FROM signo_vital_psafci WHERE idatencion_psafci ='$idatencion_psafci' ";
