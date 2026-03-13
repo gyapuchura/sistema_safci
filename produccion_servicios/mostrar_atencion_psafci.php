@@ -857,6 +857,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
 <?php } ?>
 
+<hr>
 
     <div class="form-group row"> 
     <div class="col-sm-3"> 
@@ -903,7 +904,7 @@ $row_ps=mysqli_fetch_array($result_ps);
         <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
     </div> 
     <div class="col-sm-4"> 
-    <a href="nueva_referencia.php"><h6 class="text-primary"> REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a> 
+    <a href="#"><h6 class="text-primary"> REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a> 
     </div> 
     </div> 
 
