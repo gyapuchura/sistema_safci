@@ -56,6 +56,7 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
           <tr>
             <td width="40" style="font-family: Arial; font-size: 12px; text-align: center;">Nº</td>
             <td width="256" style="font-family: Arial; font-size: 12px; text-align: center;">NOMBRE (PERSONAL MÉDICO)</td>
+            <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
             <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
             <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">ESTABLECIMIENTO DE SALUD</td>
             <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">CARGO DE ACUERDO A ORGANIGRAMA</td>
@@ -64,10 +65,10 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
           </tr>
         <?php
             $numero = 1;
-            $sql = "  SELECT personal.idusuario, nombre.nombre, nombre.paterno, nombre.materno, municipios.municipio, establecimiento_salud.establecimiento_salud   ";
-            $sql.= "  FROM personal, nombre, usuarios, dato_laboral, municipios, establecimiento_salud WHERE personal.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
-            $sql.= "  AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio=municipios.idmunicipio  ";
-            $sql.= "  AND establecimiento_salud.iddepartamento='$iddepartamento' AND dato_laboral.idestablecimiento_salud !='4196' GROUP BY personal.idusuario ORDER BY municipios.municipio   ";
+            $sql = "  SELECT personal.idusuario, nombre.nombre, nombre.paterno, nombre.materno, departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud   ";
+            $sql.= "  FROM personal, nombre, usuarios, dato_laboral, departamento, municipios, establecimiento_salud WHERE personal.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre ";
+            $sql.= "  AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND dato_laboral.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idmunicipio=municipios.idmunicipio  ";
+            $sql.= "  AND establecimiento_salud.iddepartamento='$iddepartamento' AND dato_laboral.idestablecimiento_salud !='4196' AND usuarios.condicion='ACTIVO' GROUP BY personal.idusuario ORDER BY municipios.municipio   ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -79,6 +80,7 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
             <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row[1]." ".$row[2]." ".$row[3]);?></td>
             <td style="font-family: Arial; font-size: 12px;"><?php echo $row[4];?></td>
             <td style="font-family: Arial; font-size: 12px;"><?php echo $row[5];?></td>
+            <td style="font-family: Arial; font-size: 12px;"><?php echo $row[6];?></td>
             <td style="font-family: Arial; font-size: 12px;">
                 <?php  
             $sql_c = " SELECT dato_laboral.iddato_laboral, cargo_organigrama.cargo_organigrama FROM dato_laboral, cargo_organigrama WHERE dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama ";
