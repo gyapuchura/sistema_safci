@@ -61,7 +61,7 @@ $gestion       =  date("Y");
             $sql.=" dato_laboral.cargo_red_salud, establecimiento_salud.latitud, establecimiento_salud.longitud, personal.idusuario, personal.fecha_registro, usuarios.perfil ";
             $sql.=" FROM personal, nombre, usuarios, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, dato_laboral, establecimiento_salud, cargo_organigrama ";
             $sql.=" WHERE personal.idnombre=nombre.idnombre AND usuarios.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero  AND personal.idnombre_datos=nombre_datos.idnombre_datos  ";
-            $sql.=" AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion ";
+            $sql.=" AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND usuarios.condicion='ACTIVO' ";
             $sql.=" AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama  ";
             $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND establecimiento_salud.idmunicipio='$idmunicipio_salud' ORDER BY dato_laboral.idestablecimiento_salud  ";
             $result = mysqli_query($link,$sql);

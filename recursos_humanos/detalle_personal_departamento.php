@@ -62,8 +62,8 @@ $rowd = mysqli_fetch_array($resultd);
             $sql.=" FROM personal, nombre, usuarios, nacionalidad, genero, nombre_datos, formacion_academica, profesion, especialidad_medica, departamento, dato_laboral, establecimiento_salud, municipios, cargo_organigrama ";
             $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idnombre_datos=nombre_datos.idnombre_datos ";
             $sql.=" AND usuarios.idnombre=nombre.idnombre AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND nombre_datos.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idmunicipio=municipios.idmunicipio ";
-            $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-            $sql.="  AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND establecimiento_salud.iddepartamento='$iddepartamento_rep' ORDER BY dato_laboral.idred_salud  ";
+            $sql.=" AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND usuarios.condicion='ACTIVO' ";
+            $sql.=" AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND establecimiento_salud.iddepartamento='$iddepartamento_rep' ORDER BY dato_laboral.idred_salud  ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);

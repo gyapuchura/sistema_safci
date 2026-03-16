@@ -63,7 +63,7 @@ $gestion       =  date("Y");
             $sql.=" WHERE personal.idnombre=nombre.idnombre AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idgenero=genero.idgenero AND personal.idnombre_datos=nombre_datos.idnombre_datos ";
             $sql.=" AND nombre_datos.idformacion_academica=formacion_academica.idformacion_academica AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND usuarios.idnombre=nombre.idnombre AND establecimiento_salud.idmunicipio=municipios.idmunicipio ";
             $sql.=" AND nombre_datos.iddepartamento=departamento.iddepartamento AND nombre_datos.idprofesion=profesion.idprofesion AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica ORDER BY departamento.departamento ";
+            $sql.=" AND nombre_datos.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND usuarios.condicion='ACTIVO' ORDER BY departamento.departamento ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
