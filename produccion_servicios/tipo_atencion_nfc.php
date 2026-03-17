@@ -1,6 +1,7 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php
+$fecha 		= date("Y-m-d");
 $idtipo_atencion = $_POST['tipo_atencion'];
 
 if ($idtipo_atencion == '2') { ?>
@@ -129,49 +130,53 @@ if ($idtipo_atencion == '2') { ?>
 
    <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->    
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-info">2.- INFORMACIÓN DE LA ATENCIÓN</h6>
-                </div>
-                <div class="card-body">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-info">2.- INFORMACIÓN DE LA ATENCIÓN</h6>
+        </div>
+        <div class="card-body">
 
     <div class="form-group row">  
-    <div class="col-sm-6">
-                <h6 class="text-info">INCIDENCIA DE LA ATENCIÓN:</h6>
-                <?php
-                $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
-                $result_i = mysqli_query($link,$sql_i);
-                if ($row_i = mysqli_fetch_array($result_i)){
-                mysqli_field_seek($result_i,0);
-                while ($field_i = mysqli_fetch_field($result_i)){
-                } do { 
-                ?>
+    <div class="col-sm-4">
+        <h6 class="text-info">INCIDENCIA DE LA ATENCIÓN:</h6>
+        <?php
+        $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
+        $result_i = mysqli_query($link,$sql_i);
+        if ($row_i = mysqli_fetch_array($result_i)){
+        mysqli_field_seek($result_i,0);
+        while ($field_i = mysqli_fetch_field($result_i)){
+        } do { 
+        ?>
 
-                <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
-                <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
+        <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
+        <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
 
-                <?php }
-                while ($row_i = mysqli_fetch_array($result_i));
-                } else { } ?>
-                </div>
+        <?php }
+        while ($row_i = mysqli_fetch_array($result_i));
+        } else { } ?>
+        </div>
 
-                <div class="col-sm-6">
-                <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
-                <?php
-                $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
-                $result_c = mysqli_query($link,$sql_c);
-                if ($row_c = mysqli_fetch_array($result_c)){
-                mysqli_field_seek($result_c,0);
-                while ($field_c = mysqli_fetch_field($result_c)){
-                } do { 
-                ?>
+        <div class="col-sm-4">
+        <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
+        <?php
+        $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
+        $result_c = mysqli_query($link,$sql_c);
+        if ($row_c = mysqli_fetch_array($result_c)){
+        mysqli_field_seek($result_c,0);
+        while ($field_c = mysqli_fetch_field($result_c)){
+        } do { 
+        ?>
 
-                <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
-                <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
+        <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
+        <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
 
-                <?php }
-                while ($row_c = mysqli_fetch_array($result_c));
-                } else { } ?>
-                </div>
+        <?php }
+        while ($row_c = mysqli_fetch_array($result_c));
+        } else { } ?>
+        </div>
+        <div class="col-sm-4">
+        <h6 class="text-info">FECHA DE LA ATENCIÓN:</h6>
+            <input type="date" name="fecha_registro" value="<?php echo $fecha;?>" class="form-control">
+        </div>
     </div>  
     </br>
 
@@ -467,43 +472,47 @@ if ($idtipo_atencion == '2') { ?>
         <div class="card-body">
 
     <div class="form-group row">  
-    <div class="col-sm-6">
-                <h6 class="text-info">INCIDENCIA DE LA ATENCIÓN:</h6>
-                <?php
-                $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
-                $result_i = mysqli_query($link,$sql_i);
-                if ($row_i = mysqli_fetch_array($result_i)){
-                mysqli_field_seek($result_i,0);
-                while ($field_i = mysqli_fetch_field($result_i)){
-                } do { 
-                ?>
+    <div class="col-sm-4">
+        <h6 class="text-info">INCIDENCIA DE LA ATENCIÓN:</h6>
+        <?php
+        $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
+        $result_i = mysqli_query($link,$sql_i);
+        if ($row_i = mysqli_fetch_array($result_i)){
+        mysqli_field_seek($result_i,0);
+        while ($field_i = mysqli_fetch_field($result_i)){
+        } do { 
+        ?>
 
-                <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
-                <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
+        <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
+        <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
 
-                <?php }
-                while ($row_i = mysqli_fetch_array($result_i));
-                } else { } ?>
-                </div>
+        <?php }
+        while ($row_i = mysqli_fetch_array($result_i));
+        } else { } ?>
+        </div>
 
-                <div class="col-sm-6">
-                <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
-                <?php
-                $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
-                $result_c = mysqli_query($link,$sql_c);
-                if ($row_c = mysqli_fetch_array($result_c)){
-                mysqli_field_seek($result_c,0);
-                while ($field_c = mysqli_fetch_field($result_c)){
-                } do { 
-                ?>
+        <div class="col-sm-4">
+        <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
+        <?php
+        $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
+        $result_c = mysqli_query($link,$sql_c);
+        if ($row_c = mysqli_fetch_array($result_c)){
+        mysqli_field_seek($result_c,0);
+        while ($field_c = mysqli_fetch_field($result_c)){
+        } do { 
+        ?>
 
-                <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
-                <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
+        <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
+        <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
 
-                <?php }
-                while ($row_c = mysqli_fetch_array($result_c));
-                } else { } ?>
-                </div>
+        <?php }
+        while ($row_c = mysqli_fetch_array($result_c));
+        } else { } ?>
+        </div>
+        <div class="col-sm-4">
+        <h6 class="text-info">FECHA DE LA ATENCIÓN:</h6>
+            <input type="date" name="fecha_registro" value="<?php echo $fecha;?>" class="form-control">
+        </div>
     </div>  
 
   <hr>

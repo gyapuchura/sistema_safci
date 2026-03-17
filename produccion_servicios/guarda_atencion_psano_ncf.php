@@ -4,7 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 
 $fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
+
 $hora       = date("H:i");
 $gestion    = date("Y");
 
@@ -24,6 +24,7 @@ $idgenero       = $_POST['idgenero'];
 $fecha_nac      = $_POST['fecha_nac'];
 $idnacionalidad = $_POST['idnacionalidad'];
 $idnacion       = $_POST['idnacion'];
+$fecha   = $_POST['fecha_registro'];
 
 $fecha_nacimiento = $fecha_nac;
 $dia=date("d");

@@ -4,7 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 
 $fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
+
 $hora       = date("H:i");
 $gestion    = date("Y");
 
@@ -23,6 +23,7 @@ $edad_ss                    = $_SESSION['edad_ss'];
 $idrepeticion    = $_POST['idrepeticion'];
 $idtipo_consulta = $_POST['idtipo_consulta'];
 $idtipo_atencion = $_POST['idtipo_atencion'];
+$fecha   = $_POST['fecha_registro'];
 
 $diagnosticos    = $_POST['diagnosticos'];
 $tratamientos_1  = $_POST['tratamientos_1'];

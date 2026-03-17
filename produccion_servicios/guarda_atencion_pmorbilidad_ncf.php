@@ -4,7 +4,7 @@
 date_default_timezone_set('America/La_Paz');
 
 $fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
+
 $hora       = date("H:i");
 $gestion    = date("Y");
 
@@ -43,6 +43,7 @@ $edad = ($ano-$anonaz);
 $idrepeticion    = $_POST['idrepeticion'];
 $idtipo_consulta = $_POST['idtipo_consulta'];
 $idtipo_atencion = $_POST['idtipo_atencion'];
+$fecha   = $_POST['fecha_registro'];
 
 $diagnosticos    = $_POST['diagnosticos'];
 $tratamientos_1  = $_POST['tratamientos_1'];
@@ -85,7 +86,7 @@ $presion_arterial   = $_POST['presion_arterial'];
 $presion_arterial_d = $_POST['presion_arterial_d'];
 $saturacion         = $_POST['saturacion'];
 $alergia            = $_POST['alergia'];
-$descripcion_alergia       = $link->real_escape_string($_POST['descripcion_alergia']);
+$descripcion_alergia = $link->real_escape_string($_POST['descripcion_alergia']);
 
 /*********** DETERMINACION DE VARIABLES *************/
 

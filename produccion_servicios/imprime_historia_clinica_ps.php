@@ -964,7 +964,7 @@ $row_n=mysqli_fetch_array($result_n);
             $numero_at=1;
             $sql_at =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.motivo_consulta, patologia.patologia, patologia.cie, diagnostico_psafci.subjetivo, diagnostico_psafci.objetivo, ";
             $sql_at.=" diagnostico_psafci.analisis, diagnostico_psafci.plan, atencion_psafci.idatencion_psafci, diagnostico_psafci.idusuario, atencion_psafci.fecha_registro, atencion_psafci.edad FROM diagnostico_psafci, patologia, atencion_psafci WHERE diagnostico_psafci.idpatologia=patologia.idpatologia ";
-            $sql_at.=" AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idnombre='$idnombre_integrante_ss' ";
+            $sql_at.=" AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idnombre='$idnombre_integrante_ss' ORDER BY atencion_psafci.fecha_registro  ";
             $result_at = mysqli_query($link,$sql_at);
             if ($row_at = mysqli_fetch_array($result_at)){
             mysqli_field_seek($result_at,0);
@@ -1071,7 +1071,7 @@ $row_n=mysqli_fetch_array($result_n);
                             <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Análisis</strong></td>
                             </tr>
                           <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[6];?></td>
+                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[6];?></br></br><?php echo $row_at[2];?> - <?php echo $row_at[3];?></td>
                             </tr>
                           <tr>
                             <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
@@ -1080,7 +1080,7 @@ $row_n=mysqli_fetch_array($result_n);
                             <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Plan</strong></td>
                             </tr>
                           <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[7];?></br>
+                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[7];?>`</br>
           
                             <table width="400" align="left" border="0" cellspacing="0">
                                 <tbody>
