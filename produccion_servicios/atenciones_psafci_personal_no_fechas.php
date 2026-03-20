@@ -92,24 +92,21 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                    $sql_mun = " SELECT atencion_psafci.idmunicipio, municipioS.municipio FROM atencion_psafci, municipios WHERE atencion_psafci.idmunicipio=municipios.idmunicipio ";
-                    $sql_mun.= " AND atencion_psafci.idmunicipio = '$row[0]'  AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'  LIMIT 1 ";
+                    $sql_mun = " SELECT idatencion_psafci FROM atencion_psafci WHERE  idmunicipio = '$row[0]' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion'  LIMIT 1 ";
                     $result_mun = mysqli_query($link,$sql_mun);
                     if (!($row_mun = mysqli_fetch_array($result_mun))){   
                     ?>
 
                     <tr>
                     <td valign="top" bgcolor="#ffedf1" style="font-family: Arial; font-size: 12px;">
-                    <a href="produccion_personal_mun_fechas.php?idmunicipio=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $numero.'.- '.$row[1];?></a>
-                        </br></br>
-                        </td>
+                      <a href="produccion_personal_mun_fechas.php?idmunicipio=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $numero.'.- '.$row[1];?></a>
+                      </br></br>
+                    </td>
                     </tr>
 
                 <?php  $numero++;   } ?>
                 
-                <?php
-
-                                 
+                <?php                                 
                 } while ($row = mysqli_fetch_array($result));
                 } else {   }
                 ?>
@@ -134,8 +131,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
         <tr>
       <td>&nbsp;</td>
       <td>
-          <a href="atenciones_psafci_personal_no_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=900,scrollbars=YES'); return false;">
-          MUNICIPIOS PENDIENTES DE PRODUCCIÓN</a>
+&nbsp;
       </td>
       <td>&nbsp;</td>
     </tr>
