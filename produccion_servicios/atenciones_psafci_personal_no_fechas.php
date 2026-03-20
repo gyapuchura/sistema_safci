@@ -33,18 +33,16 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     <tr>
       <td>
       
-      <a href="produccion_personal_diaria_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" style="font-family: Arial" onClick="window.open(this.href, this.target, 'width=1200,height=820,scrollbars=YES,top=50,left=200'); return false;">ATENCIONES POR DIA - NACIONAL</a>
-
       </td>
       <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;">
-        <strong>REPORTE PRODUCCION DE SERVICIOS DEL PERSONAL SAFCI-MISALUD</strong></br></br>
+        <strong>MUNICIPIOS SIN PRODUCCIÓN REGISTRADA EN SISTEMA</strong></br></br>
          <strong>DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></strong>
     </td>
       <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;">
-              <form action="produccion_personal_nacional_excel.php" method="post">
+              <form action="produccion_personal_no_nacional_excel.php" method="post">
               <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
               <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
-              <button type="submit">DESCARGAR REPORTE NACIONAL EN EXCEL</button>
+              <button type="submit">DESCARGAR REPORTE EN EXCEL</button>
               </form> 
       </td>
     </tr>
@@ -65,7 +63,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             mysqli_field_seek($result_d,0);
             while ($field_d = mysqli_fetch_field($result_d)){
             } do { ?>
-            <td width="106" align="center" bgcolor="#ffd5b1" class="Estilo7" style="font-family: Arial; font-size: 12px; color: #FFFFFF;">
+            <td width="106" align="center" bgcolor="#ffdbe4" class="Estilo7" style="font-family: Arial; font-size: 12px; color: #FFFFFF;">
                 
                 <a href="produccion_personal_dep_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a></td>
             <?php                  
@@ -86,22 +84,32 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
               <tbody>
                     <?php
                     $numero = 1;
-                    $sql = " SELECT atencion_psafci.idmunicipio, municipios.municipio FROM atencion_psafci, municipios WHERE atencion_psafci.idmunicipio=municipios.idmunicipio  ";
-                    $sql.= " AND atencion_psafci.iddepartamento='$row_d[0]' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idmunicipio ";
+                    $sql = " SELECT establecimiento_salud.idmunicipio, municipios.municipio FROM dato_laboral, establecimiento_salud, municipios WHERE dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND establecimiento_salud.idmunicipio=municipios.idmunicipio ";
+                    $sql.= " AND establecimiento_salud.iddepartamento = '$row_d[0]' GROUP BY establecimiento_salud.idmunicipio ";
                     $result = mysqli_query($link,$sql);
                     if ($row = mysqli_fetch_array($result)){
                     mysqli_field_seek($result,0);
                     while ($field = mysqli_fetch_field($result)){
                     } do {
-                ?>
-                <tr>
-                  <td valign="top" bgcolor="#fff2cd" style="font-family: Arial; font-size: 12px;">
-                  <a href="produccion_personal_mun_fechas.php?idmunicipio=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $numero.'.- '.$row[1];?></a>
-                    </br></br>
-                    </td>
-                </tr>
-                    <?php
-                    $numero++;                    
+
+                    $sql_mun = " SELECT atencion_psafci.idmunicipio, municipioS.municipio FROM atencion_psafci, municipios WHERE atencion_psafci.idmunicipio=municipios.idmunicipio ";
+                    $sql_mun.= " AND atencion_psafci.idmunicipio = '$row[0]'  AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'  LIMIT 1 ";
+                    $result_mun = mysqli_query($link,$sql_mun);
+                    if (!($row_mun = mysqli_fetch_array($result_mun))){   
+                    ?>
+
+                    <tr>
+                    <td valign="top" bgcolor="#ffedf1" style="font-family: Arial; font-size: 12px;">
+                    <a href="produccion_personal_mun_fechas.php?idmunicipio=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=920,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $numero.'.- '.$row[1];?></a>
+                        </br></br>
+                        </td>
+                    </tr>
+
+                <?php  $numero++;   } ?>
+                
+                <?php
+
+                                 
                 } while ($row = mysqli_fetch_array($result));
                 } else {   }
                 ?>
@@ -125,9 +133,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     </tr>
         <tr>
       <td>&nbsp;</td>
-      <td style="text-align: center; font-family: Arial; font-size: 16px; color: #17507F;">
+      <td>
           <a href="atenciones_psafci_personal_no_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=900,scrollbars=YES'); return false;">
-          MUNICIPIOS PENDIENTES</a>
+          MUNICIPIOS PENDIENTES DE PRODUCCIÓN</a>
       </td>
       <td>&nbsp;</td>
     </tr>

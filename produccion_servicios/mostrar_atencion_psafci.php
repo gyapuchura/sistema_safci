@@ -198,15 +198,20 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                     </div>
                     <div class="form-group row"> 
-                    <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <h6 class="text-info">OCUPACIÓN:</h6>
                             <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
                             name="" disabled>                
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                         <h6 class="text-info">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
                             <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
                             name="" disabled>                
+                        </div>
+                        <div class="col-sm-4">
+                        <h6 class="text-info">HISTORIA CLÍNICA:</h6>
+                            <a href="imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                            <h6 class="text-primary">VER HISTORIA CLÍNICA DIGITAL</h6></a>                                      
                         </div>
                     </div> 
                 <?php
@@ -223,7 +228,7 @@ $row_ps=mysqli_fetch_array($result_ps);
             <h6 class="m-0 font-weight-bold text-info">2.- ANTECEDENTES NO PATOLÓGICOS</h6>
         </div>
         <div class="card-body">
-
+ 
         <?php
             $numeroa=1;
             $sqla =" SELECT idintegrante_ap_sano, integrante_ap_sano FROM integrante_ap_sano WHERE idintegrante_cf='$idintegrante_cf_ss' ";
@@ -904,7 +909,10 @@ $row_ps=mysqli_fetch_array($result_ps);
         <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
     </div> 
     <div class="col-sm-4"> 
-    <a href="#"><h6 class="text-primary"> REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a> 
+
+   <!--      <a href="formulario_referencia.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">
+        <h6 class="text-primary">REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a>   --->
+
     </div> 
     </div> 
 
