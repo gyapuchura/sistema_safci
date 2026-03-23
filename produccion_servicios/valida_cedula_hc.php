@@ -12,17 +12,23 @@ $perfil_ss    = $_SESSION['perfil_ss'];
 
 $ci = $_POST["ci"];
 
-$sql_hc = " SELECT integrante_cf.idintegrante_cf, integrante_cf.idnombre, integrante_cf.idcarpeta_familiar, carpeta_familiar.iddepartamento,  ";
-$sql_hc.= " carpeta_familiar.idestablecimiento_salud FROM integrante_cf, nombre, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_hc.= " AND integrante_cf.idnombre=nombre.idnombre AND nombre.ci='$ci' ORDER BY integrante_cf.idintegrante_cf DESC LIMIT 1";
-$result_hc = mysqli_query($link,$sql_hc);
-if ($row_hc = mysqli_fetch_array($result_hc)) {
+$sql_n = " SELECT idnombre, ci, nombre, paterno, materno FROM nombre WHERE ci='$ci' ";
+$result_n = mysqli_query($link,$sql_n);
+if ($row_n = mysqli_fetch_array($result_n)) {
 
-$idintegrante_cf = $row_hc[0];
-$idnombre_integrante = $row_hc[1];
-$idcarpeta_familiar = $row_hc[2];
-$iddepartamento = $row_hc[3];
-$idestablecimiento_salud = $row_hc[4];
+$sql_int = " SELECT idintegrante_cf, idcarpeta_familiar FROM integrante_cf WHERE idnombre='$row_n[0]' ORDER BY idintegrante_cf LIMIT 1 ";
+$result_int = mysqli_query($link,$sql_int);
+if ($row_int = mysqli_fetch_array($result_int)) {
+    
+$sql_cf = " SELECT idcarpeta_familiar, iddepartamento, idestablecimiento_salud FROM carpeta_familiar WHERE idcarpeta_familiar='$row_int[1]' ";
+$result_cf = mysqli_query($link,$sql_cf);
+$row_cf = mysqli_fetch_array($result_cf);
+
+$idintegrante_cf = $row_int[0];
+$idnombre_integrante = $row_n[0];
+$idcarpeta_familiar = $row_cf[0];
+$iddepartamento = $row_cf[1];
+$idestablecimiento_salud = $row_cf[2];
 
 $_SESSION['idintegrante_cf_ss'] = $idintegrante_cf;
 $_SESSION['idnombre_integrante_ss'] = $idnombre_integrante;
@@ -31,7 +37,12 @@ $_SESSION['iddepartamento_ss'] = $iddepartamento;
 $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud;
 
 header("Location:mostrar_persona_hc.php");
-    
+
+} else {
+
+header("Location:mensaje_persona_sin_hc.php");
+}
+   
 } else {   
 header("Location:mensaje_persona_sin_hc.php");
 }
