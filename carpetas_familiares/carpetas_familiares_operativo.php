@@ -31,7 +31,7 @@ $idusuario_op = $_POST["medico_operativo"];
     mysqli_field_seek($result,0);
     while ($field = mysqli_fetch_field($result)){
     } do {
-    ?>
+    ?> 
                     <tr>
                         <td><?php echo $numero;?></td>
                         <td><?php echo $row[1];?></td>
