@@ -15,6 +15,31 @@
     </div> 
     </div> 
 
+        <div class="form-group row"> 
+            <div class="col-sm-12"> 
+            <h6 class="text-info">SUBJETIVO:</h6>
+            <h6 class="text-secundary">Motivo de consulta y/o sintomas que el paciente refiere durante la anamnesis</h6>
+            </div> 
+        </div> 
+        <div class="form-group row"> 
+            <div class="col-sm-12"> 
+            <h6 class="text-info">OBJETIVO:</h6>
+            <h6 class="text-secundary">Hallazgos del exámen físico y/o resultados de exámenes de laboratorio y complementarios</h6>
+            </div> 
+        </div> 
+        <div class="form-group row"> 
+            <div class="col-sm-12"> 
+            <h6 class="text-info">ANÁLISIS:</h6>
+            <h6 class="text-secundary">Lista de problemas detectados: diagnóstico, signos o sintomas a seguir, resultados de laboratorio patológico, antecedentes personales</h6>
+            </div> 
+        </div> 
+        <div class="form-group row"> 
+            <div class="col-sm-12"> 
+            <h6 class="text-info">PLAN:</h6>
+            <h6 class="text-secundary">Tratamientos, orientaciones, seguimientos, exámenes complementarios necesarios para cada problema.</h6>
+            </div> 
+        </div> 
+
      <hr>
         <div class="form-group row"> 
             <div class="col-sm-12"> 

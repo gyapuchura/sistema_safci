@@ -60,7 +60,7 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
             $sql = " SELECT personal.idusuario, nombre.nombre, nombre.paterno, nombre.materno, establecimiento_salud.establecimiento_salud  ";
             $sql.= " FROM personal, nombre, usuarios, dato_laboral, establecimiento_salud WHERE personal.idusuario=usuarios.idusuario AND usuarios.idnombre=nombre.idnombre  ";
             $sql.= " AND personal.iddato_laboral=dato_laboral.iddato_laboral AND dato_laboral.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-            $sql.= " AND establecimiento_salud.idmunicipio='$idmunicipio' GROUP BY personal.idusuario ORDER BY establecimiento_salud.establecimiento_salud  ";
+            $sql.= " AND establecimiento_salud.idmunicipio='$idmunicipio' AND usuarios.condicion='ACTIVO' AND dato_laboral.idestablecimiento_salud !='4196' GROUP BY personal.idusuario ORDER BY establecimiento_salud.establecimiento_salud  ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
