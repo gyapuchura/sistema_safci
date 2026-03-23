@@ -17,6 +17,7 @@ $idarea_influencia_hc = $_POST["area_influencia_hc"];
                                             <th>EDAD</th>   
                                             <th>GRUPO DE SALUD</th>                                            
                                             <th>CARPETA FAMILIAR</th>
+                                            <th>Nº DE ATENCIONES</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -127,7 +128,13 @@ $idarea_influencia_hc = $_POST["area_influencia_hc"];
                                             <td>
                                             <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[7];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
                                             <h6 class="text-info"><?php echo $row[6];?></h6></a> 
-                                            </td>                                           
+                                            </td>    
+                                            <td><?php 
+                                                    $sql_at =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idnombre='$row[8]' ";
+                                                    $result_at = mysqli_query($link,$sql_at);
+                                                    $row_at = mysqli_fetch_array($result_at);
+                                                    echo $row_at[0];
+                                            ?></td>                                       
                                         <td>
                                     <form name="ATENCION-SAFCI" action="valida_persona_hc.php" method="post">
                                     <input name="idintegrante_cf" type="hidden" value="<?php echo $row[0];?>">

@@ -63,7 +63,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h1 class="h3 mb-2 text-gray-800">HISTORIAS CLÍNICAS SAFCI</h1>
                     <p class="mb-4">En esta seccion se puede encontrar los registros de HISTORIAS CLÍNICAS del PROGRAMA NACIONAL SAFCI - MI SALUD a NIVEL NACIOANL por ESTABLECIMIENTO DE SALUD.</p>
 
-            <form name="HISTORIA_CLINICA" action="valida_cedula_hc.php" method="post">
+                <form name="HISTORIA_CLINICA" action="valida_cedula_hc.php" method="post">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">BUSCAR HISTORIA CLÍNICA POR CÉDULA DE IDENTIDAD</h6>
@@ -85,6 +85,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     </div>
                 </div>
                 </form>
+
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
