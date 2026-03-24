@@ -153,7 +153,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                          name="edad_actual" disabled>
                     </div>
                     <div class="col-sm-3"></br>
-                    <h6 class="text-warning">PERSONA NO CARPETIZADA</h6>
+                    <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica_nc.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-book"></i>
+                    </span>
+                    <span class="text">HISTORIA CLÍNICA</span></a>  
                     </div>
                 </div>  
 
