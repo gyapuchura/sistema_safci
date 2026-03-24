@@ -6,7 +6,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
 
 if ($idtipo_atencion == '2') { ?>
 
-<form name="ATENCIONSANO" action="guarda_atencion_psano_ncf.php" method="post">  
+<form name="ATENCIONSANO" action="guarda_atencion_psano_ncf_hc.php" method="post">  
 
     <input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
 
@@ -20,118 +20,11 @@ if ($idtipo_atencion == '2') { ?>
     </div> 
     </div> 
         <hr>
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-info">1.- INFORMACIÓN DE FILIACIÓN</h6>
-                </div>
-                <div class="card-body">
-
-                <div class="form-group row">    
-                <div class="col-sm-4">
-                <h6 class="text-info">NOMBRES:</h6>
-                    <input type="text" class="form-control" 
-                    name="nombre" required >                
-                </div>                           
-                <div class="col-sm-4">
-                <h6 class="text-info">PRIMER APELLIDO:</h6>
-                    <input type="text" class="form-control" 
-                    name="paterno" autofocus>                
-                </div>
-                <div class="col-sm-4">
-                <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                    <input type="text" class="form-control" 
-                    name="materno" required>                
-                </div>
-            </div>
-
-        <div class="form-group row">  
-            <div class="col-sm-4">
-            <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6><h6 class="text-warning"> SI NO CUENTA ASIGNAR=0</h6>
-                <input type="number" class="form-control" 
-                name="ci" required >
-            </div>
-            <div class="col-sm-4"></br>
-            <h6 class="text-info">COMPLEMENTO:</h6>
-                <input type="text" class="form-control" 
-                name="complemento" >                
-            </div>
-            <div class="col-sm-4"></br>
-            <h6 class="text-info">GÉNERO</h6>
-                <select name="idgenero" id="idgenero" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql1 = "SELECT idgenero, genero FROM genero ";
-                $result1 = mysqli_query($link,$sql1);
-                if ($row1 = mysqli_fetch_array($result1)){
-                mysqli_field_seek($result1,0);
-                while ($field1 = mysqli_fetch_field($result1)){
-                } do {
-                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                } while ($row1 = mysqli_fetch_array($result1));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-            </div>      
-        </div>   
-
-        <div class="form-group row">  
-            <div class="col-sm-4">
-                <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
-                    <input type="date"  class="form-control" 
-                        placeholder="ingresar fecha" name="fecha_nac" required>
-            </div> 
-            <div class="col-sm-4">
-            <h6 class="text-info">NACIONALIDAD:</h6>
-
-                <select name="idnacionalidad" id="idnacionalidad" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql1 = "SELECT idnacionalidad, nacionalidad FROM nacionalidad ";
-                $result1 = mysqli_query($link,$sql1);
-                if ($row1 = mysqli_fetch_array($result1)){
-                mysqli_field_seek($result1,0);
-                while ($field1 = mysqli_fetch_field($result1)){
-                } do {
-                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                } while ($row1 = mysqli_fetch_array($result1));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-            </div>  
-            <div class="col-sm-4">
-            <h6 class="text-info">AUTO PERTENENCIA CULTURAL</h6>
-
-                <select name="idnacion" id="idnacion" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql1 = "SELECT idnacion, nacion FROM nacion ";
-                $result1 = mysqli_query($link,$sql1);
-                if ($row1 = mysqli_fetch_array($result1)){
-                mysqli_field_seek($result1,0);
-                while ($field1 = mysqli_fetch_field($result1)){
-                } do {
-                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                } while ($row1 = mysqli_fetch_array($result1));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-            </div>        
-        </div> 
-        <hr>
-            
-                </div>
-            </div>
 
    <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->    
             <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">2.- INFORMACIÓN DE LA ATENCIÓN</h6>
+            <h6 class="m-0 font-weight-bold text-info">3.- INFORMACIÓN DE LA ATENCIÓN</h6>
         </div>
         <div class="card-body">
 
@@ -375,7 +268,7 @@ if ($idtipo_atencion == '2') { ?>
 
 <?php } else { ?>
 
-    <form name="ATENCIONMORB" action="guarda_atencion_pmorbilidad_ncf.php" method="post">  
+    <form name="ATENCIONMORB" action="guarda_atencion_pmorbilidad_ncf_hc.php" method="post">  
 
     <input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
 
@@ -389,114 +282,7 @@ if ($idtipo_atencion == '2') { ?>
         </div> 
         </div> 
         <hr>
-        <div class="card shadow mb-4">
-                <div class="card-header py-2">
-                    <h6 class="m-0 font-weight-bold text-info">1.- INFORMACIÓN DE FILIACIÓN</h6>
-                </div>
-                <div class="card-body">
-
-                <div class="form-group row">    
-                <div class="col-sm-4">
-                <h6 class="text-info">NOMBRES:</h6>
-                    <input type="text" class="form-control" 
-                    name="nombre" required >                
-                </div>                           
-                <div class="col-sm-4">
-                <h6 class="text-info">PRIMER APELLIDO:</h6>
-                    <input type="text" class="form-control" 
-                    name="paterno" autofocus>                
-                </div>
-                <div class="col-sm-4">
-                <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                    <input type="text" class="form-control" 
-                    name="materno" required>                
-                </div>
-            </div>
-
-        <div class="form-group row">  
-            <div class="col-sm-4">
-            <h6 class="text-info">CÉDULA DE IDENTIDAD:</h6><h6 class="text-warning"> SI NO CUENTA ASIGNAR=0</h6>
-                <input type="number" class="form-control" 
-                name="ci" required >
-            </div>
-            <div class="col-sm-4"></br>
-            <h6 class="text-info">COMPLEMENTO:</h6>
-                <input type="text" class="form-control" 
-                name="complemento" >                
-            </div>
-            <div class="col-sm-4"></br>
-            <h6 class="text-info">GÉNERO</h6>
-                <select name="idgenero" id="idgenero" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql1 = "SELECT idgenero, genero FROM genero ";
-                $result1 = mysqli_query($link,$sql1);
-                if ($row1 = mysqli_fetch_array($result1)){
-                mysqli_field_seek($result1,0);
-                while ($field1 = mysqli_fetch_field($result1)){
-                } do {
-                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                } while ($row1 = mysqli_fetch_array($result1));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-            </div>      
-        </div>   
-
-        <div class="form-group row">  
-            <div class="col-sm-4">
-                <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
-                    <input type="date"  class="form-control" 
-                        placeholder="ingresar fecha" name="fecha_nac" required>
-            </div> 
-            <div class="col-sm-4">
-            <h6 class="text-info">NACIONALIDAD:</h6>
-
-                <select name="idnacionalidad" id="idnacionalidad" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql1 = "SELECT idnacionalidad, nacionalidad FROM nacionalidad ";
-                $result1 = mysqli_query($link,$sql1);
-                if ($row1 = mysqli_fetch_array($result1)){
-                mysqli_field_seek($result1,0);
-                while ($field1 = mysqli_fetch_field($result1)){
-                } do {
-                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                } while ($row1 = mysqli_fetch_array($result1));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-            </div>  
-            <div class="col-sm-4">
-            <h6 class="text-info">AUTO PERTENENCIA CULTURAL</h6>
-
-                <select name="idnacion" id="idnacion" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql1 = "SELECT idnacion, nacion FROM nacion ";
-                $result1 = mysqli_query($link,$sql1);
-                if ($row1 = mysqli_fetch_array($result1)){
-                mysqli_field_seek($result1,0);
-                while ($field1 = mysqli_fetch_field($result1)){
-                } do {
-                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                } while ($row1 = mysqli_fetch_array($result1));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-            </div>        
-        </div> 
-        <hr>
-            
-                </div>
-            </div>
-
+    
     <div class="card shadow mb-4">
         <div class="card-header py-2">
             <h6 class="m-0 font-weight-bold text-info">2.- INFORMACIÓN DE LA ATENCIÓN</h6>

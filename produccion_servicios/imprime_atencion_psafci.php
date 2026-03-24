@@ -151,7 +151,7 @@ $row = mysqli_fetch_array($result);
             <td width="117" style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[2];?></td>
           </tr>
           <tr>
-            <td style="font-family: Arial; font-size: 12px; text-align: right;">TALLA [mtrs.]:</td>
+            <td style="font-family: Arial; font-size: 12px; text-align: right;">TALLA [cmtrs.]:</td>
             <td style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[3];?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: right;">I.M.C.:</td>
             <td style="text-align: center; font-family: ARIAL; font-size: 12px;"><?php echo $row_sg[4];?></td>

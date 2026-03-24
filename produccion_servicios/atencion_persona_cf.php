@@ -203,9 +203,12 @@ $row_n=mysqli_fetch_array($result_n);
                             name="" disabled>                
                         </div>
                         <div class="col-sm-4">
-                        <h6 class="text-info">HISTORIA CLÍNICA:</h6>
-                            <a href="imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
-                            <h6 class="text-primary">VER HISTORIA CLÍNICA DIGITAL</h6></a>                                      
+                        <h6 class="text-info">HISTORIA CLÍNICA:</h6>  
+                            <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-book"></i>
+                            </span>
+                            <span class="text">HISTORIA CLÍNICA DIGITAL</span></a>                                     
                         </div>
                     </div> 
                 <?php
