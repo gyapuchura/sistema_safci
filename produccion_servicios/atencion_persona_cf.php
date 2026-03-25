@@ -148,15 +148,18 @@ $row_n=mysqli_fetch_array($result_n);
                             placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
                     </div>   
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                     <h6 class="text-info">EDAD:</h6>
                         <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
                          name="edad_actual" disabled>
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">VER CARPETA FAMILIAR:</h6>
-                    <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-primary"><?php echo $row_cf[1];?></h6></a> 
+                    <div class="col-sm-4">
+                    <h6 class="text-warning">VER CARPETA FAMILIAR:</h6>
+                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-book"></i>
+                    </span>
+                    <span class="text"> <?php echo $row_cf[1];?> </span></a> 
                     </div>
                 </div>  
 

@@ -986,7 +986,7 @@ $row_n=mysqli_fetch_array($result_n);
               <table width="900" border="1" align="center" cellspacing="0">
                 <tbody>
                   <tr>
-                    <td width="100">             
+                    <td width="100" valign="top">             
                       <table width="100" border="0" cellspacing="0">
                         <tbody>
                           <tr>
@@ -1155,7 +1155,7 @@ $row_n=mysqli_fetch_array($result_n);
               <table width="900" border="1" align="center" cellspacing="0">
                 <tbody>
                   <tr>
-                    <td width="100">
+                    <td width="100" valign="top">
                       <table width="100" border="0" cellspacing="0">
                         <tbody>
                           <tr>

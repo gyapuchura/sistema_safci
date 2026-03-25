@@ -154,15 +154,18 @@ $row_ps=mysqli_fetch_array($result_ps);
                             placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
                     </div>   
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                     <h6 class="text-info">EDAD:</h6>
                         <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
                          name="edad_actual" disabled>
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">VER CARPETA FAMILIAR:</h6>
-                    <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-primary"><?php echo $row_cf[1];?></h6></a> 
+                    <div class="col-sm-4">
+                    <h6 class="text-warning">VER CARPETA FAMILIAR:</h6>
+                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-book"></i>
+                    </span>
+                    <span class="text"> <?php echo $row_cf[1];?> </span></a>  
                     </div>
                 </div>  
 
@@ -210,8 +213,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                         </div>
                         <div class="col-sm-4">
                         <h6 class="text-info">HISTORIA CLÍNICA:</h6>
-                            <a href="imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
-                            <h6 class="text-primary">VER HISTORIA CLÍNICA DIGITAL</h6></a>                                      
+                            <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-book"></i>
+                            </span>
+                            <span class="text">HISTORIA CLÍNICA</span></a>                                        
                         </div>
                     </div> 
                 <?php
@@ -909,10 +915,11 @@ $row_ps=mysqli_fetch_array($result_ps);
         <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
     </div> 
     <div class="col-sm-4"> 
-
-   <!--      <a href="formulario_referencia.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">
-        <h6 class="text-primary">REFERENCIA DEL INTEGRANTE DE LA FAMILIA -></h6></a>   --->
-
+        <a class="btn btn-primary btn-icon-split" href="../referencia_safci/formulario_referencia.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+        <span class="icon text-white-50">
+            <i class="fas fa-hospital"></i>
+        </span>
+        <span class="text">REFERENCIA DEL INTEGRANTE DE LA FAMILIA</span></a>   
     </div> 
     </div> 
 
