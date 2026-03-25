@@ -16,7 +16,7 @@ $sql_n = " SELECT idnombre, ci, nombre, paterno, materno, fecha_nac FROM nombre 
 $result_n = mysqli_query($link,$sql_n);
 if ($row_n = mysqli_fetch_array($result_n)) {
 
-        $fecha_nacimiento = $row_5[5];
+        $fecha_nacimiento = $row_n[5];
         $dia = date("d");
         $mes = date("m");
         $ano = date("Y");    
