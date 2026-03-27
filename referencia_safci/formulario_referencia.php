@@ -461,27 +461,27 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                              
-                                    <div class="col-sm-4">                                
+                                    <div class="col-sm-6">                                
                                         <select name="idmotivo_referencia" id="idmotivo_referencia" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
-                                        $numero_m=1;
-                                        $sql_m = " SELECT idmotivo_referencia, motivo_referencia FROM motivo_referencia ORDER BY idmotivo_referencia"; 
-                                        $result_m = mysqli_query($link,$sql_m);
-                                        if ($row_m = mysqli_fetch_array($result_m)){
-                                        mysqli_field_seek($result_m,0);
-                                        while ($field_m = mysqli_fetch_field($result_m)){
+                                        $numero_mr=1;
+                                        $sql_mr = " SELECT idmotivo_referencia, motivo_referencia FROM motivo_referencia ORDER BY idmotivo_referencia"; 
+                                        $result_mr = mysqli_query($link,$sql_mr);
+                                        if ($row_mr = mysqli_fetch_array($result_mr)){
+                                        mysqli_field_seek($result_mr,0);
+                                        while ($field_mr = mysqli_fetch_field($result_mr)){
                                         } do {
-                                        echo "<option value=".$row_m[0].">".$numero_m.".- ".$row_m[1]." </option>";
-                                        $numero_m=$numero_m+1;
-                                        } while ($row_m = mysqli_fetch_array($result_m));
+                                        echo "<option value=".$row_mr[0].">".$numero_mr.".- ".$row_mr[1]." </option>";
+                                        $numero_mr=$numero_mr+1;
+                                        } while ($row_mr = mysqli_fetch_array($result_mr));
                                         } else {
                                         echo "No se encontraron resultados!";
                                         }
                                         ?>
                                         </select>
                                     </div>
-                                    <div class="col-sm-8" id="motivo_referencia">
+                                    <div class="col-sm-6" id="motivo_referencia">
                                     </div>   
                     
                                 </div>

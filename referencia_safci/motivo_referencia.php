@@ -1,7 +1,6 @@
-<?php 
-include("../inc.config.php");
+<?php  include("../inc.config.php");
 $motivo_referencia = $_POST['motivo_referencia'];
-if ($motivo_referencia == '4') {
+if ($motivo_referencia == '4' || $motivo_referencia == '3') {
     ?>
             <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6> 
                 <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required>
@@ -23,7 +22,7 @@ if ($motivo_referencia == '4') {
     <?php
     } else {  
         ?>
-<input type="hidden" name="idespecialidad_medica" value="45">
+          
         <?php
      }
         ?> 

@@ -915,7 +915,7 @@ $row_ps=mysqli_fetch_array($result_ps);
         <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
     </div> 
     <div class="col-sm-4"> 
-        <a class="btn btn-primary btn-icon-split" href="../referencia_safci/formulario_referencia.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+        <a class="btn btn-primary btn-icon-split" href="../referencia_safci/formulario_referencia_ps.php" >
         <span class="icon text-white-50">
             <i class="fas fa-hospital"></i>
         </span>
