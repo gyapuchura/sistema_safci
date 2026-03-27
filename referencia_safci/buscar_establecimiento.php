@@ -28,7 +28,7 @@
                         $departamento            = $row[6];
 
                         echo $numero.".- ".$establecimiento_salud." - ".$nivel_establecimiento." - ".$tipo_establecimiento." - ".$subsector_salud." - Mun. ".$municipio." - ".$departamento." -> ";
-                        echo " <input name='idestablecimiento_salud' type='radio' value=".$idestablecimiento_salud." required>";	                        
+                        echo " <input name='idestablecimiento_receptor' type='radio' value=".$idestablecimiento_salud." required>";	                        
                         echo "</br>"; 
                         
                         $numero = $numero+1;

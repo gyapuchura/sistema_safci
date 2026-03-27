@@ -222,6 +222,20 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 ?>
 
                                 <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post">  
+                                
+                                <div class="form-group row">  
+                                    <div class="col-sm-4">                             
+                                    <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
+                                    <select name="persona_discapacidad" id="persona_discapacidad" class="form-control">
+                                        <option value="NO">NO</option>
+                                        <option value="SI">SI</option>
+                                    </select>
+                                    </div>
+                                    <div class="col-sm-8"></div>
+                                </div>
+
+                                <div class="form-group row" id="discapacidad">                                    
+                                </div> 
 
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
@@ -259,7 +273,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
                                         <input type="text" class="form-control" value=""             
-                                        name="celular_acompanante" required >                
+                                        name="tel_establecimiento" required >                
                                     </div>
                                 </div>
                                 
@@ -285,7 +299,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
-                                        <input type="number" class="form-control" 
+                                        <input type="text" class="form-control" 
                                             name="temperatura" placeholder="" value="0" required>                
                                     </div>
                                     <div class="col-sm-3">
@@ -837,6 +851,19 @@ $row_ps=mysqli_fetch_array($result_ps);
                             parto=$(this).val();
                         $.post("datos_parto.php", {parto:parto}, function(data){
                         $("#datos_parto").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+
+        <script language="javascript"> 
+            $(document).ready(function(){
+            $("#persona_discapacidad").change(function () {
+                        $("#persona_discapacidad option:selected").each(function () {
+                            persona_discapacidad=$(this).val();
+                        $.post("persona_discapacidad.php", {persona_discapacidad:persona_discapacidad}, function(data){
+                        $("#discapacidad").html(data);
                         });
                     });
             })
