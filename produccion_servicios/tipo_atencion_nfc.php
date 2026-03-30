@@ -201,12 +201,12 @@ if ($idtipo_atencion == '2') { ?>
         </div>                             
         <div class="col-sm-3">
         <h6 class="text-info">PESO </br>[kg]:</h6>
-            <input type="number" class="form-control"              
+            <input type="text" class="form-control"              
                 name="peso" value="1" required>                
         </div>
         <div class="col-sm-3">
         <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
-            <input type="number" class="form-control" 
+            <input type="text" class="form-control" 
                 name="temperatura" placeholder="" value="0" required>                
         </div>
         <div class="col-sm-3">
@@ -567,12 +567,12 @@ if ($idtipo_atencion == '2') { ?>
         </div>                             
         <div class="col-sm-3">
         <h6 class="text-info">PESO </br>[kg]:</h6>
-            <input type="number" class="form-control"              
+            <input type="text" class="form-control"              
                 name="peso" value="1" required>                
         </div>
         <div class="col-sm-3">
         <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
-            <input type="number" class="form-control" 
+            <input type="text" class="form-control" 
                 name="temperatura" placeholder="" value="0" required>                
         </div>
         <div class="col-sm-3">

@@ -851,7 +851,7 @@ $row_ps=mysqli_fetch_array($result_ps);
         while ($fieldv = mysqli_fetch_field($resultv)){
         } do {
         ?>
-        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dgs[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
+        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dgs[3]) echo "selected" ;?> ><?php echo $rowv[1];?></option>
         <?php
         } while ($rowv = mysqli_fetch_array($resultv));
         } else {

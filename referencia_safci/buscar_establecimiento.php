@@ -6,6 +6,7 @@
       if ($b == '' || $b == ' ') {
             echo "No se han escrito el nombre del Establecimiento";
       } else {
+            echo "<option value=''> - SELECCIONE DE LA LISTA DE ESTABLECIMIENTOS COINCIDENTES - </option>";
             $numero=1;
             $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
             $sql.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
@@ -26,13 +27,12 @@
                         $subsector_salud         = $row[4];
                         $municipio               = $row[5];
                         $departamento            = $row[6];
-
-                        echo $numero.".- ".$establecimiento_salud." - ".$nivel_establecimiento." - ".$tipo_establecimiento." - ".$subsector_salud." - Mun. ".$municipio." - ".$departamento." -> ";
-                        echo " <input name='idestablecimiento_receptor' type='radio' value=".$idestablecimiento_salud." required>";	                        
-                        echo "</br>"; 
+	                  
+                        echo "<option value=".$idestablecimiento_salud." >".$numero.".- ".$establecimiento_salud." - ".$nivel_establecimiento." - ".$tipo_establecimiento." - ".$subsector_salud." - Mun. ".$municipio." - ".$departamento." </option> ";                        
                         
                         $numero = $numero+1;
                   }
             }      
       }
 ?>
+

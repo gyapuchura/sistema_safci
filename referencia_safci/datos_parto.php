@@ -1,4 +1,7 @@
+<?php include("../cabf.php"); ?>
+<?php include("../inc.config.php"); ?>
 <?php
+
 $parto = $_POST['parto'];
 
 if ($parto == 'SI') { ?>
@@ -92,6 +95,18 @@ if ($parto == 'SI') { ?>
 
 <?php } else { ?>
 
-
+        <input type="hidden" name="tipo_parto" value="" >
+        <input type="hidden" name="fecha_parto" value="0000-00-00" >
+        <input type="hidden" name="hora_parto" value="" >
+        <input type="hidden" name="edad_gestacional" value="" >
+        <input type="hidden" name="liq_amniotico" value="" >
+        <input type="hidden" name="peso_rn" value="" >
+        <input type="hidden" name="talla_rn" value="" >
+        <input type="hidden" name="pc_rn" value="" >
+        <input type="hidden" name="pt_rn" value="" >
+        <input type="hidden" name="apgar_uno" value="" >
+        <input type="hidden" name="apgar_cinco" value="" >
+        <input type="hidden" name="indice_choque" value="" >
+        <input type="hidden" name="criterios_sofa" value="" >
 
 <?php } ?>

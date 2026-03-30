@@ -12,7 +12,6 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
@@ -520,27 +519,26 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
                                 <div class="form-group row">                               
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">RX : <input type="checkbox" name="rayos_x" id="rx"></h6>    
+                                    <div class="col-sm-2">
+                                    <h6 class="text-primary">RX : <input type="checkbox" name="idtipo_examen_ref[0]" value="1"></h6>    
                                     </div>
                                     <div class="col-sm-3">
-                                    <h6 class="text-primary">LABORATORIO : <input type="checkbox" name="laboratorio" id="laboratorio" ></h6>
+                                    <h6 class="text-primary">LABORATORIO : <input type="checkbox" name="idtipo_examen_ref[1]" value="2"></h6>
                                     </div>
                                     <div class="col-sm-3">
-                                    <h6 class="text-primary">ECOGRAFÍA : <input type="checkbox" name="ecografia" id="ecografia" ></h6>                   
+                                    <h6 class="text-primary">ECOGRAFÍA : <input type="checkbox" name="idtipo_examen_ref[2]" value="3"></h6>                   
                                     </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">TOMOGRAFÍA : <input type="checkbox" name="tomografia" id="tomografia"></h6>                       
+                                    <div class="col-sm-2">
+                                    <h6 class="text-primary">TOMOGRAFÍA : <input type="checkbox" name="idtipo_examen_ref[3]" value="4"></h6>                       
+                                    </div>
+                                    <div class="col-sm-2">
+                                    <h6 class="text-primary">OTROS : <input type="checkbox" name="idtipo_examen_ref[4]" value="5"></h6>           
                                     </div>
                                 </div>
                                 <div class="form-group row">  
-
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">OTROS : <input type="checkbox" name="otros" id="otros"></h6>           
-                                    </div>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
-                                    <textarea class="form-control" rows="2" name="especificacion_hallazgos" required></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -650,79 +648,23 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <div class="card-body">
                                 <div class="form-group row">   
                                     <div class="col-sm-12">  
-                                        <h6 class="m-0 font-weight-bold text-primary">ESCRIBA Y LUEGO SELECCIONE DEL ESTABLECIMIENTO : </h6>  </br>                               
-                                        <input type="text" class="form-control" placeholder="NOMBRE DEL ESTABLECIMIENTO DE SALUD" id="busqueda" required/>
+                                        <h6 class="m-0 font-weight-bold text-primary">ESCRIBA Y LUEGO SELECCIONE EL ESTABLECIMIENTO : </h6>  </br>                               
+                                        <input type="text" class="form-control" placeholder="NOMBRE DEL ESTABLECIMIENTO RECEPTOR" id="busqueda" required/>
                                     </div>   
                                 </div> 
                                 <div class="form-group row">                           
-                                    <div class="col-sm-12" id="resultado">  
+                                    <div class="col-sm-12">  
+                                    <select name="idestablecimiento_receptor" id="resultado" class="form-control"></select>                                    
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">10.- MOTIVO DE REFERENCIA</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group row">                              
-                                    <div class="col-sm-6">  
-                                        <h6 class="text-primary">MOTIVO:</h6> 
-                                        <select name="idmotivo_referencia" id="idmotivo_referencia" class="form-control" required>
-                                        <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero_mr=1;
-                                        $sql_mr = " SELECT idmotivo_referencia, motivo_referencia FROM motivo_referencia ORDER BY idmotivo_referencia"; 
-                                        $result_mr = mysqli_query($link,$sql_mr);
-                                        if ($row_mr = mysqli_fetch_array($result_mr)){
-                                        mysqli_field_seek($result_mr,0);
-                                        while ($field_mr = mysqli_fetch_field($result_mr)){
-                                        } do {
-                                        echo "<option value=".$row_mr[0].">".$numero_mr.".- ".$row_mr[1]." </option>";
-                                        $numero_mr=$numero_mr+1;
-                                        } while ($row_mr = mysqli_fetch_array($result_mr));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6> 
-                                        <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required>
-                                            <option value="">ELEGIR</option>
-                                            <?php
-                                            $sql1 = "SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica !='45' ORDER BY especialidad_medica ";
-                                            $result1 = mysqli_query($link,$sql1);
-                                            if ($row1 = mysqli_fetch_array($result1)){
-                                            mysqli_field_seek($result1,0);
-                                            while ($field1 = mysqli_fetch_field($result1)){
-                                            } do {
-                                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                                            } while ($row1 = mysqli_fetch_array($result1));
-                                            } else {
-                                            echo "No se encontraron resultados!";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>   
-                    
-                                </div>
-                            </div>
-                            
+                        <div class="card shadow mb-4" id="especialidad_eess">                            
                         </div>
 
 
-                            <div class="text-center">   
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        REGISTRAR REFERENCIA
-                                        </button>  
-                                    </div>                              
-                                </div>                            
-                            </div>
+
                             <!-- modal de confirmacion de envio de datos-->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -790,9 +732,6 @@ $row_ps=mysqli_fetch_array($result_ps);
 </div>       
 <!-- END aqui va el comntenido de la pagina ---->
         
-
-
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -864,6 +803,20 @@ $row_ps=mysqli_fetch_array($result_ps);
                             persona_discapacidad=$(this).val();
                         $.post("persona_discapacidad.php", {persona_discapacidad:persona_discapacidad}, function(data){
                         $("#discapacidad").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+
+
+        <script language="javascript"> 
+            $(document).ready(function(){
+            $("#resultado").change(function () {
+                        $("#resultado option:selected").each(function () {
+                            establecimiento_salud=$(this).val();
+                        $.post("establecimiento_salud_especialidad.php", {establecimiento_salud:establecimiento_salud}, function(data){
+                        $("#especialidad_eess").html(data);
                         });
                     });
             })

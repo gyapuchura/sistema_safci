@@ -531,8 +531,7 @@ $row_ps=mysqli_fetch_array($result_ps);
             });
     })
     });
-</script>
+</script> 
 
 </body>
-
 </html>

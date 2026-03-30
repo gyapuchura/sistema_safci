@@ -27,6 +27,8 @@ $idtipo_discapacidad  = $_POST['idtipo_discapacidad'];
 $idnivel_discapacidad = $_POST['idnivel_discapacidad'];
 $acompanante          = $_POST['acompanante'];
 $celular_acompanante  = $_POST['celular_acompanante'];
+$tel_establecimiento  = $_POST['tel_establecimiento'];
+
 
 $talla                = $_POST['talla'];
 $peso                 = $_POST['peso'];
@@ -47,10 +49,12 @@ $abortos        = $_POST['abortos'];
 $cesareas       = $_POST['cesareas'];
 $fecha_fpp      = $_POST['fecha_fpp'];
 $hora_rpm       = $_POST['hora_rpm'];
+
 $frecuencia_fcf       = $_POST['frecuencia_fcf'];
 $controles_prenatales = $_POST['controles_prenatales'];
 $maduracion_p       = $_POST['maduracion_p'];
 $parto              = $_POST['parto'];
+
 $tipo_parto         = $_POST['tipo_parto'];
 $fecha_parto        = $_POST['fecha_parto'];
 $hora_parto         = $_POST['hora_parto'];
@@ -64,15 +68,15 @@ $apgar_uno          = $_POST['apgar_uno'];
 $apgar_cinco        = $_POST['apgar_cinco'];
 $indice_choque      = $_POST['indice_choque'];
 $criterios_sofa     = $_POST['criterios_sofa'];
+
 $internado          = $_POST['internado'];
 $dias_internacion   = $_POST['dias_internacion'];
 $resumen_anamnesis  = $_POST['resumen_anamnesis'];
-$rayos_x            = $_POST['rayos_x'];
-$laboratorio        = $_POST['laboratorio'];
-$ecografia          = $_POST['ecografia'];
 
-$otros                    = $_POST['otros'];
+$idtipo_examen_ref        = $_POST['idtipo_examen_ref'];
+
 $especificacion_hallazgos = $_POST['especificacion_hallazgos'];
+
 $diagnostico_presuntivo   = $_POST['diagnostico_presuntivo'];
 $cie                      = $_POST['cie'];
 $tratamiento_ref          = $_POST['tratamiento_ref'];
@@ -84,7 +88,79 @@ $idespecialidad_medica      = $_POST['idespecialidad_medica'];
 
 /*********** Guarda el registro de grupo de salud (BEGIN) *************/
 
+echo $idatencion_psafci_ss."</br>";
+echo $idcarpeta_familiar_ss."</br>";
+echo $idestablecimiento_salud_ss."</br>";
+echo $idintegrante_cf_ss."</br>";
+echo $idnombre_integrante_ss."</br>";
+echo $edad_ss."</br>";
+echo "</br>";
 
+echo $persona_discapacidad."</br>";
+echo $idtipo_discapacidad."</br>";  
+echo $idnivel_discapacidad."</br>";
+echo $acompanante."</br>";          
+echo $celular_acompanante."</br>";
+echo $tel_establecimiento."</br>";
+echo "</br>";
+echo $talla."</br>";                
+echo $peso."</br>"  ;               
+echo $frec_cardiaca."</br>" ;       
+echo $frec_respiratoria."</br>";   
+echo $presion_arterial."</br>" ;    
+echo $presion_arterial_d."</br>" ;  
+echo $saturacion."</br>" ;          
+echo $glascow."</br>";              
+echo $temperatura."</br>";          
+echo $alergia."</br>" ;            
+echo $descripcion_alergia."</br>";  
+echo "</br>";
+echo $fecha_fum."</br>";     
+echo $gestaciones."</br>";   
+echo $partos."</br>";         
+echo $abortos."</br>";        
+echo $cesareas."</br>" ;      
+echo $fecha_fpp."</br>" ;     
+echo $hora_rpm."</br>" ;      
+echo "</br>";
+echo $frecuencia_fcf."</br>";       
+echo $controles_prenatales."</br>"; 
+echo $maduracion_p."</br>";      
+echo $parto."</br>";            
+echo $tipo_parto."</br>";       
+echo $fecha_parto."</br>";       
+echo $hora_parto."</br>";        
+echo $edad_gestacional."</br>";  
+echo $liq_amniotico."</br>";      
+echo $peso_rn."</br>";           
+echo $talla_rn."</br>";        
+echo $pc_rn."</br>";             
+echo $pt_rn."</br>";             
+echo $apgar_uno."</br>" ;         
+echo $apgar_cinco."</br>";       
+echo $indice_choque."</br>";     
+echo $criterios_sofa."</br>" ;    
+echo $internado."</br>" ;         
+echo $dias_internacion."</br>" ;  
+echo $resumen_anamnesis."</br>";  
+echo "</br>";
+
+ $idtipo_examen_ref        = $_POST['idtipo_examen_ref'];
+
+echo "</br>";
+echo $especificacion_hallazgos."</br>"; 
+echo "</br>";
+
+ $diagnostico_presuntivo   = $_POST['diagnostico_presuntivo'];
+ $cie                      = $_POST['cie'];
+
+echo "</br>";
+echo $tratamiento_ref."</br>";          
+echo $observaciones_ref."</br>" ;      
+echo $idconsentimiento."</br>" ;       
+echo $idestablecimiento_receptor."</br>"; 
+echo $idmotivo_referencia."</br>" ;       
+echo $idespecialidad_medica."</br>" ;     
 
 /*********** Guarda el registro de grupo de salud (END) *************/
 ?>
