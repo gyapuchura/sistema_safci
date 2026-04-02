@@ -43,9 +43,10 @@ if ($persona_discapacidad == 'SI') { ?>
                             ?>
                         </select>
                         </div>
-                        <div class="col-sm-4">
-                        </div>
+                        <div class="col-sm-4"></div>
+
 
 <?php } else { ?>
 <input type="hidden" name="idtipo_discapacidad" value="0">
+<input type="hidden" name="idnivel_discapacidad" value="0">
 <?php } ?>

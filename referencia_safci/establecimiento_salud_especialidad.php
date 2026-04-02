@@ -51,13 +51,3 @@ $establecimiento_salud = $_POST['establecimiento_salud'];
         
                     </div>
                 </div>
-
-                            <div class="text-center">   
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        REGISTRAR REFERENCIA
-                                        </button>  
-                                    </div>                              
-                                </div>                            
-                            </div>

@@ -73,8 +73,6 @@ $internado          = $_POST['internado'];
 $dias_internacion   = $_POST['dias_internacion'];
 $resumen_anamnesis  = $_POST['resumen_anamnesis'];
 
-$idtipo_examen_ref        = $_POST['idtipo_examen_ref'];
-
 $especificacion_hallazgos = $_POST['especificacion_hallazgos'];
 
 $diagnostico_presuntivo   = $_POST['diagnostico_presuntivo'];
@@ -145,14 +143,21 @@ echo $dias_internacion."</br>" ;
 echo $resumen_anamnesis."</br>";  
 echo "</br>";
 
- $idtipo_examen_ref        = $_POST['idtipo_examen_ref'];
+    foreach($_POST['idtipo_examen_ref'] as $idtipo_examen_ref_i) {
+     echo $idtipo_examen_ref_i."</br>";
+    }
 
 echo "</br>";
 echo $especificacion_hallazgos."</br>"; 
 echo "</br>";
 
- $diagnostico_presuntivo   = $_POST['diagnostico_presuntivo'];
- $cie                      = $_POST['cie'];
+    foreach($_POST['diagnostico_presuntivo'] as $diagnostico_presuntivo_i) { 
+     echo $diagnostico_presuntivo_i."</br>";
+    }
+
+    foreach($_POST['cie'] as $cie_i) { 
+     echo $cie_i."</br>";
+    }
 
 echo "</br>";
 echo $tratamiento_ref."</br>";          

@@ -123,7 +123,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                     <h6 class="text-info">GÉNERO</h6>
 
                     <select name="idgenero"  id="idgenero" class="form-control" disabled >
-                        <option selected>Seleccione</option>
+                        <option selected>-Seleccione-</option>
                         <?php
                         $sqlv = " SELECT idgenero, genero FROM genero ";
                         $resultv = mysqli_query($link,$sqlv);

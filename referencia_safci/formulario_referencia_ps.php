@@ -88,6 +88,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                     </div>
                     <div class="card-body">
 
+                     <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post"> 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">1.- IDENTIFICACIÓN DEL PACIENTE</h6>
@@ -167,7 +168,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
                                 $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
                                 $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss'";
+                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss' ORDER BY integrante_datos_cf.idintegrante_datos_cf DESC LIMIT 1 ";
                                 $result4 = mysqli_query($link,$sql4);
                                 if ($row4 = mysqli_fetch_array($result4)){
                                 mysqli_field_seek($result4,0);
@@ -220,22 +221,21 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 }
                                 ?>
 
-                                <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post">  
-                                
+                                                            
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
                                     <select name="persona_discapacidad" id="persona_discapacidad" class="form-control">
+                                        <option value="">Seleccione</option>
                                         <option value="NO">NO</option>
                                         <option value="SI">SI</option>
                                     </select>
                                     </div>
-                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4"></div>
                                 </div>
-
-                                <div class="form-group row" id="discapacidad">                                    
-                                </div> 
-
+                                <div class="form-group row" id="discapacidad"> 
+                                </div>
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
@@ -461,7 +461,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">PARTO:</h6>
-                                    <select name="parto" id="parto" class="form-control">
+                                    <select name="parto" id="parto" class="form-control" required>
+                                        <option value="">Seleccione</option>
                                         <option value="NO">NO</option>
                                         <option value="SI">SI</option>
                                     </select>
@@ -473,7 +474,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                         </div>
 
-                        <div class="card shadow mb-4" id="datos_parto">
+                        <div id="datos_parto">
                         </div>
 
                         <?php } else { ?>
@@ -622,6 +623,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                         <select name="idconsentimiento"  id="idconsentimiento" class="form-control" required>
+                                            <option value=""> - Seleccione - </option>
                                             <?php
                                             $sql1 = "SELECT idconsentimiento, consentimiento FROM consentimiento ";
                                             $result1 = mysqli_query($link,$sql1);
@@ -663,14 +665,24 @@ $row_ps=mysqli_fetch_array($result_ps);
                         <div class="card shadow mb-4" id="especialidad_eess">                            
                         </div>
 
+                            <div class="text-center">   
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#examplemodal_f">
+                                        REGISTRAR REFERENCIA
+                                        </button>  
+                                    </div>                              
+                                </div>                            
+                            </div>
+
 
 
                             <!-- modal de confirmacion de envio de datos-->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="examplemodal_f" tabindex="-1" role="dialog" aria-labelledby="examplemodal_fLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">REGISTRAR REFERENCIA</h5>
+                                            <h5 class="modal-title" id="examplemodal_fLabel">REGISTRAR REFERENCIA</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                             </button>
@@ -688,7 +700,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         </div>
                                     </div>
                                 </div>
-                                    </form>
+                                </form>
                                 <!-- Modal -->
 
 

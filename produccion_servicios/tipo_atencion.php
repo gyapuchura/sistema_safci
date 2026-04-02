@@ -429,33 +429,33 @@ switch ($idtipo_atencion) {
         </div> 
     </div> 
     <div class="form-group row"> 
-    <div class="col-sm-12">
-    <h6 class="text-info">DIAGNÓSTICO:</h6>
-    <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
-        <option value="">-SELECCIONE-</option>
-        <?php
-        $numero=1;
-        $sql1 = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '938' AND idpatologia != '939' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
-        $result1 = mysqli_query($link,$sql1);
-        if ($row1 = mysqli_fetch_array($result1)){
-        mysqli_field_seek($result1,0);
-        while ($field1 = mysqli_fetch_field($result1)){
-        } do {
-        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-        $numero=$numero+1;
-        } while ($row1 = mysqli_fetch_array($result1));
-        } else {
-        echo "No se encontraron resultados!";
-        }
-        ?>
-        </select>
-    </div> 
+        <div class="col-sm-12">
+        <h6 class="text-info">DIAGNÓSTICO:</h6>
+        <select name="idpatologia_ap_sano"  id="idpatologia_ap_sano" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie LIKE '%Z%' AND idpatologia != '938' AND idpatologia != '939' AND idpatologia !='456' AND idpatologia !='455' ORDER BY patologia";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+            </select>
+        </div> 
     </div> 
 
-     </div> 
-
-                <div class="form-group row"> 
-                <div class="col-sm-6"> 
+        <div id="opcion_patologia_prev"></div>
+        
+        <div class="form-group row"> 
+            <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
             <textarea class="form-control" rows="3" name="analisis" required></textarea>
             </div>
@@ -501,282 +501,30 @@ switch ($idtipo_atencion) {
 
         </div>
 <hr>
-     <?php   
-        break;
+    <?php   
+    break;
     case 3: ?>
-    <!--------  REFERENCIA DEL PACIENTE ------>
+    <!--------  TELEINTERCONSULTA - BEGIN ------>
         
 
-        <div class="text-center">     
-                    <h2 class="text-info">REFERENCIA DEL INTEGRANTE DE LA FAMILIA</h2>   
-                <hr>                              
-                    <h4 class="text-info">DATOS CLÍNICOS Y SIGNOS VITALES:</h4>                    
-                </div>
-                <hr> 
-
-                <div class="form-group row">                               
-                    <div class="col-sm-3">
-                    <h6 class="text-info">FRECUENCIA CARDIACA [lpm]:</h6>
-                        <input type="number" class="form-control" 
-                         name="frec_cardiaca" value="0">                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">PESO </br>[kg]:</h6>
-                        <input type="text" class="form-control"              
-                         name="peso" value="1">                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">TALLA </br>[mtrs.]:</h6>
-                        <input type="text" class="form-control" placeholder="Ej. 1.65"
-                         name="talla" value="1">                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
-                        <input type="number" class="form-control" 
-                         name="frec_respiratoria" value="0">                
-                    </div>
-                </div>
-
-                <div class="form-group row">                               
-                    <div class="col-sm-3">
-                    <h6 class="text-info">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
-                        <input type="number" class="form-control"              
-                         name="presion_arterial"  placeholder="Sistólica" value="0">               
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info"> </br></br></h6>
-                         <input type="number" class="form-control"              
-                         name="presion_arterial_d" placeholder="Diastólica" value="0">                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
-                        <input type="text" class="form-control" 
-                         name="temperatura" placeholder="" value="0">                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
-                        <input type="number" class="form-control"
-                         name="saturacion" value="0">                
-                    </div>
-
-                </div>
+       
+    
 
 
-                <div class="form-group row">                               
+    <!-------- TELEINTERCONSULTA - END --------->  
+    <?php    
+    break; 
+    case 4: ?>
+    <!--------  TELECONSULTA - BEGIN ------>
+        
 
-                <div class="col-sm-3">
-                    <h6 class="text-info">COMBE:</h6>
-                       Positivo (+) <input type="radio" name="combe" value="POSITIVO"> </br>
-                       Negativo (-) <input type="radio" name="combe" value="NEGATIVO" checked>                  
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">ES ALERGICO? :</h6>
-                    SI <input type="radio" name="alergia" value="SI"> </br>
-                    NO <input type="radio" name="alergia" value="NO" checked>                  
-                    </div>
-                    <div class="col-sm-6">
-                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="2" name="descripcion_alergia" placeholder="Solo SI es alérgico"></textarea> 
-                    </div>
-
-                    </div>
-
-
-    <input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
-<hr>
-    <div class="form-group row"> 
-    <div class="col-sm-3">
-    </div> 
-    <div class="col-sm-6">
-    <h4 class="text-info">DIAGNÓSTICOS PRESUNTIVOS:</h4>
-    </div> 
-    <div class="col-sm-3"> 
-    </div> 
-    </div> 
-<hr>
-    <div class="form-group row">  
-    <div class="col-sm-6">
-                <h6 class="text-info">INCIDENCIA DE LA ATENCIÓN:</h6>
-                <?php
-                $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
-                $result_i = mysqli_query($link,$sql_i);
-                if ($row_i = mysqli_fetch_array($result_i)){
-                mysqli_field_seek($result_i,0);
-                while ($field_i = mysqli_fetch_field($result_i)){
-                } do { 
-                ?>
-
-                <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
-                <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
-
-                <?php }
-                while ($row_i = mysqli_fetch_array($result_i));
-                } else { } ?>
-                </div>
-
-                <div class="col-sm-6">
-                <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
-                <?php
-                $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
-                $result_c = mysqli_query($link,$sql_c);
-                if ($row_c = mysqli_fetch_array($result_c)){
-                mysqli_field_seek($result_c,0);
-                while ($field_c = mysqli_fetch_field($result_c)){
-                } do { 
-                ?>
-
-                <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
-                <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
-
-                <?php }
-                while ($row_c = mysqli_fetch_array($result_c));
-                } else { } ?>
-                </div>
-    </div>  
-<hr>
-            <div class="form-group row"> 
-            <div class="col-sm-3">
-            <h6 class="text-info">NÚMERO DE DIAGNÓSTICOS:</h6>
-            </div> 
-            <div class="col-sm-3"> 
-            <select name="diagnosticos"  id="diagnosticos" class="form-control" required>
-            <option value="">-SELECCIONE-</option>
-            <option value="1">1 DIAGNÓSTICO</option>
-            <option value="2">2 DIAGNÓSTICOS</option>
-            </select>
-            </div> 
-            <div class="col-sm-6">
-            </div> 
-            </div> 
-
-            <div id="diagnosticos_ps"></div>
-
-
-            <!-- BEGIN especialidad medica ---->           
-
-                <hr>
-                    <div class="form-group row"> 
-                    <div class="col-sm-3">
-                    </div> 
-                    <div class="col-sm-6">
-                    <h4 class="text-info">ESPECIALIDAD </h4>
-                    </div> 
-                    <div class="col-sm-3"> 
-                    </div> 
-                    </div> 
-                <hr>
-
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                    <h6 class="text-info">ESPECIALIDAD MÉDICA:</h6>
-                        <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required autofocus>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = "SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica ORDER BY especialidad_medica";
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$numero.".- ".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-               </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                    <h6 class="text-info">ANAMNESIS:</h6>
-                    <textarea class="form-control" rows="4" name="anamnesis"></textarea>
-                    </div>
-                    <div class="col-sm-6">
-                    <h6 class="text-info">PRE-DIAGNÓSTICO:</h6>
-                    <textarea class="form-control" rows="4" name="prediagnostico"></textarea>
-                    </div>
-                </div>
-
-                <hr>
-                    <div class="form-group row"> 
-                    <div class="col-sm-3">
-                    </div> 
-                    <div class="col-sm-6">
-                    <h4 class="text-info">ESTABLECIMIENTO RECEPTOR</h4>
-                    </div> 
-                    <div class="col-sm-3"> 
-                    </div> 
-                    </div> 
-                <hr>
-
-                          <div class="form-group row">
-                    <div class="col-sm-12">
-                    <h6 class="text-info">ESTABLECIMIENTO DE SALUD:</h6>
-                        <select name="idestablecimiento_salud" id="idestablecimiento_salud" class="form-control" required autofocus>
-                        <option value="">-SELECCIONE-</option>
-                        <?php
-                        $numero=1;
-                        $sql1 = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud WHERE idtipo_establecimiento = '12' ";
-                        $sql1.= " AND idsubsector_salud ='6' AND iddepartamento = '4' ORDER BY establecimiento_salud "; 
-                        $result1 = mysqli_query($link,$sql1);
-                        if ($row1 = mysqli_fetch_array($result1)){
-                        mysqli_field_seek($result1,0);
-                        while ($field1 = mysqli_fetch_field($result1)){
-                        } do {
-                        echo "<option value=".$row1[0].">".$numero.".- ".$row1[1]."</option>";
-                        $numero=$numero+1;
-                        } while ($row1 = mysqli_fetch_array($result1));
-                        } else {
-                        echo "No se encontraron resultados!";
-                        }
-                        ?>
-                        </select>
-                    </div>
-               </div>
-                
-
-            <div class="text-center">
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                    REGISTRAR REFERENCIA
-                    </button>  
-                </div> 
-            </div>                              
-                            
-                   <!-- modal de confirmacion de envio de datos-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">REGISTRO DE REFERENCIA MÉDICA</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                        <div class="modal-body">
-                            
-                            Esta seguro de Registrar LA REFERENCIA MÉDICA?
-                        
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>        
+       
                     
-    <!-------- END NUEVO PACIENTE --------->  
+    <!-------- TELECONSULTA - END --------->  
 
 
 
-     <?php    
+     <?php 
      break; 
     } 
     ?>
@@ -789,6 +537,19 @@ switch ($idtipo_atencion) {
                         diagnosticos=$(this).val();
                     $.post("diagnosticos_ps.php", {diagnosticos:diagnosticos}, function(data){
                     $("#diagnosticos_ps").html(data);
+                    });
+                });
+        })
+        });
+    </script>
+
+        <script language="javascript"> 
+        $(document).ready(function(){
+        $("#idpatologia_ap_sano").change(function () {
+                    $("#idpatologia_ap_sano option:selected").each(function () {
+                        patologia_ap_sano=$(this).val();
+                    $.post("opcion_patologia_prev.php", {patologia_ap_sano:patologia_ap_sano}, function(data){
+                    $("#opcion_patologia_prev").html(data);
                     });
                 });
         })
