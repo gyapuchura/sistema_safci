@@ -504,24 +504,281 @@ switch ($idtipo_atencion) {
     <?php   
     break;
     case 3: ?>
-    <!--------  TELEINTERCONSULTA - BEGIN ------>
+   <!--------  TELECONSULTA - BEGIN ------>
         
+<form name="TELECONSULTA" action="guarda_atencion_tele_interconsulta.php" method="post">  
 
-       
+<input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
+
+    <div class="form-group row"> 
+    <div class="col-sm-4"></div> 
+    <div class="col-sm-4">
+    <h4 class="text-info">TELECONSULTA:</h4>
+    </div> 
+    <div class="col-sm-4"></div> 
+    </div> 
+        <hr>
+    <div class="form-group row">  
+        <div class="col-sm-4">
+        <h6 class="text-info">TIPO DE TELECONSULTA:</h6>
+        <?php
+        $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
+        $result_i = mysqli_query($link,$sql_i);
+        if ($row_i = mysqli_fetch_array($result_i)){
+        mysqli_field_seek($result_i,0);
+        while ($field_i = mysqli_fetch_field($result_i)){
+        } do { 
+        ?>
+
+        <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
+        <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
+
+        <?php }
+        while ($row_i = mysqli_fetch_array($result_i));
+        } else { } ?>
+        </div>
+
+        <div class="col-sm-4">
+        <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
+        <?php
+        $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
+        $result_c = mysqli_query($link,$sql_c);
+        if ($row_c = mysqli_fetch_array($result_c)){
+        mysqli_field_seek($result_c,0);
+        while ($field_c = mysqli_fetch_field($result_c)){
+        } do { 
+        ?>
+
+        <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
+        <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
+
+        <?php }
+        while ($row_c = mysqli_fetch_array($result_c));
+        } else { } ?>
+        </div>
+        <div class="col-sm-4">
+        <h6 class="text-info">FECHA DE LA ATENCIÓN:</h6>
+            <input type="date" name="fecha_registro" value="<?php echo $fecha;?>" class="form-control">
+        </div>
+    </div>  
+  
+    <hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">PACIENTE DE GRUPO VULNERABLE:</h6>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+    <div class="form-group row"> 
+        <?php  
+        $numero1=0;                  
+        $sql1 ="  SELECT idgrupo_vulnerable, grupo_vulnerable FROM grupo_vulnerable ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do { 
+        ?>
+            <div class="col-sm-3">
+            <h6 class="text-secundary"><?php echo $row1[1];?> <input type="checkbox" name="idgrupo_vulnerable[<?php echo $numero1;?>]" value="<?php echo $row1[0];?>"></h6>
+            
+            </div> 
+        <?php
+        $numero1=$numero1+1;
+        }
+        while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        }
+        ?>
+    </div> 
+    <div class="form-group row"> 
+    <div class="col-sm-3">
+        <h6 class="text-info">CAPTADO POR:</h6>
+        <select name="idcaptacion_ts"  id="idcaptacion_ts" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = " SELECT idcaptacion_ts, captacion_ts FROM captacion_ts ";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+        </select>
+    </div> 
+    <div class="col-sm-3">
+        <h6 class="text-info">DE:</h6> 
+        <select name="idde_ts"  id="idde_ts" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = " SELECT idde_ts, de_ts FROM de_ts ";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+        </select>
+    </div> 
+    <div class="col-sm-3"> 
+        <h6 class="text-info">EN:</h6>
+        <select name="iden_ts"  id="iden_ts" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = " SELECT iden_ts, en_ts FROM en_ts ";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+        </select>
+    </div> 
+    <div class="col-sm-3"> 
+        <h6 class="text-info">VÍA DE COMUNICACIÓN:</h6>
+    </div> 
+    </div> 
+
+<hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">SIGNOS VITALES:</h6>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+<hr>  
+
+    <div class="form-group row">  
+        <div class="col-sm-3">
+        <h6 class="text-info">TALLA </br>[Centímetros]:</h6>
+            <input type="text" class="form-control" placeholder="En Centrimetros"
+                name="talla" value="1" required>                
+        </div>                             
+        <div class="col-sm-3">
+        <h6 class="text-info">PESO </br>[kg]:</h6>
+            <input type="text" class="form-control"              
+                name="peso" value="1" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+            <input type="text" class="form-control" 
+                name="temperatura" placeholder="" value="0" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">FRECUENCIA CARDIACA </br>[lpm]:</h6>
+            <input type="text" class="form-control" 
+                name="frec_cardiaca" value="0" required>                
+        </div>
+    </div>
+
+    <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
     
+        <div class="form-group row">
+            <div class="col-sm-3">
+            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
+                <input type="number" class="form-control" 
+                    name="frec_respiratoria" value="0" required>                
+            </div> 
+            <div class="col-sm-3">
+            <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
+                <input type="number" class="form-control"              
+                    name="presion_arterial"  placeholder="Sistólica" value="0" required>               
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info"> </br>diastólica [mmHg]</h6>
+                    <input type="number" class="form-control"              
+                    name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
+                <input type="number" class="form-control"
+                    name="saturacion" value="0" required>                
+            </div>
+        </div>
+
+                <div class="form-group row">    
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ALÉRGIAS:</h6>
+                    SI <input type="radio" name="alergia" value="SI" > </br>
+                    NO <input type="radio" name="alergia" value="NO" checked >  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                    </div>
+                    <div class="col-sm-3">             
+                    </div>
+                </div>
+
+    <?php } else { ?>
+
+        <div class="form-group row">
+            <div class="col-sm-3">
+            <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
+                <input type="number" class="form-control" 
+                    name="frec_respiratoria" value="0" required>                
+            </div> 
+            <div class="col-sm-3">
+            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>   
+                <input type="number" class="form-control"
+                    name="saturacion" value="0" required>             
+            </div>
+            <div class="col-sm-3">
+            <!-- <h6 class="text-info">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>  para menor de 5 anos -->
+                <input type="hidden" class="form-control"              
+                    name="presion_arterial"  placeholder="Sistólica" value="0">               
+            </div>
+            <div class="col-sm-3">
+            <!-- <h6 class="text-info"> </br>diastólica [mmHg]</h6>   para menor de 5 anos    --> 
+                    <input type="hidden" class="form-control"              
+                    name="presion_arterial_d" placeholder="Diastólica" value="0">          
+            </div>
+        </div>
+
+    <?php } ?>
+<hr>
+
+                          
+    <!-------- TELECONSULTA - END --------->  
 
 
-    <!-------- TELEINTERCONSULTA - END --------->  
     <?php    
     break; 
     case 4: ?>
-    <!--------  TELECONSULTA - BEGIN ------>
+ 
+    <!--------  TELEINTERCONSULTA - BEGIN ------>
         
+ 
 
-       
-                    
-    <!-------- TELECONSULTA - END --------->  
 
+    <!-------- TELEINTERCONSULTA - END --------->  
 
 
      <?php 
