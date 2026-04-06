@@ -506,7 +506,7 @@ switch ($idtipo_atencion) {
     case 3: ?>
    <!--------  TELECONSULTA - BEGIN ------>
         
-<form name="TELECONSULTA" action="guarda_atencion_tele_interconsulta.php" method="post">  
+<form name="TELECONSULTA" action="guarda_teleconsulta.php" method="post">  
 
 <input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
 
@@ -594,8 +594,9 @@ switch ($idtipo_atencion) {
         }
         ?>
     </div> 
+    <hr>
     <div class="form-group row"> 
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <h6 class="text-info">CAPTADO POR:</h6>
         <select name="idcaptacion_ts"  id="idcaptacion_ts" class="form-control" required>
             <option value="">-SELECCIONE-</option>
@@ -616,7 +617,7 @@ switch ($idtipo_atencion) {
             ?>
         </select>
     </div> 
-    <div class="col-sm-3">
+    <div class="col-sm-4">
         <h6 class="text-info">DE:</h6> 
         <select name="idde_ts"  id="idde_ts" class="form-control" required>
             <option value="">-SELECCIONE-</option>
@@ -637,7 +638,7 @@ switch ($idtipo_atencion) {
             ?>
         </select>
     </div> 
-    <div class="col-sm-3"> 
+    <div class="col-sm-4"> 
         <h6 class="text-info">EN:</h6>
         <select name="iden_ts"  id="iden_ts" class="form-control" required>
             <option value="">-SELECCIONE-</option>
@@ -658,15 +659,69 @@ switch ($idtipo_atencion) {
             ?>
         </select>
     </div> 
-    <div class="col-sm-3"> 
-        <h6 class="text-info">VÍA DE COMUNICACIÓN:</h6>
-    </div> 
-    </div> 
 
+    </div> 
+    <div class="form-group row"> 
+        <div class="col-sm-4"> 
+            <h6 class="text-info">VÍA DE COMUNICACIÓN:</h6>
+                <select name="idvia_comunicacion"  id="idvia_comunicacion" class="form-control" required>
+                <option value="">-SELECCIONE-</option>
+                <?php
+                $numero=1;
+                $sql1 = " SELECT idvia_comunicacion, via_comunicacion FROM via_comunicacion ";
+                $result1 = mysqli_query($link,$sql1);
+                if ($row1 = mysqli_fetch_array($result1)){
+                mysqli_field_seek($result1,0);
+                while ($field1 = mysqli_fetch_field($result1)){
+                } do {
+                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                $numero=$numero+1;
+                } while ($row1 = mysqli_fetch_array($result1));
+                } else {
+                echo "No se encontraron resultados!";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <h6 class="text-info">CONSENTIMIENTO INFORMADO: <input type="radio" name="consentimiento_informado" value="SI" required></h6>
+            
+        </div> 
+        <div class="col-sm-4">
+        </div> 
+    </div>
 <hr>
     <div class="form-group row"> 
     <div class="col-sm-6">
-    <h6 class="text-info">SIGNOS VITALES:</h6>
+    <h6 class="text-info">MOTIVO DE LA TELECONSULTA E HISTORIA:</h6>
+    </div> 
+    <div class="col-sm-6"> 
+        
+    </div> 
+
+    </div> 
+<hr>
+    <div class="form-group row"> 
+        <div class="col-sm-6">
+        <h6 class="text-info">MOTIVO DE LA TELECONSULTA:</h6>
+        <textarea class="form-control" rows="2" name="motivo_teleconsulta" id="tm_motivo" required></textarea>
+        <button type="button" class="btn-mic" onclick="iniciarDictado('tm_motivo')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+        </div> 
+        <div class="col-sm-6"> 
+            
+        </div> 
+    </div> 
+    <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">HISTORIA DE LA ENFERMEDAD ACTUAL:</h6>
+        <textarea class="form-control" rows="3" name="historia_enfermedad" id="tm_historia" required></textarea>
+        <button type="button" class="btn-mic" onclick="iniciarDictado('tm_historia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+        </div> 
+    </div> 
+<hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">EXAMEN FÍSICO - SIGNOS VITALES:</h6>
     </div> 
     <div class="col-sm-3"> 
     </div> 
@@ -731,7 +786,8 @@ switch ($idtipo_atencion) {
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                        <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia" required></textarea>
+                        <button type="button" class="btn-mic" onclick="iniciarDictado('d_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                     </div>
                     <div class="col-sm-3">             
                     </div>
@@ -764,6 +820,291 @@ switch ($idtipo_atencion) {
 
     <?php } ?>
 <hr>
+
+    <div class="form-group row"> 
+        <div class="col-sm-6">
+        <h6 class="text-info">IMPRESIÓN DIAGNÓSTICA:</h6>
+        </div> 
+        <div class="col-sm-3"> 
+        </div> 
+        <div class="col-sm-3"> 
+        </div> 
+    </div> 
+
+    <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">DIAGNOSTICO 1:</h6>
+            <select name="idpatologia[0]"  id="idpatologia[0]" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+            </select>
+        </div>  
+    </div> 
+    <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">DIAGNOSTICO 2:</h6>
+        <select name="idpatologia[1]"  id="idpatologia[1]" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+            </select>
+        </div>  
+    </div> 
+    <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">DIAGNOSTICO 3:</h6>
+            <select name="idpatologia[2]"  id="idpatologia[2]" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+            </select>
+        </div>  
+    </div> 
+    <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">DIAGNOSTICO 4:</h6>
+            <select name="idpatologia[3]"  id="idpatologia[3]" class="form-control" required>
+            <option value="">-SELECCIONE-</option>
+            <?php
+            $numero=1;
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $result1 = mysqli_query($link,$sql1);
+            if ($row1 = mysqli_fetch_array($result1)){
+            mysqli_field_seek($result1,0);
+            while ($field1 = mysqli_fetch_field($result1)){
+            } do {
+            echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+            $numero=$numero+1;
+            } while ($row1 = mysqli_fetch_array($result1));
+            } else {
+            echo "No se encontraron resultados!";
+            }
+            ?>
+            </select>
+        </div>  
+    </div> 
+<hr>
+
+  <!--      <div class="form-group row"> 
+                <div class="col-sm-6">
+                <h6 class="text-info">ESTUDIOS COMPLEMENTARIOS Y CONDUCTA:</h6>
+                </div> 
+                <div class="col-sm-3"> 
+                </div> 
+                <div class="col-sm-3"> 
+                </div> 
+            </div>
+            <hr>
+            <div class="form-group row"> 
+                <div class="col-sm-6">
+                <h6 class="text-info">TELEMETRÍA REALIZADA (SELECCIÓN MÚLTIPLE):</h6>
+                </div> 
+                <div class="col-sm-3"> 
+                </div> 
+                <div class="col-sm-3"> 
+                </div> 
+            </div> 
+
+
+            <div class="form-group row">                           
+                <?php  
+                $numero1=0;                  
+                $sql1 ="  SELECT idtipo_examen_ref, tipo_examen_ref FROM tipo_examen_ref ";
+                $result1 = mysqli_query($link,$sql1);
+                if ($row1 = mysqli_fetch_array($result1)){
+                mysqli_field_seek($result1,0);
+                while ($field1 = mysqli_fetch_field($result1)){
+                } do { 
+                ?>
+                    <div class="col-sm-3"> 
+                    <h6 class="text-secundary"> 
+                    <input type="checkbox" name="idtipo_examen_ref[<?php echo $numero1;?>]" value="<?php echo $row1[0];?>">  <?php echo $row1[1];?>  
+                    </h6>
+                    </div> 
+                <?php
+                $numero1=$numero1+1;
+                }
+                while ($row1 = mysqli_fetch_array($result1));
+                } else {
+                }
+                ?>
+            </div> 
+
+            <div class="form-group row"> 
+                <div class="col-sm-12">
+                <h6 class="text-info">SI MARCÓ OTROS MENCIONE CUAL:</h6>
+                <input type="text" name="otros_descripcion" class="form-control" placeholder="Ejemplo...TERMÓMETRO DIGITAL, ETC.">
+                </div> 
+            </div> --->
+            <div class="form-group row"> 
+                <div class="col-sm-6">
+                <h6 class="text-info">EXÁMENES COMPLEMENTARIOS O DE GABINETE:</h6>
+                <textarea class="form-control" rows="3" name="examen_complementario" id="exam_complementario" required></textarea>
+                <button type="button" class="btn-mic" onclick="iniciarDictado('exam_complementario')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+                </div> 
+                <div class="col-sm-6">
+                <h6 class="text-info">TRATAMIENTO:</h6>
+                <textarea class="form-control" rows="3" name="tratamiento_teleconsulta" id="tratamiento" required></textarea>
+                <button type="button" class="btn-mic" onclick="iniciarDictado('tratamiento')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
+                </div> 
+            </div>
+
+            <div class="form-group row"> 
+                <div class="col-sm-12">
+                <h6 class="text-info">ESPECIALIDAD Y CIERRE DE TELECONSULTA:</h6>
+                <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required>
+                <option value="">-SELECCIONE-</option>
+                <?php
+                $numero=1;
+                $sql1 = "SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica ORDER BY especialidad_medica";
+                $result1 = mysqli_query($link,$sql1);
+                if ($row1 = mysqli_fetch_array($result1)){
+                mysqli_field_seek($result1,0);
+                while ($field1 = mysqli_fetch_field($result1)){
+                } do {
+                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                $numero=$numero+1;
+                } while ($row1 = mysqli_fetch_array($result1));
+                } else {
+                echo "No se encontraron resultados!";
+                }
+                ?>
+                </select>
+                </div> 
+            </div>
+
+            <div class="form-group row"> 
+                <div class="col-sm-12">
+                <h6 class="text-info">SUBESPECIALIDAD:</h6>
+                <input type="text" name="subespecialidad" class="form-control" placeholder="Llenado libre">
+                </div> 
+            </div>
+
+            <div class="form-group row"> 
+                <div class="col-sm-3">
+                <h6 class="text-info">TIEMPO:</h6></br>
+                <select name="idtiempo_ts"  id="idtiempo_ts" class="form-control" required>
+                <option value="">-SELECCIONE-</option>
+                <?php
+                $numero=1;
+                $sql1 = "SELECT idtiempo_ts, tiempo_ts FROM tiempo_ts ORDER BY tiempo_ts";
+                $result1 = mysqli_query($link,$sql1);
+                if ($row1 = mysqli_fetch_array($result1)){
+                mysqli_field_seek($result1,0);
+                while ($field1 = mysqli_fetch_field($result1)){
+                } do {
+                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                $numero=$numero+1;
+                } while ($row1 = mysqli_fetch_array($result1));
+                } else {
+                echo "No se encontraron resultados!";
+                }
+                ?>
+                </select>
+                </div>
+                <div class="col-sm-3">
+                <h6 class="text-info">ESTADO DEL PACIENTE:</h6></br>
+                <select name="idestado_paciente"  id="idestado_paciente" class="form-control" required>
+                <option value="">-SELECCIONE-</option>
+                <?php
+                $numero=1;
+                $sql1 = "SELECT idestado_paciente, estado_paciente FROM estado_paciente ORDER BY estado_paciente";
+                $result1 = mysqli_query($link,$sql1);
+                if ($row1 = mysqli_fetch_array($result1)){
+                mysqli_field_seek($result1,0);
+                while ($field1 = mysqli_fetch_field($result1)){
+                } do {
+                echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                $numero=$numero+1;
+                } while ($row1 = mysqli_fetch_array($result1));
+                } else {
+                echo "No se encontraron resultados!";
+                }
+                ?>
+                </select>
+                </div> 
+                <div class="col-sm-3">
+                    <h6 class="text-info">FECHA CONSULTA DE SEGUIMIENTO:</h6>
+                    <input type="date" name="fecha_seguimiento" value="<?php echo $fecha;?>" class="form-control" required>
+                </div>
+                <div class="col-sm-3">
+                    <h6 class="text-info">TELEFÓNO CELULAR DEL PACIENTE/FAMILIAR:</h6>
+                    <input type="number" name="telefono_paciente" value="" class="form-control" required>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h4 class="text-info"></h4>  
+                </div> 
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#examplemodaltele">
+                    GUARDAR TELECONSULTA
+                    </button>  
+                </div> 
+          </div>
+
+    <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="examplemodaltele" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel0" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel0">ATENCIÓN POR TELECONSULTA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">                           
+                            Esta seguro de GUARDAR ESTA ATENCIÓN POR TELECONSULTA?                          
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form> 
 
                           
     <!-------- TELECONSULTA - END --------->  

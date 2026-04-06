@@ -282,31 +282,31 @@ $row_cf=mysqli_fetch_array($result_cf);
                 $result_s = mysqli_query($link,$sql_s);                      
                   if($row_s = mysqli_fetch_array($result_s)){
                     $salud_integrantes_4 = " - GRUPO IV";
-                  }
+                  } else{ $salud_integrantes_4 = "";}
                    
 
                     $sql_t = " SELECT idintegrante_morbilidad, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_morbilidad WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                     $result_t = mysqli_query($link,$sql_t);      
                     if($row_t = mysqli_fetch_array($result_t)){
                     $salud_integrantes_3 = " - GRUPO III"; 
-                  }
+                  } else{ $salud_integrantes_3 = "";}
                        
                                
                             $sql_u = " SELECT idintegrante_factor_riesgo, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                             $result_u = mysqli_query($link,$sql_u);      
                             if($row_u = mysqli_fetch_array($result_u)){
                                 $salud_integrantes_2 = " - GRUPO II";
-                            }
+                            }else{ $salud_integrantes_2 = "";}
                                 
 
                                 $sql_u = " SELECT idintegrante_ap_sano, idintegrante_cf, idgrupo_cf, idcarpeta_familiar FROM integrante_ap_sano WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
                                 $result_u = mysqli_query($link,$sql_u);      
                                 if($row_u = mysqli_fetch_array($result_u)){
                                     $salud_integrantes_1 = "GRUPO I";
-                                }       
+                                }else{$salud_integrantes_1 = "";}       
                                     $salud_integrantes = $salud_integrantes_1.$salud_integrantes_2.$salud_integrantes_3.$salud_integrantes_4;
 
-                                    echo "Los integrantes corresponden a los: ".$salud_integrantes;
+                                    echo "Los integrantes corresponden a: ".$salud_integrantes;
 
                                     ?>
                                     <input type="hidden" name="salud_integrantes" value="<?php echo $salud_integrantes; ?>">
