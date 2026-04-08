@@ -46,6 +46,8 @@ $row_n=mysqli_fetch_array($result_n);
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../css/boton_mic.css">
+    
 
 </head>
 
@@ -148,15 +150,18 @@ $row_n=mysqli_fetch_array($result_n);
                             placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
                     </div>   
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                     <h6 class="text-info">EDAD:</h6>
                         <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
                          name="edad_actual" disabled>
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">VER CARPETA FAMILIAR:</h6>
-                    <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-primary"><?php echo $row_cf[1];?></h6></a> 
+                    <div class="col-sm-4">
+                    <h6 class="text-warning">VER CARPETA FAMILIAR:</h6>
+                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-book"></i>
+                    </span>
+                    <span class="text"> <?php echo $row_cf[1];?> </span></a> 
                     </div>
                 </div>  
 
@@ -379,7 +384,7 @@ $row_n=mysqli_fetch_array($result_n);
                 <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion != '4' AND idtipo_atencion != '5' ";
+                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion  ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);
@@ -455,6 +460,8 @@ $row_n=mysqli_fetch_array($result_n);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+
+         <script src="../js/funciones.js"></script>
 
         <script language="javascript">
         $(document).ready(function(){

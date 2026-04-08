@@ -2,17 +2,16 @@
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
-$hora       = date("H:i");
-$gestion    = date("Y");
+$fecha_ram				= date("Ymd");
+$fecha 					= date("Y-m-d");
+$gestion = date("Y");
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-        
+$idcarpeta_familiar_ss = $_SESSION['idcarpeta_familiar_ss'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,7 +32,6 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
-    <link rel="stylesheet" href="../css/boton_mic.css">
 
 </head>
 
@@ -62,60 +60,33 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
     <div class="container">
     </br>
-        <div class="card o-hidden border-0 shadow-lg my-1">
+        <div class="card o-hidden border-0 shadow-lg my-2">
             <div class="card-body p-0">
 <!-- BEGIN aqui va el TITULO de la pagina ---->
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">                          
-
-                    <hr>             
-                    <h4 class="text-info">REGISTRO DE ATENCIÓN INTEGRAL - PSAFCI</h4>
-                    <hr> 
+                    <div class="text-center">   
+                    
+                    <hr>                     
+                    <h4 class="text-success">USTED YA HA FINALIZADO EL PROCESO</h4>
+                    <h4 class="text-success">DE REGISTRO Y/O ACTUALIZACIÓN</h4>
+                    <h4 class="text-success">DE LA CARPETA FAMILIAR!!!</h4>
+                    </br>
+                    <a href="carpetas_familiares.php"><h6>SALIR -></h6></a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
 
-    
-        <!-- VENTANA DE ATENCION INTEGRAL ---->
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">ATENCIÓN INTEGRAL SAFCI</h6>
-        </div>
-        <div class="card-body">
-
-            <div class="form-group row">    
-                <div class="col-sm-12">
-                <h6 class="text-info">TIPO DE ATENCIÓN SAFCI:</h6>
-                <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql_at = " SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion ";
-                $result_at = mysqli_query($link,$sql_at);
-                if ($row_at = mysqli_fetch_array($result_at)){
-                mysqli_field_seek($result_at,0);
-                while ($field_at = mysqli_fetch_field($result_at)){
-                } do {
-                echo "<option value=".$row_at[0].">".$row_at[1]."</option>";
-                } while ($row_at = mysqli_fetch_array($result_at));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-                </div>
-            </div>
-        </div>
-        <div class="card-body" id="tipo_atencion_nfc"></div> 
-        
-    
-    </div>
-
-            
-        <!-- END aqui va el comntenido de la pagina ---->
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                    </div>
+                </div>                  
+                    
+<!-- END aqui va el comntenido de la pagina ---->
                 </div>
                
                 <div class="text-center">
@@ -148,7 +119,8 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
             </div>
         </div>
     </div>
-    
+
+   
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -164,24 +136,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-        <script src="../js/funciones.js"></script>
-
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion_nfc.php", {tipo_atencion:tipo_atencion}, function(data){
-                    $("#tipo_atencion_nfc").html(data);
-                    });
-                });
-        })
-        });
-    </script> 
-
+   
 </body>
+
 </html>

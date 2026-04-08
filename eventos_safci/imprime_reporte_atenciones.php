@@ -22,7 +22,7 @@ $row_ev=mysqli_fetch_array($result_ev);
 <table width="1200" border="0" align="center">
   <tbody>
     <tr>
-      <td width="313"><img src="../implementacion_safci/mds_logo.jpg" width="306" height="87" alt=""/></td>
+      <td width="313"><img src="../implementacion_safci/mds_logo.jpg" width="250" height="100" alt=""/></td>
       <td width="595" style="text-align: center; font-family: Arial; font-size: 16px;"><p>EVENTO: <?php echo $row_ev[4];?> </p>
       <p><strong>PLANILLA DE ATENCION MEDICA - TRIAGE Y OTROS</strong></p></td>
       <td width="278" align="center"><img src="../implementacion_safci/logo_safci_doc.png" width="178" height="109" alt=""/>&nbsp;</td>
@@ -32,9 +32,9 @@ $row_ev=mysqli_fetch_array($result_ev);
       <td style="font-family: Arial; font-size: 12px;">Establecimiento de Salud: <?php echo $row_ev[3];?></td>
       <td style="font-size: 12px; font-family: Arial;">Fecha de Registro del Evento: 
       <?php 
-              $fecha_p = explode('-',$row_ev[5]);
-              $fecha_planilla = $fecha_p[2].'/'.$fecha_p[1].'/'.$fecha_p[0];
-              echo $fecha_planilla; ?></td>
+            $fecha_p = explode('-',$row_ev[5]);
+            $fecha_planilla = $fecha_p[2].'/'.$fecha_p[1].'/'.$fecha_p[0];
+            echo $fecha_planilla; ?></td>
     </tr>
     <tr>
       <td colspan="3"><table width="1200" border="1" cellspacing="0">
