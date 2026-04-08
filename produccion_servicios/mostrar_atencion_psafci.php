@@ -408,9 +408,14 @@ $row_ps=mysqli_fetch_array($result_ps);
             </div>
 
 
-<?php if ($row_ps[3] == '1') {  ?>
-   
-    <div class="form-group row"> 
+<?php 
+switch ($row_ps[3]) {
+    case 1: ?>
+
+<!---------------------------------------------------------------->
+<!------------- ATENCION POR MORBILIDAD - BEGIN -------------------->
+<!---------------------------------------------------------------->
+  <div class="form-group row"> 
     <div class="col-sm-3">
     </div> 
     <div class="col-sm-6">
@@ -692,10 +697,18 @@ $row_ps=mysqli_fetch_array($result_ps);
     } else {
     }
     ?>
+<!---------------------------------------------------------------->
+<!------------- ATENCION POR MORBILIDAD - END -------------------->
+<!---------------------------------------------------------------->
 
-    
-<?php } else {  
-    
+<?php   break;
+        case 2: ?>
+
+<!---------------------------------------------------------------->
+<!------------- ATENCION PREVENTIVA - BEGIN ---------------------->
+<!---------------------------------------------------------------->
+
+  <?php
     $sql_dgs =" SELECT iddiagnostico_psafci, idatencion_psafci, motivo_consulta, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
     $result_dgs = mysqli_query($link,$sql_dgs);
     $row_dgs = mysqli_fetch_array($result_dgs);
@@ -866,7 +879,413 @@ $row_ps=mysqli_fetch_array($result_ps);
     </div> 
     </div> 
 
-<?php } ?>
+<!---------------------------------------------------------------->
+<!------------- ATENCION PREVENTIVA - END  ------------------------>
+<!---------------------------------------------------------------->
+
+<?php   break;
+        case 3: ?>
+
+<!---------------------------------------------------------------->
+<!------------- ATENCION POR TELECONSULTA - BEGIN ------------------->
+<!---------------------------------------------------------------->
+
+  <?php
+    $sql_tel =" SELECT idatencion_teleconsulta, idatencion_psafci, idcaptacion_ts, idde_ts, iden_ts, idvia_comunicacion, consentimiento_informado, motivo_teleconsulta, historia_enfermedad,  ";
+    $sql_tel.=" examen_complementario, tratamiento_teleconsulta, idespecialidad_medica, subespecialidad, idtiempo_ts, idestado_paciente, fecha_seguimiento, telefono_paciente, fecha_registro,  ";
+    $sql_tel.=" hora_registro, idusuario FROM atencion_teleconsulta WHERE idatencion_psafci='$idatencion_psafci_ss' ";
+    $result_tel = mysqli_query($link,$sql_tel);
+    $row_tel = mysqli_fetch_array($result_tel);
+    ?>
+
+<hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">PACIENTE DE GRUPO VULNERABLE:</h6>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+    <div class="form-group row"> 
+        <?php  
+        $numero1=0;                  
+        $sql1 =" SELECT atencion_grupo_vulnerable.idatencion_grupo_vulnerable, grupo_vulnerable.grupo_vulnerable FROM atencion_grupo_vulnerable, grupo_vulnerable ";
+        $sql1.=" WHERE atencion_grupo_vulnerable.idgrupo_vulnerable=grupo_vulnerable.idgrupo_vulnerable AND atencion_grupo_vulnerable.idatencion_psafci='$idatencion_psafci_ss' ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+        mysqli_field_seek($result1,0);
+        while ($field1 = mysqli_fetch_field($result1)){
+        } do { 
+        ?>
+            <div class="col-sm-3">
+            <h6 class="text-secundary"><?php echo $row1[1];?> <input type="checkbox" name="idgrupo_vulnerable" checked disabled></h6>
+            
+            </div> 
+        <?php
+        $numero1=$numero1+1;
+        }
+        while ($row1 = mysqli_fetch_array($result1));
+        } else {
+        }
+        ?>
+    </div> 
+    <hr>
+    <div class="form-group row"> 
+    <div class="col-sm-4">
+        <h6 class="text-info">CAPTADO POR:</h6>
+            <select name="idcaptacion_ts"  id="idcaptacion_ts" class="form-control" disabled >
+            <option selected>Seleccione</option>
+            <?php
+            $sqlv = " SELECT idcaptacion_ts, captacion_ts FROM captacion_ts ";
+            $resultv = mysqli_query($link,$sqlv);
+            if ($rowv = mysqli_fetch_array($resultv)){
+            mysqli_field_seek($resultv,0);
+            while ($fieldv = mysqli_fetch_field($resultv)){
+            } do {
+            ?>
+            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[2]) echo "selected";?> ><?php echo $rowv[1];?></option>
+            <?php
+            } while ($rowv = mysqli_fetch_array($resultv));
+            } else {
+            }
+            ?>
+        </select>
+    </div> 
+    <div class="col-sm-4">
+        <h6 class="text-info">DE:</h6> 
+            <select name="idde_ts"  id="idde_ts" class="form-control" disabled >
+            <option selected>Seleccione</option>
+            <?php
+            $sqlv = " SELECT idde_ts, de_ts FROM de_ts ";
+            $resultv = mysqli_query($link,$sqlv);
+            if ($rowv = mysqli_fetch_array($resultv)){
+            mysqli_field_seek($resultv,0);
+            while ($fieldv = mysqli_fetch_field($resultv)){
+            } do {
+            ?>
+            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
+            <?php
+            } while ($rowv = mysqli_fetch_array($resultv));
+            } else {
+            }
+            ?>
+        </select>
+
+    </div> 
+    <div class="col-sm-4"> 
+        <h6 class="text-info">EN:</h6>
+            <select name="iden_ts"  id="iden_ts" class="form-control" disabled >
+            <option selected>Seleccione</option>
+            <?php
+            $sqlv = " SELECT iden_ts, en_ts FROM en_ts ";
+            $resultv = mysqli_query($link,$sqlv);
+            if ($rowv = mysqli_fetch_array($resultv)){
+            mysqli_field_seek($resultv,0);
+            while ($fieldv = mysqli_fetch_field($resultv)){
+            } do {
+            ?>
+            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[4]) echo "selected";?> ><?php echo $rowv[1];?></option>
+            <?php
+            } while ($rowv = mysqli_fetch_array($resultv));
+            } else {
+            }
+            ?>
+        </select>
+    </div> 
+
+    </div> 
+    <div class="form-group row"> 
+        <div class="col-sm-4"> 
+            <h6 class="text-info">VÍA DE COMUNICACIÓN:</h6>
+            <select name="idvia_comunicacion"  id="idvia_comunicacion" class="form-control" disabled >
+            <option selected>Seleccione</option>
+            <?php
+            $sqlv = " SELECT idvia_comunicacion, via_comunicacion FROM via_comunicacion ";
+            $resultv = mysqli_query($link,$sqlv);
+            if ($rowv = mysqli_fetch_array($resultv)){
+            mysqli_field_seek($resultv,0);
+            while ($fieldv = mysqli_fetch_field($resultv)){
+            } do {
+            ?>
+            <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[5]) echo "selected";?> ><?php echo $rowv[1];?></option>
+            <?php
+            } while ($rowv = mysqli_fetch_array($resultv));
+            } else {
+            }
+            ?>
+        </select>
+        </div>
+        <div class="col-sm-4">
+            <h6 class="text-info">CONSENTIMIENTO INFORMADO: <input type="radio" name="consentimiento_informado" <?php if ($row_tel[6]=='SI') { echo 'checked'; } else { } ?> disabled></h6>
+            
+        </div> 
+        <div class="col-sm-4">
+        </div> 
+    </div>
+<hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">MOTIVO DE LA TELECONSULTA E HISTORIA:</h6>
+    </div> 
+    <div class="col-sm-6">       
+    </div> 
+    </div> 
+<hr>
+    <div class="form-group row"> 
+        <div class="col-sm-6">
+        <h6 class="text-info">MOTIVO DE LA TELECONSULTA:</h6>
+        <textarea class="form-control" rows="2" name="motivo_teleconsulta" id="tm_motivo" disabled><?php echo $row_tel[7];?></textarea>
+        </div> 
+        <div class="col-sm-6"> 
+            
+        </div> 
+    </div>
+    <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">HISTORIA DE LA ENFERMEDAD ACTUAL:</h6>
+        <textarea class="form-control" rows="3" name="historia_enfermedad" id="tm_historia" disabled><?php echo $row_tel[8];?></textarea>
+        </div> 
+    </div> 
+            <hr>
+            <div class="text-center">                                     
+                <h6 class="text-info">EXAMEN FÍSICO - SIGNOS VITALES:</h6>                    
+            </div>
+            <hr> 
+            <?php
+                $sql_sv =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
+                $sql_sv.="  descripcion_alergia FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+                $result_sv = mysqli_query($link,$sql_sv);
+                if ($row_sv = mysqli_fetch_array($result_sv)){
+                mysqli_field_seek($result_sv,0);           
+                while ($field_sv = mysqli_fetch_field($result_sv)){
+                } do {
+            ?>
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA CARDIACA</br>[lpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sv[1];?>" 
+                         name="frec_cardiaca" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PESO</br>[kg]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sv[2];?>"            
+                         name="peso" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TALLA</br>[Centrimetros.]:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sv[3];?>"  
+                         name="talla" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info"></br>I.M.C.:</h6>
+                        <input type="text" class="form-control" value="<?php echo $row_sv[4];?>"  
+                         name="imc" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">                               
+                    <div class="col-sm-3">
+                    <h6 class="text-info">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sv[5];?>" 
+                         name="frec_respiratoria" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">PRESIÓN ARTERIAL </br>[mmHg]:</h6>
+
+                     <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
+                        <input type="text" class="form-control" value="<?php echo $row_sv[6]."/".$row_sv[7];?>"             
+                         name="presion_arterial" disabled>   
+                    <?php } else { echo 'MENOR DE 5 AÑOS';}?>    
+
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">TEMPERATURA</br>[°C]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sv[8];?>" 
+                         name="temperatura" disabled>                
+                    </div>
+                    <div class="col-sm-3">
+                    <h6 class="text-info">SATURACIÓN </br>[% O2]:</h6>
+                        <input type="number" class="form-control" value="<?php echo $row_sv[9];?>" 
+                         name="saturacion" disabled>                
+                    </div>
+                </div>
+
+                <div class="form-group row">  
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ES ALERGICO? :</h6>
+                    <input type="text" class="form-control" value="<?php echo $row_sv[10];?>" disabled
+                         name="alergia">                  
+                    </div>
+                    <div class="col-sm-6">
+                    <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
+                    <textarea class="form-control" rows="2" name="descripcion_alergia" disabled><?php echo $row_sv[11];?></textarea> 
+                    </div>
+                    <div class="col-sm-3">
+                    <!-- <h6 class="text-info">COMBE:</h6>  --->
+                    
+                    </div>
+                </div> 
+    <?php
+    }
+    while ($row_sv = mysqli_fetch_array($result_sv));
+    } else {
+    }
+    ?>
+
+   <div class="form-group row"> 
+        <div class="col-sm-6">
+        <h6 class="text-info">IMPRESIÓN DIAGNÓSTICA:</h6>
+        </div> 
+        <div class="col-sm-3"> 
+        </div> 
+        <div class="col-sm-3"> 
+        </div> 
+    </div> 
+
+     <?php
+    $numero_dg =1;
+    $sql_dg ="  SELECT iddiagnostico_teleconsulta, idpatologia FROM diagnostico_teleconsulta WHERE idatencion_psafci='$idatencion_psafci_ss' ";
+    $result_dg = mysqli_query($link,$sql_dg);
+    if ($row_dg = mysqli_fetch_array($result_dg)){
+    mysqli_field_seek($result_dg,0);           
+    while ($field_dg = mysqli_fetch_field($result_dg)){
+    } do {
+    ?>
+        <div class="form-group row"> 
+        <div class="col-sm-12">
+        <h6 class="text-info">DIAGNOSTICO <?php echo $numero_dg;?>:</h6>
+            <select name="idpatologia"  id="idpatologia" class="form-control" disabled >
+                <option selected>Seleccione</option>
+                <?php
+                $sqlv = " SELECT idpatologia, patologia, cie FROM patologia ";
+                $resultv = mysqli_query($link,$sqlv);
+                if ($rowv = mysqli_fetch_array($resultv)){
+                mysqli_field_seek($resultv,0);
+                while ($fieldv = mysqli_fetch_field($resultv)){
+                } do {
+                ?>
+                <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[1]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?></option>
+                <?php
+                } while ($rowv = mysqli_fetch_array($resultv));
+                } else {
+                }
+                ?>
+            </select>
+        </div>  
+    </div> 
+
+    <?php
+    $numero_dg = $numero_dg+1;
+    }
+    while ($row_dg = mysqli_fetch_array($result_dg));
+    } else {
+    }
+    ?>
+
+        <div class="form-group row"> 
+            <div class="col-sm-6">
+            <h6 class="text-info">EXÁMENES COMPLEMENTARIOS O DE GABINETE:</h6>
+            <textarea class="form-control" rows="3" name="examen_complementario" disabled><?php echo $row_tel[9];?></textarea>
+            </div> 
+            <div class="col-sm-6">
+            <h6 class="text-info">TRATAMIENTO:</h6>
+            <textarea class="form-control" rows="3" name="tratamiento_teleconsulta" disabled><?php echo $row_tel[10];?></textarea>
+            </div> 
+        </div>
+
+
+           <div class="form-group row"> 
+                <div class="col-sm-12">
+                <h6 class="text-info">ESPECIALIDAD Y CIERRE DE TELECONSULTA:</h6>
+                    <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[11]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                </div> 
+            </div>
+
+            <div class="form-group row"> 
+                <div class="col-sm-12">
+                <h6 class="text-info">SUBESPECIALIDAD:</h6>
+                <input type="text" name="subespecialidad" class="form-control" value="<?php echo $row_tel[12];?>" disabled>
+                </div> 
+            </div>
+
+            <div class="form-group row"> 
+                <div class="col-sm-2">
+                <h6 class="text-info">TIEMPO:</h6></br>
+                    <select name="idtiempo_ts"  id="idtiempo_ts" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idtiempo_ts, tiempo_ts FROM tiempo_ts ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[13]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                <h6 class="text-info">ESTADO DEL PACIENTE:</h6></br>
+                <select name="idestado_paciente"  id="idestado_paciente" class="form-control" disabled >
+                    <option selected>Seleccione</option>
+                    <?php
+                    $sqlv = " SELECT idestado_paciente, estado_paciente FROM estado_paciente ";
+                    $resultv = mysqli_query($link,$sqlv);
+                    if ($rowv = mysqli_fetch_array($resultv)){
+                    mysqli_field_seek($resultv,0);
+                    while ($fieldv = mysqli_fetch_field($resultv)){
+                    } do {
+                    ?>
+                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_tel[14]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                    <?php
+                    } while ($rowv = mysqli_fetch_array($resultv));
+                    } else {
+                    }
+                    ?>
+                </select>
+                </div> 
+                <div class="col-sm-3">
+                    <h6 class="text-info">FECHA CONSULTA DE SEGUIMIENTO:</h6>
+                    <input type="date" name="fecha_seguimiento" value="<?php echo $row_tel[15];?>" class="form-control" disabled>
+                </div>
+                <div class="col-sm-3">
+                    <h6 class="text-info">TELEFÓNO CELULAR DEL PACIENTE/FAMILIAR:</h6>
+                    <input type="number" name="telefono_paciente" value="<?php echo $row_tel[16];?>" class="form-control" disabled>
+                </div>
+            </div>
+            <hr>
+
+<!---------------------------------------------------------------->
+<!------------- ATENCION POR TELECONSULTA - END ------------------>
+<!---------------------------------------------------------------->
+
+<?php   break; } ?>
+    
+    
+    
 
 <hr>
 

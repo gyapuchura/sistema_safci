@@ -137,7 +137,8 @@ switch ($idtipo_atencion) {
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="alergia_n" required></textarea>
+                    <button type="button" class="btn-mic" onclick="iniciarDictado('alergia_n')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                     
                     </div>
                     <div class="col-sm-3">             
                     </div>
@@ -357,7 +358,8 @@ switch ($idtipo_atencion) {
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="alergia_m" required></textarea>
+                    <button type="button" class="btn-mic" onclick="iniciarDictado('alergia_m')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button> 
                     </div>
                     <div class="col-sm-3">             
                     </div>
@@ -419,12 +421,14 @@ switch ($idtipo_atencion) {
         <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo" required></textarea>
+            <textarea class="form-control" rows="3" name="subjetivo" id="subjetivo_d" required></textarea>
+            <button type="button" class="btn-mic" onclick="iniciarDictado('subjetivo_d')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
 
             <div class="col-sm-6"> 
             <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo" required></textarea>
+            <textarea class="form-control" rows="3" name="objetivo" id="objetivo_d" required></textarea>
+            <button type="button" class="btn-mic" onclick="iniciarDictado('objetivo_d')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
         </div> 
     </div> 
@@ -457,11 +461,13 @@ switch ($idtipo_atencion) {
         <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis" required></textarea>
+            <textarea class="form-control" rows="3" name="analisis" id="analisis_d" required></textarea>
+            <button type="button" class="btn-mic" onclick="iniciarDictado('analisis_d')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div>
                 <div class="col-sm-6"> 
             <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan" required></textarea>
+            <textarea class="form-control" rows="3" name="plan" id="plan_d" required></textarea>
+            <button type="button" class="btn-mic" onclick="iniciarDictado('plan_d')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>            
             </div> 
         </div>
         <hr>
@@ -857,7 +863,7 @@ switch ($idtipo_atencion) {
     <div class="form-group row"> 
         <div class="col-sm-12">
         <h6 class="text-info">DIAGNOSTICO 2:</h6>
-        <select name="idpatologia[1]"  id="idpatologia[1]" class="form-control" required>
+        <select name="idpatologia[1]"  id="idpatologia[1]" class="form-control" >
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
@@ -880,7 +886,7 @@ switch ($idtipo_atencion) {
     <div class="form-group row"> 
         <div class="col-sm-12">
         <h6 class="text-info">DIAGNOSTICO 3:</h6>
-            <select name="idpatologia[2]"  id="idpatologia[2]" class="form-control" required>
+            <select name="idpatologia[2]"  id="idpatologia[2]" class="form-control" >
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
@@ -903,7 +909,7 @@ switch ($idtipo_atencion) {
     <div class="form-group row"> 
         <div class="col-sm-12">
         <h6 class="text-info">DIAGNOSTICO 4:</h6>
-            <select name="idpatologia[3]"  id="idpatologia[3]" class="form-control" required>
+            <select name="idpatologia[3]"  id="idpatologia[3]" class="form-control" >
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
@@ -1021,7 +1027,7 @@ switch ($idtipo_atencion) {
             </div>
 
             <div class="form-group row"> 
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                 <h6 class="text-info">TIEMPO:</h6></br>
                 <select name="idtiempo_ts"  id="idtiempo_ts" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
@@ -1042,7 +1048,7 @@ switch ($idtipo_atencion) {
                 ?>
                 </select>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                 <h6 class="text-info">ESTADO DEL PACIENTE:</h6></br>
                 <select name="idestado_paciente"  id="idestado_paciente" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
