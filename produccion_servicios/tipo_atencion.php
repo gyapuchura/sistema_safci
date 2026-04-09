@@ -137,7 +137,7 @@ switch ($idtipo_atencion) {
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="alergia_n" required></textarea>
+                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="alergia_n" ></textarea>
                     <button type="button" class="btn-mic" onclick="iniciarDictado('alergia_n')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                     
                     </div>
                     <div class="col-sm-3">             
@@ -358,7 +358,7 @@ switch ($idtipo_atencion) {
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="alergia_m" required></textarea>
+                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="alergia_m" ></textarea>
                     <button type="button" class="btn-mic" onclick="iniciarDictado('alergia_m')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button> 
                     </div>
                     <div class="col-sm-3">             
@@ -792,7 +792,7 @@ switch ($idtipo_atencion) {
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                        <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia" required></textarea>
+                        <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia" ></textarea>
                         <button type="button" class="btn-mic" onclick="iniciarDictado('d_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                     </div>
                     <div class="col-sm-3">             

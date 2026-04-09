@@ -352,3 +352,23 @@ ALTER TABLE signo_vital_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (
 ALTER TABLE dato_laboral ADD FOREIGN KEY (idcargo_organigrama) REFERENCES cargo_organigrama (idcargo_organigrama);
 
 
+
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idcaptacion_ts) REFERENCES captacion_ts (idcaptacion_ts);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idde_ts) REFERENCES de_ts (idde_ts);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (iden_ts) REFERENCES en_ts (iden_ts);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idvia_comunicacion) REFERENCES via_comunicacion (idvia_comunicacion);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idespecialidad_medica) REFERENCES especialidad_medica (idespecialidad_medica);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idtiempo_ts) REFERENCES tiempo_ts (idtiempo_ts);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idestado_paciente) REFERENCES estado_paciente (idestado_paciente);
+ALTER TABLE atencion_teleconsulta ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+
+ALTER TABLE atencion_grupo_vulnerable ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE atencion_grupo_vulnerable ADD FOREIGN KEY (idgrupo_vulnerable) REFERENCES grupo_vulnerable (idgrupo_vulnerable);
+ALTER TABLE atencion_grupo_vulnerable ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+
+ALTER TABLE diagnostico_teleconsulta ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE diagnostico_teleconsulta ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpatologia);
+ALTER TABLE diagnostico_teleconsulta ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
