@@ -224,7 +224,62 @@ Si no se encontraron resultados
 }
 ?>
             ]
+        } ,
+
+                {
+            name: 'POR TELECONSULTA',
+            data: [
+
+             <?php
+
+$numero = 0;
+$sql = " SELECT fecha_registro FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY fecha_registro ORDER BY fecha_registro ";
+$result = mysqli_query($link,$sql);
+
+$total = mysqli_num_rows($result);
+
+ if ($row = mysqli_fetch_array($result)){
+
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do {
+	?>
+
+<?php
+$sql7 = " SELECT idatencion_psafci, fecha_registro FROM atencion_psafci WHERE fecha_registro='$row[0]' AND idtipo_atencion='3' ";
+$result7 = mysqli_query($link,$sql7);
+$row7 = mysqli_num_rows($result7);
+
+$cifra_diaria2 = $row7;
+?>
+             <?php echo $cifra_diaria2; ?>
+
+<?php
+$numero++;
+if ($numero == $total) {
+echo "";
+}
+else {
+echo ",";
+}
+
+} while ($row = mysqli_fetch_array($result));
+
+
+} else {
+
+
+echo ",";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+            ]
         }
+
+
+        
 
 
 
@@ -333,6 +388,18 @@ Si no se encontraron resultados
             echo $medicos;?>
       </td>
     </tr>
+    <tr>
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES POR TELECONSULTA =
+          <?php 
+    $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_atencion='3' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+    $result_vf = mysqli_query($link,$sql_vf);
+    $row_vf = mysqli_fetch_array($result_vf);
+    $visita  = number_format($row_vf[0], 0, '.', '.');
+    echo $visita;?>
+      </span></td>
+      <td>
+      </td>
+    </tr>
   </tbody>
 </table>
 <p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">&nbsp;</p>
@@ -363,7 +430,7 @@ Si no se encontraron resultados
     $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
     $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento  ";
     $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC  LIMIT 500";
+    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
