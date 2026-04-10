@@ -90,6 +90,33 @@ $result_dg = mysqli_query($link,$sql_dg);
     $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$alergia','$descripcion_alergia','$fecha','$hora','$idusuario_ss') ";
     $result1 = mysqli_query($link,$sql1);
 
+switch ($idpatologia_ap_sano) {
+    case 239:
+
+        $idnombre_madre  = $_POST['idnombre_madre'];
+        $direccion_domicilio  = $_POST['direccion_domicilio'];
+        $celular_madre   = $_POST['celular_madre'];
+        $cuenta_madre    = $_POST['cuenta_madre'];
+        $fecha_inscripcion_bono  = $_POST['fecha_inscripcion_bono'];
+
+        $sql_con = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+        $sql_con.= " AND atencion_psafci.idnombre='$idnombre_integrante_ss' AND idpatologia='$idpatologia_ap_sano' ";
+        $result_con = mysqli_query($link,$sql_con);
+        $row_con    = mysqli_fetch_array($result_con);  
+        $numero_controles = $row_con[0];     
+
+    $sql_bj = " INSERT INTO bono_nino_sano (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idnombre_nino, idnombre_madre, numero_controles, nino_carpetizado, direccion_domicilio, celular_madre, cuenta_madre, fecha_inscripcion_bono, fecha_registro, hora_registro, idusuario) ";
+    $sql_bj.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idnombre_integrante_ss','$idnombre_madre','$numero_controles','SI','$direccion_domicilio','$celular_madre','$cuenta_madre','$fecha_inscripcion_bono','$fecha','$hora','$idusuario_ss') ";
+    $result_bj = mysqli_query($link,$sql_bj);
+
+        break;
+    
+    default:
+        
+        break;
+}
+
+
 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
 
 header("Location:mostrar_atencion_psafci.php");

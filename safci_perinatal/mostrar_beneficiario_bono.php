@@ -13,7 +13,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idmunicipio_ss             = $_SESSION['idmunicipios_ss'];
+$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
@@ -454,12 +454,60 @@ $row_n=mysqli_fetch_array($result_n);
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">4.- SEGUIMIENTO AL BENEFICIARIO - <?php echo $parentesco_ss;?></h6>
+            <h6 class="m-0 font-weight-bold text-info">4.- ACTUALIZACIÓN DEL BENEFICIARIO - <?php echo $parentesco_ss;?></h6>
         </div>
+<?php if ($idparentesco_ss=='4') { ?>  
+          <div class="card-body">
+            <div class="form-group row">  
+                <div class="col-sm-4">
+                    <h6 class="text-info">IDENTIFICACIÓN DE LA MADRE</h6> 
+                </div>
+                <div class="col-sm-6">
+                    <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
+                    <option value="">-SELECCIONE-</option>
+                    <?php
+                    $sql_p = " SELECT integrante_cf.idintegrante_cf, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco FROM integrante_cf, nombre, parentesco WHERE integrante_cf.idnombre=nombre.idnombre ";
+                    $sql_p.= " AND integrante_cf.idparentesco=parentesco.idparentesco AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ORDER BY integrante_cf.idintegrante_cf  ";
+                    $result_p = mysqli_query($link,$sql_p);
+                    if ($row_p = mysqli_fetch_array($result_p)){
+                    mysqli_field_seek($result_p,0);
+                    while ($field_p = mysqli_fetch_field($result_p)){
+                    } do {
+                    echo "<option value=".$row_p[0].">".$row_p[3]." ".$row_p[1]." ".$row_p[2]." - ".$row_p[4]." </option>";
+                    } while ($row_p = mysqli_fetch_array($result_p));
+                    } else {
+                    echo "No se encontraron resultados!";
+                    }
+                    ?>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-info btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">GUARDAR</span>
+                    </button>
+                </div>
+            </div>
+        </div> 
+<?php } else {  ?>
+    
+<?php } ?>
+
         <div class="card-body">
+            <div class="form-group row">  
+                <div class="col-sm-4">
+                    <h6 class="text-info">HISTORIA DE ATENCIONES</h6> 
+                </div>
+                <div class="col-sm-8">
 
+                </div>
+            </div>
+        </div>  
+        
+        
 
-          
     </div>
             
         <!-- END aqui va el comntenido de la pagina ---->

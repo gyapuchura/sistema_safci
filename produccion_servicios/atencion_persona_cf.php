@@ -400,7 +400,7 @@ $row_n=mysqli_fetch_array($result_n);
                 </div>
             </div>
         </div>
-        <div class="card-body" id="tipo_atencion"></div> 
+        <div class="card-body" id="tipo_atencion"></div>  
           
     </div>
             
