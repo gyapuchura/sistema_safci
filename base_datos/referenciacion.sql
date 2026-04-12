@@ -372,3 +372,12 @@ ALTER TABLE atencion_grupo_vulnerable ADD FOREIGN KEY (idusuario) REFERENCES usu
 ALTER TABLE diagnostico_teleconsulta ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
 ALTER TABLE diagnostico_teleconsulta ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpatologia);
 ALTER TABLE diagnostico_teleconsulta ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idarea_influencia) REFERENCES area_influencia (idarea_influencia);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idnombre_nino) REFERENCES nombre (idnombre);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idnombre_madre) REFERENCES nombre (idnombre);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);

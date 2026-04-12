@@ -43,7 +43,7 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
         <!------------     CONTROL DEL NIÑO SANO - BEGIN  --------------->
         <!--------------------------------------------------------->
 
-        <?php  if ($edad_ss <= '2') { ?>
+        <?php  if ($edad_ss < '2') { ?>
             <!-------------  El niño es menor a 2 años y corresponde el bono juana azurduy ----------->   
             <?php
             $sql_bj = " SELECT idnombre_nino, idnombre_madre, nino_carpetizado, numero_controles, direccion_domicilio, celular_madre, cuenta_madre, ";
@@ -80,9 +80,12 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
                         <h6 class="text-info">Nº DE CONTROLES DEL MENOR DE 2 AÑOS</h6> 
                         <input type="number" class="form-control" name="cuenta_madre" placeholder="" value="<?php echo $row_bj[3];?>" disabled>
                     </div>
-                    <div class="col-sm-3">
-                        <h6 class="text-info">FORMULARIO DE CONTROLES</h6> </br> 
-                        <input type="date" class="form-control" name="fecha_inscripcion_bono" value="" disabled>
+                    <div class="col-sm-3"></br></br>
+                            <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/imprime_bja_nino.php" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=800,top=50, left=600, scrollbars=YES'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <span class="text">FORMULARIO DE CONTROLES</span></a>  
                     </div>
                 </div>
 
@@ -122,8 +125,6 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
             <div class="form-group row">  
                     <div class="col-sm-6">
                         <h6 class="text-info">IDENTIFICACIÓN DE LA MADRE EN CARPETA FAMILIAR</h6> 
-                    </div>
-                    <div class="col-sm-6">
                         <select name="idnombre_madre" id="idnombre_madre" class="form-control" required>
                         <option value="">-SELECCIONE-</option>
                         <?php
@@ -141,6 +142,14 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
                         }
                         ?>
                         </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">LUGAR DE NACIMIENTO DEL NIÑO/NIÑA</h6> 
+                        <textarea class="form-control" rows="2" name="lug_nac_nino" required></textarea> 
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="text-info">LUGAR DE NACIMIENTO DEL TITULAR DE PAGO</h6> 
+                        <textarea class="form-control" rows="2" name="lug_nac_madre" required></textarea> 
                     </div>
                 </div>
                 <div class="form-group row">  

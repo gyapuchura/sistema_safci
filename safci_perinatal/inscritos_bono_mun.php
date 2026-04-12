@@ -1,5 +1,7 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php"); 
+
+
 $idmunicipio = $_POST["municipio_salud"];
 ?>
 <div class="table-responsive">
@@ -7,28 +9,28 @@ $idmunicipio = $_POST["municipio_salud"];
             <thead>
                 <tr>  
                     <th>N°</th> 
+                    <th>CODIGO DE INSCRIPCIÓN</th> 
                     <th>ESTABLECIMIENTO DE SALUD</th> 
                     <th>ÁREA DE INFLUENCIA</th>                                   
-                    <th>CODIGO CARPETA FAMILIAR</th>
-                    <th>HISTORIA CLINICA DIGITAL</th>
-                    <th>FAMILIA</th>
-                    <th>NOMBRE DEL INTEGRANTE BENEFICIARIO</th>
+                    <th>FORMULARIO DE CONTROL</th>
+                    <th>NOMBRE DEL INSCRITO (NIÑO/NIÑA)</th>
                     <th>EDAD</th>
-                    <th>PARENTESCO</th>
+                    <th>NOMBRE DE LA MADRE</th>
+                    <th>NÚMERO DE CONTROLES</th>
+                    <th>CARPETA FAMILIAR</th>
                     <th>ACCIÓN</th> 
                 </tr>
             </thead>
             <tbody>
         <?php
         $numero=1; 
-        $sql =" SELECT integrante_cf.idintegrante_cf, integrante_cf.idnombre, establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia,   ";
-        $sql.=" carpeta_familiar.codigo, carpeta_familiar.familia, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, parentesco.parentesco, carpeta_familiar.idcarpeta_familiar,  ";
-        $sql.=" carpeta_familiar.idestablecimiento_salud, carpeta_familiar.iddepartamento, integrante_cf.idparentesco FROM integrante_beneficiario, integrante_cf, nombre, carpeta_familiar, parentesco, establecimiento_salud,  tipo_area_influencia, area_influencia ";
-        $sql.=" WHERE integrante_beneficiario.idintegrante_cf=integrante_cf.idintegrante_cf AND integrante_cf.idparentesco=parentesco.idparentesco ";
-        $sql.=" AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idnombre=nombre.idnombre ";
-        $sql.=" AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
-        $sql.=" AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia";
-        $sql.=" AND integrante_beneficiario.idprograma_social='2' AND carpeta_familiar.idmunicipio='$idmunicipio'  ";
+        $sql =" SELECT bono_nino_sano.idbono_nino_sano, bono_nino_sano.codigo, departamento.departamento, municipios.municipio, red_salud.red_salud, establecimiento_salud.establecimiento_salud, ";
+        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, bono_nino_sano.idnombre_nino, bono_nino_sano.idnombre_madre, bono_nino_sano.numero_controles, ";
+        $sql.=" bono_nino_sano.nino_carpetizado, bono_nino_sano.direccion_domicilio, bono_nino_sano.celular_madre, bono_nino_sano.cuenta_madre, bono_nino_sano.fecha_inscripcion_bono ";
+        $sql.=" FROM bono_nino_sano, departamento, municipios, red_salud, establecimiento_salud, area_influencia, tipo_area_influencia WHERE bono_nino_sano.iddepartamento=departamento.iddepartamento ";
+        $sql.=" AND bono_nino_sano.idmunicipio=municipios.idmunicipio AND bono_nino_sano.idred_salud=red_salud.idred_salud AND bono_nino_sano.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+        $sql.=" AND bono_nino_sano.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
+        $sql.=" AND bono_nino_sano.idmunicipio='$idmunicipio' ORDER BY bono_nino_sano.idbono_nino_sano DESC ";
         $result = mysqli_query($link,$sql);
         if ($row = mysqli_fetch_array($result)){
         mysqli_field_seek($result,0);
@@ -37,24 +39,26 @@ $idmunicipio = $_POST["municipio_salud"];
         ?>
             <tr>
                 <td><?php echo $numero;?></td>
-                <td><?php echo $row[2];?></td>
-                <td><?php echo mb_strtoupper($row[3]." ".$row[4]);?></td>
+                <td><?php echo $row[1];?></td>
+                <td><?php echo $row[5];?></td>
+                <td><?php echo mb_strtoupper($row[6]." ".$row[7]);?></td>
                 <td>
-                    <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row[12];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-primary"><?php echo $row[5];?></h6></a> 
-                </td>
-                <td>
-                    <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ps.php?idcarpeta_familiar=<?php echo $row_[12];?>&idintegrante_cf=<?php echo $row[0];?>&idnombre_integrante=<?php echo $row[1];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <a class="btn btn-primary btn-icon-split" href="../safci_perinatal/imprime_bja_nino.php?idbono_nino_sano=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=900,top=50, left=600, scrollbars=YES'); return false;">
                     <span class="icon text-white-50">
                         <i class="fas fa-book"></i>
                     </span>
-                    <span class="text">HISTORIA CLÍNICA</span></a>  
+                    <span class="text">CONTROL NIÑO SANO</span></a>  
                 </td>
-                <td><?php echo $row[6];?></td>
-                <td><?php echo mb_strtoupper($row[7]." ".$row[8]." ".$row[9]);?></td>
+                <td>
+                <?php
+                $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$row[8]' ";
+                $result_n=mysqli_query($link,$sql_n);
+                $row_n=mysqli_fetch_array($result_n); 
+                echo mb_strtoupper($row_n[1]." ".$row_n[2]." ".$row_n[3]);?>
+                </td>
                 <td><?php 
                 
-                    $fecha_nacimiento = $row[10];
+                    $fecha_nacimiento = $row_n[5];
                     $dia = date("d");
                     $mes = date("m");
                     $ano = date("Y");    
@@ -68,9 +72,17 @@ $idmunicipio = $_POST["municipio_salud"];
                     $edad=($ano-$anonaz);  
                     echo $edad ;?>
                 </td>
+                <td>
+                <?php
+                $sql_m =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$row[9]' ";
+                $result_m=mysqli_query($link,$sql_m);
+                $row_m=mysqli_fetch_array($result_m); 
+                echo mb_strtoupper($row_m[1]." ".$row_m[2]." ".$row_m[3]);?>
+                </td>               
+                <td><?php echo $row[10];?></td>
                 <td><?php echo $row[11];?></td>
                 <td>
-                <form name="FORM_BONO" action="valida_benficiario_bono.php" method="post">
+                <form name="FORM_BONO" action="valida_inscrito_bono.php" method="post">
                 <input name="idintegrante_cf" type="hidden" value="<?php echo $row[0];?>">
                 <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[12];?>">
                 <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[13];?>">
@@ -84,7 +96,7 @@ $idmunicipio = $_POST["municipio_salud"];
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-right"></i>
                 </span>
-                <span class="text">SEGUIMIENTO</br>BENEFICIARIO</span>
+                <span class="text">VER</br>INSCRIPCIÓN</span>
                 </button>
                 </form>                                                                          
                 </td>

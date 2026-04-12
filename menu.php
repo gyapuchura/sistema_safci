@@ -559,8 +559,8 @@
     } else {
     }
     ?>
-    
-    <a class="collapse-item" href="../safci_perinatal/beneficiarios_bono.php">BENEFICIARIOS BONO</br>JUANA AZURDUY</a>
+    <a class="collapse-item" href="../safci_perinatal/inscritos_bono.php">INSCRITOS BONO</br>JUANA AZURDUY</a>
+    <a class="collapse-item" href="../safci_perinatal/beneficiarios_bono.php">BENEFICIARIOS BJAP</br>CARPETA FAMILIAR</a>
    
         </div>
     </div>
