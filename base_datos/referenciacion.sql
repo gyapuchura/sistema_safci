@@ -380,4 +380,5 @@ ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES 
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idarea_influencia) REFERENCES area_influencia (idarea_influencia);
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idnombre_nino) REFERENCES nombre (idnombre);
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idnombre_madre) REFERENCES nombre (idnombre);
+ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idparentesco) REFERENCES parentesco (idparentesco);
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
