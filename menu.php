@@ -528,6 +528,44 @@
     </div>
 </li>
 
+
+
+<!------ MODULO DE GESTION BONO JUANA AZURDUY - SAFCI ------->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilitiesnino"
+        aria-expanded="true" aria-controls="collapseUtilitiesnino">
+        <i class="fas fa-clipboard-list"></i>   
+        <span>BONO </br> JUANA AZURDUY</span>
+    </a>
+    <div id="collapseUtilitiesnino" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">GESTION BENEFICIARIOS:</h6>
+            <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+        
+     <!--   <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> -->
+        
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+    <a class="collapse-item" href="../safci_perinatal/inscritos_bono.php">INSCRITOS BONO</br>JUANA AZURDUY</a>
+    <a class="collapse-item" href="../safci_perinatal/beneficiarios_bono.php">BENEFICIARIOS BJAP</br>CARPETA FAMILIAR</a>
+   
+        </div>
+    </div>
+</li>
+
 <!------ MODULO DE EVENTOS SAFCI NIVEL NACIONAL ------->
 
 <li class="nav-item">

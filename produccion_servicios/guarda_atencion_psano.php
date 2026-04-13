@@ -57,9 +57,14 @@ $sql_nac    = " SELECT idnacion FROM integrante_cf WHERE idintegrante_cf ='$idin
 $result_nac = mysqli_query($link,$sql_nac);
 $row_nac    = mysqli_fetch_array($result_nac);
 
+$sql_af    = " SELECT idarea_influencia FROM carpeta_familiar WHERE idcarpeta_familiar ='$idcarpeta_familiar_ss' ";
+$result_af = mysqli_query($link,$sql_af);
+$row_af    = mysqli_fetch_array($result_af);
+
 $iddepartamento = $row_e[0];
 $idred_salud    = $row_e[1];
 $idmunicipio    = $row_e[2];
+$idarea_influencia = $row_af[0];
 
 $idgenero       = $row_int[0];
 $idnacion       = $row_nac[0];
@@ -89,6 +94,55 @@ $result_dg = mysqli_query($link,$sql_dg);
     $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia, descripcion_alergia, fecha_registro, hora_registro, idusuario) ";
     $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$alergia','$descripcion_alergia','$fecha','$hora','$idusuario_ss') ";
     $result1 = mysqli_query($link,$sql1);
+
+switch ($idpatologia_ap_sano) {
+    case 239:
+
+        $idnombre_madre  = $_POST['idnombre_madre'];
+        $idparentesco    = $_POST['idparentesco'];
+        $direccion_domicilio  = $_POST['direccion_domicilio'];
+        $celular_madre   = $_POST['celular_madre'];
+        $cuenta_madre    = $_POST['cuenta_madre'];
+        $fecha_inscripcion_bono  = $_POST['fecha_inscripcion_bono'];
+        $lug_nac_nino    = $link->real_escape_string($_POST['lug_nac_nino']);
+        $lug_nac_madre   = $link->real_escape_string($_POST['lug_nac_madre']);
+
+        $sql_con = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+        $sql_con.= " AND atencion_psafci.idnombre='$idnombre_integrante_ss' AND idpatologia='$idpatologia_ap_sano' ";
+        $result_con = mysqli_query($link,$sql_con);
+        $row_con    = mysqli_fetch_array($result_con);  
+        $numero_controles = $row_con[0];   
+        
+        $sql1 =" SELECT idbono_nino_sano, numero_controles FROM bono_nino_sano WHERE idnombre_nino = '$idnombre_integrante_ss' ";
+        $result1 = mysqli_query($link,$sql1);
+        if ($row1 = mysqli_fetch_array($result1)){
+           
+            $sql_bn = " UPDATE bono_nino_sano SET numero_controles = '$numero_controles' WHERE idbono_nino_sano = '$row1[0]' ";
+            $result_bn = mysqli_query($link,$sql_bn);
+
+        } else {
+       
+            $sql_bj    = " SELECT MAX(correlativo) FROM bono_nino_sano WHERE gestion='$gestion'  ";
+            $result_bj = mysqli_query($link,$sql_bj);
+            $row_bj    = mysqli_fetch_array($result_bj);
+
+            $correlativo_bj = $row_bj[0]+1;
+
+            $codigo_bj = "MSYD-BJA-".$correlativo_bj."/".$gestion;
+
+            $sql_bj = " INSERT INTO bono_nino_sano (codigo, correlativo, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, idnombre_nino, idnombre_madre, idparentesco, numero_controles, nino_carpetizado, direccion_domicilio, lug_nac_nino, lug_nac_madre, celular_madre, cuenta_madre, fecha_inscripcion_bono, fecha_registro, hora_registro, gestion, idusuario) ";
+            $sql_bj.= " VALUES ('$codigo_bj','$correlativo_bj','$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idarea_influencia','$idnombre_integrante_ss','$idnombre_madre','$idparentesco','$numero_controles','SI','$direccion_domicilio','$lug_nac_nino','$lug_nac_madre','$celular_madre','$cuenta_madre','$fecha_inscripcion_bono','$fecha','$hora','$gestion','$idusuario_ss') ";
+            $result_bj = mysqli_query($link,$sql_bj);
+
+        }
+
+        break;
+    
+    default:
+        
+        break;
+}
+
 
 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
 

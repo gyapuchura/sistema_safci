@@ -13,10 +13,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+$idmunicipio_ss             = $_SESSION['idmunicipio_ss'];
 $iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
+$parentesco_ss              = $_SESSION['parentesco_ss'];
+$idparentesco_ss            = $_SESSION['idparentesco_ss'];
 
 $sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
@@ -83,9 +86,9 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="personas_carpetizadas.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="beneficiarios_bono.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
-                    <h4 class="text-info">HISTORIA CLÍNICA - SAFCI</h4>
+                    <h4 class="text-info">DATOS DEL BENEFICIARIO</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -97,6 +100,83 @@ $row_n=mysqli_fetch_array($result_n);
                     <h6 class="m-0 font-weight-bold text-info">1.- INFORMACIÓN DE FILIACIÓN</h6>
                 </div>
                 <div class="card-body">
+
+                    <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">DEPARTAMENTO:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT iddepartamento, departamento FROM departamento ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$iddepartamento_ss) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+
+                    </div>
+                </div>
+   
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">MUNICIPIO:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idmunicipio_ss) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    <h6 class="text-info">ESTABLECIMIENTO DE SALUD:</h6>
+                    </div>
+                    <div class="col-sm-9">
+                    <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled >
+                        <option selected>Seleccione</option>
+                        <?php
+                        $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
+                        $resultv = mysqli_query($link,$sqlv);
+                        if ($rowv = mysqli_fetch_array($resultv)){
+                        mysqli_field_seek($resultv,0);
+                        while ($fieldv = mysqli_fetch_field($resultv)){
+                        } do {
+                        ?>
+                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idestablecimiento_salud_ss) echo "selected";?> ><?php echo $rowv[1];?></option>
+                        <?php
+                        } while ($rowv = mysqli_fetch_array($resultv));
+                        } else {
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+                <hr>
 
                 <div class="form-group row">                               
                     <div class="col-sm-3">
@@ -209,7 +289,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </div>
                         <div class="col-sm-4">
                         <h6 class="text-info">HISTORIA CLÍNICA:</h6>  
-                            <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                            <a class="btn btn-info btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
                             <span class="icon text-white-50">
                                 <i class="fas fa-book"></i>
                             </span>
@@ -222,186 +302,67 @@ $row_n=mysqli_fetch_array($result_n);
                 } else {
                 }
             ?>
-                                </div>
-                            </div>
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">2.- ANTECEDENTES NO PATOLÓGICOS</h6>
-        </div>
-        <div class="card-body">
-
-        <?php
-            $numeroa=1;
-            $sqla =" SELECT idintegrante_ap_sano, integrante_ap_sano FROM integrante_ap_sano WHERE idintegrante_cf='$idintegrante_cf_ss' ";
-            $resulta = mysqli_query($link,$sqla);
-            if ($rowa = mysqli_fetch_array($resulta)){
-            mysqli_field_seek($resulta,0);
-            while ($fielda = mysqli_fetch_field($resulta)){
-            } do { 
-            ?>
-                <div class="form-group row">  
-                    <div class="col-sm-4">
-                        <h6 class="text-info">GRUPO I : APARENTEMENTE SANO(A)</h6>                   
-                    </div>
-                    <div class="col-sm-8">
-                    <h6 class="text-secundary"><?php echo $rowa[1];?></h6>
-                    </div>
-                </div>
-            <hr>
-            <?php
-            $numeroa=$numeroa+1;
-            }
-            while ($rowa = mysqli_fetch_array($resulta));
-            } else {
-            }
-            ?>
-
-
-        <?php
-            $numerob=1;
-            $sqlb =" SELECT integrante_factor_riesgo.idintegrante_factor_riesgo, factor_riesgo_cf.factor_riesgo_cf,  ";
-            $sqlb.=" factor_riesgo_cf.vulnerable, integrante_factor_riesgo.otro_factor_riesgo  FROM integrante_factor_riesgo, factor_riesgo_cf ";
-            $sqlb.=" WHERE integrante_factor_riesgo.idfactor_riesgo_cf=factor_riesgo_cf.idfactor_riesgo_cf ";
-            $sqlb.=" AND integrante_factor_riesgo.idintegrante_cf='$idintegrante_cf_ss' ";
-            $resultb = mysqli_query($link,$sqlb);
-            if ($rowb = mysqli_fetch_array($resultb)){
-            mysqli_field_seek($resultb,0);
-            while ($fieldb = mysqli_fetch_field($resultb)){
-            } do { 
-            ?>
-                <div class="form-group row">  
-                    <div class="col-sm-4">
-                        <h6 class="text-info">GRUPO II : FACTORES DE RIESGO</h6> 
-                    </div>
-                    <div class="col-sm-8">
-                    <h6 class="text-secundary"><?php echo $rowb[1];
-                    if ($rowb[2] == 'SI') { echo " - VULNERABLE"; } else { } ?>                    
-                    <?php  echo $rowb[3];?>
-                    </h6>
-                    </div>
-                </div>
-                <hr>
-            <?php
-            $numerob=$numerob+1;
-            }
-            while ($rowb = mysqli_fetch_array($resultb));
-            } else { ?>
-                <div class="form-group row"> 
-                    <div class="col-sm-4"></div> 
-                    <div class="col-sm-8">
-                        <h6 class="text-secundary">NO PRESENTA FACTORES DE RIESGO</h6> 
-                    </div>
-                </div>
-                <?php } ?>
-        </div>
-    </div>
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">3.- ANTECEDENTES PATOLÓGICOS</h6>
-        </div>
-        <div class="card-body">
-        <?php
-            $numeroc=1;
-            $sqlc =" SELECT integrante_morbilidad.idintegrante_morbilidad, morbilidad_cf.morbilidad_cf, tipo_enfermedad_cf.tipo_enfermedad_cf, integrante_morbilidad.otra_enfermedad  ";
-            $sqlc.=" FROM integrante_morbilidad, morbilidad_cf, tipo_enfermedad_cf WHERE integrante_morbilidad.idmorbilidad_cf=morbilidad_cf.idmorbilidad_cf ";
-            $sqlc.=" AND morbilidad_cf.idtipo_enfermedad_cf=tipo_enfermedad_cf.idtipo_enfermedad_cf AND integrante_morbilidad.idintegrante_cf='$idintegrante_cf_ss' ";
-            $resultc = mysqli_query($link,$sqlc);
-            if ($rowc = mysqli_fetch_array($resultc)){
-            mysqli_field_seek($resultc,0);
-            while ($fieldc = mysqli_fetch_field($resultc)){
-            } do { 
-            ?>
-                <div class="form-group row">  
-                    <div class="col-sm-4">
-                        <h6 class="text-info">GRUPO III - MORBILIDAD</h6> 
-                    </div>
-                    <div class="col-sm-8">
-                    <h6 class="text-secundary"><?php echo $rowc[1];?> - <?php  echo $rowc[2];?> 
-                    <?php if ($rowc[3] != ' ') { echo " - ".$rowc[3]; } else { } ?>
-                    </h6>
-                    </div>
-                </div>
-                <hr>
-            <?php
-            $numeroc=$numeroc+1;
-            }
-            while ($rowc = mysqli_fetch_array($resultc));
-            } else {
-                ?>
-                <div class="form-group row">  
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-8">
-                        <h6 class="text-secundary">NO PRESENTA MORBILIDAD</h6> 
-                    </div>
-                </div>
-                <?php } ?>
-        <?php
-            $numerod=1;
-            $sqld =" SELECT integrante_discapacidad.idintegrante_discapacidad, tipo_discapacidad_cf.tipo_discapacidad_cf, ";
-            $sqld.=" nivel_discapacidad_cf.nivel_discapacidad_cf FROM integrante_discapacidad, tipo_discapacidad_cf, nivel_discapacidad_cf ";
-            $sqld.=" WHERE integrante_discapacidad.idtipo_discapacidad_cf=tipo_discapacidad_cf.idtipo_discapacidad_cf ";
-            $sqld.=" AND integrante_discapacidad.idnivel_discapacidad_cf=nivel_discapacidad_cf.idnivel_discapacidad_cf AND integrante_discapacidad.idintegrante_cf='$idintegrante_cf_ss' ";
-            $resultd = mysqli_query($link,$sqld);
-            if ($rowd = mysqli_fetch_array($resultd)){
-            mysqli_field_seek($resultd,0);
-            while ($fieldd = mysqli_fetch_field($resultd)){
-            } do { 
-            ?>
-                <div class="form-group row">  
-                    <div class="col-sm-4">
-                        <h6 class="text-info">GRUPO IV - DISCAPACIDAD</h6> 
-                    </div>
-                    <div class="col-sm-8">
-                    <h6 class="text-secundary"><?php echo "DISCAPACIDAD : ".$rowd[1];?> - <?php  echo $rowd[2];?> 
-                    </h6>
-                    </div>
-                </div>
-                <hr>
-            <?php
-            $numerod=$numerod+1;
-            }
-            while ($rowd = mysqli_fetch_array($resultd));
-            } else {
-
-            }
-                ?>
-
-        </div>
-    </div>
-        <!-- VENTANA DE ATENCION INTEGRAL ---->
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">4.- ATENCIÓN INTEGRAL SAFCI</h6>
-        </div>
-        <div class="card-body">
-
-            <div class="form-group row">    
-                <div class="col-sm-12">
-                <h6 class="text-info">TIPO DE ATENCIÓN SAFCI:</h6>
-                <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
-                <option value="">-SELECCIONE-</option>
-                <?php
-                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion  ";
-                $result_at = mysqli_query($link,$sql_at);
-                if ($row_at = mysqli_fetch_array($result_at)){
-                mysqli_field_seek($result_at,0);
-                while ($field_at = mysqli_fetch_field($result_at)){
-                } do {
-                echo "<option value=".$row_at[0].">".$row_at[1]."</option>";
-                } while ($row_at = mysqli_fetch_array($result_at));
-                } else {
-                echo "No se encontraron resultados!";
-                }
-                ?>
-                </select>
-                </div>
             </div>
         </div>
-        <div class="card-body" id="tipo_atencion"></div>  
-          
+
+        <!-- VENTANA DE DATOS DE SEGUIMIENTO AL BENFICIARIO ---->
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-info">4.- ACTUALIZACIÓN DE DATOS DEL BENEFICIARIO - <?php echo $parentesco_ss;?></h6>
+        </div>
+<?php if ($idparentesco_ss=='4') { ?>  
+          <div class="card-body">
+            <div class="form-group row">  
+                <div class="col-sm-4">
+                    <h6 class="text-info">IDENTIFICACIÓN DE LA MADRE</h6> 
+                </div>
+                <div class="col-sm-6">
+                    <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
+                    <option value="">-SELECCIONE-</option>
+                    <?php
+                    $sql_p = " SELECT integrante_cf.idintegrante_cf, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco FROM integrante_cf, nombre, parentesco WHERE integrante_cf.idnombre=nombre.idnombre ";
+                    $sql_p.= " AND integrante_cf.idparentesco=parentesco.idparentesco AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ORDER BY integrante_cf.idintegrante_cf  ";
+                    $result_p = mysqli_query($link,$sql_p);
+                    if ($row_p = mysqli_fetch_array($result_p)){
+                    mysqli_field_seek($result_p,0);
+                    while ($field_p = mysqli_fetch_field($result_p)){
+                    } do {
+                    echo "<option value=".$row_p[0].">".$row_p[3]." ".$row_p[1]." ".$row_p[2]." - ".$row_p[4]." </option>";
+                    } while ($row_p = mysqli_fetch_array($result_p));
+                    } else {
+                    echo "No se encontraron resultados!";
+                    }
+                    ?>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-info btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                    <span class="text">GUARDAR</span>
+                    </button>
+                </div>
+            </div>
+        </div> 
+<?php } else {  ?>
+    
+<?php } ?>
+
+        <div class="card-body">
+            <div class="form-group row">  
+                <div class="col-sm-4">
+                    <h6 class="text-info">HISTORIA DE ATENCIONES</h6> 
+                </div>
+                <div class="col-sm-8">
+
+                </div>
+            </div>
+        </div>  
+        
+        
+
     </div>
             
         <!-- END aqui va el comntenido de la pagina ---->

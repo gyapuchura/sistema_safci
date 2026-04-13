@@ -229,7 +229,21 @@ $row_ar = mysqli_fetch_array($result_ar);
                         $fecha_s = explode('-',$row4[8]);
                         $fecha_n = $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0];
                         echo $fecha_n;?></td>
-            <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[9];?></td>
+            <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php
+                    $fecha_nacimiento = $row4[8];
+                    $dia = date("d");
+                    $mes = date("m");
+                    $ano = date("Y");    
+                    $dianaz = date("d",strtotime($fecha_nacimiento));
+                    $mesnaz = date("m",strtotime($fecha_nacimiento));
+                    $anonaz = date("Y",strtotime($fecha_nacimiento));         
+                    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                    $ano=($ano-1); }      
+                    if ($mesnaz > $mes) {
+                    $ano=($ano-1);}       
+                    $edad=($ano-$anonaz);  
+                    echo $edad;?>
+            </td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row4[10];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[1];?></td>
             <td style="font-family: Arial; font-size: 12px; color: #503B92; text-align: center;"><?php echo $row5[2];?></td>
