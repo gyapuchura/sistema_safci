@@ -99,6 +99,7 @@ switch ($idpatologia_ap_sano) {
     case 239:
 
         $idnombre_madre  = $_POST['idnombre_madre'];
+        $idparentesco    = $_POST['idparentesco'];
         $direccion_domicilio  = $_POST['direccion_domicilio'];
         $celular_madre   = $_POST['celular_madre'];
         $cuenta_madre    = $_POST['cuenta_madre'];
@@ -116,7 +117,7 @@ switch ($idpatologia_ap_sano) {
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
            
-            $sql_bn = " UPDATE bono_nino_sano SET numero_controles = '$row1[1]+1' WHERE idbono_nino_sano = '$row1[0]' ";
+            $sql_bn = " UPDATE bono_nino_sano SET numero_controles = '$numero_controles' WHERE idbono_nino_sano = '$row1[0]' ";
             $result_bn = mysqli_query($link,$sql_bn);
 
         } else {
@@ -129,8 +130,8 @@ switch ($idpatologia_ap_sano) {
 
             $codigo_bj = "MSYD-BJA-".$correlativo_bj."/".$gestion;
 
-            $sql_bj = " INSERT INTO bono_nino_sano (codigo, correlativo, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, idnombre_nino, idnombre_madre, numero_controles, nino_carpetizado, direccion_domicilio, lug_nac_nino, lug_nac_madre, celular_madre, cuenta_madre, fecha_inscripcion_bono, fecha_registro, hora_registro, gestion, idusuario) ";
-            $sql_bj.= " VALUES ('$codigo_bj','$correlativo_bj','$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idarea_influencia','$idnombre_integrante_ss','$idnombre_madre','$numero_controles','SI','$direccion_domicilio','$lug_nac_nino','$lug_nac_madre','$celular_madre','$cuenta_madre','$fecha_inscripcion_bono','$fecha','$hora','$gestion','$idusuario_ss') ";
+            $sql_bj = " INSERT INTO bono_nino_sano (codigo, correlativo, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, idnombre_nino, idnombre_madre, idparentesco, numero_controles, nino_carpetizado, direccion_domicilio, lug_nac_nino, lug_nac_madre, celular_madre, cuenta_madre, fecha_inscripcion_bono, fecha_registro, hora_registro, gestion, idusuario) ";
+            $sql_bj.= " VALUES ('$codigo_bj','$correlativo_bj','$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idarea_influencia','$idnombre_integrante_ss','$idnombre_madre','$idparentesco','$numero_controles','SI','$direccion_domicilio','$lug_nac_nino','$lug_nac_madre','$celular_madre','$cuenta_madre','$fecha_inscripcion_bono','$fecha','$hora','$gestion','$idusuario_ss') ";
             $result_bj = mysqli_query($link,$sql_bj);
 
         }

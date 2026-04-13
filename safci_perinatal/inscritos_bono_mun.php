@@ -1,7 +1,6 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php"); 
 
-
 $idmunicipio = $_POST["municipio_salud"];
 ?>
 <div class="table-responsive">
@@ -70,7 +69,8 @@ $idmunicipio = $_POST["municipio_salud"];
                     if ($mesnaz > $mes) {
                     $ano=($ano-1);}       
                     $edad=($ano-$anonaz);  
-                    echo $edad ;?>
+                    echo $edad ;
+                    ?>
                 </td>
                 <td>
                 <?php
@@ -83,15 +83,7 @@ $idmunicipio = $_POST["municipio_salud"];
                 <td><?php echo $row[11];?></td>
                 <td>
                 <form name="FORM_BONO" action="valida_inscrito_bono.php" method="post">
-                <input name="idintegrante_cf" type="hidden" value="<?php echo $row[0];?>">
-                <input name="idcarpeta_familiar" type="hidden" value="<?php echo $row[12];?>">
-                <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[13];?>">
-                <input name="idmunicipio" type="hidden" value="<?php echo $idmunicipio;?>">
-                <input name="iddepartamento" type="hidden" value="<?php echo $row[14];?>">
-                <input name="idnombre_integrante" type="hidden" value="<?php echo $row[1];?>">
-                <input name="edad" type="hidden" value="<?php echo $edad;?>">
-                <input name="parentesco" type="hidden" value="<?php echo $row[11];?>">
-                <input name="idparentesco" type="hidden" value="<?php echo $row[15];?>">
+                <input name="idbono_nino_sano" type="hidden" value="<?php echo $row[0];?>">             
                 <button type="submit" class="btn btn-info btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-right"></i>
@@ -112,6 +104,22 @@ $idmunicipio = $_POST["municipio_salud"];
             </tbody>
         </table>
     </div>
+
+            <hr>
+            <div class="text-center">
+            <div class="form-group row"> 
+                    <div class="col-sm-4"> 
+                    </div>
+                    <div class="col-sm-4"> 
+                    </div>
+                    <div class="col-sm-4">
+                <form name="REPORTE_CF" action="reporte_beneficiarios_bono_mun.php" method="post">
+                    <input type="hidden" name="idmunicipio" value="<?php echo $idmunicipio;?>">
+                    <button type="submit" class="btn btn-success">REPORTE DE CONTROL BENEFICIARIOS</button>
+                </form>
+                </div>
+            </div>   
+        <hr>
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 

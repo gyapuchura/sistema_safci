@@ -9,8 +9,8 @@ $gestion   = date("Y");
 $idbono_nino_sano = $_GET['idbono_nino_sano'];
 
         $sql =" SELECT bono_nino_sano.idbono_nino_sano, bono_nino_sano.codigo, departamento.departamento, municipios.municipio, red_salud.red_salud, establecimiento_salud.establecimiento_salud, ";
-        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, bono_nino_sano.idnombre_nino, bono_nino_sano.idnombre_madre, bono_nino_sano.numero_controles, ";
-        $sql.=" bono_nino_sano.nino_carpetizado, bono_nino_sano.direccion_domicilio, bono_nino_sano.celular_madre, bono_nino_sano.cuenta_madre, bono_nino_sano.fecha_inscripcion_bono, bono_nino_sano.lug_nac_nino, bono_nino_sano.lug_nac_madre ";
+        $sql.=" tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia, bono_nino_sano.idnombre_nino, bono_nino_sano.idnombre_madre, bono_nino_sano.numero_controles, bono_nino_sano.nino_carpetizado, ";
+        $sql.=" bono_nino_sano.direccion_domicilio, bono_nino_sano.celular_madre, bono_nino_sano.cuenta_madre, bono_nino_sano.fecha_inscripcion_bono, bono_nino_sano.lug_nac_nino, bono_nino_sano.lug_nac_madre, bono_nino_sano.idparentesco";
         $sql.=" FROM bono_nino_sano, departamento, municipios, red_salud, establecimiento_salud, area_influencia, tipo_area_influencia WHERE bono_nino_sano.iddepartamento=departamento.iddepartamento ";
         $sql.=" AND bono_nino_sano.idmunicipio=municipios.idmunicipio AND bono_nino_sano.idred_salud=red_salud.idred_salud AND bono_nino_sano.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
         $sql.=" AND bono_nino_sano.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
@@ -38,7 +38,7 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
       <td style="text-align: center; font-family: Arial; font-size: 14px;">FORMULARIO ÚNICO DE INSCRIPCIÓN Y CONTROL DE</td>
     </tr>
     <tr>
-      <td width="590" style="text-align: center; font-size: 14px; font-family: Arial;">CORRESPONSABILIDADES NIÑO / NIÑA MENOR DE 2 ANOS</td>
+      <td width="590" style="text-align: center; font-size: 14px; font-family: Arial;">CORRESPONSABILIDADES NIÑO / NIÑA MENOR DE 2 AÑOS</td>
     </tr>
     <tr>
       <td colspan="3" style="text-align: center; font-size: 14px; font-family: Arial;">CÓDIGO : <?php echo $row[1];?></td>
@@ -82,7 +82,12 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
                     <td bgcolor="#1D2E8B" style="font-family: Arial; font-size: 12px; color: #FFFFFF; text-align: center;">FECHA DE INSCRIPCION AL PROGRAMA:</td>
                   </tr>
                   <tr>
-                    <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row[15];?></td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                      <?php 
+                      $fecha_ins = explode('-',$row[15]);
+                      $fecha_inscripcion = $fecha_ins[2].'/'.$fecha_ins[1].'/'.$fecha_ins[0];
+                      echo $fecha_inscripcion; ?>  
+                  </td>
                   </tr>
                 </tbody>
               </table></td>
@@ -132,7 +137,12 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
                     echo mb_strtoupper($row_g[0]);?>
                     </td>
                   <td style="font-family: Arial; font-size: 12px;">FECHA DE NACIMIENTO:</td>
-                  <td style="font-family: Arial; font-size: 12px;"><?php  echo mb_strtoupper($row_n[5]);?></td>
+                  <td style="font-family: Arial; font-size: 12px;">
+                      <?php 
+                      $fecha_ni = explode('-',$row_n[5]);
+                      $fecha_nino = $fecha_ni[2].'/'.$fecha_ni[1].'/'.$fecha_ni[0];
+                      echo $fecha_nino; ?>   
+                  </td>
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">LUGAR DE NACIMIENTO:</td>
@@ -168,7 +178,13 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">PARENTESCO:</td>
-                  <td colspan="3" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="3" style="font-family: Arial; font-size: 12px;">
+                    <?php
+                    $sql_pa =" SELECT parentesco FROM parentesco WHERE idparentesco='$row[18]' ";
+                    $result_pa=mysqli_query($link,$sql_pa);
+                    $row_pa=mysqli_fetch_array($result_pa);
+                    echo mb_strtoupper($row_pa[0]);?>  
+                  </td>
                   </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">SEXO:</td>
@@ -180,7 +196,13 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
                     echo mb_strtoupper($row_ge[0]);?>  
                 </td>
                   <td style="font-family: Arial; font-size: 12px;">FECHA DE NACIMIENTO:</td>
-                  <td style="font-family: Arial; font-size: 12px;"><?php echo mb_strtoupper($row_m[5]);?></td>
+                  <td style="font-family: Arial; font-size: 12px;">
+                      <?php 
+                      $fecha_ma = explode('-',$row_m[5]);
+                      $fecha_ma = $fecha_ma[2].'/'.$fecha_ma[1].'/'.$fecha_ma[0];
+                      echo $fecha_ma; 
+                      ?>    
+                  </td>
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">LUGAR DE NACIMIENTO:</td>
@@ -204,7 +226,7 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
       <td colspan="3">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="3" bgcolor="#1D2E8B" style="font-family: Arial; font-size: 12px; color: #FFFFFF; text-align: center;">CONTROL DE CORRESPONSABILIDADES DEL NINO / NINA</td>
+      <td colspan="3" bgcolor="#1D2E8B" style="font-family: Arial; font-size: 12px; color: #FFFFFF; text-align: center;">CONTROL DE CORRESPONSABILIDADES DEL NIÑO / NIÑA</td>
     </tr>
     <tr>
       <td colspan="3"><table width="225" border="0">
@@ -215,7 +237,7 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
 
         <?php
         $numero=0; 
-        $sql1 =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idatencion_psafci, diagnostico_psafci.fecha_registro FROM diagnostico_psafci, atencion_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+        $sql1 =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.idatencion_psafci, diagnostico_psafci.fecha_registro, diagnostico_psafci.idusuario FROM diagnostico_psafci, atencion_psafci WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
         $sql1.=" AND diagnostico_psafci.idpatologia='239' AND atencion_psafci.idnombre='$row[8]' ";
         $result1 = mysqli_query($link,$sql1);
         if ($row1 = mysqli_fetch_array($result1)){
@@ -233,21 +255,36 @@ $idbono_nino_sano = $_GET['idbono_nino_sano'];
             <table width="225" border="1" cellspacing="0">
               <tbody>
                 <tr>
-                  <td colspan="4" style="text-align: center; font-family: Arial; font-size: 12px;">FECHA DE CONTROL</td>
+                  <td colspan="4" bgcolor="#B5C7D8" style="text-align: center; font-family: Arial; font-size: 12px;">FECHA DE CONTROL</td>
                   </tr>
                 <tr>
-                  <td colspan="4" style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row1[2];?></td>
+                  <td colspan="4" style="text-align: center; font-family: Arial; font-size: 12px;">
+                      <?php 
+                      $fecha_con = explode('-',$row1[2]);
+                      $fecha_control = $fecha_con[2].'/'.$fecha_con[1].'/'.$fecha_con[0];
+                      echo $fecha_control; 
+                      ?>   
+                  </td>
                   </tr>
                 <tr>
-                  <td style="text-align: center; font-family: Arial; font-size: 12px;">TALLA:</td>
+                  <td bgcolor="#B5C7D8" style="text-align: center; font-family: Arial; font-size: 12px;">TALLA:</td>
                   <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_sg[3];?> [cm]</td>
-                  <td style="text-align: center; font-family: Arial; font-size: 12px;">PESO:</td>
+                  <td bgcolor="#B5C7D8" style="text-align: center; font-family: Arial; font-size: 12px;">PESO:</td>
                   <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_sg[2];?> [kg]</td>
                 </tr>
                 <tr>
-                  <td colspan="4" style="text-align: center; font-family: Arial; font-size: 12px;"><p style="text-align: center; font-family: Arial; font-size: 10px;">&nbsp;</p>
+                  <td colspan="4" style="text-align: center; font-family: Arial; font-size: 12px;">
                     <p style="text-align: center; font-family: Arial; font-size: 10px;">&nbsp;</p>
-                    <p style="text-align: center; font-family: Arial; font-size: 10px;">&nbsp;</p>
+                    <p style="text-align: center; font-family: Arial; font-size: 24px;"><?php echo $numero+1;?>°</p>
+                    <p style="text-align: center; font-family: Arial; font-size: 10px;">
+                          <?php 
+                          $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                          $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row1[3]' ";
+                          $result_r = mysqli_query($link,$sql_r);
+                          $row_r = mysqli_fetch_array($result_r);                    
+                          echo mb_strtoupper("Médico: ".$row_r[0]." ".$row_r[1]." ".$row_r[2]);
+                          ?>
+                    </p>
                     <p style="text-align: center; font-family: Arial; font-size: 10px;">FIRMA Y SELLO</p></td>
                 </tr>
                 </tbody>

@@ -1,6 +1,7 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php"); ?>
 <?php
+date_default_timezone_set('America/La_Paz');
 $fecha 		= date("Y-m-d");
 $idtipo_atencion = $_POST['tipo_atencion'];
 $edad_ss = $_SESSION['edad_ss'];

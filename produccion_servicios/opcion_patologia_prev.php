@@ -47,7 +47,7 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
             <!-------------  El niño es menor a 2 años y corresponde el bono juana azurduy ----------->   
             <?php
             $sql_bj = " SELECT idnombre_nino, idnombre_madre, nino_carpetizado, numero_controles, direccion_domicilio, celular_madre, cuenta_madre, ";
-            $sql_bj.= " fecha_inscripcion_bono FROM bono_nino_sano  WHERE idnombre_nino='$idnombre_integrante_ss' ";
+            $sql_bj.= " fecha_inscripcion_bono, idbono_nino_sano FROM bono_nino_sano  WHERE idnombre_nino='$idnombre_integrante_ss' ";
             $result_bj = mysqli_query($link,$sql_bj);
             if ($row_bj = mysqli_fetch_array($result_bj)){ ?>
 
@@ -81,7 +81,7 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
                         <input type="number" class="form-control" name="cuenta_madre" placeholder="" value="<?php echo $row_bj[3];?>" disabled>
                     </div>
                     <div class="col-sm-3"></br></br>
-                            <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/imprime_bja_nino.php" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=800,top=50, left=600, scrollbars=YES'); return false;">
+                            <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/imprime_bja_nino.php?idbono_nino_sano=<?php echo $row_bj[8];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=800,top=50, left=600, scrollbars=YES'); return false;">
                             <span class="icon text-white-50">
                                 <i class="fas fa-user"></i>
                             </span>
@@ -123,19 +123,19 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
             </div>
             <hr>
             <div class="form-group row">  
-                    <div class="col-sm-6">
+                    <div class="col-sm-8">
                         <h6 class="text-info">IDENTIFICACIÓN DE LA MADRE EN CARPETA FAMILIAR</h6> 
                         <select name="idnombre_madre" id="idnombre_madre" class="form-control" required>
                         <option value="">-SELECCIONE-</option>
                         <?php
-                        $sql_p = " SELECT integrante_cf.idnombre, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco FROM integrante_cf, nombre, parentesco WHERE integrante_cf.idnombre=nombre.idnombre ";
+                        $sql_p = " SELECT integrante_cf.idnombre, nombre.paterno, nombre.materno, nombre.nombre, parentesco.parentesco, integrante_cf.edad FROM integrante_cf, nombre, parentesco WHERE integrante_cf.idnombre=nombre.idnombre ";
                         $sql_p.= " AND integrante_cf.idparentesco=parentesco.idparentesco AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ORDER BY integrante_cf.idintegrante_cf  ";
                         $result_p = mysqli_query($link,$sql_p);
                         if ($row_p = mysqli_fetch_array($result_p)){
                         mysqli_field_seek($result_p,0);
                         while ($field_p = mysqli_fetch_field($result_p)){
                         } do {
-                        echo "<option value=".$row_p[0].">".$row_p[3]." ".$row_p[1]." ".$row_p[2]." - ".$row_p[4]." </option>";
+                        echo "<option value=".$row_p[0].">".$row_p[3]." ".$row_p[1]." ".$row_p[2]." - ".$row_p[4]." - Edad : ".$row_p[5]." años </option>";
                         } while ($row_p = mysqli_fetch_array($result_p));
                         } else {
                         echo "No se encontraron resultados!";
@@ -143,29 +143,51 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
                         ?>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
+                        <h6 class="text-info">PARENTESCO RESPECTO AL NIÑO/NIÑA</h6> 
+                        <select name="idparentesco" id="idparentesco" class="form-control" required>
+                        <option value="">-SELECCIONE-</option>
+                        <?php
+                        $sql_p = " SELECT idparentesco, parentesco FROM parentesco ORDER BY parentesco ";
+                        $result_p = mysqli_query($link,$sql_p);
+                        if ($row_p = mysqli_fetch_array($result_p)){
+                        mysqli_field_seek($result_p,0);
+                        while ($field_p = mysqli_fetch_field($result_p)){
+                        } do {
+                        echo "<option value=".$row_p[0].">".$row_p[1]."</option>";
+                        } while ($row_p = mysqli_fetch_array($result_p));
+                        } else {
+                        echo "No se encontraron resultados!";
+                        }
+                        ?>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group row">  
+                    <div class="col-sm-4">
                         <h6 class="text-info">LUGAR DE NACIMIENTO DEL NIÑO/NIÑA</h6> 
                         <textarea class="form-control" rows="2" name="lug_nac_nino" required></textarea> 
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h6 class="text-info">LUGAR DE NACIMIENTO DEL TITULAR DE PAGO</h6> 
                         <textarea class="form-control" rows="2" name="lug_nac_madre" required></textarea> 
                     </div>
-                </div>
-                <div class="form-group row">  
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h6 class="text-info">DIRECCION/DOMICILIO</h6>
                         <textarea class="form-control" rows="2" name="direccion_domicilio" required></textarea> 
                     </div>
-                    <div class="col-sm-3">
+                </div>
+                <div class="form-group row">  
+                    <div class="col-sm-4">
                         <h6 class="text-info">CELULAR DE LA MADRE</h6> 
                         <input type="number" class="form-control" name="celular_madre" placeholder="" value="" required>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h6 class="text-info">Nº DE CUENTA BANCARIA</h6> 
                         <input type="number" class="form-control" name="cuenta_madre" placeholder="" value="" >
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h6 class="text-info">FECHA DE INSCRIPCIÓN AL BONO </h6> 
                         <input type="date" class="form-control" name="fecha_inscripcion_bono" value="<?php echo $fecha;?>" >
                     </div>
