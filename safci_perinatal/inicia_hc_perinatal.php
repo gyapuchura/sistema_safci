@@ -466,6 +466,63 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
+                                <div class="form-group row"> 
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">ALCOHOL:</h6>
+                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
+                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >                
+                                    </div> 
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">VIOLENCIA:</h6>
+                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
+                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >                 
+                                    </div>                             
+                                    <div class="col-sm-3">
+                                        <h6 class="text-warning">ANTIRUBEOLA:</h6>
+                                        <select name="idantirubeola"  id="idantirubeola" class="form-control" required>
+                                            <option value="">ELEGIR</option>
+                                            <?php
+                                            $sql1 = "SELECT idantirubeola, antirubeola FROM antirubeola ";
+                                            $result1 = mysqli_query($link,$sql1);
+                                            if ($row1 = mysqli_fetch_array($result1)){
+                                            mysqli_field_seek($result1,0);
+                                            while ($field1 = mysqli_fetch_field($result1)){
+                                            } do {
+                                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                                            } while ($row1 = mysqli_fetch_array($result1));
+                                            } else {
+                                            echo "No se encontraron resultados!";
+                                            }
+                                            ?>
+                                        </select>
+              
+                                    </div>
+                                    <div class="col-sm-3">             
+                                    </div>
+                                </div>
+                                <div class="form-group row"> 
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">ANTITETÁNICA:</br>(vigente)</h6>
+                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
+                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >              
+                                    </div>
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">DÓSIS:</br>(mes de gestación)</h6>
+                                        1ra <input type="checkbox" name="dosis_antirubeola" value="1ra" ></br>
+                                        2da <input type="checkbox" name="dosis_antirubeola" value="2da" >                
+                                    </div>                            
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">EX. NORMAL:</br>(ODONT.)</h6>
+                                        SI <input type="radio" name="ex_odont" value="SI" >
+                                        NO <input type="radio" name="ex_odont" value="NO" checked >  
+              
+                                    </div>
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">EX. NORMAL:</br>(MAMAS)</h6>
+                                        SI <input type="radio" name="ex_mamas" value="SI" >
+                                        NO <input type="radio" name="ex_mamas" value="NO" checked > 
+                                    </div>
+                                </div>
 
 
                             </div>                                    
