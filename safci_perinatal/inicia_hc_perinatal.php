@@ -11,8 +11,6 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
@@ -27,9 +25,9 @@ $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalid
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
         
-$sql_ps =" SELECT idatencion_psafci, idrepeticion, idtipo_consulta, idtipo_atencion, codigo, fecha_registro FROM atencion_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
-$result_ps=mysqli_query($link,$sql_ps);
-$row_ps=mysqli_fetch_array($result_ps);
+$sql_ub =" SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+$result_ub=mysqli_query($link,$sql_ub);
+$row_ub=mysqli_fetch_array($result_ub);
 
 ?>
 <!DOCTYPE html>
@@ -69,7 +67,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <!---------------------- FORMULARIO DE REFERENCIA D7 (begin) ------------->
+                <!---------------------- FORMULARIO DE HISTORIA CLINICA PERINATAL D7 (begin) ------------->
                     </br>          
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -214,16 +212,18 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="text-warning">AÑOS EN EL MAYOR NIVEL ACADÉMICO:</h6>
-                                        <input type="number" class="form-control" value="" name="anos_mayor_nivel">                                      
+                                        <input type="number" class="form-control" value="" name="anos_mayor_nivel" required autofocus>                                      
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-warning">¿VIVE SOLA?:</h6>
-                                        SI <input type="radio" name="alergia" value="SI" > </br>
-                                        NO <input type="radio" name="alergia" value="NO" checked >                
+                                        SI <input type="radio" name="vive_sola" value="SI" > </br>
+                                        NO <input type="radio" name="vive_sola" value="NO" checked >                
                                     </div>             
                                 </div>                                
                             </div>                                
                         </div>
+
+                <form name="PERINATAL" action="guarda_historia_perinatal.php" method="post"> 
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -336,7 +336,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3"></br>
                                     <h6 class="text-warning">VAGINALES:</h6>
                                         <input type="number" class="form-control"              
-                                            name="gestaciones" value="1" required>                
+                                            name="vaginales" value="1" required>                
                                     </div>
                                     <div class="col-sm-3"></br>
                                     <h6 class="text-warning">ÚLTIMO PREVIO:</h6>
@@ -365,7 +365,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">FIN DE EMBARAZO ANTERIOR:</h6>
                                         <input type="date" class="form-control" 
-                                            name="fecha_fea" placeholder="" value="0" required>               
+                                            name="fecha_fea" placeholder=""  required>               
                                     </div> 
                                 </div>
                                 <div class="form-group row">                               
@@ -407,12 +407,12 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">PESO ANTERIOR </br>[kg]:</h6>
                                         <input type="number" class="form-control"              
-                                            name="peso" value="1" required>                
+                                            name="peso_anterior" value="0" required>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">TALLA </br>[Centímetros]:</h6>
                                         <input type="text" class="form-control" placeholder="En Centrimetros"
-                                            name="talla" value="1" required>                
+                                            name="talla" value="0" required>                
                                     </div>                             
 
                                     <div class="col-sm-3"></br>
@@ -450,32 +450,32 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">FUMA ACTIVO:</h6>
-                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
-                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >                 
+                                        SI <input type="radio" name="fuma_activo" value="SI" >
+                                        NO <input type="radio" name="fuma_activo" value="NO" checked >                 
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">FUMA PASIVO:</h6>
-                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
-                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >  
+                                        SI <input type="radio" name="fuma_pasivo" value="SI" >
+                                        NO <input type="radio" name="fuma_pasivo" value="NO" checked >  
               
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">DROGAS:</h6>
-                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
-                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >              
+                                        SI <input type="radio" name="drogas" value="SI" >
+                                        NO <input type="radio" name="drogas" value="NO" checked >              
                                     </div>
                                 </div>
 
                                 <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">ALCOHOL:</h6>
-                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
-                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >                
+                                        SI <input type="radio" name="alcohol" value="SI" >
+                                        NO <input type="radio" name="alcohol" value="NO" checked >                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">VIOLENCIA:</h6>
-                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
-                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >                 
+                                        SI <input type="radio" name="violencia" value="SI" >
+                                        NO <input type="radio" name="violencia" value="NO" checked >                 
                                     </div>                             
                                     <div class="col-sm-3">
                                         <h6 class="text-warning">ANTIRUBEOLA:</h6>
@@ -503,18 +503,18 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">ANTITETÁNICA:</br>(vigente)</h6>
-                                        SI <input type="radio" name="embarazo_planeado" value="SI" >
-                                        NO <input type="radio" name="embarazo_planeado" value="NO" checked >              
+                                        SI <input type="radio" name="antitetanica" value="SI" >
+                                        NO <input type="radio" name="antitetanica" value="NO" checked >              
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">DÓSIS:</br>(mes de gestación)</h6>
-                                        1ra <input type="checkbox" name="dosis_antirubeola" value="1ra" ></br>
-                                        2da <input type="checkbox" name="dosis_antirubeola" value="2da" >                
+                                        1ra <input type="radio" name="dosis_antitetanica" value="1ra" ></br>
+                                        2da <input type="radio" name="dosis_antitetanica" value="2da" >                
                                     </div>                            
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">EX. NORMAL:</br>(ODONT.)</h6>
-                                        SI <input type="radio" name="ex_odont" value="SI" >
-                                        NO <input type="radio" name="ex_odont" value="NO" checked >  
+                                        SI <input type="radio" name="ex_odontologico" value="SI" >
+                                        NO <input type="radio" name="ex_odontologico" value="NO" checked >  
               
                                     </div>
                                     <div class="col-sm-3">
@@ -523,7 +523,43 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         NO <input type="radio" name="ex_mamas" value="NO" checked > 
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="form-group row"> 
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <button type="submit" class="btn btn-warning" >
+                                        REGISTRAR HISTORIA CLINICA PERINATAL
+                                        </button>  
+                                    </div>
+                                </div>
 
+                                <hr>
+                            <!-- modal de confirmacion de envio de datos-->
+                            <div class="modal fade" id="examplemodal" tabindex="-1" role="dialog" aria-labelledby="examplemodalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="examplemodalLabel">REGISTRAR HISTORIA CLINICA PERINATAL</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                
+                                                ¿Esta seguro de Registrar la NUEVA HISTORIA CLINICA PERINATAL?
+                                                posteriormenete no se podran realizar cambios.
+
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                                            <button type="submit" class="btn btn-warning pull-center">CONFIRMAR REGISTRO</button>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                                <!-- Modal -->
 
                             </div>                                    
                         </div>
