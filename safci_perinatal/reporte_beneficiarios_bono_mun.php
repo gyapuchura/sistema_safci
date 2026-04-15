@@ -46,11 +46,13 @@ $row_mun = mysqli_fetch_array($result_mun);
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE NACIMIENTO DEL NIÑO/NIÑA</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">EDAD DEL NIÑO/NIÑA</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">NOMBRE DEL TITULAR DE PAGO</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CÉDULA DEL TITULAR DE PAGO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">PARENTESCO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">NÚMERO DE CONTROLES</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">TELÉFONO DEL TITULAR DE PAGO:</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CUENTA DEL TITULAR DE PAGO:</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE INSCRIPCIÓN:</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE ÚLTIMO CONTROL:</td>
 
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
@@ -114,6 +116,7 @@ $row_mun = mysqli_fetch_array($result_mun);
                 echo $row_m[1]." ".$row_m[2]." ".$row_m[3];
                 ?>
               </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_m[4];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
                 <?php
                 $sql_pa =" SELECT parentesco FROM parentesco WHERE idparentesco='$row[18]' ";
@@ -130,7 +133,18 @@ $row_mun = mysqli_fetch_array($result_mun);
                 $f_inscripcion = $fecha_ins[2].'/'.$fecha_ins[1].'/'.$fecha_ins[0];?>
                 <?php echo $f_inscripcion;?></td>
 		     <!--- <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">&nbsp;</td> --->
-	        </tr>
+         	<td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $sql_u =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.fecha_registro FROM diagnostico_psafci, atencion_psafci ";
+                $sql_u.=" WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia='239' ";
+                $sql_u.=" AND atencion_psafci.idnombre='$row[8]' ORDER BY diagnostico_psafci.fecha_registro DESC LIMIT 1 ";
+                $result_u=mysqli_query($link,$sql_u);
+                $row_u=mysqli_fetch_array($result_u);
+                $fecha_uc = explode('-',$row_u[1]);
+                $f_ucontrol = $fecha_uc[2].'/'.$fecha_uc[1].'/'.$fecha_uc[0];?>
+                <?php echo $f_ucontrol;?>
+          </td>
+	        </tr>          
             <?php
         $numero=$numero+1;
         }
