@@ -23,7 +23,7 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
             
             </div>
             <div class="col-sm-6"> 
-            <a class="btn btn-warning btn-icon-split" href="inicia_hc_perinatal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,top=50, left=600, scrollbars=YES'); return false;">
+            <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/inicia_hc_perinatal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,top=50, left=700, scrollbars=YES'); return false;">
             <span class="icon text-white-50">
                 <i class="fas fa-book"></i>
             </span>
@@ -202,20 +202,6 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
             <!-------------  El niño es mayor a 2 año y no corresponde el bono juana azurduy ----------->
         <?php } ?>
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         <!--------------------------------------------------------->
         <!------------     CONTROL DEL NIÑO SANO - END  --------------->
