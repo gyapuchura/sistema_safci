@@ -83,6 +83,8 @@ $row_ub=mysqli_fetch_array($result_ub);
                             </div>
                             <div class="card-body">
 
+                                <form name="PERINATAL" action="guarda_historia_perinatal.php" method="post"> 
+
                                 <div class="form-group row">                               
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">CÉDULA DE IDENTIDAD:</h6>
@@ -222,8 +224,6 @@ $row_ub=mysqli_fetch_array($result_ub);
                                 </div>                                
                             </div>                                
                         </div>
-
-                <form name="PERINATAL" action="guarda_historia_perinatal.php" method="post"> 
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
