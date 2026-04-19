@@ -5,7 +5,7 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
 $fecha 		= date("Y-m-d");
 $hora       = date("H:i");
-$gestion    = date("Y");
+$gestion    = date("Y"); 
 
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
@@ -196,7 +196,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-warning">HISTORIA CLÍNICA:</h6>
-                                        <a class="btn btn-warning btn-icon-split" href="imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                        <a class="btn btn-warning btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
                                         </span>
@@ -216,11 +216,16 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     <h6 class="text-warning">AÑOS EN EL MAYOR NIVEL ACADÉMICO:</h6>
                                         <input type="number" class="form-control" value="" name="anos_mayor_nivel" required autofocus>                                      
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-3">
                                     <h6 class="text-warning">¿VIVE SOLA?:</h6>
                                         SI <input type="radio" name="vive_sola" value="SI" > </br>
                                         NO <input type="radio" name="vive_sola" value="NO" checked >                
-                                    </div>             
+                                    </div> 
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">FECHA DE REGISTRO :</h6>
+                                        <input type="date"  class="form-control" 
+                                        placeholder="ingresar fecha" name="fecha_reg" value="<?php echo $fecha;?>" >
+                                    </div> 
                                 </div>                                
                             </div>                                
                         </div>
@@ -242,7 +247,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                             while ($field_e = mysqli_fetch_field($result_e)){
                                             } do {
                                             ?>
-                                                 SI <input type="radio" name="idantecedente_familiar[<?php echo $numero_e;?>]" value="SI">  NO <input type="radio" name="idantecedente_familiar[<?php echo $numero_e;?>]" value="NO" checked > -> <?php echo $row_e[1];?> </br>   
+                                                 SI <input type="radio" name="valor_antecedente_familiar[<?php echo $numero_e;?>]" value="SI">  NO <input type="radio" name="valor_antecedente_familiar[<?php echo $numero_e;?>]" value="NO" checked > -> <?php echo $row_e[1];?></br>  
                                             <?php
                                             $numero_e=$numero_e+1;
                                             }
@@ -262,7 +267,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                             while ($field_e = mysqli_fetch_field($result_e)){
                                             } do {
                                             ?>
-                                                 SI <input type="radio" name="idantecedente_personal[<?php echo $numero_e;?>]" value="SI">  NO <input type="radio" name="idantecedente_personal[<?php echo $numero_e;?>]" value="NO" checked > -> <?php echo $row_e[1];?>
+                                                 SI <input type="radio" name="valor_antecedente_personal[<?php echo $numero_e;?>]" value="SI">  NO <input type="radio" name="valor_antecedente_personal[<?php echo $numero_e;?>]" value="NO" checked > -> <?php echo $row_e[1];?> 
                                                 <?php  
                                                 if ($numero_e == '7') { echo '</br></br>'; } else { echo '</br>'; }
                                                 ?>
@@ -287,7 +292,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">G</br>[Gestaciones]:</h6>
                                         <input type="number" class="form-control"              
-                                            name="gestaciones" value="1" required>                
+                                            name="gestaciones" value="0" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">P</br>[Partos]:</h6>
@@ -305,6 +310,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                             name="cesareas" placeholder="" value="0" required>                
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="form-group row"> 
                                     <div class="col-sm-3"> 
                                     <h6 class="text-warning"></br>NACIDOS VIVOS:</h6>
@@ -332,11 +338,12 @@ $row_ub=mysqli_fetch_array($result_ub);
                                             name="muertos_d_semana" placeholder="" value="0" required>                
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="form-group row">                               
                                     <div class="col-sm-3"></br>
                                     <h6 class="text-warning">VAGINALES:</h6>
                                         <input type="number" class="form-control"              
-                                            name="vaginales" value="1" required>                
+                                            name="vaginales" value="0" required>                
                                     </div>
                                     <div class="col-sm-3"></br>
                                     <h6 class="text-warning">ÚLTIMO PREVIO:</h6>
@@ -368,6 +375,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                             name="fecha_fea" placeholder=""  required>               
                                     </div> 
                                 </div>
+                                <hr>
                                 <div class="form-group row">                               
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">EMBARAZO PLANEADO:</h6>
@@ -406,13 +414,13 @@ $row_ub=mysqli_fetch_array($result_ub);
                                 <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">PESO ANTERIOR </br>[kg]:</h6>
-                                        <input type="number" class="form-control"              
-                                            name="peso_anterior" value="0" required>                
+                                        <input type="text" class="form-control" placeholder="En Kilogramos"             
+                                            name="peso_anterior" value="" required>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">TALLA </br>[Centímetros]:</h6>
-                                        <input type="text" class="form-control" placeholder="En Centrimetros"
-                                            name="talla" value="0" required>                
+                                        <input type="text" class="form-control" placeholder="En Centimetros"
+                                            name="talla" value="" required>                
                                     </div>                             
 
                                     <div class="col-sm-3"></br>
@@ -441,7 +449,25 @@ $row_ub=mysqli_fetch_array($result_ub);
                                             name="fecha_fum" value="" required>                
                                     </div>
                                 </div>
-
+<hr>
+                                 <div class="form-group row"> 
+                                    <div class="col-sm-3">
+                                        <h6 class="text-warning">EG CONFIABLE POR :</h6>
+                                    </div>     
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">FUM:</h6>
+                                        SI <input type="radio" name="eg_fum" value="SI" >
+                                        NO <input type="radio" name="eg_fum" value="NO" checked >                 
+                                    </div> 
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">ECO < 20s:</h6>
+                                        SI <input type="radio" name="eco_veinte" value="SI" >
+                                        NO <input type="radio" name="eco_veinte" value="NO" checked >                 
+                                    </div> 
+                                    <div class="col-sm-3">
+                                    </div> 
+                                </div>
+                                <hr>
                                  <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">F.P.P.</br></h6>
@@ -465,7 +491,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                         NO <input type="radio" name="drogas" value="NO" checked >              
                                     </div>
                                 </div>
-
+<hr>
                                 <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">ALCOHOL:</h6>
@@ -500,6 +526,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     <div class="col-sm-3">             
                                     </div>
                                 </div>
+                                <hr>
                                 <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">ANTITETÁNICA:</br>(vigente)</h6>
@@ -508,7 +535,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">DÓSIS:</br>(mes de gestación)</h6>
-                                        1ra <input type="radio" name="dosis_antitetanica" value="1ra" ></br>
+                                        1ra <input type="radio" name="dosis_antitetanica" value="1ra" checked></br>
                                         2da <input type="radio" name="dosis_antitetanica" value="2da" >                
                                     </div>                            
                                     <div class="col-sm-3">
@@ -530,37 +557,11 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     <div class="col-sm-8">
                                         <button type="submit" class="btn btn-warning" >
                                         REGISTRAR HISTORIA CLINICA PERINATAL
-                                        </button>  
+                                        </button>  </form>
                                     </div>
                                 </div>
 
                                 <hr>
-                            <!-- modal de confirmacion de envio de datos-->
-                            <div class="modal fade" id="examplemodal" tabindex="-1" role="dialog" aria-labelledby="examplemodalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title" id="examplemodalLabel">REGISTRAR HISTORIA CLINICA PERINATAL</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                
-                                                ¿Esta seguro de Registrar la NUEVA HISTORIA CLINICA PERINATAL?
-                                                posteriormenete no se podran realizar cambios.
-
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="submit" class="btn btn-warning pull-center">CONFIRMAR REGISTRO</button>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </form>
-                                <!-- Modal -->
-
                             </div>                                    
                         </div>
 
@@ -589,19 +590,6 @@ $row_ub=mysqli_fetch_array($result_ub);
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
-
-<script language="javascript"> 
-    $(document).ready(function(){
-    $("#idmotivo_referencia").change(function () {
-                $("#idmotivo_referencia option:selected").each(function () {
-                    motivo_referencia=$(this).val();
-                $.post("motivo_referencia.php", {motivo_referencia:motivo_referencia}, function(data){
-                $("#motivo_referencia").html(data);
-                });
-            });
-    })
-    });
-</script> 
 
 </body>
 </html>
