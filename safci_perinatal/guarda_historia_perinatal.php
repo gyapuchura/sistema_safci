@@ -80,6 +80,7 @@ $embarazo_planeado      = $_POST['embarazo_planeado'];
 $idmetodo_anticonceptivo  = $_POST['idmetodo_anticonceptivo'];
 
 $peso_anterior   = $_POST['peso_anterior'];
+$talla   = $_POST['talla'];
 $idesno          = $_POST['idesno'];
 $fecha_fum       = $_POST['fecha_fum'];
 $eg_fum          = $_POST['eg_fum'];
@@ -106,50 +107,59 @@ if ($idnivel_instruccion =='1' || $idnivel_instruccion =='2' || $idnivel_instruc
     $alfabeta = 'SI';
 }
 
-$sql0 = " INSERT INTO historia_perinatal (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, correlativo, codigo, idnombre,  ";
-$sql0.= " idnacion, alfabeta, idnivel_instruccion, anos_mayor_nivel, vive_sola, gestion, fecha_registro, hora_registro, idusuario)  ";
-$sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idarea_influencia','$correlativo','$codigo','$idnombre_integrante_ss', ";
-$sql0.= " '$idnacion','$alfabeta','$idnivel_instruccion','$anos_mayor_nivel','$vive_sola','$gestion','$fecha','$hora','$idusuario_ss')";
-$result0 = mysqli_query($link,$sql0);   
-$idhistoria_perinatal = mysqli_insert_id($link);
+    $sql_hp = " SELECT idhistoria_perinatal, codigo FROM historia_perinatal WHERE idnombre='$idnombre_integrante_ss' ";
+    $result_hp = mysqli_query($link,$sql_hp);
+    if ($row_hp = mysqli_fetch_array($result_hp)){
+
+    header("Location:mensaje_hcp_existe.php");
+            
+    } else {
+       
+            $sql0 = " INSERT INTO historia_perinatal (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, correlativo, codigo, idnombre,  ";
+            $sql0.= " idnacion, alfabeta, idnivel_instruccion, anos_mayor_nivel, vive_sola, gestion, fecha_registro, hora_registro, idusuario)  ";
+            $sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idarea_influencia','$correlativo','$codigo','$idnombre_integrante_ss', ";
+            $sql0.= " '$idnacion','$alfabeta','$idnivel_instruccion','$anos_mayor_nivel','$vive_sola','$gestion','$fecha','$hora','$idusuario_ss')";
+            $result0 = mysqli_query($link,$sql0);   
+            $idhistoria_perinatal = mysqli_insert_id($link);
 
 
-    $idantecedente_familiar_enf_i = 1;
+            $idantecedente_familiar_enf_i = 1;
 
-    foreach($_POST['valor_antecedente_familiar'] as $valor_antecedente_familiar_i) {
+            foreach($_POST['valor_antecedente_familiar'] as $valor_antecedente_familiar_i) {
 
-    $sql_f = " INSERT INTO antecedente_perinatal (idhistoria_perinatal, idtipo_antecedente_enfermedad, idantecedente_enfermedad, valor_antecedente_perinatal, fecha_registro, hora_registro, idusuario) ";
-    $sql_f.= " VALUES ('$idhistoria_perinatal','2','$idantecedente_familiar_enf_i','$valor_antecedente_familiar_i','$fecha','$hora','$idusuario_ss') ";
-    $result_f = mysqli_query($link,$sql_f);
-    $idantecedente_familiar_enf_i = $idantecedente_familiar_enf_i + 1;
-    }
+            $sql_f = " INSERT INTO antecedente_perinatal (idhistoria_perinatal, idtipo_antecedente_enfermedad, idantecedente_enfermedad, valor_antecedente_perinatal, fecha_registro, hora_registro, idusuario) ";
+            $sql_f.= " VALUES ('$idhistoria_perinatal','2','$idantecedente_familiar_enf_i','$valor_antecedente_familiar_i','$fecha','$hora','$idusuario_ss') ";
+            $result_f = mysqli_query($link,$sql_f);
+            $idantecedente_familiar_enf_i = $idantecedente_familiar_enf_i + 1;
+            }
 
-    $idantecedente_personal_enf_i = 1;
+            $idantecedente_personal_enf_i = 1;
 
-    foreach($_POST['valor_antecedente_personal'] as $valor_antecedente_personal_i) {
+            foreach($_POST['valor_antecedente_personal'] as $valor_antecedente_personal_i) {
 
-    $sql_p = " INSERT INTO antecedente_perinatal (idhistoria_perinatal, idtipo_antecedente_enfermedad, idantecedente_enfermedad, valor_antecedente_perinatal, fecha_registro, hora_registro, idusuario) ";
-    $sql_p.= " VALUES ('$idhistoria_perinatal','1','$idantecedente_personal_enf_i','$valor_antecedente_personal_i','$fecha','$hora','$idusuario_ss') ";
-    $result_p = mysqli_query($link,$sql_p);
-    $idantecedente_personal_enf_i = $idantecedente_personal_enf_i + 1;
-    }
+            $sql_p = " INSERT INTO antecedente_perinatal (idhistoria_perinatal, idtipo_antecedente_enfermedad, idantecedente_enfermedad, valor_antecedente_perinatal, fecha_registro, hora_registro, idusuario) ";
+            $sql_p.= " VALUES ('$idhistoria_perinatal','1','$idantecedente_personal_enf_i','$valor_antecedente_personal_i','$fecha','$hora','$idusuario_ss') ";
+            $result_p = mysqli_query($link,$sql_p);
+            $idantecedente_personal_enf_i = $idantecedente_personal_enf_i + 1;
+            }
 
-        $sql_1 = " INSERT INTO antecedente_obstetrico (idhistoria_perinatal, idnombre, gestaciones, partos, abortos, cesareas, nacidos_vivos, viven, nacidos_muertos, muertos_a_semana, ";
-        $sql_1.= " muertos_d_semana, vaginales, idultimo_previo, antecedente_gemelos, fecha_fea, embarazo_planeado, idmetodo_anticonceptivo, fecha_registro, hora_registro, idusuario) ";
-        $sql_1.= " VALUES ('$idhistoria_perinatal','$idnombre_integrante_ss','$gestaciones','$partos','$abortos','$cesareas','$nacidos_vivos','$viven','$nacidos_muertos','$muertos_a_semana', ";
-        $sql_1.= " '$muertos_d_semana','$vaginales','$idultimo_previo','$antecedente_gemelos','$fecha_fea','$embarazo_planeado','$idmetodo_anticonceptivo','$fecha','$hora','$idusuario_ss') ";
-        $result_1 = mysqli_query($link,$sql_1);   
-        $idantecedente_obstetrico = mysqli_insert_id($link);
+                $sql_1 = " INSERT INTO antecedente_obstetrico (idhistoria_perinatal, idnombre, gestaciones, partos, abortos, cesareas, nacidos_vivos, viven, nacidos_muertos, muertos_a_semana, ";
+                $sql_1.= " muertos_d_semana, vaginales, idultimo_previo, antecedente_gemelos, fecha_fea, embarazo_planeado, idmetodo_anticonceptivo, fecha_registro, hora_registro, idusuario) ";
+                $sql_1.= " VALUES ('$idhistoria_perinatal','$idnombre_integrante_ss','$gestaciones','$partos','$abortos','$cesareas','$nacidos_vivos','$viven','$nacidos_muertos','$muertos_a_semana', ";
+                $sql_1.= " '$muertos_d_semana','$vaginales','$idultimo_previo','$antecedente_gemelos','$fecha_fea','$embarazo_planeado','$idmetodo_anticonceptivo','$fecha','$hora','$idusuario_ss') ";
+                $result_1 = mysqli_query($link,$sql_1);   
+                $idantecedente_obstetrico = mysqli_insert_id($link);
 
-        $sql_2 = " INSERT INTO gestacion (idhistoria_perinatal, idantecedente_obstetrico, idnombre, peso_anterior, talla, idesno, fecha_fum, eg_fum, eco_veinte, fecha_pp, ";
-        $sql_2.= " fuma_activo, fuma_pasivo, drogas, alcohol, violencia, idantirubeola, antitetanica, dosis_antitetanica, ex_odontologico, ex_mamas, fecha_registro, hora_registro, idusuario) ";
-        $sql_2.= " VALUES ('$idhistoria_perinatal','$idantecedente_obstetrico','$idnombre_integrante_ss','$peso_anterior','$talla','$idesno','$fecha_fum','$eg_fum', '$eco_veinte','$fecha_pp', ";
-        $sql_2.= " '$fuma_activo','$fuma_pasivo','$drogas','$alcohol','$violencia','$idantirubeola','$antitetanica','$dosis_antitetanica','$ex_odontologico','$ex_mamas','$fecha','$hora','$idusuario_ss') ";
-        $result_2 = mysqli_query($link,$sql_2); 
+                $sql_2 = " INSERT INTO gestacion (idhistoria_perinatal, idnombre, peso_anterior, talla, idesno, fecha_fum, eg_fum, eco_veinte, fecha_pp, ";
+                $sql_2.= " fuma_activo, fuma_pasivo, drogas, alcohol, violencia, idantirubeola, antitetanica, dosis_antitetanica, ex_odontologico, ex_mamas, fecha_registro, hora_registro, idusuario) ";
+                $sql_2.= " VALUES ('$idhistoria_perinatal','$idnombre_integrante_ss','$peso_anterior','$talla','$idesno','$fecha_fum','$eg_fum', '$eco_veinte','$fecha_pp', ";
+                $sql_2.= " '$fuma_activo','$fuma_pasivo','$drogas','$alcohol','$violencia','$idantirubeola','$antitetanica','$dosis_antitetanica','$ex_odontologico','$ex_mamas','$fecha','$hora','$idusuario_ss') ";
+                $result_2 = mysqli_query($link,$sql_2); 
 
+        $_SESSION['idhistoria_perinatal_ss'] = $idhistoria_perinatal;
 
-$_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
+header("Location:mensaje_nueva_historia_perinatal.php");
 
-header("Location:mostrar_historia_perinatal.php");
+}
       
 ?>
