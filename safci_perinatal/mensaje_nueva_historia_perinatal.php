@@ -113,7 +113,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                         <h6 class="text-warning"></h6>
                         </div>
                         <div class="col-sm-8">                     
-                                <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/formulario_perinatal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,top=50, left=800, scrollbars=YES'); return false;">
+                                <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/imprime_perinatal.php?idhistoria_perinatal=<?php echo $idhistoria_perinatal_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=800,top=50, left=800, scrollbars=YES'); return false;">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-book"></i>
                                 </span>

@@ -1,16 +1,71 @@
+<?php include("../cabf.php"); ?>
+<?php include("../inc.config.php"); ?>
+<?php
+date_default_timezone_set('America/La_Paz');
+$fecha_ram	= date("Ymd");
+$fecha 		= date("Y-m-d");
+$hora       = date("H:i");
+$gestion    = date("Y"); 
+
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
+
+$idhistoria_perinatal = $_GET['idhistoria_perinatal'];
+
+
+$sql_hp =" SELECT idhistoria_perinatal, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, codigo, idnombre, ";
+$sql_hp.=" idnacion, alfabeta, idnivel_instruccion, anos_mayor_nivel, vive_sola, gestion, fecha_registro, hora_registro, idusuario ";
+$sql_hp.=" FROM historia_perinatal WHERE idhistoria_perinatal = '$idhistoria_perinatal' ";
+$result_hp=mysqli_query($link,$sql_hp);
+$row_hp=mysqli_fetch_array($result_hp);
+
+$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$row_hp[7]' ";
+$result_n=mysqli_query($link,$sql_n);
+$row_n=mysqli_fetch_array($result_n);
+
+$sql_d ="  ";
+$sql_d.="  ";
+$sql_d.="  ";
+$result_d=mysqli_query($link,$sql_d);
+$row_d=mysqli_fetch_array($result_d);
+
+$sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
+$sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
+$sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
+$sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss'";
+$result4 = mysqli_query($link,$sql4);
+$row4 = mysqli_fetch_array($result4);
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
-      <td width="226" rowspan="3">&nbsp;</td>
+      <td width="226" rowspan="3" style="text-align: center"><img src="../implementacion_safci/mds_logo.jpg" width="193" height="85" alt=""/></td>
       <td width="432" style="font-family: Arial; font-size: 14px; text-align: center;">MINISTERIO DE SALUD Y DEPORTES</td>
       <td width="228" style="font-family: Arial; font-size: 14px; text-align: center;"><p>N° de Carpeta Familiar: </p></td>
     </tr>
+
     <tr>
-      <td style="font-family: Arial; font-size: 14px; text-align: center;">&nbsp;</td>
-      <td>&nbsp;</td>
+      <td style="font-family: Arial; font-size: 16px; text-align: center;">HISTORIA CLINICA PERINATAL</td>
+      <td style="font-family: Arial; font-size: 16px; text-align: center;">&nbsp;</td>
     </tr>
     <tr>
-      <td style="font-family: Arial; font-size: 14px; text-align: center;">HISTORIA CLINICA PERINATAL</td>
+      <td style="font-family: Arial; font-size: 16px; text-align: center;"><?php echo $row_hp[6];?></td>
+      <td>&nbsp;</td>
+    </tr>
+        <tr>
+      <td style="font-family: Arial; font-size: 14px; text-align: center;">&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -23,7 +78,7 @@
                   <td width="314" bgcolor="#020202" style="font-size: 12px; font-family: Arial; color: #FFFFFF; text-align: center;"><strong>HISTORIA CLINICA PERINATAL</strong></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">NOMBRE:</td>
+                  <td style="font-family: Arial; font-size: 12px;">NOMBRE: <?php echo $row_n[1];?> <?php echo $row_n[2];?> <?php echo $row_n[3];?></td>
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">DOMICILIO:      .....................ZONA:</td>
@@ -39,7 +94,7 @@
                 </tr>
               </tbody>
             </table></td>
-            <td width="116"><table width="116" border="0">
+            <td width="116"><table width="116" border="1" cellspacing="0">
               <tbody>
                 <tr>
                   <td colspan="3" style="font-family: Arial; font-size: 12px; text-align: center;">FECHA DE NACIMIENTO</td>
@@ -68,7 +123,7 @@
                 </tr>
               </tbody>
             </table></td>
-            <td width="133" valign="top"><table width="132" border="0">
+            <td width="133" valign="top"><table width="132" border="1" cellspacing="0">
               <tbody>
                 <tr>
                   <td width="126" style="font-family: Arial; font-size: 12px;">AUTO-IDENTIFICACION</td>
@@ -84,7 +139,7 @@
                   </tr>
               </tbody>
             </table></td>
-            <td width="69" valign="top"><table width="69" border="0">
+            <td width="69" valign="top"><table width="69" border="1" cellspacing="0">
               <tbody>
                 <tr>
                   <td width="71" style="font-family: Arial; font-size: 12px; text-align: center;">ESTUDIOS</td>
@@ -100,7 +155,7 @@
                 </tr>
               </tbody>
             </table></td>
-            <td width="71" valign="top"><table width="71" border="0">
+            <td width="71" valign="top"><table width="71" border="1" cellspacing="0">
               <tbody>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px; text-align: center;">ESTADO CIVIL</td>
@@ -141,7 +196,7 @@
       </table></td>
     </tr>
     <tr>
-      <td colspan="3"><table width="900" border="0">
+      <td colspan="3"><table width="900" border="1" cellspacing="0">
         <tbody>
           <tr>
             <td colspan="3" bgcolor="#020202" style="font-size: 12px; font-family: Arial; color: #FFFFFF; text-align: center;">1. ANTECEDENTES</td>
@@ -225,7 +280,7 @@
                 </tr>
               </tbody>
             </table></td>
-            <td width="193" valign="top"><table width="185" border="0">
+            <td width="193" valign="top"><table width="185" border="1" cellspacing="0">
               <tbody>
                 <tr>
                   <td colspan="3" style="font-family: Arial; font-size: 12px; text-align: center;">FIN DE EMBARAZO ANTERIOR</td>
@@ -259,7 +314,7 @@
       </table></td>
     </tr>
     <tr>
-      <td colspan="3"><table width="900" border="0">
+      <td colspan="3"><table width="900" border="1" cellspacing="0">
         <tbody>
           <tr>
             <td colspan="2" bgcolor="#020202" style="font-size: 12px; font-family: Arial; color: #FFFFFF; text-align: center;">2. GESTACION ACTUAL</td>
@@ -414,7 +469,7 @@
               </tbody>
             </table></td>
           </tr>
-          <tr>
+    <!--      <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -423,7 +478,7 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-          </tr>
+          </tr>  --->
         </tbody>
       </table></td>
     </tr>
@@ -434,3 +489,7 @@
     </tr>
   </tbody>
 </table>
+
+
+</body>
+</html>

@@ -267,6 +267,8 @@ Si no se encontraron resultados
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO ATENCIÓN</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">PERSONA ATENDIDA</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">EDAD</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GENERO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
@@ -282,9 +284,9 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_consulta.tipo_consulta, ";
-    $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario  ";
-    $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud, diagnostico_psafci ";
-    $sql.=" WHERE atencion_psafci.idnombre=nombre.idnombre AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+    $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.edad, genero.genero  ";
+    $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud, diagnostico_psafci, genero ";
+    $sql.=" WHERE atencion_psafci.idnombre=nombre.idnombre AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND nombre.idgenero=genero.idgenero ";
     $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento ";
     $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
     $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND diagnostico_psafci.idpatologia='$idpatologia' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC ";
@@ -301,6 +303,8 @@ Si no se encontraron resultados
               <?php echo $row[1];?></a>  </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
               
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[13];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[14];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
