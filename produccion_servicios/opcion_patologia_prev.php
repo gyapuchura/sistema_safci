@@ -17,20 +17,137 @@ $idpatologia_ap_sano = $_POST['patologia_ap_sano'];
         <!--------------------------------------------------------->
         <!------------     NUEVA HISTORIA PERINATAL - BEGIN   --------------->
         <!--------------------------------------------------------->
-        <div class="form-group row"> 
-            <div class="col-sm-6"> 
-            <h6 class="text-warning">SE DEBE INICIAR LA HISTORIA CLINICA PERINATAL:</h6>
-            
+
+        <?php
+            $sql_hp = " SELECT idhistoria_perinatal, codigo FROM historia_perinatal WHERE idnombre='$idnombre_integrante_ss' ";
+            $result_hp = mysqli_query($link,$sql_hp);
+            if ($row_hp = mysqli_fetch_array($result_hp)){ 
+                
+                $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
+                $result_n=mysqli_query($link,$sql_n);
+                $row_n=mysqli_fetch_array($result_n);
+                ?>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">YA SE CUENTA CON LA HISTORIA CLÍNICA PERINATAL Nº : <?php  echo $row_hp[1];?></h6>
+                </div>
+
+               <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                        <h6 class="text-warning">NOMBRE : </h6>
+                        </div>
+                        <div class="col-sm-8">
+
+                        <input type="text" class="form-control" name="nombre" value="<?php echo mb_strtoupper($row_n[1]." ".$row_n[2]." ".$row_n[3]);?>" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <h6 class="m-0 font-weight-bold text-warning">GESTACIONES : </h6>
+                        </div>
+                    </div>
+                        
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+
+                        <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-warning">
+                            <th scope="col">Nº GESTACIÓN</th>
+                            <th scope="col">FECHA (F.U.M.)</th>
+                            <th scope="col">FECHA PROBABLE DE PARTO</th>
+                            <th scope="col">VER ANTECEDENTES</th>
+                            <th scope="col">VER CONTROLES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $numero_g=1; 
+                            $sql_g =" SELECT idgestacion, fecha_fum, fecha_pp FROM gestacion WHERE idhistoria_perinatal = '$row_hp[0]' ";
+                            $result_g = mysqli_query($link,$sql_g);
+                            if ($row_g = mysqli_fetch_array($result_g)){
+                            mysqli_field_seek($result_g,0);
+                            while ($field_g = mysqli_fetch_field($result_g)){
+                            } do {
+                            ?>
+
+                                <tr>
+                                <th scope="row"><?php echo $numero_g;?></th>
+                                <td><?php 
+                                    $fecha_fu = explode('-', $row_g[1]);
+                                    $fecha_fum = $fecha_fu[2].'/'.$fecha_fu[1].'/'.$fecha_fu[0];
+                                    echo $fecha_fum; ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                    $fecha_fp = explode('-', $row_g[2]);
+                                    $fecha_fpp = $fecha_fp[2].'/'.$fecha_fp[1].'/'.$fecha_fp[0];
+                                    echo $fecha_fpp; ?>
+                                </td>
+                                <td>
+
+                                <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/mostrar_antecedentes_hcp.php?idhistoria_perinatal=<?php echo $row_hp[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,top=50, left=700, scrollbars=YES'); return false;">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-book"></i>
+                                </span>
+                                <span class="text">ANTECEDENTES</span></a> 
+
+                                </td>
+                                <td>
+                                <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/controles_perinatales_hcp.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,top=50, left=700, scrollbars=YES'); return false;">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-book"></i>
+                                </span>
+                                <span class="text">CONTROLES</span></a> 
+                                </td>
+                                </tr>
+                            <?php
+                            $numero_g=$numero_g+1;
+                            }
+                            while ($row_g = mysqli_fetch_array($result_g));
+                            } else {
+                            }
+                            ?>
+
+                        </tbody>
+                        </table>
+                        
+                        </div>
+                    </div>
+                </div>
+                                 
+                </div>
             </div>
-            <div class="col-sm-6"> 
-            <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/inicia_hc_perinatal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,top=50, left=700, scrollbars=YES'); return false;">
-            <span class="icon text-white-50">
-                <i class="fas fa-book"></i>
-            </span>
-            <span class="text">NUEVA HISTORIA CLINICA PERINATAL</span></a> 
-            
-            </div> 
+
+            <?php  } else {   ?>
+
+        <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-warning">SE DEBE INICIAR LA HISTORIA CLINICA PERINATAL :</h6>
         </div>
+
+        <div class="card-body">
+
+            <div class="form-group row"> 
+                <div class="col-sm-6"> 
+                <h6 class="text-warning"></h6>           
+                </div>
+                <div class="col-sm-6"> 
+                <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/inicia_hc_perinatal.php" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=800,top=50, left=700, scrollbars=YES'); return false;">
+                <span class="icon text-white-50">
+                    <i class="fas fa-book"></i>
+                </span>
+                <span class="text">NUEVA HISTORIA CLINICA PERINATAL</span></a> 
+                
+                </div> 
+            </div>
+
+        </div>
+        </div>
+
+            <?php  } ?>
 
         <!--------------------------------------------------------->
         <!------------     NUEVA HISTORIA PERINATAL - END   --------------->
