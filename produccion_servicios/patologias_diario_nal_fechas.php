@@ -284,7 +284,7 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_consulta.tipo_consulta, ";
-    $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.edad, genero.genero  ";
+    $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario, nombre.fecha_nac, genero.genero  ";
     $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud, diagnostico_psafci, genero ";
     $sql.=" WHERE atencion_psafci.idnombre=nombre.idnombre AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND nombre.idgenero=genero.idgenero ";
     $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento ";
@@ -302,8 +302,22 @@ Si no se encontraron resultados
               <a href="imprime_atencion_psafci.php?idatencion_psafci=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=200, scrollbars=YES'); return false;">
               <?php echo $row[1];?></a>  </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
-              
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[13];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php
+                    $fecha_nacimiento = $row[13];
+                    $dia = date("d");
+                    $mes = date("m");
+                    $ano = date("Y");    
+                    $dianaz = date("d",strtotime($fecha_nacimiento));
+                    $mesnaz = date("m",strtotime($fecha_nacimiento));
+                    $anonaz = date("Y",strtotime($fecha_nacimiento));         
+                    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                    $ano=($ano-1); }      
+                    if ($mesnaz > $mes) {
+                    $ano=($ano-1);}       
+                    $edad=($ano-$anonaz);  
+                    echo $edad ;?>
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[14];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
