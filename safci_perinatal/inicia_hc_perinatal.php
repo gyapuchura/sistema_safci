@@ -376,7 +376,12 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     </div> 
                                 </div>
                                 <hr>
-                                <div class="form-group row">                               
+                                <div class="form-group row"> 
+                                    <div class="col-sm-3">
+                                    <h6 class="text-warning">¿menos de un año del embarazo anterior?:</h6>
+                                        SI <input type="radio" name="menos_ano" value="SI" >
+                                        NO <input type="radio" name="menos_ano" value="NO" checked >  
+                                    </div>                               
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">EMBARAZO PLANEADO:</h6>
                                         SI <input type="radio" name="embarazo_planeado" value="SI" >

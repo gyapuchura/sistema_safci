@@ -75,6 +75,7 @@ $vaginales            = $_POST['vaginales'];
 $idultimo_previo      = $_POST['idultimo_previo'];
 $antecedente_gemelos  = $_POST['antecedente_gemelos'];
 $fecha_fea            = $_POST['fecha_fea'];
+$menos_ano            = $_POST['menos_ano'];
 
 $embarazo_planeado      = $_POST['embarazo_planeado'];
 $idmetodo_anticonceptivo  = $_POST['idmetodo_anticonceptivo'];
@@ -144,9 +145,9 @@ if ($idnivel_instruccion =='1' || $idnivel_instruccion =='2' || $idnivel_instruc
             }
 
                 $sql_1 = " INSERT INTO antecedente_obstetrico (idhistoria_perinatal, idnombre, gestaciones, partos, abortos, cesareas, nacidos_vivos, viven, nacidos_muertos, muertos_a_semana, ";
-                $sql_1.= " muertos_d_semana, vaginales, idultimo_previo, antecedente_gemelos, fecha_fea, embarazo_planeado, idmetodo_anticonceptivo, fecha_registro, hora_registro, idusuario) ";
+                $sql_1.= " muertos_d_semana, vaginales, idultimo_previo, antecedente_gemelos, fecha_fea, menos_ano, embarazo_planeado, idmetodo_anticonceptivo, fecha_registro, hora_registro, idusuario) ";
                 $sql_1.= " VALUES ('$idhistoria_perinatal','$idnombre_integrante_ss','$gestaciones','$partos','$abortos','$cesareas','$nacidos_vivos','$viven','$nacidos_muertos','$muertos_a_semana', ";
-                $sql_1.= " '$muertos_d_semana','$vaginales','$idultimo_previo','$antecedente_gemelos','$fecha_fea','$embarazo_planeado','$idmetodo_anticonceptivo','$fecha','$hora','$idusuario_ss') ";
+                $sql_1.= " '$muertos_d_semana','$vaginales','$idultimo_previo','$antecedente_gemelos','$fecha_fea','$menos_ano','$embarazo_planeado','$idmetodo_anticonceptivo','$fecha','$hora','$idusuario_ss') ";
                 $result_1 = mysqli_query($link,$sql_1);   
                 $idantecedente_obstetrico = mysqli_insert_id($link);
 

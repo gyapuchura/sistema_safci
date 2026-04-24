@@ -13,7 +13,6 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idhistoria_perinatal = $_GET['idhistoria_perinatal'];
 
-
 $sql_hp =" SELECT idhistoria_perinatal, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, codigo, idnombre, ";
 $sql_hp.=" idnacion, alfabeta, idnivel_instruccion, anos_mayor_nivel, vive_sola, gestion, fecha_registro, hora_registro, idusuario ";
 $sql_hp.=" FROM historia_perinatal WHERE idhistoria_perinatal = '$idhistoria_perinatal' ";
@@ -24,18 +23,36 @@ $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalid
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
 
-$sql_d ="  ";
-$sql_d.="  ";
-$sql_d.="  ";
+      $fecha_nacimiento = $row_n[5];
+      $dia = date("d");
+      $mes = date("m");
+      $ano = date("Y");    
+      $dianaz = date("d",strtotime($fecha_nacimiento));
+      $mesnaz = date("m",strtotime($fecha_nacimiento));
+      $anonaz = date("Y",strtotime($fecha_nacimiento));         
+      if (($mesnaz == $mes) && ($dianaz > $dia)) {
+      $ano=($ano-1); }      
+      if ($mesnaz > $mes) {
+      $ano=($ano-1);}       
+      $edad=($ano-$anonaz);  
+
+$sql_d =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, integrante_datos_cf.idcarpeta_familiar, integrante_datos_cf.idnivel_instruccion, ";
+$sql_d.=" integrante_datos_cf.idestado_civil FROM integrante_datos_cf, estado_civil, nivel_instruccion WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil  ";
+$sql_d.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idnombre='$row_hp[7]' ";
 $result_d=mysqli_query($link,$sql_d);
 $row_d=mysqli_fetch_array($result_d);
 
-$sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
-$sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
-$sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-$sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss'";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4);
+$sql_cf =" SELECT ubicacion_cf.idubicacion_cf, departamento.departamento, red_salud.red_salud, municipioS.municipio, establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, ";
+$sql_cf.=" area_influencia.area_influencia, carpeta_familiar.codigo, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, nacion.nacion  ";
+$sql_cf.=" FROM ubicacion_cf, carpeta_familiar, departamento, red_salud, municipios, establecimiento_salud, area_influencia, tipo_area_influencia, nacion, integrante_cf ";
+$sql_cf.=" WHERE carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idred_salud=red_salud.idred_salud AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_cf.=" AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND integrante_cf.idnacion=nacion.idnacion ";
+$sql_cf.=" AND carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia  ";
+$sql_cf.=" AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ubicacion_cf.idcarpeta_familiar='$row_d[3]'  ";
+$result_cf=mysqli_query($link,$sql_cf);
+$row_cf=mysqli_fetch_array($result_cf);
+
+$idnivel_instruccion = $row_d[4];
 
 ?>
 <!DOCTYPE html>
@@ -78,20 +95,47 @@ $row4 = mysqli_fetch_array($result4);
                   <td width="314" bgcolor="#020202" style="font-size: 12px; font-family: Arial; color: #FFFFFF; text-align: center;"><strong>HISTORIA CLINICA PERINATAL</strong></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">NOMBRE: <?php echo $row_n[1];?> <?php echo $row_n[2];?> <?php echo $row_n[3];?></td>
+                  <td style="font-family: Arial; font-size: 12px;">NOMBRE : <?php echo $row_n[1];?> <?php echo $row_n[2];?> <?php echo $row_n[3];?></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">DOMICILIO:      .....................ZONA:</td>
+                  <td style="font-family: Arial; font-size: 12px;">DOMICILIO : <?php echo $row_cf[8];?> <?php echo $row_cf[9];?> <?php echo $row_cf[10];?></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">LOCALIDAD/COMUNIDAD: MUNICIPIO:</td>
+                  <td style="font-family: Arial; font-size: 12px;"><?php echo $row_cf[5];?> : <?php echo $row_cf[6];?></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">RED: TELEFONO:</td>
+                  <td style="font-family: Arial; font-size: 12px;">MUNICIPIO : <?php echo $row_cf[3];?></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">IDIOMA HABLADO: LENGUA MATERNA:</td>
+                  <td style="font-family: Arial; font-size: 12px;">RED DE SALUD : <?php echo $row_cf[2];?></td>
                 </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">TELEFONO :</td>
+                </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">IDIOMA :
+                  <?php
+                  $numero=1;
+                  $sql4 =" SELECT idioma_cf.ididioma_cf, idioma.idioma, origen_idioma.origen_idioma  FROM idioma_cf, idioma, origen_idioma ";
+                  $sql4.=" WHERE idioma_cf.ididioma=idioma.ididioma AND idioma_cf.idorigen_idioma=origen_idioma.idorigen_idioma ";
+                  $sql4.=" AND idioma_cf.idcarpeta_familiar='$row_d[3]' ";
+                  $result4 = mysqli_query($link,$sql4);
+                  if ($row4 = mysqli_fetch_array($result4)){
+                  mysqli_field_seek($result4,0);
+                  while ($field4 = mysqli_fetch_field($result4)){
+                  } do { 
+                  ?>
+                  <?php echo $row4[2];?> : <?php echo $row4[1];?></br>
+                  <?php
+                    $numero=$numero+1;
+                    }
+                    while ($row4 = mysqli_fetch_array($result4));
+                    } else {
+                    }
+                ?>
+                </td>
+                </tr>
+
               </tbody>
             </table></td>
             <td width="116"><table width="116" border="1" cellspacing="0">
@@ -100,20 +144,21 @@ $row4 = mysqli_fetch_array($result4);
                   <td colspan="3" style="font-family: Arial; font-size: 12px; text-align: center;">FECHA DE NACIMIENTO</td>
                   </tr>
                 <tr>
-                  <td width="35" style="font-family: Arial; font-size: 12px;">DIA</td>
-                  <td width="34" style="font-family: Arial; font-size: 12px;">MES</td>
-                  <td width="33" style="font-family: Arial; font-size: 12px;">ANO</td>
+                  <td width="35" style="font-family: Arial; font-size: 12px; text-align: center;">DIA</td>
+                  <td width="34" style="font-family: Arial; font-size: 12px; text-align: center;">MES</td>
+                  <td width="33" style="font-family: Arial; font-size: 12px; text-align: center;">ANO</td>
+                </tr>
+                <?php $fecha_n = explode('-',$row_n[5]); ?>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $fecha_n[2];?></td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $fecha_n[1];?></td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $fecha_n[0];?></td>
                 </tr>
                 <tr>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td colspan="3" style="font-family: Arial; font-size: 12px;">EDAD(anos)</td>
+                  <td colspan="3" style="font-family: Arial; font-size: 12px; text-align: center;">EDAD(anos)</td>
                   </tr>
                 <tr>
-                  <td colspan="2" bgcolor="#FFFF00">&nbsp;</td>
+                  <td colspan="2" bgcolor="#<?php if ($edad < '15' || $edad > '35') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $edad;?></td>
                   <td style="font-family: Arial; font-size: 12px; text-align: center;">&lt;de 15</td>
                 </tr>
                 <tr>
@@ -126,16 +171,24 @@ $row4 = mysqli_fetch_array($result4);
             <td width="133" valign="top"><table width="132" border="1" cellspacing="0">
               <tbody>
                 <tr>
-                  <td width="126" style="font-family: Arial; font-size: 12px;">AUTO-IDENTIFICACION</td>
+                  <td width="126" style="font-family: Arial; font-size: 12px; text-align: center;">AUTO-IDENTIFICACION</td>
                   </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_cf[11];?></td>
                   </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">ALFABETA</td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;">ALFABETA</td>
                   </tr>
+
+                  <?php
+                    if ($idnivel_instruccion =='1' || $idnivel_instruccion =='2' || $idnivel_instruccion =='3') {
+                        $alfabeta = 'NO';
+                    } else {
+                        $alfabeta = 'SI';
+                    }
+                  ?>
                 <tr>
-                  <td bgcolor="#FFFF00">&nbsp;</td>
+                  <td bgcolor="#<?php if ($alfabeta == 'NO') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $alfabeta;?></td>
                   </tr>
               </tbody>
             </table></td>
@@ -145,13 +198,13 @@ $row4 = mysqli_fetch_array($result4);
                   <td width="71" style="font-family: Arial; font-size: 12px; text-align: center;">ESTUDIOS</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#ffff00" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td bgcolor="#<?php if ($idnivel_instruccion =='1' || $idnivel_instruccion =='2') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px;"><?php echo $row_d[2];?></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px; text-align: center;">anos en el mayor nivel</td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;">años en el mayor nivel</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#FFFFff">&nbsp;</td>
+                  <td bgcolor="#FFFFff" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_hp[11];?></td>
                 </tr>
               </tbody>
             </table></td>
@@ -161,13 +214,13 @@ $row4 = mysqli_fetch_array($result4);
                   <td style="font-family: Arial; font-size: 12px; text-align: center;">ESTADO CIVIL</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#ffff00" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td bgcolor="#<?php if ($row_d[5] =='1' || $row_d[5] =='4' || $row_d[5] =='5' || $row_d[5] =='6') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_d[1];?></td>
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px; text-align: center;">vive sola</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#FFFFff">&nbsp;</td>
+                  <td bgcolor="#<?php if ($row_hp[12] =='SI') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_hp[12];?></td>
                 </tr>
               </tbody>
             </table></td>
@@ -175,7 +228,7 @@ $row4 = mysqli_fetch_array($result4);
               <tbody>
                 <tr>
                   <td width="67" style="font-family: Arial; font-size: 12px; text-align: rigth;">CONTROL PRENATAL EN:</td>
-                  <td width="73">&nbsp;</td>
+                  <td width="73" style="font-family: Arial; font-size: 12px; text-align: rigth;"><?php echo $row_cf[4];?></td>
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px; text-align: rigth;">PARTO EN:</td>
