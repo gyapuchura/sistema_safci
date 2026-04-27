@@ -59,6 +59,7 @@ $fecha  = $_POST['fecha_reg'];
 
 $anos_mayor_nivel  = $_POST['anos_mayor_nivel'];
 $vive_sola         = $_POST['vive_sola'];
+$celular           = $_POST['celular'];
 
 $gestaciones = $_POST['gestaciones'];
 $partos      = $_POST['partos'];
@@ -85,13 +86,32 @@ $menos_ano            = $_POST['menos_ano'];
 $embarazo_planeado      = $_POST['embarazo_planeado'];
 $idmetodo_anticonceptivo  = $_POST['idmetodo_anticonceptivo'];
 
-$peso_anterior   = $_POST['peso_anterior'];
-$talla   = $_POST['talla'];
-$idesno          = $_POST['idesno'];
+$peso_anterior  = $_POST['peso_anterior'];
+$talla          = $_POST['talla'];
+
+$imc_i = $peso_anterior*10000/$talla**2;  //** Estatura en centimetros */
+$imc = number_format($imc_i, 6, '.', '');
+
+if ($imc < '18.5') {
+    $idesno ='1';
+} else {
+    if ($imc < '24.9') {
+        $idesno ='3';
+    } else {
+        if ($imc < '29.9') {
+            $idesno ='2';
+        } else {
+            if ($imc >= '29.9') {
+                $idesno ='4';
+            } else { } } } }
+
+
 $fecha_fum       = $_POST['fecha_fum'];
 $eg_fum          = $_POST['eg_fum'];
 $eco_veinte      = $_POST['eco_veinte'];
-$fecha_pp        = $_POST['fecha_pp'];
+
+$fecha_pp        = date('Y-m-d', strtotime('+40 weeks', strtotime($fecha_fum)));
+
 $fuma_activo     = $_POST['fuma_activo'];
 $fuma_pasivo     = $_POST['fuma_pasivo'];
 $drogas          = $_POST['drogas'];
@@ -120,6 +140,9 @@ if ($idnivel_instruccion =='1' || $idnivel_instruccion =='2' || $idnivel_instruc
     header("Location:mensaje_hcp_existe.php");
             
     } else {
+
+                $sql8 =" UPDATE integrante_cf SET celular='$celular' WHERE idintegrante_cf='$idintegrante_cf_ss' ";         
+                $result8 = mysqli_query($link,$sql8);
        
             $sql0 = " INSERT INTO historia_perinatal (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idarea_influencia, correlativo, codigo, idnombre,  ";
             $sql0.= " idnacion, alfabeta, idnivel_instruccion, anos_mayor_nivel, vive_sola, gestion, fecha_registro, hora_registro, idusuario)  ";

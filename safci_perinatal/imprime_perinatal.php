@@ -43,7 +43,7 @@ $result_d=mysqli_query($link,$sql_d);
 $row_d=mysqli_fetch_array($result_d);
 
 $sql_cf =" SELECT ubicacion_cf.idubicacion_cf, departamento.departamento, red_salud.red_salud, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_area_influencia.tipo_area_influencia, ";
-$sql_cf.=" area_influencia.area_influencia, carpeta_familiar.codigo, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, nacion.nacion  ";
+$sql_cf.=" area_influencia.area_influencia, carpeta_familiar.codigo, ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.nombre_edificio, nacion.nacion, integrante_cf.celular ";
 $sql_cf.=" FROM ubicacion_cf, carpeta_familiar, departamento, red_salud, municipios, establecimiento_salud, area_influencia, tipo_area_influencia, nacion, integrante_cf ";
 $sql_cf.=" WHERE carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.idred_salud=red_salud.idred_salud AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_cf.=" AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND integrante_cf.idnacion=nacion.idnacion ";
@@ -110,7 +110,7 @@ $idnivel_instruccion = $row_d[4];
                   <td style="font-family: Arial; font-size: 12px;">RED DE SALUD : <?php echo $row_cf[2];?></td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px;">TELEFONO :</td>
+                  <td style="font-family: Arial; font-size: 12px;">TELEFONO : <?php echo $row_cf[12];?></td>
                 </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">IDIOMA :
