@@ -159,10 +159,10 @@ $idnivel_instruccion = $row_d[4];
                   </tr>
                 <tr>
                   <td colspan="2" rowspan="2" bgcolor="#<?php if ($edad < '15' || $edad > '35') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $edad;?></td>
-                  <td bgcolor="#<?php if ($edad < '15' || $edad > '35') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;">&lt;de 15</td>
+                  <td bgcolor="#<?php if ($edad < '15') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;">&lt;de 15</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#<?php if ($edad < '15' || $edad > '35') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;">&gt;de 35</td>
+                  <td bgcolor="#<?php if ($edad > '35') { echo 'FFFF00'; } else { echo 'FFFFFF'; } ?>" style="font-family: Arial; font-size: 12px; text-align: center;">&gt;de 35</td>
                 </tr>
               </tbody>
             </table></td>
@@ -420,9 +420,9 @@ $idnivel_instruccion = $row_d[4];
                   <td width="50" bgcolor="#cbddf4" style="font-family: Arial; font-size: 12px; text-align: center;">año</td>
                 </tr>
                 <tr>
-                  <td style="font-family: Arial; font-size: 12px; text-align: center;"></br><?php echo $fecha_fea[2];?></br></br></td>
-                  <td style="font-family: Arial; font-size: 12px; text-align: center;"></br><?php echo $fecha_fea[1];?></br></br></td>
-                  <td style="font-family: Arial; font-size: 12px; text-align: center;"></br><?php echo $fecha_fea[0];?></br></br></td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"></br><?php if ($fecha_fea[2]=='11') {  } else { echo $fecha_fea[2]; }?></br></br></td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"></br><?php if ($fecha_fea[1]=='11') {  } else { echo $fecha_fea[1]; }?></br></br></td>
+                  <td style="font-family: Arial; font-size: 12px; text-align: center;"></br><?php if ($fecha_fea[0]=='1111') {  } else { echo $fecha_fea[0]; }?></br></br></td>
                 </tr>
                 <tr>
                   <td colspan="2" bgcolor="#cbddf4" style="font-family: Arial; font-size: 12px; text-align: center;">menos de 1 ano</td>
