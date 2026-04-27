@@ -74,7 +74,12 @@ $muertos_d_semana = $_POST['muertos_d_semana'];
 $vaginales            = $_POST['vaginales'];
 $idultimo_previo      = $_POST['idultimo_previo'];
 $antecedente_gemelos  = $_POST['antecedente_gemelos'];
-$fecha_fea            = $_POST['fecha_fea'];
+$f_fea            = $_POST['fecha_fea'];
+if ($f_fea == '') {
+    $fecha_fea = '0000-00-00';
+} else {
+    $fecha_fea = $f_fea ;
+}
 $menos_ano            = $_POST['menos_ano'];
 
 $embarazo_planeado      = $_POST['embarazo_planeado'];

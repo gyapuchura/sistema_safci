@@ -372,7 +372,7 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">FIN DE EMBARAZO ANTERIOR:</h6>
                                         <input type="date" class="form-control" 
-                                            name="fecha_fea" placeholder="" >               
+                                            name="fecha_fea" value="" placeholder="" >               
                                     </div> 
                                 </div>
                                 <hr>
@@ -461,13 +461,13 @@ $row_ub=mysqli_fetch_array($result_ub);
                                     </div>     
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">FUM:</h6>
-                                        SI <input type="radio" name="eg_fum" value="SI" >
-                                        NO <input type="radio" name="eg_fum" value="NO" checked >                 
+                                        SI <input type="radio" name="eg_fum" value="SI" checked>
+                                        NO <input type="radio" name="eg_fum" value="NO" >                 
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-warning">ECO < 20s:</h6>
-                                        SI <input type="radio" name="eco_veinte" value="SI" >
-                                        NO <input type="radio" name="eco_veinte" value="NO" checked >                 
+                                        SI <input type="radio" name="eco_veinte" value="SI" checked >
+                                        NO <input type="radio" name="eco_veinte" value="NO" >                 
                                     </div> 
                                     <div class="col-sm-3">
                                     </div> 

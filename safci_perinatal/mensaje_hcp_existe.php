@@ -107,17 +107,17 @@ $row_ub=mysqli_fetch_array($result_ub);
                         <input type="text" class="form-control" name="nombre" value="<?php echo mb_strtoupper($row_n[1]." ".$row_n[2]." ".$row_n[3]);?>" disabled>
                         </div>
                     </div>
-                        
+                         
                     <div class="form-group row">
                         <div class="col-sm-4">
                         <h6 class="text-warning"></h6>
                         </div>
                         <div class="col-sm-8">                     
-                        <a class="btn btn-warning btn-icon-split" href="formulario_perinatal.php">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-book"></i>
-                        </span>
-                        <span class="text">FORMULARIO PERINATAL</span></a>
+                                <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/imprime_perinatal.php?idhistoria_perinatal=<?php echo $idhistoria_perinatal_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=800,top=50, left=800, scrollbars=YES'); return false;">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-book"></i>
+                                </span>
+                                <span class="text">VER FORMULARIO - CLAP</span></a> 
                         </div>
                     </div>
                 </div>
