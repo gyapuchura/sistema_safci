@@ -25,6 +25,20 @@ $row_cf=mysqli_fetch_array($result_cf);
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
+
+    $fecha_nacimiento = $row_n[5];
+    $dia = date("d");
+    $mes = date("m");
+    $ano = date("Y");    
+    $dianaz = date("d",strtotime($fecha_nacimiento));
+    $mesnaz = date("m",strtotime($fecha_nacimiento));
+    $anonaz = date("Y",strtotime($fecha_nacimiento));         
+    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+    $ano=($ano-1); }      
+    if ($mesnaz > $mes) {
+    $ano=($ano-1);}  
+
+    $edad = ($ano-$anonaz);  
         
 $sql_ps =" SELECT idatencion_psafci, idrepeticion, idtipo_consulta, idtipo_atencion, codigo, fecha_registro FROM atencion_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
 $result_ps=mysqli_query($link,$sql_ps);
@@ -50,6 +64,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../css/boton_mic.css">
 
 </head>
 
@@ -82,6 +97,9 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
+                            <div class="text-center">                          
+                            <a href="../produccion_servicios/mostrar_atencion_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
+                            <hr>  
                         <div class="text-center">
                         <h4 class="m-0 font-weight-bold text-primary">FORMULARIO DE REFERENCIA</h4>
                         </div>
@@ -91,6 +109,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                      <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post"> 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
+  
                                 <h6 class="m-0 font-weight-bold text-primary">1.- IDENTIFICACIÓN DEL PACIENTE</h6>
                             </div>
                             <div class="card-body">
@@ -220,12 +239,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 } else {
                                 }
                                 ?>
-
-                                                            
+                                                           
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
-                                    <select name="persona_discapacidad" id="persona_discapacidad" class="form-control">
+                                    <select name="discapacidad" id="discapacidad" class="form-control">
                                         <option value="">Seleccione</option>
                                         <option value="NO">NO</option>
                                         <option value="SI">SI</option>
@@ -346,7 +364,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('descripcion_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
                                 </div>
 
@@ -388,7 +407,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                                    <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia"></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('descripcion_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                            
                                     </div>
                                 </div>
 
@@ -397,7 +417,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                         </div>
 
-                        <?php  if ($row_n[7] == '1') {  //******* PARA MUJERES EN ESTADO DE EMBARAZO O NACIMIENTO */ ?>
+                        <?php  if ($row_n[7] == '1' && $edad > '14') {  //******* PARA MUJERES MAYORES A 14 AÑOS EN ESTADO DE EMBARAZO O NACIMIENTO */ ?>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -499,7 +519,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">RESUMEN ANAMNESIS</h6>
-                                    <textarea class="form-control" rows="3" name="resumen_anamnesis"></textarea> 
+                                    <textarea class="form-control" rows="3" name="resumen_anamnesis" id="resumen_anamnesis" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('resumen_anamnesis')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
                                 </div>
 
@@ -519,27 +540,32 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <hr>
                                     </div>
                                 </div>
-                                <div class="form-group row">                               
-                                    <div class="col-sm-2">
-                                    <h6 class="text-primary">RX : <input type="checkbox" name="idtipo_examen_ref[0]" value="1"></h6>    
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">LABORATORIO : <input type="checkbox" name="idtipo_examen_ref[1]" value="2"></h6>
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">ECOGRAFÍA : <input type="checkbox" name="idtipo_examen_ref[2]" value="3"></h6>                   
-                                    </div>
-                                    <div class="col-sm-2">
-                                    <h6 class="text-primary">TOMOGRAFÍA : <input type="checkbox" name="idtipo_examen_ref[3]" value="4"></h6>                       
-                                    </div>
-                                    <div class="col-sm-2">
-                                    <h6 class="text-primary">OTROS : <input type="checkbox" name="idtipo_examen_ref[4]" value="5"></h6>           
-                                    </div>
+                                <div class="form-group row">   
+                                    <?php
+                                    $numero_c=0;
+                                    $sql_c =" SELECT idexamen_complementario, examen_complementario FROM examen_complementario ";
+                                    $result_c = mysqli_query($link,$sql_c);
+                                    if ($row_c = mysqli_fetch_array($result_c)){
+                                    mysqli_field_seek($result_c,0);
+                                    while ($field_c = mysqli_fetch_field($result_c)){
+                                    } do { ?>                            
+                                            <div class="col-sm-2">
+                                            <h6 class="text-primary"><?php echo $row_c[1];?> : <input type="checkbox" name="idexamen_complementario[<?php echo $numero_c;?>]" value="<?php echo $row_c[0];?>"></h6>    
+                                            </div>
+                                    <?php
+                                    $numero_c=$numero_c+1;
+                                    }
+                                    while ($row_c = mysqli_fetch_array($result_c));
+                                    } else {
+                                    }
+                                    ?>
+
                                 </div>
                                 <div class="form-group row">  
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
-                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" required></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" ></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('especificacion_hallazgos')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>  
                                     </div>
                                 </div>
                             </div>
@@ -551,38 +577,93 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                               
-                                    <div class="col-sm-8">
-                                    <textarea class="form-control" rows="2" name="diagnostico_presuntivo[0]" required></textarea>    
+                                    <div class="col-sm-6">
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO PRESUNTIVO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
-                                    <div class="col-sm-1">
-                                    <h6 class="text-primary">CIE : </h6>         
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <input type="text" class="form-control" value=""  name="cie[0]" />
+                                    <div class="col-sm-6">
+                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <select name="idpatologia[0]"  id="idpatologia[0]" class="form-control" required>
+                                        <option value="">-SELECCIONE-</option>
+                                        <?php
+                                        $numero=1;
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $result1 = mysqli_query($link,$sql1);
+                                        if ($row1 = mysqli_fetch_array($result1)){
+                                        mysqli_field_seek($result1,0);
+                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        } do {
+                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+                                        $numero=$numero+1;
+                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        } else {
+                                        echo "No se encontraron resultados!";
+                                        }
+                                        ?>
+                                        </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">                               
-                                    <div class="col-sm-8">
-                                    <textarea class="form-control" rows="2" name="diagnostico_presuntivo[1]"></textarea>    
+                                    <div class="col-sm-6">
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO PRESUNTIVO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" ></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
-                                    <div class="col-sm-1">
-                                    <h6 class="text-primary">CIE : </h6>         
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <input type="text" class="form-control" value=""  name="cie[1]" />
+                                    <div class="col-sm-6">
+                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <select name="idpatologia[1]"  id="idpatologia[1]" class="form-control" >
+                                        <option value="">-SELECCIONE-</option>
+                                        <?php
+                                        $numero=1;
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $result1 = mysqli_query($link,$sql1);
+                                        if ($row1 = mysqli_fetch_array($result1)){
+                                        mysqli_field_seek($result1,0);
+                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        } do {
+                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+                                        $numero=$numero+1;
+                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        } else {
+                                        echo "No se encontraron resultados!";
+                                        }
+                                        ?>
+                                        </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">                               
-                                    <div class="col-sm-8">
-                                    <textarea class="form-control" rows="2" name="diagnostico_presuntivo[2]"></textarea>    
+                                    <div class="col-sm-6">
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO PRESUNTIVO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" ></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
-                                    <div class="col-sm-1">
-                                    <h6 class="text-primary">CIE : </h6>         
-                                    </div>
-                                    <div class="col-sm-3">
-                                    <input type="text" class="form-control" value=""  name="cie[2]" />
+                                    <div class="col-sm-6">
+                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <select name="idpatologia[2]"  id="idpatologia[2]" class="form-control" required>
+                                        <option value="">-SELECCIONE-</option>
+                                        <?php
+                                        $numero=1;
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $result1 = mysqli_query($link,$sql1);
+                                        if ($row1 = mysqli_fetch_array($result1)){
+                                        mysqli_field_seek($result1,0);
+                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        } do {
+                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+                                        $numero=$numero+1;
+                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        } else {
+                                        echo "No se encontraron resultados!";
+                                        }
+                                        ?>
+                                        </select>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -593,7 +674,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <div class="card-body">
                                 <div class="form-group row">                               
                                     <div class="col-sm-12">
-                                    <textarea class="form-control" rows="3" name="tratamiento_ref" required></textarea>    
+                                    <textarea class="form-control" rows="3" name="tratamiento_ref" id="tratamiento_ref" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('tratamiento_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                 </div>
                             </div>
@@ -606,7 +688,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <div class="card-body">
                                 <div class="form-group row">                               
                                     <div class="col-sm-12">
-                                    <textarea class="form-control" rows="2" name="observaciones_ref"></textarea>    
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" id="observaciones_ref" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
@@ -656,7 +739,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 </div> 
                                 <div class="form-group row">                           
                                     <div class="col-sm-12">  
-                                    <select name="idestablecimiento_receptor" id="resultado" class="form-control"></select>                                    
+                                    <select name="idestablecimiento_salud_r" id="resultado" class="form-control"></select>                                    
                                     </div>
                                 </div>
                             </div>
@@ -764,6 +847,7 @@ $row_ps=mysqli_fetch_array($result_ps);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        <script src="../js/funciones.js"></script>
 
   <script>
 			$(document).ready(function(){
