@@ -28,7 +28,7 @@ if ($row3 = mysqli_fetch_array($result3)){
        header("Location:mensaje_seguimiento_cf_existe.php");
 
     } else {
-
+   
 foreach($idintegrante_cf as $clave => $integrante_cf_id) {
 
     $fecha_r = explode('-',$fecha_nac[$clave]);

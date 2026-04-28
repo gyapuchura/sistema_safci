@@ -1,9 +1,9 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
-$persona_discapacidad = $_POST['persona_discapacidad'];
+$discapacidad = $_POST['discapacidad'];
 
-if ($persona_discapacidad == 'SI') { ?>
+if ($discapacidad == 'SI') { ?>
 
                         <div class="col-sm-4">   
                         <h6 class="text-primary">TIPO DE DISCAPACIDAD</h6>          

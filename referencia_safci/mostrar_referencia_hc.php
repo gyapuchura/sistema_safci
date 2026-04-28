@@ -11,12 +11,21 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idreferencia_hc_ss         = $_SESSION['idreferencia_hc_ss'];
+
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
+
+$sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
+$sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
+$sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idmotivo_referencia, idespecialidad_medica, ";
+$sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+$result_ref=mysqli_query($link,$sql_ref);
+$row_ref=mysqli_fetch_array($result_ref);
 
 $sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);
@@ -40,9 +49,6 @@ $row_n=mysqli_fetch_array($result_n);
 
     $edad = ($ano-$anonaz);  
         
-$sql_ps =" SELECT idatencion_psafci, idrepeticion, idtipo_consulta, idtipo_atencion, codigo, fecha_registro FROM atencion_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
-$result_ps=mysqli_query($link,$sql_ps);
-$row_ps=mysqli_fetch_array($result_ps);
 
 ?>
 <!DOCTYPE html>
@@ -101,7 +107,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <a href="../produccion_servicios/mostrar_atencion_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
-                        <h4 class="m-0 font-weight-bold text-primary">FORMULARIO DE REFERENCIA</h4>
+                        <h4 class="m-0 font-weight-bold text-primary">REFERENCIA</h4>
+                        <h4 class="m-0 font-weight-bold text-primary"><?php echo $row_ref[6]; ?></h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -243,54 +250,72 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
-                                    <select name="discapacidad" id="discapacidad" class="form-control">
-                                        <option value="">Seleccione</option>
-                                        <option value="NO">NO</option>
-                                        <option value="SI">SI</option>
-                                    </select>
+                                        <input type="text" class="form-control" value="<?php echo $row_ref[8];?>"             
+                                        name="discapacidad" disabled > 
                                     </div>
+                                    <?php  if ($row_ref[8]=='SI') { 
+                                       $sql_ds =" SELECT tipo_discapacidad_cf.tipo_discapacidad_cf, nivel_discapacidad_cf.nivel_discapacidad_cf FROM discapacidad_ref, tipo_discapacidad_cf, nivel_discapacidad_cf ";
+                                       $sql_ds.=" WHERE discapacidad_ref.idtipo_discapacidad=tipo_discapacidad_cf.idtipo_discapacidad_cf AND discapacidad_ref.idnivel_discapacidad=nivel_discapacidad_cf.idnivel_discapacidad_cf ";
+                                       $sql_ds.=" AND discapacidad_ref.idreferencia_hc='$idreferencia_hc_ss' ";
+                                       $result_ds=mysqli_query($link,$sql_ds);
+                                       $row_ds=mysqli_fetch_array($result_ds);    
+                                        ?>
+                                    <div class="col-sm-4">
+                                        <h6 class="text-primary">TIPO DE DISCAPACIDAD:</h6>
+                                        <input type="text" class="form-control" value="<?php echo $row_ds[0];?>"             
+                                        name="tipo_discapacidad" disabled > 
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h6 class="text-primary">NIVEL DE DISCAPACIDAD:</h6>
+                                        <input type="text" class="form-control" value="<?php echo $row_ds[1];?>"             
+                                        name="nivel_discapacidad" disabled > 
+                                    </div>
+                                    <?php } else {  ?>
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-4"></div>
+                                    <?php } ?>
+
                                 </div>
                                 <div class="form-group row" id="persona_discapacidad"> 
                                 </div>
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
-                                        <input type="text" class="form-control" value="" 
-                                        name="nombre_acompanante" required>
+                                        <input type="text" class="form-control" value="<?php echo $row_ref[9];?>" 
+                                        name="nombre_acompanante" disabled>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
-                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control" required>
-                                        <option value="">-SELECCIONE-</option>
+                                        <select name="idparentesco_acomp"  id="idparentesco_acomp" class="form-control" disabled >
+                                        <option selected>Seleccione</option>
                                         <?php
-                                        $sql1 = "SELECT idparentesco, parentesco FROM parentesco ";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        $sqlv = " SELECT idparentesco, parentesco FROM parentesco ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
                                         } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ref[10]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
                                         } else {
-                                        echo "No se encontraron resultados!";
                                         }
                                         ?>
-                                        </select>              
+                                    </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
-                                        <input type="text" class="form-control" value=""             
-                                        name="celular_acompanante" required>                
+                                        <input type="text" class="form-control" value="<?php echo $row_ref[11];?>"             
+                                        name="celular_acompanante" disabled>                
                                     </div>
 
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
-                                        <input type="text" class="form-control" value=""             
-                                        name="tel_establecimiento" required >                
+                                        <input type="text" class="form-control" value="<?php echo $row_ref[12];?>"             
+                                        name="tel_establecimiento" disabled >                
                                     </div>
                                 </div>
                                 
@@ -302,27 +327,32 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <h6 class="m-0 font-weight-bold text-primary">2.- DATOS CLÍNICOS Y SIGNOS VITALES</h6>
                             </div>
                             <div class="card-body">
-                                
+<?php
+    $sql_sg =" SELECT idsigno_vital_psafci, talla, peso, temperatura, frec_cardiaca, frec_respiratoria, presion_arterial, presion_arterial_d, saturacion, glascow, alergia, ";
+    $sql_sg.=" descripcion_alergia, imc FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$idatencion_psafci_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+    $result_sg = mysqli_query($link,$sql_sg);
+    $row_sg = mysqli_fetch_array($result_sg);
+ ?>                               
                                 <div class="form-group row">  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
                                         <input type="text" class="form-control" placeholder="En Centrimetros"
-                                            name="talla" value="1" required>                
+                                            name="talla" value="<?php echo $row_sg[1];?>" disabled>                
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                                         <input type="number" class="form-control"              
-                                            name="peso" value="1" required>                
+                                            name="peso" value="<?php echo $row_sg[2];?>" disabled>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                                         <input type="text" class="form-control" 
-                                            name="temperatura" placeholder="" value="0" required>                
+                                            name="temperatura" placeholder="" value="<?php echo $row_sg[3];?>" disabled>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
                                         <input type="text" class="form-control" 
-                                            name="frec_cardiaca" value="0" required>                
+                                            name="frec_cardiaca" value="<?php echo $row_sg[4];?>" disabled>                
                                     </div>
                                 </div>
 
@@ -332,22 +362,22 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" class="form-control" 
-                                            name="frec_respiratoria" value="0" required>                
+                                            name="frec_respiratoria" value="<?php echo $row_sg[5];?>" disabled>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
                                         <input type="number" class="form-control"              
-                                            name="presion_arterial"  placeholder="Sistólica" value="0" required>               
+                                            name="presion_arterial"  placeholder="Sistólica" value="<?php echo $row_sg[6];?>" disabled>               
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary"> </br>diastólica [mmHg]</h6>
                                             <input type="number" class="form-control"              
-                                            name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
+                                            name="presion_arterial_d" placeholder="Diastólica" value="<?php echo $row_sg[7];?>" disabled>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                                         <input type="number" class="form-control"
-                                            name="saturacion" value="0" required>                
+                                            name="saturacion" value="<?php echo $row_sg[8];?>" disabled>                
                                     </div>
                                 </div>
 
@@ -355,16 +385,16 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASCOW:</br> </h6>
                                         <input type="number" class="form-control" 
-                                            name="glascow" placeholder="" value="0" required>                
+                                            name="glascow" placeholder="" value="<?php echo $row_sg[9];?>" disabled>                
                                     </div>  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">ALÉRGIAS:</h6>
-                                    SI <input type="radio" name="alergia" value="SI" > </br>
-                                    NO <input type="radio" name="alergia" value="NO" checked >  
+                                    SI <input type="radio" name="alergia" value="SI" <?php if ($row_sg[10] =='SI') { echo 'checked'; } else { } ?> disabled></br>
+                                    NO <input type="radio" name="alergia" value="NO" <?php if ($row_sg[10] =='NO') { echo 'checked'; } else { } ?> disabled>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" ></textarea>
+                                    <textarea class="form-control" rows="3" name="descripcion_alergia"  disabled ><?php echo $row_sg[11];?></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('descripcion_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
                                 </div>
@@ -375,12 +405,12 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" class="form-control" 
-                                            name="frec_respiratoria" value="0" required>                
+                                            name="frec_respiratoria" value="0" disabled>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>   
                                         <input type="number" class="form-control"
-                                            name="saturacion" value="0" required>             
+                                            name="saturacion" value="0" disabled>             
                                     </div>
                                     <div class="col-sm-3">
                                     <!-- <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>  para menor de 5 anos -->
@@ -398,12 +428,12 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASCOW:</br> </h6>
                                         <input type="number" class="form-control" 
-                                            name="glascow" placeholder="" value="0" required>                
+                                            name="glascow" placeholder="" value="<?php echo $row_sg[9];?>" disabled>               
                                     </div>  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">ALÉRGIAS:</h6>
-                                    SI <input type="radio" name="alergia" value="SI" > </br>
-                                    NO <input type="radio" name="alergia" value="NO" checked >  
+                                    SI <input type="radio" name="alergia" value="SI" <?php if ($row_sg[10] =='SI') { echo 'checked'; } else { } ?> disabled></br>
+                                    NO <input type="radio" name="alergia" value="NO" <?php if ($row_sg[10] =='NO') { echo 'checked'; } else { } ?> disabled>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
@@ -429,7 +459,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">F.U.M. </br>[fecha]</h6>
                                         <input type="date" class="form-control" placeholder="En Centrimetros"
-                                            name="fecha_fum" value="1" required>                
+                                            name="fecha_fum" value="1" disabled>                
                                     </div>                             
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">G</br>[Gestaciones]:</h6>
