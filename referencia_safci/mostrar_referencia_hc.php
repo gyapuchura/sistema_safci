@@ -104,7 +104,7 @@ $row_n=mysqli_fetch_array($result_n);
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                             <div class="text-center">                          
-                            <a href="../produccion_servicios/mostrar_atencion_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
+                            <a href="../referencia_safci/referencias_establecimiento.php"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
                         <h4 class="m-0 font-weight-bold text-primary">REFERENCIA</h4>

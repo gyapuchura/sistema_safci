@@ -23,9 +23,6 @@ $sql_es.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND esta
 $result_es = mysqli_query($link,$sql_es);
 $row_es = mysqli_fetch_array($result_es);
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$row_ref[7]' ";
 $result_n=mysqli_query($link,$sql_n);
