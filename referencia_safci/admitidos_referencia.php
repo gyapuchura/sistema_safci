@@ -64,13 +64,13 @@ $idestablecimiento_salud = $row_es[1];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">REFERENCIAS DEL ESTABLECIMIENTO DE SALUD </h1>
-                    <p class="mb-4">En esta sección se puede encontrar el registro de REFERENCIAS REALIZADAS en el Establecimiento de Salud.</p>
+                    <h1 class="h3 mb-2 text-gray-800">REFERENCIAS ADMITIDAS</h1>
+                    <p class="mb-4">En esta sección se puede encontrar la bandeja de REFERENCIAS ADMITIDAS en el Establecimiento de Salud.</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">REGISTRO DE REFERENCIAS</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">REFERENCIAS ADMITIDAS EN EL ESTABLECIMIENTO</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -84,55 +84,40 @@ $idestablecimiento_salud = $row_es[1];
                                             <th>CEDULA DE IDENTIDAD</th>   
                                             <th>MOTIVO REFERENCIA</th>  
                                             <th>ESPECIALIDAD MÉDICA</th>   
-                                            <th>ESTABLECIMIENTO DESTINO</th>                                            
-                                            <th>NIVEL / TIPO</th>
-                                            <th>FECHA / HORA</th>
-                                            <th>MÉDICO QUE ENVIO</th>
+                                            <th>ESTABLECIMIENTO ORIGEN</th>                                            
+                                            <th>NIVEL/TIPO</th>
+                                            <th>FECHA REFERENCIA/HORA</th>
+                                            <th>MÉDICO QUE REFIERE</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
                                    <tbody>
                                 <?php
                                 $numero=1;
-                                $sql =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
-                                $sql.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
-                                $sql.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-                                $sql.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idestablecimiento_salud='$idestablecimiento_salud' ";
+                                $sql =" SELECT deriva_referencia_hc.idderiva_referencia_hc, deriva_referencia_hc.idreferencia_hc, referencia_hc.codigo, nombre.nombre, nombre.paterno, nombre.materno, nombre.fecha_nac, nombre.ci,  ";
+                                $sql.=" motivo_referencia.motivo_referencia, especialidad_medica.especialidad_medica, establecimiento_salud.establecimiento_salud, tipo_establecimiento.tipo_establecimiento, ";
+                                $sql.=" nivel_establecimiento.nivel_establecimiento, deriva_referencia_hc.fecha_deriva, deriva_referencia_hc.hora_deriva, deriva_referencia_hc.idusuario_o, referencia_hc.idatencion_psafci, referencia_hc.idnombre ";
+                                $sql.=" FROM deriva_referencia_hc, referencia_hc, nombre, motivo_referencia, especialidad_medica, establecimiento_salud, tipo_establecimiento, nivel_establecimiento ";
+                                $sql.=" WHERE deriva_referencia_hc.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idnombre=nombre.idnombre AND referencia_hc.idmotivo_referencia=motivo_referencia.idmotivo_referencia ";
+                                $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                                $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento ";
+                                $sql.=" AND deriva_referencia_hc.idestablecimiento_salud_r='$idestablecimiento_salud' AND deriva_referencia_hc.referido='SI' AND deriva_referencia_hc.admitido='SI' ";
                                 $result = mysqli_query($link,$sql);
                                 if ($row = mysqli_fetch_array($result)){
                                 mysqli_field_seek($result,0);
                                 while ($field = mysqli_fetch_field($result)){
                                 } do {
 
-                                    $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$row[7]' ";
-                                    $result_n=mysqli_query($link,$sql_n);
-                                    $row_n=mysqli_fetch_array($result_n);
-
-                                    $sql_mo =" SELECT idmotivo_referencia, motivo_referencia FROM motivo_referencia WHERE idmotivo_referencia='$row[21]' ";
-                                    $result_mo=mysqli_query($link,$sql_mo);
-                                    $row_mo=mysqli_fetch_array($result_mo);
-
-                                    $sql_em =" SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica='$row[22]' ";
-                                    $result_em=mysqli_query($link,$sql_em);
-                                    $row_em=mysqli_fetch_array($result_em);
-
-                                    $sql_es =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
-                                    $sql_es.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
-                                    $sql_es.=" WHERE establecimiento_salud.idsubsector_salud=subsector_salud.idsubsector_salud AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
-                                    $sql_es.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.idestablecimiento_salud='$row[4]'";
-                                    $result_es = mysqli_query($link,$sql_es);
-                                    $row_es = mysqli_fetch_array($result_es);
-
                                 ?>
                                         <tr>
                                             <td><?php echo $numero;?></td>
                                             <td>
-                                            <a href="imprime_formulario_d7.php?idreferencia_hc=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=900,top=50, left=500, scrollbars=YES'); return false;">
-                                            <?php echo $row[6];?></a>      
+                                            <a href="imprime_formulario_d7.php?idreferencia_hc=<?php echo $row[1];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=900,top=50, left=500, scrollbars=YES'); return false;">
+                                            <?php echo $row[2];?></a>      
                                             </td>
-                                            <td><?php echo mb_strtoupper($row_n[1]." ".$row_n[2]." ".$row_n[3]);?></td>
+                                            <td><?php echo mb_strtoupper($row[3]." ".$row[4]." ".$row[5]);?></td>
                                             <td><?php 
-                                                    $fecha_nacimiento = $row_n[5];
+                                                    $fecha_nacimiento = $row[6];
                                                     $dia=date("d");
                                                     $mes=date("m");
                                                     $ano=date("Y");    
@@ -145,33 +130,34 @@ $idestablecimiento_salud = $row_es[1];
                                                     $ano=($ano-1);}       
                                                     $edad=($ano-$anonaz);  
                                                     echo $edad ;?></td>
-                                            <td><?php echo $row_n[4];?></td>
-                                            <td><?php echo $row_mo[1];?></td>
-                                            <td><?php echo $row_em[1];?></td>
-                                            <td><?php echo $row_es[1];?></td>
+                                            <td><?php echo $row[7];?></td>
+                                            <td><?php echo $row[8];?></td>
+                                            <td><?php echo $row[9];?></td>
+                                            <td><?php echo $row[10];?></td>
                                             <td>
-                                                <?php echo $row_es[2];?> / <?php echo $row_es[3];?>
+                                                <?php echo $row[12];?> / <?php echo $row[11];?>
                                             </td>  
                                             <td>
                                             <?php 
-                                                $fecha_r = explode('-',$row[23]);
+                                                $fecha_r = explode('-',$row[13]);
                                                 $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
-                                            <?php echo $f_registro;?></br><?php echo $row[24];?> 
+                                            <?php echo $f_registro;?></br><?php echo $row[14];?> 
                                             </td> 
                                             <td>
                                                 <?php 
                                                 $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                                                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[25]' ";
+                                                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[15]' ";
                                                 $result_r = mysqli_query($link,$sql_r);
                                                 $row_r = mysqli_fetch_array($result_r);                    
                                                 echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
                                             </td>                                       
                                         <td>
-                                        <form name="ATENCION-PSAFCI" action="valida_referencia_eess.php" method="post">
-                                            <input name="idreferencia_hc" type="hidden" value="<?php echo $row[0];?>">
-                                            <input name="idatencion_psafci" type="hidden" value="<?php echo $row[5];?>">
+                                        <form name="ATENCION-PSAFCI" action="valida_referencia_admitida.php" method="post">
+                                            <input name="idderiva_referencia_hc" type="hidden" value="<?php echo $row[0];?>">
+                                            <input name="idreferencia_hc" type="hidden" value="<?php echo $row[1];?>">
+                                            <input name="idatencion_psafci" type="hidden" value="<?php echo $row[16];?>">
                                             <input name="idestablecimiento_salud" type="hidden" value="<?php echo $idestablecimiento_salud;?>">
-                                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row[7];?>">
+                                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row[17];?>">
                                             <input name="edad" type="hidden" value="<?php echo $edad;?>">
                                             <button type="submit" class="btn btn-info btn-icon-split">
                                             <span class="icon text-white-50">

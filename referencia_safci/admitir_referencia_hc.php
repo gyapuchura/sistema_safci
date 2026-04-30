@@ -11,6 +11,7 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$idderiva_referencia_hc_ss  = $_SESSION['idderiva_referencia_hc_ss'];
 $idreferencia_hc_ss         = $_SESSION['idreferencia_hc_ss'];
 
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
@@ -104,10 +105,10 @@ $row_n=mysqli_fetch_array($result_n);
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                             <div class="text-center">                          
-                            <a href="../referencia_safci/referencias_establecimiento.php"><h6 class="text-info"><- VOLVER</h6></a>
+                            <a href="../referencia_safci/entrada_referencia.php"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
-                        <h4 class="m-0 font-weight-bold text-primary">REFERENCIA</h4>
+                        <h4 class="m-0 font-weight-bold text-primary">ADMITIR REFERENCIA</h4>
                         <h4 class="m-0 font-weight-bold text-primary"><?php echo $row_ref[6]; ?></h4>
                         </div>
                     </div>
