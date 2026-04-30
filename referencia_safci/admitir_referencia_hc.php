@@ -221,17 +221,17 @@ $row_n=mysqli_fetch_array($result_n);
 
                                 </div>
                                 <div class="form-group row"> 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">OCUPACIÓN:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
                                         <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
@@ -239,6 +239,15 @@ $row_n=mysqli_fetch_array($result_n);
                                         </span>
                                         <span class="text">HISTORIA CLÍNICA DIGITAL</span>
                                         </a>                                      
+                                    </div>
+                                    <div class="col-sm-3">
+                                    <h6 class="text-primary">FORMULARIO - D7:</h6>
+                                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-print"></i>
+                                        </span>
+                                        <span class="text">IMPRIMIR FORMULARIO D7</span>
+                                        </a> 
                                     </div>
                                 </div> 
                                 <?php
@@ -798,12 +807,7 @@ $row_n=mysqli_fetch_array($result_n);
                             <div class="text-center">   
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-                                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-book"></i>
-                                        </span>
-                                        <span class="text">IMPRIMIR FORMULARIO D7</span>
-                                        </a> 
+
                                     </div>                              
                                 </div>                            
                             </div>

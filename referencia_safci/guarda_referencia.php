@@ -99,9 +99,9 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
     $_SESSION['idreferencia_hc_ss'] = $idreferencia_hc;
 
         $sql0 = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
-        $sql0.= " referido, admitido, adecuado, justificado, oportuno, fecha_deriva, fecha_admision, hora_admision )  ";
+        $sql0.= " referido, admitido, adecuado, justificado, oportuno, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
         $sql0.= " VALUES ('$idreferencia_hc','$idestablecimiento_salud_ss','$idestablecimiento_salud_r','$idusuario_ss','$idusuario_ss', ";
-        $sql0.= " 'SI','NO','','','','$fecha','$fecha','$hora')";
+        $sql0.= " 'SI','NO','','','','$fecha','$hora','$fecha','$hora')";
         $result0 = mysqli_query($link,$sql0);   
         $idreferencia_hc = mysqli_insert_id($link);
 

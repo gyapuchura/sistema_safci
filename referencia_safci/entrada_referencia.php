@@ -107,7 +107,6 @@ $idestablecimiento_salud = $row_es[1];
                                 mysqli_field_seek($result,0);
                                 while ($field = mysqli_fetch_field($result)){
                                 } do {
-
                                 ?>
                                         <tr>
                                             <td><?php echo $numero;?></td>

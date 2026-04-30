@@ -158,21 +158,21 @@ $row_n=mysqli_fetch_array($result_n);
             </td>
             </tr>
 
-          <?php  if ($row_ref[8]=='SI') { 
+          <?php  
           $sql_ds =" SELECT tipo_discapacidad_cf.tipo_discapacidad_cf, nivel_discapacidad_cf.nivel_discapacidad_cf FROM discapacidad_ref, tipo_discapacidad_cf, nivel_discapacidad_cf ";
           $sql_ds.=" WHERE discapacidad_ref.idtipo_discapacidad=tipo_discapacidad_cf.idtipo_discapacidad_cf AND discapacidad_ref.idnivel_discapacidad=nivel_discapacidad_cf.idnivel_discapacidad_cf ";
           $sql_ds.=" AND discapacidad_ref.idreferencia_hc='$idreferencia_hc_ss' ";
           $result_ds=mysqli_query($link,$sql_ds);
-          $row_ds=mysqli_fetch_array($result_ds);  }  
-          ?>
-          <tr>
+          if ($row_ds=mysqli_fetch_array($result_ds)) {  ?>
+            <tr>
             <td colspan="2" style="font-size: 12px; font-family: Arial;">PERSONA CON DISCAPACIDAD</td>
             <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_ref[8];?></td>
             <td colspan="2" style="font-size: 12px; font-family: Arial;">TIPO DE DISCAPACIDAD:</td>
             <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_ds[0];?></td>
             <td colspan="2" style="font-size: 12px; font-family: Arial;">GRADO DE DISCAPACIDAD:</td>
             <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_ds[1];?></td>
-            </tr>
+            </tr>        
+          <?php }  ?>
           <tr>
             <td colspan="2" style="font-size: 12px; font-family: Arial;">NOMBRE DEL ACOMPANANTE:</td>
             <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_ref[9];?></td>
