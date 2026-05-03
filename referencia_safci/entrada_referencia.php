@@ -99,7 +99,7 @@ $idestablecimiento_salud = $row_es[1];
                                 $sql.=" nivel_establecimiento.nivel_establecimiento, deriva_referencia_hc.fecha_deriva, deriva_referencia_hc.hora_deriva, deriva_referencia_hc.idusuario_o, referencia_hc.idatencion_psafci, referencia_hc.idnombre ";
                                 $sql.=" FROM deriva_referencia_hc, referencia_hc, nombre, motivo_referencia, especialidad_medica, establecimiento_salud, tipo_establecimiento, nivel_establecimiento ";
                                 $sql.=" WHERE deriva_referencia_hc.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idnombre=nombre.idnombre AND referencia_hc.idmotivo_referencia=motivo_referencia.idmotivo_referencia ";
-                                $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
+                                $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND deriva_referencia_hc.idestablecimiento_salud_o=establecimiento_salud.idestablecimiento_salud ";
                                 $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento ";
                                 $sql.=" AND deriva_referencia_hc.idestablecimiento_salud_r='$idestablecimiento_salud' AND deriva_referencia_hc.referido='SI' AND deriva_referencia_hc.admitido='NO' ";
                                 $result = mysqli_query($link,$sql);

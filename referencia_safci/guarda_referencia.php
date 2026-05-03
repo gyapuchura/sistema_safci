@@ -89,20 +89,20 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
 
     $sql0 = " INSERT INTO referencia_hc (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, correlativo, codigo, idnombre,";
     $sql0.= " discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, resumen_anamnesis, especificacion_hallazgos, tratamiento_ref,";
-    $sql0.= " observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, gestion, fecha_registro, hora_registro, idusuario )";
+    $sql0.= " observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, gestion, idestado_referencia, fecha_registro, hora_registro, idusuario )";
     $sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idatencion_psafci_ss','$correlativo','$codigo','$idnombre_integrante_ss',";
     $sql0.= " '$discapacidad','$nombre_acompanante','$idparentesco_acomp','$celular_acompanante','$tel_establecimiento','$estuvo_internado','$dias_internacion','$resumen_anamnesis','$especificacion_hallazgos','$tratamiento_ref',";
-    $sql0.= " '$observaciones_ref','$idconsentimiento','$idestablecimiento_salud_r','$idmotivo_referencia','$idespecialidad_medica','$gestion','$fecha','$hora','$idusuario_ss')";
+    $sql0.= " '$observaciones_ref','$idconsentimiento','$idestablecimiento_salud_r','$idmotivo_referencia','$idespecialidad_medica','$gestion','1','$fecha','$hora','$idusuario_ss')";
     $result0 = mysqli_query($link,$sql0);   
     $idreferencia_hc = mysqli_insert_id($link);
 
     $_SESSION['idreferencia_hc_ss'] = $idreferencia_hc;
 
-        $sql0 = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
-        $sql0.= " referido, admitido, adecuado, justificado, oportuno, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
-        $sql0.= " VALUES ('$idreferencia_hc','$idestablecimiento_salud_ss','$idestablecimiento_salud_r','$idusuario_ss','$idusuario_ss', ";
-        $sql0.= " 'SI','NO','','','','$fecha','$hora','$fecha','$hora')";
-        $result0 = mysqli_query($link,$sql0);   
+        $sql_dr = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
+        $sql_dr.= " referido, admitido, adecuada, justificada, oportuna, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
+        $sql_dr.= " VALUES ('$idreferencia_hc','$idestablecimiento_salud_ss','$idestablecimiento_salud_r','$idusuario_ss','$idusuario_ss', ";
+        $sql_dr.= " 'SI','NO','','','','$fecha','$hora','$fecha','$hora')";
+        $result_dr = mysqli_query($link,$sql_dr);   
         $idreferencia_hc = mysqli_insert_id($link);
 
             $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */

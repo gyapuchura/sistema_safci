@@ -81,14 +81,15 @@ $idestablecimiento_salud = $row_es[1];
                                             <th>CÓDIGO REFERENCIA</th>
                                             <th>PERSONA REFERIDA</th>
                                             <th>EDAD</th> 
-                                            <th>CEDULA DE IDENTIDAD</th>   
+                                            <th>CÉDULA DE IDENTIDAD</th>   
                                             <th>MOTIVO REFERENCIA</th>  
                                             <th>ESPECIALIDAD MÉDICA</th>   
                                             <th>ESTABLECIMIENTO ORIGEN</th>                                            
                                             <th>NIVEL/TIPO</th>
                                             <th>FECHA REFERENCIA/HORA</th>
                                             <th>MÉDICO QUE REFIERE</th>
-                                            <th>ACCIÓN</th>
+                                            <th>TRANSFERENCIA</th>
+                                            <th>CONTRAREFERENCIA</th>
                                         </tr>
                                     </thead>
                                    <tbody>
@@ -101,7 +102,7 @@ $idestablecimiento_salud = $row_es[1];
                                 $sql.=" WHERE deriva_referencia_hc.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idnombre=nombre.idnombre AND referencia_hc.idmotivo_referencia=motivo_referencia.idmotivo_referencia ";
                                 $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud ";
                                 $sql.=" AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento ";
-                                $sql.=" AND deriva_referencia_hc.idestablecimiento_salud_r='$idestablecimiento_salud' AND deriva_referencia_hc.referido='SI' AND deriva_referencia_hc.admitido='SI' ";
+                                $sql.=" AND deriva_referencia_hc.idestablecimiento_salud_r='$idestablecimiento_salud' AND deriva_referencia_hc.referido='NO' AND deriva_referencia_hc.admitido='SI' ";
                                 $result = mysqli_query($link,$sql);
                                 if ($row = mysqli_fetch_array($result)){
                                 mysqli_field_seek($result,0);
@@ -152,7 +153,7 @@ $idestablecimiento_salud = $row_es[1];
                                                 echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
                                             </td>                                       
                                         <td>
-                                        <form name="ATENCION-PSAFCI" action="valida_referencia_admitida.php" method="post">
+                                        <form name="TRANSFERIR" action="valida_tranferencia_hc.php" method="post">
                                             <input name="idderiva_referencia_hc" type="hidden" value="<?php echo $row[0];?>">
                                             <input name="idreferencia_hc" type="hidden" value="<?php echo $row[1];?>">
                                             <input name="idatencion_psafci" type="hidden" value="<?php echo $row[16];?>">
@@ -163,7 +164,23 @@ $idestablecimiento_salud = $row_es[1];
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-hospital"></i>
                                             </span>
-                                            <span class="text">VER REFERENCIA</span>    
+                                            <span class="text">TRANFERENCIA</span>    
+                                            </button>
+                                        </form>  
+                                        </td> 
+                                        <td>
+                                        <form name="CONTRAREFERIR" action="valida_contrareferencia_hc.php" method="post">
+                                            <input name="idderiva_referencia_hc" type="hidden" value="<?php echo $row[0];?>">
+                                            <input name="idreferencia_hc" type="hidden" value="<?php echo $row[1];?>">
+                                            <input name="idatencion_psafci" type="hidden" value="<?php echo $row[16];?>">
+                                            <input name="idestablecimiento_salud" type="hidden" value="<?php echo $idestablecimiento_salud;?>">
+                                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row[17];?>">
+                                            <input name="edad" type="hidden" value="<?php echo $edad;?>">
+                                            <button type="submit" class="btn btn-primary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-hospital"></i>
+                                            </span>
+                                            <span class="text">CONTRAREFERENCIA</span>    
                                             </button>
                                         </form>  
                                         </td> 

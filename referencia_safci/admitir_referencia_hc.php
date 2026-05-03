@@ -24,6 +24,8 @@ $edad_ss                    = $_SESSION['edad_ss'];
 $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
 $sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
+$sql_ref.=" idestado_referencia, dias_internacion_ref, evolucion_complicacion, examenes_complementarios_egreso, otros_examenes, tratamientos_realizados, ";
+$sql_ref.=" recmoendaciones_paciente, otros_anexos, observaciones_recomendaciones, contacto_eess_cref, por_telesalud, contacto_contraref, nombre_acompanante_cref, ";
 $sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
@@ -108,13 +110,18 @@ $row_n=mysqli_fetch_array($result_n);
                             <a href="../referencia_safci/entrada_referencia.php"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
-                        <h4 class="m-0 font-weight-bold text-primary">ADMITIR REFERENCIA</h4>
-                        <h4 class="m-0 font-weight-bold text-primary"><?php echo $row_ref[6]; ?></h4>
+                        <?php if ($row_ref[23] == '2') { ?>
+                            <h4 class="m-0 font-weight-bold text-primary">ADMISIÓN DE CONTRAREFERENCIA</h4>
+                        <?php } else { ?>
+                            <h4 class="m-0 font-weight-bold text-primary">ADMISIÓN DE LA REFERENCIA <?php echo $row_ref[23]; ?></h4>
+                        <?php } ?>
+                            <h4 class="m-0 font-weight-bold text-primary"><?php echo $row_ref[6]; ?></h4>
                         </div>
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post"> 
+                     <form name="GUARDA_ADMISION_REF" action="guarda_admision_referencia.php" method="post">
+                                <input type="hidden" name="idestado_referencia" value="<?php echo $row_ref[23];?>">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
   
@@ -748,7 +755,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         while ($fieldv = mysqli_fetch_field($resultv)){
                                         } do {
                                         ?>
-                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ref[20]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?> - <?php echo $rowv[3];?> / <?php echo $rowv[4];?> - Mun. <?php echo $rowv[5];?> / Dep. <?php echo $rowv[6];?> </option>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idestablecimiento_salud_ss) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?> - <?php echo $rowv[3];?> / <?php echo $rowv[4];?> - Mun. <?php echo $rowv[5];?> / Dep. <?php echo $rowv[6];?> </option>
                                         <?php
                                         } while ($rowv = mysqli_fetch_array($resultv));
                                         } else {
@@ -759,7 +766,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 </div> 
                                 <div class="form-group row">                           
                                     <div class="col-sm-6">  
-                                        <h6 class="text-primary">MOTIVO:</h6> 
+                                        <h6 class="text-primary">MOTIVO DE REFERENCIA:</h6> 
                                         <select name="idmotivo_referencia" id="idmotivo_referencia" class="form-control" disabled >
                                         <option selected>Seleccione</option>
                                         <?php
@@ -801,38 +808,294 @@ $row_n=mysqli_fetch_array($result_n);
                                 </div>
                             </div>
                         </div>
-                          
+
+                        <?php if ($row_ref[23] == '2') { ?>
+                            
+                        
+                        <div class="text-center"> 
+                            <h4 class="m-0 font-weight-bold text-primary">INFORMACIÓN DE LA CONTRAREFERENCIA</h4>
                         </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICOS DE EGRESO</h6>
+                            </div>
+                            <div class="card-body">
+
+                                <?php
+                                $numero_dg=0;
+                                $sql_dg =" SELECT iddiagnostico_egreso, diagnostico_egreso, idpatologia FROM diagnostico_egreso ";
+                                $sql_dg.=" WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+                                $result_dg = mysqli_query($link,$sql_dg);
+                                if ($row_dg = mysqli_fetch_array($result_dg)){
+                                mysqli_field_seek($result_dg,0);
+                                while ($field_dg = mysqli_fetch_field($result_dg)){
+                                } do { ?> 
+                                <div class="form-group row">                               
+                                    <div class="col-sm-6">
+                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[0]"  disabled><?php echo $row_dg[1];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <select name="idpatologia[]"  id="idpatologia[]" class="form-control" disabled >
+                                        <option selected>Seleccione</option>
+                                        <?php
+                                        $sqlv = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia ";
+                                        $resultv = mysqli_query($link,$sqlv);
+                                        if ($rowv = mysqli_fetch_array($resultv)){
+                                        mysqli_field_seek($resultv,0);
+                                        while ($fieldv = mysqli_fetch_field($resultv)){
+                                        } do {
+                                        ?>
+                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[2]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?></option>
+                                        <?php
+                                        } while ($rowv = mysqli_fetch_array($resultv));
+                                        } else {
+                                        }
+                                        ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                        <?php
+                        $numero_dg=$numero_dg+1;
+                        }
+                        while ($row_dg = mysqli_fetch_array($result_dg));
+                        } else {
+                        }
+                        ?>                                
+
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">EVOLUCIÓN DE COMPLICACIONES</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">  
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">DÍAS DE INTERNACIÓN:</h6>
+                                        <input type="text" class="form-control" 
+                                            name="dias_internacion" placeholder="" value="<?php echo $row_ref[24];?>" disabled>                
+                                    </div>                             
+                                    <div class="col-sm-8">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[25];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">EXÁMENES COMPLEMENTARIOS DE DIAGNÓSTICO</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">                            
+                                    <div class="col-sm-12">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[26];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">OTROS EXÁMENES E INTERCONCULTA</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">                            
+                                    <div class="col-sm-12">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[27];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">TRATAMIENTOS REALIZADOS</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">                            
+                                    <div class="col-sm-12">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[28];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">RECOMENDACIONES PARA EL PACIENTE</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">                            
+                                    <div class="col-sm-12">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[29];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">OTROS ANEXOS Y ESTUDIOS PENDIENTES</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">                            
+                                    <div class="col-sm-12">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[30];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">OBSERVACIONES / RECOMENDACIONES A LA CONTRAREFERENCIA</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">                            
+                                    <div class="col-sm-12">
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" disabled><?php echo $row_ref[31];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <?php } else { ?>
+                        
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">INFORMACIÓN DE ADMISIÓN</h6>
+                            </div>
+                            <div class="card-body">                              
+                                <div class="form-group row">  
+                                    <div class="col-sm-6">
+                                    <h6 class="text-primary">NOMBRE DE LA PERSONA CONTACTADA:</h6>
+                                        <input type="text" class="form-control" placeholder="Escriba el nombre"
+                                            name="persona_contactada" value="" required>                
+                                    </div>                             
+                                    <div class="col-sm-6">
+                                    <h6 class="text-primary">MEDIO DE COMUNICACIÓN:</h6>
+                                        <select name="idvia_comunicacion"  id="idvia_comunicacion" class="form-control" required>
+                                        <option value="">-SELECCIONE-</option>
+                                        <?php
+                                        $numero=1;
+                                        $sql1 = " SELECT idvia_comunicacion, via_comunicacion FROM via_comunicacion ";
+                                        $result1 = mysqli_query($link,$sql1);
+                                        if ($row1 = mysqli_fetch_array($result1)){
+                                        mysqli_field_seek($result1,0);
+                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        } do {
+                                        echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                                        $numero=$numero+1;
+                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        } else {
+                                        echo "No se encontraron resultados!";
+                                        }
+                                        ?>
+                                    </select>                                    
+                                    </div>
+                                </div>               
+                                <div class="form-group row">  
+                                    <div class="col-sm-6">
+                                    <h6 class="text-primary">NOMBRE DE QUIEN RECIBE AL PACIENTE:</h6>
+                                        <input type="text" class="form-control" placeholder="Escriba el nombre"
+                                            name="recibe_paciente" value="" required>                
+                                    </div>                             
+                                    <div class="col-sm-6">
+                                    <h6 class="text-primary">REPORTADO AL CCDES A:</h6>
+                                        <input type="text" class="form-control" placeholder="Escriba el nombre"
+                                            name="nombre_ccdes" value="" required>                
+                                    </div> 
+                                </div>                        
+
+                                <div class="form-group row">  
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">PACIENTE ADMITIDO:</h6>
+                                    SI <input type="radio" name="admitido" value="SI" > </br>
+                                    NO <input type="radio" name="admitido" value="NO" checked >  
+                                    </div>
+                                    <div class="col-sm-8">
+                                    <h6 class="text-primary">MOTIVO:</h6>
+                                    <textarea class="form-control" rows="3" name="motivo" id="motivo"></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('motivo')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                            
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-group row">  
+                                    <div class="col-sm-12">
+                                    <h6 class="text-primary">CALIFICACIÓN POR EL ESTABLECIMIENTO RECEPTOR (colocar SI o NO):</h6>                      
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-group row">  
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">ES ADECUADO?</h6>
+                                    SI <input type="radio" name="adecuada" value="SI" > </br>
+                                    NO <input type="radio" name="adecuada" value="NO" checked >  
+                                    </div>
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">ES JUSTIFICADO?</h6>
+                                    SI <input type="radio" name="justificada" value="SI" > </br>
+                                    NO <input type="radio" name="justificada" value="NO" checked >                      
+                                    </div>
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">ES OPORTUNO?</h6>
+                                    SI <input type="radio" name="oportuna" value="SI" > </br>
+                                    NO <input type="radio" name="oportuna" value="NO" checked >                      
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        <?php } ?>
+                         
+                    </div>
 
                             <div class="text-center">   
                                 <div class="form-group row">
                                     <div class="col-sm-12">
-
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#examplemodal_f">
+                                        <?php if ($row_ref[23]=='2') { echo 'ADMITIR CONTRAREFERENCIA'; } else { echo 'ADMITIR REFERENCIA'; }?>
+                                        </button>  
                                     </div>                              
                                 </div>                            
                             </div>
-
-
 
                             <!-- modal de confirmacion de envio de datos-->
                             <div class="modal fade" id="examplemodal_f" tabindex="-1" role="dialog" aria-labelledby="examplemodal_fLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h5 class="modal-title" id="examplemodal_fLabel">REGISTRAR REFERENCIA</h5>
+                                            <h5 class="modal-title" id="examplemodal_fLabel">ADMITIR <?php if ($row_ref[23]=='2') { echo 'CONTRAREFERENCIA'; } else { echo 'REFERENCIA'; }?></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                             </button>
                                             </div>
                                             <div class="modal-body">
                                                 
-                                                Esta seguro de Registrar la Referencia?
+                                                Esta seguro de ADMITIR la <?php if ($row_ref[23]=='2') { echo 'CONTRAREFERENCIA'; } else { echo 'REFERENCIA'; }?>
                                                 posteriormenete no se podran realizar cambios.
 
                                             </div>
                                             <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
+                                            <button type="submit" class="btn btn-primary pull-center">CONFIRMAR ADMISIÓN</button>    
                                             </div>
                                         </div>
                                     </div>

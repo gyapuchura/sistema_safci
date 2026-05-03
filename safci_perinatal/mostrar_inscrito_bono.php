@@ -327,8 +327,8 @@ $row_bj=mysqli_fetch_array($result_bj);
                         <span class="text"> <?php echo $row_cf[1];?> </span></a> 
                     </div>
                 </div>  
-
-
+                </div>
+            </div> 
         <!-- DATOS DEL TITULAR DEL PAGO - BEGIN---->
 
     <div class="card shadow mb-4">
