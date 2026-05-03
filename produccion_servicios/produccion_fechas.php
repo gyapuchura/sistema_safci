@@ -162,6 +162,18 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
                     </div>
                 </div> 
 
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-6">
+                        <h6 class="text-primary">5.- REPORTE NACIONAL POR CUANTIFICACIÓN </h6>
+                    </div>
+                    <div class="col-sm-4">
+                    <a href="../produccion_servicios/grafico_produccion.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1200,height=900,scrollbars=YES'); return false;">
+                    <h6 class="text-info"><i class="far fa-chart-bar"></i>MOSTRAR REPORTE</h6></a>
+                    </div>
+                </div> 
+
             <!--    <div class="form-group row">
                     <div class="col-sm-2">
                     </div>

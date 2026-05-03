@@ -529,6 +529,43 @@
 </li>
 
 
+<!------ MODULO DE REFRERENCIA Y CONTRAREFERENCIA - SAFCI ------->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilitiesref"
+        aria-expanded="true" aria-controls="collapseUtilitiesref">
+        <i class="fas fa-clipboard-list"></i>   
+        <span>REFERENCIA </br>DE INTEGRANTES </span>
+    </a>
+    <div id="collapseUtilitiesref" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">BANDEJAS DE REFERENCIA:</h6>
+            <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
+
+        
+     <!--   <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> -->
+        
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+    <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">ENTRADA</br>REFERENCIA</a>
+    <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">ADMITIDOS</br>REFERENCIA</a>
+    <a class="collapse-item" href="../referencia_safci/referencias_establecimiento.php">REFERENCIAS DEL</br>ESTABLECIMIENTO</a>
+   
+        </div>
+    </div>
+</li>
+
 
 <!------ MODULO DE GESTION BONO JUANA AZURDUY - SAFCI ------->
 <li class="nav-item">

@@ -27,7 +27,6 @@ $row_mun = mysqli_fetch_array($result_mun);
     <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-
 </head>
 
 <body id="page-top">
@@ -151,14 +150,20 @@ $row_mun = mysqli_fetch_array($result_mun);
                                         <?php echo mb_strtoupper($numero.".- ". $row_p[0]." ".$row_p[1]." ".$row_p[2]); ?>
                                     <div class="text-white-50 small">                                        
                                         <?php
-                                        $sql_af =" SELECT tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia, carpeta_familiar  WHERE carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia";   
-                                        $sql_af.=" AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.idusuario='$row[0]' GROUP BY area_influencia.area_influencia ";
+                                        $sql_af ="SELECT idarea_influencia FROM carpeta_familiar WHERE idusuario='$row[0]' GROUP BY idarea_influencia ";   
                                         $result_af = mysqli_query($link,$sql_af);
                                         if ($row_af = mysqli_fetch_array($result_af)){
                                         mysqli_field_seek($result_af,0);
                                         while ($field_af = mysqli_fetch_field($result_af)){
-                                        } do {  ?>
-                                                <?php echo mb_strtoupper(" - ". $row_af[0]." ".$row_af[1]."</br>");?>
+                                        } do { 
+                                            
+                                            $sql_ai =" SELECT tipo_area_influencia.tipo_area_influencia, area_influencia.area_influencia FROM tipo_area_influencia, area_influencia "; 
+                                            $sql_ai.=" WHERE area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND area_influencia.idarea_influencia='$row_af[0]' ";  
+                                            $result_ai = mysqli_query($link,$sql_ai);
+                                            $row_ai = mysqli_fetch_array($result_ai);
+                                            
+                                            ?>
+                                                <?php echo mb_strtoupper(" - ". $row_ai[0]." ".$row_ai[1]."</br>");?>
 
                                             <?php
                                         }
@@ -228,3 +233,4 @@ $row_mun = mysqli_fetch_array($result_mun);
 </body>
 
 </html>
+

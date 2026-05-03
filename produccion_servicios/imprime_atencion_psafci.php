@@ -106,7 +106,22 @@ $row = mysqli_fetch_array($result);
                   echo $fecha_nac; ?>
             </td>
             <td style="font-family: Arial; font-size: 12px; text-align: right;">EDAD:</td>
-            <td style="font-size: 12px; font-family: Arial;"><?php echo $row[17];?></td>
+            <td style="font-size: 12px; font-family: Arial;">
+                    <?php
+                    $fecha_nacimiento = $row[14];
+                    $dia = date("d");
+                    $mes = date("m");
+                    $ano = date("Y");    
+                    $dianaz = date("d",strtotime($fecha_nacimiento));
+                    $mesnaz = date("m",strtotime($fecha_nacimiento));
+                    $anonaz = date("Y",strtotime($fecha_nacimiento));         
+                    if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                    $ano=($ano-1); }      
+                    if ($mesnaz > $mes) {
+                    $ano=($ano-1);}       
+                    $edad=($ano-$anonaz);  
+                    echo $edad ;?>
+            </td>
           </tr>
 
         </tbody>

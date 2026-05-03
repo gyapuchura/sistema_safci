@@ -13,11 +13,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
-
 
 $sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
 $result_cf=mysqli_query($link,$sql_cf);

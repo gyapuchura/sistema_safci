@@ -83,8 +83,8 @@ $row_ub=mysqli_fetch_array($result_ub);
                     
               <!--      <a class="text-center" href=""><h6><- VOLVER</h6></a>  -->
 </br>
-                    <h3 class="text-danger">LA HISTORIA CLÍNICA PERINATAL </h3>
-                    <h3 class="text-danger">YA EXISTE EN SISTEMA !!!</h3>
+                    <h3 class="text-secundary">LA HISTORIA CLÍNICA PERINATAL </h3>
+                    <h3 class="text-secundary">A SIDO ACTUALIZADA !!!</h3>
                 </div>
                 <div class="row">
                   </br>
@@ -94,30 +94,34 @@ $row_ub=mysqli_fetch_array($result_ub);
 
                  <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-warning">HISTORIA CLÍNICA PERINATAL Nº : <?php  echo $row_hp[1];?></h6>
+                        <h4 class="m-0 font-weight-bold text-warning">CÓDIGO DE HISTORIA Nº : <?php  echo $row_hp[1];?></h4>
                     </div>
                     
                 <div class="card-body">
                     <div class="form-group row">
-                        <div class="col-sm-4">
-                        <h6 class="text-warning">CORRESPONDE A  : </h6>
+                        <div class="col-sm-3">
+                        <h6 class="text-warning">NOMBRE : </h6>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
 
                         <input type="text" class="form-control" name="nombre" value="<?php echo mb_strtoupper($row_n[1]." ".$row_n[2]." ".$row_n[3]);?>" disabled>
                         </div>
                     </div>
-                         
+                        
                     <div class="form-group row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                         <h6 class="text-warning"></h6>
                         </div>
-                        <div class="col-sm-8">                     
+                        <div class="col-sm-6">                     
                                 <a class="btn btn-warning btn-icon-split" href="../safci_perinatal/imprime_perinatal.php?idhistoria_perinatal=<?php echo $idhistoria_perinatal_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=950,height=800,top=50, left=800, scrollbars=YES'); return false;">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-book"></i>
                                 </span>
                                 <span class="text">VER FORMULARIO - CLAP</span></a> 
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="actualiza_antecedentes_hcp.php"><h6 class="text-warning">IR A ACTUALIZAR -></h6></a>
+                        
                         </div>
                     </div>
                 </div>
