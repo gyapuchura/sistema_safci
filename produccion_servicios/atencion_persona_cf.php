@@ -374,7 +374,8 @@ $row_n=mysqli_fetch_array($result_n);
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">4.- ATENCIÓN INTEGRAL SAFCI</h6>
+            <h6 class="m-0 font-weight-bold text-info">4.- TIPO DE ATENCIÓN
+            </h6>
         </div>
         <div class="card-body">
 
