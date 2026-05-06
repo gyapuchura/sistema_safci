@@ -382,3 +382,9 @@ ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idnombre_nino) REFERENCES nombre (id
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idnombre_madre) REFERENCES nombre (idnombre);
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idparentesco) REFERENCES parentesco (idparentesco);
 ALTER TABLE bono_nino_sano ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+
+ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idexamen_complementario) REFERENCES examen_complementario (idexamen_complementario);
+ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);

@@ -136,7 +136,7 @@ $result_dg = mysqli_query($link,$sql_dg);
         foreach($_POST['idexamen_complementario'] as $idexamen_complementario_i) {
 
     $sql3 = " INSERT INTO examen_teleconsulta (idatencion_psafci, idnombre, idexamen_complementario, fecha_registro, hora_registro, idusuario) ";
-    $sql3.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$idexamen_complementario_i','$fecha','$hora','$idusuario_ss') ";
+    $sql3.= " VALUES ('$idatencion_psafci','$idnombre_paciente','$idexamen_complementario_i','$fecha','$hora','$idusuario_ss') ";
     $result3 = mysqli_query($link,$sql3);
 
     }
