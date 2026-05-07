@@ -48,7 +48,7 @@ $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalid
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
 
-$sql_ajo =" SELECT adecuada, justificada, oportuna FROM deriva_referencia_hc WHERE idderiva_referencia_hc='3' ";
+$sql_ajo =" SELECT adecuada, justificada, oportuna FROM deriva_referencia_hc WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";
 $result_ajo=mysqli_query($link,$sql_ajo);
 $row_ajo=mysqli_fetch_array($result_ajo);
 
@@ -882,7 +882,7 @@ $row_ajo=mysqli_fetch_array($result_ajo);
                                             <div class="modal-body">
                                                 
                                                 Esta seguro de Registrar la CONTRAREFERENCIA?
-                                                posteriormenSte no se podran realizar cambios.
+                                                posteriormente no se podran realizar cambios.
 
                                             </div>
                                             <div class="modal-footer">

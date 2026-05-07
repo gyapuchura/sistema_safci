@@ -113,7 +113,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <?php if ($row_ref[23] == '2') { ?>
                             <h4 class="m-0 font-weight-bold text-primary">ADMISIÓN DE CONTRAREFERENCIA</h4>
                         <?php } else { ?>
-                            <h4 class="m-0 font-weight-bold text-primary">ADMISIÓN DE LA REFERENCIA <?php echo $row_ref[23]; ?></h4>
+                            <h4 class="m-0 font-weight-bold text-primary">ADMISIÓN DE LA REFERENCIA </h4>
                         <?php } ?>
                             <h4 class="m-0 font-weight-bold text-primary"><?php echo $row_ref[6]; ?></h4>
                         </div>

@@ -388,3 +388,42 @@ ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idatencion_psafci) REFERENCES a
 ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idexamen_complementario) REFERENCES examen_complementario (idexamen_complementario);
 ALTER TABLE examen_teleconsulta ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+/******* para base de datos de referencia y contrareferencia ******/
+
+ALTER TABLE referencia_hc ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idparentesco_acomp) REFERENCES parentesco (idparentesco);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idconsentimiento) REFERENCES consentimiento (idconsentimiento);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idestablecimiento_receptor) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idmotivo_referencia) REFERENCES motivo_referencia (idmotivo_referencia);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idespecialidad_medica) REFERENCES especialidad_medica (idespecialidad_medica);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idestado_referencia) REFERENCES estado_referencia (idestado_referencia);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);
+ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idestablecimiento_salud_o) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idestablecimiento_salud_r) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idusuario_o) REFERENCES usuarios (idusuario);
+ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idusuario_r) REFERENCES usuarios (idusuario);
+ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idvia_comunicacion) REFERENCES via_comunicacion (idvia_comunicacion);
+
+ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);
+ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpatologia);
+ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);
+ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idtipo_discapacidad) REFERENCES tipo_discapacidad_cf (idtipo_discapacidad_cf);
+ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idnivel_discapacidad) REFERENCES nivel_discapacidad_cf (idnivel_discapacidad_cf);
+ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE examen_referencia  ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);
+ALTER TABLE examen_referencia  ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE examen_referencia  ADD FOREIGN KEY (idexamen_complementario) REFERENCES examen_complementario (idexamen_complementario);
+ALTER TABLE examen_referencia  ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
