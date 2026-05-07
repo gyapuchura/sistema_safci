@@ -571,13 +571,6 @@ switch ($row_ps[3]) {
     <h6 class="text-info"></h6>
     </div> 
     </div> 
-
-    <div class="form-group row"> 
-    <div class="col-sm-12">
-    <h6 class="text-info">MOTIVO DE LA CONSULTA <?php echo $numerod;?>:</h6>
-    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[2]?></textarea>
-    </div> 
-    </div>
     <div class="form-group row"> 
     <div class="col-sm-6">
     <h6 class="text-info">SUBJETIVO <?php echo $numerod;?>:</h6>
@@ -1650,6 +1643,22 @@ switch ($row_ps[3]) {
 <!---------------------------------------------------------------->  
 <?php   break; } ?>
 
+<hr>
+    <div class="form-group row"> 
+    <div class="col-sm-4"> 
+    </div> 
+    <div class="col-sm-4">
+    
+        <a class="btn btn-info btn-icon-split" href="imprime_atencion_psafci.php?idatencion_psafci=<?php echo $idatencion_psafci_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=400, scrollbars=YES'); return false;">
+        <span class="icon text-white-50">
+            <i class="fas fa-book"></i>
+        </span>
+        <span class="text">IMPRIME ATENCIÓN MÉDICA</span></a> 
+    
+    </div> 
+    <div class="col-sm-4"> 
+    </div> 
+    </div>
 
 
 <hr>
@@ -1663,10 +1672,11 @@ switch ($row_ps[3]) {
     <div class="col-sm-3"> 
     </div> 
     </div> 
- <form name="ELIMINA_SESION" action="elimina_atencion_psafci.php" method="post">  
+            <form name="ELIMINA_SESION" action="elimina_atencion_psafci.php" method="post">  
     <div class="form-group row"> 
     <div class="col-sm-4"> 
-         <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
+            <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
+            <input type="hidden" name="idtipo_atencion" value="<?php echo $row_ps[3];?>"> 
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">
             ELIMINAR ATENCIÓN MÉDICA
         </button> 

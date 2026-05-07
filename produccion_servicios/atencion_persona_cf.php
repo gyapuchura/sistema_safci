@@ -48,7 +48,6 @@ $row_n=mysqli_fetch_array($result_n);
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/boton_mic.css">
     
-
 </head>
 
 <body id="page-top">
@@ -85,7 +84,7 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="text-center">                          
                     <a href="personas_carpetizadas.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
-                    <h4 class="text-info">HISTORIA CLÍNICA - SAFCI</h4>
+                    <h4 class="text-info">HISTORIA CLÍNICA </h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
