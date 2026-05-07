@@ -543,7 +543,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">   
                                     <?php
                                     $numero_c=0;
-                                    $sql_c =" SELECT idexamen_complementario, examen_complementario FROM examen_complementario ";
+                                    $sql_c =" SELECT idexamen_complementario, examen_complementario FROM examen_complementario WHERE telesalud ='NO' ";
                                     $result_c = mysqli_query($link,$sql_c);
                                     if ($row_c = mysqli_fetch_array($result_c)){
                                     mysqli_field_seek($result_c,0);

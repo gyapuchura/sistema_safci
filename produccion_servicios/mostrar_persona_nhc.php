@@ -41,7 +41,7 @@ $row_n=mysqli_fetch_array($result_n);
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
-
+    <link rel="stylesheet" href="../css/boton_mic.css">
 </head>
 
 <body id="page-top">
@@ -278,6 +278,7 @@ $row_n=mysqli_fetch_array($result_n);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        <script src="../js/funciones.js"></script>
 
         <script language="javascript">
         $(document).ready(function(){

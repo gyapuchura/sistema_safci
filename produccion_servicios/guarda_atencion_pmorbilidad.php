@@ -48,14 +48,14 @@ $objetivo1   = $link->real_escape_string($_POST['objetivo1']);
 $analisis1   = $link->real_escape_string($_POST['analisis1']);
 $plan1       = $link->real_escape_string($_POST['plan1']);
 
-$motivo_consulta1 = $link->real_escape_string($_POST['motivo_consulta1']);
+$motivo_consulta1 = '';
 
 $subjetivo2  = $link->real_escape_string($_POST['subjetivo2']);
 $objetivo2   = $link->real_escape_string($_POST['objetivo2']);
 $analisis2   = $link->real_escape_string($_POST['analisis2']);
 $plan2       = $link->real_escape_string($_POST['plan2']);
 
-$motivo_consulta2 = $link->real_escape_string($_POST['motivo_consulta2']);
+$motivo_consulta2 = '';
 
 $talla              = $_POST['talla'];
 $peso               = $_POST['peso'];
