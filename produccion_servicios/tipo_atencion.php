@@ -1526,7 +1526,161 @@ switch ($idtipo_atencion) {
 
     <!-------- TELEMETRIA - END --------->  
 
+    <!-------- EVALUACIÓN CLINICA PREVENTIVA - BEGIN ---------> 
+    <?php       
+        break;
+    case 5: ?>
 
+<form name="TELEMETRIA" action="guarda_evaluacion_preventiva.php" method="post">  
+
+<input type="hidden" name="idtipo_atencion" value="<?php echo $idtipo_atencion;?>">   
+
+    <div class="form-group row"> 
+    <div class="col-sm-2"></div> 
+    <div class="col-sm-8">
+    <h4 class="text-info">EVALUACIÓN CLÍNICA PREVENTIVA:</h4>
+    </div> 
+    <div class="col-sm-2"></div> 
+    </div> 
+        <hr>
+    <div class="form-group row">  
+        <div class="col-sm-4">
+        <h6 class="text-info">TIPO DE ATENCIÓN:</h6>
+        <?php
+        $sql_i =" SELECT idrepeticion, repeticion FROM repeticion ";
+        $result_i = mysqli_query($link,$sql_i);
+        if ($row_i = mysqli_fetch_array($result_i)){
+        mysqli_field_seek($result_i,0);
+        while ($field_i = mysqli_fetch_field($result_i)){
+        } do { 
+        ?>
+
+        <?php echo " - ".$row_i[1]." -> ";?> <input type="radio" name="idrepeticion" value="<?php echo $row_i[0];?>"
+        <?php if ($row_i[0] == '1') { echo "checked";} else { } ?> > </br>
+
+        <?php }
+        while ($row_i = mysqli_fetch_array($result_i));
+        } else { } ?>
+        </div>
+
+        <div class="col-sm-4">
+        <h6 class="text-info">LUGAR DE LA ATENCIÓN:</h6>
+        <?php
+        $sql_c =" SELECT idtipo_consulta, tipo_consulta FROM tipo_consulta ";
+        $result_c = mysqli_query($link,$sql_c);
+        if ($row_c = mysqli_fetch_array($result_c)){
+        mysqli_field_seek($result_c,0);
+        while ($field_c = mysqli_fetch_field($result_c)){
+        } do { 
+        ?>
+
+        <?php echo " - ".$row_c[1]." -> ";?> <input type="radio" name="idtipo_consulta" value="<?php echo $row_c[0];?>"
+        <?php if ($row_c[0] == '1') { echo "checked";} else { } ?> > </br>
+
+        <?php }
+        while ($row_c = mysqli_fetch_array($result_c));
+        } else { } ?>
+        </div>
+        <div class="col-sm-4">
+        <h6 class="text-info">FECHA DE LA ATENCIÓN:</h6>
+            <input type="date" name="fecha_registro" value="<?php echo $fecha;?>" class="form-control">
+        </div>
+    </div>  
+
+    <hr>
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">EXAMEN FÍSICO - SIGNOS VITALES:</h6>
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    <div class="col-sm-3"> 
+    </div> 
+    </div> 
+<hr>  
+
+    <div class="form-group row">  
+        <div class="col-sm-3">
+        <h6 class="text-info">TALLA</br>[Centímetros]:</h6>
+            <input type="text" class="form-control" placeholder="En Centrimetros"
+                name="talla" value="" required>                
+        </div>                             
+        <div class="col-sm-3">
+        <h6 class="text-info">PESO</br>[kg]:</h6>
+            <input type="text" class="form-control"              
+                name="peso" value="" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">PERIMETRO ABDOMINAL</br>[Centímetros]:</h6>
+            <input type="text" class="form-control" 
+                name="perimetro_abdominal" placeholder="" value="" required>                
+        </div>
+        <div class="col-sm-3">
+        <h6 class="text-info">CIRCUNFERENCIA DE CADERA </br>[Centímetros]:</h6>
+            <input type="text" class="form-control" 
+                name="circunferencia_cadera" value="" required>                
+        </div>
+    </div>
+
+    <div class="form-group row">
+            <div class="col-sm-3">
+            <h6 class="text-info">PRESIÓN ARTERIAL (Brazo)</br>Sistólica [mmHg]:</h6>
+                <input type="number" class="form-control"              
+                    name="presion_arterial"  placeholder="Sistólica Brazo" value="" required>               
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info"></br>diastólica (Brazo) [mmHg]</h6>
+                    <input type="number" class="form-control"              
+                    name="presion_arterial_d" placeholder="Diastólica Brazo" value="" required>                
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info">PRESIÓN ARTERIAL (Tobillo)</br>Sistólica [mmHg]:</h6>
+                <input type="number" class="form-control"              
+                    name="presion_arterial_tobillo"  placeholder="Sistólica Tobillo" value="" required>               
+            </div>
+            <div class="col-sm-3">
+            <h6 class="text-info"> </br>diastólica (Tobillo) [mmHg]</h6>
+                    <input type="number" class="form-control"              
+                    name="presion_arterial_tobillo_d" placeholder="Diastólica Tobillo" value="" required>                
+            </div>
+
+        </div>
+        <hr>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h4 class="text-info"></h4>  
+                </div> 
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#examplemodaltele">
+                    GUARDAR EVALUACIÓN PREVENTIVA
+                    </button>  
+                </div> 
+            </div>
+
+    <!-- modal de confirmacion de envio de datos-->
+            <div class="modal fade" id="examplemodaltele" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel0" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel0">ATENCION POR EVALUACIÓN CLÍNICA PREVENTIVA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">                           
+                            Esta seguro de GUARDAR ESTA ATENCION POR EVALUACIÓN CLÍNICA PREVENTIVA?                          
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                        <button type="submit" class="btn btn-info pull-center">CONFIRMAR</button>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form> 
+
+
+    <!-------- EVALUACIÓN CLINICA PREVENTIVA - END ---------> 
      <?php 
      break; 
     } 
