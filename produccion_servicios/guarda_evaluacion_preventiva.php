@@ -24,14 +24,6 @@ $idtipo_consulta = $_POST['idtipo_consulta'];
 $idtipo_atencion = $_POST['idtipo_atencion'];
 $fecha   = $_POST['fecha_registro'];
 
-$idpatologia_ap_sano = $_POST['idpatologia_ap_sano'];
-$subjetivo  = $link->real_escape_string($_POST['subjetivo']);
-$objetivo   = $link->real_escape_string($_POST['objetivo']);
-$analisis   = $link->real_escape_string($_POST['analisis']);
-$plan       = $link->real_escape_string($_POST['plan']);
-
-$motivo_consulta     = 'S.- '.$subjetivo .' O.- '.$objetivo.' A.- '.$analisis.' P.- '.$plan;
-
 /******** SIGNOS VITALES  ********/
 
 $talla                  = $link->real_escape_string($_POST['talla']);
@@ -89,7 +81,7 @@ $idatencion_psafci = mysqli_insert_id($link);
     $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, peso, talla, perimetro_abdominal, circunferencia_cadera,";   
     $sql1.= " presion_arterial, presion_arterial_d, presion_arterial_tobillo, presion_arterial_tobillo_d, imc, fecha_registro, hora_registro, idusuario)  ";
     $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$peso','$talla','$perimetro_abdominal','$circunferencia_cadera', ";
-    $sql1.= " '$presion_arterial','$presion_arterial_d',"$presion_arterial_tobillo", "$presion_arterial_tobillo_d",'$imc','$fecha','$hora','$idusuario_ss') ";
+    $sql1.= " '$presion_arterial','$presion_arterial_d','$presion_arterial_tobillo', '$presion_arterial_tobillo_d','$imc','$fecha','$hora','$idusuario_ss') ";
     $result1 = mysqli_query($link,$sql1);
     $idsigno_vital_psafci = mysqli_insert_id($link);
 
@@ -105,25 +97,25 @@ $idatencion_psafci = mysqli_insert_id($link);
 /********** CLASIFICADOR IMC - BEGIN *********/
 
 if ($imc < '16.5') {
-    $clasificacion_imc = 'BAJO PESO SEVERO';
+    $idclasificacion_imc = '1';
 } else {
     if ($imc < '18.5' && $imc >= '16.5') {
-        $clasificacion_imc = 'BAJO PESO';
+        $idclasificacion_imc = '2';
     } else {
         if ($imc < '25' && $imc >= '18.5') {
-            $clasificacion_imc = 'PESO NORMAL';
+            $idclasificacion_imc = '3';
         } else {
             if ($imc < '30' && $imc >= '25') {
-                $clasificacion_imc = 'SOBREPESO';
+                $idclasificacion_imc = '4';
             } else {
                 if ($imc < '35' && $imc >= '30') {
-                    $clasificacion_imc = 'OBESIDAD TIPO 1 (MODERADA)';
+                    $idclasificacion_imc = '5';
                 } else {
                     if ($imc < '40' && $imc >= '35') {
-                        $clasificacion_imc = 'OBESIDAD TIPO 2 (SEVERA)';
+                        $idclasificacion_imc = '6';
                     } else {
                         if ($imc >='40') {
-                             $clasificacion_imc = 'OBESIDAD TIPO 3 (SEVERA)';
+                             $idclasificacion_imc = '7';
                         } else { } } } } } } }
 
 /********** CLASIFICADOR IMC - END *********/
@@ -131,27 +123,27 @@ if ($imc < '16.5') {
 
 /********** RIESGO DE CINTURA / CADERA- BEGIN *********/
 
-switch ($idegenero) {
+switch ($idgenero) {
         case '1':
             
             if ($indice_cintura_cadera < '0.80' ) {
-                $riesgo_indice_cintura_cadera = 'BAJO';
+                $idriesgo_cintura_cadera = '1';
             } else {
                 if ($indice_cintura_cadera >= '0.80' && $indice_cintura_cadera <= '0.85') {
-                    $riesgo_indice_cintura_cadera = 'MODERADO';
+                    $idriesgo_cintura_cadera = '2';
                 } else {
                     if ($indice_cintura_cadera >= '0.86') {
-                        $riesgo_indice_cintura_cadera = 'ALTO';
+                        $idriesgo_cintura_cadera = '3';
                     } else { } } }
 
             if ($perimetro_abdominal < '82' ) {
-                $riesgo_cintura = 'NORMAL';
+                $idriesgo_cintura = '1';
             } else {
-                if ($perimetro_abdominal >= '82' && $$perimetro_abdominal <= '88') {
-                    $riesgo_cintura = 'RIESGO ELEVADO';
+                if ($perimetro_abdominal >= '82' && $perimetro_abdominal <= '88') {
+                    $idriesgo_cintura = '2';
                 } else {
                     if ($perimetro_abdominal > '88') {
-                        $riesgo_cintura = 'RIESGO MUY ELEVADO';
+                        $idriesgo_cintura = '3';
                     } else { } } }
 
             break;
@@ -159,24 +151,24 @@ switch ($idegenero) {
         case '2':
 
             if ($indice_cintura_cadera < '0.95' ) {
-                $riesgo_indice_cintura_cadera = 'BAJO';
+                $idriesgo_cintura_cadera = '1';
             } else {
                 if ($indice_cintura_cadera >= '0.95' && $indice_cintura_cadera <= '1') {
-                    $riesgo_indice_cintura_cadera = 'MODERADO';
+                    $idriesgo_cintura_cadera = '2';
                 } else {
                     if ($indice_cintura_cadera > '1') {
-                        $riesgo_indice_cintura_cadera = 'ALTO';
+                        $idriesgo_cintura_cadera = '3';
                     } else { } } }
 
 
             if ($perimetro_abdominal < '95' ) {
-                $riesgo_cintura = 'NORMAL';
+                $idriesgo_cintura = '1';
             } else {
-                if ($perimetro_abdominal >= '95' && $$perimetro_abdominal <= '102') {
-                    $riesgo_cintura = 'RIESGO ELEVADO';
+                if ($perimetro_abdominal >= '95' && $perimetro_abdominal <= '102') {
+                    $idriesgo_cintura = '2';
                 } else {
                     if ($perimetro_abdominal > '102') {
-                        $riesgo_cintura = 'RIESGO MUY ELEVADO';
+                        $idriesgo_cintura = '3';
                     } else { } } }
             break;
     }
@@ -187,19 +179,19 @@ switch ($idegenero) {
 
 
 if ($indice_tobillo_brazo >= '0' && $indice_tobillo_brazo <= '0.40') {
-    $interpretacion_indice_tobillo_brazo = 'DISMINUCIÓN SEVERA: ISQUEMIA CRITICA, EXTREMIDAD AMENAZADA';
+    $idinterpretacion_tobillo_brazo = '1';
 } else {
     if ($indice_tobillo_brazo >= '0.41' && $indice_tobillo_brazo <= '0.90') {
-        $interpretacion_indice_tobillo_brazo = 'DISMINUCIÓN MODERADA';
+        $idinterpretacion_tobillo_brazo = '2';
     } else {
         if ($indice_tobillo_brazo >= '0.91' && $indice_tobillo_brazo <= '0.99') {
-            $interpretacion_indice_tobillo_brazo = 'LIMÍTROFE';
+            $idinterpretacion_tobillo_brazo = '3';
         } else {
             if ($indice_tobillo_brazo >= '1.0' && $indice_tobillo_brazo <= '1.40') {
-                $interpretacion_indice_tobillo_brazo = 'NORMAL';
+                $idinterpretacion_tobillo_brazo = '4';
             } else {
                 if ($indice_tobillo_brazo > '1.40') {
-                    $interpretacion_indice_tobillo_brazo = 'ELEVADO, VASOS NO COMPRESIBLES';
+                    $idinterpretacion_tobillo_brazo = '5';
                 } else { } } } } }
 
 /********** RIESGO DEL INDICE TOBILLO / BRAZO - END *********/
@@ -207,42 +199,40 @@ if ($indice_tobillo_brazo >= '0' && $indice_tobillo_brazo <= '0.40') {
 /********** CLASIFICADOR DE PRESION ARTERIAL - BEGIN *********/
 
 if ($presion_arterial < '120' && $presion_arterial_d < '80') {
-    $clasificacion_presion_arterial ='ÓPTIMA';
+    $idclasificacion_presion_arterial ='1';
 } else {
     if (($presion_arterial >= '120' && $presion_arterial <= '129') || ($presion_arterial_d >= '80' && $presion_arterial_d <= '84')) {
-        $clasificacion_presion_arterial ='NORMAL';
+        $idclasificacion_presion_arterial ='2';
     } else {
         if (($presion_arterial >= '130' && $presion_arterial <= '139') || ($presion_arterial_d >= '85' && $presion_arterial_d <= '89')) {
-            $clasificacion_presion_arterial ='NORMAL-ALTA';
+            $idclasificacion_presion_arterial ='3';
         } else {
             if (($presion_arterial >= '140' && $presion_arterial <= '159') || ($presion_arterial_d >= '90' && $presion_arterial_d <= '99')) {
-                $clasificacion_presion_arterial ='HIPERTENSIÓN DE GRADO 1';
+                $idclasificacion_presion_arterial ='4';
             } else {
                 if (($presion_arterial >= '160' && $presion_arterial <= '179') || ($presion_arterial_d >= '100' && $presion_arterial_d <= '109')) {
-                    $clasificacion_presion_arterial ='HIPERTENSIÓN DE GRADO 2';
+                    $idclasificacion_presion_arterial ='5';
                 } else {
                     if ($presion_arterial >= '180'  && $presion_arterial_d >= '110') {
-                        $clasificacion_presion_arterial ='HIPERTENSIÓN DE GRADO 3';
+                        $idclasificacion_presion_arterial ='6';
                     } else {
                         if ($presion_arterial >= '140'  && $presion_arterial_d < '90') {
-                            $clasificacion_presion_arterial ='HIPERTENSIÓN SOLO SISTÓLICA';
+                            $idclasificacion_presion_arterial ='7';
                         } else { } } } } } } }
 
 
 /********** CLASIFICADOR DE PRESION ARTERIAL - END *********/
-
-$riesgo_indice_cintura_cadera
     
     /********** evaluamos los riesgos e inter`retaciones END  ***********/
 
-$sql_ev = " INSERT INTO evaluacion_preventiva (idatencion_psafci, idsigno_vital_psafci, idnombre, indice_abdomen_talla, indice_cintura_cadera, indice_tobillo_brazo, clasificacion_imc, ";
-$sql_ev.= " riesgo_indice_cintura_cadera, interpretacion_indice_tobillo_brazo, clasificacion_presion_arterial, riesgo_cintura, fecha_registro, hora_registro, idusuario) ";
-$sql_ev.= " VALUES ('$idatencion_psafci','$idsigno_vital_psafci','$idnombre_integrante_ss','$indice_abdomen_talla','$indice_cintura_cadera','$indice_tobillo_brazo','$clasificacion_imc',";
-$sql_ev.= " '$riesgo_indice_cintura_cadera','$interpretacion_indice_tobillo_brazo','$clasificacion_presion_arterial','$riesgo_cintura','$fecha','$hora','$idusuario_ss')";
+$sql_ev = " INSERT INTO evaluacion_preventiva (idatencion_psafci, idsigno_vital_psafci, idnombre, indice_abdomen_talla, indice_cintura_cadera, indice_tobillo_brazo, idclasificacion_imc, ";
+$sql_ev.= " idriesgo_cintura_cadera, idinterpretacion_tobillo_brazo, idclasificacion_presion_arterial, idriesgo_cintura, fecha_registro, hora_registro, idusuario) ";
+$sql_ev.= " VALUES ('$idatencion_psafci','$idsigno_vital_psafci','$idnombre_integrante_ss','$indice_abdomen_talla','$indice_cintura_cadera','$indice_tobillo_brazo','$idclasificacion_imc',";
+$sql_ev.= " '$idriesgo_cintura_cadera','$idinterpretacion_tobillo_brazo','$idclasificacion_presion_arterial','$idriesgo_cintura','$fecha','$hora','$idusuario_ss')";
 $result_ev = mysqli_query($link,$sql_ev);   
 
 $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
 
-header("Location:mostrar_atencion_psafci.php");
+header("Location:mostrar_evaluacion_clinica_psafci.php");
       
 ?>
