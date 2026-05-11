@@ -1602,22 +1602,22 @@ switch ($idtipo_atencion) {
     <div class="form-group row">  
         <div class="col-sm-3">
         <h6 class="text-info">TALLA</br>[Centímetros]:</h6>
-            <input type="text" class="form-control" placeholder="En Centrimetros"
+            <input type="text" class="form-control" placeholder="En Centímetros"
                 name="talla" value="" required>                
         </div>                             
         <div class="col-sm-3">
         <h6 class="text-info">PESO</br>[kg]:</h6>
-            <input type="text" class="form-control"              
+            <input type="text" class="form-control" placeholder="En Kilogramos"            
                 name="peso" value="" required>                
         </div>
         <div class="col-sm-3">
         <h6 class="text-info">PERIMETRO ABDOMINAL</br>[Centímetros]:</h6>
             <input type="text" class="form-control" 
-                name="perimetro_abdominal" placeholder="" value="" required>                
+                name="perimetro_abdominal" placeholder="En Centímetros" value="" required>                
         </div>
         <div class="col-sm-3">
         <h6 class="text-info">CIRCUNFERENCIA DE CADERA </br>[Centímetros]:</h6>
-            <input type="text" class="form-control" 
+            <input type="text" class="form-control" placeholder="En Centímetros"
                 name="circunferencia_cadera" value="" required>                
         </div>
     </div>
