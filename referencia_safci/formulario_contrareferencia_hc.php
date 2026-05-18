@@ -28,7 +28,7 @@ $edad_ss                    = $_SESSION['edad_ss'];
 $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
 $sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-$sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+$sql_ref.=" fecha_registro, hora_registro, idusuario, adecuada, justificada, oportuna FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
 
@@ -47,10 +47,6 @@ $row_cf=mysqli_fetch_array($result_cf);
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
-
-$sql_ajo =" SELECT adecuada, justificada, oportuna FROM deriva_referencia_hc WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";
-$result_ajo=mysqli_query($link,$sql_ajo);
-$row_ajo=mysqli_fetch_array($result_ajo);
 
     $fecha_nacimiento = $row_n[5];
     $dia = date("d");
@@ -248,17 +244,17 @@ $row_ajo=mysqli_fetch_array($result_ajo);
                                 <div class="form-group row">                               
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ADECUADA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ajo[0];?>" 
+                                    <input type="text" class="form-control" value="<?php echo $row_ref[26];?>" 
                                     name="adecuada" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">JUSTIFICADA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ajo[1];?>" 
+                                    <input type="text" class="form-control" value="<?php echo $row_ref[27];?>" 
                                     name="justificada" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">OPORTUNA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ajo[2];?>" 
+                                    <input type="text" class="form-control" value="<?php echo $row_ref[28];?>" 
                                     name="oportuna" disabled>
                                     </div>
                                 </div>

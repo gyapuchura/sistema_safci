@@ -64,7 +64,7 @@ $row_n=mysqli_fetch_array($result_n);
                 <tr>
                   <td width="239" style="text-align: center"><img src="../implementacion_safci/mds_logo.jpg" width="193" height="85" alt=""/></td>
                   <td width="471" align="center">
-                    <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;">FORMULARIO D7 REFERENCIA</strong></br>
+                    <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;">FORMULARIO REFERENCIA D7</strong></br>
                     <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;"><?php echo $row_ref[6]; ?></strong></td>
                   <td width="217">&nbsp;</td>
                   </tr>

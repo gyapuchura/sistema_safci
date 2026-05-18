@@ -69,9 +69,9 @@ $idpatologia                = $_POST['idpatologia'];
         $result1 = mysqli_query($link,$sql1);   
 
         $sql_dr = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
-        $sql_dr.= " referido, admitido, adecuada, justificada, oportuna, persona_contactada, idvia_comunicacion, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
+        $sql_dr.= " referido, admitido, persona_contactada, idvia_comunicacion, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
         $sql_dr.= " VALUES ('$idreferencia_hc_ss','$idestablecimiento_salud_ss','$idestablecimiento_destino','$idusuario_ss','$idusuario_ss', ";
-        $sql_dr.= " 'SI','NO','','','','$contacto_contraref','2','$fecha','$hora','$fecha','$hora') ";
+        $sql_dr.= " 'SI','NO','$contacto_contraref','2','$fecha','$hora','$fecha','$hora') ";
         $result_dr = mysqli_query($link,$sql_dr);   
 
             $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */
@@ -80,6 +80,8 @@ $idpatologia                = $_POST['idpatologia'];
             $sql_sg = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, fecha_registro, hora_registro, idusuario) ";
             $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
             $result_sg = mysqli_query($link,$sql_sg);
+
+    $_SESSION['idestablecimiento_destino_ss'] = $idestablecimiento_destino;
 
 /*********** se llenan otras tablas con relacion al CONTROL PERINATAL ***********/
           

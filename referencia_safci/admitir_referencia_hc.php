@@ -1024,8 +1024,8 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">  
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">PACIENTE ADMITIDO:</h6>
-                                    SI <input type="radio" name="admitido" value="SI" > </br>
-                                    NO <input type="radio" name="admitido" value="NO" checked >  
+                                    SI <input type="radio" name="admitido" value="SI" checked> </br>
+                                    NO <input type="radio" name="admitido" value="NO">  
                                     </div>
                                     <div class="col-sm-8">
                                     <h6 class="text-primary">MOTIVO:</h6>
@@ -1045,18 +1045,18 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">  
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ES ADECUADO?</h6>
-                                    SI <input type="radio" name="adecuada" value="SI" > </br>
-                                    NO <input type="radio" name="adecuada" value="NO" checked >  
+                                    SI <input type="radio" name="adecuada" value="SI" checked> </br>
+                                    NO <input type="radio" name="adecuada" value="NO" >  
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ES JUSTIFICADO?</h6>
-                                    SI <input type="radio" name="justificada" value="SI" > </br>
-                                    NO <input type="radio" name="justificada" value="NO" checked >                      
+                                    SI <input type="radio" name="justificada" value="SI" checked> </br>
+                                    NO <input type="radio" name="justificada" value="NO" >                      
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ES OPORTUNO?</h6>
-                                    SI <input type="radio" name="oportuna" value="SI" > </br>
-                                    NO <input type="radio" name="oportuna" value="NO" checked >                      
+                                    SI <input type="radio" name="oportuna" value="SI" checked> </br>
+                                    NO <input type="radio" name="oportuna" value="NO" >                      
                                     </div>
                                 </div>
 

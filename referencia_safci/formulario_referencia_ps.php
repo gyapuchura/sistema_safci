@@ -101,7 +101,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <a href="../produccion_servicios/mostrar_atencion_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
-                        <h4 class="m-0 font-weight-bold text-primary">FORMULARIO DE REFERENCIA</h4>
+                        <h4 class="m-0 font-weight-bold text-primary">FORMULARIO DE REFERENCIA D7</h4>
                         </div>
                     </div>
                     <div class="card-body">
