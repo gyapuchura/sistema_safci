@@ -462,19 +462,22 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div>
                                 </div>
                                 <div class="form-group row">                               
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row_ref[11];?>"             
                                         name="celular_acompanante" disabled>                
                                     </div>
-
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row_ref[12];?>"             
                                         name="tel_establecimiento" disabled >                
                                     </div>
-                                </div>
-                                
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO QUE CONTRARREFIERE:</h6>
+                                        <input type="number" class="form-control" value=""             
+                                        name="tel_establecimiento_cref" required autofocus >                
+                                    </div>
+                                </div>                                
                             </div>                                
                         </div>
 

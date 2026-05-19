@@ -44,6 +44,7 @@ $otros_anexos                       = $link->real_escape_string($_POST['otros_an
 $observaciones_recomendaciones      = $link->real_escape_string($_POST['observaciones_recomendaciones']);
 
 $idestablecimiento_destino  = $_POST['idestablecimiento_destino'];
+$tel_establecimiento_cref   = $_POST['tel_establecimiento_cref'];
 $contacto_eess_cref         = $link->real_escape_string($_POST['contacto_eess_cref']);
 $por_telesalud              = $_POST['por_telesalud'];
 $contacto_contraref         = $link->real_escape_string($_POST['contacto_contraref']);
@@ -61,8 +62,8 @@ $idpatologia                = $_POST['idpatologia'];
 
     $sql0 = " UPDATE referencia_hc SET dias_internacion_ref='$dias_internacion_ref', evolucion_complicacion='$evolucion_complicacion', examenes_complementarios_egreso='$examenes_complementarios_egreso', ";
     $sql0.= " otros_examenes='$otros_examenes', tratamientos_realizados='$tratamientos_realizados', recmoendaciones_paciente='$recmoendaciones_paciente', otros_anexos='$otros_anexos', observaciones_recomendaciones='$observaciones_recomendaciones', ";
-    $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2' ";
-    $sql0.= "  WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+    $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2',  ";
+    $sql0.= " tel_establecimiento_cref='$tel_establecimiento_cref' WHERE idreferencia_hc='$idreferencia_hc_ss' ";
     $result0 = mysqli_query($link,$sql0);   
 
         $sql1 = " UPDATE deriva_referencia_hc SET referido='SI', admitido='SI' WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";

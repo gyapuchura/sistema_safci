@@ -14,7 +14,7 @@ $sql_ref.=" nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_est
 $sql_ref.=" tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
 $sql_ref.=" dias_internacion_ref, evolucion_complicacion, examenes_complementarios_egreso, otros_examenes, tratamientos_realizados, recmoendaciones_paciente, "; 
 $sql_ref.=" otros_anexos, observaciones_recomendaciones, contacto_eess_cref, por_telesalud, contacto_contraref, nombre_acompanante_cref, ";
-$sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+$sql_ref.=" fecha_registro, hora_registro, idusuario, tel_establecimiento_cref FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
 
@@ -103,8 +103,8 @@ $row_n=mysqli_fetch_array($result_n);
                 <tr>
                   <td>MUNICIPIO</td>
                   <td><?php echo $row_es[5];?></td>
-                  <td>TELEFONO DE CONTACTO</td>
-                  <td> </td>
+                  <td>TELÉFONO DE CONTACTO</td>
+                  <td><?php echo $row_ref[38];?></td>
                   <td>FECHA:</td>
                   <td><?php echo $row_es[1];?></td>
                   <td>HORA:</td>
