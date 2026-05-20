@@ -307,22 +307,22 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
                                         <input type="text" class="form-control" placeholder="En Centrimetros"
-                                            name="talla" value="1" required>                
+                                            name="talla" value="" required>                
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
-                                        <input type="number" class="form-control"              
-                                            name="peso" value="1" required>                
+                                        <input type="number" class="form-control" placeholder="En kilogramos"            
+                                            name="peso" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
-                                        <input type="text" class="form-control" 
-                                            name="temperatura" placeholder="" value="0" required>                
+                                        <input type="text" class="form-control" placeholder="En Centígrados"
+                                            name="temperatura" placeholder="" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
-                                        <input type="text" class="form-control" 
-                                            name="frec_cardiaca" value="0" required>                
+                                        <input type="text" class="form-control" placeholder="Latidos por minuto"
+                                            name="frec_cardiaca" value="" required>                
                                     </div>
                                 </div>
 
@@ -331,31 +331,31 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                                        <input type="number" class="form-control" 
-                                            name="frec_respiratoria" value="0" required>                
+                                        <input type="number" class="form-control" placeholder="Ciclos por minuto"
+                                            name="frec_respiratoria" value="" required>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
-                                        <input type="number" class="form-control"              
-                                            name="presion_arterial"  placeholder="Sistólica" value="0" required>               
+                                        <input type="number" class="form-control"   placeholder="Sistólica"           
+                                            name="presion_arterial"  placeholder="Sistólica" value="" required>               
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary"> </br>diastólica [mmHg]</h6>
-                                            <input type="number" class="form-control"              
-                                            name="presion_arterial_d" placeholder="Diastólica" value="0" required>                
+                                            <input type="number" class="form-control"  placeholder="Diastólica"           
+                                            name="presion_arterial_d" placeholder="Diastólica" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
-                                        <input type="number" class="form-control"
-                                            name="saturacion" value="0" required>                
+                                        <input type="number" class="form-control" placeholder="% de O2"
+                                            name="saturacion" value="" required>                
                                     </div>
                                 </div>
 
                                 <div class="form-group row">  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASCOW:</br> </h6>
-                                        <input type="number" class="form-control" 
-                                            name="glascow" placeholder="" value="0" required>                
+                                        <input type="number" class="form-control" placeholder="Glascow"
+                                            name="glascow" placeholder="" value="" required>                
                                     </div>  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">ALÉRGIAS:</h6>
@@ -364,7 +364,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" ></textarea>
+                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz" ></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('descripcion_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
                                 </div>
@@ -374,13 +374,13 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                                        <input type="number" class="form-control" 
-                                            name="frec_respiratoria" value="0" required>                
+                                        <input type="number" class="form-control" placeholder="Ciclos por minuto"
+                                            name="frec_respiratoria" value="" required>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>   
-                                        <input type="number" class="form-control"
-                                            name="saturacion" value="0" required>             
+                                        <input type="number" class="form-control" placeholder="% de O2"
+                                            name="saturacion" value="" required>             
                                     </div>
                                     <div class="col-sm-3">
                                     <!-- <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>  para menor de 5 anos -->
@@ -397,7 +397,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASCOW:</br> </h6>
-                                        <input type="number" class="form-control" 
+                                        <input type="number" class="form-control" placeholder="Glascow"
                                             name="glascow" placeholder="" value="0" required>                
                                     </div>  
                                     <div class="col-sm-3">
@@ -407,7 +407,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia"></textarea>
+                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('descripcion_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                            
                                     </div>
                                 </div>
@@ -428,33 +428,33 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="form-group row">  
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">F.U.M. </br>[fecha]</h6>
-                                        <input type="date" class="form-control" placeholder="En Centrimetros"
-                                            name="fecha_fum" value="1" required>                
+                                        <input type="date" class="form-control" 
+                                            name="fecha_fum" required>                
                                     </div>                             
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">G</br>[Gestaciones]:</h6>
-                                        <input type="number" class="form-control"              
-                                            name="gestaciones" value="1" required>                
+                                        <input type="number" class="form-control" placeholder="Nº Gestaciones"           
+                                            name="gestaciones" value="" required>                
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">P</br>[Partos]:</h6>
-                                        <input type="number" class="form-control" 
-                                            name="partos" placeholder="" value="0" required>                
+                                        <input type="number" class="form-control" placeholder="Nº Partos"
+                                            name="partos" placeholder="" value="" required>                
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">A</br>[Abortos]:</h6>
-                                        <input type="number" class="form-control" 
-                                            name="abortos" value="0" required>                
+                                        <input type="number" class="form-control" placeholder="Nº Abortos"
+                                            name="abortos" value="" required>                
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">C</br>[Cesáreas]:</h6>
-                                        <input type="number" class="form-control" 
+                                        <input type="number" class="form-control" placeholder="Nº Cesáreas"
                                             name="cesareas" placeholder="" value="0" required>                
                                     </div>
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">F.P.P.</br>[fecha]</h6>
                                         <input type="date" class="form-control" 
-                                            name="fecha_fpp" value="0" required>                
+                                            name="fecha_fpp" value="" required>                
                                     </div>
                                 </div>
                             
@@ -514,12 +514,12 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">DÍAS DE INTERNACIÓN:</h6>
-                                        <input type="number" class="form-control" value=""             
+                                        <input type="number" class="form-control" value="" placeholder="Nº de Días"            
                                         name="dias_internacion"  >                
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">RESUMEN ANAMNESIS</h6>
-                                    <textarea class="form-control" rows="3" name="resumen_anamnesis" id="resumen_anamnesis" required></textarea>
+                                    <textarea class="form-control" rows="3" name="resumen_anamnesis" id="resumen_anamnesis" placeholder="Escriba o utilice el botón de dictado por voz"  required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('resumen_anamnesis')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
                                 </div>
@@ -564,7 +564,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">  
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
-                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" required></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('especificacion_hallazgos')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>  
                                     </div>
                                 </div>
@@ -579,7 +579,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO PRESUNTIVO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" required></textarea>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
@@ -608,7 +608,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO PRESUNTIVO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" ></textarea>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                     <div class="col-sm-6">
@@ -637,7 +637,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO PRESUNTIVO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" ></textarea>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                     <div class="col-sm-6">
@@ -674,7 +674,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <div class="card-body">
                                 <div class="form-group row">                               
                                     <div class="col-sm-12">
-                                    <textarea class="form-control" rows="3" name="tratamiento_ref" id="tratamiento_ref" required></textarea>
+                                    <textarea class="form-control" rows="3" name="tratamiento_ref" id="tratamiento_ref" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('tratamiento_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                 </div>
@@ -688,7 +688,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <div class="card-body">
                                 <div class="form-group row">                               
                                     <div class="col-sm-12">
-                                    <textarea class="form-control" rows="3" name="observaciones_ref" id="observaciones_ref" required></textarea>
+                                    <textarea class="form-control" rows="3" name="observaciones_ref" id="observaciones_ref" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_ref')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>

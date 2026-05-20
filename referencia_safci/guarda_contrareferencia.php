@@ -39,7 +39,7 @@ $evolucion_complicacion             = $link->real_escape_string($_POST['evolucio
 $examenes_complementarios_egreso    = $link->real_escape_string($_POST['examenes_complementarios_egreso']);
 $otros_examenes                     = $link->real_escape_string($_POST['otros_examenes']);
 $tratamientos_realizados            = $link->real_escape_string($_POST['tratamientos_realizados']);
-$recmoendaciones_paciente           = $link->real_escape_string($_POST['recmoendaciones_paciente']);
+$recomendaciones_paciente           = $link->real_escape_string($_POST['recomendaciones_paciente']);
 $otros_anexos                       = $link->real_escape_string($_POST['otros_anexos']);
 $observaciones_recomendaciones      = $link->real_escape_string($_POST['observaciones_recomendaciones']);
 
@@ -61,7 +61,7 @@ $idpatologia                = $_POST['idpatologia'];
             }
 
     $sql0 = " UPDATE referencia_hc SET dias_internacion_ref='$dias_internacion_ref', evolucion_complicacion='$evolucion_complicacion', examenes_complementarios_egreso='$examenes_complementarios_egreso', ";
-    $sql0.= " otros_examenes='$otros_examenes', tratamientos_realizados='$tratamientos_realizados', recmoendaciones_paciente='$recmoendaciones_paciente', otros_anexos='$otros_anexos', observaciones_recomendaciones='$observaciones_recomendaciones', ";
+    $sql0.= " otros_examenes='$otros_examenes', tratamientos_realizados='$tratamientos_realizados', recomendaciones_paciente='$recomendaciones_paciente', otros_anexos='$otros_anexos', observaciones_recomendaciones='$observaciones_recomendaciones', ";
     $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2',  ";
     $sql0.= " tel_establecimiento_cref='$tel_establecimiento_cref' WHERE idreferencia_hc='$idreferencia_hc_ss' ";
     $result0 = mysqli_query($link,$sql0);   
