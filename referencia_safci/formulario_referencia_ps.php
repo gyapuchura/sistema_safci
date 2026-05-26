@@ -312,11 +312,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                                         <input type="number" class="form-control" placeholder="En kilogramos"            
-                                            name="peso" value="" required>                
+                                            name="peso" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
-                                        <input type="text" class="form-control" placeholder="En Centígrados"
+                                        <input type="text" class="form-control" placeholder="En Grados Centígrados"
                                             name="temperatura" placeholder="" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
@@ -336,8 +336,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
-                                        <input type="number" class="form-control"   placeholder="Sistólica"           
-                                            name="presion_arterial"  placeholder="Sistólica" value="" required>               
+                                        <input type="number" class="form-control"           
+                                            name="presion_arterial"  placeholder="Sistólica"  required>               
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary"> </br>diastólica [mmHg]</h6>
