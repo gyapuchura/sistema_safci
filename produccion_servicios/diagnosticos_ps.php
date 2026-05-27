@@ -43,24 +43,24 @@
         <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo1" id="subjetivo1" placeholder="" required></textarea>
+            <textarea class="form-control" rows="3" name="subjetivo1" id="subjetivo1" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('subjetivo1')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
             <div class="col-sm-6"> 
             <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo1" id="objetivo1" required></textarea>
+            <textarea class="form-control" rows="3" name="objetivo1" id="objetivo1" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('objetivo1')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
             </div> 
                 <div class="form-group row"> 
                 <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis1" id="analisis1" required></textarea>
+            <textarea class="form-control" rows="3" name="analisis1" id="analisis1" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('analisis1')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div>
                 <div class="col-sm-6"> 
             <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan1" id="plan1" required></textarea>
+            <textarea class="form-control" rows="3" name="plan1" id="plan1" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('plan1')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
         </div>
@@ -122,25 +122,25 @@
             <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo2" placeholder="" id="subjetivo2" required></textarea>
+            <textarea class="form-control" rows="3" name="subjetivo2" placeholder="Escriba o utilice el botón de dictado por voz" id="subjetivo2" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('subjetivo2')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
 
                 <div class="col-sm-6"> 
             <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo2" id="objetivo2" required></textarea>
+            <textarea class="form-control" rows="3" name="objetivo2" id="objetivo2" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('objetivo2')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
             </div> 
                 <div class="form-group row"> 
                 <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis2" id="analisis2" required></textarea>
+            <textarea class="form-control" rows="3" name="analisis2" id="analisis2" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('analisis2')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div>
                 <div class="col-sm-6"> 
             <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan2" id="plan2" required></textarea>
+            <textarea class="form-control" rows="3" name="plan2" id="plan2" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('plan2')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
         </div>

@@ -21,7 +21,6 @@ $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 
-
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
 $dias_internacion_ref = $_POST['dias_internacion_ref'];
@@ -79,7 +78,7 @@ $idpatologia                = $_POST['idpatologia'];
             $imc = number_format($imc_i, 6, '.', '');
 
             $sql_sg = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, fecha_registro, hora_registro, idusuario) ";
-            $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
+            $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
             $result_sg = mysqli_query($link,$sql_sg);
 
     $_SESSION['idestablecimiento_destino_ss'] = $idestablecimiento_destino;

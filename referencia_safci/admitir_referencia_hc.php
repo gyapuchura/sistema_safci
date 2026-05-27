@@ -25,7 +25,7 @@ $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, id
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
 $sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
 $sql_ref.=" idestado_referencia, dias_internacion_ref, evolucion_complicacion, examenes_complementarios_egreso, otros_examenes, tratamientos_realizados, ";
-$sql_ref.=" recmoendaciones_paciente, otros_anexos, observaciones_recomendaciones, contacto_eess_cref, por_telesalud, contacto_contraref, nombre_acompanante_cref, ";
+$sql_ref.=" recomendaciones_paciente, otros_anexos, observaciones_recomendaciones, contacto_eess_cref, por_telesalud, contacto_contraref, nombre_acompanante_cref, ";
 $sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
@@ -813,12 +813,12 @@ $row_n=mysqli_fetch_array($result_n);
                             
                         
                         <div class="text-center"> 
-                            <h4 class="m-0 font-weight-bold text-primary">INFORMACIÓN DE LA CONTRAREFERENCIA</h4>
+                            <h4 class="m-0 font-weight-bold text-info">INFORMACIÓN DE LA CONTRAREFERENCIA</h4>
                         </div>
-
+                        </br>
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICOS DE EGRESO</h6>
+                                <h6 class="m-0 font-weight-bold text-info">DIAGNÓSTICOS DE EGRESO</h6>
                             </div>
                             <div class="card-body">
 
@@ -837,7 +837,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <h6 class="m-0 font-weight-bold text-info">CIE - 10</h6>
                                         <select name="idpatologia[]"  id="idpatologia[]" class="form-control" disabled >
                                         <option selected>Seleccione</option>
                                         <?php
@@ -871,12 +871,12 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">EVOLUCIÓN DE COMPLICACIONES</h6>
+                                <h6 class="m-0 font-weight-bold text-info">EVOLUCIÓN DE COMPLICACIONES</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">  
                                     <div class="col-sm-4">
-                                    <h6 class="text-primary">DÍAS DE INTERNACIÓN:</h6>
+                                    <h6 class="text-info">DÍAS DE INTERNACIÓN:</h6>
                                         <input type="text" class="form-control" 
                                             name="dias_internacion" placeholder="" value="<?php echo $row_ref[24];?>" disabled>                
                                     </div>                             
@@ -890,7 +890,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">EXÁMENES COMPLEMENTARIOS DE DIAGNÓSTICO</h6>
+                                <h6 class="m-0 font-weight-bold text-info">EXÁMENES COMPLEMENTARIOS DE DIAGNÓSTICO</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                            
@@ -904,7 +904,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">OTROS EXÁMENES E INTERCONCULTA</h6>
+                                <h6 class="m-0 font-weight-bold text-info">OTROS EXÁMENES E INTERCONCULTA</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                            
@@ -918,7 +918,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">TRATAMIENTOS REALIZADOS</h6>
+                                <h6 class="m-0 font-weight-bold text-info">TRATAMIENTOS REALIZADOS</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                            
@@ -932,7 +932,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">RECOMENDACIONES PARA EL PACIENTE</h6>
+                                <h6 class="m-0 font-weight-bold text-info">RECOMENDACIONES PARA EL PACIENTE</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                            
@@ -946,7 +946,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">OTROS ANEXOS Y ESTUDIOS PENDIENTES</h6>
+                                <h6 class="m-0 font-weight-bold text-info">OTROS ANEXOS Y ESTUDIOS PENDIENTES</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                            
@@ -960,7 +960,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">OBSERVACIONES / RECOMENDACIONES A LA CONTRAREFERENCIA</h6>
+                                <h6 class="m-0 font-weight-bold text-info">OBSERVACIONES / RECOMENDACIONES A LA CONTRAREFERENCIA</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                            
