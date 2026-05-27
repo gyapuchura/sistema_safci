@@ -21,7 +21,6 @@ $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 
-
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
 $dias_internacion_ref = $_POST['dias_internacion_ref'];
@@ -39,11 +38,12 @@ $evolucion_complicacion             = $link->real_escape_string($_POST['evolucio
 $examenes_complementarios_egreso    = $link->real_escape_string($_POST['examenes_complementarios_egreso']);
 $otros_examenes                     = $link->real_escape_string($_POST['otros_examenes']);
 $tratamientos_realizados            = $link->real_escape_string($_POST['tratamientos_realizados']);
-$recmoendaciones_paciente           = $link->real_escape_string($_POST['recmoendaciones_paciente']);
+$recomendaciones_paciente           = $link->real_escape_string($_POST['recomendaciones_paciente']);
 $otros_anexos                       = $link->real_escape_string($_POST['otros_anexos']);
 $observaciones_recomendaciones      = $link->real_escape_string($_POST['observaciones_recomendaciones']);
 
 $idestablecimiento_destino  = $_POST['idestablecimiento_destino'];
+$tel_establecimiento_cref   = $_POST['tel_establecimiento_cref'];
 $contacto_eess_cref         = $link->real_escape_string($_POST['contacto_eess_cref']);
 $por_telesalud              = $_POST['por_telesalud'];
 $contacto_contraref         = $link->real_escape_string($_POST['contacto_contraref']);
@@ -60,26 +60,28 @@ $idpatologia                = $_POST['idpatologia'];
             }
 
     $sql0 = " UPDATE referencia_hc SET dias_internacion_ref='$dias_internacion_ref', evolucion_complicacion='$evolucion_complicacion', examenes_complementarios_egreso='$examenes_complementarios_egreso', ";
-    $sql0.= " otros_examenes='$otros_examenes', tratamientos_realizados='$tratamientos_realizados', recmoendaciones_paciente='$recmoendaciones_paciente', otros_anexos='$otros_anexos', observaciones_recomendaciones='$observaciones_recomendaciones', ";
-    $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2' ";
-    $sql0.= "  WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+    $sql0.= " otros_examenes='$otros_examenes', tratamientos_realizados='$tratamientos_realizados', recomendaciones_paciente='$recomendaciones_paciente', otros_anexos='$otros_anexos', observaciones_recomendaciones='$observaciones_recomendaciones', ";
+    $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2',  ";
+    $sql0.= " tel_establecimiento_cref='$tel_establecimiento_cref' WHERE idreferencia_hc='$idreferencia_hc_ss' ";
     $result0 = mysqli_query($link,$sql0);   
 
         $sql1 = " UPDATE deriva_referencia_hc SET referido='SI', admitido='SI' WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";
         $result1 = mysqli_query($link,$sql1);   
 
         $sql_dr = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
-        $sql_dr.= " referido, admitido, adecuada, justificada, oportuna, persona_contactada, idvia_comunicacion, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
+        $sql_dr.= " referido, admitido, persona_contactada, idvia_comunicacion, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
         $sql_dr.= " VALUES ('$idreferencia_hc_ss','$idestablecimiento_salud_ss','$idestablecimiento_destino','$idusuario_ss','$idusuario_ss', ";
-        $sql_dr.= " 'SI','NO','','','','$contacto_contraref','2','$fecha','$hora','$fecha','$hora') ";
+        $sql_dr.= " 'SI','NO','$contacto_contraref','2','$fecha','$hora','$fecha','$hora') ";
         $result_dr = mysqli_query($link,$sql_dr);   
 
             $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */
             $imc = number_format($imc_i, 6, '.', '');
 
             $sql_sg = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, fecha_registro, hora_registro, idusuario) ";
-            $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
+            $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
             $result_sg = mysqli_query($link,$sql_sg);
+
+    $_SESSION['idestablecimiento_destino_ss'] = $idestablecimiento_destino;
 
 /*********** se llenan otras tablas con relacion al CONTROL PERINATAL ***********/
           

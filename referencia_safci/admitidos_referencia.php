@@ -88,7 +88,7 @@ $idestablecimiento_salud = $row_es[1];
                                             <th>NIVEL/TIPO</th>
                                             <th>FECHA REFERENCIA/HORA</th>
                                             <th>MÉDICO QUE REFIERE</th>
-                                            <th>TRANSFERENCIA</th>
+                                            <!-- <th>TRANSFERENCIA</th>. -->
                                             <th>CONTRAREFERENCIA</th>
                                         </tr>
                                     </thead>
@@ -152,7 +152,7 @@ $idestablecimiento_salud = $row_es[1];
                                                 $row_r = mysqli_fetch_array($result_r);                    
                                                 echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
                                             </td>                                       
-                                        <td>
+                                      <!--  <td>
                                         <form name="TRANSFERIR" action="valida_tranferencia_hc.php" method="post">
                                             <input name="idderiva_referencia_hc" type="hidden" value="<?php echo $row[0];?>">
                                             <input name="idreferencia_hc" type="hidden" value="<?php echo $row[1];?>">
@@ -167,7 +167,7 @@ $idestablecimiento_salud = $row_es[1];
                                             <span class="text">TRANFERENCIA</span>    
                                             </button>
                                         </form>  
-                                        </td> 
+                                        </td> --->
                                         <td>
                                         <form name="CONTRAREFERIR" action="valida_contrareferencia_hc.php" method="post">
                                             <input name="idderiva_referencia_hc" type="hidden" value="<?php echo $row[0];?>">

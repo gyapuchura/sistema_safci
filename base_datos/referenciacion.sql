@@ -427,3 +427,13 @@ ALTER TABLE examen_referencia  ADD FOREIGN KEY (idreferencia_hc) REFERENCES refe
 ALTER TABLE examen_referencia  ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE examen_referencia  ADD FOREIGN KEY (idexamen_complementario) REFERENCES examen_complementario (idexamen_complementario);
 ALTER TABLE examen_referencia  ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idsigno_vital_psafci) REFERENCES signo_vital_psafci (idsigno_vital_psafci);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idclasificacion_imc) REFERENCES clasificacion_imc (idclasificacion_imc);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idriesgo_cintura_cadera) REFERENCES riesgo_cintura_cadera (idriesgo_cintura_cadera);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idinterpretacion_tobillo_brazo) REFERENCES interpretacion_tobillo_brazo (idinterpretacion_tobillo_brazo);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idclasificacion_presion_arterial) REFERENCES clasificacion_presion_arterial (idclasificacion_presion_arterial);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idriesgo_cintura) REFERENCES riesgo_cintura (idriesgo_cintura);
+ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);

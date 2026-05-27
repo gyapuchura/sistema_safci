@@ -37,9 +37,13 @@ if ($idestado_referencia == '1' || $idestado_referencia == '3') {
 
         $sql8 =" UPDATE deriva_referencia_hc SET persona_contactada='$persona_contactada', idvia_comunicacion='$idvia_comunicacion', "; 
         $sql8.=" recibe_paciente='$recibe_paciente', nombre_ccdes='$nombre_ccdes', referido='NO', admitido='SI', motivo ='$motivo', ";
-        $sql8.=" adecuada='$adecuada', justificada='$justificada', oportuna='$oportuna', idusuario_r='$idusuario_ss', ";
-        $sql8.=" fecha_admision='$fecha', hora_admision='$hora' WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";
-        $result8 = mysqli_query($link,$sql8);    
+        $sql8.=" idusuario_r='$idusuario_ss', fecha_admision='$fecha', hora_admision='$hora' ";
+        $sql8.=" WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";
+        $result8 = mysqli_query($link,$sql8);  
+        
+        $sql9 =" UPDATE referencia_hc SET adecuada='$adecuada', justificada='$justificada', oportuna='$oportuna' "; 
+        $sql9.=" WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+        $result9 = mysqli_query($link,$sql9); 
 
     header("Location:mensaje_admite_referencia_hc.php");
 

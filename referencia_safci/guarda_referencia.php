@@ -97,13 +97,13 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
     $idreferencia_hc = mysqli_insert_id($link);
 
     $_SESSION['idreferencia_hc_ss'] = $idreferencia_hc;
+    $_SESSION['idestablecimiento_salud_r_ss'] = $idestablecimiento_salud_r;
 
         $sql_dr = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
-        $sql_dr.= " referido, admitido, adecuada, justificada, oportuna, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
+        $sql_dr.= " referido, admitido, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
         $sql_dr.= " VALUES ('$idreferencia_hc','$idestablecimiento_salud_ss','$idestablecimiento_salud_r','$idusuario_ss','$idusuario_ss', ";
-        $sql_dr.= " 'SI','NO','','','','$fecha','$hora','$fecha','$hora')";
+        $sql_dr.= " 'SI','NO','$fecha','$hora','$fecha','$hora')";
         $result_dr = mysqli_query($link,$sql_dr);   
-        $idreferencia_hc = mysqli_insert_id($link);
 
             $imc_i = $peso*10000/$talla**2;  //** Estatura en centimetros */
             $imc = number_format($imc_i, 6, '.', '');

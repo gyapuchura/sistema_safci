@@ -565,7 +565,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row"> 
                                     <div class="col-sm-12">
                                     <div class="text-center">
-                                        <h6 class="text-primary">HALLAZGOS LLAMATIVOS:</h6>
+                                        <h6 class="text-primary">HALLAZGOS LLAMATIVOS: <?php echo $idreferencia_hc_ss;?></h6>
                                     </div>
                                     <hr>
                                     </div>

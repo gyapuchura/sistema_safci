@@ -17,8 +17,15 @@ $idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
-$edad_ss                    = $_SESSION['edad_ss'];
 
+$idestablecimiento_destino_ss = $_SESSION['idestablecimiento_destino_ss'];
+
+    $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
+    $sql.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
+    $sql.=" WHERE establecimiento_salud.idsubsector_salud=subsector_salud.idsubsector_salud AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
+    $sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio  AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento_destino_ss' ";
+    $result = mysqli_query($link,$sql);
+    $row = mysqli_fetch_array($result);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -75,8 +82,19 @@ $edad_ss                    = $_SESSION['edad_ss'];
                     <div class="p-3">               
                     <div class="text-center">                       
                     <hr>                     
-                    <h4 class="text-success">SE HA CONTRAREFERIDO AL PACIENTE </h4>
-                    <h4 class="text-success">A SU ESTABLECIMIENTO DE SALUD !</h4>
+                    <h4 class="text-success">SE HA CONTRARREFERIDO AL PACIENTE</h4>
+                    <h4 class="text-success">AL ESTABLECIMIENTO ORIGEN:</h4>
+                    <h4 class="text-secundary">"<?php echo $row[1];?>"</h4>
+                    <h4 class="text-secundary"><?php echo $row[2];?></h4>
+                    <h4 class="text-secundary"><?php echo $row[3];?> - <?php echo $row[4];?></h4>
+                    </br>
+                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
+                        <span class="icon text-white-50">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span class="text">IMPRIMIR FORMULARIO D7-a</span>
+                        </a> 
+                    </br>
                     </br>
                     <a href="entrada_referencia.php"><h6>BANDEJA DE ENTRADA DEL ESTABLECIMIENTO -></h6></a>
                     <h4></h4>

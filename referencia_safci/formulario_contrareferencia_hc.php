@@ -28,7 +28,7 @@ $edad_ss                    = $_SESSION['edad_ss'];
 $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
 $sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-$sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+$sql_ref.=" fecha_registro, hora_registro, idusuario, adecuada, justificada, oportuna FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
 
@@ -47,10 +47,6 @@ $row_cf=mysqli_fetch_array($result_cf);
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
-
-$sql_ajo =" SELECT adecuada, justificada, oportuna FROM deriva_referencia_hc WHERE idderiva_referencia_hc='$idderiva_referencia_hc_ss' ";
-$result_ajo=mysqli_query($link,$sql_ajo);
-$row_ajo=mysqli_fetch_array($result_ajo);
 
     $fecha_nacimiento = $row_n[5];
     $dia = date("d");
@@ -248,17 +244,17 @@ $row_ajo=mysqli_fetch_array($result_ajo);
                                 <div class="form-group row">                               
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ADECUADA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ajo[0];?>" 
+                                    <input type="text" class="form-control" value="<?php echo $row_ref[26];?>" 
                                     name="adecuada" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">JUSTIFICADA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ajo[1];?>" 
+                                    <input type="text" class="form-control" value="<?php echo $row_ref[27];?>" 
                                     name="justificada" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">OPORTUNA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ajo[2];?>" 
+                                    <input type="text" class="form-control" value="<?php echo $row_ref[28];?>" 
                                     name="oportuna" disabled>
                                     </div>
                                 </div>
@@ -466,19 +462,22 @@ $row_ajo=mysqli_fetch_array($result_ajo);
                                     </div>
                                 </div>
                                 <div class="form-group row">                               
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row_ref[11];?>"             
                                         name="celular_acompanante" disabled>                
                                     </div>
-
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row_ref[12];?>"             
                                         name="tel_establecimiento" disabled >                
                                     </div>
-                                </div>
-                                
+                                    <div class="col-sm-4">
+                                    <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO QUE CONTRARREFIERE:</h6>
+                                        <input type="number" class="form-control" value=""             
+                                        name="tel_establecimiento_cref" required autofocus >                
+                                    </div>
+                                </div>                                
                             </div>                                
                         </div>
 
@@ -748,8 +747,8 @@ $row_ajo=mysqli_fetch_array($result_ajo);
                             <div class="card-body">
                                 <div class="form-group row">                               
                                     <div class="col-sm-12">
-                                    <textarea class="form-control" rows="3" name="recmoendaciones_paciente" id="recmoendaciones_paciente" required></textarea>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('recmoendaciones_paciente')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    <textarea class="form-control" rows="3" name="recomendaciones_paciente" id="recomendaciones_paciente" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('recomendaciones_paciente')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
