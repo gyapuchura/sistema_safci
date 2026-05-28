@@ -1440,7 +1440,8 @@ switch ($row_ps[3]) {
  <form name="ELIMINA_SESION" action="elimina_atencion_psafci.php" method="post">  
     <div class="form-group row"> 
     <div class="col-sm-4"> 
-         <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
+        <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
+        <input type="hidden" name="idtipo_atencion" value="<?php echo $row_ps[3];?>"> 
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">
             ELIMINAR ATENCIÓN MÉDICA
         </button> 
@@ -1473,7 +1474,12 @@ switch ($row_ps[3]) {
         <a href="atenciones_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ATENCIONES</h6></a>
     </div> 
     <div class="col-sm-4"> 
-    
+
+        <a class="btn btn-primary btn-icon-split" href="../referencia_safci/formulario_referencia_ps_ncf.php" >
+        <span class="icon text-white-50">
+            <i class="fas fa-hospital"></i>
+        </span>
+        <span class="text">REFERENCIA DEL INTEGRANTE DE LA FAMILIA</span></a>  
     </div> 
     </div> 
 </div>

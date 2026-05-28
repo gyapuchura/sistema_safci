@@ -140,7 +140,7 @@ if ($idtipo_atencion == '2') { ?>
                 </div>
                 <div class="col-sm-6">
                 <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                <textarea class="form-control" rows="2" name="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz"></textarea> 
                 </div>
                 <div class="col-sm-3">             
                 </div>
@@ -181,12 +181,12 @@ if ($idtipo_atencion == '2') { ?>
         <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo" required></textarea>
+            <textarea class="form-control" rows="3" name="subjetivo" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             </div> 
 
                 <div class="col-sm-6"> 
             <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo" required></textarea>
+            <textarea class="form-control" rows="3" name="objetivo" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             </div> 
             </div> 
 
@@ -217,11 +217,11 @@ if ($idtipo_atencion == '2') { ?>
             <div class="form-group row"> 
                 <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis" required></textarea>
+            <textarea class="form-control" rows="3" name="analisis" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             </div>
                 <div class="col-sm-6"> 
             <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan" required></textarea>
+            <textarea class="form-control" rows="3" name="plan" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
             </div> 
         </div>
         <hr>
@@ -399,7 +399,7 @@ if ($idtipo_atencion == '2') { ?>
                 </div>
                 <div class="col-sm-6">
                 <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                <textarea class="form-control" rows="2" name="descripcion_alergia"></textarea> 
+                <textarea class="form-control" rows="2" name="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz"></textarea> 
                 </div>
                 <div class="col-sm-3">             
                 </div>

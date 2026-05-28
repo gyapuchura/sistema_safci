@@ -12,17 +12,11 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-$idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
-$idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
+$idnombre_paciente_ss       = $_SESSION['idnombre_paciente_ss']; 
 $edad_ss                    = $_SESSION['edad_ss'];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
-
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
+$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_paciente_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
 
@@ -172,74 +166,17 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     name="edad_actual" disabled>
                                 </div>
                                 <div class="col-sm-4">
-                                <h6 class="text-primary">VER CARPETA FAMILIAR:</h6>
-                                <a class="btn btn-info btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-file"></i>
-                                </span>
-                                <span class="text"><?php echo $row_cf[1];?></span></a> 
-                                </div>
-                                </div>  
-
-                                <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->  
-
-                                <?php
-                                $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
-                                $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
-                                $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss' ORDER BY integrante_datos_cf.idintegrante_datos_cf DESC LIMIT 1 ";
-                                $result4 = mysqli_query($link,$sql4);
-                                if ($row4 = mysqli_fetch_array($result4)){
-                                mysqli_field_seek($result4,0);
-                                while ($field4 = mysqli_fetch_field($result4)){
-                                } do { 
-                                ?>
-                                <div class="form-group row">                               
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">ESTADO CIVIL:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[1];?>" 
-                                        name="" disabled>
-                                    </div>
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">NIVEL DE INSTRUCCIÓN:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[2];?>"
-                                        name="" disabled>                
-                                    </div>
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">PROFESIÓN:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[3];?>"             
-                                        name="" disabled >                
-                                    </div>
-
-                                </div>
-                                <div class="form-group row"> 
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">OCUPACIÓN:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
-                                        name="" disabled>                
-                                    </div>
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
-                                        name="" disabled>                
-                                    </div>
-                                    <div class="col-sm-4">
                                     <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
-                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                    <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
                                         </span>
                                         <span class="text">HISTORIA CLÍNICA DIGITAL</span>
-                                            </a>                                      
-                                    </div>
-                                </div> 
-                                <?php
-                                }
-                                while ($row4 = mysqli_fetch_array($result4));
-                                } else {
-                                }
-                                ?>
-                                                           
+                                    </a> 
+                                </div>
+                                </div>  
+
+                                             
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
