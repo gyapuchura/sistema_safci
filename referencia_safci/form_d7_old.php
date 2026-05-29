@@ -12,15 +12,9 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-$idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
-
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
@@ -56,9 +50,12 @@ $row_ps=mysqli_fetch_array($result_ps);
 
     <title>SISTEMA MEDI-SAFCI</title>
 
+    <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/boton_mic.css">
@@ -67,18 +64,31 @@ $row_ps=mysqli_fetch_array($result_ps);
 
 <body id="page-top">
 
-    <div id="wrapper">
+    <!-- Page Wrapper -->
+<div id="wrapper">
 
+    <!-- Sidebar -->
     <?php include("../menu.php");?>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
+        <!-- Main Content -->
         <div id="content">
 
+            <!-- Topbar -->
             <?php include("../top_bar.php"); ?>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+
             <body class="bg-gradient-primary">
                 
             <div class="container">
                     </br>
+                <!-- BEGIN aqui va el comntenido de la pagina ---->
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                             <div class="text-center">                          
@@ -90,7 +100,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post"> 
+                     <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post" class="needs-validation" > 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
   
@@ -156,20 +166,29 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     name="edad_actual" disabled>
                                 </div>
                                 <div class="col-sm-4">
-                                <h6 class="text-primary">VER CARPETA FAMILIAR:</h6>
-                                <a class="btn btn-info btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-file"></i>
-                                </span>
-                                <span class="text"><?php echo $row_cf[1];?></span></a> 
+                                    <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
+                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_nc.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-book"></i>
+                                        </span>
+                                        <span class="text">HISTORIA CLÍNICA DIGITAL</span>
+                                            </a>
                                 </div>
                                 </div>  
+
+                                <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->  
+
+                                <?php
+                                $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, integrante_cf.idintegrante_cf FROM carpeta_familiar, integrante_cf ";
+                                $sql_cf.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idnombre='$idnombre_integrante_ss' ";
+                                $result_cf=mysqli_query($link,$sql_cf);
+                                if ($row_cf=mysqli_fetch_array($result_cf)) { ?>
 
                                 <?php
                                 $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
                                 $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
                                 $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss' ORDER BY integrante_datos_cf.idintegrante_datos_cf DESC LIMIT 1 ";
+                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$row_cf[2]' ORDER BY integrante_datos_cf.idintegrante_datos_cf DESC LIMIT 1 ";
                                 $result4 = mysqli_query($link,$sql4);
                                 if ($row4 = mysqli_fetch_array($result4)){
                                 mysqli_field_seek($result4,0);
@@ -195,24 +214,26 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                                 </div>
                                 <div class="form-group row"> 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">OCUPACIÓN:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-4">
-                                    <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
-                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                    <div class="col-sm-3">
+                                      
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <h6 class="text-primary">VER CARPETA FAMILIAR:</h6>
+                                        <a class="btn btn-info btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row_cf[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
                                         <span class="icon text-white-50">
-                                            <i class="fas fa-book"></i>
+                                            <i class="fas fa-file"></i>
                                         </span>
-                                        <span class="text">HISTORIA CLÍNICA DIGITAL</span>
-                                            </a>                                      
+                                        <span class="text"><?php echo $row_cf[1];?></span></a> 
                                     </div>
                                 </div> 
                                 <?php
@@ -221,7 +242,9 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 } else {
                                 }
                                 ?>
-                                                           
+                                                                           
+                                <?php }  ?>
+
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
@@ -265,13 +288,13 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
-                                        <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
+                                        <input type="text" class="form-control" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
                                         name="celular_acompanante" required>                
                                     </div>
 
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
-                                        <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
+                                        <input type="text" class="form-control" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
                                         name="tel_establecimiento" required >                
                                     </div>
                                 </div>
@@ -312,7 +335,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
-                                <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
+                                <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS *// ?>
                             
                                 <div class="form-group row">
                                     <div class="col-sm-3">
@@ -362,7 +385,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                                 <?php } else { ?>
 
-                                <div class="form-group row">
+                               <div class="form-group row">
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) this.value = '';" onblur="if(this.value !== '' && this.value < 0) this.value = '';" class="form-control" placeholder="Ciclos por minuto"
@@ -409,7 +432,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                         </div>
 
-                        <?php  if ($row_n[7] == '1' && $edad > '14') {  //******* PARA MUJERES MAYORES A 14 AÑOS EN ESTADO DE EMBARAZO O NACIMIENTO */ ?>
+                        <?php  if ($row_n[7] == '1' && $edad > '14') {  //******* PARA MUJERES MAYORES A 14 AÑOS EN ESTADO DE EMBARAZO O NACIMIENTO *// ?>
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -572,20 +595,15 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <h6 class="m-0 font-weight-bold text-primary">5.- DIAGNÓSTICOS PRESUNTIVOS</h6>
                             </div>
                             <div class="card-body">
-                                
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde" required></textarea>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[0]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off" required>
-                                            <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
-                                        </div>
-                                        <select name="idpatologia[0]" id="idpatologia[0]" style="display: none;" required>
+                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <select name="idpatologia[0]"  id="idpatologia[0]" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
@@ -609,16 +627,12 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[0]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off" >
-                                            <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
-                                        </div>
-                                        <select name="idpatologia[1]" id="idpatologia[1]" style="display: none;">
+                                        <select name="idpatologia[1]"  id="idpatologia[1]" class="form-control" >
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
@@ -641,17 +655,13 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[0]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off" >
-                                            <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
-                                        </div>
-                                        <select name="idpatologia[2]"  id="idpatologia[2]" style="display: none;">
+                                        <select name="idpatologia[2]"  id="idpatologia[2]" class="form-control">
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
@@ -671,9 +681,6 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         </select>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
 
 
                             </div>
@@ -745,69 +752,19 @@ $row_ps=mysqli_fetch_array($result_ps);
                             <div class="card-body">
                                 <div class="form-group row">   
                                     <div class="col-sm-12">  
-                                        <h6 class="m-0 font-weight-bold text-primary">ESCRIBA Y SELECCIONE EL ESTABLECIMIENTO : </h6>  <br>                               
-                                        
-                                        <div style="position: relative;">
-                                            <input type="text" class="form-control" placeholder="Escriba el nombre del establecimiento receptor..." id="busqueda" autocomplete="off" required/>
-                                            
-                                            <div id="lista-flotante-eess" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 250px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 2px;"></div>
-                                        </div>
-
-                                        <select name="idestablecimiento_salud_r" id="resultado" style="display: none;"></select>                                    
+                                        <h6 class="m-0 font-weight-bold text-primary">ESCRIBA Y LUEGO SELECCIONE EL ESTABLECIMIENTO : </h6>  </br>                               
+                                        <input type="text" class="form-control" placeholder="NOMBRE DEL ESTABLECIMIENTO RECEPTOR" id="busqueda" required/>
                                     </div>   
                                 </div> 
+                                <div class="form-group row">                           
+                                    <div class="col-sm-12">  
+                                    <select name="idestablecimiento_salud_r" id="resultado" class="form-control"></select>                                    
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-            <div class="card shadow mb-4" > 
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">10.- MOTIVO DE REFERENCIA</h6>
-                </div>
-                <div class="card-body">
-                    <div class="form-group row">                              
-                        <div class="col-sm-6">  
-                            <h6 class="text-primary">MOTIVO:</h6> 
-                            <select name="idmotivo_referencia" id="idmotivo_referencia" class="form-control" required>
-                            <option value="">-SELECCIONE-</option>
-                            <?php
-                            $numero_mr=1;
-                            $sql_mr = " SELECT idmotivo_referencia, motivo_referencia FROM motivo_referencia ORDER BY idmotivo_referencia"; 
-                            $result_mr = mysqli_query($link,$sql_mr);
-                            if ($row_mr = mysqli_fetch_array($result_mr)){
-                            mysqli_field_seek($result_mr,0);
-                            while ($field_mr = mysqli_fetch_field($result_mr)){
-                            } do {
-                            echo "<option value=".$row_mr[0].">".$numero_mr.".- ".$row_mr[1]." </option>";
-                            $numero_mr=$numero_mr+1;
-                            } while ($row_mr = mysqli_fetch_array($result_mr));
-                            } else {
-                            echo "No se encontraron resultados!";
-                            }
-                            ?>
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <h6 class="text-primary">ESPECIALIDAD MÉDICA:</h6> 
-                            <select name="idespecialidad_medica"  id="idespecialidad_medica" class="form-control" required>
-                                <option value="">ELEGIR</option>
-                                <?php
-                                $sql1 = "SELECT idespecialidad_medica, especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica !='45' ORDER BY especialidad_medica ";
-                                $result1 = mysqli_query($link,$sql1);
-                                if ($row1 = mysqli_fetch_array($result1)){
-                                mysqli_field_seek($result1,0);
-                                while ($field1 = mysqli_fetch_field($result1)){
-                                } do {
-                                echo "<option value=".$row1[0].">".$row1[1]."</option>";
-                                } while ($row1 = mysqli_fetch_array($result1));
-                                } else {
-                                echo "No se encontraron resultados!";
-                                }
-                                ?>
-                            </select>
-                        </div>   
-        
-                    </div>
-                </div>                           
+                        <div class="card shadow mb-4" id="especialidad_eess">                            
                         </div>
 
                             <div class="text-center">   
@@ -822,6 +779,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
 
 
+                            <!-- modal de confirmacion de envio de datos-->
                             <div class="modal fade" id="examplemodal_f" tabindex="-1" role="dialog" aria-labelledby="examplemodal_fLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -845,11 +803,16 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
                                 </form>
-                                </div>
+                                <!-- Modal -->
+
+
+                    </div>
                 </div>
 
 
-                </div>
+                <!-- END aqui va el comntenido de la pagina ---->  
+                
+            </div>
 
                     <div class="text-center">
                         <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
@@ -858,6 +821,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                         <a class="small" href="#">Ministerio de Salud y Deportes</a>
                     </div> 
                     </br> 
+                        <!-- Logout Modal begin -->
                         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -875,26 +839,105 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 </div>
                             </div>
                         </div>
-                        </div> 
+                        <!-- Logout Modal end-->
+
+        </div> 
     </div> 
 </div>       
-<script src="../vendor/jquery/jquery.min.js"></script>
+<!-- END aqui va el comntenido de la pagina ---->
+        
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
+    <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+    <!-- Page level plugins -->
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <script src="../js/jquery.js"></script>
+    <!-- scripts para calendario -->
+        <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
         <script src="../js/funciones.js"></script>
 
   <script>
+			$(document).ready(function(){
+				  var consulta;
+
+				  $("#busqueda").keyup(function(e){
+						//obtenemos el texto introducido en el campo de b�squeda
+						consulta = $("#busqueda").val();
+						 //hace la b�squeda
+							 $.ajax({
+								   type: "POST",
+								   url: "buscar_establecimiento.php",
+								   data: "b="+consulta,
+								   dataType: "html",
+								   beforeSend: function(){
+											  //imagen de carga
+										   $("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+								   },
+								   error: function(){
+										   alert("error peticion ajax");
+									 },
+								  success: function(data){
+										$("#resultado").empty();
+										$("#resultado").append(data);
+										//$("#busqueda").val(consulta);
+									}
+							});
+				  });
+			});
+	    </script>
+
+        <script language="javascript"> 
+            $(document).ready(function(){
+            $("#parto").change(function () {
+                        $("#parto option:selected").each(function () {
+                            parto=$(this).val();
+                        $.post("datos_parto.php", {parto:parto}, function(data){
+                        $("#datos_parto").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+
+        <script language="javascript"> 
+            $(document).ready(function(){
+            $("#discapacidad").change(function () {
+                        $("#discapacidad option:selected").each(function () {
+                            discapacidad=$(this).val();
+                        $.post("persona_discapacidad.php", {discapacidad:discapacidad}, function(data){
+                        $("#persona_discapacidad").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+
+        <script language="javascript"> 
+            $(document).ready(function(){
+            $("#resultado").change(function () {
+                        $("#resultado option:selected").each(function () {
+                            establecimiento_salud=$(this).val();
+                        $.post("establecimiento_salud_especialidad.php", {establecimiento_salud:establecimiento_salud}, function(data){
+                        $("#especialidad_eess").html(data);
+                        });
+                    });
+            })
+            });
+        </script>
+
+ <script>
             // LÓGICA: AJAX + Buscador Flotante para Establecimientos
 			$(document).ready(function(){
 				var consulta;
@@ -993,146 +1036,6 @@ $row_ps=mysqli_fetch_array($result_ps);
                 });
 			});
 	    </script>
-
-        <script language="javascript"> 
-            $(document).ready(function(){
-            $("#parto").change(function () {
-                        $("#parto option:selected").each(function () {
-                            parto=$(this).val();
-                        $.post("datos_parto.php", {parto:parto}, function(data){
-                        $("#datos_parto").html(data);
-                        });
-                    });
-            })
-            });
-        </script>
-
-        <script language="javascript"> 
-            $(document).ready(function(){
-            $("#discapacidad").change(function () {
-                        $("#discapacidad option:selected").each(function () {
-                            discapacidad=$(this).val();
-                        $.post("persona_discapacidad.php", {discapacidad:discapacidad}, function(data){
-                        $("#persona_discapacidad").html(data);
-                        });
-                    });
-            })
-            });
-        </script>
-
-        
-        <script>
-            // Script nativo de validación Bootstrap 4 con Auto-Enfoque y cierre de modal
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                    var forms = document.getElementsByClassName('needs-validation');
-                    var validation = Array.prototype.filter.call(forms, function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                
-                                // Ocultar el modal de confirmación si hay errores
-                                if (typeof $ !== 'undefined' && $('#examplemodal_f').length) {
-                                    $('#examplemodal_f').modal('hide');
-                                }
-                                
-                                // Retardo para permitir que el modal desaparezca antes de hacer scroll
-                                setTimeout(function() {
-                                    var primerInvalido = form.querySelector(':invalid');
-                                    if (primerInvalido) {
-                                        primerInvalido.focus();
-                                        primerInvalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                    }
-                                }, 350);
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-        </script>
-
-        <script>
-            // LÓGICA: Autocompletado Integrado Visualmente (Select Oculto)
-            document.addEventListener('DOMContentLoaded', function() {
-                var buscadores = document.querySelectorAll('.buscador-cie-inteligente');
-                
-                buscadores.forEach(function(input) {
-                    var targetId = input.getAttribute('data-target');
-                    var selectOriginal = document.getElementById(targetId);
-                    var listaFlotante = input.nextElementSibling; // El div que funciona como desplegable
-                    
-                    // Copiamos en memoria las opciones traídas por PHP
-                    var opciones = Array.from(selectOriginal.options).filter(function(opt) {
-                        return opt.value !== ""; // Ignorar la opción "SELECCIONE"
-                    });
-                    
-                    // Cuando el médico escribe
-                    input.addEventListener('input', function() {
-                        var term = this.value.toLowerCase().trim();
-                        listaFlotante.innerHTML = ''; // Limpiar lista
-                        
-                        // Si borra todo, reseteamos el select oculto para que marque error de validación
-                        if (term === '') {
-                            listaFlotante.style.display = 'none';
-                            selectOriginal.value = ''; 
-                            return;
-                        }
-                        
-                        // Buscar coincidencias
-                        var coincidencias = opciones.filter(function(opt) {
-                            return opt.text.toLowerCase().includes(term);
-                        });
-                        
-                        if (coincidencias.length > 0) {
-                            listaFlotante.style.display = 'block'; // Mostrar la ventanita
-                            
-                            // Crear opciones clickeables
-                            coincidencias.slice(0, 100).forEach(function(opt) { // Mostrar max 100 para no trabar el navegador
-                                var item = document.createElement('div');
-                                item.textContent = opt.text;
-                                item.style.padding = '8px 12px';
-                                item.style.cursor = 'pointer';
-                                item.style.borderBottom = '1px solid #eaecf4';
-                                item.style.fontSize = '0.9rem';
-                                item.style.color = '#5a5c69';
-                                
-                                // Efecto visual al pasar el ratón (Hover)
-                                item.addEventListener('mouseenter', function() { this.style.backgroundColor = '#eaecf4'; this.style.color = '#2e59d9'; });
-                                item.addEventListener('mouseleave', function() { this.style.backgroundColor = 'transparent'; this.style.color = '#5a5c69'; });
-                                
-                                // EL CLICK MÁGICO
-                                item.addEventListener('mousedown', function(e) {
-                                    e.preventDefault(); // Evitar que el input pierda el focus antes de tiempo
-                                    input.value = opt.text; // Ponemos el nombre de la enfermedad a la vista
-                                    selectOriginal.value = opt.value; // Guardamos silenciosamente el ID en el select oculto
-                                    listaFlotante.style.display = 'none'; // Cerramos la lista
-                                });
-                                
-                                listaFlotante.appendChild(item);
-                            });
-                        } else {
-                            listaFlotante.style.display = 'none';
-                        }
-                    });
-
-                    // Validar si sale del campo y no eligió una opción válida
-                    input.addEventListener('blur', function() {
-                        setTimeout(function() {
-                            listaFlotante.style.display = 'none';
-                            // Si lo que está escrito no coincide con la opción seleccionada ocultamente, vaciar
-                            var selectedOption = selectOriginal.options[selectOriginal.selectedIndex];
-                            if (selectedOption && selectedOption.value !== "" && input.value !== selectedOption.text) {
-                                input.value = '';
-                                selectOriginal.value = '';
-                            }
-                        }, 200);
-                    });
-                });
-            });
-        </script>
 
 </body>
 </html>

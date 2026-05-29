@@ -100,7 +100,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post"> 
+                     <form name="GUARDA_REFERENCIA" action="guarda_referencia_nfc.php" method="post"> 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
   
@@ -167,7 +167,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 </div>
                                 <div class="col-sm-4">
                                     <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
-                                    <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                    <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_nc.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
                                         </span>
@@ -175,8 +175,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </a> 
                                 </div>
                                 </div>  
-
-                                             
+                                            
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>

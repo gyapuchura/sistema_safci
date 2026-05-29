@@ -1475,11 +1475,11 @@ switch ($row_ps[3]) {
     </div> 
     <div class="col-sm-4"> 
 
-        <a class="btn btn-primary btn-icon-split" href="../referencia_safci/formulario_referencia_ps_ncf.php" >
+        <a class="btn btn-primary btn-icon-split" href="../referencia_safci/valida_atencion_ref_ncf.php" >
         <span class="icon text-white-50">
             <i class="fas fa-hospital"></i>
         </span>
-        <span class="text">REFERENCIA DEL INTEGRANTE DE LA FAMILIA</span></a>  
+        <span class="text">REFERENCIA DEL PACIENTE</span></a>  
     </div> 
     </div> 
 </div>
