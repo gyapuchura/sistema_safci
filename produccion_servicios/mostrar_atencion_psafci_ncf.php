@@ -344,7 +344,7 @@ switch ($row_ps[3]) {
 
     <?php
     $numerod=1;
-    $sql_dg =" SELECT iddiagnostico_psafci, idatencion_psafci, motivo_consulta, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
+    $sql_dg =" SELECT iddiagnostico_psafci, idatencion_psafci, subjetivo, objetivo, analisis, plan, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
     $result_dg = mysqli_query($link,$sql_dg);
     if ($row_dg = mysqli_fetch_array($result_dg)){
     mysqli_field_seek($result_dg,0);
@@ -363,10 +363,27 @@ switch ($row_ps[3]) {
 
     <div class="form-group row"> 
     <div class="col-sm-6">
-    <h6 class="text-info">MOTIVO DE LA CONSULTA <?php echo $numerod;?>:</h6>
+    <h6 class="text-info">SUBJETIVO <?php echo $numerod;?>:</h6>
     <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[2]?></textarea>
     </div> 
     <div class="col-sm-6">
+    <h6 class="text-info">OBJETIVO <?php echo $numerod;?>:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[3]?></textarea>
+    </div> 
+    </div> 
+        <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">ANÁLISIS <?php echo $numerod;?>:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[4]?></textarea>
+    </div> 
+    <div class="col-sm-6">
+    <h6 class="text-info">PLAN <?php echo $numerod;?>:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_dg[5]?></textarea>
+    </div> 
+    </div> 
+
+    <div class="form-group row"> 
+    <div class="col-sm-12">
     <h6 class="text-info">C.I.E. :</h6>
 
         <select name="idpatologia" id="idpatologia" class="form-control" disabled>
@@ -379,7 +396,7 @@ switch ($row_ps[3]) {
                 while ($fieldv = mysqli_fetch_field($resultv)){
                 } do {
                 ?>
-                <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[3]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[6]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?></option>
                 <?php
                 } while ($rowv = mysqli_fetch_array($resultv));
                 } else {
