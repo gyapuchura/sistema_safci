@@ -12,7 +12,6 @@ $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss']; 
 
