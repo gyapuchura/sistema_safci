@@ -249,7 +249,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
                 </div>
                 <div class="col-sm-6">
                 <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia_des" ></textarea>
+                <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia_des" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                 <button type="button" class="btn-mic" onclick="iniciarDictado('d_alergia_des')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                 </div>
                 <div class="col-sm-3">             
@@ -562,7 +562,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
                 </div>
                 <div class="col-sm-6">
                 <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia_ncf" ></textarea>
+                <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia_ncf" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                 <button type="button" class="btn-mic" onclick="iniciarDictado('d_alergia_ncf')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                 </div>
                 <div class="col-sm-3">             
@@ -604,13 +604,13 @@ $idtipo_atencion = $_POST['tipo_atencion'];
         <div class="form-group row"> 
             <div class="col-sm-6"> 
             <h6 class="text-info">SUBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="subjetivo" id="subjetivo_mc" ></textarea>
+            <textarea class="form-control" rows="3" name="subjetivo" id="subjetivo_mc" placeholder="Escriba o utilice el botón de dictado por voz" ></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('subjetivo_mc')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
 
                 <div class="col-sm-6"> 
             <h6 class="text-info">OBJETIVO:</h6>
-            <textarea class="form-control" rows="3" name="objetivo" id="objetivo_mc" ></textarea>
+            <textarea class="form-control" rows="3" name="objetivo" id="objetivo_mc" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('objetivo_mc')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
             </div> 
@@ -618,12 +618,12 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <div class="form-group row"> 
                 <div class="col-sm-6"> 
             <h6 class="text-info">ANÁLISIS:</h6>
-            <textarea class="form-control" rows="3" name="analisis" id="analisis_mc" ></textarea>
+            <textarea class="form-control" rows="3" name="analisis" id="analisis_mc" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('analisis_mc')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div>
                 <div class="col-sm-6"> 
             <h6 class="text-info">PLAN:</h6>
-            <textarea class="form-control" rows="3" name="plan" id="plan_mc" ></textarea>
+            <textarea class="form-control" rows="3" name="plan" id="plan_mc" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
             <button type="button" class="btn-mic" onclick="iniciarDictado('plan_mc')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
             </div> 
         </div>
@@ -1011,7 +1011,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
     <div class="form-group row"> 
         <div class="col-sm-6">
         <h6 class="text-info">MOTIVO DE LA TELECONSULTA:</h6>
-        <textarea class="form-control" rows="2" name="motivo_teleconsulta" id="tm_motivo" required></textarea>
+        <textarea class="form-control" rows="2" name="motivo_teleconsulta" id="tm_motivo" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
         <button type="button" class="btn-mic" onclick="iniciarDictado('tm_motivo')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
         </div> 
         <div class="col-sm-6"> 
@@ -1021,7 +1021,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
     <div class="form-group row"> 
         <div class="col-sm-12">
         <h6 class="text-info">HISTORIA DE LA ENFERMEDAD ACTUAL:</h6>
-        <textarea class="form-control" rows="3" name="historia_enfermedad" id="tm_historia" required></textarea>
+        <textarea class="form-control" rows="3" name="historia_enfermedad" id="tm_historia" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
         <button type="button" class="btn-mic" onclick="iniciarDictado('tm_historia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
         </div> 
     </div> 
@@ -1134,12 +1134,12 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <div class="form-group row"> 
                 <div class="col-sm-6">
                 <h6 class="text-info">EXÁMENES COMPLEMENTARIOS O DE GABINETE:</h6>
-                <textarea class="form-control" rows="3" name="examen_complementario" id="exam_complementario" required></textarea>
+                <textarea class="form-control" rows="3" name="examen_complementario" id="exam_complementario" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                 <button type="button" class="btn-mic" onclick="iniciarDictado('exam_complementario')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                 </div> 
                 <div class="col-sm-6">
                 <h6 class="text-info">TRATAMIENTO:</h6>
-                <textarea class="form-control" rows="3" name="tratamiento_teleconsulta" id="tratamiento" required></textarea>
+                <textarea class="form-control" rows="3" name="tratamiento_teleconsulta" id="tratamiento" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                 <button type="button" class="btn-mic" onclick="iniciarDictado('tratamiento')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                 </div> 
             </div>
@@ -1563,7 +1563,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
     <div class="form-group row"> 
         <div class="col-sm-6">
         <h6 class="text-info">MOTIVO DE LA CONSULTA:</h6>
-        <textarea class="form-control" rows="2" name="motivo_teleconsulta" id="tm_motivo" required></textarea>
+        <textarea class="form-control" rows="2" name="motivo_teleconsulta" id="tm_motivo" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
         <button type="button" class="btn-mic" onclick="iniciarDictado('tm_motivo')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
         </div> 
         <div class="col-sm-6"> 
@@ -1573,7 +1573,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
     <div class="form-group row"> 
         <div class="col-sm-12">
         <h6 class="text-info">HISTORIA DE LA ENFERMEDAD ACTUAL:</h6>
-        <textarea class="form-control" rows="3" name="historia_enfermedad" id="tm_historia" required></textarea>
+        <textarea class="form-control" rows="3" name="historia_enfermedad" id="tm_historia" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
         <button type="button" class="btn-mic" onclick="iniciarDictado('tm_historia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
         </div> 
     </div> 
@@ -1643,7 +1643,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
                     </div>
                     <div class="col-sm-6">
                     <h6 class="text-info">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                        <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia" ></textarea>
+                        <textarea class="form-control" rows="3" name="descripcion_alergia" id="d_alergia" placeholder="Escriba o utilice el botón de dictado por voz"></textarea>
                         <button type="button" class="btn-mic" onclick="iniciarDictado('d_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                     </div>
                     <div class="col-sm-3">             
@@ -1810,12 +1810,12 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <div class="form-group row"> 
                 <div class="col-sm-6">
                 <h6 class="text-info">EXÁMENES COMPLEMENTARIOS O DE GABINETE:</h6>
-                <textarea class="form-control" rows="3" name="examen_complementario" id="exam_complementario" required></textarea>
+                <textarea class="form-control" rows="3" name="examen_complementario" id="exam_complementario" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                 <button type="button" class="btn-mic" onclick="iniciarDictado('exam_complementario')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                 </div> 
                 <div class="col-sm-6">
                 <h6 class="text-info">COMENTARIOS:</h6>
-                <textarea class="form-control" rows="3" name="tratamiento_teleconsulta" id="tratamiento" required></textarea>
+                <textarea class="form-control" rows="3" name="tratamiento_teleconsulta" id="tratamiento" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                 <button type="button" class="btn-mic" onclick="iniciarDictado('tratamiento')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                 </div> 
             </div>

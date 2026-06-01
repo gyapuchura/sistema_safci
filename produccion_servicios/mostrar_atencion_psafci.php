@@ -1672,7 +1672,7 @@ switch ($row_ps[3]) {
     <div class="col-sm-3"> 
     </div> 
     </div> 
-            <form name="ELIMINA_SESION" action="elimina_atencion_psafci.php" method="post">  
+    <form name="ELIMINA_SESION" action="elimina_atencion_psafci.php" method="post">  
     <div class="form-group row"> 
     <div class="col-sm-4"> 
             <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
