@@ -23,7 +23,7 @@ $edad_ss                    = $_SESSION['edad_ss'];
 $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
 $sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-$sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+$sql_ref.=" fecha_registro, hora_registro, idusuario, idestado_referencia FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
 
@@ -109,7 +109,7 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_REFERENCIA" action="guarda_referencia.php" method="post"> 
+                    
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
   
@@ -816,7 +816,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                             <div class="text-center">   
                                 <div class="form-group row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
@@ -824,37 +824,20 @@ $row_n=mysqli_fetch_array($result_n);
                                         <span class="text">IMPRIMIR FORMULARIO D7</span>
                                         </a> 
                                     </div>                              
-                                </div>                            
+                                    <div class="col-sm-6">
+
+                                    <?php  if ($row_ref[26] == '2') {  ?>
+                                        <a class="btn btn-info btn-icon-split" href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-book"></i>
+                                        </span>
+                                        <span class="text">IMPRIMIR FORMULARIO D7a</span>
+                                        </a> 
+                                    <?php   } else {  ?>
+                                    <?php } ?>
+                                    </div>                              
+                                </div>                         
                             </div>
-
-
-
-                            <!-- modal de confirmacion de envio de datos-->
-                            <div class="modal fade" id="examplemodal_f" tabindex="-1" role="dialog" aria-labelledby="examplemodal_fLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title" id="examplemodal_fLabel">REGISTRAR REFERENCIA</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                
-                                                Esta seguro de Registrar la Referencia?
-                                                posteriormenete no se podran realizar cambios.
-
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </form>
-                                <!-- Modal -->
-
 
                     </div>
                 </div>

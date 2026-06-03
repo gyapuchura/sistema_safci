@@ -126,7 +126,7 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_CONTRAREF" action="guarda_contrareferencia.php" method="post" class="needs-validation" novalidate> <!-- Modificado -->
+                     <form name="GUARDA_CONTRAREF" action="guarda_contrareferencia.php" method="post">
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -461,7 +461,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">   <!-- Modificado -->                            
+                                <div class="form-group row">                               
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row_ref[11];?>"             
@@ -476,12 +476,12 @@ $row_n=mysqli_fetch_array($result_n);
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO QUE CONTRARREFIERE:</h6>
                                         <input type="number" class="form-control" value=""             
                                         name="tel_establecimiento_cref" required autofocus >                
-                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe indicar el teléfono de contacto.</div> </div>
+                                    </div>
                                 </div>                                
                             </div>                                
                         </div>
 
-                        <div class="card shadow mb-4"> <!-- Modificado toda la seccion -->
+                        <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">DATOS CLÍNICOS DE ALTA</h6>
                             </div>
@@ -489,23 +489,23 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">DÍAS DE INTERNACIÓN </br>[dias]:</h6>
-                                        <input type="number" min="0" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value < 0) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" class="form-control" placeholder="En Días Calendario"
-                                            name="dias_internacion_ref" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Indique los días de internación.</div> 
+                                        <input type="number" class="form-control"
+                                            name="dias_internacion_ref" value="" required>                
                                     </div>  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
-                                        <input type="text" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
-                                            name="talla" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 280 cm</div> 
+                                        <input type="text" class="form-control" placeholder="En Centimetros"
+                                            name="talla" value="" required>                
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
-                                        <input type="text" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"              
-                                            name="peso" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0.2 a 650 kg</div> 
+                                        <input type="text" class="form-control" placeholder="En kilogramos"              
+                                            name="peso" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
-                                        <input type="text" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En grados celsius"
-                                            name="temperatura" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 10°C a 47°C</div> 
+                                        <input type="text" class="form-control" placeholder="En grados celsius"
+                                            name="temperatura" placeholder="" value="" required>                
                                     </div>
 
                                 </div>
@@ -513,26 +513,25 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
-                                        <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En latidos por minuto"
-                                            name="frec_cardiaca" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 350 lpm</div> 
+                                        <input type="text" class="form-control" 
+                                            name="frec_cardiaca" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                                        <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Ciclos por Minuto"
-                                            name="frec_respiratoria" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div> 
+                                        <input type="number" class="form-control" 
+                                            name="frec_respiratoria" value="" required>                
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
-                                        <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% de oxígeno"
-                                            name="saturacion" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div> 
+                                        <input type="number" class="form-control"
+                                            name="saturacion" value="" required>                
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
-                                        <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Sistólica"             
-                                            name="presion_arterial"  placeholder="Sistólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 300 (Sistólica)</div> 
-                                        </br>
-                                        <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Diastólica"             
-                                            name="presion_arterial_d" placeholder="Diastólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200 (Diastólica)</div> 
+                                        <input type="number" class="form-control"              
+                                            name="presion_arterial"  placeholder="Sistólica" value="" required></br>
+                                        <input type="number" class="form-control"              
+                                            name="presion_arterial_d" placeholder="Diastólica" value="" required>                
                                     </div>
 
                                 </div>
@@ -597,47 +596,15 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICOS DE EGRESO SEGÚN CIE - 10</h6>
                             </div>
                             <div class="card-body">
-                                
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[0]" id="diagnostico_egreso[0]" placeholder="Diagnóstico Específico si corresponde escriba o utilice el botón de dictado de voz"></textarea> <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[0]" id="diagnostico_egreso[0]" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
-                                    <div class="col-sm-6"> 
+                                    <div class="col-sm-6">
                                          <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <input type="text" class="form-control buscador-cie-inteligente" placeholder="Buscar enfermedad (escriba aquí)..." data-target="idpatologia_0" autocomplete="off"> 
-                                        <div class="lista-flotante-cie" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; width: 95%; max-height: 200px; overflow-y: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 4px;"></div> 
-
-                                        <select name="idpatologia[0]" id="idpatologia_0" class="form-control" required style="display: none;"> <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
-                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar un diagnóstico CIE-10.</div> 
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">                               
-                                    <div class="col-sm-6">
-                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[1]" id="diagnostico_egreso[1]" placeholder="Diagnóstico Específico si corresponde escriba o utilice el botón de dictado de voz"></textarea> <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
-                                    </div>
-                                    <div class="col-sm-6"> 
-                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <input type="text" class="form-control buscador-cie-inteligente" placeholder="Buscar enfermedad (escriba aquí)..." data-target="idpatologia_1" autocomplete="off"> 
-                                        <div class="lista-flotante-cie" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; width: 95%; max-height: 200px; overflow-y: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 4px;"></div> 
-
-                                        <select name="idpatologia[1]" id="idpatologia_1" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
+                                        <select name="idpatologia[0]"  id="idpatologia[0]" class="form-control" required>
+                                        <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
                                         $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
@@ -659,14 +626,13 @@ $row_n=mysqli_fetch_array($result_n);
 
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[2]" id="diagnostico_egreso[2]" placeholder="Diagnóstico Específico si corresponde escriba o utilice el botón de dictado de voz"></textarea> <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
+                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[1]" id="diagnostico_egreso[1]" placeholder="Escriba o utilice el botón de dictado por voz" ></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
-                                    <div class="col-sm-6"> 
+                                    <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <input type="text" class="form-control buscador-cie-inteligente" placeholder="Buscar enfermedad (escriba aquí)..." data-target="idpatologia_2" autocomplete="off"> 
-                                        <div class="lista-flotante-cie" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; width: 95%; max-height: 200px; overflow-y: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 4px;"></div> 
-
-                                        <select name="idpatologia[2]" id="idpatologia_2" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
+                                        <select name="idpatologia[1]"  id="idpatologia[1]" class="form-control" >
+                                        <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
                                         $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
@@ -685,6 +651,35 @@ $row_n=mysqli_fetch_array($result_n);
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group row">                               
+                                    <div class="col-sm-6">
+                                    <textarea class="form-control" rows="3" name="diagnostico_egreso[2]" id="diagnostico_egreso[2]" placeholder="Escriba o utilice el botón de dictado por voz" ></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_egreso[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <select name="idpatologia[2]"  id="idpatologia[2]" class="form-control">
+                                        <option value="">-SELECCIONE-</option>
+                                        <?php
+                                        $numero=1;
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $result1 = mysqli_query($link,$sql1);
+                                        if ($row1 = mysqli_fetch_array($result1)){
+                                        mysqli_field_seek($result1,0);
+                                        while ($field1 = mysqli_fetch_field($result1)){
+                                        } do {
+                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
+                                        $numero=$numero+1;
+                                        } while ($row1 = mysqli_fetch_array($result1));
+                                        } else {
+                                        echo "No se encontraron resultados!";
+                                        }
+                                        ?>
+                                        </select>
+                                    </div>
+                                </div>
+
 
                             </div>
                         </div>
@@ -695,9 +690,9 @@ $row_n=mysqli_fetch_array($result_n);
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                               
-                                    <div class="col-sm-12"> <!-- Modificado la seccion-->
+                                    <div class="col-sm-12">
                                     <textarea class="form-control" rows="3" name="evolucion_complicacion" id="evolucion_complicacion" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe escribir la evolución y/o complicaciones.</div> <button type="button" class="btn-mic" onclick="iniciarDictado('evolucion_complicacion')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('evolucion_complicacion')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                 </div>
                             </div>
@@ -708,10 +703,10 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="m-0 font-weight-bold text-primary">EXÁMENES COMPLEMENTARIO DE DIAGNÓSTICO</h6>
                             </div>
                             <div class="card-body">
-                                <div class="form-group row">  <!-- Modificado la seccion-->                             
+                                <div class="form-group row">                               
                                     <div class="col-sm-12">
                                     <textarea class="form-control" rows="3" name="examenes_complementarios_egreso" id="examenes_complementarios_egreso" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe especificar los exámenes complementarios.</div> <button type="button" class="btn-mic" onclick="iniciarDictado('examenes_complementarios_egreso')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('examenes_complementarios_egreso')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
@@ -722,10 +717,10 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="m-0 font-weight-bold text-primary">OTROS EXÁMENES O INTERCONSULTAS</h6>
                             </div>
                             <div class="card-body">
-                                <div class="form-group row"> <!-- Modificado la seccion-->                              
+                                <div class="form-group row">                               
                                     <div class="col-sm-12">
                                     <textarea class="form-control" rows="3" name="otros_examenes" id="otros_examenes" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe especificar si hay otros exámenes o interconsultas.</div> <button type="button" class="btn-mic" onclick="iniciarDictado('otros_examenes')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('otros_examenes')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
@@ -738,8 +733,7 @@ $row_n=mysqli_fetch_array($result_n);
                             <div class="card-body">
                                 <div class="form-group row">                               
                                     <div class="col-sm-12">
-                                    <textarea class="form-control" rows="3" name="tratamientos_realizados" id="tratamientos_realizados" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea> <!-- Modificado, asegurando que tiene required -->
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe detallar los tratamientos realizados. Este campo es obligatorio.</div> <!-- Modificado, alerta agregada -->
+                                    <textarea class="form-control" rows="3" name="tratamientos_realizados" id="tratamientos_realizados" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('tratamientos_realizados')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
@@ -751,10 +745,10 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="m-0 font-weight-bold text-primary">RECOMENDACIONES PARA EL PACIENTE</h6>
                             </div>
                             <div class="card-body">
-                                <div class="form-group row"> <!-- Modificado la seccion-->                              
+                                <div class="form-group row">                               
                                     <div class="col-sm-12">
                                     <textarea class="form-control" rows="3" name="recomendaciones_paciente" id="recomendaciones_paciente" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe escribir las recomendaciones para el paciente.</div> <button type="button" class="btn-mic" onclick="iniciarDictado('recomendaciones_paciente')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('recomendaciones_paciente')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
@@ -765,10 +759,10 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="m-0 font-weight-bold text-primary">OTROS ANEXOS O ESTUDIOS PENDIENTES</h6>
                             </div>
                             <div class="card-body">
-                                <div class="form-group row"> <!-- Modificado la seccion-->                              
+                                <div class="form-group row">                               
                                     <div class="col-sm-12">
                                     <textarea class="form-control" rows="3" name="otros_anexos" id="otros_anexos" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe indicar si hay otros anexos o estudios pendientes.</div> <button type="button" class="btn-mic" onclick="iniciarDictado('otros_anexos')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('otros_anexos')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
@@ -779,10 +773,10 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="m-0 font-weight-bold text-primary">OBSERVACIONES / RECOMENDACIONES A LA CONTARREFERENCIA</h6>
                             </div>
                             <div class="card-body">
-                                <div class="form-group row">  <!-- Modificado la seccion-->                             
+                                <div class="form-group row">                               
                                     <div class="col-sm-12">
                                     <textarea class="form-control" rows="3" name="observaciones_recomendaciones" id="observaciones_recomendaciones" placeholder="Escriba o utilice el botón de dictado por voz" required></textarea>
-                                    <div class="invalid-feedback" style="margin-top: 5px;">Debe escribir las observaciones o recomendaciones.</div> <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_recomendaciones')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('observaciones_recomendaciones')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                 </div>
                             </div>
@@ -844,17 +838,17 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div>   
                                 </div> 
                                 <hr>
-                                <div class="form-group row"> <!-- Modificado toda la seccion-->  
+                                <div class="form-group row">   
                                     <div class="col-sm-6">  
-                                        <h6 class="text-primary">CONTACTO DEL ESTABLECIMIENTO DE SALUD QUE RECIBE LA CONTRAREFERENCIA:</h6>  <!-- Modificado, se corrige recibe-->
+                                        <h6 class="text-primary">CONTACTO DEL ESTABLECIMIENTO DE SALUD QUE RECBE LA CONTRAREFERENCIA:</h6>
                                         <input type="text" class="form-control" value=""             
                                         name="contacto_contraref" required > 
-                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe indicar el contacto del establecimiento.</div> </div> 
+                                    </div> 
                                     <div class="col-sm-6"> </br> 
                                         <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE, FAMILIAR Y OTROS :</h6>
                                         <input type="text" class="form-control" value=""             
                                         name="nombre_acompanante_cref" required > 
-                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe indicar el nombre del acompañante.</div> </div> 
+                                    </div> 
                                 </div> 
 
                                
@@ -892,7 +886,7 @@ $row_n=mysqli_fetch_array($result_n);
                                             </div>
                                             <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="button" id="btn-confirmar-registro" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button> ``` <!-- Modificado -->    
+                                            <button type="submit" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>    
                                             </div>
                                         </div>
                                     </div>
@@ -963,247 +957,7 @@ $row_n=mysqli_fetch_array($result_n);
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
         <script src="../js/funciones.js"></script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                
-                // 1. DIBUJO AUTOMÁTICO DE ASTERISCOS EN CAMPOS OBLIGATORIOS
-                var camposObligatorios = document.querySelectorAll('input[required], select[required], textarea[required]');
-                camposObligatorios.forEach(function(campo) {
-                    var titulo = null;
-                    
-                    // Estrategia A: Buscar título en el contenedor directo (ej. signos vitales o inputs pequeños)
-                    var contenedor = campo.closest('[class*="col-sm-"]');
-                    if (contenedor) {
-                        titulo = contenedor.querySelector('h6');
-                    }
-                    
-                    // Estrategia B: Si no hay título abajo, buscar en la cabecera de la Tarjeta (ej. Textareas grandes)
-                    if (!titulo) {
-                        var tarjeta = campo.closest('.card');
-                        if (tarjeta) {
-                            titulo = tarjeta.querySelector('.card-header h6');
-                        }
-                    }
+ 
 
-                    // Si encontramos el título y no tiene el asterisco, lo dibujamos majestuosamente
-                    if (titulo && !titulo.hasAttribute('data-asterisco')) {
-                        titulo.innerHTML += ' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                        titulo.setAttribute('data-asterisco', 'true');
-                    }
-                });
-
-                // 2. VALIDADOR ESTRICTO Y FUERZA BRUTA (Cierra modal, scroll y marca rojo)
-                var form = document.querySelector('form[name="GUARDA_CONTRAREF"]');
-                var btnConfirmar = document.getElementById('btn-confirmar-registro');
-                
-                if (form && btnConfirmar) {
-                    btnConfirmar.addEventListener('click', function(e) {
-                        e.preventDefault(); 
-                        
-                        var hayErrores = false;
-                        var primerInvalido = null;
-                        
-                        // Limpiamos alertas previas de toda la pantalla
-                        form.querySelectorAll('.is-invalid').forEach(function(el) {
-                            el.classList.remove('is-invalid');
-                            el.style.border = ''; 
-                        });
-                        form.querySelectorAll('.invalid-feedback').forEach(function(el) {
-                            el.style.display = ''; 
-                        });
-                        
-                        // REVISIÓN MANUAL CAMPO POR CAMPO
-                        var elementosObligatorios = form.querySelectorAll('input[required], select[required], textarea[required]');
-                        
-                        elementosObligatorios.forEach(function(el) {
-                            var valor = el.value ? el.value.trim() : '';
-                            
-                            if (valor === '' || !el.checkValidity()) {
-                                hayErrores = true;
-                                
-                                // 👉 CASO ESPECIAL: Si falla el Select oculto del CIE-10, pintamos el Input Visual
-                                if (el.style.display === 'none' && el.id && el.id.includes('idpatologia')) {
-                                    var inputVisual = document.querySelector('input[data-target="' + el.id + '"]');
-                                    if (inputVisual) {
-                                        inputVisual.classList.add('is-invalid');
-                                        inputVisual.style.setProperty('border', '2px solid #dc3545', 'important');
-                                        
-                                        var contenedor = el.parentNode;
-                                        var feedback = contenedor.querySelector('.invalid-feedback');
-                                        if (feedback) feedback.style.setProperty('display', 'block', 'important');
-                                        
-                                        if (!primerInvalido) primerInvalido = inputVisual;
-                                    }
-                                } 
-                                // 👉 CASO NORMAL: Campos visibles que no se llenaron
-                                else if (el.type !== 'hidden' && el.style.display !== 'none') {
-                                    el.classList.add('is-invalid');
-                                    el.style.setProperty('border', '2px solid #dc3545', 'important');
-                                    
-                                    var contenedor = el.parentNode;
-                                    var feedback = contenedor ? contenedor.querySelector('.invalid-feedback') : null;
-                                    if (feedback) {
-                                        feedback.style.setProperty('display', 'block', 'important');
-                                    }
-                                    
-                                    if (!primerInvalido) primerInvalido = el;
-                                }
-                            }
-                        });
-                        
-                        // ACCIONES FINALES
-                        if (hayErrores) {
-                            // Cerramos el modal usando múltiples métodos por seguridad
-                            try {
-                                var btnCancelar = document.querySelector('#examplemodal_f [data-dismiss="modal"]');
-                                if (btnCancelar) btnCancelar.click();
-                                $('#examplemodal_f').modal('hide'); 
-                            } catch(err) {}
-                            
-                            // Esperamos que desaparezca el cuadro gris y viajamos al error
-                            setTimeout(function() {
-                                document.body.classList.remove('modal-open');
-                                document.body.style.paddingRight = '';
-                                
-                                if (primerInvalido) {
-                                    primerInvalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                    try { primerInvalido.focus({ preventScroll: true }); } catch(e) { primerInvalido.focus(); }
-                                }
-                            }, 400);
-                            
-                        } else {
-                            // TODO ESTÁ PERFECTO: Bloqueamos el boton para evitar doble envío y guardamos
-                            btnConfirmar.innerHTML = "GUARDANDO...";
-                            btnConfirmar.disabled = true;
-                            form.submit(); 
-                        }
-                    });
-                    
-                    // EFECTO MAGIA: Borrar el rojo individualmente cuando el médico empieza a escribir
-                    ['input', 'change'].forEach(function(evt) {
-                        form.addEventListener(evt, function(e) {
-                            if (e.target.hasAttribute('required') && e.target.value.trim() !== '') {
-                                e.target.classList.remove('is-invalid');
-                                e.target.style.border = '';
-                                var feedback = e.target.parentNode ? e.target.parentNode.querySelector('.invalid-feedback') : null;
-                                if (feedback) feedback.style.display = '';
-                            }
-                        });
-                    });
-                }
-
-                // 3. CANDADO DE INTEGRIDAD VISUAL PARA DIAGNÓSTICOS CIE-10 (Solo Egreso)
-                var buscadores = document.querySelectorAll('.buscador-cie-inteligente');
-                buscadores.forEach(function(input) {
-                    var targetId = input.getAttribute('data-target');
-                    var selectOriginal = document.getElementById(targetId);
-                    var listaFlotante = input.nextElementSibling; 
-                    
-                    if(!selectOriginal) return;
-                    
-                    // Obtenemos todas las opciones válidas del select oculto original
-                    var opciones = Array.from(selectOriginal.options).filter(opt => opt.value !== "");
-                    
-                    // Escuchamos lo que el médico escribe
-                    input.addEventListener('input', function() {
-                        if (this.readOnly) return; 
-                        
-                        // EFECTO MAGIA: Borrar rojo si empiezan a buscar un diagnóstico
-                        this.classList.remove('is-invalid');
-                        this.style.border = '';
-                        var fb = selectOriginal.parentNode.querySelector('.invalid-feedback');
-                        if (fb) fb.style.display = '';
-
-                        var term = this.value.toLowerCase().trim();
-                        listaFlotante.innerHTML = ''; 
-                        
-                        if (term === '') {
-                            listaFlotante.style.display = 'none';
-                            selectOriginal.value = ''; 
-                            return;
-                        }
-                        
-                        // Buscamos coincidencias de texto
-                        var coincidencias = opciones.filter(opt => opt.text.toLowerCase().includes(term));
-                        
-                        if (coincidencias.length > 0) {
-                            listaFlotante.style.display = 'block'; 
-                            // Mostramos máximo 100 resultados para no colapsar la pantalla
-                            coincidencias.slice(0, 100).forEach(function(opt) { 
-                                var item = document.createElement('div');
-                                item.textContent = opt.text;
-                                item.style.padding = '8px 12px';
-                                item.style.cursor = 'pointer';
-                                item.style.borderBottom = '1px solid #eaecf4';
-                                item.style.fontSize = '0.9rem';
-                                item.style.color = '#5a5c69';
-                                
-                                // Efecto de iluminación al pasar el mouse (Hover)
-                                item.addEventListener('mouseenter', function() { this.style.backgroundColor = '#eaecf4'; this.style.color = '#2e59d9'; });
-                                item.addEventListener('mouseleave', function() { this.style.backgroundColor = 'transparent'; this.style.color = '#5a5c69'; });
-                                
-                                // Al hacer clic en una enfermedad
-                                item.addEventListener('mousedown', function(e) {
-                                    e.preventDefault(); 
-                                    input.value = opt.text; // Mostramos el texto en el input visual
-                                    selectOriginal.value = opt.value; // Guardamos el código real en el select oculto
-                                    listaFlotante.style.display = 'none'; 
-
-                                    // Aplicamos el Candado Visual (Color azul y bloqueado)
-                                    input.readOnly = true;
-                                    input.style.backgroundColor = '#eaecf4';
-                                    input.style.color = '#2e59d9';
-                                    input.style.cursor = 'not-allowed';
-                                    input.title = "Doble clic o presione Borrar (Backspace) para cambiar el diagnóstico";
-                                });
-                                listaFlotante.appendChild(item);
-                            });
-                        } else {
-                            listaFlotante.style.display = 'none';
-                        }
-                    });
-
-                    // Función maestra para quitar el candado si se equivocaron
-                    function desbloquearCIE() {
-                        if (input.readOnly) {
-                            input.readOnly = false;
-                            input.value = '';
-                            selectOriginal.value = '';
-                            input.style.backgroundColor = '';
-                            input.style.color = '';
-                            input.style.cursor = 'text';
-                            input.removeAttribute('title');
-                            input.focus();
-                        }
-                    }
-
-                    // Permitir borrar con tecla Backspace o Suprimir
-                    input.addEventListener('keydown', function(e) {
-                        if (input.readOnly) {
-                            if (e.key === 'Backspace' || e.key === 'Delete') { 
-                                e.preventDefault(); 
-                                desbloquearCIE(); 
-                            } else if (e.key !== 'Tab') { 
-                                e.preventDefault(); 
-                            }
-                        }
-                    });
-
-                    // Permitir borrar con doble clic del mouse
-                    input.addEventListener('dblclick', desbloquearCIE);
-
-                    // Si el médico da clic afuera sin elegir nada, limpiamos la basura
-                    input.addEventListener('blur', function() {
-                        setTimeout(function() {
-                            listaFlotante.style.display = 'none';
-                            if (!input.readOnly) { 
-                                input.value = ''; 
-                                selectOriginal.value = ''; 
-                            }
-                        }, 200);
-                    });
-                });
-            });
-        </script>
 </body>
 </html>
