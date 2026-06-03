@@ -561,6 +561,7 @@
     <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">ENTRADA</br>REFERENCIA</a>
     <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">ADMITIDOS</br>REFERENCIA</a>
     <a class="collapse-item" href="../referencia_safci/referencias_establecimiento.php">REFERENCIAS DEL</br>ESTABLECIMIENTO</a>
+    <a class="collapse-item" href="../referencia_safci/contrarreferencias_establecimiento.php">CONTRARREFERENCIAS</br>DEL</br>ESTABLECIMIENTO</a>
    
         </div>
     </div>

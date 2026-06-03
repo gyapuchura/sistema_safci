@@ -32,6 +32,10 @@ $consentimiento_informado = $_POST['consentimiento_informado'];
 
 $motivo_teleconsulta      = $link->real_escape_string($_POST['motivo_teleconsulta']);
 $historia_enfermedad      = $link->real_escape_string($_POST['historia_enfermedad']);
+
+$alergia                  = $_POST['alergia'];
+$descripcion_alergia      = $link->real_escape_string($_POST['descripcion_alergia']);
+
 $examen_complementario    = $link->real_escape_string($_POST['examen_complementario']);
 $tratamiento_teleconsulta = $link->real_escape_string($_POST['tratamiento_teleconsulta']);
 
@@ -84,6 +88,13 @@ $sql_dg.= " VALUES ('$idatencion_psafci','$idcaptacion_ts','$idde_ts','$iden_ts'
 $sql_dg.= " '$examen_complementario','$tratamiento_teleconsulta','$idespecialidad_medica','$subespecialidad','$idtiempo_ts','$idestado_paciente','$fecha_seguimiento','$telefono_paciente','$fecha','$hora','$idusuario_ss') ";
 $result_dg = mysqli_query($link,$sql_dg);   
 
+if ($alergia == 'SI') {
+    $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, alergia, descripcion_alergia, fecha_registro, hora_registro, idusuario) ";
+    $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','','','','','','','','','','$alergia','$descripcion_alergia','$fecha','$hora','$idusuario_ss') ";
+    $result1 = mysqli_query($link,$sql1);
+} else {
+    
+}
     foreach($_POST['idgrupo_vulnerable'] as $idgrupo_vulnerable_i) {
 
     $sql2 = " INSERT INTO atencion_grupo_vulnerable (idatencion_psafci, idgrupo_vulnerable, fecha_registro, hora_registro, idusuario) ";

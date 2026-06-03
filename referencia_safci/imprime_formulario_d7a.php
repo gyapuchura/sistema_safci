@@ -200,19 +200,19 @@ $row_ai=mysqli_fetch_array($result_ai);
                 <tbody>
                   <tr>
                     <td width="191">DIAS DE INTERNACION:</td>
-                    <td width="65"><?php echo $row_ref[14];?></td>
+                    <td width="65" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_ref[23];?></td>
                     <td width="108">PESO/IMC:</td>
-                    <td width="9"><?php echo $row_sg[2];?> <?php echo $row_sg[12];?></td>
+                    <td width="9" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_sg[2];?> <?php echo $row_sg[12];?></td>
                     <td width="23">T°</td>
-                    <td width="35"><?php echo $row_sg[3];?> °C</td>
+                    <td width="35" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_sg[3];?> °C</td>
                     <td width="37">P.A.</td>
-                    <td width="89"><?php echo $row_sg[6];?>/<?php echo $row_sg[7];?> mmHg</td>
+                    <td width="89" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_sg[6];?>/<?php echo $row_sg[7];?> mmHg</td>
                     <td width="37">F.C.</td>
-                    <td width="62"><?php echo $row_sg[4];?> LPM</td>
+                    <td width="62" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_sg[4];?> LPM</td>
                     <td width="42">F.R.:</td>
-                    <td width="63"><?php echo $row_sg[5];?> CPM</td>
+                    <td width="63" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_sg[5];?> CPM</td>
                     <td width="64">% SPO</td>
-                    <td width="17"><?php echo $row_sg[8];?> %</td>
+                    <td width="17" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_sg[8];?> %</td>
                   </tr>
                 </tbody>
               </table>  </td>
