@@ -1669,7 +1669,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -1692,7 +1692,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia  ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -1715,7 +1715,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -1738,7 +1738,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
