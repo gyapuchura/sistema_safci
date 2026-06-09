@@ -2746,7 +2746,7 @@ $idtipo_atencion = $_POST['tipo_atencion'];
             <div class="form-group row">                           
                 <?php  
                 $numero1=0;                  
-                $sql1 ="  SELECT idexamen_complementario, examen_complementario FROM examen_complementario WHERE telesalud ='SI' ";
+                $sql1 ="  SELECT idexamen_complementario, examen_complementario FROM examen_complementario WHERE telesalud ='SI' AND idexamen_complementario !='6' ";
                 $result1 = mysqli_query($link,$sql1);
                 if ($row1 = mysqli_fetch_array($result1)){
                 mysqli_field_seek($result1,0);
