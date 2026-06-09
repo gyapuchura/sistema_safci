@@ -838,7 +838,7 @@ switch ($idtipo_atencion) {
             <select name="idpatologia[3]" id="idpatologia_tele_3" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia ";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);

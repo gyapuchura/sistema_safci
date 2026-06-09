@@ -204,18 +204,41 @@ $row = mysqli_fetch_array($result);
 <!---------------------------------------------------------------->
 
   <tr>
-      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">DIAGNÓSTICO</td>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">EVALUACIÓN CLÍNICA (SOAP)</td>
     </tr>
     <tr>
       <td colspan="3">
         <table width="680" border="1" align="center" cellspacing="0">
         <tbody>
+          <?php
+            $numero_di=1;
+            $sql_di =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.motivo_consulta, patologia.patologia, patologia.cie  ";
+            $sql_di.=" , diagnostico_psafci.subjetivo, diagnostico_psafci.objetivo, diagnostico_psafci.analisis, diagnostico_psafci.plan FROM diagnostico_psafci, patologia  ";
+            $sql_di.=" WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci='$idatencion_psafci' ORDER BY diagnostico_psafci.iddiagnostico_psafci LIMIT 1 ";
+            $result_di = mysqli_query($link,$sql_di);
+            $row_di = mysqli_fetch_array($result_di);  ?>
           <tr>
-            <td width="41" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
-            <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">CONSULTA MÉDICA</td>
-            <td width="143" style="font-family: Arial; font-size: 12px; text-align: center;">DIAGNÓSTICO</td>
-            <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">MÉDICO</td>
+            <td colspan="4" style="text-align: left; font-family: Arial; font-size: 12px;">
+              <?php
+                if ($row_di[4]=='' || $row_di[5]=='') {
+                  echo 'Motivo de Consulta.- '.$row_di[1];
+                } else {
+                  echo '<p>Subjetivo.- '.$row_di[4].'</p><p>Objetivo.- '.$row_di[5].'</p><p>Análisis.- '.$row_di[6].'</p><p>Plan.- '.$row_di[7].'</p>';
+                }  
+              ?>
+            </td>
+          </td>
           </tr>
+        </tbody>
+      </table>
+      </td>
+      <tr>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">DIAGNÓSTICO(S)</td>
+      </tr>
+      <tr>
+        <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">
+        <table width="680" border="1" align="center" cellspacing="0">
+        <tbody>
           <?php
             $numero_s=1;
             $sql_s =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.motivo_consulta, patologia.patologia, patologia.cie  ";
@@ -228,23 +251,8 @@ $row = mysqli_fetch_array($result);
             } do {
               ?>
           <tr>
-            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo "Diagnóstico ".$numero_s;?></td>
-            <td style="font-family: Arial; font-size: 12px;"><?php 
-            if ($row[4]=='' || $row_s[5]=='') {
-              echo 'Motico de Consulta.- '.$row_s[1];
-            } else {
-              echo 'Subjetivo.- '.$row_s[4].'</br>Objetivo.- '.$row_s[5].'</br>Análisis.- '.$row_s[6].'</br>Plan.- '.$row_s[7];
-            }          
-            ?></td>
-            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[2]." - ".$row_s[3];?></td>
-            <td style="text-align: center; font-family: Arial; font-size: 12px;">
-            <?php 
-                $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[16]' ";
-                $result_r = mysqli_query($link,$sql_r);
-                $row_r = mysqli_fetch_array($result_r);                    
-                echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
-            </td>
+            <td style="text-align: left; font-family: Arial; font-size: 12px;"><?php echo $numero_s;?></td>
+            <td style="text-align: left; font-family: Arial; font-size: 12px;"><?php echo $row_s[2]." - ".$row_s[3];?></td>
           </tr>
           <?php
           $numero_s=$numero_s+1;
@@ -255,6 +263,7 @@ $row = mysqli_fetch_array($result);
           ?>
         </tbody>
       </table>
+
       </td>
       </tr>
       <tr>
@@ -274,7 +283,6 @@ $row = mysqli_fetch_array($result);
               <td width="41" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
               <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">TIPO DE MEDICAMENTO</td>
               <td width="143" style="font-family: Arial; font-size: 12px; text-align: center;">MEDICAMENTO</td>
-              <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">MÉDICO</td>
             </tr>
             <?php
             $numero_t=1;
@@ -291,14 +299,6 @@ $row = mysqli_fetch_array($result);
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo "Tratamiento ".$numero_t;?></td>
             <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_t[1];?></td>
             <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_t[2];?></td>
-            <td style="text-align: center; font-family: Arial; font-size: 12px;">
-            <?php 
-                $sql_dr =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                $sql_dr.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[16]' ";
-                $result_dr = mysqli_query($link,$sql_dr);
-                $row_dr = mysqli_fetch_array($result_dr);                    
-                echo mb_strtoupper($row_dr[0]." ".$row_dr[1]." ".$row_dr[2]);?>
-            </td>
             </tr>
             <?php
           $numero_t=$numero_t+1;
@@ -752,7 +752,16 @@ $row = mysqli_fetch_array($result);
       <p>&nbsp;</p>  
       <p>&nbsp;</p>  
       <p>&nbsp;</p> 
-      <p style="text-align: center; font-size: 9px; font-family: Arial;">FIRMA MÉDICO</p></td>
+      <p style="text-align: center; font-size: 9px; font-family: Arial;">FIRMA MÉDICO</p>
+        <p style="text-align: center; font-size: 9px; font-family: Arial;">
+        <?php 
+        $sql_dr =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+        $sql_dr.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[16]'";
+        $result_dr = mysqli_query($link,$sql_dr);
+        $row_dr = mysqli_fetch_array($result_dr);                    
+        echo mb_strtoupper($row_dr[0]." ".$row_dr[1]." ".$row_dr[2]);?>
+        </p>
+    </td>
       <td>
       <p style="text-align: center; font-size: 9px; font-family: Arial;">
               <?php
