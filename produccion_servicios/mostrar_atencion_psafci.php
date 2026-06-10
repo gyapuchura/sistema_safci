@@ -553,9 +553,47 @@ switch ($row_ps[3]) {
 
 <hr>
 
+<?php
+
+    $sql_di =" SELECT iddiagnostico_psafci, idatencion_psafci, subjetivo, objetivo, analisis, plan, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ORDER BY iddiagnostico_psafci DESC LIMIT 1 ";
+    $result_di = mysqli_query($link,$sql_di);
+    $row_di = mysqli_fetch_array($result_di);
+    ?>
+
+ <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h4 class="text-info">EVALUACIÓN CLÍNICA (SOAP)</h4>
+    </div> 
+    <div class="col-sm-6"> 
+    <h6 class="text-info"></h6>
+    </div> 
+    </div> 
+
+    <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">SUBJETIVO:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_di[2]?></textarea>
+    </div> 
+    <div class="col-sm-6">
+    <h6 class="text-info">OBJETIVO:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_di[3]?></textarea>
+    </div> 
+    </div> 
+        <div class="form-group row"> 
+    <div class="col-sm-6">
+    <h6 class="text-info">ANÁLISIS:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_di[4]?></textarea>
+    </div> 
+    <div class="col-sm-6">
+    <h6 class="text-info">PLAN:</h6>
+    <textarea class="form-control" rows="3" name="motivo_consulta1" disabled ><?php echo $row_di[5]?></textarea>
+    </div> 
+    </div> 
+
+
     <?php
     $numerod=1;
-    $sql_dg =" SELECT iddiagnostico_psafci, idatencion_psafci, motivo_consulta, subjetivo, objetivo, analisis, plan, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
+    $sql_dg =" SELECT iddiagnostico_psafci, idatencion_psafci, subjetivo, objetivo, analisis, plan, idpatologia FROM diagnostico_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
     $result_dg = mysqli_query($link,$sql_dg);
     if ($row_dg = mysqli_fetch_array($result_dg)){
     mysqli_field_seek($result_dg,0);
@@ -563,37 +601,9 @@ switch ($row_ps[3]) {
     } do {
     ?>
 
-<div class="form-group row"> 
-    <div class="col-sm-6">
-    <h4 class="text-info">DIAGNÓSTICO <?php echo $numerod;?> :</h4>
-    </div> 
-    <div class="col-sm-6"> 
-    <h6 class="text-info"></h6>
-    </div> 
-    </div> 
-    <div class="form-group row"> 
-    <div class="col-sm-6">
-    <h6 class="text-info">SUBJETIVO <?php echo $numerod;?>:</h6>
-    <textarea class="form-control" rows="3" name="subjetivo" disabled ><?php echo $row_dg[3]?></textarea>
-    </div>
-    <div class="col-sm-6">
-    <h6 class="text-info">OBJETIVO <?php echo $numerod;?>:</h6>
-    <textarea class="form-control" rows="3" name="objetivo" disabled ><?php echo $row_dg[4]?></textarea>
-    </div> 
-    </div>
-    <div class="form-group row"> 
-    <div class="col-sm-6">
-    <h6 class="text-info">ANÁLISIS <?php echo $numerod;?>:</h6>
-    <textarea class="form-control" rows="3" name="analisis" disabled ><?php echo $row_dg[5]?></textarea>
-    </div>
-    <div class="col-sm-6">
-    <h6 class="text-info">PLAN <?php echo $numerod;?>:</h6>
-    <textarea class="form-control" rows="3" name="plan" disabled ><?php echo $row_dg[6]?></textarea>
-    </div> 
-    </div>
     <div class="form-group row"> 
     <div class="col-sm-12">
-    <h6 class="text-info">C.I.E. :</h6>
+    <h6 class="text-info">C.I.E. <?php echo $numerod;?>:</h6>
 
         <select name="idpatologia" id="idpatologia" class="form-control" disabled>
                 <option selected>Seleccione</option>
@@ -605,7 +615,7 @@ switch ($row_ps[3]) {
                 while ($fieldv = mysqli_fetch_field($resultv)){
                 } do {
                 ?>
-                <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
+                <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[6]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?></option>
                 <?php
                 } while ($rowv = mysqli_fetch_array($resultv));
                 } else {
@@ -615,10 +625,18 @@ switch ($row_ps[3]) {
     </div> 
     </div> 
     <hr>
+   
+    <?php
+    $numerod=$numerod+1;
+    }
+    while ($row_dg = mysqli_fetch_array($result_dg));
+    } else {
+    }
+    ?>
 
     <?php
     $numerot=1;
-    $sql_tra =" SELECT idtratamiento_psafci, idatencion_psafci, iddiagnostico_psafci, idtipo_medicamento, idmedicamento FROM tratamiento_psafci WHERE iddiagnostico_psafci ='$row_dg[0]' AND idatencion_psafci='$idatencion_psafci_ss' ";
+    $sql_tra =" SELECT idtratamiento_psafci, idatencion_psafci, iddiagnostico_psafci, idtipo_medicamento, idmedicamento FROM tratamiento_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
     $result_tra = mysqli_query($link,$sql_tra);
     if ($row_tra = mysqli_fetch_array($result_tra)){
     mysqli_field_seek($result_tra,0);
@@ -683,13 +701,7 @@ switch ($row_ps[3]) {
     }
     ?>
                     <hr> 
-    <?php
-    $numerod=$numerod+1;
-    }
-    while ($row_dg = mysqli_fetch_array($result_dg));
-    } else {
-    }
-    ?>
+
 <!---------------------------------------------------------------->
 <!------------- ATENCION POR MORBILIDAD - END -------------------->
 <!---------------------------------------------------------------->
