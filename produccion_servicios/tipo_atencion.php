@@ -1436,7 +1436,7 @@ switch ($idtipo_atencion) {
             <select name="idpatologia[0]" id="idpatologia_tele_0" class="form-control" required style="display: none;"> <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -1461,7 +1461,7 @@ switch ($idtipo_atencion) {
             <select name="idpatologia[1]" id="idpatologia_tele_1" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -1486,7 +1486,7 @@ switch ($idtipo_atencion) {
             <select name="idpatologia[2]" id="idpatologia_tele_2" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -1511,7 +1511,7 @@ switch ($idtipo_atencion) {
             <select name="idpatologia[3]" id="idpatologia_tele_3" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -2325,7 +2325,7 @@ switch ($idtipo_atencion) {
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -2351,7 +2351,7 @@ switch ($idtipo_atencion) {
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -2375,7 +2375,7 @@ switch ($idtipo_atencion) {
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -2399,7 +2399,7 @@ switch ($idtipo_atencion) {
             <option value="">-SELECCIONE-</option>
             <?php
             $numero=1;
-            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+            $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
             $result1 = mysqli_query($link,$sql1);
             if ($row1 = mysqli_fetch_array($result1)){
             mysqli_field_seek($result1,0);
@@ -2436,7 +2436,7 @@ switch ($idtipo_atencion) {
             <div class="form-group row">                           
                 <?php  
                 $numero1=0;                  
-                $sql1 ="  SELECT idexamen_complementario, examen_complementario FROM examen_complementario WHERE telesalud ='SI' ";
+                $sql1 ="  SELECT idexamen_complementario, examen_complementario FROM examen_complementario WHERE telesalud ='SI' AND idexamen_complementario !='6' ";
                 $result1 = mysqli_query($link,$sql1);
                 if ($row1 = mysqli_fetch_array($result1)){
                 mysqli_field_seek($result1,0);
@@ -2489,13 +2489,13 @@ switch ($idtipo_atencion) {
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel0">ATENCIÓN POR CONSULTA</h5>
+                        <h5 class="modal-title" id="exampleModalLabel0">ATENCIÓN POR TELEMETRÍA</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                         </div>
                         <div class="modal-body">                           
-                            Esta seguro de GUARDAR ESTA ATENCIÓN POR CONSULTA?                          
+                            Esta seguro de GUARDAR ESTA ATENCIÓN POR TELEMETRÍA?                          
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
