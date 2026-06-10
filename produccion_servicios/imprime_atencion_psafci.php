@@ -251,8 +251,8 @@ $row = mysqli_fetch_array($result);
             } do {
               ?>
           <tr>
-            <td style="text-align: left; font-family: Arial; font-size: 12px;"><?php echo $numero_s;?></td>
-            <td style="text-align: left; font-family: Arial; font-size: 12px;"><?php echo $row_s[2]." - ".$row_s[3];?></td>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;">Diagnóstico <?php echo $numero_s;?></td>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_s[2]." - ".$row_s[3];?></td>
           </tr>
           <?php
           $numero_s=$numero_s+1;
@@ -279,11 +279,6 @@ $row = mysqli_fetch_array($result);
       <tr>
         <td colspan="3" style="font-family: Arial; font-size: 10px; text-align: center;" ><table width="680" align="center" border="1" cellspacing="0">
           <tbody>
-            <tr>
-              <td width="41" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
-              <td width="109" style="font-family: Arial; font-size: 12px; text-align: center;">TIPO DE MEDICAMENTO</td>
-              <td width="143" style="font-family: Arial; font-size: 12px; text-align: center;">MEDICAMENTO</td>
-            </tr>
             <?php
             $numero_t=1;
             $sql_t =" SELECT tratamiento_psafci.idtratamiento_psafci, tipo_medicamento.tipo_medicamento, medicamento.medicamento FROM tratamiento_psafci, tipo_medicamento, medicamento ";
