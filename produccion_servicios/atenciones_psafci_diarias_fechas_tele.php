@@ -269,7 +269,7 @@ Si no se encontraron resultados
       <td>
         <span style="font-family: Arial; font-size: 16px; color: #ff70c6 ; text-align: center;">N° ATENCIONES REPETIDAS = 
             <?php 
-            $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idrepeticion ='2' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idtipo_atencion != '1' AND idtipo_atencion != '2' AND idtipo_atencion != '5' ";
+            $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idrepeticion ='2' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idtipo_atencion != '1' AND idtipo_atencion != '2' AND idtipo_atencion != '3' ";
             $result_vf = mysqli_query($link,$sql_vf);
             $row_vf = mysqli_fetch_array($result_vf);
             $visita  = number_format($row_vf[0], 0, '.', '.');
@@ -313,13 +313,15 @@ Si no se encontraron resultados
       </td>
     </tr>
     <tr>
-      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">N° ATENCIONES POR TELEMETRÍA =
+      <td><span style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">         
+        <a href="reporte_telemetria_nal.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,left=400, scrollbars=YES'); return false;">
+        N° ATENCIONES POR TELEMETRÍA</a> =
           <?php 
-    $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_atencion='4' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-    $result_vf = mysqli_query($link,$sql_vf);
-    $row_vf = mysqli_fetch_array($result_vf);
-    $visita  = number_format($row_vf[0], 0, '.', '.');
-    echo $visita;?>
+          $sql_vf =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE idtipo_atencion='4' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+          $result_vf = mysqli_query($link,$sql_vf);
+          $row_vf = mysqli_fetch_array($result_vf);
+          $visita  = number_format($row_vf[0], 0, '.', '.');
+          echo $visita;?>
       </span></td>
       <td>
           <span style="font-family: Arial; font-size: 16px; color: #000000; text-align: center;">N° DE MÉDICOS =
@@ -360,7 +362,7 @@ Si no se encontraron resultados
     $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
     $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento  ";
     $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idtipo_atencion != '1' AND atencion_psafci.idtipo_atencion != '2' AND atencion_psafci.idtipo_atencion != '5' ";
+    $sql.=" AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_psafci.idtipo_atencion != '1' AND atencion_psafci.idtipo_atencion != '2' ";
     $sql.=" AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC LIMIT 2000 ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
