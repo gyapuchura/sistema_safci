@@ -239,7 +239,9 @@ Si no se encontraron resultados
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
-      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #000000; text-align: center;">N° TOTAL ATENCIONES REGISTRADAS =
+      <td width="444"><span style="font-family: Arial; font-size: 16px; color: #000000; text-align: center;">    
+      <a href="estadisticas_telemetria.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,left=600, scrollbars=YES'); return false;">
+         N° TOTAL ATENCIONES REGISTRADAS</a> = 
           <?php 
     $sql_ps =" SELECT count(idatencion_psafci) FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idtipo_atencion != '1' AND idtipo_atencion != '2' AND idtipo_atencion != '5' ";
     $result_ps = mysqli_query($link,$sql_ps);
