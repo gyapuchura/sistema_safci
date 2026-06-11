@@ -167,9 +167,7 @@ $porcentajea = number_format($p_conteoa, 2, '.', '');
           <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $conteoa;?></td>
           <td width="73" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $porcentajea;?> %</td>
           <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
-
-          <a href="atenciones_telemetria_ec.php?idexamen_complementario=<?php echo $rowa[0];?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,left=600,scrollbars=YES,top=50,left=200'); return false;">VER</a>  
-
+          <a href="atenciones_telemetria_ec.php?idexamen_complementario=<?php echo $rowa[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=900,height=900,left=600,scrollbars=YES,top=50,left=200'); return false;">VER</a>  
         </td>
         </tr>   
         <?php
