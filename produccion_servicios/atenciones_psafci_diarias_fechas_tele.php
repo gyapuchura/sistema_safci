@@ -236,6 +236,17 @@ Si no se encontraron resultados
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE ATENCIONES MÉDICAS PSAFCI DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
+<div align="center">
+<p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
+  <form action="reporte_telesalud_excel.php" method="post">
+    <input type="hidden" name="idpatologia" value="<?php echo $idpatologia;?>">
+    <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
+    <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
+    <button type="submit">DESCARGAR EN EXCEL</button>
+  </form>
+</p>s
+</div>
+
 <table width="900" border="0" align="center">
   <tbody>
     <tr>
