@@ -3,7 +3,7 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 
-$fecha   = date("Y-m-d");
+$fecha 	 = date("Y-m-d");
 $hora    = date("H:i");
 $gestion = date("Y");
 
@@ -37,7 +37,7 @@ $row_int    = mysqli_fetch_array($result_int);
     $ano = date("Y");    
     $dianaz = date("d",strtotime($fecha_nacimiento));
     $mesnaz = date("m",strtotime($fecha_nacimiento));
-    $anonaz = date("Y",strtotime($fecha_nacimiento));        
+    $anonaz = date("Y",strtotime($fecha_nacimiento));         
     if (($mesnaz == $mes) && ($dianaz > $dia)) {
     $ano=($ano-1); }      
     if ($mesnaz > $mes) {
@@ -63,7 +63,7 @@ $frec_respiratoria    = $_POST['frec_respiratoria'];
 $presion_arterial     = $_POST['presion_arterial'];
 $presion_arterial_d   = $_POST['presion_arterial_d'];
 $saturacion           = $_POST['saturacion'];
-$glascow              = isset($_POST['glascow']) ? $_POST['glascow'] : '';
+$glascow              = $_POST['glascow'];
 $alergia              = $_POST['alergia'];
 $descripcion_alergia  = $_POST['descripcion_alergia'];
 
@@ -87,61 +87,16 @@ $correlativo = $rowm[0]+1;
 
 $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
 
-    // AQUI MODIFIQUÉ LA CONSULTA: Añadí la columna archivo_adjunto y el valor '$archivo_adjunto_db' al final
     $sql0 = " INSERT INTO referencia_hc (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, correlativo, codigo, idnombre,";
     $sql0.= " discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, resumen_anamnesis, especificacion_hallazgos, tratamiento_ref,";
-    $sql0.= " observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, gestion, idestado_referencia, idtiempo_ts, fecha_registro, hora_registro, idusuario, file_ref )";
+    $sql0.= " observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, gestion, idestado_referencia, fecha_registro, hora_registro, idusuario )";
     $sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idatencion_psafci_ss','$correlativo','$codigo','$idnombre_integrante_ss',";
     $sql0.= " '$discapacidad','$nombre_acompanante','$idparentesco_acomp','$celular_acompanante','$tel_establecimiento','$estuvo_internado','$dias_internacion','$resumen_anamnesis','$especificacion_hallazgos','$tratamiento_ref',";
-    $sql0.= " '$observaciones_ref','$idconsentimiento','$idestablecimiento_salud_r','$idmotivo_referencia','$idespecialidad_medica','$gestion','1','1','$fecha','$hora','$idusuario_ss', '')";
-    $result0 = mysqli_query($link,$sql0) or die("<div style='background:#e74a3b; color:white; padding:30px; font-size:18px; border-radius:10px; font-family:Arial;'><b>🚨 ERROR FATAL DE MYSQL:</b><br><br>" . mysqli_error($link) . "</div><br><div style='background:#f8f9fc; padding:20px; font-family:monospace;'><b>TU CONSULTA SQL ES:</b><br>" . $sql0 . "</div>");   
+    $sql0.= " '$observaciones_ref','$idconsentimiento','$idestablecimiento_salud_r','$idmotivo_referencia','$idespecialidad_medica','$gestion','1','$fecha','$hora','$idusuario_ss')";
+    $result0 = mysqli_query($link,$sql0);   
     $idreferencia_hc = mysqli_insert_id($link);
 
     $_SESSION['idreferencia_hc_ss'] = $idreferencia_hc;
-    // =========================================================================
-    // MÓDULO DE ARCHIVOS CON PANTALLA DE DIAGNÓSTICO EN VIVO
-    // =========================================================================
-    $ESTADO_PROCESO = "No iniciado";
-    $DETALLE_PROCESO = "";
-
-    if (isset($_FILES['archivo_referencia_pdf'])) {
-        $codigo_error = $_FILES['archivo_referencia_pdf']['error'];
-        
-        if ($codigo_error == 0) {
-            $carpeta_destino = "../files_ref/"; 
-            if (!file_exists($carpeta_destino)) {
-                mkdir($carpeta_destino, 0777, true);
-            }
-            
-            $nuevo_nombre_archivo = "REF_" . $idreferencia_hc . "_" . date("Ymd_His") . "_" . rand(1000, 9999) . ".pdf";
-            $ruta_completa = $carpeta_destino . $nuevo_nombre_archivo;
-            
-            if(move_uploaded_file($_FILES['archivo_referencia_pdf']['tmp_name'], $ruta_completa)){
-                $sql_upd_file = "UPDATE referencia_hc SET file_ref = '$nuevo_nombre_archivo' WHERE idreferencia_hc = '$idreferencia_hc'";
-                if(mysqli_query($link, $sql_upd_file)) {
-                    $ESTADO_PROCESO = "ÉXITO TOTAL";
-                    $DETALLE_PROCESO = "El archivo se subió físicamente como <b>$nuevo_nombre_archivo</b> y se actualizó la columna <b>file_ref</b> para el ID de referencia: <b>$idreferencia_hc</b>.";
-                } else {
-                    $ESTADO_PROCESO = "FALLO EN BD";
-                    $DETALLE_PROCESO = "El archivo se guardó en la carpeta, pero la consulta UPDATE falló: " . mysqli_error($link);
-                }
-            } else {
-                $ESTADO_PROCESO = "FALLO DE PERMISOS WINDOWS";
-                $DETALLE_PROCESO = "PHP recibió el archivo temporal, pero move_uploaded_file no pudo moverlo a: $ruta_completa";
-            }
-        } else {
-            $ESTADO_PROCESO = "ARCHIVO CON ERROR DE ORIGEN";
-            if($codigo_error == 4) {
-                $DETALLE_PROCESO = "Código error 4: El navegador NO envió ningún archivo binario a PHP (llegó vacío). Esto ocurre si el formulario_referencia_ps.php limpió el input antes de enviar.";
-            } else {
-                $DETALLE_PROCESO = "Código error $codigo_error: Problema de tamaño límite (upload_max_filesize) en el archivo php.ini de tu XAMPP.";
-            }
-        }
-    } else {
-        $ESTADO_PROCESO = "FORMULARIO SIN PERMISOS MULTIPART";
-        $DETALLE_PROCESO = "La variable \$_FILES está vacía. Esto confirma al 100% que la etiqueta &lt;form&gt; en <b>formulario_referencia_ps.php</b> no tiene el atributo <b>enctype='multipart/form-data'</b>.";
-    }
-    // =========================================================================
     $_SESSION['idestablecimiento_salud_r_ss'] = $idestablecimiento_salud_r;
 
         $sql_dr = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
@@ -157,12 +112,11 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
             $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$glascow','$alergia','$descripcion_alergia','$fecha','$hora','$idusuario_ss') ";
             $result_sg = mysqli_query($link,$sql_sg);
 
-            if (isset($_POST['idexamen_complementario'])) {
-                foreach($_POST['idexamen_complementario'] as $idexamen_complementario_i) {
-                    $sql_f = " INSERT INTO examen_referencia (idreferencia_hc, idnombre, idexamen_complementario, fecha_registro, hora_registro, idusuario) ";
-                    $sql_f.= " VALUES ('$idreferencia_hc','$idnombre_integrante_ss','$idexamen_complementario_i','$fecha','$hora','$idusuario_ss') ";
-                    $result_f = mysqli_query($link,$sql_f);
-                }
+            foreach($_POST['idexamen_complementario'] as $idexamen_complementario_i) {
+
+            $sql_f = " INSERT INTO examen_referencia (idreferencia_hc, idnombre, idexamen_complementario, fecha_registro, hora_registro, idusuario) ";
+            $sql_f.= " VALUES ('$idreferencia_hc','$idnombre_integrante_ss','$idexamen_complementario_i','$fecha','$hora','$idusuario_ss') ";
+            $result_f = mysqli_query($link,$sql_f);
             }
 
     $idpatologia = $_POST['idpatologia'];
@@ -218,14 +172,15 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
             $indice_choque      = $_POST['indice_choque'];
             $criterios_sofa     = $_POST['criterios_sofa'];
 
-        } else {   }        
+        } else {   }
+        
 
     } else {  }
-         
-    
-// Comentamos temporalmente la redirección para auditar el sistema
-header("Location:mensaje_referencia_hc.php");
 
+
+          
+    
+header("Location:mensaje_referencia_hc.php");
 
 /*********** Guarda el registro de grupo de salud (BEGIN) *************/
 

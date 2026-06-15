@@ -63,7 +63,7 @@ $row_n=mysqli_fetch_array($result_n);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SISTEMA MEDI-APS</title>
+    <title>SISTEMA MEDI-SAFCI</title>
 
     <!-- Custom fonts for this template -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -120,7 +120,7 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_ADMISION_REF" id="form-admision-ref" action="guarda_admision_referencia.php" method="post" class="needs-validation" novalidate>
+                     <form name="GUARDA_ADMISION_REF" action="guarda_admision_referencia.php" method="post">
                                 <input type="hidden" name="idestado_referencia" value="<?php echo $row_ref[23];?>">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -809,45 +809,6 @@ $row_n=mysqli_fetch_array($result_n);
                             </div>
                         </div>
 
-
-                        <?php 
-                        $archivo_referencia = "";
-                        $sql_adj_ref = "SELECT file_ref FROM referencia_hc WHERE idreferencia_hc = '$idreferencia_hc_ss'";
-                        $res_adj_ref = mysqli_query($link, $sql_adj_ref);
-                        if ($res_adj_ref && mysqli_num_rows($res_adj_ref) > 0) {
-                            $row_adj_ref = mysqli_fetch_assoc($res_adj_ref);
-                            $archivo_referencia = $row_adj_ref['file_ref'];
-                        }
-                        if (!empty($archivo_referencia) && file_exists("../files_ref/" . $archivo_referencia)) { 
-                        ?>
-                            <div class="card border-left-success shadow h-100 py-2 mb-4 text-left">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                <i class="fas fa-paperclip"></i> ADJUNTOS DE LA REFERENCIA ORIGINAL (IDA)
-                                            </div>
-                                            <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                El médico de origen adjuntó complementarios.
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <button class="btn btn-sm btn-outline-success shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorRef" aria-expanded="false" aria-controls="visorRef">
-                                                <i class="fas fa-eye"></i> VER / OCULTAR
-                                            </button>
-                                            <a href="../files_ref/<?php echo $archivo_referencia; ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
-                                                <i class="fas fa-expand-arrows-alt"></i> COMPLETA
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="collapse mt-3" id="visorRef">
-                                        <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden;">
-                                            <iframe src="../files_ref/<?php echo $archivo_referencia; ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
                         <?php if ($row_ref[23] == '2') { ?>
                             
                         
@@ -1011,44 +972,7 @@ $row_n=mysqli_fetch_array($result_n);
                             </div>
                         </div>
 
-                        <?php 
-                        $archivo_contra = "";
-                        $sql_adj_con = "SELECT file_contra_ref FROM referencia_hc WHERE idreferencia_hc = '$idreferencia_hc_ss'";
-                        $res_adj_con = mysqli_query($link, $sql_adj_con);
-                        if ($res_adj_con && mysqli_num_rows($res_adj_con) > 0) {
-                            $row_adj_con = mysqli_fetch_assoc($res_adj_con);
-                            $archivo_contra = $row_adj_con['file_contra_ref'];
-                        }
-                        if (!empty($archivo_contra) && file_exists("../files_ref/" . $archivo_contra)) { 
-                        ?>
-                            <div class="card border-left-info shadow h-100 py-2 mb-4 text-left">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                <i class="fas fa-paperclip"></i> ADJUNTOS DE LA CONTRARREFERENCIA (VUELTA)
-                                            </div>
-                                            <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                El médico especialista adjuntó la Epicrisis o Laboratorios de retorno.
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <button class="btn btn-sm btn-outline-info shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorContra" aria-expanded="false" aria-controls="visorContra">
-                                                <i class="fas fa-eye"></i> VER / OCULTAR
-                                            </button>
-                                            <a href="../files_ref/<?php echo $archivo_contra; ?>" target="_blank" class="btn btn-sm btn-info shadow-sm">
-                                                <i class="fas fa-expand-arrows-alt"></i> COMPLETA
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="collapse mt-3" id="visorContra">
-                                        <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden;">
-                                            <iframe src="../files_ref/<?php echo $archivo_contra; ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
+
                         <?php } else { ?>
                         
                         <div class="card shadow mb-4">
@@ -1059,8 +983,8 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">  
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DE LA PERSONA CONTACTADA:</h6>
-                                        <input type="text" class="form-control" placeholder="Escriba el nombre" name="persona_contactada" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');" value="" required>                
-                                        <div class="invalid-feedback">Campo obligatorio. Solo se permiten letras.</div>
+                                        <input type="text" class="form-control" placeholder="Escriba el nombre"
+                                            name="persona_contactada" value="" required>                
                                     </div>                             
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">MEDIO DE COMUNICACIÓN:</h6>
@@ -1082,33 +1006,31 @@ $row_n=mysqli_fetch_array($result_n);
                                         }
                                         ?>
                                     </select>                                    
-                                    <div class="invalid-feedback">Seleccione el medio de comunicación.</div>
                                     </div>
                                 </div>               
                                 <div class="form-group row">  
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DE QUIEN RECIBE AL PACIENTE:</h6>
-                                        <input type="text" class="form-control" placeholder="Escriba el nombre" name="recibe_paciente" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');" value="" required>                
-                                        <div class="invalid-feedback">Campo obligatorio. Solo se permiten letras.</div>
+                                        <input type="text" class="form-control" placeholder="Escriba el nombre"
+                                            name="recibe_paciente" value="" required>                
                                     </div>                             
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">REPORTADO AL CCDES A:</h6>
-                                        <input type="text" class="form-control" placeholder="Escriba el nombre" name="nombre_ccdes" oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');" value="" required>                
-                                        <div class="invalid-feedback">Campo obligatorio. Solo se permiten letras.</div>
+                                        <input type="text" class="form-control" placeholder="Escriba el nombre"
+                                            name="nombre_ccdes" value="" required>                
                                     </div> 
                                 </div>                        
 
                                 <div class="form-group row">  
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">PACIENTE ADMITIDO:</h6>
-                                    SI <input type="radio" name="admitido" class="radio-admitido-ncf" value="SI" checked> </br>
-                                    NO <input type="radio" name="admitido" class="radio-admitido-ncf" value="NO">  
+                                    SI <input type="radio" name="admitido" value="SI" checked> </br>
+                                    NO <input type="radio" name="admitido" value="NO">  
                                     </div>
                                     <div class="col-sm-8">
-                                    <h6 class="text-primary" id="titulo-motivo-adm">MOTIVO:</h6>
-                                    <textarea class="form-control" rows="3" name="motivo" id="motivo" placeholder="Escriba comentarios u observaciones (Obligatorio si marca NO)"></textarea>
-                                    <div class="invalid-feedback">Debe especificar obligatoriamente el motivo del rechazo.</div>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('motivo')"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                            
+                                    <h6 class="text-primary">MOTIVO:</h6>
+                                    <textarea class="form-control" rows="3" name="motivo" id="motivo"></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('motivo')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>                            
                                     </div>
                                 </div>
                                 <hr>
@@ -1117,6 +1039,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     <h6 class="text-primary">CALIFICACIÓN POR EL ESTABLECIMIENTO RECEPTOR (colocar SI o NO):</h6>                      
                                     </div>
                                 </div>
+
                                 <hr>
 
                                 <div class="form-group row">  
@@ -1136,6 +1059,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     NO <input type="radio" name="oportuna" value="NO" >                      
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         
@@ -1171,7 +1095,7 @@ $row_n=mysqli_fetch_array($result_n);
                                             </div>
                                             <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="button" id="btn-confirmar-admision" class="btn btn-primary pull-center">CONFIRMAR ADMISIÓN</button>    
+                                            <button type="submit" class="btn btn-primary pull-center">CONFIRMAR ADMISIÓN</button>    
                                             </div>
                                         </div>
                                     </div>
@@ -1242,142 +1166,7 @@ $row_n=mysqli_fetch_array($result_n);
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
         <script src="../js/funciones.js"></script>
 
-<script>
-    (function() {
-        setTimeout(function() {
-            var formAdmision = document.getElementById('form-admision-ref');
-            if(!formAdmision) return;
-
-            // 1. DIBUJO AUTOMÁTICO DE ASTERISCOS EN CAMPOS ESTÁTICOS
-            var camposOb = formAdmision.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled])');
-            camposOb.forEach(function(campo) {
-                var titulo = null;
-                var contenedor = campo.closest('[class*="col-sm-"]');
-                if (contenedor) titulo = contenedor.querySelector('h6');
-                if (titulo && !titulo.hasAttribute('data-asterisco')) {
-                    titulo.innerHTML += ' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                    titulo.setAttribute('data-asterisco', 'true');
-                }
-            });
-
-            // 2. LÓGICA DINÁMICA SÚPER-SENIOR: MOTIVO REQUERIDO SOLO SI ES "NO" ADMITIDO
-            var radiosAdmitido = formAdmision.querySelectorAll('.radio-admitido-ncf');
-            var txtMotivo = formAdmision.querySelector('#motivo');
-            var tituloMotivo = document.getElementById('titulo-motivo-adm');
-
-            if(radiosAdmitido.length > 0 && txtMotivo) {
-                radiosAdmitido.forEach(function(radio) {
-                    radio.addEventListener('change', function() {
-                        if(this.value === 'NO' && this.checked) {
-                            // Cambiamos estado a Obligatorio, pero la caja sigue abierta
-                            txtMotivo.setAttribute('required', 'required');
-                            
-                            // Inyectamos el asterisco rojo dinámico en el título
-                            if(tituloMotivo && !tituloMotivo.hasAttribute('data-asterisco')) {
-                                tituloMotivo.innerHTML += ' <span class="asterisco-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                                tituloMotivo.setAttribute('data-asterisco', 'true');
-                            }
-                        } else if(this.value === 'SI' && this.checked) {
-                            // Quitamos la obligatoriedad
-                            txtMotivo.removeAttribute('required');
-                            
-                            // Parche UX instantáneo: limpiamos cualquier rastro de error rojo si existía
-                            txtMotivo.classList.remove('is-invalid');
-                            txtMotivo.style.border = '';
-                            var fbMotivo = txtMotivo.parentNode ? txtMotivo.parentNode.querySelector('.invalid-feedback') : null;
-                            if (fbMotivo) fbMotivo.style.display = '';
-
-                            // Removemos el asterisco rojo dinámico
-                            if(tituloMotivo && tituloMotivo.hasAttribute('data-asterisco')) {
-                                var ast = tituloMotivo.querySelector('.asterisco-dinamico');
-                                if(ast) ast.remove();
-                                tituloMotivo.removeAttribute('data-asterisco');
-                            }
-                        }
-                    });
-                });
-            }
-
-            // 3. VALIDADOR DE FUERZA BRUTA PARA EL BOTÓN CONFIRMAR
-            var btnConfirmar = document.getElementById('btn-confirmar-admision');
-            if (btnConfirmar) {
-                var nuevoBtn = btnConfirmar.cloneNode(true);
-                btnConfirmar.parentNode.replaceChild(nuevoBtn, btnConfirmar);
-                
-                nuevoBtn.addEventListener('click', function(e) {
-                    e.preventDefault(); 
-                    var hayErrores = false;
-                    var primerInvalido = null;
-                    
-                    // Limpiamos estados de error visuales previos
-                    formAdmision.querySelectorAll('.is-invalid').forEach(function(el) {
-                        el.classList.remove('is-invalid');
-                        el.style.border = ''; 
-                    });
-                    formAdmision.querySelectorAll('.invalid-feedback').forEach(function(el) {
-                        el.style.display = ''; 
-                    });
-
-                    // Validar todos los elementos marcados como obligatorios en este instante
-                    var obligatorios = formAdmision.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled]), textarea[required]:not([disabled])');
-                    obligatorios.forEach(function(el) {
-                        var valor = el.value ? el.value.trim() : '';
-                        if (valor === '' || !el.checkValidity()) {
-                            hayErrores = true;
-                            el.classList.add('is-invalid');
-                            el.style.setProperty('border', '2px solid #dc3545', 'important');
-                            var fback2 = el.parentNode ? el.parentNode.querySelector('.invalid-feedback') : null;
-                            if (fback2) fback2.style.setProperty('display', 'block', 'important');
-                            if (!primerInvalido) primerInvalido = el;
-                        }
-                    });
-                    
-                    if (hayErrores) {
-                        // Cerrar modal automáticamente si la validación falla
-                        try {
-                            var modalActivo = document.getElementById('examplemodal_f');
-                            var btnCancelar = modalActivo ? modalActivo.querySelector('[data-dismiss="modal"]') : null;
-                            if (btnCancelar) btnCancelar.click();
-                            if (modalActivo) $(modalActivo).modal('hide'); 
-                        } catch(err) {}
-                        
-                        setTimeout(function() {
-                            document.body.classList.remove('modal-open');
-                            var backdrops = document.querySelectorAll('.modal-backdrop');
-                            backdrops.forEach(b => b.remove());
-                            
-                            // Enfoque visual suave directo al primer error de la pantalla
-                            if (primerInvalido) {
-                                primerInvalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                setTimeout(() => { try { primerInvalido.focus({ preventScroll: true }); } catch(err) { primerInvalido.focus(); } }, 100);
-                            }
-                        }, 400);
-                    } else {
-                        // Formulario 100% perfecto, procedemos al envío seguro
-                        nuevoBtn.innerHTML = "GUARDANDO...";
-                        nuevoBtn.disabled = true;
-                        formAdmision.submit(); 
-                    }
-                });
-                
-                // 4. EFECTO LIMPIADOR EN TIEMPO REAL AL ESCRIBIR
-                ['input', 'change'].forEach(function(evt) {
-                    formAdmision.addEventListener(evt, function(e) {
-                        if (e.target && e.target.hasAttribute && e.target.hasAttribute('required')) {
-                            var val = e.target.value || '';
-                            if (val.trim() !== '') {
-                                e.target.classList.remove('is-invalid');
-                                e.target.style.border = '';
-                                var fb = e.target.parentNode ? e.target.parentNode.querySelector('.invalid-feedback') : null;
-                                if (fb) fb.style.display = '';
-                            }
-                        }
-                    });
-                });
-            }
-        }, 200); 
-    })();
-</script>
+ 
 
 </body>
 </html>

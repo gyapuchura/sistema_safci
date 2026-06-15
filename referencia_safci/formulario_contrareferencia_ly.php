@@ -84,59 +84,7 @@ $row_n=mysqli_fetch_array($result_n);
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/boton_mic.css">
-<style>
-        /* ================= ESTILOS MÓDULO MULTIMEDIA SAFCI ================= */
-        .dropzone-safci {
-            border: 2px dashed #36b9cc;
-            border-radius: 10px;
-            background-color: #f8f9fc;
-            padding: 20px 10px;
-            text-align: center;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-            position: relative;
-        }
-        .dropzone-safci:hover {
-            background-color: #eaecf4;
-            border-color: #2c9faf;
-        }
-        .dropzone-icon {
-            font-size: 2.5rem;
-            color: #b7b9cc;
-            margin-bottom: 5px;
-            transition: all 0.3s;
-        }
-        .dropzone-safci:hover .dropzone-icon {
-            color: #36b9cc;
-            transform: scale(1.1);
-        }
-        .preview-grid {
-            display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px;
-        }
-        .preview-item {
-            position: relative; width: 120px; height: 120px;
-            border-radius: 8px; overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid #e3e6f0;
-        }
-        .preview-item img, .preview-item canvas {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        .preview-item .file-name {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: rgba(0,0,0,0.7); color: white; font-size: 0.6rem;
-            padding: 3px; text-align: center; white-space: nowrap;
-            overflow: hidden; text-overflow: ellipsis;
-        }
-        .btn-remove {
-            position: absolute; top: 5px; right: 5px;
-            background-color: rgba(231, 74, 59, 0.9); color: white;
-            border: none; border-radius: 50%; width: 24px; height: 24px;
-            font-size: 12px; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; transition: background 0.2s;
-        }
-        .btn-remove:hover { background-color: #e74a3b; transform: scale(1.1); }
-        /* =================================================================== */
-    </style>
+
 </head>
 
 <body id="page-top">
@@ -178,7 +126,7 @@ $row_n=mysqli_fetch_array($result_n);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_CONTRAREFERENCIA" action="guarda_contrareferencia.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate> <!-- Modificado -->
+                     <form name="GUARDA_CONTRAREF" action="guarda_contrareferencia.php" method="post" class="needs-validation" novalidate> <!-- Modificado -->
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -541,22 +489,22 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">DÍAS DE INTERNACIÓN </br>[dias]:</h6>
-                                        <input type="number" min="0" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value < 0) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" class="form-control"
+                                        <input type="number" min="0" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value < 0) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" class="form-control" placeholder="En Días Calendario"
                                             name="dias_internacion_ref" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Indique los días de internación.</div> 
                                     </div>  
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
-                                        <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
+                                        <input type="text" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
                                             name="talla" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 280 cm</div> 
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
-                                        <input type="number" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"              
+                                        <input type="text" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"              
                                             name="peso" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0.2 a 650 kg</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
-                                        <input type="number" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En grados celsius"
+                                        <input type="text" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En grados celsius"
                                             name="temperatura" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 10°C a 47°C</div> 
                                     </div>
 
@@ -565,25 +513,25 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
-                                        <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" 
+                                        <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En latidos por minuto"
                                             name="frec_cardiaca" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 350 lpm</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
-                                        <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" 
+                                        <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Ciclos por Minuto"
                                             name="frec_respiratoria" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div> 
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
-                                        <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"
+                                        <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% de oxígeno"
                                             name="saturacion" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
-                                        <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"              
+                                        <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Sistólica"             
                                             name="presion_arterial"  placeholder="Sistólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 300 (Sistólica)</div> 
                                         </br>
-                                        <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"              
+                                        <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Diastólica"             
                                             name="presion_arterial_d" placeholder="Diastólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200 (Diastólica)</div> 
                                     </div>
 
@@ -892,32 +840,8 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div> 
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
-                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="SI">
+                                        <input type="checkbox" name="por_telesalud" value="SI">
                                     </div>   
-                                </div> 
-
-                                <div class="form-group row" id="contenedor-tiempo-telesalud" style="display: none;">
-                                    <div class="col-sm-9"></div> <div class="col-sm-3">
-                                        <h6 class="text-primary" id="titulo-tiempo-telesalud">TIEMPO:</h6>
-                                        <select name="idtiempo_ts" id="idtiempo_ts_contra" class="form-control" disabled>
-                                            <option value="">-SELECCIONE-</option>
-                                            <?php
-                                            // TU LÓGICA NATIVA INTACTA
-                                            $numero_tm=1;
-                                            $sql_tm = "SELECT idtiempo_ts, tiempo_ts FROM tiempo_ts ORDER BY tiempo_ts";
-                                            $result_tm = mysqli_query($link,$sql_tm);
-                                            if ($row_tm = mysqli_fetch_array($result_tm)){
-                                            mysqli_field_seek($result_tm,0);
-                                            while ($field_tm = mysqli_fetch_field($result_tm)){
-                                            } do {
-                                            echo "<option value=".$row_tm[0].">".$row_tm[1]."</option>";
-                                            $numero_tm=$numero_tm+1;
-                                            } while ($row_tm = mysqli_fetch_array($result_tm));
-                                            } else { }
-                                            ?>
-                                        </select>
-                                        <div class="invalid-feedback">Obligatorio para Telesalud.</div>
-                                    </div>
                                 </div> 
                                 <hr>
                                 <div class="form-group row"> <!-- Modificado toda la seccion-->  
@@ -937,39 +861,6 @@ $row_n=mysqli_fetch_array($result_n);
                             </div>
                         </div>
 
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-info"><i class="fas fa-paperclip"></i> EVIDENCIA CLÍNICA Y ARCHIVOS ADJUNTOS (OPCIONAL)</h6>
-                                <button type="button" id="btn-previsualizar-pdf" class="btn btn-sm btn-outline-info shadow-sm" data-toggle="collapse" data-target="#visorColapsableFormContra" aria-expanded="false" aria-controls="visorColapsableFormContra" style="display: none;">
-                                    <i class="fas fa-eye"></i> VER / OCULTAR PDF
-                                </button>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group row">                               
-                                    <div class="col-sm-12">
-                                        <h6 class="text-info mb-3">ARRASTRE O SELECCIONE EPICRISIS, EXÁMENES DE LABORATORIO O RECETAS PARA EL MÉDICO DE ORIGEN:</h6>
-                                        
-                                        <div id="dropzone_contra" class="dropzone-safci" onclick="document.getElementById('input_archivos_contra').click()">
-                                            <i class="fas fa-cloud-upload-alt dropzone-icon"></i>
-                                            <h6 class="font-weight-bold text-secondary mb-1">Arrastre sus archivos aquí</h6>
-                                            <p class="text-muted small mb-0">o haga clic para examinar el dispositivo</p>
-                                            <p class="text-xs text-info mt-1 font-weight-bold mb-0">Formatos permitidos: JPG, JPEG, PNG, PDF</p>
-                                            <input type="file" id="input_archivos_contra" multiple accept="image/jpeg, image/png, application/pdf" style="display: none;">
-                                        </div>
-
-                                        <div id="preview-gallery-contra" class="preview-grid"></div>
-
-                                        <input type="file" id="pdf_final_oculto_contra" name="archivo_contrareferencia_pdf" style="display: none;">
-                                        
-                                        <div class="collapse mt-4" id="visorColapsableFormContra">
-                                            <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden; background-color: #eaecf4;">
-                                                <iframe id="visor_pdf_final_contra" src="" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                           
                     </div>
 
@@ -1072,11 +963,11 @@ $row_n=mysqli_fetch_array($result_n);
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
         <script src="../js/funciones.js"></script>
 
-<script>
+        <script>
             document.addEventListener('DOMContentLoaded', function() {
                 
                 // 1. DIBUJO AUTOMÁTICO DE ASTERISCOS EN CAMPOS OBLIGATORIOS
-                var camposObligatorios = document.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled]), textarea[required]:not([disabled])');
+                var camposObligatorios = document.querySelectorAll('input[required], select[required], textarea[required]');
                 camposObligatorios.forEach(function(campo) {
                     var titulo = null;
                     
@@ -1101,60 +992,8 @@ $row_n=mysqli_fetch_array($result_n);
                     }
                 });
 
-                // =========================================================================================
-                // 1.5. LÓGICA DINÁMICA SÚPER-SENIOR: MOSTRAR "TIEMPO" SÓLO SI SE MARCA EL CHECKBOX DE TELESALUD
-                // =========================================================================================
-                var checkTelesalud = document.getElementById('check-telesalud');
-                var contenedorTiempo = document.getElementById('contenedor-tiempo-telesalud');
-                var selectTiempo = document.getElementById('idtiempo_ts_contra');
-
-                if(checkTelesalud && contenedorTiempo && selectTiempo) {
-                    
-                    function eval_telesalud(checkbox) {
-                        var tituloTiempo = contenedorTiempo.querySelector('h6');
-
-                        if(checkbox.checked) {
-                            // Si activa Telesalud: Mostramos, habilitamos y exigimos TIEMPO
-                            contenedorTiempo.style.display = 'flex';
-                            selectTiempo.removeAttribute('disabled');
-                            selectTiempo.setAttribute('required', 'required');
-                            
-                            if(tituloTiempo && !tituloTiempo.hasAttribute('data-asterisco')) {
-                                tituloTiempo.innerHTML += ' <span class="asterisco-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                                tituloTiempo.setAttribute('data-asterisco', 'true');
-                            }
-                        } else {
-                            // Si desactiva Telesalud: Ocultamos, deshabilitamos y borramos errores
-                            contenedorTiempo.style.display = 'none';
-                            selectTiempo.setAttribute('disabled', 'disabled');
-                            selectTiempo.removeAttribute('required');
-                            selectTiempo.value = ''; 
-                            
-                            selectTiempo.classList.remove('is-invalid');
-                            selectTiempo.style.border = '';
-                            var fb = selectTiempo.parentNode ? selectTiempo.parentNode.querySelector('.invalid-feedback') : null;
-                            if (fb) fb.style.display = '';
-
-                            if(tituloTiempo && tituloTiempo.hasAttribute('data-asterisco')) {
-                                var ast = tituloTiempo.querySelector('.asterisco-dinamico');
-                                if(ast) ast.remove();
-                                tituloTiempo.removeAttribute('data-asterisco');
-                            }
-                        }
-                    }
-
-                    // Evaluamos apenas carga la página por si ya estaba marcado
-                    eval_telesalud(checkTelesalud); 
-                    
-                    // Escuchamos los clics del médico en tiempo real
-                    checkTelesalud.addEventListener('change', function() { 
-                        eval_telesalud(this); 
-                    }); 
-                }
-                // =========================================================================================
-
                 // 2. VALIDADOR ESTRICTO Y FUERZA BRUTA (Cierra modal, scroll y marca rojo)
-                var form = document.querySelector('form[name="GUARDA_CONTRAREFERENCIA"]');
+                var form = document.querySelector('form[name="GUARDA_CONTRAREF"]');
                 var btnConfirmar = document.getElementById('btn-confirmar-registro');
                 
                 if (form && btnConfirmar) {
@@ -1173,8 +1012,8 @@ $row_n=mysqli_fetch_array($result_n);
                             el.style.display = ''; 
                         });
                         
-                        // REVISIÓN MANUAL CAMPO POR CAMPO (Ignoramos los deshabilitados)
-                        var elementosObligatorios = form.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled]), textarea[required]:not([disabled])');
+                        // REVISIÓN MANUAL CAMPO POR CAMPO
+                        var elementosObligatorios = form.querySelectorAll('input[required], select[required], textarea[required]');
                         
                         elementosObligatorios.forEach(function(el) {
                             var valor = el.value ? el.value.trim() : '';
@@ -1364,163 +1203,6 @@ $row_n=mysqli_fetch_array($result_n);
                         }, 200);
                     });
                 });
-            });
-
-        </script>
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const dropzone = document.getElementById('dropzone_contra');
-                const inputArchivos = document.getElementById('input_archivos_contra');
-                const previewGallery = document.getElementById('preview-gallery-contra');
-                const inputOcultoPDF = document.getElementById('pdf_final_oculto_contra');
-                const visorPdf = document.getElementById('visor_pdf_final_contra');
-                const btnPrevisualizar = document.getElementById('btn-previsualizar-pdf');
-                
-                let archivosAdjuntos = [];
-
-                // Prevenir comportamientos por defecto del navegador al arrastrar
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, preventDefaults, false);
-                    document.body.addEventListener(eventName, preventDefaults, false);
-                });
-
-                function preventDefaults (e) { e.preventDefault(); e.stopPropagation(); }
-
-                // Efectos visuales de la caja Drag & Drop
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, () => {
-                        dropzone.style.backgroundColor = '#eaecf4';
-                        dropzone.style.borderColor = '#36b9cc';
-                    }, false);
-                });
-
-                ['dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, () => {
-                        dropzone.style.backgroundColor = '#f8f9fc';
-                        dropzone.style.borderColor = '#36b9cc';
-                    }, false);
-                });
-
-                // Escuchar cuando sueltan archivos o seleccionan por clic
-                dropzone.addEventListener('drop', (e) => {
-                    if (e.dataTransfer.files.length > 0) procesarArchivosNuevos(e.dataTransfer.files);
-                });
-
-                inputArchivos.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) procesarArchivosNuevos(e.target.files);
-                });
-
-                function procesarArchivosNuevos(files) {
-                    Array.from(files).forEach(file => {
-                        if (file.type === 'application/pdf' || file.type.startsWith('image/')) {
-                            archivosAdjuntos.push(file);
-                        } else {
-                            alert('El formato del archivo "' + file.name + '" no es válido.');
-                        }
-                    });
-                    renderizarGaleriaYGenerarPDF();
-                }
-
-                function eliminarArchivo(index) {
-                    archivosAdjuntos.splice(index, 1);
-                    renderizarGaleriaYGenerarPDF();
-                }
-
-                async function renderizarGaleriaYGenerarPDF() {
-                    previewGallery.innerHTML = '';
-                    
-                    if (archivosAdjuntos.length === 0) {
-                        btnPrevisualizar.style.display = 'none';
-                        $('#visorColapsableFormContra').collapse('hide');
-                        visorPdf.src = '';
-                        inputOcultoPDF.files = (new DataTransfer()).files;
-                        return;
-                    }
-
-                    // Renderizar miniaturas en HTML
-                    archivosAdjuntos.forEach((file, index) => {
-                        const divItem = document.createElement('div');
-                        divItem.className = 'preview-item';
-                        
-                        const btnClose = document.createElement('button');
-                        btnClose.className = 'btn-remove';
-                        btnClose.innerHTML = '<i class="fas fa-times"></i>';
-                        btnClose.onclick = (e) => { e.stopPropagation(); eliminarArchivo(index); };
-                        
-                        const spanName = document.createElement('div');
-                        spanName.className = 'file-name';
-                        spanName.textContent = file.name;
-
-                        if (file.type.startsWith('image/')) {
-                            const img = document.createElement('img');
-                            img.src = URL.createObjectURL(file);
-                            divItem.appendChild(img);
-                        } else if (file.type === 'application/pdf') {
-                            const iconPdf = document.createElement('div');
-                            iconPdf.style.display = 'flex'; iconPdf.style.alignItems = 'center';
-                            iconPdf.style.justifyContent = 'center'; iconPdf.style.height = '100%';
-                            iconPdf.style.backgroundColor = '#eaecf4'; iconPdf.style.color = '#e74a3b';
-                            iconPdf.innerHTML = '<i class="fas fa-file-pdf fa-3x"></i>';
-                            divItem.appendChild(iconPdf);
-                        }
-                        
-                        divItem.appendChild(btnClose);
-                        divItem.appendChild(spanName);
-                        previewGallery.appendChild(divItem);
-                    });
-
-                    // Activar el botón de colapso
-                    btnPrevisualizar.style.display = 'inline-block';
-
-                    // ========== CONSOLIDACIÓN EN RAM CON PDF-LIB ==========
-                    try {
-                        const { PDFDocument } = PDFLib;
-                        const pdfDoc = await PDFDocument.create();
-
-                        for (const file of archivosAdjuntos) {
-                            const arrayBuffer = await file.arrayBuffer();
-
-                            if (file.type === 'application/pdf') {
-                                const loadedPdf = await PDFDocument.load(arrayBuffer);
-                                const pages = await pdfDoc.copyPages(loadedPdf, loadedPdf.getPageIndices());
-                                pages.forEach(page => pdfDoc.addPage(page));
-                            } else if (file.type.startsWith('image/')) {
-                                let image = (file.type === 'image/png') 
-                                    ? await pdfDoc.embedPng(arrayBuffer) 
-                                    : await pdfDoc.embedJpg(arrayBuffer);
-
-                                if (image) {
-                                    const page = pdfDoc.addPage();
-                                    const { width, height } = page.getSize();
-                                    const imgDims = image.scaleToFit(width - 40, height - 40);
-                                    page.drawImage(image, {
-                                        x: width / 2 - imgDims.width / 2,
-                                        y: height / 2 - imgDims.height / 2,
-                                        width: imgDims.width,
-                                        height: imgDims.height,
-                                    });
-                                }
-                            }
-                        }
-
-                        const pdfBytes = await pdfDoc.save();
-                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                        
-                        // Cargar en el Iframe para la vista previa
-                        visorPdf.src = URL.createObjectURL(blob);
-                        
-                        // Inyectarlo en el input para que lo envíe el FORM
-                        const fileFinal = new File([blob], "Adjuntos_Contrareferencia.pdf", { type: "application/pdf" });
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(fileFinal);
-                        inputOcultoPDF.files = dataTransfer.files;
-
-                    } catch (error) {
-                        console.error("Error al generar PDF de contrareferencia:", error);
-                    }
-                }
             });
         </script>
 </body>
