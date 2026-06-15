@@ -23,35 +23,6 @@ $edad_ss                    = $_SESSION['edad_ss'];
 
 /*********** ENVIO DATOS PARA TRIAGE DEL PACIENTE *************/
 
-// =========================================================================
-// MÓDULO DEFINITIVO: ALMACENAMIENTO DE ADJUNTOS DE CONTRARREFERENCIA
-// Con Ruta Absoluta Blindada para Windows XAMPP
-// =========================================================================
-
-// Detectamos automáticamente el nombre del input que esté enviando el formulario
-$nombre_input_file = isset($_FILES['archivo_contrareferencia_pdf']) ? 'archivo_contrareferencia_pdf' : (isset($_FILES['archivo_referencia_pdf']) ? 'archivo_referencia_pdf' : null);
-
-if ($nombre_input_file && $_FILES[$nombre_input_file]['error'] == 0) {
-    
-    // RUTA ABSOLUTA: Evita que Windows rechace la creación del archivo
-    $carpeta_destino = dirname(__DIR__) . "/files_ref/"; 
-    
-    if (!file_exists($carpeta_destino)) {
-        mkdir($carpeta_destino, 0777, true);
-    }
-    
-    // Generamos nombre único con el prefijo CONTRAREF
-    $nuevo_nombre_archivo = "CONTRAREF_" . $idreferencia_hc_ss . "_" . date("Ymd_His") . "_" . rand(1000, 9999) . ".pdf";
-    $ruta_completa = $carpeta_destino . $nuevo_nombre_archivo;
-    
-    // Guardamos el PDF y actualizamos la base de datos
-    if(move_uploaded_file($_FILES[$nombre_input_file]['tmp_name'], $ruta_completa)){
-        $sql_upd_file = "UPDATE referencia_hc SET file_contra_ref = '$nuevo_nombre_archivo' WHERE idreferencia_hc = '$idreferencia_hc_ss'";
-        mysqli_query($link, $sql_upd_file);
-    }
-}
-// =========================================================================
-
 $dias_internacion_ref = $_POST['dias_internacion_ref'];
 
 $talla                = $link->real_escape_string($_POST['talla']);
@@ -75,13 +46,6 @@ $idestablecimiento_destino  = $_POST['idestablecimiento_destino'];
 $tel_establecimiento_cref   = $_POST['tel_establecimiento_cref'];
 $contacto_eess_cref         = $link->real_escape_string($_POST['contacto_eess_cref']);
 $por_telesalud              = $_POST['por_telesalud'];
-
-if ($por_telesalud == 'SI') {
-            $idtiempo_ts    = $_POST['idtiempo_ts'];
-} else {
-            $idtiempo_ts = '1';
-}
-
 $contacto_contraref         = $link->real_escape_string($_POST['contacto_contraref']);
 $nombre_acompanante_cref    = $link->real_escape_string($_POST['nombre_acompanante_cref']);
 
@@ -97,7 +61,7 @@ $idpatologia                = $_POST['idpatologia'];
 
     $sql0 = " UPDATE referencia_hc SET dias_internacion_ref='$dias_internacion_ref', evolucion_complicacion='$evolucion_complicacion', examenes_complementarios_egreso='$examenes_complementarios_egreso', ";
     $sql0.= " otros_examenes='$otros_examenes', tratamientos_realizados='$tratamientos_realizados', recomendaciones_paciente='$recomendaciones_paciente', otros_anexos='$otros_anexos', observaciones_recomendaciones='$observaciones_recomendaciones', ";
-    $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', idtiempo_ts='$idtiempo_ts', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2',  ";
+    $sql0.= " contacto_eess_cref='$contacto_eess_cref', por_telesalud='$por_telesalud', contacto_contraref='$contacto_contraref', nombre_acompanante_cref='$nombre_acompanante_cref', idestado_referencia='2',  ";
     $sql0.= " tel_establecimiento_cref='$tel_establecimiento_cref' WHERE idreferencia_hc='$idreferencia_hc_ss' ";
     $result0 = mysqli_query($link,$sql0);   
 
