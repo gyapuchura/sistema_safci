@@ -1,3 +1,8 @@
+<?php	
+header('Content-type: application/vnd.ms-excel');
+header("Content-Disposition: attachment; filename=REPORTE ATENCIONES TELESALUD.xls");
+header("Pragma: no-cache");
+header("Expires: 0");?>
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
 <?php
