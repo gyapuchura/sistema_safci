@@ -243,7 +243,7 @@ Si no se encontraron resultados
     <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
     <button type="submit">DESCARGAR EN EXCEL</button>
   </form>
-</p>s
+</p>
 </div>
 
 <table width="900" border="0" align="center">
