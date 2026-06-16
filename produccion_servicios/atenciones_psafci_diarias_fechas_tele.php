@@ -239,7 +239,6 @@ Si no se encontraron resultados
 <div align="center">
 <p style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">
   <form action="reporte_telesalud_excel.php" method="post">
-    <input type="hidden" name="idpatologia" value="<?php echo $idpatologia;?>">
     <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
     <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
     <button type="submit">DESCARGAR EN EXCEL</button>
