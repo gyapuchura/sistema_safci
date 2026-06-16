@@ -33,7 +33,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 <h4 align="center" style="font-family: Arial;">REPORTE DE ATENCIONES POR TELESALUD 
  = 
 <?php
-$sql_tel = " SELECT count(idatencion_teleconsulta) FROM atencion_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion'  ";
+$sql_tel = " SELECT count(idatencion_psafci) FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idtipo_atencion != '1' AND idtipo_atencion != '2' AND idtipo_atencion != '5'  ";
 $result_tel = mysqli_query($link,$sql_tel);
 $row_tel = mysqli_fetch_array($result_tel);
 $telesalud = $row_tel[0];
@@ -97,7 +97,7 @@ echo $telesalud;
     $sql_te.= " AND atencion_teleconsulta.iden_ts=en_ts.iden_ts AND atencion_teleconsulta.idvia_comunicacion=via_comunicacion.idvia_comunicacion ";
     $sql_te.= " AND atencion_teleconsulta.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND atencion_teleconsulta.idtiempo_ts=tiempo_ts.idtiempo_ts ";
     $sql_te.= " AND atencion_teleconsulta.idestado_paciente=estado_paciente.idestado_paciente ";
-    $sql_te.= " AND atencion_teleconsulta.fecha_registro BETWEEN '2026-05-01' AND '2026-06-12' ORDER BY atencion_psafci.idatencion_psafci DESC  ";
+    $sql_te.= " AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC  ";
     $result_te = mysqli_query($link,$sql_te);
     if ($row_te = mysqli_fetch_array($result_te)){
     mysqli_field_seek($result_te,0);
