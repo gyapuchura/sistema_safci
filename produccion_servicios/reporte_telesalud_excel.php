@@ -30,17 +30,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>REPORTE TELESALUD</title>
 </head>
-<h4 align="center" style="font-family: Arial;">REPORTE DE ATENCIONES POR TELESALUD 
- = 
-<?php
-$sql_tel = " SELECT count(idatencion_psafci) FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idtipo_atencion != '1' AND idtipo_atencion != '2' AND idtipo_atencion != '5'  ";
-$result_tel = mysqli_query($link,$sql_tel);
-$row_tel = mysqli_fetch_array($result_tel);
-$telesalud = $row_tel[0];
-echo $telesalud;
-?>
-
-</h4>
+<h4 align="center" style="font-family: Arial;">REPORTE DE ATENCIONES POR TELESALUD </h4>
 <h4 align="center" style="font-family: Arial;"> DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
 <table width="1200" border="1" align="center" bordercolor="#009999">
     <tr>
@@ -83,21 +73,17 @@ echo $telesalud;
         </tr>     
     <?php
     $numero_te=1;
-    $sql_te = " SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.nombre, nombre.paterno, nombre.materno, departamento.departamento,  ";
-    $sql_te.= " municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_establecimiento.tipo_establecimiento, nivel_establecimiento.nivel_establecimiento, ";
-    $sql_te.= " tipo_consulta.tipo_consulta, tipo_atencion.tipo_atencion, captacion_ts.captacion_ts, de_ts.de_ts, en_ts.en_ts, via_comunicacion.via_comunicacion,  ";
-    $sql_te.= " especialidad_medica.especialidad_medica, tiempo_ts.tiempo_ts, estado_paciente.estado_paciente, atencion_teleconsulta.telefono_paciente, atencion_psafci.fecha_registro, atencion_psafci.hora_registro,  ";
-    $sql_te.= " atencion_psafci.idusuario FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud, tipo_establecimiento,  ";
-    $sql_te.= " nivel_establecimiento, atencion_teleconsulta, captacion_ts, de_ts, en_ts, via_comunicacion, especialidad_medica, tiempo_ts, estado_paciente ";
-    $sql_te.= " WHERE atencion_psafci.idnombre=nombre.idnombre AND atencion_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci  ";
-    $sql_te.= " AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento  ";
-    $sql_te.= " AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-    $sql_te.= " AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento ";
-    $sql_te.= " AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND atencion_teleconsulta.idcaptacion_ts=captacion_ts.idcaptacion_ts  AND atencion_teleconsulta.idde_ts=de_ts.idde_ts ";
-    $sql_te.= " AND atencion_teleconsulta.iden_ts=en_ts.iden_ts AND atencion_teleconsulta.idvia_comunicacion=via_comunicacion.idvia_comunicacion ";
-    $sql_te.= " AND atencion_teleconsulta.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND atencion_teleconsulta.idtiempo_ts=tiempo_ts.idtiempo_ts ";
-    $sql_te.= " AND atencion_teleconsulta.idestado_paciente=estado_paciente.idestado_paciente ";
-    $sql_te.= " AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC  ";
+    $sql_te = " SELECT a.idatencion_psafci, a.codigo, n.nombre, n.paterno, n.materno, d.departamento, m.municipio, es.establecimiento_salud, te.tipo_establecimiento,  ";
+    $sql_te.= " ne.nivel_establecimiento, tc.tipo_consulta, ta.tipo_atencion, c.captacion_ts, de.de_ts, en.en_ts, vc.via_comunicacion, em.especialidad_medica,  ";
+    $sql_te.= " t.tiempo_ts, ep.estado_paciente, at.telefono_paciente, a.fecha_registro, a.hora_registro, a.idusuario FROM atencion_psafci a "; 
+    $sql_te.= " INNER JOIN atencion_teleconsulta at ON at.idatencion_psafci = a.idatencion_psafci INNER JOIN nombre n ON a.idnombre = n.idnombre ";
+    $sql_te.= " INNER JOIN tipo_consulta tc ON a.idtipo_consulta = tc.idtipo_consulta INNER JOIN departamento d ON a.iddepartamento = d.iddepartamento  ";
+    $sql_te.= " INNER JOIN municipios m ON a.idmunicipio = m.idmunicipio INNER JOIN establecimiento_salud es ON a.idestablecimiento_salud = es.idestablecimiento_salud  ";
+    $sql_te.= " INNER JOIN tipo_atencion ta ON a.idtipo_atencion = ta.idtipo_atencion INNER JOIN tipo_establecimiento te ON es.idtipo_establecimiento = te.idtipo_establecimiento "; 
+    $sql_te.= " INNER JOIN nivel_establecimiento ne ON es.idnivel_establecimiento = ne.idnivel_establecimiento INNER JOIN captacion_ts c ON at.idcaptacion_ts = c.idcaptacion_ts  "; 
+    $sql_te.= " INNER JOIN de_ts de ON at.idde_ts = de.idde_ts INNER JOIN en_ts en ON at.iden_ts = en.iden_ts INNER JOIN via_comunicacion vc ON at.idvia_comunicacion = vc.idvia_comunicacion ";
+    $sql_te.= " INNER JOIN especialidad_medica em ON at.idespecialidad_medica = em.idespecialidad_medica INNER JOIN tiempo_ts t ON at.idtiempo_ts = t.idtiempo_ts ";
+    $sql_te.= " INNER JOIN estado_paciente ep ON at.idestado_paciente = ep.idestado_paciente WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY a.idatencion_psafci DESC";
     $result_te = mysqli_query($link,$sql_te);
     if ($row_te = mysqli_fetch_array($result_te)){
     mysqli_field_seek($result_te,0);
