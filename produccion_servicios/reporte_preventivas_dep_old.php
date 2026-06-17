@@ -2,8 +2,8 @@
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram      = date("Ymd");
-$fecha          = date("Y-m-d");
+$fecha_ram	    = date("Ymd");
+$fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
 $fecha_r = explode('-',$fecha);
@@ -27,11 +27,11 @@ $row_dep = mysqli_fetch_array($result_dep);
 ?>
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>REPORTE DIAGNOSTICOS PREVENTIVOS</title>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>REPORTE DIAGNOSTICOS PREVENTIVOS</title>
 
-        <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
     <style type="text/css">
     ${demo.css}
             </style>
@@ -51,20 +51,16 @@ $row_dep = mysqli_fetch_array($result_dep);
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_psafci.iddiagnostico_psafci) AS total_diag ";
-$sql.= " FROM diagnostico_psafci, patologia, atencion_psafci ";
+$sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
 $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-$sql.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$sql.= " GROUP BY diagnostico_psafci.idpatologia ";
-// UNIFICADO A DESC: Envía el mayor al índice 0 para que Highcharts lo dibuje Arriba
-$sql.= " ORDER BY total_diag DESC, diagnostico_psafci.idpatologia ASC ";
+$sql.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
 mysqli_field_seek($result,0);
 while ($field = mysqli_fetch_field($result)){
 } do {
-    ?>
+	?>
  '<?php  echo $row[1];?> - <?php  echo $row[2];?>'
 
 <?php 
@@ -130,22 +126,24 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_psafci.iddiagnostico_psafci) AS total_diag ";
-$sql3.= " FROM diagnostico_psafci, patologia, atencion_psafci ";
+$sql3 = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
 $sql3.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-$sql3.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$sql3.= " GROUP BY diagnostico_psafci.idpatologia ";
-// UNIFICADO A DESC: Para mantener sincronía exacta con las categorías
-$sql3.= " ORDER BY total_diag DESC, diagnostico_psafci.idpatologia ASC ";
+$sql3.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
+
+$sql4 =" SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
+$sql4.=" WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.iddepartamento='$iddepartamento' ";
+$sql4.=" AND diagnostico_psafci.idpatologia = '$row3[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$result4 = mysqli_query($link,$sql4);
+$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row3[3]; ?>
+<?php  echo $row4[0]; ?>
 
 <?php 
 $numero3++;
@@ -166,16 +164,16 @@ echo "";
 
     });
 });
-        </script>
+		</script>
 
 </head>
-    <body>
+	<body>
 
 <script src="../js/highcharts.js"></script>
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($numero3*60) + 150;?>px; margin: 0 auto"></div>
+<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $numero3*60;?>px; margin: 0 auto"></div>
 
 <h4 align="center" style="font-family: Arial;">DIAGNÓSTICOS PREVENTIVOS DEPARTAMENTO : <?php echo $row_dep[1];?> = 
                 <?php
@@ -218,13 +216,9 @@ echo "";
         </tr>
             <?php
             $numero = 1;
-            $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_psafci.iddiagnostico_psafci) AS total_diag ";
-            $sql.= " FROM diagnostico_psafci, patologia, atencion_psafci ";
+            $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
             $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-            $sql.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-            $sql.= " GROUP BY diagnostico_psafci.idpatologia ";
-            // ESTO SE MANTIENE EN DESC PARA LA TABLA HTML
-            $sql.= " ORDER BY total_diag DESC, diagnostico_psafci.idpatologia ASC ";
+            $sql.= " AND cie LIKE '%Z%' AND atencion_psafci.iddepartamento = '$iddepartamento' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -297,5 +291,5 @@ echo "";
 </br>
 
 
-    </body>
+	</body>
 </html>
