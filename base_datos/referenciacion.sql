@@ -403,6 +403,7 @@ ALTER TABLE referencia_hc ADD FOREIGN KEY (idestablecimiento_receptor) REFERENCE
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idmotivo_referencia) REFERENCES motivo_referencia (idmotivo_referencia);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idespecialidad_medica) REFERENCES especialidad_medica (idespecialidad_medica);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idestado_referencia) REFERENCES estado_referencia (idestado_referencia);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idtiempo_ts) REFERENCES tiempo_ts (idtiempo_ts);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
 ALTER TABLE deriva_referencia_hc ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);

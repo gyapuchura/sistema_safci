@@ -914,7 +914,12 @@ switch ($idtipo_atencion) {
             <div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar un diagnóstico preventivo.</div>
         </div> 
     </div> 
+
+    <div id="opcion_patologia_prev"></div>
+
     <hr>
+
+
     
     <div class="form-group row">
         <div class="col-sm-6"></div> 
@@ -947,6 +952,19 @@ switch ($idtipo_atencion) {
 </form> 
 </div>
 <hr>
+
+        <script language="javascript"> 
+        $(document).ready(function(){
+        $("#idpatologia_ap_sano").change(function () {
+                    $("#idpatologia_ap_sano option:selected").each(function () {
+                        patologia_ap_sano=$(this).val();
+                    $.post("opcion_patologia_prev.php", {patologia_ap_sano:patologia_ap_sano}, function(data){
+                    $("#opcion_patologia_prev").html(data);
+                    });
+                });
+        })
+        });
+    </script>
 
 <script>
     (function() {
@@ -3036,17 +3054,6 @@ switch ($idtipo_atencion) {
         });
     </script>
 
-        <script language="javascript"> 
-        $(document).ready(function(){
-        $("#idpatologia_ap_sano").change(function () {
-                    $("#idpatologia_ap_sano option:selected").each(function () {
-                        patologia_ap_sano=$(this).val();
-                    $.post("opcion_patologia_prev.php", {patologia_ap_sano:patologia_ap_sano}, function(data){
-                    $("#opcion_patologia_prev").html(data);
-                    });
-                });
-        })
-        });
-    </script>
+
 
    
