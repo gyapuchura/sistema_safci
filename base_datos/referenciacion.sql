@@ -438,3 +438,25 @@ ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idinterpretacion_tobillo_bra
 ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idclasificacion_presion_arterial) REFERENCES clasificacion_presion_arterial (idclasificacion_presion_arterial);
 ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idriesgo_cintura) REFERENCES riesgo_cintura (idriesgo_cintura);
 ALTER TABLE evaluacion_preventiva  ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idarea_influencia) REFERENCES area_influencia (idarea_influencia);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idnacion) REFERENCES nacion (idnacion);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idnivel_instruccion) REFERENCES nivel_instruccion (idnivel_instruccion);
+ALTER TABLE historia_perinatal ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
+ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idultimo_previo) REFERENCES ultimo_previo (idultimo_previo);
+ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idmetodo_anticonceptivo) REFERENCES metodo_anticonceptivo (idmetodo_anticonceptivo);
+ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE gestacion ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
+ALTER TABLE gestacion ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE gestacion ADD FOREIGN KEY (idesno) REFERENCES esno (idesno);
+ALTER TABLE gestacion ADD FOREIGN KEY (idantirubeola) REFERENCES antirubeola (idantirubeola);
+ALTER TABLE gestacion ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
