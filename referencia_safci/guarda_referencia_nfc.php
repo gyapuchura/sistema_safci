@@ -138,20 +138,20 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
 
     } else {  }
 
-    if ($idgenero == '1' && $edad > '14') {
+    if ($idgenero == '1' && $edad >= '14') {
         
-            $fecha_fum      = $_POST['fecha_fum'];
-            $gestaciones    = $_POST['gestaciones'];
-            $partos         = $_POST['partos'];
-            $abortos        = $_POST['abortos'];
-            $cesareas       = $_POST['cesareas'];
-            $fecha_fpp      = $_POST['fecha_fpp'];
-            $hora_rpm       = $_POST['hora_rpm'];
+            $fecha_fum             = $_POST['fecha_fum'];
+            $gestaciones           = $_POST['gestaciones'];
+            $partos                = $_POST['partos'];
+            $abortos               = $_POST['abortos'];
+            $cesareas              = $_POST['cesareas'];
+            $fecha_fpp             = $_POST['fecha_fpp'];
+            $hora_rpm              = $_POST['hora_rpm'];
+            $frecuencia_fcf        = $_POST['frecuencia_fcf'];
+            $controles_prenatales  = $_POST['controles_prenatales'];
+            $maduracion_p          = $_POST['maduracion_p'];
 
-            $frecuencia_fcf       = $_POST['frecuencia_fcf'];
-            $controles_prenatales = $_POST['controles_prenatales'];
-            $maduracion_p       = $_POST['maduracion_p'];
-            $parto              = $_POST['parto'];
+            $parto                 = $_POST['parto'];
 
         if ($parto == 'SI') {
             

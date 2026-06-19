@@ -96,7 +96,7 @@ $idestablecimiento_destino_ss = $_SESSION['idestablecimiento_destino_ss'];
                         </a> 
                     </br>
                     </br>
-                    <a href="entrada_referencia.php"><h6>BANDEJA DE ENTRADA DEL ESTABLECIMIENTO -></h6></a>
+                    <a href="admitidos_referencia.php"><h6>IR A BANDEJA DE ADMITIDOS -></h6></a>
                     <h4></h4>
                     </div>
 <!-- END Del TITULO de la pagina ---->

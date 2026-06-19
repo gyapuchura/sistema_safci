@@ -19,9 +19,7 @@ $idderiva_referencia_hc_ss  = $_SESSION['idderiva_referencia_hc_ss'];
 $idreferencia_hc_ss         = $_SESSION['idreferencia_hc_ss'];
 
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-$idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 
@@ -40,9 +38,6 @@ $iddepartamento = $row_e[0];
 $idred_salud    = $row_e[1];
 $idmunicipio    = $row_e[2];
 
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
@@ -378,74 +373,75 @@ $row_n=mysqli_fetch_array($result_n);
                                     name="edad_actual" disabled>
                                 </div>
                                 <div class="col-sm-4">
-                                <h6 class="text-primary">VER CARPETA FAMILIAR:</h6>
-                                <a class="btn btn-info btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-file"></i>
-                                </span>
-                                <span class="text"><?php echo $row_cf[1];?></span></a> 
+                                <h6 class="text-primary"></h6>
                                 </div>
                                 </div>  
 
                                 <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->  
 
+                              <!-------- DATOS PERSONALES DEL INTEGRANTE FAMILIAR (End) --------->  
+                                <?php
+                                $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, integrante_cf.idintegrante_cf FROM carpeta_familiar, integrante_cf ";
+                                $sql_cf.=" WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idnombre='$idnombre_integrante_ss' ";
+                                $result_cf=mysqli_query($link,$sql_cf);
+                                if ($row_cf=mysqli_fetch_array($result_cf)) { ?>
+
                                 <?php
                                 $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
                                 $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
                                 $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss' ORDER BY integrante_datos_cf.idintegrante_datos_cf DESC LIMIT 1 ";
+                                $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$row_cf[2]' ORDER BY integrante_datos_cf.idintegrante_datos_cf DESC LIMIT 1 ";
                                 $result4 = mysqli_query($link,$sql4);
                                 if ($row4 = mysqli_fetch_array($result4)){
                                 mysqli_field_seek($result4,0);
                                 while ($field4 = mysqli_fetch_field($result4)){
                                 } do { 
                                 ?>
-                                <div class="form-group row">                               
-                                    <div class="col-sm-4">
+                               <div class="form-group row">                               
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">ESTADO CIVIL:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[1];?>" 
                                         name="" disabled>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">NIVEL DE INSTRUCCIÓN:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[2];?>"
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <h6 class="text-primary">PROFESIÓN:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[3];?>"             
                                         name="" disabled >                
                                     </div>
-
-                                </div>
-                                <div class="form-group row"> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">OCUPACIÓN:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-3">
+
+                                </div>
+                                <div class="form-group row"> 
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
                                         <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
                                         name="" disabled>                
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                     <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
-                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $row_cf[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
                                         </span>
                                         <span class="text">HISTORIA CLÍNICA DIGITAL</span>
                                         </a>                                      
                                     </div>
-                                    <div class="col-sm-3">
-                                    <h6 class="text-primary">FORMULARIO - D7:</h6>
-                                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-print"></i>
-                                        </span>
-                                        <span class="text">IMPRIMIR FORMULARIO D7</span>
-                                        </a> 
+                                    <div class="col-sm-4">
+                                    <h6 class="text-warning">VER CARPETA FAMILIAR:</h6>
+                                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row_cf[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-file"></i>
+                                    </span>
+                                    <span class="text"><?php echo $row_cf[1];?></span></a> 
                                     </div>
                                 </div> 
                                 <?php
@@ -454,6 +450,22 @@ $row_n=mysqli_fetch_array($result_n);
                                 } else {
                                 }
                                 ?>
+
+                                <?php }  else { ?>
+
+                                <div class="form-group row"> 
+                                    <div class="col-sm-12"> 
+                                        <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
+                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ncref.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-book"></i>
+                                        </span>
+                                        <span class="text">HISTORIA CLÍNICA DIGITAL</span>
+                                        </a> 
+                                    </div>
+                                </div> 
+
+                                <?php } ?> 
                                                            
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
@@ -888,7 +900,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="col-sm-3">  
                                         <h6 class="text-primary">SE CONTACTO AL ESTABLECIMIENTO:</h6>
                                             SI <input type="radio" name="contacto_eess_cref" value="SI" >  
-                                            NO <input type="radio" name="contacto_eess_cref" value="NO" checked >  
+                                            NO <input type="radio" name="contacto_eess_cref" value="NO" >  
                                     </div> 
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
@@ -897,7 +909,8 @@ $row_n=mysqli_fetch_array($result_n);
                                 </div> 
 
                                 <div class="form-group row" id="contenedor-tiempo-telesalud" style="display: none;">
-                                    <div class="col-sm-9"></div> <div class="col-sm-3">
+                                
+                                    <div class="col-sm-4">
                                         <h6 class="text-primary" id="titulo-tiempo-telesalud">TIEMPO:</h6>
                                         <select name="idtiempo_ts" id="idtiempo_ts_contra" class="form-control" disabled>
                                             <option value="">-SELECCIONE-</option>
@@ -918,7 +931,24 @@ $row_n=mysqli_fetch_array($result_n);
                                         </select>
                                         <div class="invalid-feedback">Obligatorio para Telesalud.</div>
                                     </div>
-                                </div> 
+
+                                    <div class="col-sm-4">
+                                        <h6 class="text-primary" id="titulo-atencion-sitio">ATENCIÓN EN SITIO:</h6>
+                                        SI <input type="radio" name="atencion_sitio" id="sitio_si" value="SI" disabled> <br>
+                                        NO <input type="radio" name="atencion_sitio" id="sitio_no" value="NO" checked disabled>  
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <h6 class="text-primary" id="titulo-tipo-tele">TIPO DE TELEINTERCONSULTA:</h6>
+                                        <select name="idtipo_teleinterconsulta" id="idtipo_teleinterconsulta_contra" class="form-control" disabled>
+                                            <option value="">-SELECCIONE-</option>
+                                            <option value="1">Telediagnóstico Médico</option>
+                                            <option value="2">Telediscusión</option>
+                                            <option value="3">Teleemergencia</option>
+                                        </select>
+                                        <div class="invalid-feedback">Debe seleccionar el tipo.</div>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-group row"> <!-- Modificado toda la seccion-->  
                                     <div class="col-sm-6">  
@@ -1102,54 +1132,88 @@ $row_n=mysqli_fetch_array($result_n);
                 });
 
                 // =========================================================================================
-                // 1.5. LÓGICA DINÁMICA SÚPER-SENIOR: MOSTRAR "TIEMPO" SÓLO SI SE MARCA EL CHECKBOX DE TELESALUD
+                // 1.5. LÓGICA DINÁMICA: MOSTRAR TIEMPO, SITIO Y TIPO TELEINTERCONSULTA
                 // =========================================================================================
                 var checkTelesalud = document.getElementById('check-telesalud');
                 var contenedorTiempo = document.getElementById('contenedor-tiempo-telesalud');
+                
+                // Elementos nuevos a controlar
                 var selectTiempo = document.getElementById('idtiempo_ts_contra');
+                var radiosSitio = document.querySelectorAll('input[name="atencion_sitio"]');
+                var selectTipoTele = document.getElementById('idtipo_teleinterconsulta_contra');
 
-                if(checkTelesalud && contenedorTiempo && selectTiempo) {
+                if(checkTelesalud && contenedorTiempo && selectTiempo && selectTipoTele) {
                     
                     function eval_telesalud(checkbox) {
-                        var tituloTiempo = contenedorTiempo.querySelector('h6');
+                        var tituloTiempo = document.getElementById('titulo-tiempo-telesalud');
+                        var tituloSitio = document.getElementById('titulo-atencion-sitio');
+                        var tituloTipoTele = document.getElementById('titulo-tipo-tele');
 
                         if(checkbox.checked) {
-                            // Si activa Telesalud: Mostramos, habilitamos y exigimos TIEMPO
+                            // Mostrar fila
                             contenedorTiempo.style.display = 'flex';
+                            
+                            // Habilitar y hacer obligatorios los selects
                             selectTiempo.removeAttribute('disabled');
                             selectTiempo.setAttribute('required', 'required');
                             
-                            if(tituloTiempo && !tituloTiempo.hasAttribute('data-asterisco')) {
-                                tituloTiempo.innerHTML += ' <span class="asterisco-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                                tituloTiempo.setAttribute('data-asterisco', 'true');
-                            }
+                            selectTipoTele.removeAttribute('disabled');
+                            selectTipoTele.setAttribute('required', 'required');
+                            
+                            // Habilitar y hacer obligatorios los radios (en sitio)
+                            radiosSitio.forEach(r => {
+                                r.removeAttribute('disabled');
+                                r.setAttribute('required', 'required');
+                            });
+                            
+                            // Poner asteriscos
+                            [tituloTiempo, tituloSitio, tituloTipoTele].forEach(t => {
+                                if(t && !t.hasAttribute('data-asterisco')) {
+                                    t.innerHTML += ' <span class="asterisco-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;">*</span>';
+                                    t.setAttribute('data-asterisco', 'true');
+                                }
+                            });
                         } else {
-                            // Si desactiva Telesalud: Ocultamos, deshabilitamos y borramos errores
+                            // Ocultar fila
                             contenedorTiempo.style.display = 'none';
+                            
+                            // Deshabilitar, quitar obligatoriedad y limpiar selects
                             selectTiempo.setAttribute('disabled', 'disabled');
                             selectTiempo.removeAttribute('required');
                             selectTiempo.value = ''; 
                             
-                            selectTiempo.classList.remove('is-invalid');
-                            selectTiempo.style.border = '';
-                            var fb = selectTiempo.parentNode ? selectTiempo.parentNode.querySelector('.invalid-feedback') : null;
-                            if (fb) fb.style.display = '';
+                            selectTipoTele.setAttribute('disabled', 'disabled');
+                            selectTipoTele.removeAttribute('required');
+                            selectTipoTele.value = ''; 
+                            
+                            // Deshabilitar, quitar obligatoriedad y DESMARCAR los radios
+                            radiosSitio.forEach(r => {
+                                r.setAttribute('disabled', 'disabled');
+                                r.removeAttribute('required');
+                                r.checked = false; // <--- ESTO LOS DEJA TOTALMENTE EN BLANCO
+                            });
 
-                            if(tituloTiempo && tituloTiempo.hasAttribute('data-asterisco')) {
-                                var ast = tituloTiempo.querySelector('.asterisco-dinamico');
-                                if(ast) ast.remove();
-                                tituloTiempo.removeAttribute('data-asterisco');
-                            }
+                            // Limpiar rojo visual de los selects
+                            [selectTiempo, selectTipoTele].forEach(el => {
+                                el.classList.remove('is-invalid'); 
+                                el.style.border = '';
+                                var fb = el.parentNode ? el.parentNode.querySelector('.invalid-feedback') : null;
+                                if (fb) fb.style.display = '';
+                            });
+
+                            // Quitar asteriscos
+                            [tituloTiempo, tituloSitio, tituloTipoTele].forEach(t => {
+                                if(t && t.hasAttribute('data-asterisco')) {
+                                    var ast = t.querySelector('.asterisco-dinamico');
+                                    if(ast) ast.remove();
+                                    t.removeAttribute('data-asterisco');
+                                }
+                            });
                         }
                     }
 
-                    // Evaluamos apenas carga la página por si ya estaba marcado
                     eval_telesalud(checkTelesalud); 
-                    
-                    // Escuchamos los clics del médico en tiempo real
-                    checkTelesalud.addEventListener('change', function() { 
-                        eval_telesalud(this); 
-                    }); 
+                    checkTelesalud.addEventListener('change', function() { eval_telesalud(this); }); 
                 }
                 // =========================================================================================
 
