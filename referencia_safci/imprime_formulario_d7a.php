@@ -138,7 +138,7 @@ $row_ai=mysqli_fetch_array($result_ai);
                 $sql_di.=" WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_di.=" AND ubicacion_cf.ubicacion_actual='SI' AND integrante_cf.idnombre='$row_n[0]' ";
                 $result_di=mysqli_query($link,$sql_di);
-                $row_di=mysqli_fetch_array($result_di);
+                if ($row_di=mysqli_fetch_array($result_di)) { 
                 ?>
                 <tr>
                   <td>DOMICILIO:</td>
@@ -157,6 +157,7 @@ $row_ai=mysqli_fetch_array($result_ai);
                   ?>
                   </td>
                 </tr>
+                <?php  } ?>
 
                 <?php
                 $sql_dc =" SELECT tipo_discapacidad_cf.tipo_discapacidad_cf, nivel_discapacidad_cf.nivel_discapacidad_cf FROM discapacidad_ref, tipo_discapacidad_cf, nivel_discapacidad_cf  ";

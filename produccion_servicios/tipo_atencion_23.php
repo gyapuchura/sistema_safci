@@ -648,7 +648,7 @@ switch ($idtipo_atencion) {
 </script>
 
 
-<?php       
+ <?php       
         break;
     case 2: ?>
         
@@ -915,7 +915,7 @@ switch ($idtipo_atencion) {
         </div> 
     </div> 
 
-   <!-- <div id="opcion_patologia_prev"></div> --->
+    <div id="opcion_patologia_prev"></div>
 
     <hr>
 
@@ -953,7 +953,7 @@ switch ($idtipo_atencion) {
 </div>
 <hr>
 
-    <script language="javascript"> 
+        <script language="javascript"> 
         $(document).ready(function(){
         $("#idpatologia_ap_sano").change(function () {
                     $("#idpatologia_ap_sano option:selected").each(function () {
@@ -1038,7 +1038,7 @@ switch ($idtipo_atencion) {
                 });
             }
 
-// 3. BUSCADOR AUTO-DESPLEGABLE (CIE-10 Z)
+            // 3. BUSCADOR AUTO-DESPLEGABLE (CIE-10 Z)
             function quitarAcentos(cadena) {
                 return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             }
@@ -1072,7 +1072,6 @@ switch ($idtipo_atencion) {
                             item.style.borderBottom = '1px solid #eaecf4'; item.style.fontSize = '0.9rem'; item.style.color = '#5a5c69';
                             item.addEventListener('mouseenter', function() { this.style.backgroundColor = '#eaecf4'; this.style.color = '#2e59d9'; });
                             item.addEventListener('mouseleave', function() { this.style.backgroundColor = 'transparent'; this.style.color = '#5a5c69'; });
-                            
                             item.addEventListener('mousedown', function(e) {
                                 e.preventDefault(); 
                                 input.value = opt.text.toUpperCase(); 
@@ -1080,10 +1079,6 @@ switch ($idtipo_atencion) {
                                 listaFlotante.style.display = 'none'; 
                                 input.readOnly = true; input.style.backgroundColor = '#eaecf4'; input.style.color = '#2e59d9';
                                 input.style.cursor = 'not-allowed'; input.title = "Doble clic o presione Borrar para cambiar";
-                                
-                                // 🚀 MEJORA 1: EL DESPERTADOR AJAX
-                                // Forzamos el evento 'change' para que el AJAX original vaya al servidor y traiga los campos
-                                $(selectOriginal).trigger('change'); 
                             });
                             listaFlotante.appendChild(item);
                         });
@@ -1099,35 +1094,24 @@ switch ($idtipo_atencion) {
                         input.readOnly = false; input.value = ''; selectOriginal.value = '';
                         input.style.backgroundColor = ''; input.style.color = ''; input.style.cursor = 'text';
                         input.removeAttribute('title'); input.focus();
-                        
-                        // 🧹 MEJORA 2: LA LIMPIEZA AUTOMÁTICA
-                        // Si el médico borra el diagnóstico, vaciamos también el formulario de abajo para evitar datos fantasma
-                        var contenedorPrev = document.getElementById('opcion_patologia_prev');
-                        if(contenedorPrev) contenedorPrev.innerHTML = '';
                     }
                 }
-                
                 input.addEventListener('keydown', function(e) {
                     if (input.readOnly) {
                         if (e.key === 'Backspace' || e.key === 'Delete') { e.preventDefault(); desbloquear(); } 
                         else if (e.key !== 'Tab') { e.preventDefault(); }
                     }
                 });
-            input.addEventListener('dblclick', desbloquear);
+                input.addEventListener('dblclick', desbloquear);
                 input.addEventListener('blur', function() {
                     setTimeout(function() { 
                         listaFlotante.style.display = 'none'; 
-                        if (!input.readOnly && input.value.trim() === '') { 
-                            input.value = ''; selectOriginal.value = ''; 
-                            // También limpiamos si se sale del input dejándolo vacío
-                            var contenedorPrev = document.getElementById('opcion_patologia_prev');
-                            if(contenedorPrev) contenedorPrev.innerHTML = '';
-                        }
+                        if (!input.readOnly && input.value.trim() === '') { input.value = ''; selectOriginal.value = ''; }
                     }, 200);
                 });
-            }); // <-- Aquí termina tu bloque 3
+            });
 
-            // 4. VALIDADOR DE ENVÍO (¡No lo perdamos!)
+            // 4. VALIDADOR DE ENVÍO
             if (btnConfirmar) {
                 var nuevoBtn = btnConfirmar.cloneNode(true);
                 btnConfirmar.parentNode.replaceChild(nuevoBtn, btnConfirmar);
@@ -1213,9 +1197,8 @@ switch ($idtipo_atencion) {
                     });
                 });
             }
-        }, 200); // <-- Estos son los corchetes vitales que cierran el setTimeout
-    })(); // <-- Y estos cierran la función principal
-
+        }, 200); 
+    })();
 </script>
 
     <?php   
