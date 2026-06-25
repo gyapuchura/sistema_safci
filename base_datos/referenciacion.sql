@@ -460,3 +460,15 @@ ALTER TABLE gestacion ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE gestacion ADD FOREIGN KEY (idesno) REFERENCES esno (idesno);
 ALTER TABLE gestacion ADD FOREIGN KEY (idantirubeola) REFERENCES antirubeola (idantirubeola);
 ALTER TABLE gestacion ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE consulta_antenatal ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
+ALTER TABLE consulta_antenatal ADD FOREIGN KEY (idgestacion) REFERENCES gestacion (idgestacion);
+ALTER TABLE consulta_antenatal ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE consulta_antenatal ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE parto ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
+ALTER TABLE parto ADD FOREIGN KEY (idgestacion) REFERENCES gestacion (idgestacion);
+ALTER TABLE parto ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE parto ADD FOREIGN KEY (idtipo_parto) REFERENCES tipo_parto (idtipo_parto);
+ALTER TABLE parto ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+

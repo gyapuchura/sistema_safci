@@ -12,6 +12,17 @@
 <hr class="sidebar-divider my-0">
 
 <!-- Nav Item - Dashboard -->
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' ){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?> 
+
 <li class="nav-item">
     <a class="nav-link" href="../administrar_sistema/inicio.php" data-toggle="collapse" data-target="#collapseadm"
     aria-expanded="true" aria-controls="collapseadm">
@@ -21,11 +32,19 @@
     <div id="collapseadm" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">ELEGIR:</h6>
+
         <a class="collapse-item" href="../recursos_humanos/reportes_sistema.php">REPORTES SISTEMA</a>
         <a class="collapse-item" href="../administrar_sistema/credenciales.php">CREDENCIALES</br>DE SISTEMA</a> 
+
     </div>
     </div>
 </li>
+
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
 
 <!-- Divider -->
 <hr class="sidebar-divider">
@@ -70,7 +89,7 @@
     }
     ?>
 
-<?php	
+    <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
@@ -113,6 +132,17 @@
     </div>
 </li>
 
+
+<?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?> 
+
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#coberturaSafci"
         aria-expanded="true" aria-controls="collapseTwo">
@@ -122,15 +152,7 @@
     <div id="coberturaSafci" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">ELEGIR:</h6>
-            <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?> 
+
             <a class="collapse-item" href="../recursos_humanos/redes_salud.php">REDES DE SALUD</a>
             <a class="collapse-item" href="../recursos_humanos/establecimientos_salud.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a>
     <!----- <a class="collapse-item" href="../recursos_humanos/establecimientos_salud_nal.php">ESTABLECIMIENTOS </br> DE SALUD NACIONAL</a> -->
@@ -138,11 +160,7 @@
     <!----- <a class="collapse-item" href="../recursos_humanos/areas_influencia_nal.php">ÁREAS DE INFLUENCIA </br> NACIONAL</a> --->
             <a class="collapse-item" href="../recursos_humanos/valida_areas_influencia_municipio.php">ÁREAS DE INFLUENCIA</br>MUNICIPIO</a>
             <a class="collapse-item" href="../recursos_humanos/valida_nueva_area_influencia_mun.php">NUEVA ÁREA</br>INFLUENCIA OPERATIVO</a>
-            <?php
-    } while ($row_menu = mysqli_fetch_array($result_menu));
-    } else {
-    }
-    ?>
+
 
     <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
@@ -184,6 +202,12 @@
         </div>
     </div>
 </li>
+
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
 
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">
@@ -513,7 +537,7 @@
 
         <a class="collapse-item" href="../produccion_servicios/personas_carpetizadas.php">PERSONAS</br>CARPETIZADAS</a>
         <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> 
-        
+        <a class="collapse-item" href="../produccion_servicios/historias_clinicas.php">HISTORIAS CLÍNICAS</a>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
@@ -522,11 +546,23 @@
     
     <a class="collapse-item" href="../produccion_servicios/atenciones_psafci.php">ATENCIONES</br>PSAFCI</a>
     <a class="collapse-item" href="../produccion_servicios/reportes_produccion_servicios.php">REPORTES</br>PRODUCCIÓN</br>DE SERVICIOS</a>
-    <a class="collapse-item" href="../produccion_servicios/historias_clinicas.php">HISTORIAS CLÍNICAS</a>
+
    
         </div>
     </div>
 </li>
+
+
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
 
 
 <!------ MODULO DE REFRERENCIA Y CONTRAREFERENCIA - SAFCI ------->
@@ -539,36 +575,34 @@
     <div id="collapseUtilitiesref" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">BANDEJAS DE REFERENCIA:</h6>
-            <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>
+            <h6 class="collapse-header">BANDEJAS DE REFERENCIA:</h6>      
+            <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">ENTRADA</br>REFERENCIA</a>
+            <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">ADMITIDOS</br>REFERENCIA</a>
+            <a class="collapse-item" href="../referencia_safci/referencias_establecimiento.php">REFERENCIAS DEL</br>ESTABLECIMIENTO</a>
+            <a class="collapse-item" href="../referencia_safci/contrarreferencias_establecimiento.php">CONTRARREFERENCIAS</br>DEL</br>ESTABLECIMIENTO</a>      
+        </div>
+    </div>
+</li>
 
-        
-     <!--   <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> -->
-        
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
-    <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">ENTRADA</br>REFERENCIA</a>
-    <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">ADMITIDOS</br>REFERENCIA</a>
-    <a class="collapse-item" href="../referencia_safci/referencias_establecimiento.php">REFERENCIAS DEL</br>ESTABLECIMIENTO</a>
-    <a class="collapse-item" href="../referencia_safci/contrarreferencias_establecimiento.php">CONTRARREFERENCIAS</br>DEL</br>ESTABLECIMIENTO</a>
-   
-        </div>
-    </div>
-</li>
 
 
 <!------ MODULO DE GESTION BONO JUANA AZURDUY - SAFCI ------->
+
+<?php	
+$sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+$result_menu = mysqli_query($link,$sql_menu);
+$row_menu = mysqli_fetch_array($result_menu);
+/****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
+mysqli_field_seek($result_menu,0);
+while ($field_menu = mysqli_fetch_field($result_menu)){
+} do {	?>
+
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilitiesnino"
         aria-expanded="true" aria-controls="collapseUtilitiesnino">
@@ -579,32 +613,32 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">GESTION BENEFICIARIOS:</h6>
-            <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>
 
-        
-     <!--   <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> -->
-        
-<?php
-    } while ($row_menu = mysqli_fetch_array($result_menu));
-    } else {
-    }
-    ?>
-    <a class="collapse-item" href="../safci_perinatal/inscritos_bono.php">INSCRITOS BONO</br>JUANA AZURDUY</a>
-    <a class="collapse-item" href="../safci_perinatal/beneficiarios_bono.php">BENEFICIARIOS BJAP</br>CARPETA FAMILIAR</a>
+            <a class="collapse-item" href="../safci_perinatal/inscritos_bono.php">INSCRITOS BONO</br>JUANA AZURDUY</a>
+            <a class="collapse-item" href="../safci_perinatal/beneficiarios_bono.php">BENEFICIARIOS BJAP</br>CARPETA FAMILIAR</a>
    
         </div>
     </div>
 </li>
 
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
 <!------ MODULO DE EVENTOS SAFCI NIVEL NACIONAL ------->
+
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>  
 
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities3"
@@ -616,40 +650,30 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SECCIONES:</h6>
-            <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>           
+         
         <!--    <a class="collapse-item" href="../implementacion_safci/notificaciones_vigilancia_ep_adm_nal.php">NOTIFICACIONES</br>VIGILANCIA</br>EPIDEMIOLÓGICA</br>NACIONAL</a> -->
             <a class="collapse-item" href="../eventos_safci/eventos_safci_registrados.php">EVENTOS REGISTRADOS</a>
             <a class="collapse-item" href="../eventos_safci/nuevo_evento_safci.php">NUEVO EVENTO SAFCI</a>
-            <?php
-    } while ($row_menu = mysqli_fetch_array($result_menu));
-    } else {
-    }
-    ?>
-
-    <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>
-
             <a class="collapse-item" href="../eventos_safci/eventos_safci_atencion.php">REGISTRO </br> ATENCIONES MÉDICAS</a>
+        </div>
+    </div>
+</li>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
+
+<?php	
+$sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+$result_menu = mysqli_query($link,$sql_menu);
+$row_menu = mysqli_fetch_array($result_menu);
+/****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
+mysqli_field_seek($result_menu,0);
+while ($field_menu = mysqli_fetch_field($result_menu)){
+} do {	?>
+
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities7"
         aria-expanded="true" aria-controls="collapseUtilities7">
@@ -660,51 +684,33 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SECCIONES:</h6>
+ 
             <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADMINISTRADOR'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>           
+            $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+            $result_menu = mysqli_query($link,$sql_menu);
+            $row_menu = mysqli_fetch_array($result_menu);
+            /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+            if ($row_menu[0] == 'ADMINISTRADOR'){
+            mysqli_field_seek($result_menu,0);
+            while ($field_menu = mysqli_fetch_field($result_menu)){
+            } do {	?>  
             <a class="collapse-item" href="../eventos_safci/nuevo_evento_vacunacion.php">NUEVO EVENTO</br>VACUNACIÓN</a>
             <?php
-    } while ($row_menu = mysqli_fetch_array($result_menu));
-    } else {
-    }
-    ?>
-
-    <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>
-
-        <a class="collapse-item" href="../eventos_safci/eventos_vacunacion.php">EVENTOS</br>DE VACUNACION</a>
-<?php
+            } while ($row_menu = mysqli_fetch_array($result_menu));
+            } else {
+            }
+            ?>
+            <a class="collapse-item" href="../eventos_safci/eventos_vacunacion.php">EVENTOS</br>DE VACUNACION</a>
+        </div>
+    </div>
+</li>
+    <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
    <!------- PROMOCIÓN DE LA SALUD BEGIN  ------>
-
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities_pr"
-        aria-expanded="true" aria-controls="collapseUtilities_pr">
-        <i class="fas fa-users"></i>   
-        <span>PROMOCIÓN DE LA SALUD </br>  PSAFCI</span>
-    </a>
-    <div id="collapseUtilities_pr" class="collapse" aria-labelledby="headingUtilities"
-        data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">SECCIONES:</h6>
-            <?php	
+    <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
@@ -712,13 +718,21 @@
     if ($row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL'){
     mysqli_field_seek($result_menu,0);
     while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>           
+    } do {	?> 
+
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities_pr"
+        aria-expanded="true" aria-controls="collapseUtilities_pr">
+        <i class="fas fa-users"></i>   
+        <span>PROMOCIÓN DE LA SALUD </br> PSAFCI</span>
+    </a>
+    <div id="collapseUtilities_pr" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">SECCIONES:</h6>
+          
             <a class="collapse-item" href="../promocion_safci/sesiones_educativas.php">SESIONES</br>EDUCATIVAS</a>
-            <?php
-    } while ($row_menu = mysqli_fetch_array($result_menu));
-    } else {
-    }
-    ?>
+
 
     <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
@@ -731,11 +745,30 @@
     } do {	?>
 
         <a class="collapse-item" href="../promocion_safci/sesiones_educativas_nal.php">SESIONES EDUCATIVAS</br>NACIONAL</a>
-<?php
+    <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
+        </div>
+    </div>
+</li>
+
+    <?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+    ?>
+
+    <?php	
+    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+    $result_menu = mysqli_query($link,$sql_menu);
+    $row_menu = mysqli_fetch_array($result_menu);
+    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
+    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
+    mysqli_field_seek($result_menu,0);
+    while ($field_menu = mysqli_fetch_field($result_menu)){
+    } do {	?>
 
    <!------- PROMOCIÓN DE LA SALUD END  ------>
    <li class="nav-item">
@@ -748,7 +781,7 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">SECCIONES:</h6>
-            <?php	
+    <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
     $result_menu = mysqli_query($link,$sql_menu);
     $row_menu = mysqli_fetch_array($result_menu);
@@ -765,27 +798,15 @@
     } else {
     }
     ?>
-
-    <?php	
-    $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
-    $result_menu = mysqli_query($link,$sql_menu);
-    $row_menu = mysqli_fetch_array($result_menu);
-    /****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/	
-    if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'PERSONAL' || $row_menu[0] == 'ADMINISTRADOR'){
-    mysqli_field_seek($result_menu,0);
-    while ($field_menu = mysqli_fetch_field($result_menu)){
-    } do {	?>
-
         <a class="collapse-item" href="../gestion_participativa/declaraciones_gp_info.php">INFORMACIÓN</br>GESTIÓN PARTICIPATIVA</a>
+        </div>
+    </div>
+</li>
     <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
-        </div>
-    </div>
-</li>
-
 
 
 <!-- Divider -->
