@@ -1,4 +1,4 @@
-<?php   
+<?php	
 header('Content-type: application/vnd.ms-excel');
 header("Content-Disposition: attachment; filename=REPORTE ATENCIONES TELESALUD.xls");
 header("Pragma: no-cache");
@@ -7,8 +7,8 @@ header("Expires: 0");?>
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram      = date("Ymd");
-$fecha          = date("Y-m-d");
+$fecha_ram	    = date("Ymd");
+$fecha 		    = date("Y-m-d");
 $gestion        = date("Y");
 
 $fecha_r = explode('-',$fecha);
@@ -16,22 +16,6 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
 $inicio = $_POST['inicio'];
 $finalizacion = $_POST['finalizacion'];
-
-// =========================================================================
-// 1. RECIBIR LOS NUEVOS FILTROS
-// =========================================================================
-$iddepartamento    = isset($_POST['iddepartamento']) ? $_POST['iddepartamento'] : '';
-$idmunicipio       = isset($_POST['idmunicipio']) ? $_POST['idmunicipio'] : '';
-$idestablecimiento = isset($_POST['idestablecimiento']) ? $_POST['idestablecimiento'] : '';
-$idusuario_medico  = isset($_POST['idusuario_medico']) ? $_POST['idusuario_medico'] : '';
-
-// 2. ARMAR EL STRING (Adaptado al alias 'a' que usa esta mega consulta)
-$filtro_extra = "";
-if($iddepartamento != '') { $filtro_extra .= " AND a.iddepartamento = '$iddepartamento' "; }
-if($idmunicipio != '') { $filtro_extra .= " AND a.idmunicipio = '$idmunicipio' "; }
-if($idestablecimiento != '') { $filtro_extra .= " AND a.idestablecimiento_salud = '$idestablecimiento' "; }
-if($idusuario_medico != '') { $filtro_extra .= " AND a.idusuario = '$idusuario_medico' "; }
-// =========================================================================
 
 $fecha_i = explode('-',$inicio);
 $f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
@@ -42,9 +26,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 ?>
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>REPORTE TELESALUD</title>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>REPORTE TELESALUD</title>
 </head>
 <h4 align="center" style="font-family: Arial;">REPORTE DE ATENCIONES POR TELESALUD </h4>
 <h4 align="center" style="font-family: Arial;"> DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
@@ -99,12 +83,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     $sql_te.= " INNER JOIN nivel_establecimiento ne ON es.idnivel_establecimiento = ne.idnivel_establecimiento INNER JOIN captacion_ts c ON at.idcaptacion_ts = c.idcaptacion_ts  "; 
     $sql_te.= " INNER JOIN de_ts de ON at.idde_ts = de.idde_ts INNER JOIN en_ts en ON at.iden_ts = en.iden_ts INNER JOIN via_comunicacion vc ON at.idvia_comunicacion = vc.idvia_comunicacion ";
     $sql_te.= " INNER JOIN especialidad_medica em ON at.idespecialidad_medica = em.idespecialidad_medica INNER JOIN tiempo_ts t ON at.idtiempo_ts = t.idtiempo_ts ";
-    
-    // =========================================================================
-    // 3. INYECCIÓN DEL FILTRO EXACTAMENTE AQUÍ (Antes del ORDER BY)
-    // =========================================================================
-    $sql_te.= " INNER JOIN estado_paciente ep ON at.idestado_paciente = ep.idestado_paciente WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' " . $filtro_extra . " ORDER BY a.idatencion_psafci DESC";
-    
+    $sql_te.= " INNER JOIN estado_paciente ep ON at.idestado_paciente = ep.idestado_paciente WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY a.idatencion_psafci DESC";
     $result_te = mysqli_query($link,$sql_te);
     if ($row_te = mysqli_fetch_array($result_te)){
     mysqli_field_seek($result_te,0);
@@ -204,5 +183,5 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 </br>
 
 
-    </body>
+	</body>
 </html>
