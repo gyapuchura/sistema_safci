@@ -173,8 +173,8 @@ $row_n=mysqli_fetch_array($result_n);
                                             } do {
                                             ?>
 
-                                                SI <input type="radio" name="valor_antecedente_familiar[<?php echo $numero_e;?>]" value="NO" <?php if ($row_e[2] =='NO') { echo 'checked'; } ?> disabled> - 
-                                                NO <input type="radio" name="valor_antecedente_familiar[<?php echo $numero_e;?>]" value="SI" <?php if ($row_e[2] =='SI') { echo 'checked'; } ?> disabled> -> <?php echo $row_e[1];?></br> 
+                                                SI <input type="radio" name="valor_antecedente_familiar[<?php echo $numero_e;?>]" value="SI" <?php if ($row_e[2] =='NO') { echo 'checked'; } ?> disabled> - 
+                                                NO <input type="radio" name="valor_antecedente_familiar[<?php echo $numero_e;?>]" value="NO" <?php if ($row_e[2] =='SI') { echo 'checked'; } ?> disabled> -> <?php echo $row_e[1];?></br> 
                                             <?php
                                             $numero_e=$numero_e+1;
                                             }
