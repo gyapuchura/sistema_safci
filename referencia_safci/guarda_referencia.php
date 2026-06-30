@@ -27,8 +27,8 @@ $row_nac    = mysqli_fetch_array($result_nac);
 $sql_cf = " SELECT carpeta_familiar.idarea_influencia FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_cf.= " AND integrante_cf.idnombre ='$idnombre_integrante_ss' ";
 $result_cf = mysqli_query($link,$sql_cf);
+
 if ($row_cf = mysqli_fetch_array($result_cf)) {
-    
 $idarea_influencia = $row_cf[0];
 } else {
 $idarea_influencia = '2';
@@ -209,21 +209,22 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
 
             $fecha_fum      = $_POST['fecha_fum'];
             $fecha_fpp      = $_POST['fecha_fpp'];
-
-            $frecuencia_fcf       = $_POST['frecuencia_fcf'];
             $controles_prenatales = $_POST['controles_prenatales'];
 
-            $hora_rpm     = $_POST['hora_rpm'];
-            $maduracion_p = $_POST['maduracion_p'];
+            $frecuencia_fcf       = $_POST['frecuencia_fcf'];
+
             $parto        = $_POST['parto'];
 
             $sql_hcp    = " SELECT idhistoria_perinatal FROM historia_perinatal WHERE idnombre ='$idnombre_integrante_ss'  ";
             $result_hcp = mysqli_query($link,$sql_hcp);
             if ($row_hcp = mysqli_fetch_array($result_hcp)) {    
 
-            /****** SI YA HAY HISTORIA PERINATAL SOLO ACTUALIZAMOS TABLAS QUE CORRESPONDAN  *******/
-            
-            
+            /****** SI YA HAY HISTORIA PERINATAL SOLO ACTUALIZAMOS TABLAS QUE CORRESPONDAN - BEGIN*******/
+
+
+
+            /****** SI YA HAY HISTORIA PERINATAL SOLO ACTUALIZAMOS TABLAS QUE CORRESPONDAN - END  *******/
+                        
             } else {
 
             /********* INSERTAMOS/REGISTRAMOS LA HISTORIA PERINATAL Y LAS DEMAS TABLAS *******/
@@ -249,25 +250,34 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
                 $sql_1.= " '0','0','1','','$fecha','','','1','$fecha','$hora','$idusuario_ss') ";
                 $result_1 = mysqli_query($link,$sql_1);   
 
-                $sql_2 = " INSERT INTO gestacion (idhistoria_perinatal, idnombre, peso_anterior, talla, idesno, fecha_fum, eg_fum, eco_veinte, fecha_pp, ";
-                $sql_2.= " fuma_activo, fuma_pasivo, drogas, alcohol, violencia, idantirubeola, antitetanica, dosis_antitetanica, ex_odontologico, ex_mamas, fecha_registro, hora_registro, idusuario) ";
-                $sql_2.= " VALUES ('$idhistoria_perinatal','$idnombre_integrante_ss','','','3','$fecha_fum','', '','$fecha_pp', ";
-                $sql_2.= " '','','','','','2','','','','','$fecha','$hora','$idusuario_ss') ";
-                $result_2 = mysqli_query($link,$sql_2); 
+                $sql_2 = " INSERT INTO gestacion (idhistoria_perinatal, idnombre, peso_anterior, talla, idesno, fecha_fum, eg_fum, eco_veinte, fecha_fpp, ";
+                $sql_2.= " fuma_activo, fuma_pasivo, drogas, alcohol, violencia, idantirubeola, antitetanica, dosis_antitetanica, ex_odontologico, ex_mamas, controles_prenatales, fecha_registro, hora_registro, idusuario) ";
+                $sql_2.= " VALUES ('$idhistoria_perinatal','$idnombre_integrante_ss','','','3','$fecha_fum','', '','$fecha_fpp', ";
+                $sql_2.= " '','','','','','2','','','','','$controles_prenatales','$fecha','$hora','$idusuario_ss') ";
+                $result_2 = mysqli_query($link,$sql_2);
+                $idgestacion = mysqli_insert_id($link); 
+
+                /***** consultas antenatales ****** */
+
+                $sql_3 = " INSERT INTO consulta_antenatal (idhistoria_perinatal, idgestacion, idnombre, fecha_consulta, edad_gestacional, peso, imc, presion_arterial, altura_uterina, ";
+                $sql_3.= " presentacion, frecuencia_fcf, mov_fetales, proteinuria, tabletas_sfe, senales_examenes, fecha_proxima, fecha_registro, hora_registro, idusuario) ";
+                $sql_3.= " VALUES ('$idhistoria_perinatal','$idgestacion','$idnombre_integrante_ss','$fecha','','','','','', ";
+                $sql_3.= " '','$frecuencia_fcf','','','','','$fecha','$fecha','$hora','$idusuario_ss') ";
+                $result_3 = mysqli_query($link,$sql_3); 
 
             }
                 
-
-
-
-
         if ($parto == 'SI') {
-            
-            $tipo_parto         = $_POST['tipo_parto'];
+
+            $maduracion_pulmonar = $_POST['maduracion_pulmonar'];
+            $hora_rpm           = $_POST['hora_rpm'];
+           
+            $idtipo_parto       = $_POST['idtipo_parto'];
             $fecha_parto        = $_POST['fecha_parto'];
             $hora_parto         = $_POST['hora_parto'];
             $edad_gestacional   = $_POST['edad_gestacional'];
             $liq_amniotico      = $_POST['liq_amniotico'];
+            $idpeso_eg          = $_POST['idpeso_eg'];
             $peso_rn            = $_POST['peso_rn'];
             $talla_rn           = $_POST['talla_rn'];
             $pc_rn              = $_POST['pc_rn'];
@@ -275,7 +285,20 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
             $apgar_uno          = $_POST['apgar_uno'];
             $apgar_cinco        = $_POST['apgar_cinco'];
             $indice_choque      = $_POST['indice_choque'];
-            $criterios_sofa     = $_POST['criterios_sofa'];
+            $criterio_sofa      = $_POST['criterio_sofa'];
+            $idgenero_rn        = $_POST['idgenero_rn'];
+
+                $sql_4 = " INSERT INTO parto (idhistoria_perinatal, idgestacion, idnombre, fecha_ingreso, hospitalizacion_embarazo, dias_hospitalizacion, ";
+                $sql_4.= " maduracion_pulmonar, hora_rpm, idtipo_parto, fecha_parto, hora_parto, fecha_registro, hora_registro, idusuario) ";
+                $sql_4.= " VALUES ('$idhistoria_perinatal','$idgestacion','$idnombre_integrante_ss','$fecha','','',";
+                $sql_4.= " '$maduracion_pulmonar','$hora_rpm','$idtipo_parto','$fecha_parto','$hora_parto','$fecha','$hora','$idusuario_ss') ";
+                $result_4 = mysqli_query($link,$sql_4); 
+
+                $sql_5 = " INSERT INTO recien_nacido (idhistoria_perinatal, idgestacion, idgenero, liq_amniotico, peso_rn, talla_rn, pc_rn, pt_rn, edad_gestacional, ";
+                $sql_5.= " idpeso_eg, apgar_uno, apgar_cinco, indice_choque, criterio_sofa, fecha_registro, hora_registro, idusuario) ";
+                $sql_5.= " VALUES ('$idhistoria_perinatal','$idgestacion','$idgenero_rn','$liq_amniotico','$peso_rn','$talla_rn','$pc_rn','$pt_rn','$edad_gestacional', ";
+                $sql_5.= " '$idpeso_eg','$apgar_uno','$apgar_cinco','$indice_choque','$criterio_sofa','$fecha','$hora','$idusuario_ss') ";
+                $result_5 = mysqli_query($link,$sql_5); 
 
         } else {   }        
 
