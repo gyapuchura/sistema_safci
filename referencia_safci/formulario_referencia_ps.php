@@ -278,6 +278,10 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 while ($field4 = mysqli_fetch_field($result4)){
                                 } do { 
                                 ?>
+
+                                <input type="hidden" name="idcarpeta_familiar" value="<?php echo $row_cf[0];?>">
+                                <input type="hidden" name="idintegrante_cf" value="<?php echo $row_cf[2];?>">
+
                                 <div class="form-group row">                               
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">ESTADO CIVIL:</h6>
@@ -545,6 +549,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                             <div class="card-body">
                                
+                            <!------ VERIFICAMOS PARA MUJERES QUE YA TENGAN REGISTRO DE HISTORIA PERINATAL ----->
                                 <?php
                                 $sql_h =" SELECT idhistoria_perinatal, fecha_registro FROM historia_perinatal WHERE idnombre='$idnombre_integrante_ss' ";
                                 $result_h = mysqli_query($link,$sql_h);
@@ -560,16 +565,16 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6"> 
                                         <h6 class="text-info">INICIADA EL:</h6>  
-                                        <input type="date" name="fecha_reg_hc" id="" value="<?php echo $row_h[1];?>" disabled>
+                                        <input type="date" name="fecha_reg_hc" value="<?php echo $row_h[1];?>" disabled>
                                     </div>
                                     </div>
                                        <hr>   
                             <?php
-                            $sql_g =" SELECT idgestacion, fecha_fum, fecha_pp, controles_prenatales FROM gestacion WHERE idnombre='$idnombre_integrante_ss' ORDER BY idgestacion DESC LIMIT 1 ";
+                            $sql_g = " SELECT idgestacion, fecha_fum, fecha_pp, controles_prenatales FROM gestacion WHERE idhistoria_perinatal='$row_h[0]' ORDER BY idgestacion DESC LIMIT 1 ";
                             $result_g = mysqli_query($link,$sql_g);
                             $row_g = mysqli_fetch_array($result_g);
 
-                            $sql_a =" SELECT idantecedente_obstetrico, gestaciones, partos, abortos, cesareas  FROM antecedente_obstetrico WHERE idnombre='$idnombre_integrante_ss' ";
+                            $sql_a =" SELECT idantecedente_obstetrico, gestaciones, partos, abortos, cesareas  FROM antecedente_obstetrico WHERE idhistoria_perinatal='$row_h[0]' ";
                             $result_a = mysqli_query($link,$sql_a);
                             $row_a = mysqli_fetch_array($result_a);
 
@@ -812,7 +817,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                     while ($row_h = mysqli_fetch_array($result_h));
                     } else {  ?>
 
-                                    <div class="form-group row">  
+                                <div class="form-group row">  
                                     <div class="col-sm-2">
                                     <h6 class="text-primary">F.U.M. </br>[fecha]</h6>
                                         <input type="date" class="form-control" 
@@ -881,10 +886,10 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                         </div>
 
-                        <div id="datos_parto">
-                        </div>
+                            <div id="datos_parto">
+                            </div>
 
-                   <?php } ?>
+                        <?php } ?>
 
 
                         <?php } else { ?>
