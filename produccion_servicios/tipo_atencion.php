@@ -915,7 +915,7 @@ switch ($idtipo_atencion) {
         </div> 
     </div> 
 
-   <div id="opcion_patologia_prev"></div> 
+  <!-- <div id="opcion_patologia_prev"></div> --->
 
     <hr>
 

@@ -538,11 +538,11 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                             <?php } ?>
 
-                        <?php  if ($row_n[7] == '1' && $edad > '14') {  //******* PARA MUJERES MAYORES A 14 AÑOS EN ESTADO DE EMBARAZO O NACIMIENTO */ ?>
+                        <?php  if ($row_n[7] == '1' && $edad > '12') {  //******* PARA MUJERES MAYORES A 12 AÑOS EN ESTADO DE EMBARAZO O NACIMIENTO */ ?>
                         <hr>                              
                         <div class="form-group row">
                             <div class="col-sm-6">
-                                <h6 class="m-0 font-weight-bold text-primary">SE REFERIRÁ A UNA PERSONA EN ESTADO DE EMBARAZO?</h6>
+                                <h6 class="m-0 font-weight-bold text-danger">SE REFERIRÁ A UNA PERSONA EN ESTADO DE EMBARAZO?</h6>
                             </div>
                             <div class="col-sm-6">
                                 <select name="datos_perinatales" id="datos_perinatales" class="form-control" required>

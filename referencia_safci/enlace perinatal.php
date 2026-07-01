@@ -26,6 +26,7 @@
                                         <input type="date" name="fecha_reg_hc" value="<?php echo $row_h[1];?>" disabled>
                                     </div>
                                     </div>
+                                    
                                        <hr>   
                             <?php
                             $sql_g = " SELECT idgestacion, fecha_fum, fecha_pp, controles_prenatales FROM gestacion WHERE idhistoria_perinatal='$row_h[0]' ORDER BY idgestacion DESC LIMIT 1 ";

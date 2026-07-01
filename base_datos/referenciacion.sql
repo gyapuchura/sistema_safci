@@ -403,6 +403,7 @@ ALTER TABLE referencia_hc ADD FOREIGN KEY (idestablecimiento_receptor) REFERENCE
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idmotivo_referencia) REFERENCES motivo_referencia (idmotivo_referencia);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idespecialidad_medica) REFERENCES especialidad_medica (idespecialidad_medica);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idestado_referencia) REFERENCES estado_referencia (idestado_referencia);
+ALTER TABLE referencia_hc ADD FOREIGN KEY (idtipo_teleinterconsulta) REFERENCES tipo_teleinterconsulta (idtipo_teleinterconsulta);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idtiempo_ts) REFERENCES tiempo_ts (idtiempo_ts);
 ALTER TABLE referencia_hc ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
@@ -455,6 +456,11 @@ ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idultimo_previo) REFERENCES 
 ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idmetodo_anticonceptivo) REFERENCES metodo_anticonceptivo (idmetodo_anticonceptivo);
 ALTER TABLE antecedente_obstetrico ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
+ALTER TABLE antecedente_perinatal ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
+ALTER TABLE antecedente_perinatal ADD FOREIGN KEY (idtipo_antecedente_enfermedad) REFERENCES tipo_antecedente_enfermedad (idtipo_antecedente_enfermedad);
+ALTER TABLE antecedente_perinatal ADD FOREIGN KEY (idantecedente_enfermedad) REFERENCES antecedente_enfermedad (idantecedente_enfermedad);
+ALTER TABLE antecedente_perinatal ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE gestacion ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
 ALTER TABLE gestacion ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE gestacion ADD FOREIGN KEY (idesno) REFERENCES esno (idesno);
@@ -471,4 +477,10 @@ ALTER TABLE parto ADD FOREIGN KEY (idgestacion) REFERENCES gestacion (idgestacio
 ALTER TABLE parto ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE parto ADD FOREIGN KEY (idtipo_parto) REFERENCES tipo_parto (idtipo_parto);
 ALTER TABLE parto ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE recien_nacido ADD FOREIGN KEY (idhistoria_perinatal) REFERENCES historia_perinatal (idhistoria_perinatal);
+ALTER TABLE recien_nacido ADD FOREIGN KEY (idgestacion) REFERENCES gestacion (idgestacion);
+ALTER TABLE recien_nacido ADD FOREIGN KEY (idgenero) REFERENCES genero (idgenero);
+ALTER TABLE recien_nacido ADD FOREIGN KEY (idpeso_eg) REFERENCES peso_eg (idpeso_eg);
+ALTER TABLE recien_nacido ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 

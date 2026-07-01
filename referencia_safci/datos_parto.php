@@ -75,7 +75,7 @@ if ($parto == 'SI') { ?>
                     <div class="form-group row">
                         <div class="col-sm-3">
                         <h6 class="text-primary">INDICE DE CHOQUE:</br>[indice]</h6>
-                            <input type="number" class="form-control"              
+                            <input type="text" class="form-control"              
                                 name="indice_choque" required>               
                         </div>
                         <div class="col-sm-3">
