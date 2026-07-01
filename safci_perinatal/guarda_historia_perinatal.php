@@ -76,6 +76,7 @@ $vaginales            = $_POST['vaginales'];
 $idultimo_previo      = $_POST['idultimo_previo'];
 $antecedente_gemelos  = $_POST['antecedente_gemelos'];
 $f_fea            = $_POST['fecha_fea'];
+
 if ($f_fea == '') {
     $fecha_fea = '1111-11-11';
 } else {

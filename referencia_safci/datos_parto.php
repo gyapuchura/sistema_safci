@@ -15,8 +15,8 @@ if ($parto == 'SI') { ?>
                         <div class="form-group row">  
                         <div class="col-sm-2">
                         <h6 class="text-primary">PARTO</br></h6>
-                        EUTOCICO <input type="radio" name="tipo_parto" value="EUTOCICO" checked></br>
-                        CESÁREA <input type="radio" name="tipo_parto" value="CESÁREA" >               
+                        EUTOCICO <input type="radio" name="idtipo_parto" value="1" checked></br>
+                        CESÁREA <input type="radio" name="idtipo_parto" value="2" >               
                         </div>                             
                         <div class="col-sm-2">
                         <h6 class="text-primary">FECHA DEL PARTO</br>[Fecha]:</h6>
@@ -40,7 +40,7 @@ if ($parto == 'SI') { ?>
                         <div class="col-sm-2">
                         <h6 class="text-primary">PESO</br>[gramos]</h6>
                             <input type="number" class="form-control"              
-                                name="peso_rn" value="0" required>               
+                                name="peso_rn" required>               
                         </div>
                     </div>
                 
@@ -48,50 +48,80 @@ if ($parto == 'SI') { ?>
                         <div class="col-sm-2">
                         <h6 class="text-primary">TALLA</br>[centímetros]</h6>
                             <input type="number" class="form-control"              
-                                name="talla_rn"  value="0" required>               
+                                name="talla_rn" required>               
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-primary">P.C.:</br>[perimetro]</h6>
                             <input type="number" class="form-control"              
-                                name="pc_rn" value="0" required>  
+                                name="pc_rn" required>  
                         </div>
                         <div class="col-sm-2">
                         <h6 class="text-primary">P.T.:</br>[perimetro]</h6>
                             <input type="number" class="form-control"              
-                                name="pt_rn"  value="0" required>  
+                                name="pt_rn"  required>  
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">APGAR:</br>[Primer Minuto]</h6>
                             <input type="number" class="form-control"              
-                                name="apgar_uno" value="0" required>  
+                                name="apgar_uno" required>  
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">APGAR:</br>[5 minutos]</h6>
                             <input type="number" class="form-control"              
-                                name="apgar_cinco" value="0" required>  
+                                name="apgar_cinco" required>  
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-sm-3">
                         <h6 class="text-primary">INDICE DE CHOQUE:</br>[indice]</h6>
-                            <input type="number" class="form-control"              
-                                name="indice_choque" value="0" required>               
+                            <input type="text" class="form-control"              
+                                name="indice_choque" required>               
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-primary">CRITERIOS SOFA:</br>[indice]</h6>
                             <input type="number" class="form-control"              
-                                name="criterios_sofa" value="0" required>  
+                                name="criterio_sofa" required>  
                         </div>
                         <div class="col-sm-3">
-                        <h6 class="text-primary"></h6>
+                        <h6 class="text-primary">GÉNERO DEL RECIEN NACIDO</h6>
+                            <select name="idgenero_rn" id="idgenero_rn" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = "SELECT idgenero, genero FROM genero ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                            </select> 
                         </div>
                         <div class="col-sm-3">
-                        <h6 class="text-primary"></h6>
+                        <h6 class="text-primary">PESO - EDAD GESTACIONAL</h6>
+                            <select name="idpeso_eg" id="idpeso_eg" class="form-control" required>
+                            <option value="">-SELECCIONE-</option>
+                            <?php
+                            $sql1 = "SELECT idpeso_eg, peso_eg FROM peso_eg ";
+                            $result1 = mysqli_query($link,$sql1);
+                            if ($row1 = mysqli_fetch_array($result1)){
+                            mysqli_field_seek($result1,0);
+                            while ($field1 = mysqli_fetch_field($result1)){
+                            } do {
+                            echo "<option value=".$row1[0].">".$row1[1]."</option>";
+                            } while ($row1 = mysqli_fetch_array($result1));
+                            } else {
+                            echo "No se encontraron resultados!";
+                            }
+                            ?>
+                            </select> 
                         </div>
-
                     </div>
-
                 </div>
             </div>
 
