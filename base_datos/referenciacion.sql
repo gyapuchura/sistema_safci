@@ -419,6 +419,11 @@ ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idnombre) REFERENCES nombre 
 ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpatologia);
 ALTER TABLE diagnostico_presuntivo ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
+ALTER TABLE diagnostico_egreso ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);
+ALTER TABLE diagnostico_egreso ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE diagnostico_egreso ADD FOREIGN KEY (idpatologia) REFERENCES patologia (idpatologia);
+ALTER TABLE diagnostico_egreso ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
 ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idreferencia_hc) REFERENCES referencia_hc (idreferencia_hc);
 ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
 ALTER TABLE discapacidad_ref  ADD FOREIGN KEY (idtipo_discapacidad) REFERENCES tipo_discapacidad_cf (idtipo_discapacidad_cf);

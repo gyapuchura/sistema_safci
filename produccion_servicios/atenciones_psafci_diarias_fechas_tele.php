@@ -198,17 +198,20 @@ mysqli_field_seek($result,0);
 while ($field = mysqli_fetch_field($result)){ } do {
 ?>
 <?php
-// INGENIERÍA DE DATOS: Filtramos los dispositivos reales para el gráfico
-$sql7 = " SELECT examen_teleconsulta.idexamen_teleconsulta 
+// INGENIERÍA DE DATOS: Usamos COUNT(DISTINCT) de Paciente+Dispositivo para matar los datos duplicados
+$sql7 = " SELECT COUNT(DISTINCT examen_teleconsulta.idatencion_psafci, examen_teleconsulta.idexamen_complementario) as total_equipos
           FROM examen_teleconsulta 
           INNER JOIN atencion_psafci ON examen_teleconsulta.idatencion_psafci = atencion_psafci.idatencion_psafci 
           INNER JOIN examen_complementario ON examen_teleconsulta.idexamen_complementario = examen_complementario.idexamen_complementario 
           WHERE atencion_psafci.fecha_registro='$row[0]' 
-          AND examen_complementario.examen_complementario NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
-          AND examen_complementario.examen_complementario NOT LIKE '%ESTETOSCOPIO DIGITAL%' 
+          AND atencion_psafci.idtipo_atencion = '4' 
+          AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
+          AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%' 
+          AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%OTRO%' 
           $filtro_extra ";
 $result7 = mysqli_query($link,$sql7);
-$cifra_diaria2 = mysqli_num_rows($result7);
+$row7 = mysqli_fetch_array($result7);
+$cifra_diaria2 = $row7['total_equipos'];
 ?>
              <?php echo $cifra_diaria2; ?>
 <?php
@@ -369,14 +372,16 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         <a href="reporte_telemetria_nal.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,left=400, scrollbars=YES'); return false;">
         N° DE TELEMETRÍAS REALIZADAS</a> =
           <?php 
-          // INGENIERÍA DE DATOS: Contamos dispositivos reales excluyendo el monitor y el estetoscopio
-          $sql_vf =" SELECT count(examen_teleconsulta.idexamen_teleconsulta) 
+          // INGENIERÍA DE DATOS: Deduplicación con DISTINCT para contar aparatos únicos por paciente
+          $sql_vf =" SELECT COUNT(DISTINCT examen_teleconsulta.idatencion_psafci, examen_teleconsulta.idexamen_complementario) 
                      FROM examen_teleconsulta 
                      INNER JOIN atencion_psafci ON examen_teleconsulta.idatencion_psafci = atencion_psafci.idatencion_psafci 
                      INNER JOIN examen_complementario ON examen_teleconsulta.idexamen_complementario = examen_complementario.idexamen_complementario 
                      WHERE atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' 
-                     AND examen_complementario.examen_complementario NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
-                     AND examen_complementario.examen_complementario NOT LIKE '%ESTETOSCOPIO DIGITAL%' 
+                     AND atencion_psafci.idtipo_atencion = '4' 
+                     AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
+                     AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%' 
+                     AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%OTRO%' 
                      $filtro_extra ";
           $result_vf = mysqli_query($link,$sql_vf);
           $row_vf = mysqli_fetch_array($result_vf);
@@ -442,24 +447,25 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                     departamento.departamento, 
                     municipios.municipio, 
                     establecimiento_salud.establecimiento_salud, 
-                    CONCAT(nombre.nombre, ' ', nombre.paterno, ' ', nombre.materno) as medico,
+                    CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
                     atencion_psafci.fecha_registro, 
                     COUNT(atencion_psafci.idatencion_psafci) as cantidad,
                     SUM(CASE WHEN atencion_psafci.idtipo_atencion = '3' THEN 1 ELSE 0 END) as teleconsulta,
                     SUM(CASE WHEN atencion_psafci.idtipo_atencion = '4' THEN 1 ELSE 0 END) as telemetria_atenciones,
-                    IFNULL(SUM(dispositivos.cant_dispositivos), 0) as tecnoasistida
+                    SUM(CASE WHEN atencion_psafci.idtipo_atencion = '4' THEN IFNULL(dispositivos.cant_dispositivos, 0) ELSE 0 END) as tecnoasistida
                 FROM atencion_psafci
                 INNER JOIN departamento ON atencion_psafci.iddepartamento = departamento.iddepartamento
                 INNER JOIN municipios ON atencion_psafci.idmunicipio = municipios.idmunicipio
                 INNER JOIN establecimiento_salud ON atencion_psafci.idestablecimiento_salud = establecimiento_salud.idestablecimiento_salud
-                INNER JOIN usuarios ON atencion_psafci.idusuario = usuarios.idusuario
-                INNER JOIN nombre ON usuarios.idnombre = nombre.idnombre
+                LEFT JOIN usuarios ON atencion_psafci.idusuario = usuarios.idusuario
+                LEFT JOIN nombre ON usuarios.idnombre = nombre.idnombre
                 LEFT JOIN (
-                    SELECT et.idatencion_psafci, COUNT(et.idexamen_teleconsulta) as cant_dispositivos
+                    SELECT et.idatencion_psafci, COUNT(DISTINCT et.idexamen_complementario) as cant_dispositivos
                     FROM examen_teleconsulta et
                     INNER JOIN examen_complementario ec ON et.idexamen_complementario = ec.idexamen_complementario
-                    WHERE ec.examen_complementario NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
-                    AND ec.examen_complementario NOT LIKE '%ESTETOSCOPIO DIGITAL%'
+                    WHERE UPPER(ec.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
+                    AND UPPER(ec.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%'
+                    AND UPPER(ec.examen_complementario) NOT LIKE '%OTRO%'
                     GROUP BY et.idatencion_psafci
                 ) as dispositivos ON atencion_psafci.idatencion_psafci = dispositivos.idatencion_psafci
                 WHERE atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'

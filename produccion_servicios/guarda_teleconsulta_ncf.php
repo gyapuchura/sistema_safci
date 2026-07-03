@@ -25,6 +25,28 @@ $idnacionalidad = $_POST['idnacionalidad'];
 $idnacion       = $_POST['idnacion'];
 $fecha   = $_POST['fecha_registro'];
 
+// =========================================================================
+// INICIO BLOQUE DATA GOVERNANCE: RESTRICCIÓN DE MES ACTUAL
+// =========================================================================
+$mes_enviado  = date("m", strtotime($fecha));
+$anio_enviado = date("Y", strtotime($fecha));
+$mes_actual   = date("m");
+$anio_actual  = date("Y");
+
+if ($mes_enviado != $mes_actual || $anio_enviado != $anio_actual) {
+    die("
+        <div style='text-align: center; margin-top: 50px; font-family: Arial, sans-serif;'>
+            <h3 style='color: #e74a3b;'>ERROR DE SEGURIDAD Y RESTRICCIÓN DE DATOS</h3>
+            <p>El sistema SAFCI está configurado para mantener la integridad estadística.</p>
+            <p><b>Solo se permite registrar atenciones de TELECONSULTA (NCF) correspondientes al mes y año en curso.</b></p>
+            <a href='javascript:history.back()' style='padding: 10px 20px; background: #36b9cc; color: white; text-decoration: none; border-radius: 5px;'>Volver al formulario</a>
+        </div>
+    ");
+}
+// =========================================================================
+// FIN BLOQUE DATA GOVERNANCE
+// =========================================================================
+
 $fecha_nacimiento = $fecha_nac;
 $dia=date("d");
 $mes=date("m");
@@ -120,4 +142,4 @@ $_SESSION['edad_ss'] = $edad;
 
 header("Location:mostrar_atencion_psafci_ncf.php");
       
-?> 
+?>

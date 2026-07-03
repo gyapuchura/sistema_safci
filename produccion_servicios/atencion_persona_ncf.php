@@ -164,24 +164,79 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-        <script src="../js/funciones.js"></script>
+<script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
+    <script src="../js/funciones.js"></script>
 
-        <script language="javascript">
-        $(document).ready(function(){
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
+    <script src="../js/funciones.js"></script>
+
+    <script language="javascript">
+    $(document).ready(function(){
+        
+        // 1. Obtenemos los datos de la fecha actual (Hoy)
+        var date = new Date();
+        var diaHoy = date.getDate().toString().padStart(2, '0');
+        var mesFormato = (date.getMonth() + 1).toString().padStart(2, '0');
+        var anioFormato = date.getFullYear();
+        
+        // 2. MODIFICACIÓN MAESTRA: Cambiamos el límite máximo para que sea HOY
+        // minDateHTML5 = El día 1 de este mes (Permite días atrás del mismo mes)
+        // maxDateHTML5 = El día de HOY (Bloquea por completo el futuro)
+        var minDateHTML5 = anioFormato + '-' + mesFormato + '-01';
+        var maxDateHTML5 = anioFormato + '-' + mesFormato + '-' + diaHoy;
+
         $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion_nfc.php", {tipo_atencion:tipo_atencion}, function(data){
+            $("#idtipo_atencion option:selected").each(function () {
+                var tipo_atencion = $(this).val();
+                
+                $.post("tipo_atencion_nfc.php", {tipo_atencion: tipo_atencion}, function(data){
+                    
+                    // Insertamos el formulario cargado
                     $("#tipo_atencion_nfc").html(data);
-                    });
+                    
+                    // =======================================================
+                    // BLOQUE 1: BLINDAJE DE LA FECHA DE ATENCIÓN
+                    // =======================================================
+                    var inputsFecha = $("#tipo_atencion_nfc").find("input[name='fecha_registro'], input[name='fecha1'], #fecha1, #fecha_registro");
+                    
+                    if (inputsFecha.length > 0) {
+                        inputsFecha.attr('type', 'date');
+                        
+                        // Aplicamos los nuevos límites: Desde el día 1 del mes hasta HOY
+                        inputsFecha.attr('min', minDateHTML5);
+                        inputsFecha.attr('max', maxDateHTML5);
+                        
+                        // Autocompletamos por defecto con la fecha de hoy
+                        inputsFecha.val(maxDateHTML5);
+                    }
+
+                    // =======================================================
+                    // BLOQUE 2: FLEXIBILIDAD EN AMBOS APELLIDOS
+                    // =======================================================
+                    var inputsApellidos = $("#tipo_atencion_nfc").find("input[name='paterno'], input[name='materno']");
+                    
+                    if (inputsApellidos.length > 0) {
+                        
+                        // A. Modificamos el patrón HTML para admitir letras con acentos, eñes y ESPACIOS (\s)
+                        inputsApellidos.attr('pattern', '[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+');
+                        
+                        // B. Validación en tiempo real: Filtra y borra números o caracteres especiales al instante, pero permite la barra espaciadora
+                        inputsApellidos.on('input', function() {
+                            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+                        });
+
+                        // C. Remoción estricta del atributo requerido en AMBOS inputs (Paterno y Materno)
+                        inputsApellidos.removeAttr('required');
+                    }
                 });
-        })
+            });
         });
-    </script> 
+    });
+    </script>
 
 </body>
 </html>

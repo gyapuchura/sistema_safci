@@ -456,24 +456,61 @@ $row_n=mysqli_fetch_array($result_n);
     <!-- scripts para uso de mapas --> 
 
     <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
 
-         <script src="../js/funciones.js"></script>
+    <script src="../js/funciones.js"></script>
 
-        <script language="javascript">
-        $(document).ready(function(){
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
+    <script src="../js/funciones.js"></script>
+
+    <script language="javascript">
+    $(document).ready(function(){
+        
+        // 1. Obtenemos los datos de la fecha actual (Hoy)
+        var date = new Date();
+        var diaHoy = date.getDate().toString().padStart(2, '0');
+        var mesFormato = (date.getMonth() + 1).toString().padStart(2, '0');
+        var anioFormato = date.getFullYear();
+        
+        // 2. MODIFICACIÓN MAESTRA: Cambiamos el límite máximo para que sea HOY
+        // minDateHTML5 = El día 1 de este mes (Permite días atrás del mismo mes)
+        // maxDateHTML5 = El día de HOY (Bloquea por completo el futuro)
+        var minDateHTML5 = anioFormato + '-' + mesFormato + '-01';
+        var maxDateHTML5 = anioFormato + '-' + mesFormato + '-' + diaHoy;
+
         $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion.php", {tipo_atencion:tipo_atencion}, function(data){
+            $("#idtipo_atencion option:selected").each(function () {
+                var tipo_atencion = $(this).val();
+                
+                $.post("tipo_atencion.php", {tipo_atencion: tipo_atencion}, function(data){
+                    
+                    // Insertamos el formulario cargado dinámicamente
                     $("#tipo_atencion").html(data);
-                    });
+                    
+                    // UNIFICACIÓN ARQUITECTÓNICA:
+                    // Usamos .find() acotado exclusivamente al contenedor '#tipo_atencion'
+                    // para capturar solo la fecha de la atención y dejar libre a 'fecha_seguimiento'
+                    var inputsFecha = $("#tipo_atencion").find("input[name='fecha_registro'], input[name='fecha1'], #fecha1, #fecha_registro");
+                    
+                    if (inputsFecha.length > 0) {
+                        
+                        inputsFecha.attr('type', 'date');
+                        
+                        // Aplicamos los nuevos límites: Desde el día 1 del mes hasta HOY
+                        inputsFecha.attr('min', minDateHTML5);
+                        inputsFecha.attr('max', maxDateHTML5);
+                        
+                        // Autocompletamos por defecto con la fecha de hoy
+                        inputsFecha.val(maxDateHTML5);
+                    }
                 });
-        })
+            });
         });
-    </script> 
+    });
+    </script>
 </body>
 </html>
