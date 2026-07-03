@@ -106,7 +106,8 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
     $sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idatencion_psafci_ss','$correlativo','$codigo','$idnombre_integrante_ss',";
     $sql0.= " '$discapacidad','$nombre_acompanante','$idparentesco_acomp','$celular_acompanante','$tel_establecimiento','$estuvo_internado','$dias_internacion','$resumen_anamnesis','$especificacion_hallazgos','$tratamiento_ref',";
     $sql0.= " '$observaciones_ref','$idconsentimiento','$idestablecimiento_salud_r','$idmotivo_referencia','$idespecialidad_medica','$gestion','1','1','$fecha','$hora','$idusuario_ss', '')";
-    $result0 = mysqli_query($link,$sql0) or die("<div style='background:#e74a3b; color:white; padding:30px; font-size:18px; border-radius:10px; font-family:Arial;'><b>🚨 ERROR FATAL DE MYSQL:</b><br><br>" . mysqli_error($link) . "</div><br><div style='background:#f8f9fc; padding:20px; font-family:monospace;'><b>TU CONSULTA SQL ES:</b><br>" . $sql0 . "</div>");   
+    $result0 = mysqli_query($link,$sql0);
+    //***** en caso de fallo en alguna columna */ or die("<div style='background:#e74a3b; color:white; padding:30px; font-size:18px; border-radius:10px; font-family:Arial;'><b>🚨 ERROR FATAL DE MYSQL:</b><br><br>" . mysqli_error($link) . "</div><br><div style='background:#f8f9fc; padding:20px; font-family:monospace;'><b>TU CONSULTA SQL ES:</b><br>" . $sql0 . "</div>"); ***/  
     $idreferencia_hc = mysqli_insert_id($link);
 
     $_SESSION['idreferencia_hc_ss'] = $idreferencia_hc;

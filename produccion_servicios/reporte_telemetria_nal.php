@@ -2,8 +2,8 @@
 <?php include("../inc.config.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	    = date("Ymd");
-$fecha 		    = date("Y-m-d");
+$fecha_ram      = date("Ymd");
+$fecha          = date("Y-m-d");
 $gestion        = date("Y");
 
 $fecha_r = explode('-',$fecha);
@@ -21,14 +21,14 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 ?>
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>REPORTE TELEMETRIA</title>
-	    <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
-		<style type="text/css">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>REPORTE TELEMETRIA</title>
+        <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+        <style type="text/css">
         ${demo.css}
-		</style>
-		<script type="text/javascript">
+        </style>
+        <script type="text/javascript">
 $(function () {
     $('#container').highcharts({
         chart: {
@@ -64,9 +64,11 @@ $(function () {
             name: 'Porcentaje',
             data: [
                  <?php
-                    $sql0 = " SELECT idexamen_complementario FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario !='6'  ";
+                    // INGENIERÍA DE DATOS: Aplicamos DISTINCT múltiple para hallar el Total de Equipos (ignorando dobles clics)
+                    $sql0 = " SELECT COUNT(DISTINCT idatencion_psafci, idexamen_complementario) FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario !='6'  ";
                     $result0 = mysqli_query($link,$sql0);
-                    $total = mysqli_num_rows($result0);
+                    $row0 = mysqli_fetch_array($result0);
+                    $total = $row0[0];
 
                     $numero = 0;
                     $sql = " SELECT idexamen_complementario FROM examen_teleconsulta WHERE idexamen_complementario !='6' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY idexamen_complementario ";
@@ -82,12 +84,18 @@ $(function () {
                     $result_t = mysqli_query($link,$sql_t);
                     $row_t = mysqli_fetch_array($result_t);
 
-                    $sql_c= " SELECT idexamen_complementario FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario ='$row[0]' ";
+                    // INGENIERÍA DE DATOS: Contamos atenciones únicas (DISTINCT) para cada equipo específico
+                    $sql_c= " SELECT COUNT(DISTINCT idatencion_psafci) FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario ='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
-                    $conteo = mysqli_num_rows($result_c);
+                    $row_c = mysqli_fetch_array($result_c);
+                    $conteo = $row_c[0];
 
-                    $p_conteo   = ($conteo*100)/$total;
-                    $porcentaje    = number_format($p_conteo, 2, '.', '');
+                    if($total > 0) {
+                        $p_conteo   = ($conteo*100)/$total;
+                        $porcentaje    = number_format($p_conteo, 2, '.', '');
+                    } else {
+                        $porcentaje = 0;
+                    }
 
                     ?>
 
@@ -114,9 +122,9 @@ $(function () {
         }]
     });
 });
-		</script>
-	</head>
-	<body>
+        </script>
+    </head>
+    <body>
 
 <script src="../js/highcharts.js"></script>
 <script src="../js/highcharts-3d.js"></script>
@@ -136,9 +144,11 @@ $(function () {
 
 <?php
 
-$sql_ta = " SELECT idexamen_complementario FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario !='6' ";
+// INGENIERÍA DE DATOS: Total General de equipos en tabla (DISTINCT)
+$sql_ta = " SELECT COUNT(DISTINCT idatencion_psafci, idexamen_complementario) FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario !='6' ";
 $result_ta = mysqli_query($link,$sql_ta);
-$total_ta = mysqli_num_rows($result_ta);
+$row_ta_total = mysqli_fetch_array($result_ta);
+$total_ta = $row_ta_total[0];
 
 $numeroa = 1;
 $sqla = " SELECT idexamen_complementario FROM examen_teleconsulta WHERE idexamen_complementario !='6' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY idexamen_complementario ";
@@ -152,13 +162,18 @@ $sql_ta = "  SELECT idexamen_complementario, examen_complementario FROM examen_c
 $result_ta = mysqli_query($link,$sql_ta);
 $row_ta = mysqli_fetch_array($result_ta);
 
-$sql_ca = " SELECT idexamen_complementario FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario ='$rowa[0]' ";
+// INGENIERÍA DE DATOS: Cantidad de equipos por fila en tabla (DISTINCT)
+$sql_ca = " SELECT COUNT(DISTINCT idatencion_psafci) FROM examen_teleconsulta WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idexamen_complementario ='$rowa[0]' ";
 $result_ca = mysqli_query($link,$sql_ca);
-$conteoa = mysqli_num_rows($result_ca);
+$row_ca = mysqli_fetch_array($result_ca);
+$conteoa = $row_ca[0];
 
-$p_conteoa   = ($conteoa*100)/$total_ta;
-
-$porcentajea = number_format($p_conteoa, 2, '.', '');
+if($total_ta > 0){
+    $p_conteoa   = ($conteoa*100)/$total_ta;
+    $porcentajea = number_format($p_conteoa, 2, '.', '');
+} else {
+    $porcentajea = 0;
+}
 
 ?>
         <tr>
@@ -182,8 +197,8 @@ Si no se encontraron resultados
         <tr>
           <td width="21" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"></span></td>
           <td width="315" bgcolor="#FFFFFF"><span class="Estilo8 Estilo1 Estilo2"></span></td>
-          <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $total;?></td>
-          <td width="73" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"> 100 %</td>
+          <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px; font-weight:bold;"><?php echo $total_ta;?></td>
+          <td width="73" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px; font-weight:bold;"> 100 %</td>
           <td bgcolor="#FFFFFF" align="center"></td>
         </tr>
     </table>
@@ -194,5 +209,5 @@ Si no se encontraron resultados
 
 
 
-	</body>
+    </body>
 </html>

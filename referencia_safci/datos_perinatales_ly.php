@@ -14,7 +14,8 @@ if ($datos_perinatales =='SI') { ?>
                 <div class="form-group row">  
                     <div class="col-sm-2">
                     <h6 class="text-primary">F.U.M. </br>[fecha]</h6>
-                        <input type="date" class="form-control" name="fecha_fum" id="fecha_fum" required>                
+                        <input type="date" class="form-control" 
+                            name="fecha_fum" required>                
                     </div>                             
                     <div class="col-sm-2">
                     <h6 class="text-primary">G</br>[Gestaciones]:</h6>
@@ -34,11 +35,12 @@ if ($datos_perinatales =='SI') { ?>
                     <div class="col-sm-2">
                     <h6 class="text-primary">C</br>[Cesáreas]:</h6>
                         <input type="number" class="form-control" placeholder="Nº Cesáreas"
-                            name="cesareas" placeholder="" value="" required>                
+                            name="cesareas" placeholder="" value="0" required>                
                     </div>
                     <div class="col-sm-2">
                     <h6 class="text-primary">F.P.P.</br>[fecha]</h6>
-                        <input type="date" class="form-control" name="fecha_fpp" id="fecha_fpp" value="">                
+                        <input type="date" class="form-control" 
+                            name="fecha_fpp" value="">                
                     </div>
                 </div>
             
@@ -64,7 +66,7 @@ if ($datos_perinatales =='SI') { ?>
                     NO <input type="radio" name="maduracion_pulmonar" value="NO" checked >  
                     </div>
                     <div class="col-sm-2">
-                    <h6 class="m-0 font-weight-bold text-danger">PARTO:</h6>
+                    <h6 class="text-primary">PARTO:</h6>
                     <select name="parto" id="parto" class="form-control" required>
                         <option value="">Seleccione</option>
                         <option value="NO">NO</option>
@@ -87,41 +89,14 @@ if ($datos_perinatales =='SI') { ?>
 
 <script language="javascript"> 
     $(document).ready(function(){
-        
-        // 1. CARGA AJAX DEL SUB-FORMULARIO DE PARTO
-        $("#parto").change(function () {
-            $("#parto option:selected").each(function () {
-                let parto = $(this).val();
+    $("#parto").change(function () {
+                $("#parto option:selected").each(function () {
+                    parto=$(this).val();
                 $.post("datos_parto.php", {parto:parto}, function(data){
-                    $("#datos_parto").html(data);
+                $("#datos_parto").html(data);
                 });
             });
-        });
-
-        // =====================================================================
-        // 2. CÁLCULO AUTOMÁTICO DE FPP BASADO EN FUM (Regla de Naegele)
-        // =====================================================================
-        $(document).off('change', '#fecha_fum').on('change', '#fecha_fum', function() {
-            let fumVal = $(this).val();
-            let inputFpp = $('#fecha_fpp'); 
-            
-            if (fumVal) {
-                let fumDate = new Date(fumVal + 'T00:00:00'); // Evita desfase de zona horaria
-                if (!isNaN(fumDate.getTime())) {
-                    fumDate.setDate(fumDate.getDate() + 280); // Sumar 280 días (40 semanas)
-                    
-                    let fppStr = fumDate.toISOString().split('T')[0];
-                    inputFpp.val(fppStr);
-                    
-                    // UX: Lo pintamos de gris nativo de Bootstrap para simular que está "bloqueado"
-                    inputFpp.css({'background-color': '#eaecf4', 'color': '#6e707e', 'transition': 'background-color 0.4s ease'});
-                }
-            } else {
-                // Si el médico borra la FUM, el campo vuelve a quedar blanco y vacío
-                inputFpp.val('').css({'background-color': '', 'color': ''});
-            }
-        });
-
+    })
     });
 </script>
 

@@ -369,11 +369,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="" 
-                                        name="nombre_acompanante">
+                                        name="nombre_acompanante" required>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
-                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control">
+                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $sql1 = "SELECT idparentesco, parentesco FROM parentesco ";
@@ -395,7 +395,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
                                         <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
-                                        name="celular_acompanante">                
+                                        name="celular_acompanante" required>                
                                     </div>
 
                                     <div class="col-sm-6">
@@ -631,7 +631,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
                                     
-                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz"></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba o utilice el botón de dictado por voz" readonly style="background-color: #eaecf4;"></textarea>
                                     
                                     <div class="invalid-feedback" style="margin-top: 5px;">Debe especificar a qué otros exámenes se refiere.</div>
                                     
@@ -771,7 +771,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">7.- OBSERVACIONES <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span></h6>
+                                <h6 class="m-0 font-weight-bold text-primary">7.- OBSERVACIONES</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">                               
@@ -1490,6 +1490,77 @@ $row_ps=mysqli_fetch_array($result_ps);
             });
         </script>
 
+        <script>
+            // LÓGICA: Habilitación Condicional de Exámenes (Opción "OTROS")
+            document.addEventListener('DOMContentLoaded', function() {
+                var checkboxesExamenes = document.querySelectorAll('.chk-examen');
+                var campoEspecificar = document.getElementById('especificacion_hallazgos');
+                
+                if (checkboxesExamenes.length > 0 && campoEspecificar) {
+                    var contenedor = campoEspecificar.closest('[class*="col-sm-"]');
+                    var titulo = contenedor ? contenedor.querySelector('h6') : null;
+                    var btnMic = contenedor ? contenedor.querySelector('.btn-mic') : null;
+
+                    function evaluarExamenes() {
+                        var isOtrosChecked = false;
+                        
+                        // Buscamos matemáticamente si el checkbox "OTROS" fue marcado
+                        checkboxesExamenes.forEach(function(chk) {
+                            if (chk.checked && chk.getAttribute('data-nombre').includes('OTROS')) {
+                                isOtrosChecked = true;
+                            }
+                        });
+                        
+                        if (isOtrosChecked) {
+                            // 1. Habilitamos la escritura, quitamos el fondo gris y obligamos a llenarlo
+                            campoEspecificar.removeAttribute('readonly');
+                            campoEspecificar.style.backgroundColor = '';
+                            campoEspecificar.setAttribute('required', 'true');
+                            
+                            // 2. Aparecemos el micrófono
+                            if (btnMic) btnMic.style.display = 'inline-block';
+                            
+                            // 3. Dibujamos el asterisco rojo mágicamente si no lo tiene
+                            if (titulo && !titulo.hasAttribute('data-asterisco-dinamico')) {
+                                titulo.innerHTML += ' <span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
+                                titulo.setAttribute('data-asterisco-dinamico', 'true');
+                            }
+                        } else {
+                            // 1. Bloqueamos, regresamos el color gris y quitamos la obligación
+                            campoEspecificar.setAttribute('readonly', 'true');
+                            campoEspecificar.style.backgroundColor = '#eaecf4'; 
+                            campoEspecificar.removeAttribute('required');
+                            
+                            // 2. Ocultamos el micrófono (Seguridad contra dictados fantasmas)
+                            if (btnMic) btnMic.style.display = 'none';
+                            
+                            // 3. Quitamos alertas rojas de validación si el médico se arrepintió
+                            campoEspecificar.classList.remove('is-invalid');
+                            campoEspecificar.style.border = '';
+                            
+                            // 4. PROTECCIÓN ANTI-FANTASMAS: Borramos texto erróneo previo
+                            campoEspecificar.value = ''; 
+                            
+                            // 5. Desaparecemos el asterisco
+                            if (titulo && titulo.hasAttribute('data-asterisco-dinamico')) {
+                                var ast = titulo.querySelector('.ast-dinamico');
+                                if (ast) ast.remove();
+                                titulo.removeAttribute('data-asterisco-dinamico');
+                            }
+                        }
+                    }
+
+                    // Escuchamos los clics en cada uno de los checkboxes
+                    checkboxesExamenes.forEach(function(chk) {
+                        chk.addEventListener('change', evaluarExamenes);
+                    });
+                    
+                    // Ejecutamos una vez al cargar por si "OTROS" ya venía marcado
+                    // Ejecutamos una vez al cargar por si "OTROS" ya venía marcado
+                    evaluarExamenes();
+                }
+            });
+        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', async function() {
@@ -1654,131 +1725,6 @@ $row_ps=mysqli_fetch_array($result_ps);
                 }
             });
         </script>
-<script>
-$(document).ready(function() {
-    
-    // 1. Identificamos los campos con los nombres exactos de tu HTML
-    const nameAcompanante = 'nombre_acompanante'; 
-    const nameParentesco  = 'idparentesco_acomp'; 
-    const nameCelular     = 'celular_acompanante';
-
-    function evaluarObligatoriedadAcompanante() {
-        let campoNombre = $('input[name="' + nameAcompanante + '"]');
-        let campoParentesco = $('select[name="' + nameParentesco + '"]');
-        let campoCelular = $('input[name="' + nameCelular + '"]');
-
-        if (campoNombre.length > 0) {
-            // Si el médico escribió algo (y no solo espacios vacíos)
-            if (campoNombre.val().trim().length > 0) {
-                
-                // 1. DESBLOQUEAMOS los campos para permitir escribir
-                campoParentesco.prop('disabled', false);
-                campoCelular.prop('disabled', false);
-
-                // 2. Los hacemos obligatorios
-                campoParentesco.prop('required', true);
-                campoCelular.prop('required', true);
-                
-                // 3. Dibujamos los asteriscos rojos
-                añadirAsterisco(campoParentesco);
-                añadirAsterisco(campoCelular);
-                
-            } else {
-                
-                // 1. BLOQUEAMOS los campos (se pondrán en gris)
-                campoParentesco.prop('disabled', true);
-                campoCelular.prop('disabled', true);
-
-                // 2. LIMPIEZA ANTI-FANTASMAS: Borramos lo que haya adentro por si se arrepintió
-                campoParentesco.val('');
-                campoCelular.val('');
-
-                // 3. Quitamos la obligación y las alertas rojas de error
-                campoParentesco.prop('required', false).removeClass('is-invalid');
-                campoCelular.prop('required', false).removeClass('is-invalid');
-                
-                // 4. Borramos los asteriscos
-                quitarAsterisco(campoParentesco);
-                quitarAsterisco(campoCelular);
-            }
-        }
-    }
-
-    function añadirAsterisco(elemento) {
-        let titulo = elemento.closest('div[class*="col-sm-"]').find('h6, label');
-        if (titulo.length > 0 && titulo.find('.ast-dinamico').length === 0) {
-            titulo.append('<span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio"> *</span>');
-        }
-    }
-
-    function quitarAsterisco(elemento) {
-        let titulo = elemento.closest('div[class*="col-sm-"]').find('h6, label');
-        if (titulo.length > 0) {
-            titulo.find('.ast-dinamico').remove();
-        }
-    }
-
-    // Escuchamos cada vez que el médico teclea en el nombre en tiempo real
-    $(document).off('input', 'input[name="' + nameAcompanante + '"]').on('input', 'input[name="' + nameAcompanante + '"]', function() {
-        evaluarObligatoriedadAcompanante();
-    });
-
-    // Ejecutamos una vez al iniciar la página para que nazcan bloqueados
-    setTimeout(evaluarObligatoriedadAcompanante, 300);
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    
-    // =====================================================================
-    // LÓGICA CONDICIONAL PARA ALERGIAS
-    // =====================================================================
-    function evaluarAlergia() {
-        // Obtenemos qué opción está marcada actualmente (SI o NO)
-        let opcionMarcada = $('input[name="alergia"]:checked').val();
-        
-        // Seleccionamos los elementos con los que interactuaremos
-        let campoDescripcion = $('#descripcion_alergia');
-        let contenedor = campoDescripcion.closest('.col-sm-6');
-        let titulo = contenedor.find('h6.text-primary');
-        let botonMic = contenedor.find('.btn-mic');
-
-        if (opcionMarcada === 'SI') {
-            // 1. DESBLOQUEAR Y HACER OBLIGATORIO
-            campoDescripcion.prop('disabled', false).prop('required', true);
-            
-            // 2. MOSTRAR EL MICRÓFONO
-            botonMic.show();
-
-            // 3. DIBUJAR ASTERISCO ROJO (Si no lo tiene ya)
-            if (titulo.find('.ast-dinamico').length === 0) {
-                titulo.append('<span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio"> *</span>');
-            }
-        } else {
-            // 1. BLOQUEAR, QUITAR OBLIGACIÓN Y LIMPIAR (Anti-fantasmas)
-            campoDescripcion.prop('disabled', true).prop('required', false).removeClass('is-invalid');
-            campoDescripcion.val(''); // Borra el texto si el doctor escribió algo y luego se arrepintió
-            
-            // 2. OCULTAR EL MICRÓFONO (Para que no intente dictar en un campo bloqueado)
-            botonMic.hide();
-
-            // 3. QUITAR ASTERISCO ROJO
-            titulo.find('.ast-dinamico').remove();
-        }
-    }
-
-    // Escuchamos el cambio en las opciones de "SI / NO" de Alergias
-    $(document).off('change', 'input[name="alergia"]').on('change', 'input[name="alergia"]', function() {
-        evaluarAlergia();
-    });
-
-    // Ejecutamos la función apenas carga la pantalla.
-    // Como tu HTML tiene "NO" marcado por defecto, la caja nacerá bloqueada mágicamente.
-    setTimeout(evaluarAlergia, 200);
-
-});
-</script>
 
 </body>
 </html>
