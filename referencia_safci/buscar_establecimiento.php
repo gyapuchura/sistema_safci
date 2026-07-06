@@ -9,7 +9,7 @@
             echo "<option value=''> - SELECCIONE DE LA LISTA DE ESTABLECIMIENTOS COINCIDENTES - </option>";
             $numero=1;
             $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
-            $sql.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
+            $sql.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento, establecimiento_salud.codigo_establecimiento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
             $sql.=" WHERE establecimiento_salud.idsubsector_salud=subsector_salud.idsubsector_salud AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
             $sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio  AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.establecimiento_salud LIKE '%$b%' ";
             $result = mysqli_query($link,$sql);
@@ -27,8 +27,9 @@
                         $subsector_salud         = $row[4];
                         $municipio               = $row[5];
                         $departamento            = $row[6];
+                        $codigo_eess            = $row[7];
 	                  
-                        echo "<option value=".$idestablecimiento_salud." >".$numero.".- ".$establecimiento_salud." - ".$nivel_establecimiento." - ".$tipo_establecimiento." - ".$subsector_salud." - Mun. ".$municipio." - ".$departamento." </option> ";                        
+                        echo "<option value=".$idestablecimiento_salud." >".$numero.".- ".$establecimiento_salud." - ".$nivel_establecimiento." - ".$tipo_establecimiento." - ".$subsector_salud." - Mun. ".$municipio." - ".$departamento." - Cod. ".$codigo_eess." </option> ";                        
                         
                         $numero = $numero+1;
                   }

@@ -631,7 +631,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
                                     
-                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz"></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz" required></textarea>
                                     
                                     <div class="invalid-feedback" style="margin-top: 5px;">Debe especificar a qué otros exámenes se refiere.</div>
                                     
