@@ -369,11 +369,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="" 
-                                        name="nombre_acompanante">
+                                        name="nombre_acompanante" required>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
-                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control">
+                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $sql1 = "SELECT idparentesco, parentesco FROM parentesco ";
@@ -663,7 +663,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -696,7 +696,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -729,7 +729,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);

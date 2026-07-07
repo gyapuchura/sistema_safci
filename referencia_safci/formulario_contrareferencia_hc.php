@@ -628,7 +628,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         <select name="idpatologia[]"  id="idpatologia[]" class="form-control" disabled >
                                         <option selected>Seleccione</option>
                                         <?php
-                                        $sqlv = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia ";
+                                        $sqlv = " SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia ";
                                         $resultv = mysqli_query($link,$sqlv);
                                         if ($rowv = mysqli_fetch_array($resultv)){
                                         mysqli_field_seek($resultv,0);
@@ -930,7 +930,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         <select name="idpatologia[0]" id="idpatologia_0" class="form-control" required style="display: none;"> <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -960,7 +960,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         <select name="idpatologia[1]" id="idpatologia_1" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -989,7 +989,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         <select name="idpatologia[2]" id="idpatologia_2" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
