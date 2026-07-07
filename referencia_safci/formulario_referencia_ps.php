@@ -474,7 +474,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glasgow" value="" required>                
+                                            name="glascow" value="" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
@@ -521,7 +521,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glasgow" value="" required>                
+                                            name="glascow" value="" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">

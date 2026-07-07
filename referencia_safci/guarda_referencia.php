@@ -75,9 +75,11 @@ $frec_respiratoria    = $_POST['frec_respiratoria'];
 $presion_arterial     = $_POST['presion_arterial'];
 $presion_arterial_d   = $_POST['presion_arterial_d'];
 $saturacion           = $_POST['saturacion'];
-$glascow              = isset($_POST['glascow']) ? $_POST['glascow'] : '';
+$glascow              = $_POST['glascow'];
 $alergia              = $_POST['alergia'];
 $descripcion_alergia  = $_POST['descripcion_alergia'];
+
+$datos_perinatales  = $_POST['datos_perinatales'];
 
 $estuvo_internado     = $_POST['estuvo_internado'];
 $dias_internacion     = $_POST['dias_internacion'];
@@ -139,7 +141,7 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
                     $DETALLE_PROCESO = "El archivo se guardó en la carpeta, pero la consulta UPDATE falló: " . mysqli_error($link);
                 }
             } else {
-                $ESTADO_PROCESO = "FALLO DE PERMISOS WINDOWS";
+                $ESTADO_PROCESO = "FALLO DE PERMISOS";
                 $DETALLE_PROCESO = "PHP recibió el archivo temporal, pero move_uploaded_file no pudo moverlo a: $ruta_completa";
             }
         } else {
@@ -147,7 +149,7 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
             if($codigo_error == 4) {
                 $DETALLE_PROCESO = "Código error 4: El navegador NO envió ningún archivo binario a PHP (llegó vacío). Esto ocurre si el formulario_referencia_ps.php limpió el input antes de enviar.";
             } else {
-                $DETALLE_PROCESO = "Código error $codigo_error: Problema de tamaño límite (upload_max_filesize) en el archivo php.ini de tu XAMPP.";
+                $DETALLE_PROCESO = "Código error $codigo_error: Problema de tamaño límite.";
             }
         }
     } else {
@@ -200,9 +202,10 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
 
     } else {  }
 
-    if ($idgenero == '1' && $edad > '14') {
+    if ($idgenero == '1' && $edad >'12') {
 
-
+    if ($datos_perinatales = 'SI') {
+    
             $gestaciones    = $_POST['gestaciones'];
             $partos         = $_POST['partos'];
             $abortos        = $_POST['abortos'];
@@ -301,9 +304,11 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
                 $sql_5.= " '$idpeso_eg','$apgar_uno','$apgar_cinco','$indice_choque','$criterio_sofa','$fecha','$hora','$idusuario_ss') ";
                 $result_5 = mysqli_query($link,$sql_5); 
 
-        } else {   }        
+        } else {  }        
+        
+        } else {  }
 
-    } else {  }
+        } else {  }
          
     
 // Comentamos temporalmente la redirección para auditar el sistema
