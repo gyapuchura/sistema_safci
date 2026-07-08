@@ -76,22 +76,25 @@ $presion_arterial     = $_POST['presion_arterial'];
 $presion_arterial_d   = $_POST['presion_arterial_d'];
 $saturacion           = $_POST['saturacion'];
 $glascow              = $_POST['glascow'];
-$alergia              = $_POST['alergia'];
-$descripcion_alergia  = $_POST['descripcion_alergia'];
+// 1. SOLUCIÓN A LA ALERGIA: Le decimos a PHP "Si no te enviaron la alergia porque estaba bloqueada, ponle NINGUNA".
+$alergia             = isset($_POST['alergia']) ? $_POST['alergia'] : 'NO';
+$descripcion_alergia = isset($_POST['descripcion_alergia']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['descripcion_alergia']))) : 'NINGUNA';
 
-$datos_perinatales  = $_POST['datos_perinatales'];
+$datos_perinatales   = isset($_POST['datos_perinatales']) ? $_POST['datos_perinatales'] : 'NO';
 
-$estuvo_internado     = $_POST['estuvo_internado'];
-$dias_internacion     = $_POST['dias_internacion'];
-$resumen_anamnesis    = $_POST['resumen_anamnesis'];
-$especificacion_hallazgos = $_POST['especificacion_hallazgos'];
-$tratamiento_ref          = $_POST['tratamiento_ref'];
-$observaciones_ref        = $_POST['observaciones_ref'];
-$idconsentimiento         = $_POST['idconsentimiento'];
+$estuvo_internado    = isset($_POST['estuvo_internado']) ? $_POST['estuvo_internado'] : 'NO';
+$dias_internacion    = isset($_POST['dias_internacion']) ? $_POST['dias_internacion'] : '0';
 
-$idmotivo_referencia        = $_POST['idmotivo_referencia'];
-$idestablecimiento_salud_r  = $_POST['idestablecimiento_salud_r'];
-$idespecialidad_medica      = $_POST['idespecialidad_medica'];
+// 2. SOLUCIÓN A LAS COMILLAS: Blindamos los textos largos para que no rompan la base de datos
+$resumen_anamnesis        = isset($_POST['resumen_anamnesis']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['resumen_anamnesis']))) : '';
+$especificacion_hallazgos = isset($_POST['especificacion_hallazgos']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['especificacion_hallazgos']))) : '';
+$tratamiento_ref          = isset($_POST['tratamiento_ref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['tratamiento_ref']))) : '';
+$observaciones_ref        = isset($_POST['observaciones_ref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['observaciones_ref']))) : '';
+
+$idconsentimiento         = isset($_POST['idconsentimiento']) ? $_POST['idconsentimiento'] : '0';
+$idmotivo_referencia      = isset($_POST['idmotivo_referencia']) ? $_POST['idmotivo_referencia'] : '0';
+$idestablecimiento_salud_r = isset($_POST['idestablecimiento_salud_r']) ? $_POST['idestablecimiento_salud_r'] : '0';
+$idespecialidad_medica    = isset($_POST['idespecialidad_medica']) ? $_POST['idespecialidad_medica'] : '0';
 
 $sqlm    = " SELECT MAX(correlativo) FROM referencia_hc WHERE gestion='$gestion'";
 $resultm = mysqli_query($link,$sqlm);
@@ -182,12 +185,18 @@ $codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
 
     $idpatologia = $_POST['idpatologia'];
 
-    foreach($_POST['diagnostico_presuntivo'] as $clave => $diagnostico_presuntivo_i) {
-
+    // 3. PREVENCIÓN DE LA FILA LARGA DE DIAGNOSTICOS EN CASOS DE ERROR: Si el paciente no se guardó (ID 0), detenemos los diagnósticos.
+    if ($idreferencia_hc > 0) {
+        foreach($_POST['diagnostico_presuntivo'] as $clave => $diagnostico_presuntivo_i) {
+            
+            // Blindamos el texto del diagnóstico también por si lleva comillas
+            $diagnostico_seguro = mysqli_real_escape_string($link, strtoupper(trim($diagnostico_presuntivo_i)));
+            
             $sql_dg = " INSERT INTO diagnostico_presuntivo (idreferencia_hc, idnombre, diagnostico_presuntivo, idpatologia, fecha_registro, hora_registro, idusuario) ";
-            $sql_dg.= " VALUES ('$idreferencia_hc','$idnombre_integrante_ss','$diagnostico_presuntivo_i','$idpatologia[$clave]','$fecha','$hora','$idusuario_ss') ";
+            $sql_dg.= " VALUES ('$idreferencia_hc','$idnombre_integrante_ss','$diagnostico_seguro','$idpatologia[$clave]','$fecha','$hora','$idusuario_ss') ";
             $result_dg = mysqli_query($link,$sql_dg);   
-            }
+        }
+    }
 
 /*********** se llenan otras tablas con relacion al CONTROL PERINATAL ***********/
 
