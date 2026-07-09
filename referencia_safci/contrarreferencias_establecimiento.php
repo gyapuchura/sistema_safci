@@ -97,7 +97,7 @@ $idestablecimiento_salud = $row_es[1];
                                 $sql =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
                                 $sql.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
                                 $sql.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-                                $sql.=" fecha_registro, hora_registro, idusuario, idestado_referencia FROM referencia_hc WHERE idestablecimiento_receptor='$idestablecimiento_salud' AND idestado_referencia ='2' ";
+                                $sql.=" fecha_registro, hora_registro, idusuario, idestado_referencia FROM referencia_hc WHERE idestablecimiento_receptor='$idestablecimiento_salud' AND idestado_referencia ='2' ORDER BY idreferencia_hc DESC ";
                                 $result = mysqli_query($link,$sql);
                                 if ($row = mysqli_fetch_array($result)){
                                 mysqli_field_seek($result,0);
