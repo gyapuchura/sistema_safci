@@ -1,4 +1,3 @@
-<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -378,7 +377,79 @@ $row_ai=mysqli_fetch_array($result_ai);
               <p style="text-align: center">SELLO DEL ESTABLECIMIENTO RECEPTOR</p></td>
           </tr>
           <tr>
-            <td colspan="2" style="text-align: center; font-size: 12px; font-family: Arial;">RECUERDE:</td>
+            <td colspan="2" style="text-align: center; font-size: 12px; font-family: Arial;">
+
+                 <!----- codigo QR de validacion digital BEGIN ------>  
+
+ <p style="text-align: center; font-size: 9px; font-family: Arial;">
+              <?php
+/*
+ * Algoritmo para codificacion QR
+ *
+ * SE emplea el include con el scripti phpqrcode.php
+ *
+ */
+    //set it to writable location, a place for temp generated PNG files
+    $PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
+    //html PNG location prefix
+    $PNG_WEB_DIR = 'temp/';
+
+    include "../implementacion_safci/phpqrcode.php";
+
+    //capturamos el valor de "data"
+
+    $separador='|';
+    $tamano='M';
+
+    $_REQUEST['data'] = 'https://virtual-safci.minsalud.gob.bo/medi-safci/referencia_safci/imprime_formulario_d7a.php?idreferencia_hc='.$idreferencia_hc_ss;
+    $_REQUEST['size'] = 2 ;
+    $_REQUEST['level'] = $tamano ;
+
+    //ofcourse we need rights to create temp dir
+    if (!file_exists($PNG_TEMP_DIR))
+        mkdir($PNG_TEMP_DIR);
+
+
+    $filename = $PNG_TEMP_DIR.'test.png';
+
+    //processing form input
+    //remember to sanitize user input in real-life solution !!!
+    $errorCorrectionLevel = 'L';
+    if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
+        $errorCorrectionLevel = $_REQUEST['level'];
+
+    $matrixPointSize = 4;
+    if (isset($_REQUEST['size']))
+        $matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
+
+
+    if (isset($_REQUEST['data'])) {
+
+        //it's very important!
+        if (trim($_REQUEST['data']) == '')
+            die('data cannot be empty! <a href="?">back</a>');
+
+        // user data
+        $filename = $PNG_TEMP_DIR.'test'.md5($_REQUEST['data'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+        QRcode::png($_REQUEST['data'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    } else {
+
+        //default data
+        echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>
+        <div align="right">';
+        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    }
+
+    //display generated file
+
+
+echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" />';
+
+?></p>
+        <p style="text-align: center; font-size: 9px; font-family: Arial;"> Verificacion MEDI-APS</p>
+            </td>
             <td width="389" colspan="10"><table width="780" border="0">
               <tbody>
                 <tr>
