@@ -470,9 +470,9 @@ $row_n=mysqli_fetch_array($result_n);
               $result_con = mysqli_query($link,$sql_con);
               $row_con = mysqli_fetch_array($result_con);
               if ($row_ref[19] == '1') { ?>
-                <p> Yo  <?php echo $row_n[1].' '.$row_n[2].' '.$row_n[3];?> de <?php echo $edad;?> años de edad, en calidad de <?php echo $row_con[1];?> habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</p>
+                <p> Yo  <?php echo mb_strtoupper($row_n[1].' '.$row_n[2].' '.$row_n[3]);?> de <?php echo $edad;?> años de edad, en calidad de <?php echo $row_con[1];?> habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</p>
               <?php } else { ?>
-                <p> Yo  <?php echo $row_ref[9];?>, en calidad de <?php echo $row_con[1];?> habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</p>
+                <p> Yo  <?php echo mb_strtoupper($row_ref[9]);?>, en calidad de <?php echo $row_con[1];?> habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</p>
               <?php } ?>
             
            </td>
@@ -579,9 +579,10 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="5" style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
                 $sql_mco =" SELECT idvia_comunicacion, via_comunicacion FROM via_comunicacion WHERE idvia_comunicacion='$row_pc[2]' ";
-                $result_mco = mysqli_query($link,$sql_mco);
-                $row_mco = mysqli_fetch_array($result_mco);                    
-                echo mb_strtoupper($row_mco[1]);?>
+                $result_mco = mysqli_query($link,$sql_mco);           
+                if ($row_mco = mysqli_fetch_array($result_mco) ) {
+                  echo mb_strtoupper($row_mco[1]);
+                } ?>
             </td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">REPORTADO A CCES-D-A:</td>
             <td colspan="4" style="font-size: 12px; font-family: Arial;"><?php echo $row_pc[4]; ?></td>

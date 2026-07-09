@@ -545,9 +545,17 @@ $row_n=mysqli_fetch_array($result_n);
                             </div>                                
                         </div>
 
+                            <?php
+                            $sql_se =" SELECT idsigno_vital_psafci, talla, peso, temperatura, frec_cardiaca, frec_respiratoria, presion_arterial, presion_arterial_d, saturacion, glascow, alergia, ";
+                            $sql_se.=" descripcion_alergia, imc FROM signo_vital_psafci WHERE idnombre ='$row_ref[7]' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+                            $result_se = mysqli_query($link,$sql_se);
+                            $row_se = mysqli_fetch_array($result_se);
+                            ?> 
+
                         <div class="card shadow mb-4"> <!-- Modificado toda la seccion -->
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">DATOS CLÍNICOS DE ALTA</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">DATOS CLÍNICOS DE ALTA </h6>
+                                <h8 class="text-warning">(Se muestran los signos vitales de Referencia, modificar solo si existe variacion al egreso)</h8>
                             </div>
                             <div class="card-body">                             
                                 <div class="form-group row">  
@@ -559,17 +567,17 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
                                         <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
-                                            name="talla" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 280 cm</div> 
+                                            name="talla" value="<?php echo $row_se[1];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 280 cm</div> 
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                                         <input type="number" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"              
-                                            name="peso" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0.2 a 650 kg</div> 
+                                            name="peso" value="<?php echo $row_se[2];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0.2 a 650 kg</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                                         <input type="number" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En grados celsius"
-                                            name="temperatura" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 10°C a 47°C</div> 
+                                            name="temperatura" value="<?php echo $row_se[3];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 10°C a 47°C</div> 
                                     </div>
 
                                 </div>
@@ -578,25 +586,25 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
                                         <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" 
-                                            name="frec_cardiaca" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 350 lpm</div> 
+                                            name="frec_cardiaca" value="<?php echo $row_se[4];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 350 lpm</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" 
-                                            name="frec_respiratoria" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div> 
+                                            name="frec_respiratoria" value="<?php echo $row_se[5];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div> 
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                                         <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"
-                                            name="saturacion" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div> 
+                                            name="saturacion" value="<?php echo $row_se[8];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
                                         <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"              
-                                            name="presion_arterial"  placeholder="Sistólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 300 (Sistólica)</div> 
+                                            name="presion_arterial" value="<?php echo $row_se[6];?>"  placeholder="Sistólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 300 (Sistólica)</div> 
                                         </br>
                                         <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"              
-                                            name="presion_arterial_d" placeholder="Diastólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200 (Diastólica)</div> 
+                                            name="presion_arterial_d" value="<?php echo $row_se[7];?>" placeholder="Diastólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200 (Diastólica)</div> 
                                     </div>
 
                                 </div>
@@ -911,6 +919,50 @@ $row_n=mysqli_fetch_array($result_n);
 
 <!-------------- ANTECDENTES OBSTETRICOS - END --------------->
 
+<!-------------- ARCHIVOS ADJUNTOS CONTRAREFERENCIA - BEGIN --------------->
+
+   <?php 
+                        $archivo_referencia_mostrar = "";
+                        $sql_adj_mostrar = "SELECT file_ref FROM referencia_hc WHERE idreferencia_hc = '$idreferencia_hc_ss'";
+                        $res_adj_mostrar = mysqli_query($link, $sql_adj_mostrar);
+                        if ($res_adj_mostrar && mysqli_num_rows($res_adj_mostrar) > 0) {
+                            $row_adj_mostrar = mysqli_fetch_assoc($res_adj_mostrar);
+                            $archivo_referencia_mostrar = $row_adj_mostrar['file_ref'];
+                        }
+
+                        // Verificamos que el archivo exista en la carpeta física
+                        if (!empty($archivo_referencia_mostrar) && file_exists("../files_ref/" . $archivo_referencia_mostrar)) { 
+                        ?>
+                            <div class="card border-left-success shadow h-100 py-2 mb-4 text-left">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                <i class="fas fa-paperclip"></i> ADJUNTOS DE LA REFERENCIA
+                                            </div>
+                                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                El personal de salud que realizó la referencia adjuntó documentos.
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-sm btn-outline-success shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorMostrar" aria-expanded="false" aria-controls="visorMostrar">
+                                                <i class="fas fa-eye"></i> VER / OCULTAR
+                                            </button>
+                                            <a href="../files_ref/<?php echo $archivo_referencia_mostrar; ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
+                                                <i class="fas fa-expand-arrows-alt"></i> PANTALLA COMPLETA
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="collapse mt-3" id="visorMostrar">
+                                        <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden; background-color: #eaecf4;">
+                                            <iframe src="../files_ref/<?php echo $archivo_referencia_mostrar; ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+<!-------------- ARCHIVOS ADJUNTOS CONTRAREFERENCIA - END --------------->
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
