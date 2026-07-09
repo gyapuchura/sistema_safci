@@ -1,4 +1,3 @@
-<?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
@@ -12,7 +11,7 @@ $idreferencia_hc_ss = $_GET['idreferencia_hc'];
 $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
 $sql_ref.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-$sql_ref.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+$sql_ref.=" fecha_registro, hora_registro, idusuario, adecuada, justificada, oportuna FROM referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ";
 $result_ref=mysqli_query($link,$sql_ref);
 $row_ref=mysqli_fetch_array($result_ref);
 
@@ -243,16 +242,16 @@ $row_n=mysqli_fetch_array($result_n);
 
           <tr>
             <td bgcolor="#e7eaf0" colspan="3" style="font-size: 12px; font-family: Arial;"><strong>ANTECEDENTES GINECOOBSTÉTRICOS:</strong></td>
-            <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">F.U.M.:</td>
-            <td style="font-size: 12px; font-family: Arial;">
+            <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial; text-align: center;">F.U.M.:</td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
                   $fecha_m = explode('-',$row_g[1]);
                   $fecha_um = $fecha_m[2].'/'.$fecha_m[1].'/'.$fecha_m[0];
                   echo $fecha_um; ?>
             </td>
             <td colspan="3" style="font-size: 12px; font-family: Arial; text-align: center;">G : <?php echo $row_a[1]?>... P : <?php echo $row_a[2]?>... A : <?php echo $row_a[3]?>... C : <?php echo $row_a[4]?> </td>
-            <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">F.P.P.:</td>
-            <td style="font-size: 12px; font-family: Arial;">
+            <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial; text-align: center;">F.P.P.:</td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
                 $fecha_p = explode('-',$row_g[2]);
                 $fecha_pp = $fecha_p[2].'/'.$fecha_p[1].'/'.$fecha_p[0];
@@ -379,7 +378,7 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="3" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_ref[14];?></td>
             </tr>
           <tr>
-            <td colspan="12" style="font-size: 12px; font-family: Arial;"><p>(Descripcion Cualitativa)</p><p><?php echo $row_ref[15];?></p>
+            <td colspan="12" style="font-size: 12px; font-family: Arial;"><p><?php echo $row_ref[15];?></p>
             </td>
             </tr>
           <tr>
@@ -415,7 +414,7 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="2">&nbsp;</td>
             </tr>
           <tr>
-            <td colspan="12" valign="top" style="font-size: 12px; font-family: Arial;"><p>(Descripcion Cualitativa)</p>
+            <td colspan="12" valign="top" style="font-size: 12px; font-family: Arial;">
               <p><?php echo $row_ref[16];?></p>
             </td>
             </tr>
@@ -464,13 +463,25 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="12" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">CONSENTIMIENTO INFORMADO PARA EL TRASLADO (C9)</td>
             </tr>
           <tr>
-            <td colspan="12" style="font-size: 12px; font-family: Arial;">Yo..................... de ........ años de edad, en calidad de ....... habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</td>
+            <td colspan="12" style="font-size: 12px; font-family: Arial;">
+              <?php
+
+              $sql_con =" SELECT idconsentimiento, consentimiento FROM consentimiento WHERE idconsentimiento='$row_ref[19]' ";
+              $result_con = mysqli_query($link,$sql_con);
+              $row_con = mysqli_fetch_array($result_con);
+              if ($row_ref[19] == '1') { ?>
+                <p> Yo  <?php echo $row_n[1].' '.$row_n[2].' '.$row_n[3];?> de <?php echo $edad;?> años de edad, en calidad de <?php echo $row_con[1];?> habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</p>
+              <?php } else { ?>
+                <p> Yo  <?php echo $row_ref[9];?>, en calidad de <?php echo $row_con[1];?> habiéndome informado sobre el cuadro clínico, autorizo al médico tratante y personal de salud del establecimiento, realizar la referencia, teniendo en cuenta que he sido informado claramente sobre los riesgos, el traslado y posibles tratamientos, procedimientos durante el traslado e internación: .......................................y beneficios que se puede presentar.</p>
+              <?php } ?>
+            
+           </td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">FIRMA PACIENTE:</td>
             <td colspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">CI:</td>
-            <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_n[4];?></td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">FIRMA DEL ACOMPAÑANTE:</td>
             <td colspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">CI:</td>
@@ -481,15 +492,34 @@ $row_n=mysqli_fetch_array($result_n);
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">NOMBRE:</td>
-            <td colspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial;">
+                <?php 
+                $sql_med =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                $sql_med.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_ref[25]' ";
+                $result_med = mysqli_query($link,$sql_med);
+                $row_med = mysqli_fetch_array($result_med);                    
+                echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);?>
+            </td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">CARGO:</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">
+                <?php 
+                $sql_cm =" SELECT cargo_red_salud FROM dato_laboral WHERE idusuario='$row_ref[25]' ";
+                $result_cm = mysqli_query($link,$sql_cm);
+                $row_cm = mysqli_fetch_array($result_cm);                    
+                echo mb_strtoupper($row_cm[0]);?>
+            </td>
             <td bgcolor="#e7eaf0" rowspan="3" style="font-size: 12px; font-family: Arial;">FIRMA Y SELLO</td>
             <td colspan="4" rowspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="4" style="font-size: 12px; font-family: Arial;">NRO. DE TEL./CEL. CONTACTO DEL MÉDICO QUE ENVIÓ</td>
-            <td colspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial; text-align: center;">
+                <?php 
+                $sql_tm =" SELECT celular FROM nombre_datos WHERE idusuario='$row_ref[25]' ";
+                $result_tm = mysqli_query($link,$sql_tm);
+                $row_tm = mysqli_fetch_array($result_tm);                    
+                echo mb_strtoupper($row_tm[0]);?>
+            </td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="4" style="font-size: 12px; font-family: Arial;">NOMBRE DEL PERSONAL DE SALUD QUE ACOMPAÑA</td>
@@ -499,12 +529,12 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="12" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">MOTIVO DE REFERENCIA (C11) SOLO MARQUE UNO</td>
             </tr>
           <tr>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">URGENCIA (....)</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">EMERGENCIA (....)</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">CONSULTA EXTERNA (...)</td>
-            <td style="font-size: 12px; font-family: Arial;">SERVICIOS/ESPECIALIDAD (....)</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">PSAFCI: (...)</td>
-            <td colspan="3" style="font-size: 12px; font-family: Arial;">POR TELESALUD (....)</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">URGENCIA ( <?php if ($row_ref[21] == '1') { echo 'X'; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">EMERGENCIA (<?php if ($row_ref[21] == '2') { echo 'X'; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">CONSULTA EXTERNA ( <?php if ($row_ref[21] == '3') { echo 'X'; } else { echo ' '; } ?> )</td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">SERVICIOS/ESPECIALIDAD ( <?php if ($row_ref[21] == '4') { echo 'X'; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">PSAFCI: ( <?php if ($row_ref[21] == '6') { echo 'X'; } else { echo ' '; } ?> )</td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial; text-align: center;">POR TELESALUD ( <?php if ($row_ref[21] == '5') { echo 'X'; } else { echo ' '; } ?> )</td>
             </tr>
           <tr>
             <td colspan="12" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">ESTABLECIMIENTO DE SALUD RECEPTOR (C12)</td>
@@ -532,7 +562,13 @@ $row_n=mysqli_fetch_array($result_n);
           </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">NOMBRE DE LA PERSONA CONTACTADA:</td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="5" style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $sql_pc =" SELECT idderiva_referencia_hc, persona_contactada, idvia_comunicacion, recibe_paciente, nombre_ccdes, fecha_admision, hora_admision, idusuario_r, admitido, motivo FROM deriva_referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ORDER BY idderiva_referencia_hc ASC LIMIT 1 ";
+                $result_pc = mysqli_query($link,$sql_pc);
+                $row_pc = mysqli_fetch_array($result_pc);                    
+                echo mb_strtoupper($row_pc[1]);?>
+            </td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php if ($row_er[4]=='6') { echo 'X'; } else { } ?></td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php if ($row_er[4]=='7') { echo 'X'; } else { } ?></td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php if ($row_er[4]=='8') { echo 'X'; } else { } ?></td>
@@ -540,33 +576,57 @@ $row_n=mysqli_fetch_array($result_n);
           </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">MEDIO DE COMUNICACIÓN</td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="5" style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $sql_mco =" SELECT idvia_comunicacion, via_comunicacion FROM via_comunicacion WHERE idvia_comunicacion='$row_pc[2]' ";
+                $result_mco = mysqli_query($link,$sql_mco);
+                $row_mco = mysqli_fetch_array($result_mco);                    
+                echo mb_strtoupper($row_mco[1]);?>
+            </td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">REPORTADO A CCES-D-A:</td>
-            <td colspan="4" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="4" style="font-size: 12px; font-family: Arial;"><?php echo $row_pc[4]; ?></td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">NOMBRE DE QUIEN RECIBE AL PACIENTE</td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="5" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_pc[3]; ?></td>
             <td colspan="5" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">FECHA DE RECEPCIÓN:</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $fecha_e = explode('-',$row_pc[5]);
+                $fecha_rec = $fecha_e[2].'/'.$fecha_e[1].'/'.$fecha_e[0];
+                echo $fecha_rec; 
+              ?>  
+            </td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">HORA DE LLEGADA:</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_pc[6];?></td>
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">HORA DE RECEPCIÓN:</td>
             <td colspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="7" style="font-size: 12px; font-family: Arial;">MÉDICO RESPONSABLE DEL ESTABLECIMIENTO DE SALUD RECEPTOR QUE EVALUA LOS CRITERIOS DE CALIDAD A.J.O.</td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="5" style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $sql_med =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                $sql_med.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_pc[7]' ";
+                $result_med = mysqli_query($link,$sql_med);
+                $row_med = mysqli_fetch_array($result_med);                    
+                echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);
+              ?>
+            </td>
             </tr>
           <tr>
-            <td bgcolor="#e7eaf0" colspan="3" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">PACIENTE ADMITIDO:</td>
-            <td style="font-size: 12px; font-family: Arial;">SI</td>
-            <td style="font-size: 12px; font-family: Arial;">NO</td>
+            <td bgcolor="#466CAD" colspan="3" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">PACIENTE ADMITIDO:</td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              SI ( <?php if ($row_pc[8]=='SI') { echo 'X'; } else { } ?> )
+            </td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              NO ( <?php if ($row_pc[8]=='NO') { echo 'X'; } else { } ?> )
+            </td>
             <td bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">MOTIVO</td>
-            <td colspan="6" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="6" style="font-size: 12px; font-family: Arial;"><p><?php echo $row_pc[9];?></p></td>
             </tr>
           <tr>
             <td colspan="6" valign="bottom" style="text-align: center; font-size: 12px; font-family: Arial;">FIRMA , SELLO FDEL MÉDICO RESPONSABLE</td>
@@ -579,9 +639,9 @@ $row_n=mysqli_fetch_array($result_n);
                   <td bgcolor="#e7eaf0" width="44" style="text-align: center; font-size: 12px; font-family: Arial;">O</td>
                   </tr>
                 <tr>
-                  <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
-                  <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
-                  <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+                  <td style="font-size: 12px; font-family: Arial;"><?php echo $row_ref[26];?></td>
+                  <td style="font-size: 12px; font-family: Arial;"><?php echo $row_ref[27];?></td>
+                  <td style="font-size: 12px; font-family: Arial;"><?php echo $row_ref[28];?></td>
                   </tr>
                 </tbody>
               </table>
@@ -590,7 +650,81 @@ $row_n=mysqli_fetch_array($result_n);
               <p style="text-align: center">SELLO DEL ESTABLECIMIENTO RECEPTOR</p></td>
           </tr>
           <tr>
-            <td colspan="2" style="text-align: center; font-size: 12px; font-family: Arial;">RECUERDE:</td>
+            <td colspan="2" style="text-align: center; font-size: 12px; font-family: Arial;">
+            <!----- codigo QR de validacion digital BEGIN ------>  
+
+ <p style="text-align: center; font-size: 9px; font-family: Arial;">
+              <?php
+/*
+ * Algoritmo para codificacion QR
+ *
+ * SE emplea el include con el scripti phpqrcode.php
+ *
+ */
+    //set it to writable location, a place for temp generated PNG files
+    $PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
+    //html PNG location prefix
+    $PNG_WEB_DIR = 'temp/';
+
+    include "../implementacion_safci/phpqrcode.php";
+
+    //capturamos el valor de "data"
+
+    $separador='|';
+    $tamano='M';
+
+    $_REQUEST['data'] = 'https://virtual-safci.minsalud.gob.bo/medi-safci/referencia_safci/imprime_formulario_d7.php?idreferencia_hc='.$idreferencia_hc_ss;
+    $_REQUEST['size'] = 2 ;
+    $_REQUEST['level'] = $tamano ;
+
+    //ofcourse we need rights to create temp dir
+    if (!file_exists($PNG_TEMP_DIR))
+        mkdir($PNG_TEMP_DIR);
+
+
+    $filename = $PNG_TEMP_DIR.'test.png';
+
+    //processing form input
+    //remember to sanitize user input in real-life solution !!!
+    $errorCorrectionLevel = 'L';
+    if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
+        $errorCorrectionLevel = $_REQUEST['level'];
+
+    $matrixPointSize = 4;
+    if (isset($_REQUEST['size']))
+        $matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
+
+
+    if (isset($_REQUEST['data'])) {
+
+        //it's very important!
+        if (trim($_REQUEST['data']) == '')
+            die('data cannot be empty! <a href="?">back</a>');
+
+        // user data
+        $filename = $PNG_TEMP_DIR.'test'.md5($_REQUEST['data'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+        QRcode::png($_REQUEST['data'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    } else {
+
+        //default data
+        echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>
+        <div align="right">';
+        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    }
+
+    //display generated file
+
+
+echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" />';
+
+?></p>
+              <p style="text-align: center; font-size: 9px; font-family: Arial;"> Verificacion MEDI-APS</p>
+
+            <!----- codigo QR de validacion digital END ------> 
+
+            </td>
             <td colspan="10"><table width="780" border="0">
               <tbody>
                 <tr>
@@ -612,7 +746,7 @@ $row_n=mysqli_fetch_array($result_n);
             </table></td>
           </tr>
           </tbody>
-      </table></td>
+      </table>
     </tr>
     <tr>
       <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>

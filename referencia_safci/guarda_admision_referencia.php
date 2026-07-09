@@ -56,5 +56,4 @@ if ($idestado_referencia == '1' || $idestado_referencia == '3') {
     header("Location:mensaje_concluye_referencia_hc.php");
 }
 
-
 ?>
