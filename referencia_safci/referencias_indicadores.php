@@ -571,19 +571,19 @@ $(function () {
 <div id="estado_referencia" style="height: 300px"></div>
 </br>
 </br>
-<div id="motivo_ref" style="height: 300px"></div>
+<div id="motivo_ref" style="height: 400px"></div>
 </br>
 </br>
-<div id="especialidad_med" style="height: 300px"></div>
+<div id="especialidad_med" style="height: 600px"></div>
 </br>
 </br>
 <div id="tipo_tele" style="height: 300px"></div>
 </br>
 </br>
-<div id="tiempo_ref" style="height: 300px"></div>
+<div id="tiempo_ref" style="height: 350px"></div>
 </br>
 </br>
-<div id="via_contacto" style="height: 300px"></div>
+<div id="via_contacto" style="height: 400px"></div>
 </br>
 </br>
 	</body>
