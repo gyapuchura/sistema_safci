@@ -27,10 +27,10 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
-${demo.css}
+            ${demo.css}
 		</style>
 		<script type="text/javascript">
-$(function () {
+    $(function () {
     $('#container').highcharts({
         chart: {
             type: 'areaspline'
@@ -342,7 +342,8 @@ Si no se encontraron resultados
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
               <td width="150" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RED DE SALUD</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
-              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO ORIGEN</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO RECEPTOR</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTADO/ETAPA</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESPECIALIDAD</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO OPERATIVO</td>
@@ -355,7 +356,7 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT referencia_hc.idreferencia_hc, referencia_hc.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, estado_referencia.estado_referencia,  ";
-    $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud ";
+    $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud, idestablecimiento_receptor ";
     $sql.=" FROM referencia_hc, nombre, estado_referencia, especialidad_medica, departamento, red_salud, municipios, establecimiento_salud WHERE referencia_hc.idnombre=nombre.idnombre ";
     $sql.=" AND referencia_hc.idestado_referencia=estado_referencia.idestado_referencia AND referencia_hc.iddepartamento=departamento.iddepartamento AND referencia_hc.idred_salud=red_salud.idred_salud ";
     $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND referencia_hc.idmunicipio=municipios.idmunicipio AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
@@ -370,13 +371,20 @@ Si no se encontraron resultados
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $numero;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="imprime_formulario_d7.php?idreferencia_hc=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=200, scrollbars=YES'); return false;">
-              <?php echo $row[1];?></a>  
+              <?php echo $row[1];?></a></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
-              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[13];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php 
+                $sql_er =" SELECT establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$row[14]' ";
+                $result_er = mysqli_query($link,$sql_er);
+                $row_er = mysqli_fetch_array($result_er);
+                echo $row_er[0];
+              ?>
+              </td>     
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[8];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[9];?></td></td>
               <td style="font-size: 12px; font-family: Arial;">
