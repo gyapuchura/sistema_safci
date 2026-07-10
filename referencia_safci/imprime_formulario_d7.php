@@ -528,13 +528,19 @@ $row_n=mysqli_fetch_array($result_n);
           <tr>
             <td colspan="12" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">MOTIVO DE REFERENCIA (C11) SOLO MARQUE UNO</td>
             </tr>
+
+            <?php 
+                $sql_es =" SELECT especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica='$row_ref[22]' ";
+                $result_es = mysqli_query($link,$sql_es);
+                $row_es = mysqli_fetch_array($result_es);              
+            ?>    
           <tr>
-            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">URGENCIA ( <?php if ($row_ref[21] == '1') { echo 'X'; } else { echo ' '; } ?> )</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">EMERGENCIA (<?php if ($row_ref[21] == '2') { echo 'X'; } else { echo ' '; } ?> )</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">CONSULTA EXTERNA ( <?php if ($row_ref[21] == '3') { echo 'X'; } else { echo ' '; } ?> )</td>
-            <td style="font-size: 12px; font-family: Arial; text-align: center;">SERVICIOS/ESPECIALIDAD ( <?php if ($row_ref[21] == '4') { echo 'X'; } else { echo ' '; } ?> )</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">PSAFCI: ( <?php if ($row_ref[21] == '6') { echo 'X'; } else { echo ' '; } ?> )</td>
-            <td colspan="3" style="font-size: 12px; font-family: Arial; text-align: center;">POR TELESALUD ( <?php if ($row_ref[21] == '5') { echo 'X'; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">URGENCIA </br>( <?php if ($row_ref[21] == '1') { echo $row_es[0]; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">EMERGENCIA </br>(<?php if ($row_ref[21] == '2') { echo $row_es[0]; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">CONSULTA EXTERNA </br>( <?php if ($row_ref[21] == '3') { echo $row_es[0]; } else { echo ' '; } ?> )</td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">SERVICIOS/ESPECIALIDAD </br>( <?php if ($row_ref[21] == '4') { echo $row_es[0]; } else { echo ' '; } ?> )</td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">PSAFCI: </br>( <?php if ($row_ref[21] == '6') { echo $row_es[0]; } else { echo ' '; } ?> )</td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial; text-align: center;">POR TELESALUD </br>( <?php if ($row_ref[21] == '5') { echo $row_es[0]; } else { echo ' '; } ?> )</td>
             </tr>
           <tr>
             <td colspan="12" bgcolor="#466CAD" style="text-align: center; color: #FFFFFF; font-size: 12px; font-family: Arial;">ESTABLECIMIENTO DE SALUD RECEPTOR (C12)</td>
