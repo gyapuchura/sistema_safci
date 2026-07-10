@@ -340,10 +340,11 @@ Si no se encontraron resultados
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">CÓDIGO REFERENCIA</td>
               <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">PERSONA REFERIDA</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTO</td>
+              <td width="150" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">RED DE SALUD</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIO</td>
               <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTABLECIMIENTO</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">ESTADO/ETAPA</td>
-              <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">POR TELESALUD</td>
+              <td width="100" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">POR TELESALUD</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">MÉDICO OPERATIVO</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">CARGO ORGANIZACIONAL</td>
               <td width="200" style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">FECHA DE REGISTRO:</td>
@@ -354,11 +355,11 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT referencia_hc.idreferencia_hc, referencia_hc.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, estado_referencia.estado_referencia,  ";
-    $sql.=" referencia_hc.por_telesalud, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario  ";
-    $sql.=" FROM referencia_hc, nombre, estado_referencia, departamento, municipios, establecimiento_salud WHERE referencia_hc.idnombre=nombre.idnombre ";
-    $sql.=" AND referencia_hc.idestado_referencia=estado_referencia.idestado_referencia AND referencia_hc.iddepartamento=departamento.iddepartamento  ";
+    $sql.=" referencia_hc.idmotivo_referencia, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud ";
+    $sql.=" FROM referencia_hc, nombre, estado_referencia, departamento, red_salud, municipios, establecimiento_salud WHERE referencia_hc.idnombre=nombre.idnombre ";
+    $sql.=" AND referencia_hc.idestado_referencia=estado_referencia.idestado_referencia AND referencia_hc.iddepartamento=departamento.iddepartamento AND referencia_hc.idred_salud=red_salud.idred_salud ";
     $sql.=" AND referencia_hc.idmunicipio=municipios.idmunicipio AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
-    $sql.=" AND referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY referencia_hc.idreferencia_hc DESC LIMIT 2000 ";
+    $sql.=" AND referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY referencia_hc.idreferencia_hc DESC LIMIT 3000 ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
@@ -373,10 +374,11 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[13];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[8];?></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[9];?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php if ($row[9] == '5') { echo 'SI'; } else { echo 'SI'; } ?></td></td>
               <td style="font-size: 12px; font-family: Arial;">
               <?php 
                 $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
