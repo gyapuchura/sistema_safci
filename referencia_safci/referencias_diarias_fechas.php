@@ -298,7 +298,7 @@ Si no se encontraron resultados
     <tr>
         <td><span style="font-family: Arial; font-size: 16px; color: #008f39 ; text-align: center;">N° REFERENCIAS POR TELESALUD = 
             <?php 
-            $sql_con =" SELECT count(idreferencia_hc) FROM referencia_hc WHERE por_telesalud='SI' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+            $sql_con =" SELECT count(idreferencia_hc) FROM referencia_hc WHERE idmotivo_referencia='5' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
             $result_con = mysqli_query($link,$sql_con);
             $row_con = mysqli_fetch_array($result_con);
             $consulta  = number_format($row_con[0], 0, '.', '.');
