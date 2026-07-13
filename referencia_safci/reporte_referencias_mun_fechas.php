@@ -169,7 +169,7 @@ echo "";
 </head>
 	<body>
 
-<script src="../js/highcharts.js"></script>
+<script src="../js/referencia.js"></script>
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
@@ -179,7 +179,7 @@ echo "";
                 <?php
                 $sql_dgto = " SELECT count(diagnostico_presuntivo.iddiagnostico_presuntivo) FROM diagnostico_presuntivo, patologia, referencia_hc ";
                 $sql_dgto.= " WHERE diagnostico_presuntivo.idpatologia=patologia.idpatologia AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc ";
-                $sql_dgto.= " AND patologia.cie LIKE '%Z%' AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $sql_dgto.= "  AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dgto = mysqli_query($link,$sql_dgto);
                 $row_dgto = mysqli_fetch_array($result_dgto);
                 $diagnostico_nal = $row_dgto[0];
@@ -198,7 +198,7 @@ echo "";
             <?php
             $sql_est = " SELECT referencia_hc.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM referencia_hc, establecimiento_salud, diagnostico_presuntivo, patologia ";
             $sql_est.= " WHERE referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc ";
-            $sql_est.= " AND diagnostico_presuntivo.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
+            $sql_est.= " AND diagnostico_presuntivo.idpatologia=patologia.idpatologia   ";
             $sql_est.= " AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY referencia_hc.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
             $result_est = mysqli_query($link,$sql_est);
             if ($row_est = mysqli_fetch_array($result_est)){
@@ -232,7 +232,7 @@ echo "";
             <?php
             $sql_est = " SELECT referencia_hc.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM referencia_hc, establecimiento_salud, diagnostico_presuntivo, patologia ";
             $sql_est.= " WHERE referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc ";
-            $sql_est.= " AND diagnostico_presuntivo.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
+            $sql_est.= " AND diagnostico_presuntivo.idpatologia=patologia.idpatologia   ";
             $sql_est.= " AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY referencia_hc.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
             $result_est = mysqli_query($link,$sql_est);
             if ($row_est = mysqli_fetch_array($result_est)){
