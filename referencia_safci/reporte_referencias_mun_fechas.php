@@ -53,7 +53,7 @@ $row_mun = mysqli_fetch_array($result_mun);
 $numero = 0;
 $sql = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_presuntivo, patologia, referencia_hc ";
 $sql.= " WHERE diagnostico_presuntivo.idpatologia=patologia.idpatologia AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql.= " AND cie LIKE '%Z%' AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
+$sql.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -128,7 +128,7 @@ data: [
 $numero3 = 0;
 $sql3 = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_presuntivo, patologia, referencia_hc ";
 $sql3.= " WHERE diagnostico_presuntivo.idpatologia=patologia.idpatologia AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql3.= " AND cie LIKE '%Z%' AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
+$sql3.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -218,7 +218,7 @@ echo "";
             $numero = 1;
             $sql = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_presuntivo, patologia, referencia_hc ";
             $sql.= " WHERE diagnostico_presuntivo.idpatologia=patologia.idpatologia AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-            $sql.= " AND cie LIKE '%Z%' AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
+            $sql.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);

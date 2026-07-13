@@ -29,7 +29,7 @@ $row_mun = mysqli_fetch_array($result_mun);
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>REPORTE DIAGNOSTICOS DE EGRESO</title>
+		<title>REPORTE DIAGNOSTICOS POR MORBILIDAD</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
     <style type="text/css">
@@ -42,18 +42,18 @@ $row_mun = mysqli_fetch_array($result_mun);
             type: 'bar'
         },
         title: {
-            text: 'DIAGNÓSTICOS DE EGRESO PARA CONTRARREFERENCIA - MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?>'
+            text: 'DIAGNÓSTICOS POR MORBILIDAD - MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?>'
         },
         subtitle: {
-            text: 'Fuente: Sistema Integrado MEDI-APS del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
+            text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
         },
         xAxis: {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_egreso, patologia, referencia_hc ";
-$sql.= " WHERE diagnostico_egreso.idpatologia=patologia.idpatologia AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_egreso.idpatologia  ";
+$sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
+$sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
+$sql.= " AND cie NOT LIKE '%Z%' AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -87,7 +87,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: ' DIAGNÓSTICOS PARA CONTRARREFERENCIA ',
+                text: ' Atenciones por Morbilidad ',
                 align: 'high'
             },
             labels: {
@@ -121,14 +121,14 @@ Si no se encontraron resultados
       
         series: [
 {
-name: 'DIAGNÓSTICOS DE EGRESO',
+name: 'DIAGNÓSTICOS POR MORBILIDAD',
 data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_egreso, patologia, referencia_hc ";
-$sql3.= " WHERE diagnostico_egreso.idpatologia=patologia.idpatologia AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql3.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_egreso.idpatologia  ";
+$sql3 = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
+$sql3.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
+$sql3.= " AND cie NOT LIKE '%Z%' AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -136,9 +136,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT count(diagnostico_egreso.iddiagnostico_egreso) FROM diagnostico_egreso, referencia_hc ";
-$sql4.=" WHERE diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idmunicipio='$idmunicipio' ";
-$sql4.=" AND diagnostico_egreso.idpatologia = '$row3[0]' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql4 =" SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
+$sql4.=" WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$idmunicipio' ";
+$sql4.=" AND diagnostico_psafci.idpatologia = '$row3[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
 $result4 = mysqli_query($link,$sql4);
 $row4 = mysqli_fetch_array($result4); 
 ?>
@@ -169,7 +169,7 @@ echo "";
 </head>
 	<body>
 
-<script src="../js/contrarreferencia.js"></script>
+<script src="../js/highcharts.js"></script>
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
@@ -177,9 +177,9 @@ echo "";
 
 <h4 align="center" style="font-family: Arial;">DIAGNÓSTICOS  MUNICIPIO : <?php echo mb_strtoupper($row_mun[1]);?> = 
                 <?php
-                $sql_dgto = " SELECT count(diagnostico_egreso.iddiagnostico_egreso) FROM diagnostico_egreso, patologia, referencia_hc ";
-                $sql_dgto.= " WHERE diagnostico_egreso.idpatologia=patologia.idpatologia AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc ";
-                $sql_dgto.= " AND patologia.cie LIKE '%Z%' AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $sql_dgto = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, patologia, atencion_psafci ";
+                $sql_dgto.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+                $sql_dgto.= " AND patologia.cie NOT LIKE '%Z%' AND atencion_psafci.idmunicipio='$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dgto = mysqli_query($link,$sql_dgto);
                 $row_dgto = mysqli_fetch_array($result_dgto);
                 $diagnostico_nal = $row_dgto[0];
@@ -193,13 +193,13 @@ echo "";
 <table width="1400" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">DIAGNÓSTICOS PARA CONTRARREFERENCIA</span></td>
+        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">DIAGNÓSTICOS</span></td>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">CIE</span></td>
             <?php
-            $sql_est = " SELECT referencia_hc.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM referencia_hc, establecimiento_salud, diagnostico_egreso, patologia ";
-            $sql_est.= " WHERE referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc ";
-            $sql_est.= " AND diagnostico_egreso.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
-            $sql_est.= " AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY referencia_hc.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
+            $sql_est = " SELECT atencion_psafci.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM atencion_psafci, establecimiento_salud, diagnostico_psafci, patologia ";
+            $sql_est.= " WHERE atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+            $sql_est.= " AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie NOT LIKE '%Z%'  ";
+            $sql_est.= " AND atencion_psafci.idmunicipio='$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
             $result_est = mysqli_query($link,$sql_est);
             if ($row_est = mysqli_fetch_array($result_est)){
             mysqli_field_seek($result_est,0);
@@ -216,9 +216,9 @@ echo "";
         </tr>
             <?php
             $numero = 1;
-            $sql = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_egreso, patologia, referencia_hc ";
-            $sql.= " WHERE diagnostico_egreso.idpatologia=patologia.idpatologia AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-            $sql.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_egreso.idpatologia  ";
+            $sql = " SELECT diagnostico_psafci.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia, atencion_psafci ";
+            $sql.= " WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
+            $sql.= " AND cie NOT LIKE '%Z%' AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_psafci.idpatologia  ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
@@ -230,19 +230,19 @@ echo "";
                     <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
                     <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row[2];?></td>
             <?php
-            $sql_est = " SELECT referencia_hc.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM referencia_hc, establecimiento_salud, diagnostico_egreso, patologia ";
-            $sql_est.= " WHERE referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc ";
-            $sql_est.= " AND diagnostico_egreso.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%'  ";
-            $sql_est.= " AND referencia_hc.idmunicipio='$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY referencia_hc.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
+            $sql_est = " SELECT atencion_psafci.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM atencion_psafci, establecimiento_salud, diagnostico_psafci, patologia ";
+            $sql_est.= " WHERE atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci ";
+            $sql_est.= " AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie NOT LIKE '%Z%'  ";
+            $sql_est.= " AND atencion_psafci.idmunicipio='$idmunicipio' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.idestablecimiento_salud ORDER BY establecimiento_salud.establecimiento_salud ";
             $result_est = mysqli_query($link,$sql_est);
             if ($row_est = mysqli_fetch_array($result_est)){
             mysqli_field_seek($result_est,0);
             while ($field_est = mysqli_fetch_field($result_est)){
             } do {
                 
-                $sql_dg = " SELECT count(diagnostico_egreso.iddiagnostico_egreso) FROM diagnostico_egreso, referencia_hc ";
-                $sql_dg.= " WHERE diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idestablecimiento_salud='$row_est[0]' ";
-                $sql_dg.= " AND diagnostico_egreso.idpatologia = '$row[0]' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $sql_dg = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
+                $sql_dg.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idestablecimiento_salud='$row_est[0]' ";
+                $sql_dg.= " AND diagnostico_psafci.idpatologia = '$row[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dg = mysqli_query($link,$sql_dg);
                 $row_dg = mysqli_fetch_array($result_dg);
                 $diagnosticos = $row_dg[0];
@@ -257,9 +257,9 @@ echo "";
             ?>
             <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
                 <?php
-                $sql_dgt = " SELECT count(diagnostico_egreso.iddiagnostico_egreso) FROM diagnostico_egreso, referencia_hc ";
-                $sql_dgt.= " WHERE diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idmunicipio='$idmunicipio' ";
-                $sql_dgt.= " AND diagnostico_egreso.idpatologia = '$row[0]' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $sql_dgt = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
+                $sql_dgt.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$idmunicipio' ";
+                $sql_dgt.= " AND diagnostico_psafci.idpatologia = '$row[0]' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
                 $result_dgt = mysqli_query($link,$sql_dgt);
                 $row_dgt = mysqli_fetch_array($result_dgt);
                 $diagnostico_pat = $row_dgt[0];
