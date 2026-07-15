@@ -63,18 +63,18 @@ $presion_arterial     = $_POST['presion_arterial'];
 $presion_arterial_d   = $_POST['presion_arterial_d'];
 $saturacion           = $_POST['saturacion'];
 
-$evolucion_complicacion             = $link->real_escape_string($_POST['evolucion_complicacion']);
-$examenes_complementarios_egreso    = $link->real_escape_string($_POST['examenes_complementarios_egreso']);
-$otros_examenes                     = $link->real_escape_string($_POST['otros_examenes']);
-$tratamientos_realizados            = $link->real_escape_string($_POST['tratamientos_realizados']);
-$recomendaciones_paciente           = $link->real_escape_string($_POST['recomendaciones_paciente']);
-$otros_anexos                       = $link->real_escape_string($_POST['otros_anexos']);
-$observaciones_recomendaciones      = $link->real_escape_string($_POST['observaciones_recomendaciones']);
+$evolucion_complicacion          = isset($_POST['evolucion_complicacion']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['evolucion_complicacion']))) : '';
+$examenes_complementarios_egreso = isset($_POST['examenes_complementarios_egreso']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['examenes_complementarios_egreso']))) : '';
+$otros_examenes                  = isset($_POST['otros_examenes']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['otros_examenes']))) : '';
+$tratamientos_realizados         = isset($_POST['tratamientos_realizados']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['tratamientos_realizados']))) : '';
+$recomendaciones_paciente        = isset($_POST['recomendaciones_paciente']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['recomendaciones_paciente']))) : '';
+$otros_anexos                    = isset($_POST['otros_anexos']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['otros_anexos']))) : '';
+$observaciones_recomendaciones   = isset($_POST['observaciones_recomendaciones']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['observaciones_recomendaciones']))) : '';
 
-$idestablecimiento_destino  = $_POST['idestablecimiento_destino'];
-$tel_establecimiento_cref   = $_POST['tel_establecimiento_cref'];
-$contacto_eess_cref         = $link->real_escape_string($_POST['contacto_eess_cref']);
-$por_telesalud              = $_POST['por_telesalud'];
+$idestablecimiento_destino = isset($_POST['idestablecimiento_destino']) ? $_POST['idestablecimiento_destino'] : '0';
+$tel_establecimiento_cref  = isset($_POST['tel_establecimiento_cref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['tel_establecimiento_cref']))) : '';
+$contacto_eess_cref        = isset($_POST['contacto_eess_cref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['contacto_eess_cref']))) : '';
+$por_telesalud             = isset($_POST['por_telesalud']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['por_telesalud']))) : '';
 
 if ($por_telesalud == 'SI') {
             $idtiempo_ts    = $_POST['idtiempo_ts'];
@@ -87,12 +87,14 @@ if ($por_telesalud == 'SI') {
             $idtipo_teleinterconsulta = '1';
 }
 
-$contacto_contraref         = $link->real_escape_string($_POST['contacto_contraref']);
-$nombre_acompanante_cref    = $link->real_escape_string($_POST['nombre_acompanante_cref']);
+$contacto_contraref       = isset($_POST['contacto_contraref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['contacto_contraref']))) : '';
+$nombre_acompanante_cref  = isset($_POST['nombre_acompanante_cref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['nombre_acompanante_cref']))) : '';
 
-$idpatologia                = $_POST['idpatologia'];
+$idpatologia              = $_POST['idpatologia'];
 
-    foreach($_POST['diagnostico_egreso'] as $clave => $diagnostico_egreso_i) {
+$diagnostico_egreso  = isset($_POST['diagnostico_egreso']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['diagnostico_egreso']))) : '';
+
+    foreach($diagnostico_egreso as $clave => $diagnostico_egreso_i) {
 
             $sql_dg = " INSERT INTO diagnostico_egreso (idreferencia_hc, idnombre, diagnostico_egreso, idpatologia, fecha_registro, hora_registro, idusuario) ";
             $sql_dg.= " VALUES ('$idreferencia_hc_ss','$idnombre_integrante_ss','$diagnostico_egreso_i','$idpatologia[$clave]','$fecha','$hora','$idusuario_ss') ";

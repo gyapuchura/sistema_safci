@@ -67,9 +67,9 @@ $idparentesco_acomp   = $_POST['idparentesco_acomp'];
 $celular_acompanante  = $_POST['celular_acompanante'];
 $tel_establecimiento  = $_POST['tel_establecimiento'];
 
-$talla                = $_POST['talla'];
-$peso                 = $_POST['peso'];
-$temperatura          = $_POST['temperatura'];
+$talla                = $link->real_escape_string($_POST['talla']);
+$peso                 = $link->real_escape_string($_POST['peso']);
+$temperatura          = $link->real_escape_string($_POST['temperatura']);
 $frec_cardiaca        = $_POST['frec_cardiaca'];
 $frec_respiratoria    = $_POST['frec_respiratoria'];
 $presion_arterial     = $_POST['presion_arterial'];
@@ -102,7 +102,7 @@ $rowm    = mysqli_fetch_array($resultm);
 
 $correlativo = $rowm[0]+1;
 
-$codigo = "MSYD/APS-REF-".$correlativo."/".$gestion;
+$codigo = "MSYD/APS-REF-".$correlativo."/".$gestion; 
 
     // AQUI MODIFIQUÉ LA CONSULTA: Añadí la columna archivo_adjunto y el valor '$archivo_adjunto_db' al final
     $sql0 = " INSERT INTO referencia_hc (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, correlativo, codigo, idnombre,";
