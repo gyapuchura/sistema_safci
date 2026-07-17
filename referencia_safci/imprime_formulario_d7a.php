@@ -232,11 +232,11 @@ $row_ai=mysqli_fetch_array($result_ai);
         } do { ?> 
 
           <tr>
-            <td width="108" style="font-size: 12px; font-family: Arial;"><?php echo $numero_dg;?></td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[0];?></td>
-            <td width="28" style="font-size: 12px; font-family: Arial;">CIE-10</td>
-            <td width="116"  style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[1];?></td>
-            <td width="107" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[2];?></td>
+            <td width="100" style="font-size: 12px; font-family: Arial;"><?php echo $numero_dg;?>)</td>
+            <td colspan="4" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[0];?></td>
+            <td width="50" style="font-size: 12px; font-family: Arial;">CIE-10</td>
+            <td colspan="2"  style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[1];?></td>
+            <td width="107" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_dg[2];?></td>
           </tr>
         <?php
         $numero_dg=$numero_dg+1;
@@ -262,11 +262,11 @@ $row_ai=mysqli_fetch_array($result_ai);
         } do { ?> 
 
           <tr>
-            <td width="108" style="font-size: 12px; font-family: Arial;"><?php echo $numero_dg;?>)</td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[0];?></td>
-            <td width="28" style="font-size: 12px; font-family: Arial;">CIE-10</td>
-            <td width="116"  style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[1];?></td>
-            <td width="107" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[2];?></td>
+            <td width="100" style="font-size: 12px; font-family: Arial;"><?php echo $numero_dg;?>)</td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[0];?></td>
+            <td width="50" style="font-size: 12px; font-family: Arial;">CIE-10</td>
+            <td colspan="2"  style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[1];?></td>
+            <td width="107" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_dg[2];?></td>
           </tr>
         <?php
         $numero_dg=$numero_dg+1;

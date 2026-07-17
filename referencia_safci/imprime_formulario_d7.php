@@ -434,9 +434,9 @@ $row_n=mysqli_fetch_array($result_n);
 
           <tr>
             <td style="font-size: 12px; font-family: Arial;"><?php echo $numero_dg;?>)</td>
-            <td colspan="5" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[0];?></td>
+            <td colspan="4" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[0];?></td>
             <td style="font-size: 12px; font-family: Arial;">CIE-10</td>
-            <td  style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[1];?></td>
+            <td colspan="3" style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[1];?></td>
             <td style="font-size: 12px; font-family: Arial;"><?php echo $row_dg[2];?></td>
           </tr>
         <?php
