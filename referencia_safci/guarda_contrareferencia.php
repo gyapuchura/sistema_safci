@@ -92,9 +92,7 @@ $nombre_acompanante_cref  = isset($_POST['nombre_acompanante_cref']) ? mysqli_re
 
 $idpatologia              = $_POST['idpatologia'];
 
-$diagnostico_egreso  = isset($_POST['diagnostico_egreso']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['diagnostico_egreso']))) : '';
-
-    foreach($diagnostico_egreso as $clave => $diagnostico_egreso_i) {
+            foreach($_POST['diagnostico_egreso'] as $clave => $diagnostico_egreso_i) {
 
             $sql_dg = " INSERT INTO diagnostico_egreso (idreferencia_hc, idnombre, diagnostico_egreso, idpatologia, fecha_registro, hora_registro, idusuario) ";
             $sql_dg.= " VALUES ('$idreferencia_hc_ss','$idnombre_integrante_ss','$diagnostico_egreso_i','$idpatologia[$clave]','$fecha','$hora','$idusuario_ss') ";
