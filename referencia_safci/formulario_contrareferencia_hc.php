@@ -1212,7 +1212,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div> 
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
-                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="<?php if ($row_ref[21]=='5') { echo 'SI'; } else { echo 'NO';}?>" <?php if ($row_ref[21]=='5') { echo 'checked'; } else { echo '';}?> disabled>
+                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="<?php if ($row_ref[21]=='5') { echo 'SI'; } else { echo 'NO';}?>" <?php if ($row_ref[21]=='5') { echo 'checked'; } else { echo '';}?> >
                                     </div>   
                                 </div> 
 
