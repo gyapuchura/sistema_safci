@@ -47,7 +47,7 @@ $row_n=mysqli_fetch_array($result_n);
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/boton_mic.css">
-
+    
 </head>
 
 <body id="page-top">
@@ -82,9 +82,9 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="historias_clinicas.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <a href="personas_carpetizadas.php"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr>             
-                    <h4 class="text-info">HISTORIA CLÍNICA - SAFCI</h4>
+                    <h4 class="text-info">HISTORIA CLÍNICA </h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -149,15 +149,18 @@ $row_n=mysqli_fetch_array($result_n);
                             placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
                     </div>   
                     
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                     <h6 class="text-info">EDAD:</h6>
                         <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
                          name="edad_actual" disabled>
                     </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">VER CARPETA FAMILIAR:</h6>
-                    <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">
-                    <h6 class="text-primary"><?php echo $row_cf[1];?></h6></a> 
+                    <div class="col-sm-4">
+                    <h6 class="text-warning">VER CARPETA FAMILIAR:</h6>
+                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-book"></i>
+                    </span>
+                    <span class="text"> <?php echo $row_cf[1];?> </span></a> 
                     </div>
                 </div>  
 
@@ -204,9 +207,12 @@ $row_n=mysqli_fetch_array($result_n);
                             name="" disabled>                
                         </div>
                         <div class="col-sm-4">
-                        <h6 class="text-info">HISTORIA CLÍNICA:</h6>
-                            <a href="imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $idcarpeta_familiar_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
-                            <h6 class="text-primary">VER HISTORIA CLÍNICA DIGITAL</h6></a>                                      
+                        <h6 class="text-info">HISTORIA CLÍNICA:</h6>  
+                            <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-book"></i>
+                            </span>
+                            <span class="text">HISTORIA CLÍNICA DIGITAL</span></a>                                     
                         </div>
                     </div> 
                 <?php
@@ -367,7 +373,8 @@ $row_n=mysqli_fetch_array($result_n);
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">4.- ATENCIÓN INTEGRAL SAFCI</h6>
+            <h6 class="m-0 font-weight-bold text-info">4.- TIPO DE ATENCIÓN
+            </h6>
         </div>
         <div class="card-body">
 
@@ -377,7 +384,7 @@ $row_n=mysqli_fetch_array($result_n);
                 <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion != '4' AND idtipo_atencion != '5' ";
+                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion  ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);
@@ -393,7 +400,7 @@ $row_n=mysqli_fetch_array($result_n);
                 </div>
             </div>
         </div>
-        <div class="card-body" id="tipo_atencion"></div> 
+        <div class="card-body" id="tipo_atencion"></div>  
           
     </div>
             
@@ -446,26 +453,64 @@ $row_n=mysqli_fetch_array($result_n);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para uso de mapas -->
+    <!-- scripts para uso de mapas --> 
 
     <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-        <script src="../js/funciones.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
 
-        <script language="javascript">
-        $(document).ready(function(){
+    <script src="../js/funciones.js"></script>
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
+    <script src="../js/funciones.js"></script>
+
+    <script language="javascript">
+    $(document).ready(function(){
+        
+        // 1. Obtenemos los datos de la fecha actual (Hoy)
+        var date = new Date();
+        var diaHoy = date.getDate().toString().padStart(2, '0');
+        var mesFormato = (date.getMonth() + 1).toString().padStart(2, '0');
+        var anioFormato = date.getFullYear();
+        
+        // 2. MODIFICACIÓN MAESTRA: Cambiamos el límite máximo para que sea HOY
+        // minDateHTML5 = El día 1 de este mes (Permite días atrás del mismo mes)
+        // maxDateHTML5 = El día de HOY (Bloquea por completo el futuro)
+        var minDateHTML5 = anioFormato + '-' + mesFormato + '-01';
+        var maxDateHTML5 = anioFormato + '-' + mesFormato + '-' + diaHoy;
+
         $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion.php", {tipo_atencion:tipo_atencion}, function(data){
+            $("#idtipo_atencion option:selected").each(function () {
+                var tipo_atencion = $(this).val();
+                
+                $.post("tipo_atencion.php", {tipo_atencion: tipo_atencion}, function(data){
+                    
+                    // Insertamos el formulario cargado dinámicamente
                     $("#tipo_atencion").html(data);
-                    });
+                    
+                    // UNIFICACIÓN ARQUITECTÓNICA:
+                    // Usamos .find() acotado exclusivamente al contenedor '#tipo_atencion'
+                    // para capturar solo la fecha de la atención y dejar libre a 'fecha_seguimiento'
+                    var inputsFecha = $("#tipo_atencion").find("input[name='fecha_registro'], input[name='fecha1'], #fecha1, #fecha_registro");
+                    
+                    if (inputsFecha.length > 0) {
+                        
+                        inputsFecha.attr('type', 'date');
+                        
+                        // Aplicamos los nuevos límites: Desde el día 1 del mes hasta HOY
+                        inputsFecha.attr('min', minDateHTML5);
+                        inputsFecha.attr('max', maxDateHTML5);
+                        
+                        // Autocompletamos por defecto con la fecha de hoy
+                        inputsFecha.val(maxDateHTML5);
+                    }
                 });
-        })
+            });
         });
-    </script> 
+    });
+    </script>
 </body>
 </html>
