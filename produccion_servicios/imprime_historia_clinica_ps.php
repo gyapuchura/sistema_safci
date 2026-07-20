@@ -11,14 +11,7 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idcarpeta_familiar_ss      = $_GET['idcarpeta_familiar'];
-$idintegrante_cf_ss         = $_GET['idintegrante_cf'];
-$idnombre_integrante_ss     = $_GET['idnombre_integrante'];
-
-
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
+$idnombre_integrante_ss  = $_GET['idnombre_integrante'];
 
 $sql_n =" SELECT nombre.idnombre, nombre.nombre, nombre.paterno, nombre.materno, nombre.ci, nombre.fecha_nac, nacionalidad.nacionalidad, genero.genero  ";
 $sql_n.=" FROM nombre, genero, nacionalidad WHERE nombre.idgenero=genero.idgenero AND nombre.idnacionalidad=nacionalidad.idnacionalidad AND nombre.idnombre='$idnombre_integrante_ss'  ";
@@ -51,7 +44,16 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="5">&nbsp;</td>
           </tr>
           <tr>
-            <td colspan="5"><table width="900" border="0">
+            <td colspan="5">
+              
+            <?php             
+                $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, carpeta_familiar.fecha_apertura, integrante_cf.idintegrante_cf ";
+                $sql_cf.=" FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idnombre='$idnombre_integrante_ss'  ";
+                $result_cf=mysqli_query($link,$sql_cf);
+                if ($row_cf=mysqli_fetch_array($result_cf)) {           
+            ?>
+                        
+            <table width="900" border="0">
               <tbody>
                 <tr>
                   <td width="502">
@@ -64,7 +66,7 @@ $row_n=mysqli_fetch_array($result_n);
                     $sql_pr.=" ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_datos_cf.idprofesion=profesion.idprofesion AND ubicacion_cf.idred_salud=red_salud.idred_salud AND ";
                     $sql_pr.=" ubicacion_cf.idmunicipio=municipios.idmunicipio AND ubicacion_cf.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND ";
                     $sql_pr.=" area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND ubicacion_cf.idarea_influencia=area_influencia.idarea_influencia AND ";
-                    $sql_pr.=" municipios.idprovincia=provincias.idprovincia AND carpeta_familiar.idcarpeta_familiar='$idcarpeta_familiar_ss' AND  integrante_cf.idparentesco='1' ";
+                    $sql_pr.=" municipios.idprovincia=provincias.idprovincia AND carpeta_familiar.idcarpeta_familiar='$row_cf[0]' AND  integrante_cf.idparentesco='1' ";
                     $result_pr=mysqli_query($link,$sql_pr);
                     if ($row_pr=mysqli_fetch_array($result_pr)) {
                       
@@ -141,7 +143,11 @@ $row_n=mysqli_fetch_array($result_n);
                   </table></td>
                 </tr>
               </tbody>
-            </table></td>
+            </table>
+
+          <?php }  ?>
+          
+          </td>
           </tr>
           <tr>
             <td colspan="5">&nbsp;</td>
@@ -178,7 +184,7 @@ $row_n=mysqli_fetch_array($result_n);
                         $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
                         $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
                         $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                        $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$idintegrante_cf_ss'";
+                        $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$row_cf[4]'";
                         $result4 = mysqli_query($link,$sql4);
                         $row4 = mysqli_fetch_array($result4);
                       ?>
@@ -187,7 +193,7 @@ $row_n=mysqli_fetch_array($result_n);
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">
                     <?php                                     
                         $sql_idh =" SELECT idioma.idioma FROM idioma_cf, idioma WHERE idioma_cf.ididioma=idioma.ididioma  ";
-                        $sql_idh.=" AND idioma_cf.idorigen_idioma='2' AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                        $sql_idh.=" AND idioma_cf.idorigen_idioma='2' AND idioma_cf.idcarpeta_familiar='$row_cf[0]' ";
                         $result_idh = mysqli_query($link,$sql_idh);
                         if ($row_idh = mysqli_fetch_array($result_idh)) {
                          echo $row_idh[0];
@@ -197,7 +203,7 @@ $row_n=mysqli_fetch_array($result_n);
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">
                         <?php                                     
                         $sql_idm =" SELECT idioma.idioma FROM idioma_cf, idioma WHERE idioma_cf.ididioma=idioma.ididioma  ";
-                        $sql_idm.=" AND idioma_cf.idorigen_idioma='1' AND idioma_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                        $sql_idm.=" AND idioma_cf.idorigen_idioma='1' AND idioma_cf.idcarpeta_familiar='$row_cf[0]' ";
                         $result_idm = mysqli_query($link,$sql_idm);
                         if ($row_idm = mysqli_fetch_array($result_idm)) {
                          echo $row_idm[0];
@@ -207,7 +213,7 @@ $row_n=mysqli_fetch_array($result_n);
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">
                     <?php                                     
                         $sql_nac =" SELECT nacion.nacion FROM integrante_cf, nacion WHERE integrante_cf.idnacion=nacion.idnacion  ";
-                        $sql_nac.=" AND integrante_cf.idnombre='$idnombre_integrante_ss' AND integrante_cf.idcarpeta_familiar='$idcarpeta_familiar_ss' ";
+                        $sql_nac.=" AND integrante_cf.idnombre='$idnombre_integrante_ss' AND integrante_cf.idcarpeta_familiar='$row_cf[0]' ";
                         $result_nac = mysqli_query($link,$sql_nac);
                         if ($row_nac = mysqli_fetch_array($result_nac)) {
                          echo $row_nac[0];
@@ -758,7 +764,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Hipertensión Arterial Sistémica</td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr1 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '9' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $sql_fr1 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '9' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                         $result_fr1 = mysqli_query($link,$sql_fr1);
                         if ($row_fr1 = mysqli_fetch_array($result_fr1)) {
                          echo 'X';
@@ -766,7 +772,7 @@ $row_n=mysqli_fetch_array($result_n);
                           </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr1 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '9' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $sql_fr1 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '9' AND idcarpeta_familiar = '$row_cf[0]' ";
                         $result_fr1 = mysqli_query($link,$sql_fr1);
                         if ($row_fr1 = mysqli_fetch_array($result_fr1)) {
                          echo 'X';
@@ -777,7 +783,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Diabetes</td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '10' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '10' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                         $result_fr2 = mysqli_query($link,$sql_fr2);
                         if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
                          echo 'X';
@@ -785,7 +791,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '10' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '10' AND idcarpeta_familiar = '$row_cf[0]' ";
                         $result_fr2 = mysqli_query($link,$sql_fr2);
                         if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
                          echo 'X';
@@ -801,7 +807,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Abuso de Alcohol</td>
                         <td style="font-family: Arial; font-size: 12px;  text-align: center;">
                           <?php                                     
-                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '2' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '2' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                           $result_fr3 = mysqli_query($link,$sql_fr3);
                           if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
                           echo 'X';
@@ -809,7 +815,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                           <?php                                     
-                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '2' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '2' AND idcarpeta_familiar = '$row_cf[0]' ";
                           $result_fr3 = mysqli_query($link,$sql_fr3);
                           if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
                           echo 'X';
@@ -820,7 +826,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Habito de Fumar</td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                           <?php                                     
-                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '3' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '3' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                           $result_fr3 = mysqli_query($link,$sql_fr3);
                           if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
                           echo 'X';
@@ -828,7 +834,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                           <?php                                     
-                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '3' AND idcarpeta_familiar = '$idcarpeta_familiar_ss'  ";
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '3' AND idcarpeta_familiar = '$row_cf[0]'  ";
                           $result_fr3 = mysqli_query($link,$sql_fr3);
                           if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
                           echo 'X';
@@ -854,7 +860,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Tuberculosis</td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">                         
                         <?php                                     
-                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '1' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '1' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                         $result_fr2 = mysqli_query($link,$sql_fr2);
                         if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
                          echo 'X';
@@ -862,7 +868,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '1' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '1' AND idcarpeta_familiar = '$row_cf[0]' ";
                         $result_fr2 = mysqli_query($link,$sql_fr2);
                         if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
                          echo 'X';
@@ -880,7 +886,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Drogas</td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                           <?php                                     
-                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '4' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '4' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                           $result_fr3 = mysqli_query($link,$sql_fr3);
                           if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
                           echo 'X';
@@ -888,7 +894,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                           <?php                                     
-                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '4' AND idcarpeta_familiar = '$idcarpeta_familiar_ss'  ";
+                          $sql_fr3 =" SELECT idintegrante_factor_riesgo, idcarpeta_familiar FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf = '4' AND idcarpeta_familiar = '$row_cf[0]'  ";
                           $result_fr3 = mysqli_query($link,$sql_fr3);
                           if ($row_fr3 = mysqli_fetch_array($result_fr3)) {
                           echo 'X';
@@ -904,7 +910,7 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">Otros</td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '19' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' AND idintegrante_cf = '$idintegrante_cf_ss' ";
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '19' AND idcarpeta_familiar = '$row_cf[0]' AND idintegrante_cf = '$row_cf[4]' ";
                         $result_fr2 = mysqli_query($link,$sql_fr2);
                         if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
                          echo 'X';
@@ -912,7 +918,7 @@ $row_n=mysqli_fetch_array($result_n);
                         </td>
                         <td style="font-family: Arial; font-size: 12px; text-align: center;">
                         <?php                                     
-                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '19' AND idcarpeta_familiar = '$idcarpeta_familiar_ss' ";
+                        $sql_fr2 =" SELECT idintegrante_morbilidad, idcarpeta_familiar FROM integrante_morbilidad WHERE idmorbilidad_cf = '19' AND idcarpeta_familiar = '$row_cf[0]' ";
                         $result_fr2 = mysqli_query($link,$sql_fr2);
                         if ($row_fr2 = mysqli_fetch_array($result_fr2)) {
                          echo 'X';
