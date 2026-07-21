@@ -165,7 +165,7 @@ $row_n=mysqli_fetch_array($result_n);
                   <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[3];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Nombres:</td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[1];?></td>
-                  </tr>
+                </tr>
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">Fecha de nacimiento: </td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">
@@ -179,15 +179,24 @@ $row_n=mysqli_fetch_array($result_n);
                   <td width="74" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[6];?></td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">Fecha de Ingreso: </td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                  </tr>
-                      <?php
-                        $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
-                        $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
-                        $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
-                        $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$row_cf[4]'";
-                        $result4 = mysqli_query($link,$sql4);
-                        $row4 = mysqli_fetch_array($result4);
-                      ?>
+                </tr>
+
+            <?php             
+                $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, carpeta_familiar.fecha_apertura, integrante_cf.idintegrante_cf ";
+                $sql_cf.=" FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idnombre='$idnombre_integrante_ss'  ";
+                $result_cf=mysqli_query($link,$sql_cf);
+                if ($row_cf=mysqli_fetch_array($result_cf)) {      
+                  
+                  $sql4 =" SELECT integrante_datos_cf.idintegrante_datos_cf, estado_civil.estado_civil, nivel_instruccion.nivel_instruccion, profesion.profesion, integrante_datos_cf.ocupacion, contribuye_cf.contribuye_cf ";
+                  $sql4.=" FROM integrante_datos_cf, estado_civil, nivel_instruccion, profesion, contribuye_cf WHERE integrante_datos_cf.idestado_civil=estado_civil.idestado_civil ";
+                  $sql4.=" AND integrante_datos_cf.idnivel_instruccion=nivel_instruccion.idnivel_instruccion AND integrante_datos_cf.idprofesion=profesion.idprofesion ";
+                  $sql4.=" AND integrante_datos_cf.idcontribuye_cf=contribuye_cf.idcontribuye_cf AND integrante_datos_cf.idintegrante_cf='$row_cf[4]'";
+                  $result4 = mysqli_query($link,$sql4);
+                  $row4 = mysqli_fetch_array($result4);
+            ?>
+
+<!----------------------- PERSONA CARPETIZADA BEGIN ------------------->
+
                 <tr>
                   <td style="font-family: Arial; font-size: 12px;">Idioma Hablado:</td>
                   <td colspan="2" style="font-family: Arial; font-size: 12px;">
@@ -259,6 +268,62 @@ $row_n=mysqli_fetch_array($result_n);
                 </tbody>
               </table></td>
           </tr>
+<!------------------------ PERSONA CARPETIZADA END -------------------->
+             <?php } else { ?>
+<!----------------------- PERSONA NO CARPETIZADA BEGIN ------------------->
+
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">Idioma Hablado:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Idioma Materno:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Auto pertenencia cultural:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">Ocupación: Productivas:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Reproductivas:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Gestión Comunitaria:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">¿Quién (s) decidieron para que acuda al servicio de salud? </td>
+                  <td width="60" style="font-family: Arial; font-size: 12px;">Pareja </td>
+                  <td width="73" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td style="font-family: Arial; font-size: 12px;">Hijo/a (s) </td>
+                  <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td style="font-family: Arial; font-size: 12px;">Otro familiar</td>
+                  <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td width="68" style="font-family: Arial; font-size: 12px;">Usted mismo </td>
+                  <td width="49" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td width="57" style="font-family: Arial; font-size: 12px;">Otro</td>
+                  <td width="59" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">Estado civil:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Escolaridad:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  </tr>
+                <tr>
+                  <td style="font-family: Arial; font-size: 12px;">Grupo Sanguíneo:</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Factor Rh: </td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Otros: </td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table></td>
+          </tr>
+
+<!------------------------ PERSONA NO CARPETIZADA END -------------------->
+
+             <?php } ?>
+
           <tr>
             <td colspan="5"><table width="900" border="0">
               <tbody>
@@ -753,7 +818,18 @@ $row_n=mysqli_fetch_array($result_n);
                         </tr>
                       </tbody>
                     </table></td>
-                  <td width="363" valign="top"><table width="300" border="1" cellspacing="0">
+                  <td width="363" valign="top">
+                    
+              <?php             
+                $sql_cf =" SELECT carpeta_familiar.idcarpeta_familiar, carpeta_familiar.codigo, carpeta_familiar.familia, carpeta_familiar.fecha_apertura, integrante_cf.idintegrante_cf ";
+                $sql_cf.=" FROM integrante_cf, carpeta_familiar WHERE integrante_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND integrante_cf.idnombre='$idnombre_integrante_ss'  ";
+                $result_cf=mysqli_query($link,$sql_cf);
+                if ($row_cf=mysqli_fetch_array($result_cf)) {           
+            ?>
+
+            <!--------- FACTORES DE RIESGO PERSONA CARPETIZADA BEGIN ------->
+
+              <table width="300" border="1" cellspacing="0">
                     <tbody>
                       <tr>
                         <td bgcolor="#000000" style="text-align: center; font-family: Arial; font-size: 12px; color: #ffffff;"> H. FACTORES DE RIESGO</td>
@@ -931,7 +1007,99 @@ $row_n=mysqli_fetch_array($result_n);
                         <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
                       </tr>
                       </tbody>
-                  </table></td>
+                  </table>
+            <!--------- FACTORES DE RIESGO PERSONA CARPETIZADA END --------->
+
+             <?php } else { ?>
+
+            <!--------- FACTORES DE RIESGO PERSONA NO CARPETIZADA BEGIN ------->
+
+                  <table width="300" border="1" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td bgcolor="#000000" style="text-align: center; font-family: Arial; font-size: 12px; color: #ffffff;"> H. FACTORES DE RIESGO</td>
+                        <td bgcolor="#000000" style="text-align: center; font-family: Arial; font-size: 12px; color: #ffffff;">PERSONAL</td>
+                        <td bgcolor="#000000" style="text-align: center; font-family: Arial; font-size: 12px; color: #ffffff;">FAMILIAR</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Hipertensión Arterial Sistémica</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Diabetes</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Sobrepeso</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Abuso de Alcohol</td>
+                        <td style="font-family: Arial; font-size: 12px;  text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Habito de Fumar</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Transfusiones</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Cirugías</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Transtornos del SNC</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Tuberculosis</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Desnutrición</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                          
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Drogas</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Sífilis</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">Otros</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                        <td style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                      </tr>
+                      </tbody>
+                  </table>
+            <!--------- FACTORES DE RIESGO PERSONA NO CARPETIZADA END --------->
+
+             <?php } ?>                
+                
+                </td>
                 </tr>
               </tbody>
             </table></td>
@@ -963,568 +1131,507 @@ $row_n=mysqli_fetch_array($result_n);
           <tr>
             <td colspan="5">&nbsp;</td>
           </tr>
-
-           <!---- HISTORIAL DE ATENCIONES - BEGIN ----->  
-
-          <?php
-            $numero_at=1;
-            $sql_at =" SELECT diagnostico_psafci.iddiagnostico_psafci, diagnostico_psafci.motivo_consulta, patologia.patologia, patologia.cie, diagnostico_psafci.subjetivo, diagnostico_psafci.objetivo, ";
-            $sql_at.=" diagnostico_psafci.analisis, diagnostico_psafci.plan, atencion_psafci.idatencion_psafci, diagnostico_psafci.idusuario, atencion_psafci.fecha_registro, atencion_psafci.edad FROM diagnostico_psafci, patologia, atencion_psafci WHERE diagnostico_psafci.idpatologia=patologia.idpatologia ";
-            $sql_at.=" AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idnombre='$idnombre_integrante_ss' ORDER BY atencion_psafci.fecha_registro  ";
-            $result_at = mysqli_query($link,$sql_at);
-            if ($row_at = mysqli_fetch_array($result_at)){
-            mysqli_field_seek($result_at,0);
-            while ($field_at = mysqli_fetch_field($result_at)){
-            } do {          
-              ?>
           <tr>
             <td colspan="5">
-              
-              <?php
-                      $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
-                      $sql_sg.="  descripcion_alergia, fecha_registro, edad FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$row_at[8]' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
-                      $result_sg = mysqli_query($link,$sql_sg);
-                      if ($row_sg = mysqli_fetch_array($result_sg)){
-                      mysqli_field_seek($result_sg,0);           
-                      while ($field_sg = mysqli_fetch_field($result_sg)){
-                      } do {
-                  ?>
-              <table width="900" border="1" align="center" cellspacing="0">
+
+     <!---- HISTORIAL DE ATENCIONES - BEGIN ----->   
+
+    <?php
+        $numero_at=1;
+        $sql_at =" SELECT idatencion_psafci, idnombre, edad, idtipo_atencion, codigo, fecha_registro, hora_registro, idusuario FROM atencion_psafci WHERE idnombre = '$idnombre_integrante_ss' ORDER BY idatencion_psafci ASC";
+        $result_at = mysqli_query($link,$sql_at);
+        if ($row_at = mysqli_fetch_array($result_at)){
+        mysqli_field_seek($result_at,0);
+        while ($field_at = mysqli_fetch_field($result_at)){
+        } do {          
+    ?>
+            <table width="900" border="1" align="center" cellspacing="0">
                 <tbody>
                   <tr>
-                    <td width="100" valign="top">             
-                      <table width="100" border="0" cellspacing="0">
-                        <tbody>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FECHA:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">
-                              <?php 
-                          $fecha_r = explode('-', $row_sg[12]);
-                          $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
-                          echo $fecha_reg; ?>
-                              </td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">EDAD:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[13];?> año(s)</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TALLA:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[3];?></td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PESO:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[2];?></td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TEMP.</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[8];?></td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FC</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[1];?></td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PA</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[6];?>/<?php echo $row_sg[7];?></td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FR</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[5];?></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      
-                      </td>
-                    <td width="790" valign="top">
-                      <table width="800" border="0" cellspacing="0">
-                        <tbody>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[4];?></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Objetivo</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[5];?></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Análisis</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[6];?></br></br><?php echo $row_at[2];?> - <?php echo $row_at[3];?></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Plan</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[7];?>`</br>
-          
-                            <table width="400" align="left" border="0" cellspacing="0">
-                                <tbody>
-                                  <?php
-                                      $numero_t=1;
-                                      $sql_t =" SELECT tratamiento_psafci.idtratamiento_psafci, tipo_medicamento.tipo_medicamento, medicamento.medicamento FROM tratamiento_psafci, tipo_medicamento, medicamento ";
-                                      $sql_t.=" WHERE tratamiento_psafci.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND tratamiento_psafci.idmedicamento=medicamento.idmedicamento AND  ";
-                                      $sql_t.=" tratamiento_psafci.idatencion_psafci ='$row_at[8]' ";
-                                      $result_t = mysqli_query($link,$sql_t);
-                                      if ($row_t = mysqli_fetch_array($result_t)){
-                                      mysqli_field_seek($result_t,0);
-                                      while ($field_t = mysqli_fetch_field($result_t)){
-                                      } do {
-                                        ?>
-                                                            <tr>
-                                                              <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo "Tratamiento ".$numero_t;?></td>
-                                                              <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_t[1];?></td>
-                                                              <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_t[2];?></td>
-                                                              </tr>
-                                                            <?php
-                                    $numero_t=$numero_t+1;
-                                    }
-                                    while ($row_t = mysqli_fetch_array($result_t));
-                                    } else {
-                                    
-                                    }
-                                    ?>
-                                  </tbody>
-                                </table>
-                              
-                              
-                              
-                              
-                              </td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td width="15" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            <td width="183" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            <td width="353" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            <td width="241" style="font-family: Arial; font-size: 12px;"><span style="font-family: Arial; font-size: 12px; text-align: center;">
-                              <?php 
-                          $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                          $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_at[9]' ";
-                          $result_r = mysqli_query($link,$sql_r);
-                          $row_r = mysqli_fetch_array($result_r);                    
-                          echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
-                              </br>
-                              Nombre y firma - Médico</span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              
-              <?php
-                        }
-                        while ($row_sg = mysqli_fetch_array($result_sg));
-                        } else { ?>
-              
-              <table width="900" border="1" align="center" cellspacing="0">
-                <tbody>
-                  <tr>
-                    <td width="100" valign="top">
-                      <table width="100" border="0" cellspacing="0">
-                        <tbody>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FECHA:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">
-                              <?php 
-                          $fecha_r = explode('-', $row_at[10]);
-                          $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
-                          echo $fecha_reg; ?>
-                              </td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">EDAD:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_at[11];?> año(s)</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TALLA:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PESO:</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TEMP.</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FC</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PA</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FR</td>
-                            </tr>
-                          <tr>
-                            <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      
-                      </td>
-                    <td width="790" valign="top">
-                      
-                      <table width="800" border="0" align="center" cellspacing="0">
-                        <tbody>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo:</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[1];?></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Objetivo:</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Análisis:</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[2];?> - <?php echo $row_at[3];?></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Plan</strong></td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">
-                              
-                              <table width="400" align="left" border="0" cellspacing="0">
-                                <tbody>
-                                  <?php
-            $numero_t=1;
-            $sql_t =" SELECT tratamiento_psafci.idtratamiento_psafci, tipo_medicamento.tipo_medicamento, medicamento.medicamento FROM tratamiento_psafci, tipo_medicamento, medicamento ";
-            $sql_t.=" WHERE tratamiento_psafci.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND tratamiento_psafci.idmedicamento=medicamento.idmedicamento AND  ";
-            $sql_t.=" tratamiento_psafci.idatencion_psafci ='$row_at[8]' ";
-            $result_t = mysqli_query($link,$sql_t);
-            if ($row_t = mysqli_fetch_array($result_t)){
-            mysqli_field_seek($result_t,0);
-            while ($field_t = mysqli_fetch_field($result_t)){
+                    <td width="100" valign="top">     
+                      <!---- SIGNOS VITALES DINAMICA - BEGIN ----->         
+                     
+        <?php
+            $sql_sg =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
+            $sql_sg.="  descripcion_alergia, fecha_registro, edad FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$row_at[0]' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+            $result_sg = mysqli_query($link,$sql_sg);
+            if ($row_sg = mysqli_fetch_array($result_sg)){
+            mysqli_field_seek($result_sg,0);           
+            while ($field_sg = mysqli_fetch_field($result_sg)){
             } do {
-              ?>
-                                  <tr>
-                                    <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo "Tratamiento ".$numero_t;?></td>
-                                    <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_t[1];?></td>
-                                    <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_t[2];?></td>
-                                    </tr>
-                                  <?php
-          $numero_t=$numero_t+1;
-          }
-          while ($row_t = mysqli_fetch_array($result_t));
-          } else {
-           
-          }
-          ?>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                            <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                          </tr>
-                          <tr>
-                            <td width="35" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            <td width="90" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            <td width="425" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
-                            <td width="242" style="font-family: Arial; font-size: 12px;"><span style="font-family: Arial; font-size: 12px; text-align: center;">
-                              <?php 
-                          $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                          $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_at[9]' ";
-                          $result_r = mysqli_query($link,$sql_r);
-                          $row_r = mysqli_fetch_array($result_r);                    
-                          echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
-                              </br>
-                              Nombre y firma - Médico</span></td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              
-              <?php } ?> 
-              
-              </td>
-          </tr>            
-                    </tbody>
-                  </table></td>
+        ?>
+
+            <table width="100" border="0" cellspacing="0">
+              <tbody>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FECHA:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                  <?php 
+                  $fecha_r = explode('-', $row_at[5]);
+                  $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                  echo $fecha_reg; ?>
+                </td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">EDAD:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[13];?> año(s)</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TALLA:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[3];?></td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PESO:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[2];?></td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TEMP.</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[8];?></td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FC</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[1];?></td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PA</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[6];?>/<?php echo $row_sg[7];?></td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FR</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sg[5];?></td>
                 </tr>
               </tbody>
             </table>
 
+        <?php } 
+        while ($row_sg = mysqli_fetch_array($result_sg));
+             } else { ?>
+
+          <table width="100" border="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FECHA:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                  <?php 
+                  $fecha_r = explode('-', $row_at[5]);
+                  $fecha_reg = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+                  echo $fecha_reg; ?>
+                  </td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">EDAD:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_at[2];?> año(s)</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TALLA:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PESO:</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TEMP.</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FC</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PA</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                </tr>
+              <tr>
+                <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FR</td>
+                </tr>
+              <tr>
+                <td style="font-family: Arial; font-size: 12px; text-align: center;">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+
+        <?php } ?>
+
+                      <!---- SIGNOS VITALES DINAMICA - END -----> 
+                    </td>
+                    <td width="800" valign="top">
+                    <!--------------- TIPO DE ATENCIÓN MÉDICA ----- BEGIN -----------> 
+<?php
+    switch ($row_at[3]) {
+      case 1: ?>
+      <!--------------- ATENCIÓN POR MORBILIDAD ----- BEGIN -----------> 
           <?php
-          $numero_at=$numero_at+1;
-          }
-          while ($row_at = mysqli_fetch_array($result_at));
-          } else {
-          }
+            $sql_dg =" SELECT iddiagnostico_psafci, subjetivo, objetivo, analisis, plan FROM diagnostico_psafci  ";
+            $sql_dg.=" WHERE idatencion_psafci = '$row_at[0]' ORDER BY iddiagnostico_psafci DESC LIMIT 1 ";
+            $result_dg = mysqli_query($link,$sql_dg);
+            $row_dg = mysqli_fetch_array($result_dg);        
+              ?>
+
+      <table width="790" border="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[1];?></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Objetivo</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[2];?></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Análisis</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[3];?></br></br>
+              <?php
+                  $numero_dgi=1;
+                  $sql_dgi =" SELECT diagnostico_psafci.iddiagnostico_psafci, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia  ";
+                  $sql_dgi.=" WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci='$row_at[0]' ";
+                  $result_dgi = mysqli_query($link,$sql_dgi);
+                  if ($row_dgi = mysqli_fetch_array($result_dgi)){
+                  mysqli_field_seek($result_dgi,0);
+                  while ($field_dgi = mysqli_fetch_field($result_dgi)){
+                  } do {  ?>
+                      
+                  <?php echo "Diagnóstico ".$numero_dgi.": ".$row_dgi[1]." (".$row_dgi[2].") </br>"; ?>
+
+                  <?php
+                  $numero_dgi=$numero_dgi+1;
+                  }
+                  while ($row_dgi = mysqli_fetch_array($result_dgi));
+                  } else {
+                  }
+                  ?> 
+            
+            </td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Plan</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[4];?></br>
+
+                <table width="400" align="left" border="0" cellspacing="0">
+                  <tbody>
+                    <?php
+                        $numero_t=1;
+                        $sql_t =" SELECT tratamiento_psafci.idtratamiento_psafci, tipo_medicamento.tipo_medicamento, medicamento.medicamento FROM tratamiento_psafci, tipo_medicamento, medicamento ";
+                        $sql_t.=" WHERE tratamiento_psafci.idtipo_medicamento=tipo_medicamento.idtipo_medicamento AND tratamiento_psafci.idmedicamento=medicamento.idmedicamento AND  ";
+                        $sql_t.=" tratamiento_psafci.idatencion_psafci ='$row_at[0]' ";
+                        $result_t = mysqli_query($link,$sql_t);
+                        if ($row_t = mysqli_fetch_array($result_t)){
+                        mysqli_field_seek($result_t,0);
+                        while ($field_t = mysqli_fetch_field($result_t)){
+                        } do {
+                          ?>
+                                              <tr>
+                                                <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo "Tratamiento ".$numero_t;?></td>
+                                                <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_t[1];?></td>
+                                                <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row_t[2];?></td>
+                                                </tr>
+                                              <?php
+                      $numero_t=$numero_t+1;
+                      }
+                      while ($row_t = mysqli_fetch_array($result_t));
+                      } else {
+                      
+                      }
+                    ?>
+                  </tbody>
+                </table>
+
+            </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td width="15" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              <td width="183" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              <td width="353" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              <td width="241" style="font-family: Arial; font-size: 12px;"><span style="font-family: Arial; font-size: 12px; text-align: center;">
+                <?php 
+            $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+            $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_at[7]' ";
+            $result_r = mysqli_query($link,$sql_r);
+            $row_r = mysqli_fetch_array($result_r);                    
+            echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
+                </br>
+                Nombre y firma - Médico</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+      <!--------------- ATENCIÓN POR MORBILIDAD ----- END -----------> 
+          <?php  break;
+      case 2: ?>
+      <!--------------- ATENCIÓN PREVENTIVA ----- BEGIN -----------> 
+ 
+          <?php
+            $sql_dg =" SELECT iddiagnostico_psafci, subjetivo, objetivo, analisis, plan FROM diagnostico_psafci  ";
+            $sql_dg.=" WHERE idatencion_psafci = '$row_at[0]' ORDER BY iddiagnostico_psafci DESC LIMIT 1 ";
+            $result_dg = mysqli_query($link,$sql_dg);
+            $row_dg = mysqli_fetch_array($result_dg);        
           ?>
 
+      <table width="790" border="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[1];?></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Objetivo</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[2];?></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Análisis</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[3];?></br></br>
+              <?php
+                  $numero_dgi=1;
+                  $sql_dgi =" SELECT diagnostico_psafci.iddiagnostico_psafci, patologia.patologia, patologia.cie FROM diagnostico_psafci, patologia  ";
+                  $sql_dgi.=" WHERE diagnostico_psafci.idpatologia=patologia.idpatologia AND diagnostico_psafci.idatencion_psafci='$row_at[0]' ";
+                  $result_dgi = mysqli_query($link,$sql_dgi);
+                  if ($row_dgi = mysqli_fetch_array($result_dgi)){
+                  mysqli_field_seek($result_dgi,0);
+                  while ($field_dgi = mysqli_fetch_field($result_dgi)){
+                  } do {  ?>
+                      
+                  <?php echo "Diagnóstico ".$numero_dgi.": ".$row_dgi[1]." (".$row_dgi[2].") </br>"; ?>
 
-  <?php
+                  <?php
+                  $numero_dgi=$numero_dgi+1;
+                  }
+                  while ($row_dgi = mysqli_fetch_array($result_dgi));
+                  } else {
+                  }
+                  ?> 
+            
+            </td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Plan</strong></td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;"><?php echo $row_dg[4];?></br>
+
+            </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              </tr>
+            <tr>
+              <td width="15" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              <td width="183" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              <td width="353" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+              <td width="241" style="font-family: Arial; font-size: 12px;"><span style="font-family: Arial; font-size: 12px; text-align: center;">
+                <?php 
+            $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+            $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_at[7]' ";
+            $result_r = mysqli_query($link,$sql_r);
+            $row_r = mysqli_fetch_array($result_r);                    
+            echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
+                </br>
+                Nombre y firma - Médico</span></td>
+              </tr>
+            </tbody>
+          </table>
+      
+      <!--------------- ATENCIÓN PREVENTIVA ----- END -----------> 
+          <?php  break;
+      case 3: ?>
+      <!--------------- ATENCIÓN POR TELECONSULTA ----- BEGIN -----------> 
+      
+      <?php
           $numero_tel=1;
           $sql_tel =" SELECT atencion_teleconsulta.idatencion_teleconsulta, atencion_teleconsulta.idatencion_psafci, atencion_teleconsulta.idcaptacion_ts, atencion_teleconsulta.idde_ts, ";
           $sql_tel.="  atencion_teleconsulta.iden_ts, atencion_teleconsulta.idvia_comunicacion, atencion_teleconsulta.consentimiento_informado, atencion_teleconsulta.motivo_teleconsulta,atencion_teleconsulta.historia_enfermedad, ";
           $sql_tel.="  atencion_teleconsulta.examen_complementario, atencion_teleconsulta.tratamiento_teleconsulta, atencion_teleconsulta.idespecialidad_medica, atencion_teleconsulta.subespecialidad, ";
           $sql_tel.="  atencion_teleconsulta.idtiempo_ts, atencion_teleconsulta.idestado_paciente, atencion_teleconsulta.fecha_seguimiento, atencion_teleconsulta.telefono_paciente, atencion_teleconsulta.fecha_registro, ";
           $sql_tel.="  atencion_teleconsulta.hora_registro, atencion_teleconsulta.idusuario FROM atencion_teleconsulta, atencion_psafci WHERE atencion_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND  ";
-          $sql_tel.="  atencion_psafci.idnombre='$idnombre_integrante_ss'  ";
+          $sql_tel.="  atencion_psafci.idatencion_psafci='$row_at[0]'  ";
           $result_tel = mysqli_query($link,$sql_tel);
           if ($row_tel = mysqli_fetch_array($result_tel)){
           mysqli_field_seek($result_tel,0);
           while ($field_tel = mysqli_fetch_field($result_tel)){
           } do {        
-            
-                      $sql_sv =" SELECT idsigno_vital_psafci, frec_cardiaca, peso, talla, imc, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, alergia,  ";
-                      $sql_sv.="  descripcion_alergia, fecha_registro, edad FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' AND idatencion_psafci='$row_tel[1]' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
-                      $result_sv = mysqli_query($link,$sql_sv);
-                      $row_sv = mysqli_fetch_array($result_sv);
-
             ?>
 
-              <table width="900" border="1" align="center" cellspacing="0">
+             <table width="800" border="0" cellspacing="0">
                 <tbody>
                   <tr>
-                    <td width="95" valign="top"><table width="100" border="0" cellspacing="0">
-                      <tbody>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FECHA:</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;">
-                          <?php 
-                          $fecha_re = explode('-', $row_tel[17]);
-                          $fecha_registro = $fecha_re[2].'/'.$fecha_re[1].'/'.$fecha_re[0];
-                          echo $fecha_registro; ?>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">EDAD:</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[13];?> año(s)</td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TALLA:</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[3];?></td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PESO:</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[2];?></td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">TEMP.</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[8];?></td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FC</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[1];?></td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">PA</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[6];?>/<?php echo $row_sv[7];?></td>
-                        </tr>
-                        <tr>
-                          <td bgcolor="#E4E4E4" style="font-family: Arial; font-size: 12px;">FR</td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_sv[5];?></td>
-                        </tr>
-                      </tbody>
-                    </table></td>
-                    <td width="795"><table width="800" border="1" cellspacing="0">
-                      <tbody>
-                        <tr>
-                          <td width="178" style="font-family: Arial; font-size: 12px; text-align: right;">MOTIVO DE LA TELECONSULTA:</td>
-                          <td width="602" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[7];?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">HISTORIA DE LA ENFERMEDAD ACTUAL:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[8];?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">IMPRESIÓN DIAGNÓSTICA:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;">
-                          
-                      <?php
-                      $numero_dg=1;
-                      $sql_dg =" SELECT diagnostico_teleconsulta.iddiagnostico_teleconsulta, patologia.patologia, patologia.cie FROM diagnostico_teleconsulta, patologia  ";
-                      $sql_dg.=" WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia AND diagnostico_teleconsulta.idatencion_psafci='$row_tel[1]' ";
-                      $result_dg = mysqli_query($link,$sql_dg);
-                      if ($row_dg = mysqli_fetch_array($result_dg)){
-                      mysqli_field_seek($result_dg,0);
-                      while ($field_dg = mysqli_fetch_field($result_dg)){
-                      } do {  ?>
-                          
-                      <?php echo "Diagnóstico ".$numero_dg.": ".$row_dg[1]." (".$row_dg[2].") </br>"; ?>
+                    <td width="300" style="font-family: Arial; font-size: 12px; text-align: right;">MOTIVO DE LA TELECONSULTA:</td>
+                    <td width="500" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[7];?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">HISTORIA DE LA ENFERMEDAD ACTUAL:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[8];?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">IMPRESIÓN DIAGNÓSTICA:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;">
+                    
+                <?php
+                $numero_dg=1;
+                $sql_dg =" SELECT diagnostico_teleconsulta.iddiagnostico_teleconsulta, patologia.patologia, patologia.cie FROM diagnostico_teleconsulta, patologia  ";
+                $sql_dg.=" WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia AND diagnostico_teleconsulta.idatencion_psafci='$row_tel[1]' ";
+                $result_dg = mysqli_query($link,$sql_dg);
+                if ($row_dg = mysqli_fetch_array($result_dg)){
+                mysqli_field_seek($result_dg,0);
+                while ($field_dg = mysqli_fetch_field($result_dg)){
+                } do {  ?>
+                    
+                <?php echo "Diagnóstico ".$numero_dg.": ".$row_dg[1]." (".$row_dg[2].") </br>"; ?>
 
+                <?php
+                $numero_dg=$numero_dg+1;
+                }
+                while ($row_dg = mysqli_fetch_array($result_dg));
+                } else {
+                }
+                ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">EXÁMENES COMPLEMENTARIOS O DE GABINETE:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[9];?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">TRATAMIENTO:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[10];?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">ESPECIALIDAD Y CIERRE DE TELECONSULTA:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;">
                       <?php
-                      $numero_dg=$numero_dg+1;
-                      }
-                      while ($row_dg = mysqli_fetch_array($result_dg));
-                      } else {
-                      }
+                        $sql_es =" SELECT especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica = '$row_tel[11]' ";
+                        $result_es = mysqli_query($link,$sql_es);
+                        $row_es = mysqli_fetch_array($result_es);
+                        echo $row_es[0];
                       ?>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">EXÁMENES COMPLEMENTARIOS O DE GABINETE:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[9];?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">TRATAMIENTO:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[10];?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">ESPECIALIDAD Y CIERRE DE TELECONSULTA:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;">
-                            <?php
-                              $sql_es =" SELECT especialidad_medica FROM especialidad_medica WHERE idespecialidad_medica = '$row_tel[11]' ";
-                              $result_es = mysqli_query($link,$sql_es);
-                              $row_es = mysqli_fetch_array($result_es);
-                              echo $row_es[0];
-                            ?>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">SUBESPECIALIDAD:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[12];?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">TIEMPO:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;">
-                            <?php
-                              $sql_ts =" SELECT tiempo_ts FROM tiempo_ts WHERE idtiempo_ts = '$row_tel[13]' ";
-                              $result_ts = mysqli_query($link,$sql_ts);
-                              $row_ts = mysqli_fetch_array($result_ts);
-                              echo $row_ts[0];
-                            ?>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">ESTADO DEL PACIENTE:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;">
-                            <?php
-                              $sql_ts =" SELECT estado_paciente FROM estado_paciente WHERE idestado_paciente = '$row_tel[14]' ";
-                              $result_ts = mysqli_query($link,$sql_ts);
-                              $row_ts = mysqli_fetch_array($result_ts);
-                              echo $row_ts[0];
-                            ?>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">FECHA CONSULTA DE SEGUIMIENTO:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;">
-                          <?php 
-                          $fecha_segui = explode('-', $row_tel[15]);
-                          $fecha_seg = $fecha_segui[2].'/'.$fecha_segui[1].'/'.$fecha_segui[0];
-                          echo $fecha_seg; ?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">TELEFÓNO CELULAR DEL PACIENTE/FAMILIAR:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[16];?></td>
-                        </tr>
-                        <tr>
-                          <td style="font-family: Arial; font-size: 12px; text-align: right;">NOMBRE DEL MÉDICO:</td>
-                          <td style="font-family: Arial; font-size: 12px; text-align: left;">
-                          <?php 
-                          $sql_med =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                          $sql_med.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_tel[19]' ";
-                          $result_med = mysqli_query($link,$sql_med);
-                          $row_med = mysqli_fetch_array($result_med);                    
-                          echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);?>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table></td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">SUBESPECIALIDAD:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[12];?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">TIEMPO:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;">
+                      <?php
+                        $sql_ts =" SELECT tiempo_ts FROM tiempo_ts WHERE idtiempo_ts = '$row_tel[13]' ";
+                        $result_ts = mysqli_query($link,$sql_ts);
+                        $row_ts = mysqli_fetch_array($result_ts);
+                        echo $row_ts[0];
+                      ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">ESTADO DEL PACIENTE:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;">
+                      <?php
+                        $sql_ts =" SELECT estado_paciente FROM estado_paciente WHERE idestado_paciente = '$row_tel[14]' ";
+                        $result_ts = mysqli_query($link,$sql_ts);
+                        $row_ts = mysqli_fetch_array($result_ts);
+                        echo $row_ts[0];
+                      ?>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">FECHA CONSULTA DE SEGUIMIENTO:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;">
+                    <?php 
+                    $fecha_segui = explode('-', $row_tel[15]);
+                    $fecha_seg = $fecha_segui[2].'/'.$fecha_segui[1].'/'.$fecha_segui[0];
+                    echo $fecha_seg; ?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">TELEFÓNO CELULAR DEL PACIENTE/FAMILIAR:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[16];?></td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">NOMBRE DEL MÉDICO:</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;">
+                    <?php 
+                    $sql_med =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                    $sql_med.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_tel[19]' ";
+                    $result_med = mysqli_query($link,$sql_med);
+                    $row_med = mysqli_fetch_array($result_med);                    
+                    echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);?>
+                    </td>
                   </tr>
                 </tbody>
               </table>
-            
           <?php
           $numero_tel=$numero_tel+1;
           }
@@ -1533,7 +1640,34 @@ $row_n=mysqli_fetch_array($result_n);
           }
           ?>
 
-  <!---- HISTORIAL DE ATENCIONES - END ----->            
+      <!--------------- ATENCIÓN POR TELECONSULTA ----- END -----------> 
+          <?php  break;
+      case 4: ?>
+      <!--------------- ATENCIÓN POR TELEMETRRIA ----- BEGIN -----------> 
+
+      <!--------------- ATENCIÓN POR TELEMETRRIA ----- END -----------> 
+          <?php  break; 
+          } ?>
+
+                    <!--------------- TIPO DE ATENCIÓN MÉDICA ----- END ------------->                       
+                    </td>
+                    </tr>
+                  </tbody>
+              </table>
+
+    <?php
+      $numero_at=$numero_at+1;
+      }
+      while ($row_at = mysqli_fetch_array($result_at));
+      } else {
+      }
+    ?>
+
+       <!---- HISTORIAL DE ATENCIONES - END ----->                  
+            </td>
+          </tr>            
+
+     
           <tr>
             <td colspan="5">&nbsp;</td>
             </tr>
