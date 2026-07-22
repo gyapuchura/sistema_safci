@@ -54,7 +54,7 @@ $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud;
 header("Location:mostrar_persona_hc.php");
 
 } else {
-
+/************* VERIFICAMOS QUE LA PERSONA NO TENGA ATENCION PREVIA ***********/
 $sql_ps = " SELECT idatencion_psafci, iddepartamento, idestablecimiento_salud, idnacion FROM atencion_psafci WHERE idnombre ='$row_n[0]'  ";
 $result_ps = mysqli_query($link,$sql_ps);
 if ($row_ps = mysqli_fetch_array($result_ps)) {
@@ -69,7 +69,10 @@ if ($row_ps = mysqli_fetch_array($result_ps)) {
 
 } else {
     header("Location:mensaje_persona_sin_hc.php");
-} }
+} 
+
+}
+
 } else {   
     header("Location:mensaje_persona_sin_hc.php");
 }
