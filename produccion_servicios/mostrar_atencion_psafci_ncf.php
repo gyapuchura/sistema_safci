@@ -153,7 +153,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                          name="edad_actual" disabled>
                     </div>
                     <div class="col-sm-3"></br>
-                    <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica_nc.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
+                    <a class="btn btn-info btn-icon-split" href="imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $idnombre_paciente_ss ?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">
                     <span class="icon text-white-50">
                         <i class="fas fa-book"></i>
                     </span>
