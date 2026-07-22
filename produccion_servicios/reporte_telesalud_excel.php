@@ -44,6 +44,13 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>REPORTE TELESALUD</title>
+        <style type="text/css">
+            /* OPTIMIZACIÓN DE PESO DE ARCHIVO (CSS GLOBALES) */
+            table { border-collapse: collapse; }
+            .c-dato { font-family: Arial; font-size: 11px; text-align: center; background-color: #FFFFFF; }
+            .c-izq { font-family: Arial; font-size: 11px; text-align: left; background-color: #FFFFFF; }
+            .c-azul { font-family: Arial; font-size: 11px; text-align: center; background-color: #E1F5FE; color: #0D47A1; }
+        </style>
 </head>
 <body>
 <h4 align="center" style="font-family: Arial;">REPORTE DE ATENCIONES POR TELESALUD </h4>
@@ -55,6 +62,10 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">FECHA DE LA ATENCIÓN</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">TIPO ATENCIÓN</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">CÓDIGO ATENCIÓN</td>
+              
+              <!-- COLUMNA CÓDIGO EESS -->
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">CÓDIGO DE EESS</td>
+              
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">DEPARTAMENTO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">MUNICIPIO</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center; background-color: #eaecf4;">NIVEL</td>
@@ -100,10 +111,10 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     <tbody>
     <?php
     $numero_te=1;
-    // INGENIERÍA DE DATOS: Inyectamos la columna nac.nacion en el select (índice 28)
+    // INGENIERÍA DE DATOS: Inyectamos es.codigo_establecimiento al final de la consulta (asegurándonos de que se jale a la matriz en memoria)
     $sql_te = " SELECT a.idatencion_psafci, a.codigo, n.nombre, n.paterno, n.materno, d.departamento, m.municipio, es.establecimiento_salud, te.tipo_establecimiento,  ";
     $sql_te.= " ne.nivel_establecimiento, tc.tipo_consulta, ta.tipo_atencion, c.captacion_ts, de.de_ts, en.en_ts, vc.via_comunicacion, em.especialidad_medica,  ";
-    $sql_te.= " t.tiempo_ts, ep.estado_paciente, at.telefono_paciente, a.fecha_registro, a.hora_registro, a.idusuario, n.ci, a.idrepeticion, n.fecha_nac, g.genero, a.idtipo_atencion, nac.nacion FROM atencion_psafci a "; 
+    $sql_te.= " t.tiempo_ts, ep.estado_paciente, at.telefono_paciente, a.fecha_registro, a.hora_registro, a.idusuario, n.ci, a.idrepeticion, n.fecha_nac, g.genero, a.idtipo_atencion, nac.nacion, es.codigo_establecimiento FROM atencion_psafci a "; 
     
     $sql_te.= " INNER JOIN nombre n ON a.idnombre = n.idnombre ";
     $sql_te.= " LEFT JOIN atencion_teleconsulta at ON a.idatencion_psafci = at.idatencion_psafci ";
@@ -122,7 +133,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
     $sql_te.= " LEFT JOIN tiempo_ts t ON at.idtiempo_ts = t.idtiempo_ts ";
     $sql_te.= " LEFT JOIN genero g ON n.idgenero = g.idgenero ";
     $sql_te.= " LEFT JOIN estado_paciente ep ON at.idestado_paciente = ep.idestado_paciente ";
-    $sql_te.= " LEFT JOIN nacion nac ON a.idnacion = nac.idnacion "; // <-- EL CRUCE CON LA TABLA NACIÓN
+    $sql_te.= " LEFT JOIN nacion nac ON a.idnacion = nac.idnacion ";
     
     $sql_te.= " WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND (a.idtipo_atencion = '3' OR a.idtipo_atencion = '4') " . $filtro_extra . " ORDER BY a.idatencion_psafci DESC";
     
@@ -135,91 +146,102 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
         
         // Calcular la edad exacta al momento de la consulta
         $edad_calculada = "";
-        if (!empty($row_te[25]) && $row_te[25] != '0000-00-00') {
-            $fecha_nac_dt = new DateTime($row_te[25]);
-            $fecha_ate_dt = new DateTime($row_te[20]);
+        if (!empty($row_te['fecha_nac']) && $row_te['fecha_nac'] != '0000-00-00') {
+            $fecha_nac_dt = new DateTime($row_te['fecha_nac']);
+            $fecha_ate_dt = new DateTime($row_te['fecha_registro']);
             $intervalo = $fecha_nac_dt->diff($fecha_ate_dt);
             $edad_calculada = $intervalo->y;
         }
 
         // REGLA DE NEGOCIO: Si idtipo_atencion es 4 (Telemetría), purgamos los campos exclusivos de Teleconsulta
-        $es_telemetria = ($row_te[27] == '4');
-        $especialidad_display = $es_telemetria ? "" : $row_te[16];
-        $tiempo_display       = $es_telemetria ? "" : $row_te[17];
-        $medio_display        = $es_telemetria ? "" : $row_te[15];
-        $estado_display       = $es_telemetria ? "" : $row_te[18];
+        $es_telemetria = ($row_te['idtipo_atencion'] == '4');
+        $especialidad_display = $es_telemetria ? "" : $row_te['especialidad_medica'];
+        $tiempo_display       = $es_telemetria ? "" : $row_te['tiempo_ts'];
+        $medio_display        = $es_telemetria ? "" : $row_te['via_comunicacion'];
+        $estado_display       = $es_telemetria ? "" : $row_te['estado_paciente'];
         ?>
         <tr>
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $numero_te;?></td>
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"> 
+            <!-- CLASES CSS APLICADAS PARA MINIMIZAR EL TEXTO HTML Y ALIGERAR EL EXCEL -->
+            <td class="c-dato"><?php echo $numero_te;?></td>
+            <td class="c-dato"> 
                 <?php 
-                $fecha_r = explode('-',$row_te[20]);
-                echo $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0]; ?>
+                $fecha_r = explode('-',$row_te['fecha_registro']);
+                echo isset($fecha_r[2]) ? $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0] : ''; ?>
             </td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $row_te[11]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $row_te[1]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_te[5]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_te[6]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $row_te[9]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_te[7]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $row_te[8]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_te[13]?></td> 
+            <td class="c-dato"><?php echo $row_te['tipo_atencion']?></td> 
+            <td class="c-dato"><?php echo $row_te['codigo']?></td> 
+            
+            <!-- SOLUCIÓN QUIRÚRGICA: Llamada segura por llave asociativa limpiando espacios fantasmas -->
+            <td class="c-dato">
+                <?php 
+                $codigo_eess = isset($row_te['codigo_establecimiento']) ? trim($row_te['codigo_establecimiento']) : (isset($row_te[29]) ? trim($row_te[29]) : '');
+                echo ($codigo_eess !== '') ? $codigo_eess : "S/D"; 
+                ?>
+            </td> 
+
+            <td class="c-izq"><?php echo $row_te['departamento']?></td> 
+            <td class="c-izq"><?php echo $row_te['municipio']?></td> 
+            <td class="c-dato"><?php echo $row_te['nivel_establecimiento']?></td> 
+            <td class="c-izq"><?php echo $row_te['establecimiento_salud']?></td> 
+            <td class="c-dato"><?php echo $row_te['tipo_establecimiento']?></td> 
+            <td class="c-izq"><?php echo $row_te['de_ts']?></td> 
             <?php
             // EXTRACCIÓN MIGRADA: Muestra Código CIE-10 primero y luego la Patología
             $diagnostico=1;
             $sql_dg = " SELECT patologia.patologia, patologia.cie FROM diagnostico_teleconsulta, patologia WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia  ";
-            $sql_dg.= " AND diagnostico_teleconsulta.idatencion_psafci='$row_te[0]' ";
+            $sql_dg.= " AND diagnostico_teleconsulta.idatencion_psafci='{$row_te['idatencion_psafci']}' ";
             $result_dg = mysqli_query($link,$sql_dg);
             if ($row_dg = mysqli_fetch_array($result_dg)){
             mysqli_field_seek($result_dg,0);
             while ($field_dg = mysqli_fetch_field($result_dg)){
-            } do {                 
+            } do {                
                 ?>
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_dg[1]?> - <?php echo $row_dg[0]?></td>
+            <td class="c-izq"><?php echo $row_dg[1]?> - <?php echo $row_dg[0]?></td>
             <?php    
             $diagnostico=$diagnostico+1;              
             } while ($row_dg = mysqli_fetch_array($result_dg));
             }
             for ($i = $diagnostico; $i <= 4; $i++) {  ?>
-                <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"></td>
+                <td class="c-izq"></td>
             <?php } ?>
             
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_te[12]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"> 
+            <td class="c-izq"><?php echo $row_te['captacion_ts']?></td> 
+            <td class="c-izq"> 
               <?php 
                 $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_te[22]' ";
+                $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='{$row_te['idusuario']}' ";
                 $result_r = mysqli_query($link,$sql_r);
                 if($row_r = mysqli_fetch_array($result_r)){
                     echo mb_strtoupper($row_r[0]." " . $row_r[1]." ".$row_r[2]);
                 } ?>
             </td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $edad_calculada; ?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $especialidad_display; ?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $row_te[23]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;">
+            <td class="c-dato"><?php echo $edad_calculada; ?></td> 
+            <td class="c-izq"><?php echo $especialidad_display; ?></td> 
+            <td class="c-dato"><?php echo $row_te['ci']?></td> 
+            <td class="c-dato">
                 <?php 
-                if(!empty($row_te[25]) && $row_te[25] != '0000-00-00'){
-                    $fecha_n_partes = explode('-', $row_te[25]);
-                    echo $fecha_n_partes[2].'/'.$fecha_n_partes[1].'/'.$fecha_n_partes[0];
+                if(!empty($row_te['fecha_nac']) && $row_te['fecha_nac'] != '0000-00-00'){
+                    $fecha_n_partes = explode('-', $row_te['fecha_nac']);
+                    echo isset($fecha_n_partes[2]) ? $fecha_n_partes[2].'/'.$fecha_n_partes[1].'/'.$fecha_n_partes[0] : '';
                 } ?>
             </td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo mb_strtoupper($row_te[2].' '.$row_te[3].' '.$row_te[4]);?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo !empty($row_te[26]) ? mb_strtoupper($row_te[26]) : "S/D"; ?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $row_te[19]?></td> 
+            <td class="c-izq"><?php echo mb_strtoupper($row_te['nombre'].' '.$row_te['paterno'].' '.$row_te['materno']);?></td> 
+            <td class="c-dato"><?php echo !empty($row_te['genero']) ? mb_strtoupper($row_te['genero']) : "S/D"; ?></td> 
+            <td class="c-dato"><?php echo $row_te['telefono_paciente']?></td> 
             
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo !empty($row_te[28]) ? mb_strtoupper($row_te[28]) : "S/D"; ?></td> <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;">
+            <td class="c-dato"><?php echo !empty($row_te['nacion']) ? mb_strtoupper($row_te['nacion']) : "S/D"; ?></td> 
+            <td class="c-dato">
                 <?php 
-                if($row_te[24] == '1') { echo "NUEVO"; } 
-                else if($row_te[24] == '2') { echo "SEGUIMIENTO"; } 
+                if($row_te['idrepeticion'] == '1') { echo "NUEVO"; } 
+                else if($row_te['idrepeticion'] == '2') { echo "SEGUIMIENTO"; } 
                 else { echo "S/D"; } 
                 ?>
             </td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo $tiempo_display; ?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;"><?php echo !empty($row_te[10]) ? mb_strtoupper($row_te[10]) : "S/D"; ?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $row_te[14]?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $medio_display; ?></td> 
-            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px;"><?php echo $estado_display; ?></td> 
+            <td class="c-dato"><?php echo $tiempo_display; ?></td> 
+            <td class="c-dato"><?php echo !empty($row_te['tipo_consulta']) ? mb_strtoupper($row_te['tipo_consulta']) : "S/D"; ?></td> 
+            <td class="c-izq"><?php echo $row_te['en_ts']?></td> 
+            <td class="c-izq"><?php echo $medio_display; ?></td> 
+            <td class="c-izq"><?php echo $estado_display; ?></td> 
             
             <?php
             // Evaluación del listado de dispositivos
@@ -230,10 +252,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             while ($field_ec = mysqli_fetch_field($result_ec)){
             } do { 
                 ?>
-                <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 11px; text-align: center;" >
+                <td class="c-dato">
                     <?php
-                        // INGENIERÍA DE DATOS: Validación perfecta aislando errores de tipeo y excluyendo de la suma
-                        $sql_ex = " SELECT idexamen_teleconsulta FROM examen_teleconsulta WHERE idatencion_psafci='$row_te[0]' AND  idexamen_complementario='$row_ec[0]' ";
+                        $sql_ex = " SELECT idexamen_teleconsulta FROM examen_teleconsulta WHERE idatencion_psafci='{$row_te['idatencion_psafci']}' AND  idexamen_complementario='{$row_ec[0]}' ";
                         $result_ex = mysqli_query($link,$sql_ex);
                         if ($row_ex = mysqli_fetch_array($result_ex)){
                             echo $row_ec[1]; 
@@ -241,7 +262,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
                             $nombre_equipo = strtoupper($row_ec[1]);
                             if (strpos($nombre_equipo, 'MONITOR DE SIGNOS VITALES') === false && 
                                 strpos($nombre_equipo, 'ESTETOSCOPIO DIGITAL') === false && 
-                                strpos($nombre_equipo, 'OTRO') === false) { // Elimina todo lo que tenga la palabra OTRO
+                                strpos($nombre_equipo, 'OTRO') === false) { 
                                 $total_telemetrias_fila++;
                             }
                         } ?>
@@ -250,7 +271,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             } while ($row_ec = mysqli_fetch_array($result_ec));
             }
             ?>
-            <td bgcolor="#E1F5FE" style="font-family: Arial; font-size: 11px; text-align: center; color: #0D47A1;">
+            <td class="c-azul">
                 <?php echo $total_telemetrias_fila; ?>
             </td> 
         </tr>

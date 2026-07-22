@@ -164,11 +164,11 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-info">DESDE:</h6>
-                        <input type="date" name="inicio" id="" class="form-control">
+                        <input type="date" name="inicio" id="" class="form-control" value="<?php echo $fecha;?>">
                         </div>
                         <div class="col-sm-3">
                         <h6 class="text-info">HASTA:</h6>
-                        <input type="date" name="finalizacion" id="" class="form-control">
+                        <input type="date" name="finalizacion" id="" class="form-control" value="<?php echo $fecha;?>">
                         </div>
                         <div class="col-sm-2">
                         </br>

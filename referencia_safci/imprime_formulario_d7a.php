@@ -108,12 +108,23 @@ $row_ai=mysqli_fetch_array($result_ai);
                   <td><?php echo $row_es[5];?></td>
                   <td>TELÉFONO DE CONTACTO</td>
                   <td><?php echo $row_ref[38];?></td>
+                  <?php
+                  $sql_dr =" SELECT idderiva_referencia_hc, fecha_deriva, hora_deriva FROM deriva_referencia_hc WHERE idreferencia_hc='$row_ref[0]' ORDER BY idderiva_referencia_hc DESC LIMIT 1 ";
+                  $result_dr=mysqli_query($link,$sql_dr);
+                  $row_dr=mysqli_fetch_array($result_dr);         
+                  ?>
                   <td>FECHA:</td>
-                  <td><?php echo $row_es[1];?></td>
+                  <td>
+                  <?php 
+                    $fecha_e = explode('-',$row_dr[1]);
+                    $fecha_cref = $fecha_e[2].'/'.$fecha_e[1].'/'.$fecha_e[0];
+                    echo $fecha_cref; 
+                    ?> 
+                  </td>
                   <td>HORA:</td>
-                  <td><?php echo $row_es[1];?></td>
+                  <td><?php echo $row_dr[2];?></td>
                   <td>NIVEL DE ESTABLECIMIENTO</td>
-                  <td><?php echo $row_es[1];?></td>
+                  <td><?php echo $row_es[3];?></td>
                 </tr>
               </tbody>
             </table></td>

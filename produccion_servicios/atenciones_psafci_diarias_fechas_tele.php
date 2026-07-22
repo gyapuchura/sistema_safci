@@ -3,29 +3,34 @@
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram  = date("Ymd");
-$fecha    = date("Y-m-d");
+$fecha      = date("Y-m-d");
 $gestion    = date("Y");
 
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
-// 1. CAPTURAMOS LAS FECHAS
-$inicio = $_GET['inicio'];
-$finalizacion = $_GET['finalizacion'];
+// =========================================================================
+// 1. CAPTURA DE FECHAS SEGURA (ANTI-INYECCIÓN)
+// =========================================================================
+$inicio_raw = isset($_GET['inicio']) && !empty($_GET['inicio']) ? $_GET['inicio'] : date("Y-m-01");
+$fin_raw    = isset($_GET['finalizacion']) && !empty($_GET['finalizacion']) ? $_GET['finalizacion'] : date("Y-m-d");
+
+$inicio       = mysqli_real_escape_string($link, $inicio_raw);
+$finalizacion = mysqli_real_escape_string($link, $fin_raw);
 
 $fecha_i = explode('-',$inicio);
-$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+$f_inicio = isset($fecha_i[2]) ? $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0] : $inicio;
 
 $fecha_f = explode('-',$finalizacion);
-$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+$f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0] : $finalizacion;
 
 // =========================================================================
 // 2. MOTOR DE FILTROS DINÁMICOS
 // =========================================================================
-$iddepartamento    = isset($_GET['iddepartamento']) ? $_GET['iddepartamento'] : '';
-$idmunicipio       = isset($_GET['idmunicipio']) ? $_GET['idmunicipio'] : '';
-$idestablecimiento = isset($_GET['idestablecimiento']) ? $_GET['idestablecimiento'] : '';
-$idusuario_medico  = isset($_GET['idusuario_medico']) ? $_GET['idusuario_medico'] : ''; 
+$iddepartamento    = isset($_GET['iddepartamento']) ? mysqli_real_escape_string($link, $_GET['iddepartamento']) : '';
+$idmunicipio       = isset($_GET['idmunicipio']) ? mysqli_real_escape_string($link, $_GET['idmunicipio']) : '';
+$idestablecimiento = isset($_GET['idestablecimiento']) ? mysqli_real_escape_string($link, $_GET['idestablecimiento']) : '';
+$idusuario_medico  = isset($_GET['idusuario_medico']) ? mysqli_real_escape_string($link, $_GET['idusuario_medico']) : ''; 
 
 $filtro_extra = "";
 if($iddepartamento != '') { $filtro_extra .= " AND atencion_psafci.iddepartamento = '$iddepartamento' "; }
@@ -33,8 +38,15 @@ if($idmunicipio != '') { $filtro_extra .= " AND atencion_psafci.idmunicipio = '$
 if($idestablecimiento != '') { $filtro_extra .= " AND atencion_psafci.idestablecimiento_salud = '$idestablecimiento' "; }
 if($idusuario_medico != '') { $filtro_extra .= " AND atencion_psafci.idusuario = '$idusuario_medico' "; }
 
+// Filtro para Contrarreferencias del Especialista (Fase 2 de la matriz)
+$filtro_extra_cref = "";
+if($iddepartamento != '') { $filtro_extra_cref .= " AND departamento.iddepartamento = '$iddepartamento' "; }
+if($idmunicipio != '') { $filtro_extra_cref .= " AND municipios.idmunicipio = '$idmunicipio' "; }
+if($idestablecimiento != '') { $filtro_extra_cref .= " AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento' "; }
+if($idusuario_medico != '') { $filtro_extra_cref .= " AND der.idusuario_o = '$idusuario_medico' "; }
+
 // =========================================================================
-// 3. PUENTE DE DATOS EN MEMORIA (ARQUITECTURA PARA CASCADA INMEDIATA)
+// 3. PUENTE DE DATOS EN MEMORIA (DICCIONARIOS)
 // =========================================================================
 $sql_all_d = "SELECT iddepartamento, departamento FROM departamento";
 $res_all_d = mysqli_query($link, $sql_all_d);
@@ -56,7 +68,6 @@ $arr_eess = array();
 while($row = mysqli_fetch_array($res_all_e)){
     $arr_eess[] = '{ "id": "'.$row[0].'", "idMuni": "'.$row[1].'", "nombre": "'.addslashes(trim($row[2])).'" }';
 }
-// =========================================================================
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -96,6 +107,7 @@ while($row = mysqli_fetch_array($res_all_e)){
         }
         .btn-excel:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(28, 200, 138, 0.3); }
 
+        /* ESTÉTICA ORIGINAL (AZUL) RESTAURADA PARA EL CÓDIGO A */
         .tabla-matriz { width: 100%; border-collapse: collapse; font-family: Arial; font-size: 11px; background-color: #fff; }
         .tabla-matriz th { background-color: #2D56CF; color: white; padding: 8px 4px; border: 1px solid #b7b9cc; text-align: center; font-size: 11px; }
         .tabla-matriz td { padding: 6px 4px; border: 1px solid #d1d3e2; text-align: center; color: #333; }
@@ -103,29 +115,74 @@ while($row = mysqli_fetch_array($res_all_e)){
         .tabla-matriz .td-tot { font-weight: bold; background-color: #eaecf4; color: #2D56CF; }
         .tabla-matriz tr:hover td { background-color: #eaecf4; }
 
-        /* CSS DEL TOOLTIP */
-        .celda-interactiva { position: relative; cursor: crosshair; color: #0d6efd; font-weight: bold; background-color: #f1f8ff; }
-        .celda-interactiva .tooltip-hc {
-            visibility: hidden; opacity: 0; position: absolute;
-            bottom: 80%; left: 50%; transform: translateX(-50%);
+        /* CELDAS INTERACTIVAS */
+        .celda-interactiva { cursor: crosshair; color: #0d6efd; font-weight: bold; background-color: #f1f8ff; transition: background-color 0.2s ease; }
+        .celda-interactiva:hover { background-color: #dbeafe; }
+
+        /* TOOLTIP GLOBAL FLOTANTE (ESTO SOLUCIONA EL CORTE DE LA TABLA) */
+        #global-tooltip-hc {
+            position: absolute; visibility: hidden; opacity: 0;
             background-color: rgba(255, 255, 255, 0.98);
             border: 1px solid #7cb5ec; border-radius: 5px;
             padding: 10px 15px; box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-            z-index: 99999; white-space: nowrap; text-align: left;
+            z-index: 999999; white-space: nowrap; text-align: left;
             font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif; 
-            font-size: 12px; color: #333; transition: all 0.2s ease-in-out; pointer-events: none;
+            font-size: 12px; color: #333; pointer-events: none; transition: opacity 0.15s ease-in-out;
         }
-        .celda-interactiva .tooltip-hc::after {
+        #global-tooltip-hc::after {
             content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
             border-width: 6px; border-style: solid; border-color: #7cb5ec transparent transparent transparent;
         }
-        .celda-interactiva:hover .tooltip-hc { visibility: visible; opacity: 1; bottom: 120%; }
-        .tooltip-hc span.f-hc { font-size: 11px; color: #666; display: block; margin-bottom: 6px; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 4px;}
-        .tooltip-hc span.dot-tc { color: #7cb5ec; font-size: 16px; margin-right: 5px;}
-        .tooltip-hc span.dot-tm { color: #434348; font-size: 16px; margin-right: 5px;}
-        .tooltip-hc span.dot-ta { color: #90ed7d; font-size: 16px; margin-right: 5px;}
-        .tooltip-hc div { margin-bottom: 4px; font-weight: normal; }
+        #global-tooltip-hc span.f-hc { font-size: 11px; color: #666; display: block; margin-bottom: 6px; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 4px;}
+        #global-tooltip-hc div { margin-bottom: 4px; font-weight: normal; }
     </style>
+
+    <?php
+    // =========================================================================
+    // 4. OPTIMIZACIÓN SENIOR DEL GRÁFICO (1 Sola Consulta Rápida)
+    // =========================================================================
+    $sql_chart = "
+        SELECT a.fecha_registro,
+               SUM(CASE WHEN a.idtipo_atencion = '3' THEN 1 ELSE 0 END) as teleconsultas,
+               SUM(CASE WHEN a.idtipo_atencion = '4' THEN IFNULL(d.cant_dispositivos, 0) ELSE 0 END) as telemetrias
+        FROM atencion_psafci a
+        LEFT JOIN (
+            SELECT et.idatencion_psafci, COUNT(DISTINCT et.idexamen_complementario) as cant_dispositivos
+            FROM examen_teleconsulta et
+            INNER JOIN examen_complementario ec ON et.idexamen_complementario = ec.idexamen_complementario
+            WHERE UPPER(ec.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%'
+            AND UPPER(ec.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%'
+            AND UPPER(ec.examen_complementario) NOT LIKE '%OTRO%'
+            GROUP BY et.idatencion_psafci
+        ) d ON a.idatencion_psafci = d.idatencion_psafci
+        WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' 
+        $filtro_extra
+        GROUP BY a.fecha_registro
+        ORDER BY a.fecha_registro ASC
+    ";
+    
+    $res_chart = mysqli_query($link, $sql_chart);
+
+    $cat_arr = array();
+    $tc_arr = array();
+    $tm_arr = array();
+
+    if ($res_chart && mysqli_num_rows($res_chart) > 0) {
+        while ($row_c = mysqli_fetch_assoc($res_chart)) {
+            $fecha_s = explode('-', $row_c['fecha_registro']);
+            $fecha_log = isset($fecha_s[2]) ? $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0] : $row_c['fecha_registro'];
+
+            $cat_arr[] = "'" . $fecha_log . "'";
+            $tc_arr[] = (int)$row_c['teleconsultas'];
+            $tm_arr[] = (int)$row_c['telemetrias'];
+        }
+    } else {
+        $cat_arr[] = "'Sin registros'";
+        $tc_arr[] = 0;
+        $tm_arr[] = 0;
+    }
+    ?>
+
     <script type="text/javascript">
 $(function () {
     $('#container').highcharts({
@@ -134,24 +191,7 @@ $(function () {
         subtitle: { text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>' },
         legend: { layout: 'vertical', align: 'left', verticalAlign: 'top', x: 150, y: 100, floating: true, borderWidth: 1, backgroundColor: '#FFFFFF' },
         xAxis: {
-            categories: [
- <?php
-$numero = 0;
-$sql = " SELECT fecha_registro FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_extra GROUP BY fecha_registro ORDER BY fecha_registro ";
-$result = mysqli_query($link,$sql);
-$total = mysqli_num_rows($result);
- if ($row = mysqli_fetch_array($result)){
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){ } do {
-    $fecha_s = explode('-',$row[0]);
-    $fecha_log = $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0];
-    ?> '<?php echo $fecha_log;?>' <?php
-$numero++;
-if ($numero == $total) { echo ""; } else { echo ","; }
-} while ($row = mysqli_fetch_array($result));
-} else { echo ","; }
-?>
-            ],
+            categories: [ <?php echo implode(',', $cat_arr); ?> ],
             plotBands: [{ from: 4.5, to: 6.5, color: 'rgba(68, 170, 213, .2)' }]
         },
         yAxis: { title: { text: 'ATENCIONES TELESALUD DIARIAS' } },
@@ -160,67 +200,11 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         plotOptions: { areaspline: { fillOpacity: 0.5 } },
         series: [{
             name: 'TELECONSULTA',
-            data: [
-             <?php
-$numero = 0;
-$sql = " SELECT fecha_registro FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_extra GROUP BY fecha_registro ORDER BY fecha_registro ";
-$result = mysqli_query($link,$sql);
-$total = mysqli_num_rows($result);
- if ($row = mysqli_fetch_array($result)){
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){ } do {
-?>
-<?php
-$sql7 = " SELECT idatencion_psafci, fecha_registro FROM atencion_psafci WHERE fecha_registro='$row[0]' AND idtipo_atencion='3' $filtro_extra ";
-$result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_num_rows($result7);
-$cifra_diaria = $row7;
-?>
-             <?php echo $cifra_diaria; ?>
-<?php
-$numero++;
-if ($numero == $total) { echo ""; } else { echo ","; }
-} while ($row = mysqli_fetch_array($result));
-} else { echo ","; }
-?>
-            ]
+            data: [ <?php echo implode(',', $tc_arr); ?> ]
         },
         {
             name: 'TELEMETRÍA',
-            data: [
-             <?php
-$numero = 0;
-$sql = " SELECT fecha_registro FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_extra GROUP BY fecha_registro ORDER BY fecha_registro ";
-$result = mysqli_query($link,$sql);
-$total = mysqli_num_rows($result);
- if ($row = mysqli_fetch_array($result)){
-mysqli_field_seek($result,0);
-while ($field = mysqli_fetch_field($result)){ } do {
-?>
-<?php
-// INGENIERÍA DE DATOS: Usamos COUNT(DISTINCT) de Paciente+Dispositivo para matar los datos duplicados
-$sql7 = " SELECT COUNT(DISTINCT examen_teleconsulta.idatencion_psafci, examen_teleconsulta.idexamen_complementario) as total_equipos
-          FROM examen_teleconsulta 
-          INNER JOIN atencion_psafci ON examen_teleconsulta.idatencion_psafci = atencion_psafci.idatencion_psafci 
-          INNER JOIN examen_complementario ON examen_teleconsulta.idexamen_complementario = examen_complementario.idexamen_complementario 
-          WHERE atencion_psafci.fecha_registro='$row[0]' 
-          AND atencion_psafci.idtipo_atencion = '4' 
-          AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%' 
-          AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%' 
-          AND UPPER(examen_complementario.examen_complementario) NOT LIKE '%OTRO%' 
-          $filtro_extra ";
-$result7 = mysqli_query($link,$sql7);
-$row7 = mysqli_fetch_array($result7);
-$cifra_diaria2 = $row7['total_equipos'];
-?>
-             <?php echo $cifra_diaria2; ?>
-<?php
-$numero++;
-if ($numero == $total) { echo ""; } else { echo ","; }
-} while ($row = mysqli_fetch_array($result));
-} else { echo ","; }
-?>
-            ]
+            data: [ <?php echo implode(',', $tm_arr); ?> ]
         } ]
     });
 });
@@ -236,13 +220,13 @@ if ($numero == $total) { echo ""; } else { echo ","; }
 
 <div class="barra-filtros">
     <form action="" method="get" id="form-filtros">
-        <input type="hidden" name="inicio" id="val-inicio" value="<?php echo $inicio;?>">
-        <input type="hidden" name="finalizacion" id="val-finalizacion" value="<?php echo $finalizacion;?>">
+        <input type="hidden" name="inicio" id="val-inicio" value="<?php echo htmlspecialchars($inicio);?>">
+        <input type="hidden" name="finalizacion" id="val-finalizacion" value="<?php echo htmlspecialchars($finalizacion);?>">
         
-        <input type="hidden" name="iddepartamento" id="val-iddepartamento" value="<?php echo $iddepartamento;?>">
-        <input type="hidden" name="idmunicipio" id="val-idmunicipio" value="<?php echo $idmunicipio;?>">
-        <input type="hidden" name="idestablecimiento" id="val-idestablecimiento" value="<?php echo $idestablecimiento;?>">
-        <input type="hidden" name="idusuario_medico" id="val-idusuario_medico" value="<?php echo $idusuario_medico;?>">
+        <input type="hidden" name="iddepartamento" id="val-iddepartamento" value="<?php echo htmlspecialchars($iddepartamento);?>">
+        <input type="hidden" name="idmunicipio" id="val-idmunicipio" value="<?php echo htmlspecialchars($idmunicipio);?>">
+        <input type="hidden" name="idestablecimiento" id="val-idestablecimiento" value="<?php echo htmlspecialchars($idestablecimiento);?>">
+        <input type="hidden" name="idusuario_medico" id="val-idusuario_medico" value="<?php echo htmlspecialchars($idusuario_medico);?>">
         
         <div class="filtros-dropdowns">
             <div>
@@ -275,7 +259,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                         $lista_meds .= "<option data-id='".$row_u[0]."' value='".$nombre_completo."'></option>";
                     }
                 ?>
-                <input list="dl-meds" id="inp-med" value="<?php echo $nombre_med_sel; ?>" placeholder="Escriba para buscar..." autocomplete="off">
+                <input list="dl-meds" id="inp-med" value="<?php echo htmlspecialchars($nombre_med_sel); ?>" placeholder="Escriba para buscar..." autocomplete="off">
                 <datalist id="dl-meds"><?php echo $lista_meds; ?></datalist>
             </div>
             
@@ -372,7 +356,6 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         <a href="reporte_telemetria_nal.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=800,left=400, scrollbars=YES'); return false;">
         N° DE TELEMETRÍAS REALIZADAS</a> =
           <?php 
-          // INGENIERÍA DE DATOS: Deduplicación con DISTINCT para contar aparatos únicos por paciente
           $sql_vf =" SELECT COUNT(DISTINCT examen_teleconsulta.idatencion_psafci, examen_teleconsulta.idexamen_complementario) 
                      FROM examen_teleconsulta 
                      INNER JOIN atencion_psafci ON examen_teleconsulta.idatencion_psafci = atencion_psafci.idatencion_psafci 
@@ -407,25 +390,27 @@ if ($numero == $total) { echo ""; } else { echo ","; }
   </button>
 
   <form action="reporte_telesalud_excel.php" method="post" style="margin: 0;">
-    <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
-    <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
-    <input type="hidden" name="iddepartamento" value="<?php echo $iddepartamento;?>">
-    <input type="hidden" name="idmunicipio" value="<?php echo $idmunicipio;?>">
-    <input type="hidden" name="idestablecimiento" value="<?php echo $idestablecimiento;?>">
-    <input type="hidden" name="idusuario_medico" value="<?php echo $idusuario_medico;?>">
+    <input type="hidden" name="inicio" value="<?php echo htmlspecialchars($inicio);?>">
+    <input type="hidden" name="finalizacion" value="<?php echo htmlspecialchars($finalizacion);?>">
+    <input type="hidden" name="iddepartamento" value="<?php echo htmlspecialchars($iddepartamento);?>">
+    <input type="hidden" name="idmunicipio" value="<?php echo htmlspecialchars($idmunicipio);?>">
+    <input type="hidden" name="idestablecimiento" value="<?php echo htmlspecialchars($idestablecimiento);?>">
+    <input type="hidden" name="idusuario_medico" value="<?php echo htmlspecialchars($idusuario_medico);?>">
     <button type="submit" class="btn-excel">DESCARGAR EN EXCEL</button>
   </form>
 </div>
+
 <div id="contenedor-matriz" style="display: none; padding-bottom: 50px;">
-    <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">MATRIZ DE PRODUCCIÓN</h4>
-    <div style="overflow-x: auto; width: 95%; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding-top: 60px; margin-top: -40px;">
+    <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">MATRIZ DE PRODUCCIÓN GLOBAL (ATENCIONES + REFERENCIAS)</h4>
+    <div style="overflow-x: auto; width: 95%; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding-top: 20px;">
         <table class="tabla-matriz" id="tabla-matriz-estrategica">
             <thead>
                 <tr>
                     <th>DEPARTAMENTO</th>
                     <th>MUNICIPIO</th>
                     <th>ESTABLECIMIENTO</th>
-                    <th>MÉDICO OPERATIVO</th> <?php
+                    <th>MÉDICO OPERATIVO</th> 
+                    <?php
                     $dias_matriz = array();
                     $current_time = strtotime($inicio);
                     $last_time = strtotime($finalizacion);
@@ -441,7 +426,9 @@ if ($numero == $total) { echo ""; } else { echo ","; }
             </thead>
             <tbody>
             <?php
-            // CONSULTA DATA WAREHOUSE: Integramos una subconsulta anidada para no duplicar datos
+            // ==============================================================================================
+            // EXTRACCIÓN DE DATOS: QUERY 1 (ATENCIONES Y TELEMETRÍAS - INTACTO)
+            // ==============================================================================================
             $sql_matriz = "
                 SELECT 
                     departamento.departamento, 
@@ -449,9 +436,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                     establecimiento_salud.establecimiento_salud, 
                     CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
                     atencion_psafci.fecha_registro, 
-                    COUNT(atencion_psafci.idatencion_psafci) as cantidad,
                     SUM(CASE WHEN atencion_psafci.idtipo_atencion = '3' THEN 1 ELSE 0 END) as teleconsulta,
-                    SUM(CASE WHEN atencion_psafci.idtipo_atencion = '4' THEN 1 ELSE 0 END) as telemetria_atenciones,
                     SUM(CASE WHEN atencion_psafci.idtipo_atencion = '4' THEN IFNULL(dispositivos.cant_dispositivos, 0) ELSE 0 END) as tecnoasistida
                 FROM atencion_psafci
                 INNER JOIN departamento ON atencion_psafci.iddepartamento = departamento.iddepartamento
@@ -472,80 +457,178 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                 AND atencion_psafci.idtipo_atencion != '1' AND atencion_psafci.idtipo_atencion != '2' AND atencion_psafci.idtipo_atencion != '5'
                 $filtro_extra
                 GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, atencion_psafci.fecha_registro
-                ORDER BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico
             ";
             $res_matriz = mysqli_query($link, $sql_matriz);
-            
             $data_agrupada = array();
-            while($rm = mysqli_fetch_assoc($res_matriz)) {
-                $dep = $rm['departamento'];
-                $mun = $rm['municipio'];
-                $est = $rm['establecimiento_salud'];
-                $med = mb_strtoupper($rm['medico']); 
-                $fec = $rm['fecha_registro'];
-                $cant = $rm['cantidad'];
-                
-                if(!isset($data_agrupada[$dep][$mun][$est][$med])) {
-                    $data_agrupada[$dep][$mun][$est][$med] = array();
+            
+            if($res_matriz) {
+                while($rm = mysqli_fetch_assoc($res_matriz)) {
+                    $dep = trim($rm['departamento']); 
+                    $mun = trim($rm['municipio']); 
+                    $est = trim($rm['establecimiento_salud']);
+                    $med = mb_strtoupper(trim($rm['medico'])); 
+                    if(empty($med)) { $med = "SIN MÉDICO REGISTRADO"; }
+                    $fec = $rm['fecha_registro'];
+                    
+                    if(!isset($data_agrupada[$dep][$mun][$est][$med])) { $data_agrupada[$dep][$mun][$est][$med] = array(); }
+                    if(!isset($data_agrupada[$dep][$mun][$est][$med][$fec])) {
+                        $data_agrupada[$dep][$mun][$est][$med][$fec] = array('tc' => 0, 'ta' => 0, 'ref' => 0, 'cref' => 0);
+                    }
+                    $data_agrupada[$dep][$mun][$est][$med][$fec]['tc'] += (int)$rm['teleconsulta'];
+                    $data_agrupada[$dep][$mun][$est][$med][$fec]['ta'] += (int)$rm['tecnoasistida'];
                 }
-                // Guardamos el desglose completo
-                $data_agrupada[$dep][$mun][$est][$med][$fec] = array(
-                    'tc' => $rm['teleconsulta'],
-                    'tm' => $rm['telemetria_atenciones'],
-                    'ta' => $rm['tecnoasistida']
-                );
             }
 
+            // ==============================================================================================
+            // EXTRACCIÓN DE DATOS: QUERY 2 DIVIDIDO EN FASE 1 Y FASE 2 (MOTOR DE AGREGACIÓN POR MÉDICO)
+            // ==============================================================================================
+            $filtro_extra_ref = str_replace("atencion_psafci.", "referencia_hc.", $filtro_extra);
+            
+            // FASE 1: REFERENCIAS GENERADAS POR EL MÉDICO ORIGEN (IDA)
+            $sql_matriz_ref = "
+                SELECT 
+                    departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, 
+                    CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
+                    referencia_hc.fecha_registro, 
+                    COUNT(referencia_hc.idreferencia_hc) as referidas
+                FROM referencia_hc
+                INNER JOIN departamento ON referencia_hc.iddepartamento = departamento.iddepartamento
+                INNER JOIN municipios ON referencia_hc.idmunicipio = municipios.idmunicipio
+                INNER JOIN establecimiento_salud ON referencia_hc.idestablecimiento_salud = establecimiento_salud.idestablecimiento_salud
+                LEFT JOIN usuarios ON referencia_hc.idusuario = usuarios.idusuario
+                LEFT JOIN nombre ON usuarios.idnombre = nombre.idnombre
+                WHERE referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion'
+                $filtro_extra_ref
+                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, referencia_hc.fecha_registro
+            ";
+            $res_matriz_ref = mysqli_query($link, $sql_matriz_ref);
+            
+            if($res_matriz_ref) {
+                while($rm = mysqli_fetch_assoc($res_matriz_ref)) {
+                    $dep = trim($rm['departamento']); 
+                    $mun = trim($rm['municipio']); 
+                    $est = trim($rm['establecimiento_salud']);
+                    $med = mb_strtoupper(trim($rm['medico'])); 
+                    if(empty($med)) { $med = "SIN MÉDICO REGISTRADO"; }
+                    $fec = $rm['fecha_registro'];
+
+                    if(!isset($data_agrupada[$dep][$mun][$est][$med])) { $data_agrupada[$dep][$mun][$est][$med] = array(); }
+                    if(!isset($data_agrupada[$dep][$mun][$est][$med][$fec])) {
+                        $data_agrupada[$dep][$mun][$est][$med][$fec] = array('tc' => 0, 'ta' => 0, 'ref' => 0, 'cref' => 0);
+                    }
+                    $data_agrupada[$dep][$mun][$est][$med][$fec]['ref'] += (int)$rm['referidas'];
+                }
+            }
+
+            // FASE 2: CONTRARREFERENCIAS GENERADAS POR EL ESPECIALISTA (VUELTA)
+            $sql_matriz_cref = "
+                SELECT 
+                    departamento.departamento, 
+                    municipios.municipio, 
+                    establecimiento_salud.establecimiento_salud, 
+                    CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
+                    CASE WHEN der.fecha_deriva IS NOT NULL AND der.fecha_deriva != '' AND der.fecha_deriva != '0000-00-00' THEN der.fecha_deriva ELSE referencia_hc.fecha_registro END as fecha_registro,
+                    COUNT(referencia_hc.idreferencia_hc) as contrarreferidas
+                FROM referencia_hc
+                INNER JOIN (
+                    SELECT idreferencia_hc, MAX(idderiva_referencia_hc) as max_id
+                    FROM deriva_referencia_hc
+                    GROUP BY idreferencia_hc
+                ) as ult_der ON referencia_hc.idreferencia_hc = ult_der.idreferencia_hc
+                INNER JOIN deriva_referencia_hc der ON ult_der.max_id = der.idderiva_referencia_hc
+                INNER JOIN establecimiento_salud ON der.idestablecimiento_salud_o = establecimiento_salud.idestablecimiento_salud
+                INNER JOIN departamento ON establecimiento_salud.iddepartamento = departamento.iddepartamento
+                INNER JOIN municipios ON establecimiento_salud.idmunicipio = municipios.idmunicipio
+                LEFT JOIN usuarios ON der.idusuario_o = usuarios.idusuario
+                LEFT JOIN nombre ON usuarios.idnombre = nombre.idnombre
+                WHERE referencia_hc.idestado_referencia = '2'
+                AND (CASE WHEN der.fecha_deriva IS NOT NULL AND der.fecha_deriva != '' AND der.fecha_deriva != '0000-00-00' THEN der.fecha_deriva ELSE referencia_hc.fecha_registro END) BETWEEN '$inicio' AND '$finalizacion'
+                $filtro_extra_cref
+                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, fecha_registro
+            ";
+            $res_matriz_cref = mysqli_query($link, $sql_matriz_cref);
+
+            if($res_matriz_cref) {
+                while($rm = mysqli_fetch_assoc($res_matriz_cref)) {
+                    $dep = trim($rm['departamento']); 
+                    $mun = trim($rm['municipio']); 
+                    $est = trim($rm['establecimiento_salud']);
+                    $med = mb_strtoupper(trim($rm['medico'])); 
+                    if(empty($med)) { $med = "SIN MÉDICO REGISTRADO"; }
+                    $fec = $rm['fecha_registro'];
+
+                    if(!isset($data_agrupada[$dep][$mun][$est][$med])) { $data_agrupada[$dep][$mun][$est][$med] = array(); }
+                    if(!isset($data_agrupada[$dep][$mun][$est][$med][$fec])) {
+                        $data_agrupada[$dep][$mun][$est][$med][$fec] = array('tc' => 0, 'ta' => 0, 'ref' => 0, 'cref' => 0);
+                    }
+                    $data_agrupada[$dep][$mun][$est][$med][$fec]['cref'] += (int)$rm['contrarreferidas'];
+                }
+            }
+
+            // ==============================================================================================
+            // IMPRESIÓN DE LA MATRIZ DINÁMICA
+            // ==============================================================================================
             $gran_total = 0;
             $totales_por_dia = array();
 
             if(count($data_agrupada) > 0) {
+                ksort($data_agrupada);
                 foreach($data_agrupada as $dep => $muns) {
+                    ksort($muns);
                     foreach($muns as $mun => $ests) {
+                        ksort($ests);
                         foreach($ests as $est => $medicos) {
+                            ksort($medicos);
                             foreach($medicos as $med => $fechas) { 
-                                    echo "<tr>";
-                                    echo "<td class='td-izq'>$dep</td>";
-                                    echo "<td class='td-izq'>$mun</td>";
-                                    echo "<td class='td-izq'>$est</td>";
-                                    echo "<td class='td-izq'>$med</td>"; 
-                                    
-                                    $suma_fila = 0;
-                                    foreach($dias_matriz as $d) {
-                                        // --- INICIO DEL BLOQUE 3 (TOOLTIP ESTILO HIGHCHARTS) ---
-                                        if(isset($fechas[$d])) {
-                                            $tc  = $fechas[$d]['tc'];
-                                            $tm  = $fechas[$d]['tm']; // N° Atenciones Telemetría
-                                            $ta  = $fechas[$d]['ta']; // N° Dispositivos Reales
-                                            
-                                            // La celda SUMA: Teleconsultas + Dispositivos
-                                            $val = $tc + $ta;
+                                
+                                // Validación de Seguridad: Ignorar médicos con TODO en 0 absoluto
+                                $suma_fila_check = 0;
+                                foreach($dias_matriz as $d) {
+                                    if(isset($fechas[$d])) {
+                                        $suma_fila_check += $fechas[$d]['tc'] + $fechas[$d]['ta'] + $fechas[$d]['ref'] + $fechas[$d]['cref'];
+                                    }
+                                }
+                                if ($suma_fila_check == 0) continue; 
 
+                                echo "<tr>";
+                                echo "<td class='td-izq'>$dep</td>";
+                                echo "<td class='td-izq'>$mun</td>";
+                                echo "<td class='td-izq'>$est</td>";
+                                echo "<td class='td-izq'>$med</td>"; 
+                                
+                                $suma_fila = 0;
+                                foreach($dias_matriz as $d) {
+                                    if(isset($fechas[$d])) {
+                                        $tc   = $fechas[$d]['tc'];
+                                        $ta   = $fechas[$d]['ta'];
+                                        $ref  = $fechas[$d]['ref'];
+                                        $cref = $fechas[$d]['cref'];
+                                        
+                                        $val = $tc + $ta + $ref + $cref;
+
+                                        if ($val > 0) {
                                             $suma_fila += $val;
                                             $gran_total += $val;
                                             if(!isset($totales_por_dia[$d])) $totales_por_dia[$d] = 0;
                                             $totales_por_dia[$d] += $val;
                                             
-                                            // ARMADO DEL TOOLTIP (Clon de Highcharts)
                                             $fecha_form = date('d/m/Y', strtotime($d));
-                                            $tooltip_html = "<div class='tooltip-hc'>
-                                                                <div><span class='dot-tc'>●</span> N° Teleconsultas: <b>$tc</b></div>
-                                                                <div><span class='dot-ta'>●</span> N° Atenciones Telemetría: <b>$ta</b></div>
-                                                             </div>";
                                             
-                                            // Dibujamos la celda aplicando nuestra clase interactiva
-                                            echo "<td class='celda-interactiva'>" . ($val > 0 ? $val : '0') . $tooltip_html . "</td>";
+                                            // Asignamos datos vía atributos HTML para que el Tooltip JS y el Excel los lean.
+                                            echo "<td class='celda-interactiva' data-fecha='$fecha_form' data-tc='$tc' data-ta='$ta' data-ref='$ref' data-cref='$cref' data-val='$val'>$val</td>";
                                         } else {
-                                            echo "<td>-</td>";
+                                            echo "<td>-</td>"; 
                                         }
-                                        // --- FIN DEL BLOQUE 3 ---
+                                    } else {
+                                        echo "<td>-</td>";
                                     }
-                                    echo "<td class='td-tot'>$suma_fila</td>";
-                                    echo "</tr>";
                                 }
+                                echo "<td class='td-tot'>$suma_fila</td>";
+                                echo "</tr>";
                             }
                         }
                     }
+                }
                 
                 echo "<tr>";
                 echo "<td colspan='4' class='td-tot' style='text-align: right;'>TOTAL GENERAL:</td>";
@@ -620,8 +703,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                     $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
                     $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[12]' ";
                     $result_r = mysqli_query($link,$sql_r);
-                    $row_r = mysqli_fetch_array($result_r);                    
-                    echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
+                    if($row_r = mysqli_fetch_array($result_r)) { echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]); } ?>
                   </td>
                   <td style="font-size: 12px; font-family: Arial;">
                   <?php 
@@ -629,13 +711,12 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                     $sql_c.=" WHERE dato_laboral.idusuario=usuarios.idusuario AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama ";
                     $sql_c.=" AND usuarios.idusuario='$row[12]' ORDER BY dato_laboral.idcargo_organigrama DESC LIMIT 1 ";
                     $result_c = mysqli_query($link,$sql_c);
-                    $row_c = mysqli_fetch_array($result_c);                    
-                    echo $row_c[1];?>
+                    if($row_c = mysqli_fetch_array($result_c)) { echo $row_c[1]; } ?>
                 </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
                   <?php 
-                    $fecha_r = explode('-',$row[10]);
-                    $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                    $fecha_r_loop = explode('-',$row[10]);
+                    $f_registro = isset($fecha_r_loop[2]) ? $fecha_r_loop[2].'/'.$fecha_r_loop[1].'/'.$fecha_r_loop[0] : $row[10];?>
                     <?php echo $f_registro;?> - <?php echo $row[11];?></td>
               </tr>
                 <?php
@@ -657,9 +738,31 @@ if ($numero == $total) { echo ""; } else { echo ","; }
     const initMuni = "<?php echo $idmunicipio; ?>";
     const initEess = "<?php echo $idestablecimiento; ?>";
 
+    // =========================================================================
+    // EXPORTACIÓN A EXCEL: Limpio, Total Abajo y sin código basura.
+    // =========================================================================
     function exportarMatrizExcel(tablaID) {
-        const tabla = document.getElementById(tablaID);
-        if (!tabla) return alert("No se encontró la tabla para exportar.");
+        const tablaOriginal = document.getElementById(tablaID);
+        if (!tablaOriginal) return alert("No se encontró la tabla para exportar.");
+        
+        const tablaClonada = tablaOriginal.cloneNode(true);
+        const celdas = tablaClonada.querySelectorAll('.celda-interactiva');
+        
+        celdas.forEach(celda => {
+            const tc = parseInt(celda.getAttribute('data-tc')) || 0;
+            const ta = parseInt(celda.getAttribute('data-ta')) || 0;
+            const ref = parseInt(celda.getAttribute('data-ref')) || 0;
+            const cref = parseInt(celda.getAttribute('data-cref')) || 0;
+            const val = parseInt(celda.getAttribute('data-val')) || 0;
+            
+            let desglose = "";
+            desglose += "Teleconsultas: " + tc + "<br>";
+            desglose += "Telemetrías: " + ta + "<br>";
+            desglose += "Referencias: " + ref + "<br>";
+            desglose += "Contrarreferencias: " + cref + "<br>";
+            
+            celda.innerHTML = desglose + "<strong>Total: " + val + "</strong>";
+        });
         
         const uri = 'data:application/vnd.ms-excel;base64,';
         const template = `
@@ -675,7 +778,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
                 .td-izq { text-align: left; background-color: #f8f9fa; font-weight: bold; }
                 .td-tot { background-color: #eaecf4; font-weight: bold; color: #2D56CF; }
             </style></head>
-            <body><table>${tabla.innerHTML}</table></body></html>`;
+            <body><table>${tablaClonada.innerHTML}</table></body></html>`;
 
         const base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))); };
         const enlace = document.createElement("a");
@@ -689,7 +792,48 @@ if ($numero == $total) { echo ""; } else { echo ","; }
 
     document.addEventListener('DOMContentLoaded', () => {
         
-        // 1. CORRECCIÓN BOTÓN MOSTRAR MATRIZ (VANILLA JS - LIBRE DE ERRORES)
+        // =========================================================================
+        // LÓGICA DEL TOOLTIP GLOBAL (EVITA QUE SE CORTE POR LA GUILLOTINA DE LA TABLA)
+        // =========================================================================
+        const tooltip = document.createElement('div');
+        tooltip.id = 'global-tooltip-hc';
+        document.body.appendChild(tooltip);
+
+        document.querySelectorAll('.celda-interactiva').forEach(celda => {
+            celda.addEventListener('mouseenter', function() {
+                const rect = this.getBoundingClientRect();
+                const tc = this.getAttribute('data-tc') || 0;
+                const ta = this.getAttribute('data-ta') || 0;
+                const ref = this.getAttribute('data-ref') || 0;
+                const cref = this.getAttribute('data-cref') || 0;
+                const fecha = this.getAttribute('data-fecha') || '';
+                
+                tooltip.innerHTML = `
+                    <span class='f-hc'>${fecha}</span>
+                    <div><span style='color: #7cb5ec; font-size: 16px; margin-right: 5px;'>●</span> N° Teleconsultas: <b>${tc}</b></div>
+                    <div><span style='color: #90ed7d; font-size: 16px; margin-right: 5px;'>●</span> N° Telemetrías: <b>${ta}</b></div>
+                    <div><span style='color: #f7a35c; font-size: 16px; margin-right: 5px;'>●</span> N° Referencias: <b>${ref}</b></div>
+                    <div><span style='color: #434348; font-size: 16px; margin-right: 5px;'>●</span> N° Contrarreferencias: <b>${cref}</b></div>
+                `;
+                
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = '1';
+                
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const topPos = rect.top + window.scrollY - tooltipRect.height - 10;
+                const leftPos = rect.left + window.scrollX + (rect.width / 2) - (tooltipRect.width / 2);
+                
+                tooltip.style.top = topPos + 'px';
+                tooltip.style.left = leftPos + 'px';
+            });
+            
+            celda.addEventListener('mouseleave', function() {
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.opacity = '0';
+            });
+        });
+
+        // BOTONES DE VISTA
         const btnMostrarMatriz = document.getElementById('btn-mostrar-matriz');
         const contMatriz = document.getElementById('contenedor-matriz');
         const contPacientes = document.getElementById('contenedor-pacientes');
@@ -712,7 +856,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
             });
         }
 
-        // 2. CORRECCIÓN DE CASCADA DE FILTROS 
+        // MOTOR JS DE FILTROS EN CASCADA
         const inpDepto = document.getElementById('inp-depto');
         const inpMuni = document.getElementById('inp-muni');
         const inpEst = document.getElementById('inp-est');
@@ -762,18 +906,15 @@ if ($numero == $total) { echo ""; } else { echo ","; }
 
         initListas();
 
-        // AL SELECCIONAR DEPARTAMENTO
         inpDepto.addEventListener('input', function() {
             const val = this.value.trim().toLowerCase();
             const obj = dbDeptos.find(d => d.nombre.toLowerCase() === val);
-            
             if (obj) {
                 valDepto.value = obj.id;
                 poblarLista(dlMunis, dbMunis.filter(m => m.idDepto == obj.id));
-                
                 inpMuni.value = ""; valMuni.value = "";
                 inpEst.value = ""; valEst.value = "";
-                poblarLista(dlEess, []); // Vacia EESS temporalmente
+                poblarLista(dlEess, []); 
             } else {
                 valDepto.value = "";
                 poblarLista(dlMunis, dbMunis);
@@ -781,20 +922,16 @@ if ($numero == $total) { echo ""; } else { echo ","; }
             }
         });
 
-        // AL SELECCIONAR MUNICIPIO (Autocompleta Depto)
         inpMuni.addEventListener('input', function() {
             const val = this.value.trim().toLowerCase();
             const mObj = dbMunis.find(m => m.nombre.toLowerCase() === val);
-            
             if (mObj) {
                 valMuni.value = mObj.id;
-                
                 const dObj = dbDeptos.find(d => d.id == mObj.idDepto);
                 if(dObj) {
                     inpDepto.value = dObj.nombre;
                     valDepto.value = dObj.id;
                 }
-
                 poblarLista(dlEess, dbEess.filter(e => e.idMuni == mObj.id));
                 inpEst.value = ""; valEst.value = "";
             } else {
@@ -802,19 +939,15 @@ if ($numero == $total) { echo ""; } else { echo ","; }
             }
         });
 
-        // AL SELECCIONAR EESS (Autocompleta Municipio y Depto)
         inpEst.addEventListener('input', function() {
             const val = this.value.trim().toLowerCase();
             const eObj = dbEess.find(e => e.nombre.toLowerCase() === val);
-            
             if (eObj) {
                 valEst.value = eObj.id;
-                
                 const mObj = dbMunis.find(m => m.id == eObj.idMuni);
                 if(mObj) {
                     inpMuni.value = mObj.nombre;
                     valMuni.value = mObj.id;
-                    
                     const dObj = dbDeptos.find(d => d.id == mObj.idDepto);
                     if(dObj) {
                         inpDepto.value = dObj.nombre;
@@ -826,7 +959,6 @@ if ($numero == $total) { echo ""; } else { echo ","; }
             }
         });
 
-        // MEDICO
         inpMed.addEventListener('input', function() {
             const option = document.querySelector(`#dl-meds option[value="${this.value}"]`);
             if(option) valMed.value = option.getAttribute('data-id');
@@ -834,6 +966,5 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         });
     });
 </script>
-
   </body>
 </html>
