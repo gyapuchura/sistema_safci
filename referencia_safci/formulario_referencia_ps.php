@@ -369,11 +369,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="" 
-                                        name="nombre_acompanante" required>
+                                        name="nombre_acompanante">
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
-                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control" required>
+                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control">
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $sql1 = "SELECT idparentesco, parentesco FROM parentesco ";
@@ -474,7 +474,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glascow" value="" required>                
+                                            name="glasgow" value="" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
@@ -521,7 +521,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glascow" value="" required>                
+                                            name="glasgow" value="" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
@@ -631,7 +631,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
                                     
-                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz" required></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz"></textarea>
                                     
                                     <div class="invalid-feedback" style="margin-top: 5px;">Debe especificar a qué otros exámenes se refiere.</div>
                                     
@@ -647,11 +647,12 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                             <div class="card-body">
                                 
+                                <!-- DIAGNÓSTICO 1 (OBLIGATORIO - ÍNDICE 0) -->
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde" ></textarea>  <!-- Modificado, no es necesario que este sea obligatorio-->
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                        <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
+                                        <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde" ></textarea>
+                                        <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
@@ -659,11 +660,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                             <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[0]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off" required>
                                             <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
-                                        <select name="idpatologia[0]" id="idpatologia[0]" style="display: none;"> <!-- Modificado se quito required-->
+                                        <select name="idpatologia[0]" id="idpatologia[0]" style="display: none;">
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -680,23 +681,25 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
+                                <!-- DIAGNÓSTICO 2 (OPCIONAL - ÍNDICE 1 CORREGIDO) -->
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
+                                        <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
+                                        <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                        <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
                                         <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[2]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
+                                            <!-- 🛠️ AQUÍ ESTABA EL ERROR: Se cambió data-target="idpatologia[2]" por "idpatologia[1]" -->
+                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[1]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
                                             <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
                                         <select name="idpatologia[1]" id="idpatologia[1]" style="display: none;">
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -713,11 +716,12 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
+                                <!-- DIAGNÓSTICO 3 (OPCIONAL - ÍNDICE 2) -->
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
+                                        <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
+                                        <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                        <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
@@ -725,11 +729,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                             <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[2]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
                                             <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
-                                        <select name="idpatologia[2]"  id="idpatologia[2]" style="display: none;">
+                                        <select name="idpatologia[2]" id="idpatologia[2]" style="display: none;">
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -747,7 +751,6 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 </div>
 
                             </div>
-
                         </div>
 
                         <div class="card shadow mb-4"> <!-- Modificado para que aparezca el asterizo y se marque de rojo al no ser llenado ya que es obligatorio-->
