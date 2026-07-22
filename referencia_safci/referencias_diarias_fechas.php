@@ -78,7 +78,7 @@ while($row = mysqli_fetch_array($res_all_e)){
 
         <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
         
-        <script src="referencia.js"></script>
+        <script src="../js/referencia.js"></script>
         <script src="../js/modules/exporting.js"></script>
 
         <style type="text/css">
