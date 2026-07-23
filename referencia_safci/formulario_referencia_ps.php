@@ -408,6 +408,13 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>                                
                         </div>
 
+                        <?php
+                        $sql_se =" SELECT idsigno_vital_psafci, talla, peso, temperatura, frec_cardiaca, frec_respiratoria, presion_arterial, presion_arterial_d, saturacion, glascow, alergia, ";
+                        $sql_se.=" descripcion_alergia, imc FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
+                        $result_se = mysqli_query($link,$sql_se);
+                        $row_se = mysqli_fetch_array($result_se);
+                        ?> 
+
                         <div class="card shadow mb-4"> <!-- Modificado toda la seccion -->
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">2.- DATOS CLÍNICOS Y SIGNOS VITALES</h6>
@@ -418,25 +425,25 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
                                         <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
-                                            name="talla" value="" required>                
+                                            name="talla" value="<?php echo $row_se[1];?>" required>                
                                         <div class="invalid-feedback">Permitido: 20 a 280 cm</div>
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                                         <input type="number" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"            
-                                            name="peso" required>                
+                                            name="peso" value="<?php echo $row_se[2];?>" required>                
                                         <div class="invalid-feedback">Permitido: 0.2 a 650 kg</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                                         <input type="number" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Grados Centígrados"
-                                            name="temperatura" value="" required>                
+                                            name="temperatura" value="<?php echo $row_se[3];?>" required>                
                                         <div class="invalid-feedback">Permitido: 10°C a 47°C</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
                                         <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Latidos por minuto"
-                                            name="frec_cardiaca" value="" required>                
+                                            name="frec_cardiaca" value="<?php echo $row_se[4];?>" required>                
                                         <div class="invalid-feedback">Permitido: 0 a 350 lpm</div>
                                     </div>
                                 </div>
@@ -447,25 +454,25 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Ciclos por minuto"
-                                            name="frec_respiratoria" value="" required>                
+                                            name="frec_respiratoria" value="<?php echo $row_se[5];?>" required>                
                                         <div class="invalid-feedback">Permitido: 0 a 80 cpm</div>
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
                                         <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"           
-                                            name="presion_arterial"  placeholder="Sistólica"  required>               
+                                            name="presion_arterial" value="<?php echo $row_se[6];?>"  placeholder="Sistólica"  required>               
                                         <div class="invalid-feedback">Permitido: 0 a 300 mmHg</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary"> </br>diastólica [mmHg]</h6>
                                         <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"  placeholder="Diastólica"           
-                                            name="presion_arterial_d" value="" required>                
+                                            name="presion_arterial_d" value="<?php echo $row_se[7];?>" required>                
                                         <div class="invalid-feedback">Permitido: 0 a 200 mmHg</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                                         <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% de O2"
-                                            name="saturacion" value="" required>                
+                                            name="saturacion" value="<?php echo $row_se[8];?>" required>                
                                         <div class="invalid-feedback">Permitido: 0% a 100%</div>
                                     </div>
                                 </div>
@@ -474,7 +481,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glascow" value="" required>                
+                                            name="glascow" value="<?php echo $row_se[9];?>" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
