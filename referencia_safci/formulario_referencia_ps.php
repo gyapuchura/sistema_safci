@@ -369,11 +369,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="" 
-                                        name="nombre_acompanante">
+                                        name="nombre_acompanante" required>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
-                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control">
+                                    <select name="idparentesco_acomp" id="idparentesco_acomp" class="form-control" required>
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $sql1 = "SELECT idparentesco, parentesco FROM parentesco ";
@@ -408,13 +408,6 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>                                
                         </div>
 
-                        <?php
-                            $sql_se =" SELECT idsigno_vital_psafci, talla, peso, temperatura, frec_cardiaca, frec_respiratoria, presion_arterial, presion_arterial_d, saturacion, glascow, alergia, ";
-                            $sql_se.=" descripcion_alergia, imc FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
-                            $result_se = mysqli_query($link,$sql_se);
-                            $row_se = mysqli_fetch_array($result_se);
-                        ?>
-
                         <div class="card shadow mb-4"> <!-- Modificado toda la seccion -->
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">2.- DATOS CLÍNICOS Y SIGNOS VITALES</h6>
@@ -425,25 +418,25 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
                                         <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
-                                            name="talla" value="<?php echo $row_se[1];?>" required>                
+                                            name="talla" value="" required>                
                                         <div class="invalid-feedback">Permitido: 20 a 280 cm</div>
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                                         <input type="number" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"            
-                                            name="peso" value="<?php echo $row_se[2];?>" required>                
+                                            name="peso" required>                
                                         <div class="invalid-feedback">Permitido: 0.2 a 650 kg</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                                         <input type="number" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Grados Centígrados"
-                                            name="temperatura" value="<?php echo $row_se[3];?>" required>                
+                                            name="temperatura" value="" required>                
                                         <div class="invalid-feedback">Permitido: 10°C a 47°C</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
                                         <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Latidos por minuto"
-                                            name="frec_cardiaca" value="<?php echo $row_se[4];?>" required>                
+                                            name="frec_cardiaca" value="" required>                
                                         <div class="invalid-feedback">Permitido: 0 a 350 lpm</div>
                                     </div>
                                 </div>
@@ -454,25 +447,25 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Ciclos por minuto"
-                                            name="frec_respiratoria" value="<?php echo $row_se[5];?>" required>                
+                                            name="frec_respiratoria" value="" required>                
                                         <div class="invalid-feedback">Permitido: 0 a 80 cpm</div>
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>Sistólica [mmHg]:</h6>
                                         <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"           
-                                            name="presion_arterial" value="<?php echo $row_se[6];?>"  placeholder="Sistólica"  required>               
+                                            name="presion_arterial"  placeholder="Sistólica"  required>               
                                         <div class="invalid-feedback">Permitido: 0 a 300 mmHg</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary"> </br>diastólica [mmHg]</h6>
                                         <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"  placeholder="Diastólica"           
-                                            name="presion_arterial_d" value="<?php echo $row_se[7];?>" required>                
+                                            name="presion_arterial_d" value="" required>                
                                         <div class="invalid-feedback">Permitido: 0 a 200 mmHg</div>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                                         <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% de O2"
-                                            name="saturacion" value="<?php echo $row_se[8];?>" required>                
+                                            name="saturacion" value="" required>                
                                         <div class="invalid-feedback">Permitido: 0% a 100%</div>
                                     </div>
                                 </div>
@@ -481,7 +474,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glasgow" value="<?php echo $row_se[7];?>" required>                
+                                            name="glascow" value="" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
@@ -491,7 +484,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
-                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz" ><?php echo $row_se[9];?></textarea>
+                                    <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz" ></textarea>
                                     
                                     <div class="invalid-feedback">Debe especificar a qué es alérgico.</div> <!-- Modificado, agregado de aqui para abajo -->
                                     
@@ -528,7 +521,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glasgow" value="" required>                
+                                            name="glascow" value="" required>                
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
@@ -638,7 +631,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-12">
                                     <h6 class="text-primary">ESPECIFIQUE : </h6>  
                                     
-                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz"></textarea>
+                                    <textarea class="form-control" rows="3" name="especificacion_hallazgos" id="especificacion_hallazgos" placeholder="Escriba los hallazgos o utilice el botón de dictado por voz" required></textarea>
                                     
                                     <div class="invalid-feedback" style="margin-top: 5px;">Debe especificar a qué otros exámenes se refiere.</div>
                                     
@@ -654,12 +647,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                             <div class="card-body">
                                 
-                                <!-- DIAGNÓSTICO 1 (OBLIGATORIO - ÍNDICE 0) -->
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                        <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde" ></textarea>
-                                        <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde" ></textarea>  <!-- Modificado, no es necesario que este sea obligatorio-->
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
@@ -667,11 +659,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                             <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[0]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off" required>
                                             <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
-                                        <select name="idpatologia[0]" id="idpatologia[0]" style="display: none;">
+                                        <select name="idpatologia[0]" id="idpatologia[0]" style="display: none;"> <!-- Modificado se quito required-->
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -688,17 +680,15 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
-                                <!-- DIAGNÓSTICO 2 (OPCIONAL - ÍNDICE 1 CORREGIDO) -->
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                        <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
-                                        <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
                                         <div style="position: relative;">
-                                            <!-- 🛠️ AQUÍ ESTABA EL ERROR: Se cambió data-target="idpatologia[2]" por "idpatologia[1]" -->
                                             <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[1]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
                                             <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
@@ -706,7 +696,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -723,12 +713,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
-                                <!-- DIAGNÓSTICO 3 (OPCIONAL - ÍNDICE 2) -->
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                        <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
-                                        <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO DIAGNÓSTICO ESPECÍFICO </h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
@@ -736,11 +725,11 @@ $row_ps=mysqli_fetch_array($result_ps);
                                             <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[2]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
                                             <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
-                                        <select name="idpatologia[2]" id="idpatologia[2]" style="display: none;">
+                                        <select name="idpatologia[2]"  id="idpatologia[2]" style="display: none;">
                                         <option value="">-SELECCIONE-</option>
                                         <?php
                                         $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia";
+                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
                                         $result1 = mysqli_query($link,$sql1);
                                         if ($row1 = mysqli_fetch_array($result1)){
                                         mysqli_field_seek($result1,0);
@@ -758,6 +747,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 </div>
 
                             </div>
+
                         </div>
 
                         <div class="card shadow mb-4"> <!-- Modificado para que aparezca el asterizo y se marque de rojo al no ser llenado ya que es obligatorio-->
