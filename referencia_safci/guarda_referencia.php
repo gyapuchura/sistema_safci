@@ -27,7 +27,13 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 
-$sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
+$sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
+$result_es = mysqli_query($link,$sql_es);
+$row_es = mysqli_fetch_array($result_es);
+$idestablecimiento_salud_orig = $row_es[1];
+$iddepartamento_orig = $row_es[2];
+
+$sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_orig' ";
 $result_e = mysqli_query($link,$sql_e);
 $row_e    = mysqli_fetch_array($result_e);
 
@@ -125,7 +131,7 @@ $idespecialidad_medica      = isset($_POST['idespecialidad_medica']) ? $_POST['i
     $sql0 = " INSERT INTO referencia_hc (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, correlativo, codigo, idnombre,";
     $sql0.= " discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, resumen_anamnesis, especificacion_hallazgos, tratamiento_ref,";
     $sql0.= " observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, gestion, idestado_referencia, idtiempo_ts, fecha_registro, hora_registro, idusuario, file_ref )";
-    $sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_ss','$idatencion_psafci_ss','$correlativo','$codigo','$idnombre_integrante_ss',";
+    $sql0.= " VALUES ('$iddepartamento','$idred_salud','$idmunicipio','$idestablecimiento_salud_orig','$idatencion_psafci_ss','$correlativo','$codigo','$idnombre_integrante_ss',";
     $sql0.= " '$discapacidad','$nombre_acompanante','$idparentesco_acomp','$celular_acompanante','$tel_establecimiento','$estuvo_internado','$dias_internacion','$resumen_anamnesis','$especificacion_hallazgos','$tratamiento_ref',";
     $sql0.= " '$observaciones_ref','$idconsentimiento','$idestablecimiento_salud_r','$idmotivo_referencia','$idespecialidad_medica','$gestion','1','1','$fecha','$hora','$idusuario_ss', '')";
     mysqli_query($link,$sql0);   
@@ -156,7 +162,7 @@ $idespecialidad_medica      = isset($_POST['idespecialidad_medica']) ? $_POST['i
 
         $sql_dr = " INSERT INTO deriva_referencia_hc (idreferencia_hc, idestablecimiento_salud_o, idestablecimiento_salud_r, idusuario_o, idusuario_r, ";
         $sql_dr.= " referido, admitido, fecha_deriva, hora_deriva, fecha_admision, hora_admision )  ";
-        $sql_dr.= " VALUES ('$idreferencia_hc','$idestablecimiento_salud_ss','$idestablecimiento_salud_r','$idusuario_ss','$idusuario_ss', ";
+        $sql_dr.= " VALUES ('$idreferencia_hc','$idestablecimiento_salud_orig','$idestablecimiento_salud_r','$idusuario_ss','$idusuario_ss', ";
         $sql_dr.= " 'SI','NO','$fecha','$hora','$fecha','$hora')";
         mysqli_query($link,$sql_dr);   
 
