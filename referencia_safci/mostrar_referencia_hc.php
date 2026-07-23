@@ -814,7 +814,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         <select name="idpatologia[]"  id="idpatologia[]" class="form-control" disabled >
                                         <option selected>Seleccione</option>
                                         <?php
-                                        $sqlv = " SELECT idpatologia, patologia, cie FROM patologia WHERE cie NOT LIKE '%Z%' ORDER BY patologia ";
+                                        $sqlv = " SELECT idpatologia, patologia, cie FROM patologia  ORDER BY patologia ";
                                         $resultv = mysqli_query($link,$sqlv);
                                         if ($rowv = mysqli_fetch_array($resultv)){
                                         mysqli_field_seek($resultv,0);
