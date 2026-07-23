@@ -141,10 +141,18 @@ $row = mysqli_fetch_array($result);
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">
         <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row_cf[1];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=800,top=50, left=400, scrollbars=YES'); return false;">        
       CARPETA FAMILIAR</a> - 
-        <a href="imprime_historia_clinica_ps.php?idcarpeta_familiar=<?php echo $row_cf[1];?>&idintegrante_cf=<?php echo $row_cf[0];?>&idnombre_integrante=<?php echo $row[19];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">        
+        <a href="imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[19];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">        
       HISTORIA CLÍNICA</a>
       </td>
     </tr>
+    <?php } else { ?>
+    <tr>
+      <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">
+        <a href="imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[19];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">        
+      HISTORIA CLÍNICA</a></br>
+      </td>
+    </tr>
+
     <?php } ?>
 
         <?php
