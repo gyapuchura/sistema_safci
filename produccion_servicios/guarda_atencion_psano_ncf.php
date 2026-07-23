@@ -12,7 +12,10 @@ $idusuario_ss  = $_SESSION['idusuario_ss'];
 $idnombre_ss   = $_SESSION['idnombre_ss'];
 $perfil_ss     = $_SESSION['perfil_ss'];
 
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+$sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
+$result_es = mysqli_query($link,$sql_es);
+$row_es = mysqli_fetch_array($result_es);
+$idestablecimiento_salud_ss = $row_es[1];
 
 /*********** ENVIO DATOS DEL PÀCIENTE *************/
 $nombre        = $link->real_escape_string(mb_strtoupper($_POST['nombre']));
@@ -119,7 +122,7 @@ if ($row_n = mysqli_fetch_array($result_n)) {
         $_SESSION['iddepartamento_ss'] = $iddepartamento;
         $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud;
 
-        header("Location:mostrar_persona_hc.php");
+        header("Location:mostrar_persona_hc_mensaje.php");
 
         } else {
         /************* VERIFICAMOS QUE LA PERSONA NO TENGA ATENCION PREVIA ***********/
@@ -133,7 +136,7 @@ if ($row_n = mysqli_fetch_array($result_n)) {
             $_SESSION['idestablecimiento_salud_ss'] = $row_ps[2];
             $_SESSION['idnacion_ss'] = $row_ps[3];
 
-            header("Location:mostrar_persona_nhc.php");
+            header("Location:mostrar_persona_nhc_mensaje.php");
 
         } else {
             header("Location:mensaje_persona_sin_hc.php");

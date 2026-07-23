@@ -177,8 +177,8 @@ $row_n=mysqli_fetch_array($result_n);
                   <td width="81" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[7];?></td>
                   <td width="77" style="font-family: Arial; font-size: 12px;">Procedencia: </td>
                   <td width="74" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[6];?></td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Fecha de Ingreso: </td>
-                  <td colspan="2" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;">Cédula de Identidad: </td>
+                  <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_n[4];?></td>
                 </tr>
 
             <?php             

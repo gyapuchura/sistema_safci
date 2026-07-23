@@ -11,7 +11,11 @@ $idusuario_ss  = $_SESSION['idusuario_ss'];
 $idnombre_ss   = $_SESSION['idnombre_ss'];
 $perfil_ss     = $_SESSION['perfil_ss'];
 
-$idestablecimiento_salud_ss = $_POST['idestablecimiento_salud'];
+$sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
+$result_es = mysqli_query($link,$sql_es);
+$row_es = mysqli_fetch_array($result_es);
+$idestablecimiento_salud_ss = $row_es[1]; 
+
 $idnombre_integrante_ss     = $_POST['idnombre_integrante'];
 $edad_ss                    = $_POST['edad'];
 $idnacion                   = $_POST['idnacion'];
