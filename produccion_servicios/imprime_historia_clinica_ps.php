@@ -1301,6 +1301,14 @@ $row_n=mysqli_fetch_array($result_n);
       <table width="790" border="0" cellspacing="0">
           <tbody>
             <tr>
+              <td colspan="2" style="font-family: Arial; font-size: 12px;"><strong>Código de Atención:</strong></td>
+              <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[4];?></td>
+            </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+            </tr>
+            <tr>
+            <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo</strong></td>
               </tr>
             <tr>
@@ -1391,6 +1399,41 @@ $row_n=mysqli_fetch_array($result_n);
             <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
             </tr>
+  <?php
+                $numero_ref=1;
+                $sql_ref =" SELECT idreferencia_hc, codigo, idestado_referencia FROM referencia_hc WHERE idatencion_psafci='$row_at[0]'  ";
+                $result_ref = mysqli_query($link,$sql_ref);
+                if ($row_ref = mysqli_fetch_array($result_ref)){
+                mysqli_field_seek($result_ref,0);
+                while ($field_ref = mysqli_fetch_field($result_ref)){
+                } do {  
+                  ?>
+            <tr>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;"><?php echo $numero_ref;?>) CÓDIGO REFERENCIA :</td>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_ref[1];?> </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;">
+                  <a href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=500, scrollbars=YES'); return false;">        
+                  FORMULARIO d7</a>
+              </td>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: left;"> 
+                <?php if ($row_ref[2] == '2') { ?>
+                  <a href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">        
+                  FORMULARIO d7a</a>
+                <?php } else { ?>
+                  
+                <?php } ?>
+                      
+              </td>
+            </tr>
+                <?php
+                $numero_ref = $numero_ref+1;
+                  }
+                  while ($row_ref = mysqli_fetch_array($result_ref));
+                  } else {
+                  }
+                ?>
             <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
               </tr>
@@ -1425,6 +1468,14 @@ $row_n=mysqli_fetch_array($result_n);
 
       <table width="790" border="0" cellspacing="0">
           <tbody>
+            <tr>
+              <td colspan="2" style="font-family: Arial; font-size: 12px;"><strong>Código de Atención:</strong></td>
+              <td colspan="2" style="font-family: Arial; font-size: 12px;"><?php echo $row_at[4];?></td>
+            </tr>
+            <tr>
+              <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
+            </tr>
+            <tr>
             <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;"><strong>Subjetivo</strong></td>
               </tr>
@@ -1481,12 +1532,50 @@ $row_n=mysqli_fetch_array($result_n);
 
             </td>
             </tr>
+
+
+
             <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
               </tr>
             <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
             </tr>
+               <?php
+                $numero_ref=1;
+                $sql_ref =" SELECT idreferencia_hc, codigo, idestado_referencia FROM referencia_hc WHERE idatencion_psafci='$row_at[0]'  ";
+                $result_ref = mysqli_query($link,$sql_ref);
+                if ($row_ref = mysqli_fetch_array($result_ref)){
+                mysqli_field_seek($result_ref,0);
+                while ($field_ref = mysqli_fetch_field($result_ref)){
+                } do {  
+                  ?>
+            <tr>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;"><?php echo $numero_ref;?>) CÓDIGO REFERENCIA :</td>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_ref[1];?> </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: right;">
+                  <a href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=500, scrollbars=YES'); return false;">        
+                  FORMULARIO d7</a>
+              </td>
+              <td colspan="2" style="font-family: Arial; font-size: 12px; text-align: left;"> 
+                <?php if ($row_ref[2] == '2') { ?>
+                  <a href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">        
+                  FORMULARIO d7a</a>
+                <?php } else { ?>
+                  
+                <?php } ?>
+                      
+              </td>
+            </tr>
+                <?php
+                $numero_ref = $numero_ref+1;
+                  }
+                  while ($row_ref = mysqli_fetch_array($result_ref));
+                  } else {
+                  }
+                ?>
             <tr>
               <td colspan="4" style="font-family: Arial; font-size: 12px;">&nbsp;</td>
               </tr>
@@ -1529,6 +1618,10 @@ $row_n=mysqli_fetch_array($result_n);
 
              <table width="780" border="0" cellspacing="0">
                 <tbody>
+                  <tr>
+                    <td width="280" style="font-family: Arial; font-size: 12px; text-align: right;"><strong>CÓDIGO DE ATENCIÓN:</strong></td>
+                    <td width="500" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_at[4];?></td>
+                  </tr>
                   <tr>
                     <td width="280" style="font-family: Arial; font-size: 12px; text-align: right;"><strong>MOTIVO DE LA TELECONSULTA:</strong></td>
                     <td width="500" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[7];?></td>
@@ -1630,6 +1723,42 @@ $row_n=mysqli_fetch_array($result_n);
                     echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);?>
                     </td>
                   </tr>
+                    <?php
+                      $numero_ref=1;
+                      $sql_ref =" SELECT idreferencia_hc, codigo, idestado_referencia FROM referencia_hc WHERE idatencion_psafci='$row_at[0]'  ";
+                      $result_ref = mysqli_query($link,$sql_ref);
+                      if ($row_ref = mysqli_fetch_array($result_ref)){
+                      mysqli_field_seek($result_ref,0);
+                      while ($field_ref = mysqli_fetch_field($result_ref)){
+                      } do {  
+                        ?>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;"><?php echo $numero_ref;?>) CÓDIGO REFERENCIA :</td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_ref[1];?> </td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: Arial; font-size: 12px; text-align: right;">
+                        <a href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=500, scrollbars=YES'); return false;">        
+                        FORMULARIO d7</a>
+                    </td>
+                    <td style="font-family: Arial; font-size: 12px; text-align: left;"> 
+                      <?php if ($row_ref[2] == '2') { ?>
+                        <a href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">        
+                        FORMULARIO d7a</a>
+                      <?php } else { ?>
+                        
+                      <?php } ?>
+                           
+                    </td>
+                  </tr>
+                      <?php
+                      $numero_ref = $numero_ref+1;
+                        }
+                        while ($row_ref = mysqli_fetch_array($result_ref));
+                        } else {
+                        }
+                      ?>
+
                 </tbody>
               </table>
           <?php
@@ -1661,6 +1790,10 @@ $row_n=mysqli_fetch_array($result_n);
             ?>          
                     <table width="780" align="center" border="0" cellspacing="0">
                       <tbody>
+                        <tr>
+                          <td width="280" style="font-family: Arial; font-size: 12px; text-align: right;"><strong>CÓDIGO DE ATENCIÓN:</strong></td>
+                          <td width="500" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_at[4];?></td>
+                        </tr>
                         <tr>
                           <td width="280" style="font-family: Arial; font-size: 12px; text-align: right;"><strong>MOTIVO DE LA CONSULTA POR TELEMETRÍA:</strong></td>
                           <td width="500" style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_tel[7];?></td>
@@ -1736,6 +1869,41 @@ $row_n=mysqli_fetch_array($result_n);
                           echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);?>
                           </td>
                         </tr>
+                          <?php
+                          $numero_ref=1;
+                          $sql_ref =" SELECT idreferencia_hc, codigo, idestado_referencia FROM referencia_hc WHERE idatencion_psafci='$row_at[0]'  ";
+                          $result_ref = mysqli_query($link,$sql_ref);
+                          if ($row_ref = mysqli_fetch_array($result_ref)){
+                          mysqli_field_seek($result_ref,0);
+                          while ($field_ref = mysqli_fetch_field($result_ref)){
+                          } do {  
+                            ?>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px; text-align: right;"><?php echo $numero_ref;?>) CÓDIGO REFERENCIA :</td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: left;"><?php echo $row_ref[1];?> </td>
+                      </tr>
+                      <tr>
+                        <td style="font-family: Arial; font-size: 12px; text-align: right;">
+                            <a href="../referencia_safci/imprime_formulario_d7.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=500, scrollbars=YES'); return false;">        
+                            FORMULARIO d7</a>
+                        </td>
+                        <td style="font-family: Arial; font-size: 12px; text-align: left;"> 
+                          <?php if ($row_ref[2] == '2') { ?>
+                            <a href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $row_ref[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">        
+                            FORMULARIO d7a</a>
+                          <?php } else { ?>
+                            
+                          <?php } ?>
+                              
+                        </td>
+                      </tr>
+                          <?php
+                          $numero_ref = $numero_ref+1;
+                            }
+                            while ($row_ref = mysqli_fetch_array($result_ref));
+                            } else {
+                            }
+                          ?>
                       </tbody>
                     </table>
             
