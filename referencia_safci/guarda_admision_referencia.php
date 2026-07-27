@@ -25,11 +25,11 @@ $idestado_referencia = $_POST['idestado_referencia'];
 
 if ($idestado_referencia == '1' || $idestado_referencia == '3') {
 
-    $persona_contactada = $_POST['persona_contactada'];
-    $idvia_comunicacion = $_POST['idvia_comunicacion'];
-    $recibe_paciente    = $_POST['recibe_paciente'];
-    $nombre_ccdes       = $_POST['nombre_ccdes'];
-    $motivo      = $_POST['motivo'];
+    $persona_contactada = isset($_POST['persona_contactada']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['persona_contactada']))) : '';
+    $idvia_comunicacion = isset($_POST['idvia_comunicacion']) ? $_POST['idvia_comunicacion'] : '2';
+    $recibe_paciente    = isset($_POST['recibe_paciente']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['recibe_paciente']))) : '';
+    $nombre_ccdes       = isset($_POST['nombre_ccdes']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['nombre_ccdes']))) : '';
+    $motivo             = isset($_POST['motivo']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['motivo']))) : '';
 
     $adecuada    = $_POST['adecuada'];
     $justificada = $_POST['justificada'];

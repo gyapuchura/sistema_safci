@@ -80,13 +80,13 @@ $idestablecimiento_salud = $row_es[1];
                                             <th>N°</th>                                     
                                             <th>CÓDIGO PSAFCI</th>
                                             <th>PERSONA ATENDIDA</th>
-                                            <th>EDAD</th>  
-                                            <th>NUEVA/REPETIDA</th>  
-                                            <th>CONSULTA/VISITA FAMILIAR</th>   
+                                            <th>EDAD</th>                                              
+                                            <th>CÉDULA DE IDENTIDAD</th>   
                                             <th>TIPO DE ATENCION SAFCI</th>                                            
                                             <th>FECHA Y HORA</th>
                                             <th>CARPETIZADO/NO CARPETIZADO</th>
-                                            <th>ACCIÓN</th>
+                                            <th>VER REGISTRO ATENCIÓN</th>
+                                            <th>NUEVA ATENCIÓN</th>  
                                         </tr>
                                     </thead>
                                    <tbody>
@@ -124,8 +124,7 @@ $idestablecimiento_salud = $row_es[1];
                                                     $ano=($ano-1);}       
                                                     $edad=($ano-$anonaz);  
                                                     echo $edad ;?></td>
-                                            <td><?php echo $row[8];?></td>
-                                            <td><?php echo $row[9];?></td>
+                                            <td><?php echo $row[2];?></td>
                                             <td><?php echo $row[10];?></td>
                                             <td>
                                             <?php 
@@ -155,10 +154,22 @@ $idestablecimiento_salud = $row_es[1];
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-hospital"></i>
                                             </span>
-                                            <span class="text">VER ATENCIÓN INTEGRAL</span>    
+                                            <span class="text">VER ATENCIÓN</span>    
                                             </button>
                                         </form>  
                                         </td> 
+                                        <td>
+                                        <form name="ATENCION-NUEVA" action="valida_atencion_nueva.php" method="post">
+                                            <input name="idnombre_persona" type="hidden" value="<?php echo $row[7];?>">
+                                            <input name="edad" type="hidden" value="<?php echo $edad;?>">
+                                            <button type="submit" class="btn btn-primary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-hospital"></i>
+                                            </span>
+                                            <span class="text">ATENDER NUEVAMENTE</span>    
+                                            </button>
+                                        </form>
+                                        </td>
                                         </tr>
                                      
                                 <?php

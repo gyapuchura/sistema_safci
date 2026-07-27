@@ -75,8 +75,8 @@ $row_n=mysqli_fetch_array($result_n);
                 <div class="row">
                     <div class="col-lg-12">
                     <div class="p-3">               
-                    <div class="text-center">                          
-                    <a href="historias_clinicas.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <div class="text-center">    
+                    <a onclick="history.back();"><h6 class="text-info"><- VOLVER</h6></a>                          
                     <hr>             
                     <h4 class="text-info">HISTORIA CLÍNICA - SAFCI</h4>
                     <hr> 

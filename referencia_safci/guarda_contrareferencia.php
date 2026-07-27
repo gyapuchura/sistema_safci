@@ -31,7 +31,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 $idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
-
+ 
 // =========================================================================
 // 🛡️ RECEPCIÓN DE DATOS BLINDADA CONTRA INYECCIÓN SQL Y NOTICES
 // =========================================================================
