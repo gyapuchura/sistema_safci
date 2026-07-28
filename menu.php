@@ -411,6 +411,7 @@
 
     <!--    <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES</a>  -->
         <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares.php">CARPETAS FAMILIARES </br> OPERATIVO</a>
+        <a class="collapse-item" href="../carpetas_familiares/buscar_persona_cf.php">BUSCAR PERSONA</a>
         <a class="collapse-item" href="../carpetas_familiares/carpetas_familiares_nal.php">REPORTES</br>CARPETAS FAMILIARES</a>
         <a class="collapse-item" href="../carpetas_familiares/nueva_carpeta_familiar.php">NUEVA CARPETA</br>FAMILIAR</a>
         <a class="collapse-item" href="../carpetas_familiares/analitica_cf.php">ANALÍTICA CARPETAS</br>FAMILIARES</a>
@@ -454,7 +455,6 @@
                 <a class="collapse-item" href="../carpetas_familiares/reasignar_transferencia_cf.php">TRANSFERENCIA</br>CARPETAS FAMILIARES</a>
                  <a class="collapse-item" href="../carpetas_familiares/reasignar_transferencia_parcial_cf.php">TRANSFERENCIA</br>PARCIAL</br>CARPETAS FAMILIARES</a>
                 <a class="collapse-item" href="../carpetas_familiares/reasignar_intercambio_cf.php">INTERCAMBIO</br>CARPETAS FAMILIARES</a>
-
     <?php
         } while ($row_menu = mysqli_fetch_array($result_menu));
         } else {
@@ -551,8 +551,6 @@
         </div>
     </div>
 </li>
-
-
 
     <?php	
     $sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";

@@ -19,9 +19,9 @@ $ci = $_POST["ci"];
     $idnombre_persona = $row_n[0];
     $_SESSION['idnombre_persona_ss'] = $idnombre_persona;
 
-    header("Location:persona_encontrada.php");
+    header("Location:modificar_persona_reg.php");
 
 } else {
-    header("Location:mensaje_psin_registro.php");
+    header("Location:mensaje_persona_inexistente.php");
 } 
 ?>
