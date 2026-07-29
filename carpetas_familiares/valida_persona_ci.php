@@ -10,9 +10,9 @@ $idusuario_ss = $_SESSION['idusuario_ss'];
 $idnombre_ss  = $_SESSION['idnombre_ss'];
 $perfil_ss    = $_SESSION['perfil_ss'];
 
-$ci = $_POST["ci"];
+$idnombre = $_POST["idnombre"];
 
-    $sql_n = " SELECT idnombre, nombre, paterno, materno, ci, complemento, exp, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE ci='$ci' ";
+    $sql_n = " SELECT idnombre, nombre, paterno, materno, ci, complemento, exp, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre' ";
     $result_n = mysqli_query($link,$sql_n);
     if ($row_n = mysqli_fetch_array($result_n)) {
 

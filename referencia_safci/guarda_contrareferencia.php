@@ -60,7 +60,7 @@ $observaciones_recomendaciones      = isset($_POST['observaciones_recomendacione
 // Datos de Destino y Contacto
 $idestablecimiento_destino  = isset($_POST['idestablecimiento_destino']) ? $_POST['idestablecimiento_destino'] : '0';
 $tel_establecimiento_cref   = isset($_POST['tel_establecimiento_cref']) ? mysqli_real_escape_string($link, $_POST['tel_establecimiento_cref']) : '';
-$contacto_eess_cref         = isset($_POST['contacto_eess_cref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['contacto_eess_cref']))) : '';
+$contacto_eess_cref         = isset($_POST['contacto_eess_cref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['contacto_eess_cref']))) : 'NO';
 $por_telesalud              = isset($_POST['por_telesalud']) ? $_POST['por_telesalud'] : 'NO';
 
 if ($por_telesalud == 'SI') {
