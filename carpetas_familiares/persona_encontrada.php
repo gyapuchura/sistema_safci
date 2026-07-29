@@ -98,7 +98,7 @@ $ci  = $_POST['ci'];
     ?>
 
     <form name="BUSQUEDA_PERSONA" action="valida_persona_ci.php" method="post">
-        <input type="hidden" name="ci" value="<?php echo $row_n[4];?>">
+        <input type="hidden" name="idnombre" value="<?php echo $row_n[0];?>">
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">

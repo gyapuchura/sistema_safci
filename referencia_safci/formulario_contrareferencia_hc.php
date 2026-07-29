@@ -1208,7 +1208,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="col-sm-3">  
                                         <h6 class="text-primary">SE CONTACTO AL ESTABLECIMIENTO:</h6>
                                             SI <input type="radio" name="contacto_eess_cref" value="SI" >  
-                                            NO <input type="radio" name="contacto_eess_cref" value="NO" >  
+                                            NO <input type="radio" name="contacto_eess_cref" value="NO" checked>  
                                     </div> 
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
