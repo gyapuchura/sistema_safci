@@ -62,6 +62,9 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
             <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">CARGO DE ACUERDO A ORGANIGRAMA</td>
             <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">ATENCIONES PREVENTIVAS</td>
             <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">ATENCIONES POR MORBILIDAD</td>
+            <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">TELECONSULTAS</td>
+            <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">ATENCIONES POR TELEMETRÍA</td>
+            <td width="148" style="font-family: Arial; font-size: 12px; text-align: center;">TOTAL ATENCIONES</td>
           </tr>
         <?php
             $numero = 1;
@@ -113,6 +116,37 @@ DEL: <?php echo $f_inicio;?> AL : <?php echo $f_finalizacion;?></br></br>
                     echo $diagnosticos_morb;
                 } else { }
                 ?>
+            </td>
+            <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                <?php
+                $sql_telc = " SELECT count(diagnostico_teleconsulta.iddiagnostico_teleconsulta) FROM diagnostico_teleconsulta, patologia, atencion_psafci  ";
+                $sql_telc.= " WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia AND diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci  ";
+                $sql_telc.= " AND diagnostico_teleconsulta.idusuario = '$row[0]' AND atencion_psafci.idtipo_atencion='3' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $result_telc = mysqli_query($link,$sql_telc);
+                $row_telc = mysqli_fetch_array($result_telc);
+                $diagnosticos_telc = $row_telc[0];
+                if ($diagnosticos_telc != '0' ) {
+                    echo $diagnosticos_telc;
+                } else {}  ?>
+            </td>
+            <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                <?php
+                $sql_telm = " SELECT count(diagnostico_teleconsulta.iddiagnostico_teleconsulta) FROM diagnostico_teleconsulta, patologia, atencion_psafci  ";
+                $sql_telm.= " WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia AND diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci  ";
+                $sql_telm.= " AND diagnostico_teleconsulta.idusuario = '$row[0]' AND atencion_psafci.idtipo_atencion='4' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                $result_telm = mysqli_query($link,$sql_telm);
+                $row_telm = mysqli_fetch_array($result_telm);
+                $diagnosticos_telm = $row_telm[0];
+                if ($diagnosticos_telm != '0' ) {
+                    echo $diagnosticos_telm;
+                } else {}  ?>
+            </td>
+            <td style="font-family: Arial; font-size: 12px; text-align: center;">
+                <?php
+                $total_atenciones = $diagnosticos_prev + $diagnosticos_morb + $diagnosticos_telc + $diagnosticos_telm;
+                echo $total_atenciones; 
+                ?>
+              
             </td>
           </tr>
         <?php
