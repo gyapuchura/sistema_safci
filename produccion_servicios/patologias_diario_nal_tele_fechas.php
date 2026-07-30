@@ -11,6 +11,15 @@ $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
 $idpatologia = $_GET['idpatologia'];
 
+$inicio = $_GET['inicio'];
+$finalizacion = $_GET['finalizacion'];
+
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+
 $sql_pat = " SELECT idpatologia, patologia, cie FROM patologia WHERE idpatologia='$idpatologia' ";
 $result_pat = mysqli_query($link,$sql_pat);
 $row_pat = mysqli_fetch_array($result_pat);
@@ -52,7 +61,7 @@ $numero = 0;
 $sql = "  SELECT atencion_psafci.fecha_registro FROM atencion_psafci, diagnostico_teleconsulta, usuarios, personal, dato_laboral ";
 $sql.= "  WHERE diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_teleconsulta.idusuario=usuarios.idusuario  ";
 $sql.= "  AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral   ";
-$sql.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro  ";
+$sql.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -128,7 +137,7 @@ $numero = 0;
 $sql = "  SELECT atencion_psafci.fecha_registro FROM atencion_psafci, diagnostico_teleconsulta, usuarios, personal, dato_laboral ";
 $sql.= "  WHERE diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_teleconsulta.idusuario=usuarios.idusuario  ";
 $sql.= "  AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral   ";
-$sql.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro  ";
+$sql.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro  ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -145,7 +154,7 @@ $sql7 = " SELECT diagnostico_teleconsulta.iddiagnostico_teleconsulta  FROM diagn
 $sql7.= " WHERE diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_teleconsulta.fecha_registro='$row[0]'  ";
 $sql7.= " AND diagnostico_teleconsulta.idusuario=usuarios.idusuario AND dato_laboral.idusuario=usuarios.idusuario  ";
 $sql7.= " AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral ";
-$sql7.= " AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND atencion_psafci.idtipo_consulta = '1' ";
+$sql7.= " AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.idtipo_consulta = '1' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -188,7 +197,7 @@ $numero = 0;
 $sql = "  SELECT atencion_psafci.fecha_registro FROM atencion_psafci, diagnostico_teleconsulta, usuarios, personal, dato_laboral ";
 $sql.= "  WHERE diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_teleconsulta.idusuario=usuarios.idusuario  ";
 $sql.= "  AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral   ";
-$sql.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro  ";
+$sql.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY atencion_psafci.fecha_registro ORDER BY atencion_psafci.fecha_registro  ";
 $result = mysqli_query($link,$sql);
 
 $total = mysqli_num_rows($result);
@@ -205,7 +214,7 @@ $sql7 = " SELECT diagnostico_teleconsulta.iddiagnostico_teleconsulta  FROM diagn
 $sql7.= " WHERE diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_teleconsulta.fecha_registro='$row[0]'  ";
 $sql7.= " AND diagnostico_teleconsulta.idusuario=usuarios.idusuario AND dato_laboral.idusuario=usuarios.idusuario  ";
 $sql7.= " AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral ";
-$sql7.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND atencion_psafci.idtipo_consulta = '2' ";
+$sql7.= "  AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.idtipo_consulta = '2' ";
 $result7 = mysqli_query($link,$sql7);
 $row7 = mysqli_num_rows($result7);
 
@@ -281,7 +290,7 @@ Si no se encontraron resultados
     $sql.="  AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
     $sql.="  AND atencion_psafci.idtipo_atencion=tipo_atencion.idtipo_atencion AND diagnostico_teleconsulta.idusuario=usuarios.idusuario ";
     $sql.="  AND personal.idusuario=usuarios.idusuario AND personal.iddato_laboral=dato_laboral.iddato_laboral  ";
-    $sql.=" AND diagnostico_teleconsulta.idpatologia='$idpatologia' ORDER BY atencion_psafci.idatencion_psafci DESC ";
+    $sql.=" AND diagnostico_teleconsulta.idpatologia='$idpatologia' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ORDER BY atencion_psafci.idatencion_psafci DESC ";
     $result = mysqli_query($link,$sql);
     if ($row = mysqli_fetch_array($result)){
     mysqli_field_seek($result,0);           
