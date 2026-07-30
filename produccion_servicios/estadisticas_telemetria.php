@@ -129,7 +129,7 @@ $(function () {
             }
         },
         title: {
-            text: 'PACIENTE DE GRUPOS VULNERABLES - TELESALUD'
+            text: 'PACIENTES DE GRUPOS VULNERABLES - TELESALUD'
         },
             subtitle: {
             text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
@@ -172,6 +172,97 @@ $(function () {
                     $row_t = mysqli_fetch_array($result_t);
 
                     $sql_c= " SELECT idatencion_grupo_vulnerable FROM atencion_grupo_vulnerable WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND idgrupo_vulnerable ='$row[0]' ";
+                    $result_c = mysqli_query($link,$sql_c);
+                    $conteo = mysqli_num_rows($result_c);
+
+                    $p_conteo   = ($conteo*100)/$total;
+                    $porcentaje    = number_format($p_conteo, 2, '.', '');
+
+                    ?>
+
+                    ['<?php echo $row_t[1];?>', <?php echo $porcentaje;?>]
+
+                        <?php
+                        $numero++;
+                        if ($numero == $conteo_tipo) {
+                        echo "";
+                        }
+                        else {
+                        echo ",";
+                        }
+                        
+                    } while ($row = mysqli_fetch_array($result));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>
+
+                    ]
+        }]
+    });
+});
+</script>
+
+<script type="text/javascript">
+$(function () {
+    $('#priorizados').highcharts({
+        chart: {
+            type: 'pie',
+            options3d: {
+                enabled: true,
+                alpha: 45,
+                beta: 0
+            }
+        },
+        title: {
+            text: 'PACIENTE DE GRUPOS PRIORIZADOS - TELESALUD'
+        },
+            subtitle: {
+            text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Porcentaje',
+            data: [
+                 <?php
+                    $sql0 = " SELECT patologia.idgrupo_priorizado FROM diagnostico_teleconsulta, patologia WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia  ";
+                    $sql0.= " AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                    $result0 = mysqli_query($link,$sql0);
+                    $total = mysqli_num_rows($result0);
+
+                    $numero = 0;
+                    $sql = " SELECT patologia.idgrupo_priorizado FROM diagnostico_teleconsulta, patologia WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia  ";
+                    $sql.= " AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY patologia.idgrupo_priorizado ";
+                    $result = mysqli_query($link,$sql);
+                    $conteo_tipo = mysqli_num_rows($result);
+
+                    if ($row = mysqli_fetch_array($result)){
+                    mysqli_field_seek($result,0);
+                    while ($field = mysqli_fetch_field($result)){
+                    } do {
+
+                    $sql_t = " SELECT idgrupo_priorizado, grupo_priorizado FROM grupo_priorizado WHERE idgrupo_priorizado='$row[0]'  ";
+                    $result_t = mysqli_query($link,$sql_t);
+                    $row_t = mysqli_fetch_array($result_t);
+
+                    $sql_c = " SELECT patologia.idgrupo_priorizado FROM diagnostico_teleconsulta, patologia WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia  ";
+                    $sql_c.= " AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND patologia.idgrupo_priorizado='$row[0]' ";
                     $result_c = mysqli_query($link,$sql_c);
                     $conteo = mysqli_num_rows($result_c);
 
@@ -836,6 +927,9 @@ $(function () {
 </br>
 </br>
 <div id="vulnerable" style="height: 300px"></div>
+</br>
+</br>
+<div id="priorizados" style="height: 300px"></div>
 </br>
 </br>
 <div id="captacion" style="height: 300px"></div>

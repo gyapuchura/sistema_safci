@@ -489,3 +489,5 @@ ALTER TABLE recien_nacido ADD FOREIGN KEY (idgenero) REFERENCES genero (idgenero
 ALTER TABLE recien_nacido ADD FOREIGN KEY (idpeso_eg) REFERENCES peso_eg (idpeso_eg);
 ALTER TABLE recien_nacido ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
 
+ALTER TABLE patologia ADD FOREIGN KEY (idgrupo_priorizado) REFERENCES grupo_priorizado (idgrupo_priorizado);
+
