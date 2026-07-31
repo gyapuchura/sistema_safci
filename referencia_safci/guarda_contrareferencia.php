@@ -84,7 +84,7 @@ try {
 
     // MÓDULO DE ARCHIVOS ADJUNTOS
 
-    $nombre_input_file = isset($_FILES['archivo_contrareferencia_pdf']) ? 'archivo_contrareferencia_pdf' : null;
+    $nombre_input_file = isset($_FILES['archivo_contrareferencia_pdf']) ? $_FILES['archivo_contrareferencia_pdf'] : null;
 
 
     if ($nombre_input_file && $_FILES[$nombre_input_file]['error'] == 0 && $idreferencia_hc_ss > 0) {
