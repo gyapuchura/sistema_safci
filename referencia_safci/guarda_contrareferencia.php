@@ -7,13 +7,6 @@
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 date_default_timezone_set('America/La_Paz');
 
-// 🛡️ ESCUDO ANTI "EFECTO METRALLETA" (DOBLE CLIC RÁPIDO EN 30 SEGUNDOS)
-if (isset($_SESSION['ultimo_clic_contrareferencia']) && (time() - $_SESSION['ultimo_clic_contrareferencia']) < 30) {
-    header("Location:mensaje_contrareferencia_hc.php");
-    exit();
-}
-$_SESSION['ultimo_clic_contrareferencia'] = time();
-
 $fecha   = date("Y-m-d");
 $hora    = date("H:i");
 $gestion = date("Y");
