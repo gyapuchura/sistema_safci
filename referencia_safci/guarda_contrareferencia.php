@@ -83,7 +83,9 @@ try {
     mysqli_begin_transaction($link);
 
     // MÓDULO DE ARCHIVOS ADJUNTOS
-    $nombre_input_file = isset($_FILES['archivo_contrareferencia_pdf']) ? 'archivo_contrareferencia_pdf' : (isset($_FILES['archivo_referencia_pdf']) ? 'archivo_referencia_pdf' : null);
+
+    $nombre_input_file = isset($_FILES['archivo_contrareferencia_pdf']) ? 'archivo_contrareferencia_pdf' : null;
+
 
     if ($nombre_input_file && $_FILES[$nombre_input_file]['error'] == 0 && $idreferencia_hc_ss > 0) {
         $carpeta_destino = dirname(__DIR__) . "/files_ref/"; 

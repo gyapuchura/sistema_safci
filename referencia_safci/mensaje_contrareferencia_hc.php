@@ -88,7 +88,7 @@ $idestablecimiento_destino_ss = $_SESSION['idestablecimiento_destino_ss'];
                     <h4 class="text-secundary"><?php echo $row[2];?></h4>
                     <h4 class="text-secundary"><?php echo $row[3];?> - <?php echo $row[4];?></h4>
                     </br>
-                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
+                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
                         <span class="icon text-white-50">
                             <i class="fas fa-book"></i>
                         </span>
