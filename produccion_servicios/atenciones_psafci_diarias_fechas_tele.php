@@ -211,6 +211,58 @@ $(function () {
     </script>
   </head>
   <body>
+  
+<style>
+    #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+    .spinner-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #2D56CF; /* Azul corporativo de tu sistema */
+        border-radius: 50%;
+        animation: girar 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    .texto-loader {
+        color: #2D56CF;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    /* Clase para evitar que el usuario haga scroll mientras carga */
+    body.bloqueado { overflow: hidden; }
+</style>
+
+<div id="pantalla-carga">
+    <div class="spinner-loader"></div>
+    <div class="texto-loader">Cargando información, por favor espere...</div>
+</div>
+
+<?php
+    // MAGIA BACKEND: Forzamos a PHP a enviar este Loader al navegador AHORA MISMO
+    if (ob_get_level() == 0) ob_start();
+    echo str_pad('', 4096); // Hack para servidores con compresión GZIP
+    ob_flush();
+    flush();
+?>
 <script src="../js/salud_integrantes.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
@@ -966,5 +1018,22 @@ $(function () {
         });
     });
 </script>
-  </body>
+<script>
+    // Bloqueamos el scroll mientras carga
+    document.body.classList.add('bloqueado');
+
+    // window.addEventListener('load') espera a que TODO (DOM, Highcharts, Imágenes) cargue
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('pantalla-carga');
+        if(loader) {
+            // Efecto de desvanecimiento suave
+            loader.style.opacity = '0';
+            setTimeout(function() {
+                loader.style.display = 'none';
+                document.body.classList.remove('bloqueado');
+            }, 500); // 500ms coincide con la transición CSS
+        }
+    });
+</script>
+</body>
 </html>
