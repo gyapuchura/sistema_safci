@@ -342,6 +342,56 @@ Si no se encontraron resultados
         </script>
     </head>
     <body>
+<style>
+    #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+    .spinner-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #36b9cc; /* Turquesa corporativo de referencias */
+        border-radius: 50%;
+        animation: girar 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    .texto-loader {
+        color: #36b9cc;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    body.bloqueado { overflow: hidden; }
+</style>
+
+<div id="pantalla-carga">
+    <div class="spinner-loader"></div>
+    <div class="texto-loader">Procesando referencias, por favor espere...</div>
+</div>
+
+<?php
+    // MAGIA BACKEND: Obligamos a Apache/PHP a pintar esto en la pantalla del usuario YA
+    if (ob_get_level() == 0) ob_start();
+    echo str_pad('', 4096); // Hack de 4KB para forzar el vaciado en servidores con GZIP
+    ob_flush();
+    flush();
+?>
 <div id="container" style="min-width: 300px; height: 350px; margin: 0 auto"></div>
 
 <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">INFORME DE REFERENCIAS MÉDICAS DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
@@ -739,7 +789,7 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT referencia_hc.idreferencia_hc, referencia_hc.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, estado_referencia.estado_referencia,  ";
-    $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud, referencia_hc.idestablecimiento_receptor, referencia_hc.idestado_referencia, referencia_hc.idnombre ";
+    $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud, referencia_hc.idestablecimiento_receptor, referencia_hc.idestado_referencia ";
     $sql.=" FROM referencia_hc, nombre, estado_referencia, especialidad_medica, departamento, red_salud, municipios, establecimiento_salud WHERE referencia_hc.idnombre=nombre.idnombre ";
     $sql.=" AND referencia_hc.idestado_referencia=estado_referencia.idestado_referencia AND referencia_hc.iddepartamento=departamento.iddepartamento AND referencia_hc.idred_salud=red_salud.idred_salud ";
     $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND referencia_hc.idmunicipio=municipios.idmunicipio AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
@@ -755,9 +805,7 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="imprime_formulario_d7.php?idreferencia_hc=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=200, scrollbars=YES'); return false;">
               <?php echo $row[1];?></a></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="../produccion_servicios/imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[16];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=200, scrollbars=YES'); return false;">
-               <?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></a></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[13];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
@@ -1036,6 +1084,23 @@ Si no se encontraron resultados
             if(option) valMed.value = option.getAttribute('data-id');
             else valMed.value = "";
         });
+    });
+</script>
+<script>
+    // Evitamos que el usuario baje por la página mientras carga
+    document.body.classList.add('bloqueado');
+
+    // Escuchamos el evento 'load', que se dispara solo cuando TODO ha cargado
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('pantalla-carga');
+        if(loader) {
+            // Animación de desvanecimiento
+            loader.style.opacity = '0';
+            setTimeout(function() {
+                loader.style.display = 'none';
+                document.body.classList.remove('bloqueado');
+            }, 500); // Se remueve del DOM tras medio segundo
+        }
     });
 </script>
 </body>
