@@ -29,6 +29,8 @@ $edad_ss                    = $_SESSION['edad_ss'];
 // 🛡️ RECEPCIÓN DE DATOS BLINDADA CONTRA INYECCIÓN SQL Y NOTICES
 // =========================================================================
 
+$idatencion_psafci = $_POST['idatencion_psafci'];
+
 $dias_internacion_ref = isset($_POST['dias_internacion_ref']) ? $_POST['dias_internacion_ref'] : '0';
 
 // Signos Vitales
@@ -163,11 +165,11 @@ try {
             $imc_i = $peso * 10000 / ($talla ** 2);
             $imc = number_format($imc_i, 6, '.', '');
         } else {
-            $imc = '0.000000';
+            $imc = '';
         }
 
         $sql_sg = " INSERT INTO signo_vital_psafci (idatencion_psafci,idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, saturacion, imc, fecha_registro, hora_registro, idusuario) ";
-        $sql_sg.= " VALUES ('$idatencion_psafci_ss','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
+        $sql_sg.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$saturacion','$imc','$fecha','$hora','$idusuario_ss') ";
         mysqli_query($link,$sql_sg);
 
         $_SESSION['idestablecimiento_destino_ss'] = $idestablecimiento_destino;

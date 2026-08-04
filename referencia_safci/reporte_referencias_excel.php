@@ -30,7 +30,7 @@ $idestablecimiento = isset($_POST['idestablecimiento']) ? mysqli_real_escape_str
 $idusuario_medico  = isset($_POST['idusuario_medico']) ? mysqli_real_escape_string($link, $_POST['idusuario_medico']) : '';
 
 // =========================================================================
-// MOTOR DUAL DE BÚSQUEDA (Opción B: Aislamiento Total)
+// MOTOR DUAL DE BÚSQUEDA (Opción B: Aislamiento Total Corregido)
 // =========================================================================
 $filtro_origen = "1=1";
 $filtro_destino = "1=1";
@@ -38,22 +38,22 @@ $hay_filtros = false;
 
 if($iddepartamento != '') { 
     $filtro_origen .= " AND referencia_hc.iddepartamento = '$iddepartamento' "; 
-    $filtro_destino .= " AND d_der.iddepartamento = '$iddepartamento' ";
+    $filtro_destino .= " AND d_dest.iddepartamento = '$iddepartamento' ";
     $hay_filtros = true;
 }
 if($idmunicipio != '') { 
     $filtro_origen .= " AND referencia_hc.idmunicipio = '$idmunicipio' "; 
-    $filtro_destino .= " AND m_der.idmunicipio = '$idmunicipio' ";
+    $filtro_destino .= " AND m_dest.idmunicipio = '$idmunicipio' ";
     $hay_filtros = true;
 }
 if($idestablecimiento != '') { 
     $filtro_origen .= " AND referencia_hc.idestablecimiento_salud = '$idestablecimiento' "; 
-    $filtro_destino .= " AND der.idestablecimiento_salud_o = '$idestablecimiento' ";
+    $filtro_destino .= " AND es_dest.idestablecimiento_salud = '$idestablecimiento' ";
     $hay_filtros = true;
 }
 if($idusuario_medico != '') { 
     $filtro_origen .= " AND referencia_hc.idusuario = '$idusuario_medico' "; 
-    $filtro_destino .= " AND der.idusuario_o = '$idusuario_medico' ";
+    $filtro_destino .= " AND EXISTS (SELECT 1 FROM diagnostico_egreso de WHERE de.idreferencia_hc = referencia_hc.idreferencia_hc AND de.idusuario = '$idusuario_medico') ";
     $hay_filtros = true;
 }
 
@@ -62,14 +62,15 @@ if ($hay_filtros) {
     $filtro_extra = " AND (
         ($filtro_origen) 
         OR 
-        EXISTS (
-            SELECT 1 FROM deriva_referencia_hc der 
-            INNER JOIN establecimiento_salud es_der ON der.idestablecimiento_salud_o = es_der.idestablecimiento_salud 
-            LEFT JOIN departamento d_der ON es_der.iddepartamento = d_der.iddepartamento
-            LEFT JOIN municipios m_der ON es_der.idmunicipio = m_der.idmunicipio
-            WHERE der.idreferencia_hc = referencia_hc.idreferencia_hc 
-            AND der.admitido = 'SI' 
-            AND ($filtro_destino)
+        (
+            referencia_hc.idestado_referencia = '2' 
+            AND EXISTS (
+                SELECT 1 FROM establecimiento_salud es_dest 
+                LEFT JOIN departamento d_dest ON es_dest.iddepartamento = d_dest.iddepartamento
+                LEFT JOIN municipios m_dest ON es_dest.idmunicipio = m_dest.idmunicipio
+                WHERE es_dest.idestablecimiento_salud = referencia_hc.idestablecimiento_receptor
+                AND ($filtro_destino)
+            )
         )
     ) ";
 }
@@ -152,7 +153,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
     <?php
     $numero = 1; 
     
-    // CONSULTA BASE RESTRINGIDA A CICLOS COMPLETOS (ESTADO 2 + ADMITIDOS)
+    // CONSULTA BASE RESTRINGIDA A CICLOS COMPLETOS (ESTADO 2 + ADMITIDO POR EL ESPECIALISTA)
     $sql =" SELECT referencia_hc.idreferencia_hc, referencia_hc.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, estado_referencia.estado_referencia,  ";
     $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud, referencia_hc.idestablecimiento_receptor, referencia_hc.idestado_referencia, establecimiento_salud.codigo_establecimiento, ";
@@ -181,12 +182,12 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
     $sql.=" LEFT JOIN captacion_ts cap ON atc.idcaptacion_ts = cap.idcaptacion_ts ";
     $sql.=" LEFT JOIN tiempo_ts t_ref ON referencia_hc.idtiempo_ts = t_ref.idtiempo_ts ";
     
-    // AQUÍ ESTÁ LA MAGIA DEL FILTRO RAÍZ:
+    // AQUÍ ESTÁ LA NUEVA MAGIA DEL FILTRO: Solo exigimos que el Especialista lo haya admitido de ida
     $sql.=" WHERE referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
     $sql.=" AND referencia_hc.idestado_referencia = '2' ";
-    $sql.=" AND EXISTS (SELECT 1 FROM deriva_referencia_hc der_req WHERE der_req.idreferencia_hc = referencia_hc.idreferencia_hc AND der_req.admitido = 'SI') ";
+    $sql.=" AND EXISTS (SELECT 1 FROM deriva_referencia_hc der_req WHERE der_req.idreferencia_hc = referencia_hc.idreferencia_hc AND der_req.admitido = 'SI' AND der_req.idestablecimiento_salud_r = referencia_hc.idestablecimiento_receptor) ";
     $sql.=" $filtro_extra ";
-    $sql.=" ORDER BY referencia_hc.idreferencia_hc ASC "; 
+    $sql.=" ORDER BY referencia_hc.fecha_registro ASC, referencia_hc.hora_registro ASC "; 
     
     $result = mysqli_query($link,$sql);
     if ($result && $row = mysqli_fetch_array($result)){
@@ -391,32 +392,50 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     <td class="c-izq"><?php echo $txt_medio_origen; ?></td>
                     
                     <?php
-                    $txt_estado = mb_strtoupper($row[8]);
-                    $color_est = ($txt_estado == 'REFERIDA') ? '#e74a3b' : '#1cc88a';
+                    $txt_estado = trim(mb_strtoupper($row[8]));
                     ?>
-                    <td class="c-dato" style="color: <?php echo $color_est; ?>; font-weight: bold;"><?php echo $txt_estado; ?></td>
+                    <td class="c-dato"><?php echo $txt_estado; ?></td>
                 </tr>
                 <?php
                 $numero++;
             } // Fin mostrar_fila_1
 
             // =========================================================================
-            // FILA 2: CLONACIÓN DE CONTRAREFERENCIA (VUELTA) - SOLO SI ESTÁ EN ESTADO 2 Y FUE ADMITIDO
+            // FILA 2: CLONACIÓN DE CONTRAREFERENCIA (VUELTA) - SOLO SI ESTÁ EN ESTADO 2 Y FUE RESPONDIDA
             // =========================================================================
             if ($row[15] == '2') {
-                $sql_der = "SELECT idusuario_o, idestablecimiento_salud_o, fecha_deriva, idvia_comunicacion FROM deriva_referencia_hc WHERE idreferencia_hc='{$row[0]}' AND admitido = 'SI' ORDER BY idderiva_referencia_hc DESC LIMIT 1";
-                $res_der = mysqli_query($link, $sql_der);
+                // 1. LA CONTRAREFERENCIA SE ORIGINA DESDE EL HOSPITAL RECEPTOR (EL ESPECIALISTA)
+                $id_eess_especialista = $row[14]; 
                 
-                if ($res_der && $row_der = mysqli_fetch_array($res_der)) {
-                    $id_usuario_especialista = $row_der[0];
-                    $id_eess_especialista = $row_der[1];
-                    $fecha_retorno = explode('-', $row_der[2]);
-                    $f_reg_contra = isset($fecha_retorno[2]) ? $fecha_retorno[2].'/'.$fecha_retorno[1].'/'.$fecha_retorno[0] : '';
-                    $id_via_comunicacion_contra = $row_der[3];
+                $id_usuario_especialista = "";
+                $f_reg_contra = "S/D";
+                $id_via_comunicacion_contra = "";
+                
+                // Extraer el médico, la fecha y la vía desde la tabla de derivaciones, 
+                // asegurando que el origen de este salto es el Hospital Especialista
+                $sql_vuelta = "SELECT idusuario_o, fecha_deriva, idvia_comunicacion FROM deriva_referencia_hc WHERE idreferencia_hc='{$row[0]}' AND idestablecimiento_salud_o='{$id_eess_especialista}' ORDER BY idderiva_referencia_hc DESC LIMIT 1";
+                $res_vuelta = mysqli_query($link, $sql_vuelta);
+                if ($res_vuelta && $row_vuelta = mysqli_fetch_array($res_vuelta)) {
+                    $id_usuario_especialista = $row_vuelta['idusuario_o'];
+                    $id_via_comunicacion_contra = $row_vuelta['idvia_comunicacion'];
+                    if(!empty($row_vuelta['fecha_deriva']) && $row_vuelta['fecha_deriva'] != '0000-00-00') {
+                        $fr = explode('-', $row_vuelta['fecha_deriva']);
+                        $f_reg_contra = isset($fr[2]) ? $fr[2].'/'.$fr[1].'/'.$fr[0] : '';
+                    }
+                }
 
-                    $eess_contra_nombre = "-"; $codigo_eess_contra = "S/D"; $dpto_contra = "S/D"; $mun_contra = "S/D"; $nivel_contra = "S/D"; $tipo_eess_contra = "S/D"; $red_contra = "S/D";
-                    // Modificación: Agregados d.iddepartamento, m.idmunicipio para el evaluador
-                    $sql_eess_c = "SELECT es.establecimiento_salud, es.codigo_establecimiento, d.departamento, m.municipio, ne.nivel_establecimiento, te.tipo_establecimiento, rs.red_salud, d.iddepartamento, m.idmunicipio FROM establecimiento_salud es LEFT JOIN departamento d ON es.iddepartamento = d.iddepartamento LEFT JOIN municipios m ON es.idmunicipio = m.idmunicipio LEFT JOIN nivel_establecimiento ne ON es.idnivel_establecimiento = ne.idnivel_establecimiento LEFT JOIN tipo_establecimiento te ON es.idtipo_establecimiento = te.idtipo_establecimiento LEFT JOIN red_salud rs ON es.idred_salud = rs.idred_salud WHERE es.idestablecimiento_salud='$id_eess_especialista'";
+                $eess_contra_nombre = "-"; $codigo_eess_contra = "S/D"; $dpto_contra = "S/D"; $mun_contra = "S/D"; $nivel_contra = "S/D"; $tipo_eess_contra = "S/D"; $red_contra = "S/D";
+                $id_dep_contra = ''; $id_mun_contra = '';
+
+                if (!empty($id_eess_especialista)) {
+                    $sql_eess_c = "SELECT es.establecimiento_salud, es.codigo_establecimiento, d.departamento, m.municipio, ne.nivel_establecimiento, te.tipo_establecimiento, rs.red_salud, d.iddepartamento, m.idmunicipio 
+                                   FROM establecimiento_salud es 
+                                   LEFT JOIN departamento d ON es.iddepartamento = d.iddepartamento 
+                                   LEFT JOIN municipios m ON es.idmunicipio = m.idmunicipio 
+                                   LEFT JOIN nivel_establecimiento ne ON es.idnivel_establecimiento = ne.idnivel_establecimiento 
+                                   LEFT JOIN tipo_establecimiento te ON es.idtipo_establecimiento = te.idtipo_establecimiento 
+                                   LEFT JOIN red_salud rs ON es.idred_salud = rs.idred_salud 
+                                   WHERE es.idestablecimiento_salud='$id_eess_especialista'";
                     $res_eess_c = mysqli_query($link, $sql_eess_c);
                     if($res_eess_c && $row_eess_c = mysqli_fetch_array($res_eess_c)) {
                         $eess_contra_nombre = mb_strtoupper($row_eess_c[0]); 
@@ -429,129 +448,127 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                         
                         $id_dep_contra = $row_eess_c[7];
                         $id_mun_contra = $row_eess_c[8];
-                    } else {
-                        $id_dep_contra = '';
-                        $id_mun_contra = '';
                     }
+                }
 
-                    // EVALUACIÓN DE AISLAMIENTO: ¿Pertenece la Fila 2 (Contrarreferencia) al filtro solicitado?
-                    $mostrar_fila_2 = true;
-                    if($iddepartamento != '' && $id_dep_contra != $iddepartamento) { $mostrar_fila_2 = false; }
-                    if($idmunicipio != '' && $id_mun_contra != $idmunicipio) { $mostrar_fila_2 = false; }
-                    if($idestablecimiento != '' && $id_eess_especialista != $idestablecimiento) { $mostrar_fila_2 = false; }
-                    if($idusuario_medico != '' && $id_usuario_especialista != $idusuario_medico) { $mostrar_fila_2 = false; }
+                // EVALUACIÓN DE AISLAMIENTO: ¿Pertenece la Fila 2 (Contrarreferencia) al filtro solicitado?
+                $mostrar_fila_2 = true;
+                if($iddepartamento != '' && $id_dep_contra != $iddepartamento) { $mostrar_fila_2 = false; }
+                if($idmunicipio != '' && $id_mun_contra != $idmunicipio) { $mostrar_fila_2 = false; }
+                if($idestablecimiento != '' && $id_eess_especialista != $idestablecimiento) { $mostrar_fila_2 = false; }
+                if($idusuario_medico != '' && $id_usuario_especialista != $idusuario_medico) { $mostrar_fila_2 = false; }
 
-                    if ($mostrar_fila_2) {
-                        $medico_contra_nombre = "-";
+                if ($mostrar_fila_2) {
+                    $medico_contra_nombre = "-";
+                    $cargo_contra = "-";
+                    
+                    if (!empty($id_usuario_especialista)) {
                         $sql_med_c = "SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$id_usuario_especialista'";
                         $res_med_c = mysqli_query($link, $sql_med_c);
                         if($res_med_c && $row_med_c = mysqli_fetch_array($res_med_c)) { $medico_contra_nombre = mb_strtoupper($row_med_c[0]." ".$row_med_c[1]." ".$row_med_c[2]); }
 
-                        $cargo_contra = "-";
                         $sql_car_c = "SELECT cargo_organigrama.cargo_organigrama FROM usuarios, dato_laboral, cargo_organigrama WHERE dato_laboral.idusuario=usuarios.idusuario AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND usuarios.idusuario='$id_usuario_especialista' ORDER BY dato_laboral.idcargo_organigrama DESC LIMIT 1";
                         $res_car_c = mysqli_query($link, $sql_car_c);
                         if($res_car_c && $row_car_c = mysqli_fetch_array($res_car_c)) { $cargo_contra = $row_car_c[0]; }
+                    }
 
-                        $medio_comunicacion_contra = "S/D";
-                        if (!empty($id_via_comunicacion_contra)) {
-                            $sql_vc_c = "SELECT via_comunicacion FROM via_comunicacion WHERE idvia_comunicacion='$id_via_comunicacion_contra'";
-                            $res_vc_c = mysqli_query($link, $sql_vc_c);
-                            if ($res_vc_c && $row_vc_c = mysqli_fetch_array($res_vc_c)) {
-                                $medio_comunicacion_contra = ucwords(mb_strtolower(trim($row_vc_c[0]))); // TIPO TÍTULO
-                            }
+                    $medio_comunicacion_contra = "S/D";
+                    if (!empty($id_via_comunicacion_contra)) {
+                        $sql_vc_c = "SELECT via_comunicacion FROM via_comunicacion WHERE idvia_comunicacion='$id_via_comunicacion_contra'";
+                        $res_vc_c = mysqli_query($link, $sql_vc_c);
+                        if ($res_vc_c && $row_vc_c = mysqli_fetch_array($res_vc_c)) {
+                            $medio_comunicacion_contra = ucwords(mb_strtolower(trim($row_vc_c[0]))); // TIPO TÍTULO
                         }
+                    }
 
-                        // =========================================================================
-                        // EXTRACCIÓN DE DIAGNÓSTICOS DE EGRESO Y CÁLCULO DE GRUPOS PRIORIZADOS (FASE 3 - VUELTA)
-                        // =========================================================================
-                        $diag_contra = array("", "", "");
-                        $d_idx2 = 0;
+                    // =========================================================================
+                    // EXTRACCIÓN DE DIAGNÓSTICOS DE EGRESO Y CÁLCULO DE GRUPOS PRIORIZADOS (FASE 3 - VUELTA)
+                    // =========================================================================
+                    $diag_contra = array("", "", "");
+                    $d_idx2 = 0;
+                    
+                    $cref_ent = false;
+                    $cref_et = false;
+                    $cref_sm = false;
+                    $cref_otros = false;
+
+                    $sql_dg2 = " SELECT p.patologia, p.cie, p.idgrupo_priorizado FROM diagnostico_egreso de INNER JOIN patologia p ON de.idpatologia=p.idpatologia WHERE de.idreferencia_hc='{$row[0]}' LIMIT 3";
+                    $res_dg2 = mysqli_query($link,$sql_dg2);
+                    if ($res_dg2 && $row_dg2 = mysqli_fetch_array($res_dg2)){
+                        do {
+                            $diag_contra[$d_idx2] = $row_dg2[1]." - ".$row_dg2[0];
+                            $d_idx2++;
+                            
+                            $id_gp_cref = $row_dg2[2];
+                            if ($id_gp_cref == '1') { $cref_ent = true; }
+                            elseif ($id_gp_cref == '2') { $cref_et = true; }
+                            elseif ($id_gp_cref == '3') { $cref_sm = true; }
+                            else { $cref_otros = true; }
+                            
+                        } while ($row_dg2 = mysqli_fetch_array($res_dg2));
+                    }
+
+                    $txt_cref_ent = $cref_ent ? "ENT" : "";
+                    $txt_cref_et = $cref_et ? "ET" : "";
+                    $txt_cref_sm = $cref_sm ? "SALUD MATERNA" : "";
+                    $txt_cref_otros = $cref_otros ? "OTROS" : "";
+
+                    // =========================================================================
+                    // IMPRESIÓN DE FILA 2 (Solo si pertenece al filtro original)
+                    // =========================================================================
+                    ?>
+                    <tr>
+                        <td class="c-dato"><?php echo $numero;?></td>
+                        <td class="c-dato"><?php echo $f_reg_contra; ?></td>
+                        <td class="c-dato" style="color: #2D56CF;"><b>CONTRAREFERENCIA</b></td> 
+                        <td class="c-dato"><b><?php echo $row[1];?></b></td>
+                        <td class="c-dato"><?php echo $codigo_eess_contra; ?></td>
+                        <td class="c-izq"><?php echo $dpto_contra;?></td>
+                        <td class="c-izq"><?php echo $red_contra;?></td>
+                        <td class="c-izq"><?php echo $mun_contra;?></td>
+                        <td class="c-dato"><?php echo $nivel_contra;?></td>
+                        <td class="c-izq"><?php echo $eess_contra_nombre;?></td> <td class="c-izq"><?php echo mb_strtoupper($row[7]);?></td> <td class="c-dato"><?php echo $tipo_eess_contra;?></td>
                         
-                        $cref_ent = false;
-                        $cref_et = false;
-                        $cref_sm = false;
-                        $cref_otros = false;
-
-                        $sql_dg2 = " SELECT p.patologia, p.cie, p.idgrupo_priorizado FROM diagnostico_egreso de INNER JOIN patologia p ON de.idpatologia=p.idpatologia WHERE de.idreferencia_hc='{$row[0]}' LIMIT 3";
-                        $res_dg2 = mysqli_query($link,$sql_dg2);
-                        if ($res_dg2 && $row_dg2 = mysqli_fetch_array($res_dg2)){
-                            do {
-                                $diag_contra[$d_idx2] = $row_dg2[1]." - ".$row_dg2[0];
-                                $d_idx2++;
-                                
-                                $id_gp_cref = $row_dg2[2];
-                                if ($id_gp_cref == '1') { $cref_ent = true; }
-                                elseif ($id_gp_cref == '2') { $cref_et = true; }
-                                elseif ($id_gp_cref == '3') { $cref_sm = true; }
-                                else { $cref_otros = true; }
-                                
-                            } while ($row_dg2 = mysqli_fetch_array($res_dg2));
-                        }
-
-                        $txt_cref_ent = $cref_ent ? "ENT" : "";
-                        $txt_cref_et = $cref_et ? "ET" : "";
-                        $txt_cref_sm = $cref_sm ? "SALUD MATERNA" : "";
-                        $txt_cref_otros = $cref_otros ? "OTROS" : "";
-
-                        // =========================================================================
-                        // IMPRESIÓN DE FILA 2 (Solo si pertenece al filtro original)
-                        // =========================================================================
-                        ?>
-                        <tr>
-                            <td class="c-dato"><?php echo $numero;?></td>
-                            <td class="c-dato"><?php echo $f_reg_contra; ?></td>
-                            <td class="c-dato" style="color: #2D56CF;"><b>CONTRAREFERENCIA</b></td> 
-                            <td class="c-dato"><b><?php echo $row[1];?></b></td>
-                            <td class="c-dato"><?php echo $codigo_eess_contra; ?></td>
-                            <td class="c-izq"><?php echo $dpto_contra;?></td>
-                            <td class="c-izq"><?php echo $red_contra;?></td>
-                            <td class="c-izq"><?php echo $mun_contra;?></td>
-                            <td class="c-dato"><?php echo $nivel_contra;?></td>
-                            <td class="c-izq"><?php echo $eess_contra_nombre;?></td>
-                            <td class="c-izq"><?php echo mb_strtoupper($row[7]);?></td>
-                            <td class="c-dato"><?php echo $tipo_eess_contra;?></td>
-                            
-                            <td class="c-izq"><?php echo $txt_procedencia; ?></td>
-                            
-                            <td class="c-izq"><?php echo $diag_contra[0]; ?></td>
-                            <td class="c-izq"><?php echo $diag_contra[1]; ?></td>
-                            <td class="c-izq"><?php echo $diag_contra[2]; ?></td>
-                            
-                            <td class="c-dato"><?php echo $indicador_discapacidad; ?></td> 
-                            <td class="c-dato"><?php echo $txt_cref_ent; ?></td>
-                            <td class="c-dato"><?php echo $txt_cref_et; ?></td>
-                            <td class="c-dato"><?php echo $indicador_si; ?></td>
-                            <td class="c-dato"><?php echo $txt_cref_sm; ?></td>
-                            <td class="c-dato"><?php echo $txt_cref_otros; ?></td>
-                            
-                            <td class="c-izq"><?php echo $txt_captacion; ?></td>
-                            <td class="c-izq"><?php echo $medico_contra_nombre; ?></td>
-                            <td class="c-dato"><?php echo $cargo_contra; ?></td>
-                            <td class="c-dato"><?php echo $grupo_etareo; ?></td>
-                            <td class="c-dato"><?php echo $edad_calculada; ?></td>
-                            <td class="c-izq"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td> 
-                            <td class="c-dato"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
-                            <td class="c-dato"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
-                            <td class="c-izq"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
-                            <td class="c-dato"><?php echo $genero_final; ?></td>
-                            <td class="c-dato"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
-                            
-                            <td class="c-izq"><?php echo $txt_nacion; ?></td>
-                            
-                            <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
-                            
-                            <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
-                            <td class="c-dato"><?php echo $txt_tiempo; ?></td>
-                            
-                            <td class="c-izq"><?php echo $txt_contexto; ?></td>
-                            <td class="c-izq"><?php echo $medio_comunicacion_contra; ?></td>
-                            
-                            <td class="c-dato" style="color: #1cc88a; font-weight: bold;">CONTRARREFERIDA</td>
-                        </tr>
-                        <?php
-                        $numero++;
-                    } // Fin mostrar_fila_2
-                }
+                        <td class="c-izq"><?php echo $txt_procedencia; ?></td>
+                        
+                        <td class="c-izq"><?php echo $diag_contra[0]; ?></td>
+                        <td class="c-izq"><?php echo $diag_contra[1]; ?></td>
+                        <td class="c-izq"><?php echo $diag_contra[2]; ?></td>
+                        
+                        <td class="c-dato"><?php echo $indicador_discapacidad; ?></td> 
+                        <td class="c-dato"><?php echo $txt_cref_ent; ?></td>
+                        <td class="c-dato"><?php echo $txt_cref_et; ?></td>
+                        <td class="c-dato"><?php echo $indicador_si; ?></td>
+                        <td class="c-dato"><?php echo $txt_cref_sm; ?></td>
+                        <td class="c-dato"><?php echo $txt_cref_otros; ?></td>
+                        
+                        <td class="c-izq"><?php echo $txt_captacion; ?></td>
+                        <td class="c-izq"><?php echo $medico_contra_nombre; ?></td>
+                        <td class="c-dato"><?php echo $cargo_contra; ?></td>
+                        <td class="c-dato"><?php echo $grupo_etareo; ?></td>
+                        <td class="c-dato"><?php echo $edad_calculada; ?></td>
+                        <td class="c-izq"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td> 
+                        <td class="c-dato"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
+                        <td class="c-dato"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
+                        <td class="c-izq"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
+                        <td class="c-dato"><?php echo $genero_final; ?></td>
+                        <td class="c-dato"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
+                        
+                        <td class="c-izq"><?php echo $txt_nacion; ?></td>
+                        
+                        <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
+                        
+                        <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
+                        <td class="c-dato"><?php echo $txt_tiempo; ?></td>
+                        
+                        <td class="c-izq"><?php echo $txt_contexto; ?></td>
+                        <td class="c-izq"><?php echo $medio_comunicacion_contra; ?></td>
+                        
+                        <td class="c-dato">CONTRARREFERIDA</td>
+                    </tr>
+                    <?php
+                    $numero++;
+                } // Fin mostrar_fila_2
             }
 
         } while ($row = mysqli_fetch_array($result));
