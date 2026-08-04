@@ -272,27 +272,29 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             else if($row[23] == '2') { $txt_seguimiento = "Seguimiento"; } 
 
             // =========================================================================
-            // EXTRACCIÓN DE GRUPOS VULNERABLES Y DISCAPACIDAD
+            // LECTURA DIRECTA DE DISCAPACIDAD DESDE EL FORMULARIO DE REFERENCIA
             // =========================================================================
             $indicador_discapacidad = "";
+            $valor_discapacidad = isset($row[32]) ? strtoupper(trim($row[32])) : "";
+            
+            if ($valor_discapacidad === 'SI') {
+                $indicador_discapacidad = "DISCAPACIDAD";
+            }
+
+            // =========================================================================
+            // EXTRACCIÓN EXCLUSIVA DE GRUPOS VULNERABLES (Separado de Discapacidad)
+            // =========================================================================
             $txt_grupos_vulnerables = "";
             $arr_gv = array();
-            
             $idatencion_origen = $row[33]; 
 
             if (!empty($idatencion_origen)) {
-                $sql_gv = " SELECT gv.idgrupo_vulnerable, gv.grupo_vulnerable FROM atencion_grupo_vulnerable agv INNER JOIN grupo_vulnerable gv ON agv.idgrupo_vulnerable = gv.idgrupo_vulnerable WHERE agv.idatencion_psafci = '$idatencion_origen' ";
+                $sql_gv = " SELECT gv.idgrupo_vulnerable, gv.grupo_vulnerable FROM atencion_grupo_vulnerable agv INNER JOIN grupo_vulnerable gv ON agv.idgrupo_vulnerable = gv.idgrupo_vulnerable WHERE agv.idatencion_psafci = '$idatencion_origen' AND agv.idgrupo_vulnerable != '5' ";
                 $res_gv = mysqli_query($link, $sql_gv);
                 
                 if ($res_gv && mysqli_num_rows($res_gv) > 0) {
                     while ($row_gv = mysqli_fetch_array($res_gv)) {
-                        $id_gv = $row_gv[0];
-                        $nombre_gv = mb_strtoupper($row_gv[1]);
-                        $arr_gv[] = $nombre_gv;
-                        
-                        if ($id_gv == '5') {
-                            $indicador_discapacidad = "DISCAPACIDAD";
-                        }
+                        $arr_gv[] = mb_strtoupper($row_gv[1]);
                     }
                     $txt_grupos_vulnerables = implode(", ", $arr_gv);
                 } else {
@@ -390,7 +392,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     
                     <?php
                     $txt_estado = mb_strtoupper($row[8]);
-                    $color_est = ($txt_estado == 'REFERIDA') ? '#e74a3b' : (($txt_estado == 'CONTRARREFERIDA') ? '#1cc88a' : '#333');
+                    $color_est = ($txt_estado == 'REFERIDA') ? '#e74a3b' : '#1cc88a';
                     ?>
                     <td class="c-dato" style="color: <?php echo $color_est; ?>; font-weight: bold;"><?php echo $txt_estado; ?></td>
                 </tr>
