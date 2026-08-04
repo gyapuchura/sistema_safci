@@ -88,6 +88,7 @@ $idestablecimiento_salud = $row_es[1];
                                             <th>NIVEL / TIPO</th>
                                             <th>FECHA / HORA</th>
                                             <th>MÉDICO QUE ENVIO</th>
+                                            <th>ESTADO</th>
                                             <th>ACCIÓN</th>
                                         </tr>
                                     </thead>
@@ -97,7 +98,7 @@ $idestablecimiento_salud = $row_es[1];
                                 $sql =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
                                 $sql.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
                                 $sql.=" resumen_anamnesis, especificacion_hallazgos, tratamiento_ref, observaciones_ref, idconsentimiento, idestablecimiento_receptor, idmotivo_referencia, idespecialidad_medica, ";
-                                $sql.=" fecha_registro, hora_registro, idusuario FROM referencia_hc WHERE idestablecimiento_salud='$idestablecimiento_salud' ORDER BY idreferencia_hc DESC";
+                                $sql.=" fecha_registro, hora_registro, idusuario, idestado_referencia FROM referencia_hc WHERE idestablecimiento_salud='$idestablecimiento_salud' ORDER BY idreferencia_hc DESC";
                                 $result = mysqli_query($link,$sql);
                                 if ($row = mysqli_fetch_array($result)){
                                 mysqli_field_seek($result,0);
@@ -122,6 +123,24 @@ $idestablecimiento_salud = $row_es[1];
                                     $sql_es.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.idestablecimiento_salud='$row[20]'";
                                     $result_es = mysqli_query($link,$sql_es);
                                     $row_es = mysqli_fetch_array($result_es);
+
+                                    // ---> LOGICA DE ESTADOS, COLORES Y TRADUCCIÓN VISUAL
+                                    $sql_est =" SELECT estado_referencia FROM estado_referencia WHERE idestado_referencia='$row[26]' ";
+                                    $result_est=mysqli_query($link,$sql_est);
+                                    $row_est=mysqli_fetch_array($result_est);
+                                    $estado_bd = mb_strtoupper($row_est[0] ?? '');
+
+                                    // Traducción visual solicitada
+                                    if ($estado_bd == 'REFERIDA') {
+                                        $texto_mostrar = 'PENDIENTE';
+                                        $color_est = '#e74a3b';       // Rojo
+                                    } else if ($estado_bd == 'CONTRARREFERIDA') {
+                                        $texto_mostrar = 'RESUELTO'; 
+                                        $color_est = '#1cc88a';       // Verde
+                                    } else {
+                                        $texto_mostrar = $estado_bd;
+                                        $color_est = '#333333';       // Gris
+                                    }
 
                                 ?>
                                         <tr>
@@ -165,7 +184,10 @@ $idestablecimiento_salud = $row_es[1];
                                                 $result_r = mysqli_query($link,$sql_r);
                                                 $row_r = mysqli_fetch_array($result_r);                    
                                                 echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);?>
-                                            </td>                                       
+                                            </td> 
+                                            <td style="color: <?php echo $color_est; ?>; font-weight: bold;">
+                                                <?php echo $texto_mostrar; ?>
+                                            </td>                                      
                                         <td>
                                         <form name="ATENCION-PSAFCI" action="valida_referencia_eess.php" method="post">
                                             <input name="idreferencia_hc" type="hidden" value="<?php echo $row[0];?>">
@@ -262,6 +284,9 @@ $idestablecimiento_salud = $row_es[1];
     <script>
         $(document).ready(function() {
             $('#example').DataTable( {
+                        "scrollX": true,
+                        "scrollY": "55vh",
+                        "scrollCollapse": true,
                         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]] ,
                         "language": {
                             "lengthMenu": "Mostrar _MENU_ registros por pagina",
