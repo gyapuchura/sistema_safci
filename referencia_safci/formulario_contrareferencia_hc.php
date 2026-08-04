@@ -174,7 +174,7 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="card-body">
 
                      <form name="GUARDA_CONTRAREFERENCIA" action="guarda_contrareferencia.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate> <!-- Modificado -->
-
+                        <input name="idatencion_psafci" type="hidden" value="<?php echo $row_ref[5];?>">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">DATOS DEL ESTABLECIMIENTO DE SALUD QUE CONTRAREFIERE</h6>
@@ -428,7 +428,7 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
-                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica.php?idcarpeta_familiar=<?php echo $row_cf[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $idnombre_integrante_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
                                         </span>
@@ -456,7 +456,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row"> 
                                     <div class="col-sm-12"> 
                                         <h6 class="text-primary">HISTORIA CLÍNICA:</h6>
-                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ncref.php" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
+                                        <a class="btn btn-primary btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $idnombre_integrante_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">                        
                                         <span class="icon text-white-50">
                                             <i class="fas fa-book"></i>
                                         </span>
