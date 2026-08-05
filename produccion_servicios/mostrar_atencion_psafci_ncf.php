@@ -1454,6 +1454,25 @@ switch ($row_ps[3]) {
     <?php 
     break; }  ?>
    
+<hr>
+    <div class="form-group row"> 
+    <div class="col-sm-4"> 
+    </div> 
+    <div class="col-sm-4">
+    
+        <a class="btn btn-info btn-icon-split" href="imprime_atencion_psafci.php?idatencion_psafci=<?php echo $idatencion_psafci_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=400, scrollbars=YES'); return false;">
+        <span class="icon text-white-50">
+            <i class="fas fa-book"></i>
+        </span>
+        <span class="text">IMPRIME ATENCIÓN MÉDICA</span></a> 
+    
+    </div> 
+    <div class="col-sm-4"> 
+    </div> 
+    </div>
+
+
+<hr>
 
    <div class="form-group row"> 
     <div class="col-sm-3"> 

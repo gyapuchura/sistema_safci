@@ -789,7 +789,7 @@ Si no se encontraron resultados
     $numero=1; 
     $sql =" SELECT referencia_hc.idreferencia_hc, referencia_hc.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
     $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, estado_referencia.estado_referencia,  ";
-    $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud, referencia_hc.idestablecimiento_receptor, referencia_hc.idestado_referencia ";
+    $sql.=" especialidad_medica.especialidad_medica, referencia_hc.fecha_registro, referencia_hc.hora_registro, referencia_hc.idusuario, red_salud.red_salud, referencia_hc.idestablecimiento_receptor, referencia_hc.idestado_referencia, referencia_hc.idnombre ";
     $sql.=" FROM referencia_hc, nombre, estado_referencia, especialidad_medica, departamento, red_salud, municipios, establecimiento_salud WHERE referencia_hc.idnombre=nombre.idnombre ";
     $sql.=" AND referencia_hc.idestado_referencia=estado_referencia.idestado_referencia AND referencia_hc.iddepartamento=departamento.iddepartamento AND referencia_hc.idred_salud=red_salud.idred_salud ";
     $sql.=" AND referencia_hc.idespecialidad_medica=especialidad_medica.idespecialidad_medica AND referencia_hc.idmunicipio=municipios.idmunicipio AND referencia_hc.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
@@ -805,7 +805,10 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="imprime_formulario_d7.php?idreferencia_hc=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=200, scrollbars=YES'); return false;">
               <?php echo $row[1];?></a></td>
-              <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a class="btn btn-info btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[16];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">  
+              <?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></a>
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[13];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>

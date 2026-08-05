@@ -726,7 +726,7 @@ $(function () {
         $numero=1; 
         $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
         $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_consulta.tipo_consulta,  ";
-        $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario  ";
+        $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.idnombre ";
         $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
         $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento  ";
         $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
@@ -743,7 +743,10 @@ $(function () {
                   <td style="font-size: 12px; font-family: Arial; text-align: center;">
                   <a href="imprime_atencion_psafci.php?idatencion_psafci=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=200, scrollbars=YES'); return false;">
                   <?php echo $row[1];?></a>  
-                  <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
+                  <td style="font-size: 12px; font-family: Arial; text-align: center;">
+                    <a class="btn btn-info btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[13];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">  
+                    <?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></a>  
+                  </td>
                   </td>
                   <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
                   <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>

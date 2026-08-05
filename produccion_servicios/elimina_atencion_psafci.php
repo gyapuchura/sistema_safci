@@ -17,6 +17,16 @@ $idatencion_psafci_ss = $_SESSION['idatencion_psafci_ss'];
 $idatencion_psafci = $_POST['idatencion_psafci'];
 $idtipo_atencion   = $_POST['idtipo_atencion'];
 
+/* VERIFICAMOS QUE NO TENGA REGISTROS DE REFERENCIAS ASOCIADAS A LA ATENCOON MEDICA  idatencion_psafci*/
+
+    $sql1 =" SELECT idreferencia_hc, codigo FROM referencia_hc WHERE idatencion_psafci ='$idatencion_psafci' ";
+    $result1 = mysqli_query($link,$sql1);
+    if ($row1 = mysqli_fetch_array($result1)) {
+
+        header("Location:mensaje_referencia_atencion_psafci.php");
+        
+    } else {
+
 /* BORRAMOS EL REGISTRO de atencion medica psafci*/
 
 if ($idtipo_atencion =='3'  || $idtipo_atencion =='4' ) {
@@ -59,8 +69,6 @@ if ($idtipo_atencion =='3'  || $idtipo_atencion =='4' ) {
     header("Location:mensaje_borrado_atencion_psafci.php");
 
 }
-
-
-
+}
 
 ?>
