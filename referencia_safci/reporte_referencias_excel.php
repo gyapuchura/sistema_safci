@@ -145,6 +145,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             <td class="c-cabecera">NUEVO / SEGUIMIENTO</td>
             <td class="c-cabecera">TIEMPO</td>
             <td class="c-cabecera">CONTEXTO ATENCIÓN</td>
+            <td class="c-cabecera">TIPO DE TELEINTERCONSULTA</td>
             <td class="c-cabecera">MEDIO COMUNICACIÓN</td>
             <td class="c-cabecera">ESTADO/ETAPA</td>
         </tr> 
@@ -182,8 +183,12 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
     $sql.=" LEFT JOIN captacion_ts cap ON atc.idcaptacion_ts = cap.idcaptacion_ts ";
     $sql.=" LEFT JOIN tiempo_ts t_ref ON referencia_hc.idtiempo_ts = t_ref.idtiempo_ts ";
     
-    // AQUÍ ESTÁ LA NUEVA MAGIA DEL FILTRO: Solo exigimos que el Especialista lo haya admitido de ida
-    $sql.=" WHERE referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+    // AQUÍ ESTÁ LA NUEVA MAGIA DEL FILTRO: Buscar eventos de Ida o de Vuelta dentro del mes
+    $sql.=" WHERE (
+                (referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion') 
+                OR 
+                EXISTS (SELECT 1 FROM diagnostico_egreso de WHERE de.idreferencia_hc = referencia_hc.idreferencia_hc AND de.fecha_registro BETWEEN '$inicio' AND '$finalizacion')
+            ) ";
     $sql.=" AND referencia_hc.idestado_referencia = '2' ";
     $sql.=" AND EXISTS (SELECT 1 FROM deriva_referencia_hc der_req WHERE der_req.idreferencia_hc = referencia_hc.idreferencia_hc AND der_req.admitido = 'SI' AND der_req.idestablecimiento_salud_r = referencia_hc.idestablecimiento_receptor) ";
     $sql.=" $filtro_extra ";
@@ -194,12 +199,27 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
         mysqli_field_seek($result,0);           
         while ($field = mysqli_fetch_field($result)){
         } do {
+            // --- INICIO: EXTRACCIÓN TIPO DE TELEINTERCONSULTA ---
+            $txt_tipo_tele = "S/D";
+            $sql_tele = "SELECT idtipo_teleinterconsulta FROM referencia_hc WHERE idreferencia_hc = '{$row[0]}'";
+            $res_tele = mysqli_query($link, $sql_tele);
+            if ($res_tele && $row_tele = mysqli_fetch_array($res_tele)) {
+                switch ($row_tele[0]) {
+                    case '1': $txt_tipo_tele = "TELEDIAGNÓSTICO MÉDICO"; break;
+                    case '2': $txt_tipo_tele = "TELEDISCUSIÓN"; break;
+                    case '3': $txt_tipo_tele = "TELEEMERGENCIA"; break;
+                    default:  $txt_tipo_tele = "NO APLICA"; break;
+                }
+            }
+            // --- FIN: EXTRACCIÓN TIPO DE TELEINTERCONSULTA ---
             // EVALUACIÓN DE AISLAMIENTO: ¿Pertenece la Fila 1 (Referencia) al filtro solicitado?
             $mostrar_fila_1 = true;
             if($iddepartamento != '' && $row[34] != $iddepartamento) { $mostrar_fila_1 = false; }
             if($idmunicipio != '' && $row[35] != $idmunicipio) { $mostrar_fila_1 = false; }
             if($idestablecimiento != '' && $row[36] != $idestablecimiento) { $mostrar_fila_1 = false; }
             if($idusuario_medico != '' && $row[37] != $idusuario_medico) { $mostrar_fila_1 = false; }
+            // AISLAMIENTO TEMPORAL: Ocultar Fila 1 si su fecha no pertenece al mes filtrado
+            if($row[10] < $inicio || $row[10] > $finalizacion) { $mostrar_fila_1 = false; }
 
             // =========================================================================
             // CÁLCULOS DEMOGRÁFICOS Y EPIDEMIOLÓGICOS (FASE 1 y FASE 2)
@@ -389,43 +409,34 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     <td class="c-dato"><?php echo $txt_tiempo; ?></td>
                     
                     <td class="c-izq"><?php echo $txt_contexto; ?></td>
+                    <td class="c-dato"><?php echo $txt_tipo_tele; ?></td>
                     <td class="c-izq"><?php echo $txt_medio_origen; ?></td>
                     
                     <?php
                     $txt_estado = trim(mb_strtoupper($row[8]));
                     ?>
-                    <td class="c-dato"><?php echo $txt_estado; ?></td>
+                    <td class="c-dato"><b><?php echo $txt_estado; ?></b></td>
                 </tr>
                 <?php
                 $numero++;
             } // Fin mostrar_fila_1
 
             // =========================================================================
-            // FILA 2: CLONACIÓN DE CONTRAREFERENCIA (VUELTA) - SOLO SI ESTÁ EN ESTADO 2 Y FUE RESPONDIDA
+            // FILA 2: CLONACIÓN DE CONTRAREFERENCIA (CAMINO B: EXTRACCIÓN INSTANTÁNEA Y REAL)
             // =========================================================================
             if ($row[15] == '2') {
-                // 1. LA CONTRAREFERENCIA SE ORIGINA DESDE EL HOSPITAL RECEPTOR (EL ESPECIALISTA)
+                // 1. HOSPITAL ESPECIALISTA (Es siempre el Receptor original de la Fila 1)
                 $id_eess_especialista = $row[14]; 
                 
-                $id_usuario_especialista = "";
-                $f_reg_contra = "S/D";
-                $id_via_comunicacion_contra = "";
-                
-                // Extraer el médico, la fecha y la vía desde la tabla de derivaciones, 
-                // asegurando que el origen de este salto es el Hospital Especialista
-                $sql_vuelta = "SELECT idusuario_o, fecha_deriva, idvia_comunicacion FROM deriva_referencia_hc WHERE idreferencia_hc='{$row[0]}' AND idestablecimiento_salud_o='{$id_eess_especialista}' ORDER BY idderiva_referencia_hc DESC LIMIT 1";
-                $res_vuelta = mysqli_query($link, $sql_vuelta);
-                if ($res_vuelta && $row_vuelta = mysqli_fetch_array($res_vuelta)) {
-                    $id_usuario_especialista = $row_vuelta['idusuario_o'];
-                    $id_via_comunicacion_contra = $row_vuelta['idvia_comunicacion'];
-                    if(!empty($row_vuelta['fecha_deriva']) && $row_vuelta['fecha_deriva'] != '0000-00-00') {
-                        $fr = explode('-', $row_vuelta['fecha_deriva']);
-                        $f_reg_contra = isset($fr[2]) ? $fr[2].'/'.$fr[1].'/'.$fr[0] : '';
-                    }
-                }
-
-                $eess_contra_nombre = "-"; $codigo_eess_contra = "S/D"; $dpto_contra = "S/D"; $mun_contra = "S/D"; $nivel_contra = "S/D"; $tipo_eess_contra = "S/D"; $red_contra = "S/D";
-                $id_dep_contra = ''; $id_mun_contra = '';
+                $eess_contra_nombre = "-"; 
+                $codigo_eess_contra = "S/D"; 
+                $dpto_contra = "S/D"; 
+                $mun_contra = "S/D"; 
+                $nivel_contra = "S/D"; 
+                $tipo_eess_contra = "S/D"; 
+                $red_contra = "S/D";
+                $id_dep_contra = ''; 
+                $id_mun_contra = '';
 
                 if (!empty($id_eess_especialista)) {
                     $sql_eess_c = "SELECT es.establecimiento_salud, es.codigo_establecimiento, d.departamento, m.municipio, ne.nivel_establecimiento, te.tipo_establecimiento, rs.red_salud, d.iddepartamento, m.idmunicipio 
@@ -445,42 +456,56 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                         $nivel_contra = !empty($row_eess_c[4]) ? mb_strtoupper($row_eess_c[4]) : "S/D"; 
                         $tipo_eess_contra = !empty($row_eess_c[5]) ? mb_strtoupper($row_eess_c[5]) : "S/D"; 
                         $red_contra = !empty($row_eess_c[6]) ? mb_strtoupper($row_eess_c[6]) : "S/D"; 
-                        
                         $id_dep_contra = $row_eess_c[7];
                         $id_mun_contra = $row_eess_c[8];
                     }
                 }
 
+                // 2. MÉDICO ESPECIALISTA Y FECHA (Extracción Inmediata desde Diagnóstico de Egreso)
+                $id_usuario_especialista = "";
+                $f_reg_contra = "S/D";
+                $f_reg_contra_cruda = ""; // <-- ¡Nueva variable para auditoría temporal!
+                $medico_contra_nombre = "-";
+                $cargo_contra = "-";
+
+                $sql_eg = "SELECT idusuario, fecha_registro FROM diagnostico_egreso WHERE idreferencia_hc='{$row[0]}' ORDER BY iddiagnostico_egreso DESC LIMIT 1";
+                $res_eg = mysqli_query($link, $sql_eg);
+                if ($res_eg && $row_eg = mysqli_fetch_array($res_eg)) {
+                    $id_usuario_especialista = $row_eg['idusuario'];
+                    if(!empty($row_eg['fecha_registro']) && $row_eg['fecha_registro'] != '0000-00-00') {
+                        $f_reg_contra_cruda = $row_eg['fecha_registro'];
+                        $fr = explode('-', $row_eg['fecha_registro']);
+                        $f_reg_contra = isset($fr[2]) ? $fr[2].'/'.$fr[1].'/'.$fr[0] : '';
+                    }
+                }
+
+                if (!empty($id_usuario_especialista)) {
+                    $sql_med_c = "SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios INNER JOIN nombre ON usuarios.idnombre=nombre.idnombre WHERE usuarios.idusuario='$id_usuario_especialista'";
+                    $res_med_c = mysqli_query($link, $sql_med_c);
+                    if($res_med_c && $row_med_c = mysqli_fetch_array($res_med_c)) { 
+                        $medico_contra_nombre = mb_strtoupper($row_med_c[0]." ".$row_med_c[1]." ".$row_med_c[2]); 
+                    }
+
+                    $sql_car_c = "SELECT co.cargo_organigrama FROM dato_laboral dl INNER JOIN cargo_organigrama co ON dl.idcargo_organigrama=co.idcargo_organigrama WHERE dl.idusuario='$id_usuario_especialista' ORDER BY dl.idcargo_organigrama DESC LIMIT 1";
+                    $res_car_c = mysqli_query($link, $sql_car_c);
+                    if($res_car_c && $row_car_c = mysqli_fetch_array($res_car_c)) { 
+                        $cargo_contra = $row_car_c[0]; 
+                    }
+                }
+
+                // 3. MEDIO DE COMUNICACIÓN (Heredado de la Admisión original del Especialista)
+                $medio_comunicacion_contra = $txt_medio_origen; 
+
                 // EVALUACIÓN DE AISLAMIENTO: ¿Pertenece la Fila 2 (Contrarreferencia) al filtro solicitado?
                 $mostrar_fila_2 = true;
-                if($iddepartamento != '' && $id_dep_contra != $iddepartamento) { $mostrar_fila_2 = false; }
-                if($idmunicipio != '' && $id_mun_contra != $idmunicipio) { $mostrar_fila_2 = false; }
-                if($idestablecimiento != '' && $id_eess_especialista != $idestablecimiento) { $mostrar_fila_2 = false; }
-                if($idusuario_medico != '' && $id_usuario_especialista != $idusuario_medico) { $mostrar_fila_2 = false; }
+                if($iddepartamento != '' && $id_dep_contra != '' && $id_dep_contra != $iddepartamento) { $mostrar_fila_2 = false; }
+                if($idmunicipio != '' && $id_mun_contra != '' && $id_mun_contra != $idmunicipio) { $mostrar_fila_2 = false; }
+                if($idestablecimiento != '' && $id_eess_especialista != '' && $id_eess_especialista != $idestablecimiento) { $mostrar_fila_2 = false; }
+                if($idusuario_medico != '' && $id_usuario_especialista != '' && $id_usuario_especialista != $idusuario_medico) { $mostrar_fila_2 = false; }
+                // AISLAMIENTO TEMPORAL: Ocultar Fila 2 si su fecha de respuesta no pertenece al mes filtrado
+                if(empty($f_reg_contra_cruda) || $f_reg_contra_cruda < $inicio || $f_reg_contra_cruda > $finalizacion) { $mostrar_fila_2 = false; }
 
                 if ($mostrar_fila_2) {
-                    $medico_contra_nombre = "-";
-                    $cargo_contra = "-";
-                    
-                    if (!empty($id_usuario_especialista)) {
-                        $sql_med_c = "SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$id_usuario_especialista'";
-                        $res_med_c = mysqli_query($link, $sql_med_c);
-                        if($res_med_c && $row_med_c = mysqli_fetch_array($res_med_c)) { $medico_contra_nombre = mb_strtoupper($row_med_c[0]." ".$row_med_c[1]." ".$row_med_c[2]); }
-
-                        $sql_car_c = "SELECT cargo_organigrama.cargo_organigrama FROM usuarios, dato_laboral, cargo_organigrama WHERE dato_laboral.idusuario=usuarios.idusuario AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama AND usuarios.idusuario='$id_usuario_especialista' ORDER BY dato_laboral.idcargo_organigrama DESC LIMIT 1";
-                        $res_car_c = mysqli_query($link, $sql_car_c);
-                        if($res_car_c && $row_car_c = mysqli_fetch_array($res_car_c)) { $cargo_contra = $row_car_c[0]; }
-                    }
-
-                    $medio_comunicacion_contra = "S/D";
-                    if (!empty($id_via_comunicacion_contra)) {
-                        $sql_vc_c = "SELECT via_comunicacion FROM via_comunicacion WHERE idvia_comunicacion='$id_via_comunicacion_contra'";
-                        $res_vc_c = mysqli_query($link, $sql_vc_c);
-                        if ($res_vc_c && $row_vc_c = mysqli_fetch_array($res_vc_c)) {
-                            $medio_comunicacion_contra = ucwords(mb_strtolower(trim($row_vc_c[0]))); // TIPO TÍTULO
-                        }
-                    }
-
                     // =========================================================================
                     // EXTRACCIÓN DE DIAGNÓSTICOS DE EGRESO Y CÁLCULO DE GRUPOS PRIORIZADOS (FASE 3 - VUELTA)
                     // =========================================================================
@@ -562,9 +587,10 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                         <td class="c-dato"><?php echo $txt_tiempo; ?></td>
                         
                         <td class="c-izq"><?php echo $txt_contexto; ?></td>
+                        <td class="c-dato"><?php echo $txt_tipo_tele; ?></td>
                         <td class="c-izq"><?php echo $medio_comunicacion_contra; ?></td>
                         
-                        <td class="c-dato">CONTRARREFERIDA</td>
+                        <td class="c-dato"><b>CONTRARREFERIDA</b></td>
                     </tr>
                     <?php
                     $numero++;
