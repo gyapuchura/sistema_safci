@@ -140,7 +140,7 @@ while($row = mysqli_fetch_array($res_all_e)){
             #global-tooltip-hc div { margin-bottom: 4px; font-weight: normal; }
         </style>
 
-        <script type="text/javascript">
+<script type="text/javascript">
     $(function () {
     $('#container').highcharts({
         chart: {

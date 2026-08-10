@@ -628,12 +628,12 @@ $row_n=mysqli_fetch_array($result_n);
                                 } do { ?> 
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]"  disabled><?php echo $row_dg[1];?></textarea>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo_in[0]"  disabled><?php echo $row_dg[1];?></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo_in[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <select name="idpatologia[]"  id="idpatologia[]" class="form-control" disabled >
+                                        <select name="idpatologia_in"  id="idpatologia_in" class="form-control" disabled >
                                         <option selected>Seleccione</option>
                                         <?php
                                         $sqlv = " SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia ";
