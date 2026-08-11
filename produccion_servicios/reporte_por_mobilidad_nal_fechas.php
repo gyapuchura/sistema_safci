@@ -26,6 +26,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
         <title>REPORTE DIAGNOSTICOS POR MORBILIDAD</title>
 
         <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+        <script src="../js/highcharts.js"></script>
+        <script src="../js/highcharts-3d.js"></script>
+        <script src="../js/modules/exporting.js"></script>
     <style type="text/css">
     ${demo.css}
             </style>
@@ -101,10 +104,6 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         </script>
 </head>
     <body>
-<script src="../js/highcharts.js"></script>
-<script src="../js/highcharts-3d.js"></script>
-<script src="../js/modules/exporting.js"></script>
-
 <style>
     #pantalla-carga {
         position: fixed;
@@ -147,7 +146,13 @@ if ($numero == $total) { echo ""; } else { echo ","; }
     <div class="spinner-loader"></div>
     <div class="texto-loader">Procesando ATENCIONES POR MORBILIDAD, por favor espere...</div>
 </div>
-
+<?php
+    // MAGIA BACKEND: Obligamos a Apache/PHP a pintar esto en la pantalla del usuario YA
+    if (ob_get_level() == 0) ob_start();
+    echo str_pad('', 4096); // Hack de 4KB para forzar el vaciado en servidores con GZIP
+    ob_flush();
+    flush();
+?>   
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($numero3*60) + 100;?>px; margin: 0 auto"></div>
 
 <h4 align="center" style="font-family: Arial;">Nº DIAGNÓSTICOS POR MORBILIDAD: 
