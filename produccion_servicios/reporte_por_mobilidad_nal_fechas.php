@@ -105,7 +105,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
 <script src="../js/highcharts-3d.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-reporte_por_mobilidad_nal_fechas    <style>
+<style>
     #pantalla-carga {
         position: fixed;
         top: 0;

@@ -25,6 +25,44 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>REPORTE DIAGNOSTICOS PREVENTIVOS</title>
 
+<style>
+    #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+    .spinner-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #36b9cc; /* Turquesa corporativo de referencias */
+        border-radius: 50%;
+        animation: girar 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    .texto-loader {
+        color: #36b9cc;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    body.bloqueado { overflow: hidden; }
+</style>
+
         <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
     <style type="text/css">
     ${demo.css}
@@ -104,43 +142,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         <script src="../js/highcharts.js"></script>
         <script src="../js/highcharts-3d.js"></script>
         <script src="../js/modules/exporting.js"></script>
-    <style>
-    #pantalla-carga {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(255, 255, 255, 0.95);
-        z-index: 9999999;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: opacity 0.5s ease;
-        font-family: Arial, sans-serif;
-    }
-    .spinner-loader {
-        width: 60px;
-        height: 60px;
-        border: 6px solid #f3f3f3;
-        border-top: 6px solid #36b9cc; /* Turquesa corporativo de referencias */
-        border-radius: 50%;
-        animation: girar 1s linear infinite;
-        margin-bottom: 20px;
-    }
-    .texto-loader {
-        color: #36b9cc;
-        font-size: 18px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-    @keyframes girar {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    body.bloqueado { overflow: hidden; }
-</style>
+    
 
 <div id="pantalla-carga">
     <div class="spinner-loader"></div>

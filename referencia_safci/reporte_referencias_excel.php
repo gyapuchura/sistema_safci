@@ -414,6 +414,10 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     
                     <?php
                     $txt_estado = trim(mb_strtoupper($row[8]));
+                    // Traductor Interceptor Ortográfico
+                    if ($txt_estado === 'CONTRAREFERIDA') {
+                        $txt_estado = 'CONTRARREFERIDA';
+                    }
                     ?>
                     <td class="c-dato"><b><?php echo $txt_estado; ?></b></td>
                 </tr>
@@ -479,6 +483,23 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     }
                 }
 
+                // --- SISTEMA DE RESCATE (FALLBACK) ---
+                // Si no hay diagnóstico de egreso, la fecha y el médico están vacíos y la fila se ocultará.
+                // Rescatamos la fecha de retorno y al especialista desde el historial de derivaciones.
+                if (empty($f_reg_contra_cruda) || empty($id_usuario_especialista)) {
+                    $sql_fb = "SELECT idusuario_o, fecha_deriva FROM deriva_referencia_hc WHERE idreferencia_hc='{$row[0]}' AND idestablecimiento_salud_o='{$id_eess_especialista}' ORDER BY idderiva_referencia_hc DESC LIMIT 1";
+                    $res_fb = mysqli_query($link, $sql_fb);
+                    if ($res_fb && $row_fb = mysqli_fetch_array($res_fb)) {
+                        $id_usuario_especialista = !empty($row_fb['idusuario_o']) ? $row_fb['idusuario_o'] : $id_usuario_especialista;
+                        if(!empty($row_fb['fecha_deriva']) && $row_fb['fecha_deriva'] != '0000-00-00') {
+                            $f_reg_contra_cruda = $row_fb['fecha_deriva'];
+                            $fr = explode('-', $row_fb['fecha_deriva']);
+                            $f_reg_contra = isset($fr[2]) ? $fr[2].'/'.$fr[1].'/'.$fr[0] : '';
+                        }
+                    }
+                }
+                // -------------------------------------
+
                 if (!empty($id_usuario_especialista)) {
                     $sql_med_c = "SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios INNER JOIN nombre ON usuarios.idnombre=nombre.idnombre WHERE usuarios.idusuario='$id_usuario_especialista'";
                     $res_med_c = mysqli_query($link, $sql_med_c);
@@ -532,6 +553,11 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                             
                         } while ($row_dg2 = mysqli_fetch_array($res_dg2));
                     }
+                    // --- AUDITORÍA DE INTEGRIDAD: AVISO DE DIAGNÓSTICO DE EGRESO VACÍO ---
+                    if (empty($diag_contra[0])) {
+                        $diag_contra[0] = "NO SE GUARDO EL DIAGNÓSTICO DE EGRESO";
+                    }
+                    // -------------------------------------------------------------------
 
                     $txt_cref_ent = $cref_ent ? "ENT" : "";
                     $txt_cref_et = $cref_et ? "ET" : "";
@@ -545,7 +571,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     <tr>
                         <td class="c-dato"><?php echo $numero;?></td>
                         <td class="c-dato"><?php echo $f_reg_contra; ?></td>
-                        <td class="c-dato" style="color: #2D56CF;"><b>CONTRAREFERENCIA</b></td> 
+                        <td class="c-dato" style="color: #2D56CF;"><b>CONTRARREFERENCIA</b></td> 
                         <td class="c-dato"><b><?php echo $row[1];?></b></td>
                         <td class="c-dato"><?php echo $codigo_eess_contra; ?></td>
                         <td class="c-izq"><?php echo $dpto_contra;?></td>
