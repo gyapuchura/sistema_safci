@@ -26,7 +26,7 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
         <title>REPORTE DIAGNOSTICOS POR MORBILIDAD</title>
 
         <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
-        <script src="../js/highcharts.js"></script>
+        <script src="../js/grupo_tres.js"></script>
         <script src="../js/highcharts-3d.js"></script>
         <script src="../js/modules/exporting.js"></script>
     <style type="text/css">
@@ -124,13 +124,13 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         width: 60px;
         height: 60px;
         border: 6px solid #f3f3f3;
-        border-top: 6px solid #36b9cc; /* Turquesa corporativo de referencias */
+        border-top: 6px solid #f15c80; /* Turquesa corporativo de referencias */
         border-radius: 50%;
         animation: girar 1s linear infinite;
         margin-bottom: 20px;
     }
     .texto-loader {
-        color: #36b9cc;
+        color: #f15c80;
         font-size: 18px;
         font-weight: bold;
         letter-spacing: 1px;
