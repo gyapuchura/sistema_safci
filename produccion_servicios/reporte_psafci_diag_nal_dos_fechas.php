@@ -126,13 +126,13 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         width: 60px;
         height: 60px;
         border: 6px solid #f3f3f3;
-        border-top: 6px solid #36b9cc; /* Turquesa corporativo de referencias */
+        border-top: 6px solid #7cb5ec; /* Turquesa corporativo de referencias */
         border-radius: 50%;
         animation: girar 1s linear infinite;
         margin-bottom: 20px;
     }
     .texto-loader {
-        color: #36b9cc;
+        color: #7cb5ec;
         font-size: 18px;
         font-weight: bold;
         letter-spacing: 1px;
