@@ -77,8 +77,10 @@ $row_n=mysqli_fetch_array($result_n);
                     <div class="p-3">               
                     <div class="text-center">                          
                     <a href="historias_clinicas.php"><h6 class="text-info"><- VOLVER</h6></a>
-                    <hr>             
-                    <h4 class="text-info">INICIAR PRIMERA ATENCIÓN - SAFCI</h4>
+                    <hr>   
+                    <h4 class="text-primary">IMPORTANTE</h4>          
+                    <h4 class="text-primary">EL NÚMERO DE CEDULA CORRESPONDE A LA SIGUIENTE PERSONA EN SISTEMA</h4>
+                    <h4 class="text-primary">Si corresponde a la misma por favor introduzca nuevamente los datos de la Atención.</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->

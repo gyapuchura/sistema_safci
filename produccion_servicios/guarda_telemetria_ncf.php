@@ -235,7 +235,15 @@ if ($ci == '0') {
                 header("Location:mostrar_persona_nhc_mensaje.php");
 
             } else {
-                header("Location:mensaje_persona_sin_hc.php");
+
+                $_SESSION['edad_ss'] = $edad;
+                $_SESSION['idnombre_paciente_ss'] = $row_n[0];
+                $_SESSION['iddepartamento_ss'] = $iddepartamento;
+                $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud_ss;
+                $_SESSION['idnacion_ss'] = '33';
+
+                header("Location:registrar_persona_hc_dos.php");
+                
             } 
             }
 

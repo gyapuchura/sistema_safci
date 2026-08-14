@@ -15,6 +15,7 @@ $sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento FROM 
 $result_es = mysqli_query($link,$sql_es);
 $row_es = mysqli_fetch_array($result_es);
 $idestablecimiento_salud_ss = $row_es[1];
+$iddepartamento_ss = $row_es[2];
 
 /*********** ENVIO DATOS DEL PÀCIENTE *************/
 $nombre        = $link->real_escape_string(mb_strtoupper($_POST['nombre']));
@@ -26,7 +27,7 @@ $idgenero       = $_POST['idgenero'];
 $fecha_nac      = $_POST['fecha_nac'];
 $idnacionalidad = $_POST['idnacionalidad'];
 $idnacion       = $_POST['idnacion'];
-$fecha   = $_POST['fecha_registro'];
+$fecha          = $_POST['fecha_registro'];
 
 // =========================================================================
 // INICIO BLOQUE DATA GOVERNANCE: RESTRICCIÓN DE MES ACTUAL
@@ -205,8 +206,13 @@ if ($ci == '0') {
 
             } else {
 
-            
-                header("Location:mensaje_persona_sin_hc.php");
+                $_SESSION['edad_ss'] = $edad;
+                $_SESSION['idnombre_paciente_ss'] = $row_n[0];
+                $_SESSION['iddepartamento_ss'] = $iddepartamento_ss;
+                $_SESSION['idestablecimiento_salud_ss'] = $idestablecimiento_salud_ss;
+                $_SESSION['idnacion_ss'] = '33';
+
+                header("Location:registrar_persona_hc_dos.php");
             } 
         }
 
