@@ -104,7 +104,7 @@ if ($numero == $total) { echo ""; } else { echo ","; }
         </script>
 </head>
     <body>
-         <style>
+<style>
     #pantalla-carga {
         position: fixed;
         top: 0;
@@ -208,7 +208,6 @@ echo $row_dgt[0];
         </tr> 
         <?php $numero++; } ?>
 </table>
-
 
 <script>
     // Evitamos que el usuario baje por la página mientras carga
