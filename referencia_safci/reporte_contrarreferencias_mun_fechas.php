@@ -55,9 +55,13 @@ $row_mun = mysqli_fetch_array($result_mun);
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_egreso, patologia, referencia_hc ";
+$sql = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_egreso.iddiagnostico_egreso) AS total_diag ";
+$sql.= " FROM diagnostico_egreso, patologia, referencia_hc ";
 $sql.= " WHERE diagnostico_egreso.idpatologia=patologia.idpatologia AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_egreso.idpatologia  ";
+$sql.= " AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql.= " GROUP BY diagnostico_egreso.idpatologia ";
+// UNIFICADO A DESC: Envía el mayor al índice 0 para que Highcharts lo dibuje Arriba
+$sql.= " ORDER BY total_diag DESC, diagnostico_egreso.idpatologia ASC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -130,24 +134,22 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_egreso, patologia, referencia_hc ";
+$sql3 = " SELECT diagnostico_egreso.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_egreso.iddiagnostico_egreso) AS total_diag ";
+$sql3.= " FROM diagnostico_egreso, patologia, referencia_hc ";
 $sql3.= " WHERE diagnostico_egreso.idpatologia=patologia.idpatologia AND diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql3.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_egreso.idpatologia  ";
+$sql3.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql3.= " GROUP BY diagnostico_egreso.idpatologia ";
+// UNIFICADO A DESC: Para mantener sincronía exacta con las categorías
+$sql3.= " ORDER BY total_diag DESC, diagnostico_egreso.idpatologia ASC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
-
-$sql4 =" SELECT count(diagnostico_egreso.iddiagnostico_egreso) FROM diagnostico_egreso, referencia_hc ";
-$sql4.=" WHERE diagnostico_egreso.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idmunicipio='$idmunicipio' ";
-$sql4.=" AND diagnostico_egreso.idpatologia = '$row3[0]' AND diagnostico_egreso.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[3]; ?>
 
 <?php 
 $numero3++;

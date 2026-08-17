@@ -32,6 +32,9 @@ $row_mun = mysqli_fetch_array($result_mun);
 		<title>REPORTE DIAGNOSTICOS</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+        <script src="../js/telesalud.js"></script>
+        <script src="../js/highcharts-3d.js"></script>
+        <script src="../js/modules/exporting.js"></script>
     <style type="text/css">
     ${demo.css}
             </style>
@@ -51,9 +54,13 @@ $row_mun = mysqli_fetch_array($result_mun);
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT diagnostico_teleconsulta.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_teleconsulta, patologia, atencion_psafci ";
+$sql = " SELECT diagnostico_teleconsulta.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_teleconsulta.iddiagnostico_teleconsulta) AS total_diag ";
+$sql.= " FROM diagnostico_teleconsulta, patologia, atencion_psafci ";
 $sql.= " WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia AND diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-$sql.= "  AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_teleconsulta.idpatologia  ";
+$sql.= " AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql.= " GROUP BY diagnostico_teleconsulta.idpatologia ";
+// UNIFICADO A DESC: Envía el mayor al índice 0 para que Highcharts lo dibuje Arriba
+$sql.= " ORDER BY total_diag DESC, diagnostico_teleconsulta.idpatologia ASC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -126,24 +133,22 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT diagnostico_teleconsulta.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_teleconsulta, patologia, atencion_psafci ";
+$sql3 = " SELECT diagnostico_teleconsulta.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_teleconsulta.iddiagnostico_teleconsulta) AS total_diag ";
+$sql3.= " FROM diagnostico_teleconsulta, patologia, atencion_psafci ";
 $sql3.= " WHERE diagnostico_teleconsulta.idpatologia=patologia.idpatologia AND diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci   ";
-$sql3.= "  AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_teleconsulta.idpatologia  ";
+$sql3.= " AND atencion_psafci.idmunicipio = '$idmunicipio' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql3.= " GROUP BY diagnostico_teleconsulta.idpatologia ";
+// UNIFICADO A DESC: Para mantener sincronía exacta con las categorías
+$sql3.= " ORDER BY total_diag DESC, diagnostico_teleconsulta.idpatologia ASC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
-
-$sql4 =" SELECT count(diagnostico_teleconsulta.iddiagnostico_teleconsulta) FROM diagnostico_teleconsulta, atencion_psafci ";
-$sql4.=" WHERE diagnostico_teleconsulta.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$idmunicipio' ";
-$sql4.=" AND diagnostico_teleconsulta.idpatologia = '$row3[0]' AND diagnostico_teleconsulta.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[3]; ?>
 
 <?php 
 $numero3++;
@@ -169,9 +174,55 @@ echo "";
 </head>
 	<body>
 
-<script src="../js/telesalud.js"></script>
-<script src="../js/highcharts-3d.js"></script>
-<script src="../js/modules/exporting.js"></script>
+    <style>
+    #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+    .spinner-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #36b9cc; /* Turquesa corporativo de referencias */
+        border-radius: 50%;
+        animation: girar 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    .texto-loader {
+        color: #36b9cc;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    body.bloqueado { overflow: hidden; }
+</style>
+
+<div id="pantalla-carga">
+    <div class="spinner-loader"></div>
+    <div class="texto-loader">Procesando ATENCIONES POR TELESALUD, por favor espere...</div>
+</div>
+<?php
+    // MAGIA BACKEND: Obligamos a Apache/PHP a pintar esto en la pantalla del usuario YA
+    if (ob_get_level() == 0) ob_start();
+    echo str_pad('', 4096); // Hack de 4KB para forzar el vaciado en servidores con GZIP
+    ob_flush();
+    flush();
+?>   
 
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $numero3*60;?>px; margin: 0 auto"></div>
 
@@ -278,7 +329,23 @@ echo "";
             ?>
     </table>
 </br>
+<script>
+    // Evitamos que el usuario baje por la página mientras carga
+    document.body.classList.add('bloqueado');
 
+    // Escuchamos el evento 'load', que se dispara solo cuando TODO ha cargado
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('pantalla-carga');
+        if(loader) {
+            // Animación de desvanecimiento
+            loader.style.opacity = '0';
+            setTimeout(function() {
+                loader.style.display = 'none';
+                document.body.classList.remove('bloqueado');
+            }, 500); // Se remueve del DOM tras medio segundo
+        }
+    });
+</script>
 
 	</body>
 </html>
