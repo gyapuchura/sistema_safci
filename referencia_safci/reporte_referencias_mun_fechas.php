@@ -51,9 +51,13 @@ $row_mun = mysqli_fetch_array($result_mun);
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_presuntivo, patologia, referencia_hc ";
+$sql = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_presuntivo.iddiagnostico_presuntivo) AS total_diag ";
+$sql.= " FROM diagnostico_presuntivo, patologia, referencia_hc ";
 $sql.= " WHERE diagnostico_presuntivo.idpatologia=patologia.idpatologia AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
+$sql.= " AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql.= " GROUP BY diagnostico_presuntivo.idpatologia ";
+// UNIFICADO A DESC: Envía el mayor al índice 0 para que Highcharts lo dibuje Arriba
+$sql.= " ORDER BY total_diag DESC, diagnostico_presuntivo.idpatologia ASC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -126,9 +130,13 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie FROM diagnostico_presuntivo, patologia, referencia_hc ";
+$sql3 = " SELECT diagnostico_presuntivo.idpatologia, patologia.patologia, patologia.cie, COUNT(diagnostico_presuntivo.iddiagnostico_presuntivo) AS total_diag ";
+$sql3.= " FROM diagnostico_presuntivo, patologia, referencia_hc ";
 $sql3.= " WHERE diagnostico_presuntivo.idpatologia=patologia.idpatologia AND diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc   ";
-$sql3.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY diagnostico_presuntivo.idpatologia  ";
+$sql3.= "  AND referencia_hc.idmunicipio = '$idmunicipio' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql3.= " GROUP BY diagnostico_presuntivo.idpatologia ";
+// UNIFICADO A DESC: Para mantener sincronía exacta con las categorías
+$sql3.= " ORDER BY total_diag DESC, diagnostico_presuntivo.idpatologia ASC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -136,14 +144,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT count(diagnostico_presuntivo.iddiagnostico_presuntivo) FROM diagnostico_presuntivo, referencia_hc ";
-$sql4.=" WHERE diagnostico_presuntivo.idreferencia_hc=referencia_hc.idreferencia_hc AND referencia_hc.idmunicipio='$idmunicipio' ";
-$sql4.=" AND diagnostico_presuntivo.idpatologia = '$row3[0]' AND diagnostico_presuntivo.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[3]; ?>
 
 <?php 
 $numero3++;
