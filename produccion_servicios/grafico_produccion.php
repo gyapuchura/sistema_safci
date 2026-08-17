@@ -236,7 +236,7 @@ $(function () {
 
 <div id="pantalla-carga">
     <div class="spinner-loader"></div>
-    <div class="texto-loader">Procesando INCIDENCIA DE ATENCIONES NACIONAL, por favor espere...</div>
+    <div class="texto-loader">Procesando INFORMACIÓN, por favor espere...</div>
 </div>
 <?php
     // MAGIA BACKEND: Obligamos a Apache/PHP a pintar esto en la pantalla del usuario YA
