@@ -19,8 +19,6 @@ $row_sos = mysqli_fetch_array($result_sos);
 		<title>VIGILANCIA NIVEL NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
-        <script src="../js/highcharts.js"></script>
-        <script src="../js/modules/exporting.js"></script>
 		<style type="text/css">
 ${demo.css}
 		</style>
@@ -221,6 +219,10 @@ Si no se encontraron resultados
     });
 });
 		</script>
+
+        <script src="../js/highcharts.js"></script>
+        <script src="../js/modules/exporting.js"></script>
+
 	</head>
 	<body>
 

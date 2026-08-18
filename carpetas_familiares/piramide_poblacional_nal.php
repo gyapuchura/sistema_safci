@@ -26,11 +26,12 @@ $regulador = $rowav[0]/10;
         <script src="../js/piramide.js"></script>
         <script src="../js/modules/exporting.js"></script>
 		<style type="text/css">
-${demo.css}
+        ${demo.css}
 		</style>
+
 		<script type="text/javascript">
-$(function () {
-    var categories = [
+        $(function () {
+            var categories = [
                     <?php
                     $numero = 0;
                     $sql = " SELECT idgrupo_etareo_cf, grupo_etareo_cf FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";
@@ -41,7 +42,7 @@ $(function () {
                     while ($field = mysqli_fetch_field($result)){
                     } do {
                     ?>
-                    '<?php  echo $row[1];?>'
+                    '<?php echo $row[1];?>'
 
                         <?php    
                         $numero++;
@@ -281,9 +282,9 @@ $(function () {
                     */
                     }
                     ?>
-                    </table>
+            </table>
 
-                    <script>
+<script>
     // Evitamos que el usuario baje por la página mientras carga
     document.body.classList.add('bloqueado');
 
