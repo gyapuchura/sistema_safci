@@ -141,6 +141,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             <td class="c-cabecera">NACIÓN</td>
             
             <td class="c-cabecera">GRUPOS VULNERABLES</td>
+            <td class="c-cabecera">TIC EFECTIVIZADA</td>
             
             <td class="c-cabecera">NUEVO / SEGUIMIENTO</td>
             <td class="c-cabecera">TIEMPO</td>
@@ -205,13 +206,26 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             $res_tele = mysqli_query($link, $sql_tele);
             if ($res_tele && $row_tele = mysqli_fetch_array($res_tele)) {
                 switch ($row_tele[0]) {
-                    case '1': $txt_tipo_tele = "TELEDIAGNÓSTICO MÉDICO"; break;
-                    case '2': $txt_tipo_tele = "TELEDISCUSIÓN"; break;
-                    case '3': $txt_tipo_tele = "TELEEMERGENCIA"; break;
-                    default:  $txt_tipo_tele = "NO APLICA"; break;
+                    case '1': $txt_tipo_tele = "Telediagnóstico Médico"; break;
+                    case '2': $txt_tipo_tele = "Telediscusión"; break;
+                    case '3': $txt_tipo_tele = "Teleemergencia"; break;
+                    default:  $txt_tipo_tele = "No aplica"; break;
                 }
             }
             // --- FIN: EXTRACCIÓN TIPO DE TELEINTERCONSULTA ---
+
+            // --- INICIO: EXTRACCIÓN TELEINTERCONSULTA EFECTIVIZADA ---
+            $atencion_sitio = "NO";
+            if (!empty($row[33])) {
+                $sql_sitio = "SELECT atencion_sitio FROM atencion_teleconsulta WHERE idatencion_psafci = '{$row[33]}'";
+                $res_sitio = mysqli_query($link, $sql_sitio);
+                if ($res_sitio && $row_sitio = mysqli_fetch_array($res_sitio)) {
+                    $atencion_sitio = trim(strtoupper($row_sitio[0]));
+                }
+            }
+            $txt_efectivizada_fila2 = ($atencion_sitio == 'SI') ? "Atención en Sitio" : "Referencia";
+            // --- FIN: EXTRACCIÓN TELEINTERCONSULTA EFECTIVIZADA ---
+
             // EVALUACIÓN DE AISLAMIENTO: ¿Pertenece la Fila 1 (Referencia) al filtro solicitado?
             $mostrar_fila_1 = true;
             if($iddepartamento != '' && $row[34] != $iddepartamento) { $mostrar_fila_1 = false; }
@@ -404,8 +418,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     <td class="c-izq"><?php echo $txt_nacion; ?></td>
                     
                     <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
-                    
-                    <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
+                    <td class="c-dato"></td> <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
                     <td class="c-dato"><?php echo $txt_tiempo; ?></td>
                     
                     <td class="c-izq"><?php echo $txt_contexto; ?></td>
@@ -608,6 +621,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                         <td class="c-izq"><?php echo $txt_nacion; ?></td>
                         
                         <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
+                        <td class="c-dato"><?php echo $txt_efectivizada_fila2; ?></td> 
                         
                         <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
                         <td class="c-dato"><?php echo $txt_tiempo; ?></td>
