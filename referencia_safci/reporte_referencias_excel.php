@@ -216,13 +216,13 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
 
             // --- INICIO: EXTRACCIÓN TELEINTERCONSULTA EFECTIVIZADA ---
             $atencion_sitio = "NO";
-            if (!empty($row[33])) {
-                $sql_sitio = "SELECT atencion_sitio FROM atencion_teleconsulta WHERE idatencion_psafci = '{$row[33]}'";
-                $res_sitio = mysqli_query($link, $sql_sitio);
-                if ($res_sitio && $row_sitio = mysqli_fetch_array($res_sitio)) {
-                    $atencion_sitio = trim(strtoupper($row_sitio[0]));
-                }
+            // Consultamos directamente a referencia_hc usando el ID de la referencia actual
+            $sql_sitio = "SELECT atencion_sitio FROM referencia_hc WHERE idreferencia_hc = '{$row[0]}'";
+            $res_sitio = mysqli_query($link, $sql_sitio);
+            if ($res_sitio && $row_sitio = mysqli_fetch_array($res_sitio)) {
+                $atencion_sitio = trim(strtoupper($row_sitio[0]));
             }
+            
             $txt_efectivizada_fila2 = ($atencion_sitio == 'SI') ? "Atención en Sitio" : "Referencia";
             // --- FIN: EXTRACCIÓN TELEINTERCONSULTA EFECTIVIZADA ---
 
@@ -560,87 +560,4 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                             
                             $id_gp_cref = $row_dg2[2];
                             if ($id_gp_cref == '1') { $cref_ent = true; }
-                            elseif ($id_gp_cref == '2') { $cref_et = true; }
-                            elseif ($id_gp_cref == '3') { $cref_sm = true; }
-                            else { $cref_otros = true; }
-                            
-                        } while ($row_dg2 = mysqli_fetch_array($res_dg2));
-                    }
-                    // --- AUDITORÍA DE INTEGRIDAD: AVISO DE DIAGNÓSTICO DE EGRESO VACÍO ---
-                    if (empty($diag_contra[0])) {
-                        $diag_contra[0] = "NO SE GUARDO EL DIAGNÓSTICO DE EGRESO";
-                    }
-                    // -------------------------------------------------------------------
-
-                    $txt_cref_ent = $cref_ent ? "ENT" : "";
-                    $txt_cref_et = $cref_et ? "ET" : "";
-                    $txt_cref_sm = $cref_sm ? "SALUD MATERNA" : "";
-                    $txt_cref_otros = $cref_otros ? "OTROS" : "";
-
-                    // =========================================================================
-                    // IMPRESIÓN DE FILA 2 (Solo si pertenece al filtro original)
-                    // =========================================================================
-                    ?>
-                    <tr>
-                        <td class="c-dato"><?php echo $numero;?></td>
-                        <td class="c-dato"><?php echo $f_reg_contra; ?></td>
-                        <td class="c-dato" style="color: #2D56CF;"><b>CONTRARREFERENCIA</b></td> 
-                        <td class="c-dato"><b><?php echo $row[1];?></b></td>
-                        <td class="c-dato"><?php echo $codigo_eess_contra; ?></td>
-                        <td class="c-izq"><?php echo $dpto_contra;?></td>
-                        <td class="c-izq"><?php echo $red_contra;?></td>
-                        <td class="c-izq"><?php echo $mun_contra;?></td>
-                        <td class="c-dato"><?php echo $nivel_contra;?></td>
-                        <td class="c-izq"><?php echo $eess_contra_nombre;?></td> <td class="c-izq"><?php echo mb_strtoupper($row[7]);?></td> <td class="c-dato"><?php echo $tipo_eess_contra;?></td>
-                        
-                        <td class="c-izq"><?php echo $txt_procedencia; ?></td>
-                        
-                        <td class="c-izq"><?php echo $diag_contra[0]; ?></td>
-                        <td class="c-izq"><?php echo $diag_contra[1]; ?></td>
-                        <td class="c-izq"><?php echo $diag_contra[2]; ?></td>
-                        
-                        <td class="c-dato"><?php echo $indicador_discapacidad; ?></td> 
-                        <td class="c-dato"><?php echo $txt_cref_ent; ?></td>
-                        <td class="c-dato"><?php echo $txt_cref_et; ?></td>
-                        <td class="c-dato"><?php echo $indicador_si; ?></td>
-                        <td class="c-dato"><?php echo $txt_cref_sm; ?></td>
-                        <td class="c-dato"><?php echo $txt_cref_otros; ?></td>
-                        
-                        <td class="c-izq"><?php echo $txt_captacion; ?></td>
-                        <td class="c-izq"><?php echo $medico_contra_nombre; ?></td>
-                        <td class="c-dato"><?php echo $cargo_contra; ?></td>
-                        <td class="c-dato"><?php echo $grupo_etareo; ?></td>
-                        <td class="c-dato"><?php echo $edad_calculada; ?></td>
-                        <td class="c-izq"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td> 
-                        <td class="c-dato"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
-                        <td class="c-dato"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
-                        <td class="c-izq"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
-                        <td class="c-dato"><?php echo $genero_final; ?></td>
-                        <td class="c-dato"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
-                        
-                        <td class="c-izq"><?php echo $txt_nacion; ?></td>
-                        
-                        <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
-                        <td class="c-dato"><?php echo $txt_efectivizada_fila2; ?></td> 
-                        
-                        <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
-                        <td class="c-dato"><?php echo $txt_tiempo; ?></td>
-                        
-                        <td class="c-izq"><?php echo $txt_contexto; ?></td>
-                        <td class="c-dato"><?php echo $txt_tipo_tele; ?></td>
-                        <td class="c-izq"><?php echo $medio_comunicacion_contra; ?></td>
-                        
-                        <td class="c-dato"><b>CONTRARREFERIDA</b></td>
-                    </tr>
-                    <?php
-                    $numero++;
-                } // Fin mostrar_fila_2
-            }
-
-        } while ($row = mysqli_fetch_array($result));
-    } 
-    ?>
-    </tbody>
-</table>
-</body>
-</html>
+       
