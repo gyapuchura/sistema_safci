@@ -1329,7 +1329,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">
                                     <div class="col-sm-12">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#examplemodal_f">
-                                        <?php if ($row_ref[23]=='2') { echo 'ADMITIR CONTRAREFERENCIA'; } else { echo 'ADMITIR REFERENCIA'; }?>
+                                        <?php if ($row_ref[23]=='2') { echo 'ADMITIR CONTRAREFERENCIA'; } else { echo 'GUARDAR'; }?>
                                         </button>  
                                     </div>                              
                                 </div>                            
@@ -1340,20 +1340,20 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h5 class="modal-title" id="examplemodal_fLabel">ADMITIR <?php if ($row_ref[23]=='2') { echo 'CONTRAREFERENCIA'; } else { echo 'REFERENCIA'; }?></h5>
+                                            <h5 class="modal-title" id="examplemodal_fLabel">GUARDAR <?php if ($row_ref[23]=='2') { echo 'CONTRAREFERENCIA'; } else { echo 'REFERENCIA'; }?></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                             </button>
                                             </div>
                                             <div class="modal-body">
                                                 
-                                                Esta seguro de ADMITIR la <?php if ($row_ref[23]=='2') { echo 'CONTRAREFERENCIA'; } else { echo 'REFERENCIA'; }?>
+                                                Esta seguro de GUARDAR la <?php if ($row_ref[23]=='2') { echo 'CONTRAREFERENCIA'; } else { echo 'REFERENCIA'; }?>
                                                 posteriormenete no se podran realizar cambios.
 
                                             </div>
                                             <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="button" id="btn-confirmar-admision" class="btn btn-primary pull-center">CONFIRMAR ADMISIÓN</button>    
+                                            <button type="button" id="btn-confirmar-admision" class="btn btn-primary pull-center">CONFIRMAR </button>    
                                             </div>
                                         </div>
                                     </div>

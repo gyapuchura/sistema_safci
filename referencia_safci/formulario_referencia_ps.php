@@ -59,6 +59,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     <link rel="stylesheet" href="../css/boton_mic.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
     <style>
         /* Estilos del Drag & Drop Premium adaptado al color primario del sistema */
         .dropzone-safci {
@@ -160,6 +161,7 @@ $row_ps=mysqli_fetch_array($result_ps);
             border: 1px solid #d1d3e2;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
         }
     </style>
 

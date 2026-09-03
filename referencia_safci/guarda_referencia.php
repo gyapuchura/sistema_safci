@@ -97,10 +97,10 @@ $especificacion_hallazgos = isset($_POST['especificacion_hallazgos']) ? mysqli_r
 $tratamiento_ref          = isset($_POST['tratamiento_ref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['tratamiento_ref']))) : '';
 $observaciones_ref        = isset($_POST['observaciones_ref']) ? mysqli_real_escape_string($link, strtoupper(trim($_POST['observaciones_ref']))) : '';
 
-$idconsentimiento         = isset($_POST['idconsentimiento']) ? $_POST['idconsentimiento'] : '0';
-$idmotivo_referencia      = isset($_POST['idmotivo_referencia']) ? $_POST['idmotivo_referencia'] : '0';
+$idconsentimiento         = isset($_POST['idconsentimiento']) ? $_POST['idconsentimiento'] : '1';
+$idmotivo_referencia      = isset($_POST['idmotivo_referencia']) ? $_POST['idmotivo_referencia'] : '5';
 $idestablecimiento_salud_r = isset($_POST['idestablecimiento_salud_r']) ? $_POST['idestablecimiento_salud_r'] : '0';
-$idespecialidad_medica    = isset($_POST['idespecialidad_medica']) ? $_POST['idespecialidad_medica'] : '0';
+$idespecialidad_medica    = isset($_POST['idespecialidad_medica']) ? $_POST['idespecialidad_medica'] : '46';
 
 $sqlm    = " SELECT MAX(correlativo) FROM referencia_hc WHERE gestion='$gestion'";
 $resultm = mysqli_query($link,$sqlm);
