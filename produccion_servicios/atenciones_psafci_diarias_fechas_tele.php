@@ -10,8 +10,10 @@ $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
 // =========================================================================
-// 1. CAPTURA DE FECHAS SEGURA (ANTI-INYECCIÓN)
+// 1. CAPTURA DE FECHAS SEGURA Y VARIABLE VISTA LIMPIA
 // =========================================================================
+$vista_limpia = isset($_GET['vista_limpia']) && $_GET['vista_limpia'] == '1' ? true : false;
+
 $inicio_raw = isset($_GET['inicio']) && !empty($_GET['inicio']) ? $_GET['inicio'] : date("Y-m-01");
 $fin_raw    = isset($_GET['finalizacion']) && !empty($_GET['finalizacion']) ? $_GET['finalizacion'] : date("Y-m-d");
 
@@ -77,7 +79,6 @@ while($row = mysqli_fetch_array($res_all_e)){
 
     <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
     <style type="text/css">
-        ${demo.css}
         
         .barra-filtros {
             background-color: #f8f9fa; border: 1px solid #d1d3e2; border-radius: 6px; 
@@ -138,77 +139,80 @@ while($row = mysqli_fetch_array($res_all_e)){
     </style>
 
     <?php
-    // =========================================================================
-    // 4. OPTIMIZACIÓN SENIOR DEL GRÁFICO (1 Sola Consulta Rápida)
-    // =========================================================================
-    $sql_chart = "
-        SELECT a.fecha_registro,
-               SUM(CASE WHEN a.idtipo_atencion = '3' THEN 1 ELSE 0 END) as teleconsultas,
-               SUM(CASE WHEN a.idtipo_atencion = '4' THEN IFNULL(d.cant_dispositivos, 0) ELSE 0 END) as telemetrias
-        FROM atencion_psafci a
-        LEFT JOIN (
-            SELECT et.idatencion_psafci, COUNT(DISTINCT et.idexamen_complementario) as cant_dispositivos
-            FROM examen_teleconsulta et
-            INNER JOIN examen_complementario ec ON et.idexamen_complementario = ec.idexamen_complementario
-            WHERE UPPER(ec.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%'
-            AND UPPER(ec.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%'
-            AND UPPER(ec.examen_complementario) NOT LIKE '%OTRO%'
-            GROUP BY et.idatencion_psafci
-        ) d ON a.idatencion_psafci = d.idatencion_psafci
-        WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' 
-        $filtro_extra
-        GROUP BY a.fecha_registro
-        ORDER BY a.fecha_registro ASC
-    ";
-    
-    $res_chart = mysqli_query($link, $sql_chart);
+    // Solo cargamos los datos del gráfico si NO es vista limpia
+    if(!$vista_limpia) {
+        // =========================================================================
+        // 4. OPTIMIZACIÓN DEL GRÁFICO (1 Sola Consulta Rápida)
+        // =========================================================================
+        $sql_chart = "
+            SELECT a.fecha_registro,
+                   SUM(CASE WHEN a.idtipo_atencion = '3' THEN 1 ELSE 0 END) as teleconsultas,
+                   SUM(CASE WHEN a.idtipo_atencion = '4' THEN IFNULL(d.cant_dispositivos, 0) ELSE 0 END) as telemetrias
+            FROM atencion_psafci a
+            LEFT JOIN (
+                SELECT et.idatencion_psafci, COUNT(DISTINCT et.idexamen_complementario) as cant_dispositivos
+                FROM examen_teleconsulta et
+                INNER JOIN examen_complementario ec ON et.idexamen_complementario = ec.idexamen_complementario
+                WHERE UPPER(ec.examen_complementario) NOT LIKE '%MONITOR DE SIGNOS VITALES%'
+                AND UPPER(ec.examen_complementario) NOT LIKE '%ESTETOSCOPIO DIGITAL%'
+                AND UPPER(ec.examen_complementario) NOT LIKE '%OTRO%'
+                GROUP BY et.idatencion_psafci
+            ) d ON a.idatencion_psafci = d.idatencion_psafci
+            WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' 
+            $filtro_extra
+            GROUP BY a.fecha_registro
+            ORDER BY a.fecha_registro ASC
+        ";
+        
+        $res_chart = mysqli_query($link, $sql_chart);
 
-    $cat_arr = array();
-    $tc_arr = array();
-    $tm_arr = array();
+        $cat_arr = array();
+        $tc_arr = array();
+        $tm_arr = array();
 
-    if ($res_chart && mysqli_num_rows($res_chart) > 0) {
-        while ($row_c = mysqli_fetch_assoc($res_chart)) {
-            $fecha_s = explode('-', $row_c['fecha_registro']);
-            $fecha_log = isset($fecha_s[2]) ? $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0] : $row_c['fecha_registro'];
+        if ($res_chart && mysqli_num_rows($res_chart) > 0) {
+            while ($row_c = mysqli_fetch_assoc($res_chart)) {
+                $fecha_s = explode('-', $row_c['fecha_registro']);
+                $fecha_log = isset($fecha_s[2]) ? $fecha_s[2].'/'.$fecha_s[1].'/'.$fecha_s[0] : $row_c['fecha_registro'];
 
-            $cat_arr[] = "'" . $fecha_log . "'";
-            $tc_arr[] = (int)$row_c['teleconsultas'];
-            $tm_arr[] = (int)$row_c['telemetrias'];
+                $cat_arr[] = "'" . $fecha_log . "'";
+                $tc_arr[] = (int)$row_c['teleconsultas'];
+                $tm_arr[] = (int)$row_c['telemetrias'];
+            }
+        } else {
+            $cat_arr[] = "'Sin registros'";
+            $tc_arr[] = 0;
+            $tm_arr[] = 0;
         }
-    } else {
-        $cat_arr[] = "'Sin registros'";
-        $tc_arr[] = 0;
-        $tm_arr[] = 0;
-    }
     ?>
 
     <script type="text/javascript">
-$(function () {
-    $('#container').highcharts({
-        chart: { type: 'areaspline' },
-        title: { text: 'ATENCIONES POR DIA - PROGRAMA TELESALUD' },
-        subtitle: { text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>' },
-        legend: { layout: 'vertical', align: 'left', verticalAlign: 'top', x: 150, y: 100, floating: true, borderWidth: 1, backgroundColor: '#FFFFFF' },
-        xAxis: {
-            categories: [ <?php echo implode(',', $cat_arr); ?> ],
-            plotBands: [{ from: 4.5, to: 6.5, color: 'rgba(68, 170, 213, .2)' }]
-        },
-        yAxis: { title: { text: 'ATENCIONES TELESALUD DIARIAS' } },
-        tooltip: { shared: true, valueSuffix: ' Atenciones' },
-        credits: { enabled: false },
-        plotOptions: { areaspline: { fillOpacity: 0.5 } },
-        series: [{
-            name: 'TELECONSULTA',
-            data: [ <?php echo implode(',', $tc_arr); ?> ]
-        },
-        {
-            name: 'TELEMETRÍA',
-            data: [ <?php echo implode(',', $tm_arr); ?> ]
-        } ]
+    $(function () {
+        $('#container').highcharts({
+            chart: { type: 'areaspline' },
+            title: { text: 'ATENCIONES POR DIA - PROGRAMA TELESALUD' },
+            subtitle: { text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>' },
+            legend: { layout: 'vertical', align: 'left', verticalAlign: 'top', x: 150, y: 100, floating: true, borderWidth: 1, backgroundColor: '#FFFFFF' },
+            xAxis: {
+                categories: [ <?php echo implode(',', $cat_arr); ?> ],
+                plotBands: [{ from: 4.5, to: 6.5, color: 'rgba(68, 170, 213, .2)' }]
+            },
+            yAxis: { title: { text: 'ATENCIONES TELESALUD DIARIAS' } },
+            tooltip: { shared: true, valueSuffix: ' Atenciones' },
+            credits: { enabled: false },
+            plotOptions: { areaspline: { fillOpacity: 0.5 } },
+            series: [{
+                name: 'TELECONSULTA',
+                data: [ <?php echo implode(',', $tc_arr); ?> ]
+            },
+            {
+                name: 'TELEMETRÍA',
+                data: [ <?php echo implode(',', $tm_arr); ?> ]
+            } ]
+        });
     });
-});
     </script>
+    <?php } // Fin condicional gráfico ?>
   </head>
   <body>
   
@@ -255,6 +259,11 @@ $(function () {
     <div class="spinner-loader"></div>
     <div class="texto-loader">Cargando información, por favor espere...</div>
 </div>
+
+<?php if(!$vista_limpia) { ?>
+<!-- ================================================================================== -->
+<!-- INICIO DE LA ZONA OCULTA EN MODO VISTA LIMPIA (Dashboard, Filtros y Lista)         -->
+<!-- ================================================================================== -->
 
 <?php
     // MAGIA BACKEND: Forzamos a PHP a enviar este Loader al navegador AHORA MISMO
@@ -451,9 +460,13 @@ $(function () {
     <button type="submit" class="btn-excel">DESCARGAR EN EXCEL</button>
   </form>
 </div>
+<!-- ================================================================================== -->
+<!-- FIN DE LA ZONA OCULTA EN MODO VISTA LIMPIA                                         -->
+<!-- ================================================================================== -->
+<?php } ?>
 
-<div id="contenedor-matriz" style="display: none; padding-bottom: 50px;">
-    <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center;">MATRIZ DE PRODUCCIÓN GLOBAL (ATENCIONES + REFERENCIAS)</h4>
+<div id="contenedor-matriz" style="<?php echo $vista_limpia ? 'display: block;' : 'display: none;'; ?> padding-bottom: 50px;">
+    <h4 style="font-family: Arial; font-size: 16px; color: #2D56CF; text-align: center; margin-top: <?php echo $vista_limpia ? '20px' : '0px'; ?>;">MATRIZ DE PRODUCCIÓN GLOBAL (ATENCIONES + REFERENCIAS)</h4>
     <div style="overflow-x: auto; width: 95%; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding-top: 20px;">
         <table class="tabla-matriz" id="tabla-matriz-estrategica">
             <thead>
@@ -479,7 +492,7 @@ $(function () {
             <tbody>
             <?php
             // ==============================================================================================
-            // EXTRACCIÓN DE DATOS: QUERY 1 (ATENCIONES Y TELEMETRÍAS - INTACTO)
+            // EXTRACCIÓN DE DATOS: QUERY 1 (ATENCIONES Y TELEMETRÍAS HOMOLOGADAS CON EL EXCEL)
             // ==============================================================================================
             $sql_matriz = "
                 SELECT 
@@ -506,7 +519,7 @@ $(function () {
                     GROUP BY et.idatencion_psafci
                 ) as dispositivos ON atencion_psafci.idatencion_psafci = dispositivos.idatencion_psafci
                 WHERE atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'
-                AND atencion_psafci.idtipo_atencion != '1' AND atencion_psafci.idtipo_atencion != '2' AND atencion_psafci.idtipo_atencion != '5'
+                AND (atencion_psafci.idtipo_atencion = '3' OR atencion_psafci.idtipo_atencion = '4')
                 $filtro_extra
                 GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, atencion_psafci.fecha_registro
             ";
@@ -532,11 +545,11 @@ $(function () {
             }
 
             // ==============================================================================================
-            // EXTRACCIÓN DE DATOS: QUERY 2 DIVIDIDO EN FASE 1 Y FASE 2 (MOTOR DE AGREGACIÓN POR MÉDICO)
+            // EXTRACCIÓN DE DATOS: QUERY 2 DIVIDIDO EN FASE 1 Y FASE 2
             // ==============================================================================================
             $filtro_extra_ref = str_replace("atencion_psafci.", "referencia_hc.", $filtro_extra);
             
-            // FASE 1: REFERENCIAS GENERADAS POR EL MÉDICO ORIGEN (IDA)
+            // FASE 1: REFERENCIAS GENERADAS POR EL MÉDICO ORIGEN (IDA - Inalterado, cuenta todo)
             $sql_matriz_ref = "
                 SELECT 
                     departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, 
@@ -572,31 +585,27 @@ $(function () {
                 }
             }
 
-            // FASE 2: CONTRARREFERENCIAS GENERADAS POR EL ESPECIALISTA (VUELTA)
+            // FASE 2: CONTRARREFERENCIAS CREADAS POR EL ESPECIALISTA (VUELTA - Corrección Maestra)
+            // Ya no dependemos de MAX(id) ni de idestado_referencia. Buscamos el paso exacto del Especialista.
             $sql_matriz_cref = "
                 SELECT 
                     departamento.departamento, 
                     municipios.municipio, 
                     establecimiento_salud.establecimiento_salud, 
                     CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
-                    CASE WHEN der.fecha_deriva IS NOT NULL AND der.fecha_deriva != '' AND der.fecha_deriva != '0000-00-00' THEN der.fecha_deriva ELSE referencia_hc.fecha_registro END as fecha_registro,
-                    COUNT(referencia_hc.idreferencia_hc) as contrarreferidas
+                    der.fecha_deriva as fecha_registro,
+                    COUNT(DISTINCT referencia_hc.idreferencia_hc) as contrarreferidas
                 FROM referencia_hc
-                INNER JOIN (
-                    SELECT idreferencia_hc, MAX(idderiva_referencia_hc) as max_id
-                    FROM deriva_referencia_hc
-                    GROUP BY idreferencia_hc
-                ) as ult_der ON referencia_hc.idreferencia_hc = ult_der.idreferencia_hc
-                INNER JOIN deriva_referencia_hc der ON ult_der.max_id = der.idderiva_referencia_hc
+                INNER JOIN deriva_referencia_hc der ON referencia_hc.idreferencia_hc = der.idreferencia_hc 
+                    AND der.idestablecimiento_salud_o = referencia_hc.idestablecimiento_receptor
                 INNER JOIN establecimiento_salud ON der.idestablecimiento_salud_o = establecimiento_salud.idestablecimiento_salud
                 INNER JOIN departamento ON establecimiento_salud.iddepartamento = departamento.iddepartamento
                 INNER JOIN municipios ON establecimiento_salud.idmunicipio = municipios.idmunicipio
                 LEFT JOIN usuarios ON der.idusuario_o = usuarios.idusuario
                 LEFT JOIN nombre ON usuarios.idnombre = nombre.idnombre
-                WHERE referencia_hc.idestado_referencia = '2'
-                AND (CASE WHEN der.fecha_deriva IS NOT NULL AND der.fecha_deriva != '' AND der.fecha_deriva != '0000-00-00' THEN der.fecha_deriva ELSE referencia_hc.fecha_registro END) BETWEEN '$inicio' AND '$finalizacion'
+                WHERE der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion'
                 $filtro_extra_cref
-                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, fecha_registro
+                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, der.fecha_deriva
             ";
             $res_matriz_cref = mysqli_query($link, $sql_matriz_cref);
 
@@ -699,13 +708,17 @@ $(function () {
             </tbody>
         </table>
     </div>
+    
+    <?php if(!$vista_limpia) { ?>
     <div style="width: 95%; margin: 15px auto; text-align: right;">
         <button type="button" onclick="exportarMatrizExcel('tabla-matriz-estrategica')" style="background-color: #1D6F42; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 14px; box-shadow: 0 4px 6px rgba(0,0,0,0.15);">
             ⬇ DESCARGAR PRODUCCIÓN DIARIA
         </button>
     </div>
+    <?php } ?>
 </div>
 
+<?php if(!$vista_limpia) { ?>
 <div id="contenedor-pacientes">
     <table width="1000" border="1" align="center" cellspacing="0">
           <tbody>
@@ -726,7 +739,7 @@ $(function () {
         $numero=1; 
         $sql =" SELECT atencion_psafci.idatencion_psafci, atencion_psafci.codigo, nombre.nombre, nombre.paterno, nombre.materno, ";
         $sql.=" departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, tipo_consulta.tipo_consulta,  ";
-        $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario, atencion_psafci.idnombre ";
+        $sql.=" tipo_atencion.tipo_atencion,atencion_psafci.fecha_registro, atencion_psafci.hora_registro, atencion_psafci.idusuario  ";
         $sql.=" FROM atencion_psafci, nombre, tipo_consulta, tipo_atencion, departamento, municipios, establecimiento_salud WHERE atencion_psafci.idnombre=nombre.idnombre ";
         $sql.=" AND atencion_psafci.idtipo_consulta=tipo_consulta.idtipo_consulta AND atencion_psafci.iddepartamento=departamento.iddepartamento  ";
         $sql.=" AND atencion_psafci.idmunicipio=municipios.idmunicipio AND atencion_psafci.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud  ";
@@ -743,10 +756,7 @@ $(function () {
                   <td style="font-size: 12px; font-family: Arial; text-align: center;">
                   <a href="imprime_atencion_psafci.php?idatencion_psafci=<?php echo $row[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=200, scrollbars=YES'); return false;">
                   <?php echo $row[1];?></a>  
-                  <td style="font-size: 12px; font-family: Arial; text-align: center;">
-                    <a class="btn btn-info btn-icon-split" href="../produccion_servicios/imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[13];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">  
-                    <?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></a>  
-                  </td>
+                  <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
                   </td>
                   <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[5];?></td>
                   <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[6];?></td>
@@ -783,6 +793,7 @@ $(function () {
             </tbody>
         </table>
 </div>
+<?php } // Fin condicional zona oculta 2 ?>
 
 <script>
     const dbDeptos = [<?php echo implode(',', $arr_deptos); ?>];
@@ -888,7 +899,7 @@ $(function () {
             });
         });
 
-        // BOTONES DE VISTA
+        // BOTONES DE VISTA (Solo si no es vista limpia)
         const btnMostrarMatriz = document.getElementById('btn-mostrar-matriz');
         const contMatriz = document.getElementById('contenedor-matriz');
         const contPacientes = document.getElementById('contenedor-pacientes');
@@ -927,6 +938,7 @@ $(function () {
         const dlEess = document.getElementById('dl-ests');
 
         function poblarLista(datalist, arrayData) {
+            if(!datalist) return;
             let html = '';
             arrayData.forEach(item => {
                 html += `<option data-id="${item.id}" value="${item.nombre}"></option>`;
@@ -935,6 +947,7 @@ $(function () {
         }
 
         function initListas() {
+            if(!dlDeptos) return;
             poblarLista(dlDeptos, dbDeptos);
             
             if(initDepto) {
@@ -961,80 +974,104 @@ $(function () {
 
         initListas();
 
-        inpDepto.addEventListener('input', function() {
-            const val = this.value.trim().toLowerCase();
-            const obj = dbDeptos.find(d => d.nombre.toLowerCase() === val);
-            if (obj) {
-                valDepto.value = obj.id;
-                poblarLista(dlMunis, dbMunis.filter(m => m.idDepto == obj.id));
-                inpMuni.value = ""; valMuni.value = "";
-                inpEst.value = ""; valEst.value = "";
-                poblarLista(dlEess, []); 
-            } else {
-                valDepto.value = "";
-                poblarLista(dlMunis, dbMunis);
-                poblarLista(dlEess, dbEess);
-            }
-        });
-
-        inpMuni.addEventListener('input', function() {
-            const val = this.value.trim().toLowerCase();
-            const mObj = dbMunis.find(m => m.nombre.toLowerCase() === val);
-            if (mObj) {
-                valMuni.value = mObj.id;
-                const dObj = dbDeptos.find(d => d.id == mObj.idDepto);
-                if(dObj) {
-                    inpDepto.value = dObj.nombre;
-                    valDepto.value = dObj.id;
+        if(inpDepto) {
+            inpDepto.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                const obj = dbDeptos.find(d => d.nombre.toLowerCase() === val);
+                if (obj) {
+                    valDepto.value = obj.id;
+                    poblarLista(dlMunis, dbMunis.filter(m => m.idDepto == obj.id));
+                    inpMuni.value = ""; valMuni.value = "";
+                    inpEst.value = ""; valEst.value = "";
+                    poblarLista(dlEess, []); 
+                } else {
+                    valDepto.value = "";
+                    poblarLista(dlMunis, dbMunis);
+                    poblarLista(dlEess, dbEess);
                 }
-                poblarLista(dlEess, dbEess.filter(e => e.idMuni == mObj.id));
-                inpEst.value = ""; valEst.value = "";
-            } else {
-                valMuni.value = "";
-            }
-        });
+            });
+        }
 
-        inpEst.addEventListener('input', function() {
-            const val = this.value.trim().toLowerCase();
-            const eObj = dbEess.find(e => e.nombre.toLowerCase() === val);
-            if (eObj) {
-                valEst.value = eObj.id;
-                const mObj = dbMunis.find(m => m.id == eObj.idMuni);
-                if(mObj) {
-                    inpMuni.value = mObj.nombre;
+        if(inpMuni) {
+            inpMuni.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                const mObj = dbMunis.find(m => m.nombre.toLowerCase() === val);
+                if (mObj) {
                     valMuni.value = mObj.id;
                     const dObj = dbDeptos.find(d => d.id == mObj.idDepto);
                     if(dObj) {
                         inpDepto.value = dObj.nombre;
                         valDepto.value = dObj.id;
                     }
+                    poblarLista(dlEess, dbEess.filter(e => e.idMuni == mObj.id));
+                    inpEst.value = ""; valEst.value = "";
+                } else {
+                    valMuni.value = "";
                 }
-            } else {
-                valEst.value = "";
-            }
-        });
+            });
+        }
 
-        inpMed.addEventListener('input', function() {
-            const option = document.querySelector(`#dl-meds option[value="${this.value}"]`);
-            if(option) valMed.value = option.getAttribute('data-id');
-            else valMed.value = "";
-        });
+        if(inpEst) {
+            inpEst.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                const eObj = dbEess.find(e => e.nombre.toLowerCase() === val);
+                if (eObj) {
+                    valEst.value = eObj.id;
+                    const mObj = dbMunis.find(m => m.id == eObj.idMuni);
+                    if(mObj) {
+                        inpMuni.value = mObj.nombre;
+                        valMuni.value = mObj.id;
+                        const dObj = dbDeptos.find(d => d.id == mObj.idDepto);
+                        if(dObj) {
+                            inpDepto.value = dObj.nombre;
+                            valDepto.value = dObj.id;
+                        }
+                    }
+                } else {
+                    valEst.value = "";
+                }
+            });
+        }
+
+        if(inpMed) {
+            inpMed.addEventListener('input', function() {
+                const option = document.querySelector(`#dl-meds option[value="${this.value}"]`);
+                if(option) valMed.value = option.getAttribute('data-id');
+                else valMed.value = "";
+            });
+        }
     });
 </script>
 <script>
     // Bloqueamos el scroll mientras carga
     document.body.classList.add('bloqueado');
 
-    // window.addEventListener('load') espera a que TODO (DOM, Highcharts, Imágenes) cargue
+    // window.addEventListener('load') espera a que la tabla exista para poder exportarla
     window.addEventListener('load', function() {
         const loader = document.getElementById('pantalla-carga');
-        if(loader) {
-            // Efecto de desvanecimiento suave
-            loader.style.opacity = '0';
-            setTimeout(function() {
-                loader.style.display = 'none';
-                document.body.classList.remove('bloqueado');
-            }, 500); // 500ms coincide con la transición CSS
+        const urlParams = new URLSearchParams(window.location.search);
+        const esAutodescarga = (urlParams.get('autodescarga') === '1');
+
+        if (esAutodescarga) {
+            // =========================================================
+            // MODO (Autodescarga ultra rápida)
+            // =========================================================
+            if(document.getElementById('contenedor-pacientes')) document.getElementById('contenedor-pacientes').style.display = 'none';
+            document.getElementById('contenedor-matriz').style.display = 'block';
+            exportarMatrizExcel('tabla-matriz-estrategica');
+            setTimeout(function() { window.close(); }, 150); 
+
+        } else {
+            // =========================================================
+            // MODO VISUAL (Navegación normal)
+            // =========================================================
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(function() {
+                    loader.style.display = 'none';
+                    document.body.classList.remove('bloqueado');
+                }, 500); 
+            }
         }
     });
 </script>
