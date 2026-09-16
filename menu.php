@@ -1,3 +1,24 @@
+<style>
+    /* 1. Reduce el espacio de los Títulos Principales Azules */
+    .sidebar .nav-item .nav-link {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    /* 2. Reduce el espacio de los Sub-menús Blancos (Ej: NUEVO PERSONAL) */
+    .sidebar .collapse-inner .collapse-item {
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
+        margin-bottom: 2px !important;
+    }
+    
+    /* 3. Reduce el espacio de los encabezados internos (Ej: ELEGIR:, SAFCI:) */
+    .sidebar .collapse-inner .collapse-header {
+        padding-top: 0.4rem !important;
+        padding-bottom: 0.4rem !important;
+        margin-bottom: 0 !important;
+    }
+</style>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
@@ -59,7 +80,7 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
         aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-users"></i>
-        <span>RECURSOS HUMANOS SAFCI</span>
+        <span>RECURSOS HUMANOS</span>
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
@@ -535,16 +556,16 @@
     while ($field_menu = mysqli_fetch_field($result_menu)){
     } do {	?>
 
+        <a class="collapse-item" href="../produccion_servicios/historias_clinicas.php">HISTORIAS CLÍNICAS</a>
+        <a class="collapse-item" href="../produccion_servicios/atenciones_psafci.php">MIS ATENCIONES</a>
         <a class="collapse-item" href="../produccion_servicios/personas_carpetizadas.php">PERSONAS</br>CARPETIZADAS</a>
         <a class="collapse-item" href="../produccion_servicios/valida_persona_ncf.php">ATENCIÓN PERSONA</br>NO CARPETIZADA</a> 
-        <a class="collapse-item" href="../produccion_servicios/historias_clinicas.php">HISTORIAS CLÍNICAS</a>
 <?php
     } while ($row_menu = mysqli_fetch_array($result_menu));
     } else {
     }
     ?>
     
-    <a class="collapse-item" href="../produccion_servicios/atenciones_psafci.php">ATENCIONES</br>PSAFCI</a>
     <a class="collapse-item" href="../produccion_servicios/reportes_produccion_servicios.php">REPORTES</br>PRODUCCIÓN</br>DE SERVICIOS</a>
 
    
@@ -568,14 +589,14 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilitiesref"
         aria-expanded="true" aria-controls="collapseUtilitiesref">
         <i class="fas fa-clipboard-list"></i>   
-        <span>REFERENCIA </br>DE INTEGRANTES </span>
+        <span>REFERENCIAS</span>
     </a>
     <div id="collapseUtilitiesref" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">BANDEJAS DE REFERENCIA:</h6>      
-            <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">ENTRADA</br>REFERENCIA</a>
-            <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">ADMITIDOS</br>REFERENCIA</a>
+            <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">BUZON DE</br>ENTRADA</a>
+            <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">BUZON DE</br>ADMITIDOS</a>
             <a class="collapse-item" href="../referencia_safci/referencias_establecimiento.php">REFERENCIAS DEL</br>ESTABLECIMIENTO</a>
             <a class="collapse-item" href="../referencia_safci/contrarreferencias_establecimiento.php">CONTRARREFERENCIAS</br>DEL</br>ESTABLECIMIENTO</a>      
         </div>
@@ -588,7 +609,44 @@
     }
     ?>
 
+<!------ MODULO DE TELESALUD - SAFCI ------->
+<?php   
+$sql_menu = "SELECT perfil  from usuarios  where idusuario = '$idusuario_ss' and perfil = '$perfil_ss' ";
+$result_menu = mysqli_query($link,$sql_menu);
+$row_menu = mysqli_fetch_array($result_menu);
+/****** Seleccionamos el perfil del suaurio que accedera a las opciones de sistema ******/  
+if ($row_menu[0] == 'ADM-MUNICIPAL' || $row_menu[0] == 'ADMINISTRADOR' || $row_menu[0] == 'PERSONAL'){
+mysqli_field_seek($result_menu,0);
+while ($field_menu = mysqli_fetch_field($result_menu)){
+} do {  ?>
 
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTelesalud"
+        aria-expanded="true" aria-controls="collapseTelesalud">
+        <i class="fas fa-laptop-medical"></i>   
+        <span>TELESALUD</span>
+    </a>
+    <div id="collapseTelesalud" class="collapse" aria-labelledby="headingUtilities"
+        data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">ÁREAS TELESALUD:</h6>
+            
+            <a class="collapse-item" href="../telesalud/telesalud_dashboard.php">CENTRAL DE TELESALUD</a>
+            <a class="collapse-item" href="../telesalud/teleinterconsultas.php">TELEINTERCONSULTAS</a>
+            <a class="collapse-item" href="../telesalud/teleconsultas.php">TELECONSULTAS</a>
+            <a class="collapse-item" href="../telesalud/telemetrias.php">TELEMETRÍAS</a>
+            <a class="collapse-item" href="../telesalud/teleeducacion.php">TELEEDUCACIÓN</a>
+            <a class="collapse-item" href="../telesalud/extractostelesalud.php">EXTRACTOS</a>
+   
+        </div>
+    </div>
+</li>
+
+<?php
+    } while ($row_menu = mysqli_fetch_array($result_menu));
+    } else {
+    }
+?>
 <!------ MODULO DE GESTION BONO JUANA AZURDUY - SAFCI ------->
 
 <?php	

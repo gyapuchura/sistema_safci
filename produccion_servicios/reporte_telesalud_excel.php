@@ -134,7 +134,8 @@ $mapeo_db = array(
             <td class="c-cabecera">OTROS</td>
 
             <td class="c-cabecera">CAPTACIÓN</td>
-            <td class="c-cabecera">MÉDICO</td>
+            <td class="c-cabecera">MÉDICO OPERATIVO</td>
+            <td class="c-cabecera">CARGO ORGANIZACIONAL</td>
             
             <td class="c-cabecera">GRUPO ETAREO</td>
             <td class="c-cabecera">EDAD</td>
@@ -363,6 +364,19 @@ $mapeo_db = array(
                     echo mb_strtoupper($row_r[0]." " . $row_r[1]." ".$row_r[2]);
                 } ?>
             </td> 
+            <td class="c-dato">
+              <?php 
+                $cargo_operativo = "-";
+                $sql_c =" SELECT cargo_organigrama.cargo_organigrama FROM usuarios, dato_laboral, cargo_organigrama ";
+                $sql_c.=" WHERE dato_laboral.idusuario=usuarios.idusuario AND dato_laboral.idcargo_organigrama=cargo_organigrama.idcargo_organigrama ";
+                $sql_c.=" AND usuarios.idusuario='{$row_te['idusuario']}' ORDER BY dato_laboral.idcargo_organigrama DESC LIMIT 1 ";
+                $res_c = mysqli_query($link,$sql_c);
+                if($res_c && $row_c = mysqli_fetch_array($res_c)) { 
+                    $cargo_operativo = $row_c[0]; 
+                } 
+                echo $cargo_operativo; 
+              ?>
+            </td>
             <td class="c-dato"><?php echo $grupo_etareo; ?></td> 
             <td class="c-dato"><?php echo $edad_calculada; ?></td> 
             <td class="c-izq"><?php echo $especialidad_display; ?></td> 
