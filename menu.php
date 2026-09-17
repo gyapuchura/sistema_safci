@@ -756,6 +756,7 @@ while ($field_menu = mysqli_fetch_field($result_menu)){
             } else {
             }
             ?>
+            <a class="collapse-item" href="../prevencion_safci/encuestas_prevencion.php">ENCUESTAS</br>PREVENCIÓN</a>
             <a class="collapse-item" href="../eventos_safci/eventos_vacunacion.php">EVENTOS</br>DE VACUNACION</a>
         </div>
     </div>
