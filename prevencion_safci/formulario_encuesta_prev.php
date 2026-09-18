@@ -111,9 +111,9 @@ switch ($idtema_encuesta) {
             <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200</div>
         </div>
         <div class="col-sm-3">
-            <h6 class="text-info">SATURACIÓN</br>[% DE O2]:</h6>
-            <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% DE O2" name="saturacion" required>
-            <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div>
+            <h6 class="text-info">PERÍMETRO CEFÁLICO</br>[PC]:</h6>
+            <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros" name="perimetro_cefalico" required>
+            <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 100 cm</div>
         </div>
     </div>
     
@@ -125,9 +125,9 @@ switch ($idtema_encuesta) {
             <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div>
         </div>
         <div class="col-sm-3">
-            <h6 class="text-info">SATURACIÓN</br>[% O2]:</h6>
-            <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% O2" name="saturacion" required>
-            <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div>
+            <h6 class="text-info">PERÍMETRO CEFÁLICO</br>[PC]:</h6>
+            <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros" name="perimetro_cefalico" required>
+            <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 100 cm</div>
         </div>
         <div class="col-sm-3">
             <input type="hidden" class="form-control" name="presion_arterial" value="0">

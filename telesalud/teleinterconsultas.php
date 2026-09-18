@@ -14,7 +14,7 @@ $gestion      = date("Y");
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SISTEMA MEDI-SAFCI - Centro de Mando Teleinterconsultas</title>
+    <title>SISTEMA MEDI-SAFCI - Centro de Mando Teleinterconsultas Generadas</title>
     
     <!-- Fuentes y Estilos nativos de tu sistema -->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -39,6 +39,7 @@ $gestion      = date("Y");
         .border-efectivas { border-left-color: #1cc88a; }
         .border-rechazadas { border-left-color: #e74a3b; }
         .border-tasa { border-left-color: #4e73df; }
+        .border-total { border-left-color: #36b9cc; } /* Info / Celeste */
     </style>
 
     <?php
@@ -87,7 +88,7 @@ $gestion      = date("Y");
                 <div class="container-fluid mt-4">
                     
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold"><i class="fas fa-network-wired text-primary"></i> Centro de Mando: Teleinterconsultas</h1>
+                        <h1 class="h3 mb-0 text-gray-800 font-weight-bold"><i class="fas fa-network-wired text-primary"></i> Centro de Mando: Teleinterconsultas Generadas</h1>
                     </div>
 
                     <!-- BARRA DE FILTROS EN CASCADA CON AUTO-RECARGA -->
@@ -162,11 +163,16 @@ $gestion      = date("Y");
                     }
 
                     // 2. Consulta 1: Totales para KPI y Gráfico de Dona (Estado de Referencias)
+                    // Ajustado estrictamente al flujo clínico: 
+                    // Generadas = Estado 1 (Pendientes)
+                    // Efectivizadas = Estado 2 (Contrarreferidas) + SI Admitidas
+                    // Rechazadas = Estado 2 (Contrarreferidas) + NO Admitidas
+                    
                     $sql_estados = "
                         SELECT 
                             (SELECT COUNT(r.idreferencia_hc) FROM referencia_hc r WHERE r.idestado_referencia = '1' AND r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_depto) as generadas,
                             (SELECT COUNT(DISTINCT r.idreferencia_hc) FROM referencia_hc r INNER JOIN deriva_referencia_hc d ON r.idreferencia_hc = d.idreferencia_hc WHERE r.idestado_referencia = '2' AND d.admitido = 'SI' AND r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_depto) as efectivizadas,
-                            (SELECT COUNT(DISTINCT r.idreferencia_hc) FROM referencia_hc r INNER JOIN deriva_referencia_hc d ON r.idreferencia_hc = d.idreferencia_hc WHERE d.admitido = 'NO' AND r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_depto) as rechazadas
+                            (SELECT COUNT(DISTINCT r.idreferencia_hc) FROM referencia_hc r INNER JOIN deriva_referencia_hc d ON r.idreferencia_hc = d.idreferencia_hc WHERE r.idestado_referencia = '2' AND d.admitido = 'NO' AND r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_depto) as rechazadas
                     ";
                     $res_estados = mysqli_query($link, $sql_estados);
                     $total_generadas = 0; $total_efectivizadas = 0; $total_rechazadas = 0;
@@ -177,7 +183,10 @@ $gestion      = date("Y");
                         $total_rechazadas = (int)$row_est['rechazadas'];
                     }
                     
+                    /// El Universo Bruto: Suma TODO lo que el médico intentó
                     $total_absoluto = $total_generadas + $total_efectivizadas + $total_rechazadas;
+                    
+                    // La tasa de efectividad (Éxitos vs Total Intentado)
                     $tasa_efectividad = ($total_absoluto > 0) ? round(($total_efectivizadas / $total_absoluto) * 100, 1) : 0;
 
                     // 3. Consulta 2: Motor Geo-Espacial (Flujo Origen -> Destino)
@@ -214,28 +223,43 @@ $gestion      = date("Y");
 
                     <!-- TARJETAS KPI (ODÓMETROS) -->
                     <div class="row">
-                        <!-- T. Generadas -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card kpi-card border-generadas shadow h-100 py-2">
-                                <div class="card-body">
+                        <!-- 1. TOTAL GENERADAS (El Universo Bruto) -->
+                        <div class="col-xl col-lg-4 col-md-6 mb-4">
+                            <div class="card kpi-card shadow h-100 py-2" style="border-left-color: #6c757d;">
+                                <div class="card-body px-2">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">T. Generadas (Origen)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_generadas; ?>">0</div>
+                                        <div class="col mr-1">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1" style="font-size: 10.5px; color: #6c757d;">Total Generadas</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_absoluto; ?>">0</div>
                                         </div>
-                                        <div class="col-auto"><i class="fas fa-share-square fa-2x text-gray-300"></i></div>
+                                        <div class="col-auto"><i class="fas fa-layer-group fa-2x text-gray-300"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- T. Efectivizadas -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card kpi-card border-efectivas shadow h-100 py-2">
-                                <div class="card-body">
+                        <!-- 2. T. EN ESPERA (Pendientes Estado 1) -->
+                        <div class="col-xl col-md-6 mb-4">
+                            <div class="card kpi-card border-generadas shadow h-100 py-2">
+                                <div class="card-body px-2">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">T. Efectivizadas (Respuesta)</div>
+                                        <div class="col mr-1">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 10.5px;">Por admitir</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_generadas; ?>">0</div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-clock fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. T. EFECTIVIZADAS (Admitidas Estado 2) -->
+                        <div class="col-xl col-md-6 mb-4">
+                            <div class="card kpi-card border-efectivas shadow h-100 py-2">
+                                <div class="card-body px-2">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-1">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1" style="font-size: 10.5px;">T. Efectivizadas</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_efectivizadas; ?>">0</div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-check-double fa-2x text-gray-300"></i></div>
@@ -244,13 +268,13 @@ $gestion      = date("Y");
                             </div>
                         </div>
 
-                        <!-- T. Rechazadas -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <!-- 4. T. RECHAZADAS (No Admitidas Estado 2) -->
+                        <div class="col-xl col-md-6 mb-4">
                             <div class="card kpi-card border-rechazadas shadow h-100 py-2">
-                                <div class="card-body">
+                                <div class="card-body px-2">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">T. Rechazadas</div>
+                                        <div class="col mr-1">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 10.5px;">No Admitidas</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_rechazadas; ?>">0</div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-ban fa-2x text-gray-300"></i></div>
@@ -259,13 +283,13 @@ $gestion      = date("Y");
                             </div>
                         </div>
 
-                        <!-- Tasa de Efectividad -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <!-- 5. TASA DE EFECTIVIDAD -->
+                        <div class="col-xl col-md-6 mb-4">
                             <div class="card kpi-card border-tasa shadow h-100 py-2">
-                                <div class="card-body">
+                                <div class="card-body px-2">
                                     <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tasa de Efectividad</div>
+                                        <div class="col mr-1">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size: 10.5px;">Tasa Efectividad</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><span class="contador-animado" data-objetivo="<?php echo $tasa_efectividad; ?>">0</span>%</div>
                                         </div>
                                         <div class="col-auto"><i class="fas fa-chart-line fa-2x text-gray-300"></i></div>
@@ -283,7 +307,7 @@ $gestion      = date("Y");
                                     <h6 class="m-0 font-weight-bold text-primary">Mapa de Flujo (Origen - Destino)</h6>
                                 </div>
                                 <div class="card-body" id="contenedor-mapa" style="height: 500px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #ffffff 0%, #f8f9fc 100%); border-radius: 0 0 0.35rem 0.35rem;">
-                                    <span class="text-muted"><i class="fas fa-map-marker-alt"></i> Motor geoespacial pendiente (Fase 2)...</span>
+                                    <span class="text-muted"><i class="fas fa-map-marker-alt"></i> Cargando Motor geoespacial...</span>
                                 </div>
                             </div>
                         </div>
@@ -320,33 +344,14 @@ $gestion      = date("Y");
                         }
                     }
 
-                    // Top 10 Patologías de Destino (Buscando en diagnostico_egreso)
-                    $sql_top_destino = "
-                        SELECT p.patologia, COUNT(de.iddiagnostico_egreso) as total
-                        FROM diagnostico_egreso de
-                        INNER JOIN deriva_referencia_hc d ON de.idreferencia_hc = d.idreferencia_hc
-                        INNER JOIN referencia_hc r ON d.idreferencia_hc = r.idreferencia_hc
-                        INNER JOIN patologia p ON de.idpatologia = p.idpatologia
-                        WHERE r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_depto
-                        AND d.admitido = 'SI'
-                        GROUP BY p.patologia
-                        ORDER BY total DESC LIMIT 10
-                    ";
-                    $res_top_destino = mysqli_query($link, $sql_top_destino);
-                    $cat_destino = []; $data_destino = [];
-                    if($res_top_destino){
-                        while($row = mysqli_fetch_assoc($res_top_destino)){
-                            $cat_destino[] = mb_strtoupper(trim($row['patologia']));
-                            $data_destino[] = (int)$row['total'];
-                        }
-                    }
                     // 4. Consulta 3: Resolución y Modalidad (Solo Efectivizadas)
+                    // CORRECCIÓN BLINDADA: Soporta datos heredados ('SI'/'NO') y datos nuevos ('1'/'2')
                     $sql_resolucion = "
                         SELECT 
-                            SUM(CASE WHEN r.atencion_sitio = 'SI' THEN 1 ELSE 0 END) as en_sitio,
-                            SUM(CASE WHEN r.atencion_sitio = 'NO' THEN 1 ELSE 0 END) as referencia,
-                            SUM(CASE WHEN r.por_telesalud = 'SI' THEN 1 ELSE 0 END) as tiempo_real,
-                            SUM(CASE WHEN r.por_telesalud = 'NO' THEN 1 ELSE 0 END) as tiempo_diferido
+                            SUM(CASE WHEN r.atencion_sitio IN ('1', 'SI') THEN 1 ELSE 0 END) as en_sitio,
+                            SUM(CASE WHEN r.atencion_sitio IN ('2', 'NO') THEN 1 ELSE 0 END) as referencia,
+                            SUM(CASE WHEN r.idtiempo_ts = '1' THEN 1 ELSE 0 END) as tiempo_real,
+                            SUM(CASE WHEN r.idtiempo_ts = '2' THEN 1 ELSE 0 END) as tiempo_diferido
                         FROM referencia_hc r
                         INNER JOIN deriva_referencia_hc d ON r.idreferencia_hc = d.idreferencia_hc
                         WHERE r.idestado_referencia = '2' AND d.admitido = 'SI'
@@ -430,6 +435,7 @@ $gestion      = date("Y");
                         </div>
                     </div>
 
+                    <!-- FASE 4: DIAGNÓSTICOS (ORIGEN) Y ESPECIALIDADES COMPARTEN FILA -->
                     <div class="row mt-4" id="contenedor-epidemiologico">
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4 h-100">
@@ -441,21 +447,6 @@ $gestion      = date("Y");
                         </div>
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4 h-100">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-success">Top 10 Diagnósticos (Destino / Confirmados)</h6>
-                                </div>
-                                <div class="card-body" id="grafico-destino" style="height: 400px;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- /.container-fluid -->
-            </div>
-            <!-- FILA INFERIOR: RANKING DE ESPECIALIDADES -->
-                    <div class="row mt-2">
-                        <div class="col-xl-12">
-                            <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-dark"><i class="fas fa-star text-warning"></i> Top 10 Especialidades Solicitadas</h6>
                                 </div>
@@ -741,17 +732,6 @@ $gestion      = date("Y");
             plotOptions: { bar: { dataLabels: { enabled: true }, color: '#f6c23e' } },
             credits: { enabled: false },
             series: [{ name: 'Casos Referidos', data: orDatos }]
-        });
-
-        const desCategorias = <?php echo json_encode(empty($cat_destino) ? ['Sin Registros'] : $cat_destino, JSON_UNESCAPED_UNICODE); ?>;
-        const desDatos = <?php echo json_encode(empty($data_destino) ? [0] : $data_destino); ?>;
-        Highcharts.chart('grafico-destino', {
-            chart: { type: 'bar' }, title: { text: null },
-            xAxis: { categories: desCategorias, title: { text: null } },
-            yAxis: { min: 0, title: { text: 'N° de Casos', align: 'high' } },
-            plotOptions: { bar: { dataLabels: { enabled: true }, color: '#1cc88a' } },
-            credits: { enabled: false },
-            series: [{ name: 'Casos Confirmados', data: desDatos }]
         });
 
     });

@@ -24,22 +24,26 @@ $filtro_ap = ""; $filtro_r = ""; $filtro_der = "";
 if ($g_dep != '') {
     $filtro_ap  .= " AND ap.iddepartamento = '" . mysqli_real_escape_string($link, $g_dep) . "' ";
     $filtro_r   .= " AND r.iddepartamento = '" . mysqli_real_escape_string($link, $g_dep) . "' ";
-    $filtro_der .= " AND es.iddepartamento = '" . mysqli_real_escape_string($link, $g_dep) . "' ";
+    $filtro_der .= " AND es_receptor.iddepartamento = '" . mysqli_real_escape_string($link, $g_dep) . "' ";
 }
 if ($g_mun != '') {
     $filtro_ap  .= " AND ap.idmunicipio = '" . mysqli_real_escape_string($link, $g_mun) . "' ";
     $filtro_r   .= " AND r.idmunicipio = '" . mysqli_real_escape_string($link, $g_mun) . "' ";
-    $filtro_der .= " AND es.idmunicipio = '" . mysqli_real_escape_string($link, $g_mun) . "' ";
+    $filtro_der .= " AND es_receptor.idmunicipio = '" . mysqli_real_escape_string($link, $g_mun) . "' ";
 }
 if ($g_est != '') {
     $filtro_ap  .= " AND ap.idestablecimiento_salud = '" . mysqli_real_escape_string($link, $g_est) . "' ";
     $filtro_r   .= " AND r.idestablecimiento_salud = '" . mysqli_real_escape_string($link, $g_est) . "' ";
-    $filtro_der .= " AND der.idestablecimiento_salud_o = '" . mysqli_real_escape_string($link, $g_est) . "' ";
+    $filtro_der .= " AND r.idestablecimiento_receptor = '" . mysqli_real_escape_string($link, $g_est) . "' "; 
 }
 if ($g_med != '') {
-    $filtro_ap  .= " AND ap.idusuario = '" . mysqli_real_escape_string($link, $g_med) . "' ";
-    $filtro_r   .= " AND r.idusuario = '" . mysqli_real_escape_string($link, $g_med) . "' ";
-    $filtro_der .= " AND der.idusuario_o = '" . mysqli_real_escape_string($link, $g_med) . "' ";
+    $id_med_seguro = mysqli_real_escape_string($link, $g_med);
+    $filtro_ap  .= " AND ap.idusuario = '$id_med_seguro' ";
+    $filtro_r   .= " AND r.idusuario = '$id_med_seguro' ";
+    
+    // REGLA DE EXCLUSIÓN: Es "Respuesta" SOLO si él es el Especialista (Receptor) 
+    // Y NO ES EL MISMO que originó/generó el ticket.
+    $filtro_der .= " AND der.idusuario_r = '$id_med_seguro' AND r.idusuario != '$id_med_seguro' "; 
 }
 
 // =========================================================================
@@ -85,15 +89,25 @@ $sql_g_tm = "SELECT DATE(ap.fecha_registro) as fecha_dia, COUNT(DISTINCT et.idat
 $res_g_tm = mysqli_query($link, $sql_g_tm);
 if($res_g_tm){ while($row = mysqli_fetch_assoc($res_g_tm)){ if(isset($data_tm[$row['fecha_dia']])) { $data_tm[$row['fecha_dia']] = (int)$row['total']; } } }
 
-$sql_g_ref = "SELECT DATE(r.fecha_registro) as fecha_dia, COUNT(r.idreferencia_hc) as total FROM referencia_hc r WHERE r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_r GROUP BY DATE(r.fecha_registro)";
+$sql_g_ref = "SELECT fecha_dia, COUNT(idreferencia_hc) as total FROM (
+                   SELECT r.idreferencia_hc, MIN(DATE(r.fecha_registro)) as fecha_dia
+                   FROM referencia_hc r
+                   INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc
+                   WHERE r.idestado_referencia = '2' AND der.admitido = 'SI' 
+                   AND r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_r 
+                   GROUP BY r.idreferencia_hc
+               ) as sub_chart GROUP BY fecha_dia";
 $res_g_ref = mysqli_query($link, $sql_g_ref);
 if($res_g_ref){ while($row = mysqli_fetch_assoc($res_g_ref)){ if(isset($data_ref[$row['fecha_dia']])) { $data_ref[$row['fecha_dia']] = (int)$row['total']; } } }
 
-$sql_g_cref = "SELECT DATE(der.fecha_deriva) as fecha_dia, COUNT(DISTINCT r.idreferencia_hc) as total
-               FROM referencia_hc r
-               INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc
-               LEFT JOIN establecimiento_salud es ON der.idestablecimiento_salud_o = es.idestablecimiento_salud
-               WHERE r.idestado_referencia = '2' AND der.admitido = 'SI' AND der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion' $filtro_der GROUP BY DATE(der.fecha_deriva)";
+$sql_g_cref = "SELECT fecha_dia, COUNT(idreferencia_hc) as total FROM (
+                   SELECT r.idreferencia_hc, MIN(DATE(der.fecha_deriva)) as fecha_dia
+                   FROM referencia_hc r
+                   INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc
+                   LEFT JOIN establecimiento_salud es_receptor ON r.idestablecimiento_receptor = es_receptor.idestablecimiento_salud
+                   WHERE r.idestado_referencia = '2' AND der.admitido = 'SI' AND der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion' $filtro_der 
+                   GROUP BY r.idreferencia_hc
+               ) as sub_chart GROUP BY fecha_dia";
 $res_g_cref = mysqli_query($link, $sql_g_cref);
 if($res_g_cref){ while($row = mysqli_fetch_assoc($res_g_cref)){ if(isset($data_cref[$row['fecha_dia']])) { $data_cref[$row['fecha_dia']] = (int)$row['total']; } } }
 ?>
@@ -211,13 +225,19 @@ if($res_g_cref){ while($row = mysqli_fetch_assoc($res_g_cref)){ if(isset($data_c
                 <?php
                 // === EXTRACCIÓN DE DATOS REALES PARA TARJETAS KPI ===
                 
-                // 1. T. Generadas
-                $sql_tot_ref = "SELECT COUNT(r.idreferencia_hc) AS total FROM referencia_hc r WHERE r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_r";
+                // 1. T. Generadas (Alineado al extracto: Solo Admitidas y Estado 2)
+                $sql_tot_ref = "
+                    SELECT COUNT(DISTINCT r.idreferencia_hc) AS total 
+                    FROM referencia_hc r 
+                    INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc 
+                    WHERE r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' 
+                    AND r.idestado_referencia = '2' AND der.admitido = 'SI' $filtro_r
+                ";
                 $res_tot_ref = mysqli_query($link, $sql_tot_ref);
                 $total_generadas = ($res_tot_ref && $row_ref = mysqli_fetch_assoc($res_tot_ref)) ? $row_ref['total'] : 0;
 
-                // 2. T. Efectivizadas
-                $sql_tot_cref = "SELECT COUNT(DISTINCT r.idreferencia_hc) AS total FROM referencia_hc r INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc LEFT JOIN establecimiento_salud es ON der.idestablecimiento_salud_o = es.idestablecimiento_salud WHERE r.idestado_referencia = '2' AND der.admitido = 'SI' AND der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion' $filtro_der";
+                // 2. T. Respuestas
+                $sql_tot_cref = "SELECT COUNT(DISTINCT r.idreferencia_hc) AS total FROM referencia_hc r INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc LEFT JOIN establecimiento_salud es_receptor ON r.idestablecimiento_receptor = es_receptor.idestablecimiento_salud WHERE r.idestado_referencia = '2' AND der.admitido = 'SI' AND der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion' $filtro_der";
                 $res_tot_cref = mysqli_query($link, $sql_tot_cref);
                 $total_efectivizadas = ($res_tot_cref && $row_cref = mysqli_fetch_assoc($res_tot_cref)) ? $row_cref['total'] : 0;
 
@@ -234,12 +254,23 @@ if($res_g_cref){ while($row = mysqli_fetch_assoc($res_g_cref)){ if(isset($data_c
                 // 5. Total Servicios Brindados
                 $total_servicios = $total_generadas + $total_efectivizadas + $total_teleconsultas + $total_telemetrias;
 
-                // 6. Pacientes Únicos Beneficiados (Cálculo corregido al rango de fechas actual)
+                // 6. Pacientes Únicos Beneficiados (Cálculo total blindado)
                 $sql_tot_ben = "
                     SELECT COUNT(DISTINCT idnombre) AS total_unicos FROM (
-                        SELECT ap.idnombre FROM atencion_psafci ap WHERE ap.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND ap.idtipo_atencion IN ('3', '4') $filtro_ap
+                        SELECT ap.idnombre 
+                        FROM atencion_psafci ap 
+                        WHERE ap.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND ap.idtipo_atencion IN ('3', '4') $filtro_ap
                         UNION
-                        SELECT r.idnombre FROM referencia_hc r WHERE r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' $filtro_r
+                        SELECT r.idnombre 
+                        FROM referencia_hc r 
+                        INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc
+                        WHERE r.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND r.idestado_referencia = '2' AND der.admitido = 'SI' $filtro_r
+                        UNION
+                        SELECT r.idnombre 
+                        FROM referencia_hc r 
+                        INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc 
+                        LEFT JOIN establecimiento_salud es_receptor ON r.idestablecimiento_receptor = es_receptor.idestablecimiento_salud 
+                        WHERE der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion' AND r.idestado_referencia = '2' AND der.admitido = 'SI' $filtro_der
                     ) AS unicos";
                 $res_tot_ben = mysqli_query($link, $sql_tot_ben);
                 $total_beneficiados = ($res_tot_ben && $row_ben = mysqli_fetch_assoc($res_tot_ben)) ? $row_ben['total_unicos'] : 0;
@@ -255,7 +286,7 @@ if($res_g_cref){ while($row = mysqli_fetch_assoc($res_g_cref)){ if(isset($data_c
                             <div class="card-body px-2">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-1">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 10px;">T. Generadas</div>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1" style="font-size: 10px;">Teleinterconsultas Generadas</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_generadas; ?>">0</div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-share-square fa-2x text-gray-300"></i></div>
@@ -269,7 +300,7 @@ if($res_g_cref){ while($row = mysqli_fetch_assoc($res_g_cref)){ if(isset($data_c
                             <div class="card-body px-2">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-1">
-                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 10px;">T. Efectivizadas</div>
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1" style="font-size: 10px;">Teleinterconsultas Respuestas</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800 contador-animado" data-objetivo="<?php echo $total_efectivizadas; ?>">0</div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-check-double fa-2x text-gray-300"></i></div>
@@ -538,7 +569,7 @@ document.addEventListener("DOMContentLoaded", function() {
             { name: 'Teleconsultas', data: <?php echo json_encode(array_values($data_tc)); ?>, color: '#4e73df' },
             { name: 'Telemetrías', data: <?php echo json_encode(array_values($data_tm)); ?>, color: '#1cc88a' },
             { name: 'T. Generadas', data: <?php echo json_encode(array_values($data_ref)); ?>, color: '#f6c23e' },
-            { name: 'T. Efectivizadas', data: <?php echo json_encode(array_values($data_cref)); ?>, color: '#e74a3b' }
+            { name: 'T. Respuestas', data: <?php echo json_encode(array_values($data_cref)); ?>, color: '#e74a3b' }
         ]
     });
 
@@ -688,6 +719,7 @@ document.addEventListener("DOMContentLoaded", function() {
         $.ajax({
             url: 'ajax_analitica_anual.php',
             type: 'GET',
+            cache: false,
             data: {
                 gestion: anioTarget,
                 iddepartamento: '<?php echo $g_dep; ?>',
@@ -704,7 +736,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     Highcharts.chart('chart-anual-barras', {
                         chart: { type: 'column' },
                         title: { text: null },
-                        xAxis: { categories: ['T. Generadas', 'T. Efectivizadas', 'Teleconsultas', 'Telemetrías'] },
+                        xAxis: { categories: ['T. Generadas', 'T. Respuestas', 'Teleconsultas', 'Telemetrías'] },
                         yAxis: { min: 0, title: { text: 'Total Servicios' } },
                         tooltip: { pointFormat: 'Total Anual: <b>{point.y}</b>' },
                         plotOptions: { column: { borderRadius: 4, colorByPoint: true, dataLabels: { enabled: true } } },
@@ -732,7 +764,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         credits: { enabled: false },
                         series: [
                             { name: 'T. Generadas', data: res.series.ref },
-                            { name: 'T. Efectivizadas', data: res.series.cref },
+                            { name: 'T. Respuestas', data: res.series.cref },
                             { name: 'Teleconsultas', data: res.series.tc },
                             { name: 'Telemetrías', data: res.series.tm }
                         ]

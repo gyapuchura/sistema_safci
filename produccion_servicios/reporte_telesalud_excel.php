@@ -192,7 +192,7 @@ $mapeo_db = array(
     $sql_te.= " LEFT JOIN estado_paciente ep ON at.idestado_paciente = ep.idestado_paciente ";
     $sql_te.= " LEFT JOIN nacion nac ON a.idnacion = nac.idnacion ";
     
-    $sql_te.= " WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND (a.idtipo_atencion = '3' OR a.idtipo_atencion = '4') " . $filtro_extra . " ORDER BY a.idatencion_psafci DESC";
+    $sql_te.= " WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND (a.idtipo_atencion = '3' OR a.idtipo_atencion = '4') " . $filtro_extra . " ORDER BY a.fecha_registro ASC, a.hora_registro ASC";
     
     $result_te = mysqli_query($link,$sql_te) or die(mysqli_error($link));
     if ($row_te = mysqli_fetch_array($result_te)){

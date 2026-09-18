@@ -12,10 +12,10 @@ $g_est = isset($_GET['idestablecimiento']) ? mysqli_real_escape_string($link, $_
 $g_med = isset($_GET['idusuario_medico']) ? mysqli_real_escape_string($link, $_GET['idusuario_medico']) : '';
 
 $filtro_ap = ""; $filtro_r = ""; $filtro_der = "";
-if ($g_dep != '') { $filtro_ap .= " AND ap.iddepartamento = '$g_dep' "; $filtro_r .= " AND r.iddepartamento = '$g_dep' "; $filtro_der .= " AND es.iddepartamento = '$g_dep' "; }
-if ($g_mun != '') { $filtro_ap .= " AND ap.idmunicipio = '$g_mun' "; $filtro_r .= " AND r.idmunicipio = '$g_mun' "; $filtro_der .= " AND es.idmunicipio = '$g_mun' "; }
-if ($g_est != '') { $filtro_ap .= " AND ap.idestablecimiento_salud = '$g_est' "; $filtro_r .= " AND r.idestablecimiento_salud = '$g_est' "; $filtro_der .= " AND der.idestablecimiento_salud_o = '$g_est' "; }
-if ($g_med != '') { $filtro_ap .= " AND ap.idusuario = '$g_med' "; $filtro_r .= " AND r.idusuario = '$g_med' "; $filtro_der .= " AND der.idusuario_o = '$g_med' "; }
+if ($g_dep != '') { $filtro_ap .= " AND ap.iddepartamento = '$g_dep' "; $filtro_r .= " AND r.iddepartamento = '$g_dep' "; $filtro_der .= " AND es_receptor.iddepartamento = '$g_dep' "; }
+if ($g_mun != '') { $filtro_ap .= " AND ap.idmunicipio = '$g_mun' "; $filtro_r .= " AND r.idmunicipio = '$g_mun' "; $filtro_der .= " AND es_receptor.idmunicipio = '$g_mun' "; }
+if ($g_est != '') { $filtro_ap .= " AND ap.idestablecimiento_salud = '$g_est' "; $filtro_r .= " AND r.idestablecimiento_salud = '$g_est' "; $filtro_der .= " AND r.idestablecimiento_receptor = '$g_est' "; }
+if ($g_med != '') { $filtro_ap .= " AND ap.idusuario = '$g_med' "; $filtro_r .= " AND r.idusuario = '$g_med' "; $filtro_der .= " AND der.idusuario = '$g_med' "; }
 
 // 2. Estructura de Datos Base (Enero a Diciembre)
 $meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -37,15 +37,24 @@ $sql_tm = "SELECT MONTH(ap.fecha_registro) as mes, COUNT(DISTINCT et.idatencion_
 $res_tm = mysqli_query($link, $sql_tm);
 if($res_tm) { while($r = mysqli_fetch_assoc($res_tm)) { $data_tm[(int)$r['mes'] - 1] = (int)$r['total']; } }
 
-// Referencias Generadas
-$sql_ref = "SELECT MONTH(r.fecha_registro) as mes, COUNT(r.idreferencia_hc) as total FROM referencia_hc r WHERE YEAR(r.fecha_registro) = '$gestion' $filtro_r GROUP BY MONTH(r.fecha_registro)";
+// Referencias Generadas (Alineado al extracto: Solo Admitidas y Estado 2)
+$sql_ref = "SELECT MONTH(r.fecha_registro) as mes, COUNT(DISTINCT r.idreferencia_hc) as total 
+            FROM referencia_hc r 
+            INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc 
+            WHERE YEAR(r.fecha_registro) = '$gestion' AND r.idestado_referencia = '2' AND der.admitido = 'SI' $filtro_r 
+            GROUP BY MONTH(r.fecha_registro)";
 $res_ref = mysqli_query($link, $sql_ref);
-if($res_ref) { while($r = mysqli_fetch_assoc($res_ref)) { $data_ref[(int)$r['mes'] - 1] = (int)$r['total']; } }
+if($res_ref){ while($row = mysqli_fetch_assoc($res_ref)){ $data_ref[(int)$row['mes'] - 1] = (int)$row['total']; } }
 
-// Contrarreferencias Efectivizadas (Corrección Maestra Intacta)
-$sql_cref = "SELECT MONTH(der.fecha_deriva) as mes, COUNT(DISTINCT r.idreferencia_hc) as total 
-             FROM referencia_hc r INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc LEFT JOIN establecimiento_salud es ON der.idestablecimiento_salud_o = es.idestablecimiento_salud 
-             WHERE YEAR(der.fecha_deriva) = '$gestion' AND r.idestado_referencia = '2' AND der.admitido = 'SI' $filtro_der GROUP BY MONTH(der.fecha_deriva)";
+// Contrarreferencias Efectivizadas (Respuestas - Blindado para evitar duplicidad mensual)
+$sql_cref = "SELECT mes, COUNT(idreferencia_hc) as total FROM (
+                 SELECT r.idreferencia_hc, MONTH(MIN(der.fecha_deriva)) as mes
+                 FROM referencia_hc r 
+                 INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc 
+                 LEFT JOIN establecimiento_salud es_receptor ON r.idestablecimiento_receptor = es_receptor.idestablecimiento_salud 
+                 WHERE YEAR(der.fecha_deriva) = '$gestion' AND r.idestado_referencia = '2' AND der.admitido = 'SI' $filtro_der 
+                 GROUP BY r.idreferencia_hc
+             ) as sub_chart GROUP BY mes";
 $res_cref = mysqli_query($link, $sql_cref);
 if($res_cref) { while($r = mysqli_fetch_assoc($res_cref)) { $data_cref[(int)$r['mes'] - 1] = (int)$r['total']; } }
 
