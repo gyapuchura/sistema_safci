@@ -45,7 +45,7 @@ $filtro_extra_cref = "";
 if($iddepartamento != '') { $filtro_extra_cref .= " AND departamento.iddepartamento = '$iddepartamento' "; }
 if($idmunicipio != '') { $filtro_extra_cref .= " AND municipios.idmunicipio = '$idmunicipio' "; }
 if($idestablecimiento != '') { $filtro_extra_cref .= " AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento' "; }
-if($idusuario_medico != '') { $filtro_extra_cref .= " AND der.idusuario_o = '$idusuario_medico' "; }
+if($idusuario_medico != '') { $filtro_extra_cref .= " AND sub.idusuario_o = '$idusuario_medico' "; }
 
 // =========================================================================
 // 3. PUENTE DE DATOS EN MEMORIA (DICCIONARIOS)
@@ -131,11 +131,13 @@ while($row = mysqli_fetch_array($res_all_e)){
             font-size: 12px; color: #333; pointer-events: none; transition: opacity 0.15s ease-in-out;
         }
         #global-tooltip-hc::after {
-            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-            border-width: 6px; border-style: solid; border-color: #7cb5ec transparent transparent transparent;
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            /* Variables dinámicas para invertir la flecha si choca con el techo */
+            top: var(--flecha-top, 100%);
+            bottom: var(--flecha-bottom, auto);
+            border-width: 6px; border-style: solid; 
+            border-color: var(--flecha-color, #7cb5ec transparent transparent transparent);
         }
-        #global-tooltip-hc span.f-hc { font-size: 11px; color: #666; display: block; margin-bottom: 6px; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 4px;}
-        #global-tooltip-hc div { margin-bottom: 4px; font-weight: normal; }
     </style>
 
     <?php
@@ -549,22 +551,24 @@ while($row = mysqli_fetch_array($res_all_e)){
             // ==============================================================================================
             $filtro_extra_ref = str_replace("atencion_psafci.", "referencia_hc.", $filtro_extra);
             
-            // FASE 1: REFERENCIAS GENERADAS POR EL MÉDICO ORIGEN (IDA - Inalterado, cuenta todo)
+            // FASE 1: REFERENCIAS GENERADAS POR EL MÉDICO ORIGEN (Alineado a la Guillotina del Éxito)
             $sql_matriz_ref = "
                 SELECT 
                     departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, 
                     CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
-                    referencia_hc.fecha_registro, 
-                    COUNT(referencia_hc.idreferencia_hc) as referidas
+                    DATE(referencia_hc.fecha_registro) as fecha_registro, 
+                    COUNT(DISTINCT referencia_hc.idreferencia_hc) as referidas
                 FROM referencia_hc
+                INNER JOIN deriva_referencia_hc der ON referencia_hc.idreferencia_hc = der.idreferencia_hc
                 INNER JOIN departamento ON referencia_hc.iddepartamento = departamento.iddepartamento
                 INNER JOIN municipios ON referencia_hc.idmunicipio = municipios.idmunicipio
                 INNER JOIN establecimiento_salud ON referencia_hc.idestablecimiento_salud = establecimiento_salud.idestablecimiento_salud
                 LEFT JOIN usuarios ON referencia_hc.idusuario = usuarios.idusuario
                 LEFT JOIN nombre ON usuarios.idnombre = nombre.idnombre
                 WHERE referencia_hc.fecha_registro BETWEEN '$inicio' AND '$finalizacion'
+                AND referencia_hc.idestado_referencia = '2' AND der.admitido = 'SI'
                 $filtro_extra_ref
-                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, referencia_hc.fecha_registro
+                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, DATE(referencia_hc.fecha_registro)
             ";
             $res_matriz_ref = mysqli_query($link, $sql_matriz_ref);
             
@@ -585,27 +589,34 @@ while($row = mysqli_fetch_array($res_all_e)){
                 }
             }
 
-            // FASE 2: CONTRARREFERENCIAS CREADAS POR EL ESPECIALISTA (VUELTA - Corrección Maestra)
-            // Ya no dependemos de MAX(id) ni de idestado_referencia. Buscamos el paso exacto del Especialista.
+            /// FASE 2: CONTRARREFERENCIAS CREADAS POR EL ESPECIALISTA (Blindaje Total Anti-Clonación)
             $sql_matriz_cref = "
                 SELECT 
                     departamento.departamento, 
                     municipios.municipio, 
                     establecimiento_salud.establecimiento_salud, 
                     CONCAT(IFNULL(nombre.nombre,''), ' ', IFNULL(nombre.paterno,''), ' ', IFNULL(nombre.materno,'')) as medico,
-                    der.fecha_deriva as fecha_registro,
-                    COUNT(DISTINCT referencia_hc.idreferencia_hc) as contrarreferidas
-                FROM referencia_hc
-                INNER JOIN deriva_referencia_hc der ON referencia_hc.idreferencia_hc = der.idreferencia_hc 
-                    AND der.idestablecimiento_salud_o = referencia_hc.idestablecimiento_receptor
-                INNER JOIN establecimiento_salud ON der.idestablecimiento_salud_o = establecimiento_salud.idestablecimiento_salud
+                    sub.fecha_registro,
+                    COUNT(DISTINCT sub.idreferencia_hc) as contrarreferidas
+                FROM (
+                    SELECT 
+                        r.idreferencia_hc,
+                        MAX(der.idestablecimiento_salud_o) as idestablecimiento_salud_o,
+                        MAX(der.idusuario_o) as idusuario_o,
+                        MIN(DATE(der.fecha_deriva)) as fecha_registro
+                    FROM referencia_hc r
+                    INNER JOIN deriva_referencia_hc der ON r.idreferencia_hc = der.idreferencia_hc
+                    WHERE r.idestado_referencia = '2' AND der.admitido = 'SI'
+                    GROUP BY r.idreferencia_hc
+                ) as sub
+                INNER JOIN establecimiento_salud ON sub.idestablecimiento_salud_o = establecimiento_salud.idestablecimiento_salud
                 INNER JOIN departamento ON establecimiento_salud.iddepartamento = departamento.iddepartamento
                 INNER JOIN municipios ON establecimiento_salud.idmunicipio = municipios.idmunicipio
-                LEFT JOIN usuarios ON der.idusuario_o = usuarios.idusuario
+                LEFT JOIN usuarios ON sub.idusuario_o = usuarios.idusuario
                 LEFT JOIN nombre ON usuarios.idnombre = nombre.idnombre
-                WHERE der.fecha_deriva BETWEEN '$inicio' AND '$finalizacion'
+                WHERE sub.fecha_registro BETWEEN '$inicio' AND '$finalizacion'
                 $filtro_extra_cref
-                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, der.fecha_deriva
+                GROUP BY departamento.departamento, municipios.municipio, establecimiento_salud.establecimiento_salud, medico, sub.fecha_registro
             ";
             $res_matriz_cref = mysqli_query($link, $sql_matriz_cref);
 
@@ -886,8 +897,23 @@ while($row = mysqli_fetch_array($res_all_e)){
                 tooltip.style.opacity = '1';
                 
                 const tooltipRect = tooltip.getBoundingClientRect();
-                const topPos = rect.top + window.scrollY - tooltipRect.height - 10;
-                const leftPos = rect.left + window.scrollX + (rect.width / 2) - (tooltipRect.width / 2);
+                let topPos = rect.top + window.scrollY - tooltipRect.height - 10;
+                let leftPos = rect.left + window.scrollX + (rect.width / 2) - (tooltipRect.width / 2);
+                
+                // Inteligencia Anti-Corte: Si la celda choca con el techo del iframe (Borde Amarillo)
+                if (rect.top < (tooltipRect.height + 20)) {
+                    // Dibujar el cuadro ABAJO de la celda
+                    topPos = rect.top + window.scrollY + rect.height + 10;
+                    // Invertir la flechita para que apunte hacia arriba
+                    tooltip.style.setProperty('--flecha-top', '-12px');
+                    tooltip.style.setProperty('--flecha-bottom', 'auto');
+                    tooltip.style.setProperty('--flecha-color', 'transparent transparent #7cb5ec transparent');
+                } else {
+                    // Comportamiento normal (Flechita hacia abajo)
+                    tooltip.style.setProperty('--flecha-top', '100%');
+                    tooltip.style.setProperty('--flecha-bottom', 'auto');
+                    tooltip.style.setProperty('--flecha-color', '#7cb5ec transparent transparent transparent');
+                }
                 
                 tooltip.style.top = topPos + 'px';
                 tooltip.style.left = leftPos + 'px';

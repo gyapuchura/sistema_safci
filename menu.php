@@ -595,8 +595,8 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">BANDEJAS DE REFERENCIA:</h6>      
-            <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">BUZON DE</br>ENTRADA</a>
-            <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">BUZON DE</br>ADMITIDOS</a>
+            <a class="collapse-item" href="../referencia_safci/entrada_referencia.php">BUZON DE ENTRADA</a>
+            <a class="collapse-item" href="../referencia_safci/admitidos_referencia.php">BUZON DE ADMITIDOS</a>
             <a class="collapse-item" href="../referencia_safci/referencias_establecimiento.php">REFERENCIAS DEL</br>ESTABLECIMIENTO</a>
             <a class="collapse-item" href="../referencia_safci/contrarreferencias_establecimiento.php">CONTRARREFERENCIAS</br>DEL</br>ESTABLECIMIENTO</a>      
         </div>
@@ -632,7 +632,8 @@ while ($field_menu = mysqli_fetch_field($result_menu)){
             <h6 class="collapse-header">ÁREAS TELESALUD:</h6>
             
             <a class="collapse-item" href="../telesalud/telesalud_dashboard.php">CENTRAL DE TELESALUD</a>
-            <a class="collapse-item" href="../telesalud/teleinterconsultas.php">TELEINTERCONSULTAS</a>
+            <a class="collapse-item" href="../telesalud/teleinterconsultas.php">TELEINTERCONSULTAS</br>GENERADAS</a>
+            <a class="collapse-item" href="../telesalud/teleinterconsultas_destino.php">TELEINTERCONSULTAS</br>RESPUESTAS</a>
             <a class="collapse-item" href="../telesalud/teleconsultas.php">TELECONSULTAS</a>
             <a class="collapse-item" href="../telesalud/telemetrias.php">TELEMETRÍAS</a>
             <a class="collapse-item" href="../telesalud/teleeducacion.php">TELEEDUCACIÓN</a>
