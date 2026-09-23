@@ -56,20 +56,6 @@ $perimetro_cefalico   = $_POST['perimetro_cefalico'];
 
 $idclasificacion_riesgo_cancer  = $_POST['idclasificacion_riesgo_cancer'];
 
-$sqlm    = " SELECT MAX(correlativo) FROM encuesta_psafci WHERE gestion='$gestion'";
-$resultm = mysqli_query($link,$sqlm);
-$rowm    = mysqli_fetch_array($resultm);
-
-$correlativo = $rowm[0]+1;
-
-$codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion; 
-
-    $sql0 = " INSERT INTO encuesta_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, correlativo, codigo, idnombre,";
-    $sql0.= " idtema_encuesta, gestion, idclasificacion_riesgo_cancer, fecha_registro, hora_registro, idusuario ";
-    $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$correlativo','$codigo','$idnombre_integrante_ss',";
-    $sql0.= " '$idtema_encuesta','$gestion','$idclasificacion_riesgo_cancer','$fecha','$hora','$idusuario_ss' ";
-    $result0 = mysqli_query($link,$sql0); 
-    $idencuesta_psafci = mysqli_insert_id($link); 
 
     /*************** GUARDAMOS EL REGSITRO DE UNA ATENCION MEDICA PREVENTIVA *********/
 
@@ -84,9 +70,31 @@ $codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion;
         $sql0 = " INSERT INTO atencion_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idnombre, edad, idgenero, ";
         $sql0.= " idrepeticion, idtipo_consulta, idtipo_atencion, idnacion, codigo, correlativo, gestion, fecha_registro, hora_registro, idusuario)  ";
         $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$idnombre_integrante_ss','$edad_ss','$idgenero', ";
-        $sql0.= " '$idrepeticion','$idtipo_consulta','2','$idnacion','$codigoa','$correlativoa','$gestion', '$fecha','$hora','$idusuario_ss')";
+        $sql0.= " '$idrepeticion','$idtipo_consulta','6','$idnacion','$codigoa','$correlativoa','$gestion', '$fecha','$hora','$idusuario_ss')";
         $result0 = mysqli_query($link,$sql0);   
         $idatencion_psafci = mysqli_insert_id($link);
+
+         $_SESSION['idatencion_psafci_ss'] = $idatencion_psafci;
+
+
+$sqlm    = " SELECT MAX(correlativo) FROM encuesta_psafci WHERE gestion='$gestion'";
+$resultm = mysqli_query($link,$sqlm);
+$rowm    = mysqli_fetch_array($resultm);
+
+$correlativo = $rowm[0]+1;
+
+$codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion; 
+
+    $sql0 = " INSERT INTO encuesta_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, correlativo, codigo, idnombre,";
+    $sql0.= " idtema_encuesta, idrepeticion, idtipo_consulta, gestion, idclasificacion_riesgo_cancer, fecha_registro, hora_registro, idusuario) ";
+    $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$idatencion_psafci','$correlativo','$codigo','$idnombre_integrante_ss',";
+    $sql0.= " '$idtema_encuesta','$idrepeticion','$idtipo_consulta','$gestion','$idclasificacion_riesgo_cancer','$fecha','$hora','$idusuario_ss')";
+    $result0 = mysqli_query($link,$sql0); 
+    $idencuesta_psafci = mysqli_insert_id($link); 
+
+    $_SESSION['idencuesta_psafci_ss'] = $idencuesta_psafci;
+
+
 
         $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci, idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, perimetro_cefalico, fecha_registro, hora_registro, idusuario) ";
         $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$perimetro_cefalico','$fecha','$hora','$idusuario_ss') ";
@@ -114,6 +122,8 @@ $codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion;
     
     }
 
+
+    header("Location:mostrar_encuesta_prev.php");
 
         /*********** Guarda el registro de encuesta de deteccion del cancer (END) *************/
         ?>
