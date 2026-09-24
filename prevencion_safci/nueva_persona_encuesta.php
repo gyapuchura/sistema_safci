@@ -1,0 +1,242 @@
+<?php include("../cabf.php"); ?>
+<?php include("../inc.config.php"); ?>
+<?php
+date_default_timezone_set('America/La_Paz');
+$fecha_ram	= date("Ymd");
+$fecha 		= date("Y-m-d");
+$hora       = date("H:i");
+$gestion    = date("Y");
+
+$idusuario_ss  =  $_SESSION['idusuario_ss'];
+$idnombre_ss   =  $_SESSION['idnombre_ss'];
+$perfil_ss     =  $_SESSION['perfil_ss'];
+
+$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+        
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SISTEMA MEDI-SAFCI</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../css/boton_mic.css">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <?php include("../menu.php");?>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <?php include("../top_bar.php"); ?>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+  
+                <body class="bg-gradient-primary">
+
+    <div class="container">
+    </br>
+        <div class="card o-hidden border-0 shadow-lg my-1">
+            <div class="card-body p-0">
+<!-- BEGIN aqui va el TITULO de la pagina ---->
+                <div class="row">
+                    <div class="col-lg-12">
+                    <div class="p-3">               
+                    <div class="text-center">                          
+
+                    <hr>             
+                    <h4 class="text-info">REGISTRO DE ENCUESTA MÉDICA</h4>
+                    <hr> 
+                    </div>
+<!-- END Del TITULO de la pagina ---->
+
+<!-- BEGIN aqui va el comntenido de la pagina ---->
+
+    
+        <!-- VENTANA DE ATENCION INTEGRAL ---->
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-info">ENCUESTA MÉDICA</h6>
+        </div>
+        <div class="card-body">
+
+            <div class="form-group row">    
+                <div class="col-sm-12">
+                <h6 class="text-info">TEMA DE LA ENCUESTA MÉDICA:</h6>
+                <select name="idtema_encuesta" id="idtema_encuesta" class="form-control" required>
+                <option value="">-SELECCIONE-</option>
+                <?php
+                $sql_at = " SELECT idtema_encuesta, tema_encuesta FROM tema_encuesta ";
+                $result_at = mysqli_query($link,$sql_at);
+                if ($row_at = mysqli_fetch_array($result_at)){
+                mysqli_field_seek($result_at,0);
+                while ($field_at = mysqli_fetch_field($result_at)){
+                } do {
+                echo "<option value=".$row_at[0].">".$row_at[1]."</option>";
+                } while ($row_at = mysqli_fetch_array($result_at));
+                } else {
+                echo "No se encontraron resultados!";
+                }
+                ?>
+                </select>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" id="formulario_encuesta_new"></div> 
+        
+    
+    </div>
+
+            
+        <!-- END aqui va el comntenido de la pagina ---->
+                </div>
+               
+                <div class="text-center">
+                <hr>
+                    <a class="small" href="#">PROGRAMA SAFCI - MI SALUD</a>
+                </div>
+                <div class="text-center">
+                    <a class="small" href="#">Ministerio de Salud y Deportes</a>
+                <hr>
+                </div>
+               
+            </div>   
+        </div> 
+    </div>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE SALIR?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione la opcion Salir para cerrar sesion tendrá que volver a introducir su password.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="../salir.php">Salir de Sistema</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- scripts para calendario -->
+<script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
+    <script src="../js/funciones.js"></script>
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-ui.min.js"></script>
+    <script src="../js/datepicker-es.js"></script>
+    <script src="../js/funciones.js"></script>
+
+ <script language="javascript">
+    $(document).ready(function(){
+        
+        // 1. Obtenemos los datos de la fecha actual (Hoy)
+        var date = new Date();
+        var diaHoy = date.getDate().toString().padStart(2, '0');
+        var mesFormato = (date.getMonth() + 1).toString().padStart(2, '0');
+        var anioFormato = date.getFullYear();
+        
+        // 2. MODIFICACIÓN MAESTRA: Cambiamos el límite máximo para que sea HOY
+        // minDateHTML5 = El día 1 de este mes (Permite días atrás del mismo mes)
+        // maxDateHTML5 = El día de HOY (Bloquea por completo el futuro)
+        var minDateHTML5 = anioFormato + '-' + mesFormato + '-01';
+        var maxDateHTML5 = anioFormato + '-' + mesFormato + '-' + diaHoy;
+
+        $("#idtema_encuesta").change(function () {
+            $("#idtema_encuesta option:selected").each(function () {
+                var tema_encuesta = $(this).val();
+                
+                $.post("formulario_encuesta_new.php", {tema_encuesta: tema_encuesta}, function(data){
+                    
+                    // Insertamos el formulario cargado
+                    $("#formulario_encuesta_new").html(data);
+                    
+                    // =======================================================
+                    // BLOQUE 1: BLINDAJE DE LA FECHA DE ATENCIÓN
+                    // =======================================================
+                    var inputsFecha = $("#formulario_encuesta_new").find("input[name='fecha_registro'], input[name='fecha1'], #fecha1, #fecha_registro");
+                    
+                    if (inputsFecha.length > 0) {
+                        inputsFecha.attr('type', 'date');
+                        
+                        // Aplicamos los nuevos límites: Desde el día 1 del mes hasta HOY
+                        inputsFecha.attr('min', minDateHTML5);
+                        inputsFecha.attr('max', maxDateHTML5);
+                        
+                        // Autocompletamos por defecto con la fecha de hoy
+                        inputsFecha.val(maxDateHTML5);
+                    }
+
+                    // =======================================================
+                    // BLOQUE 2: FLEXIBILIDAD EN AMBOS APELLIDOS
+                    // =======================================================
+                    var inputsApellidos = $("#formulario_encuesta_new").find("input[name='paterno'], input[name='materno']");
+                    
+                    if (inputsApellidos.length > 0) {
+                        
+                        // A. Modificamos el patrón HTML para admitir letras con acentos, eñes y ESPACIOS (\s)
+                        inputsApellidos.attr('pattern', '[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+');
+                        
+                        // B. Validación en tiempo real: Filtra y borra números o caracteres especiales al instante, pero permite la barra espaciadora
+                        inputsApellidos.on('input', function() {
+                            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+                        });
+
+                        // C. Remoción estricta del atributo requerido en AMBOS inputs (Paterno y Materno)
+                        inputsApellidos.removeAttr('required');
+                    }
+                });
+            });
+        });
+    });
+    </script>
+
+</body>
+</html>

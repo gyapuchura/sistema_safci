@@ -188,21 +188,22 @@ $row_n=mysqli_fetch_array($result_n);
             </div>
 
   
-        <!-- VENTANA DE ATENCION INTEGRAL ---->
+        <!-------- VENTANA DE ENCUESTA MÉDICA -------->
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">2.- ATENCIÓN INTEGRAL SAFCI</h6>
+            <h6 class="m-0 font-weight-bold text-info">4.- ENCUESTA A REALIZAR
+            </h6>
         </div>
         <div class="card-body">
 
             <div class="form-group row">    
                 <div class="col-sm-12">
-                <h6 class="text-info">TIPO DE ATENCIÓN SAFCI:</h6>
-                <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
+                <h6 class="text-info">ENCUESTA PREVENTIVA A REALIZAR:</h6>
+                <select name="idtema_encuesta" id="idtema_encuesta" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = "SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion != '5' ";
+                $sql_at = "SELECT idtema_encuesta, tema_encuesta FROM tema_encuesta  ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);
@@ -218,7 +219,7 @@ $row_n=mysqli_fetch_array($result_n);
                 </div>
             </div>
         </div>
-        <div class="card-body" id="tipo_atencion"></div> 
+        <div class="card-body" id="formulario_encuesta"></div>  
           
     </div>
             
@@ -280,17 +281,17 @@ $row_n=mysqli_fetch_array($result_n);
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
         <script src="../js/funciones.js"></script>
 
-        <script language="javascript">
-        $(document).ready(function(){
-        $("#idtipo_atencion").change(function () {
-                    $("#idtipo_atencion option:selected").each(function () {
-                        tipo_atencion=$(this).val();
-                    $.post("tipo_atencion_nfc_hc.php", {tipo_atencion:tipo_atencion}, function(data){
-                    $("#tipo_atencion").html(data);
+            <script language="javascript">
+            $(document).ready(function(){
+            $("#idtema_encuesta").change(function () {
+                        $("#idtema_encuesta option:selected").each(function () {
+                            tema_encuesta=$(this).val();
+                        $.post("formulario_encuesta_prev_nhc.php", {tema_encuesta:tema_encuesta}, function(data){
+                        $("#formulario_encuesta").html(data);
+                        });
                     });
-                });
-        })
-        });
-    </script> 
+            })
+            });
+            </script>
 </body>
 </html>
