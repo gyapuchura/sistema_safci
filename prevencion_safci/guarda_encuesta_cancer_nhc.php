@@ -10,7 +10,6 @@ $idusuario_ss  = $_SESSION['idusuario_ss'];
 $idnombre_ss   = $_SESSION['idnombre_ss'];
 $perfil_ss     = $_SESSION['perfil_ss'];
 
-$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_paciente_ss       = $_SESSION['idnombre_paciente_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
@@ -35,12 +34,8 @@ $sql_int    = " SELECT idgenero FROM nombre WHERE idnombre ='$idnombre_paciente_
 $result_int = mysqli_query($link,$sql_int);
 $row_int    = mysqli_fetch_array($result_int);
 
-$sql_nac    = " SELECT idnacion FROM integrante_cf WHERE idintegrante_cf ='$idintegrante_cf_ss' ";
-$result_nac = mysqli_query($link,$sql_nac);
-$row_nac    = mysqli_fetch_array($result_nac);
-
 $idgenero       = $row_int[0];
-$idnacion       = $row_nac[0];
+$idnacion       = '33';
 
 $idtema_encuesta      = $_POST['idtema_encuesta'];
 
