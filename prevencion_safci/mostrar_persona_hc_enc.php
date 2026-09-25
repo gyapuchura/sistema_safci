@@ -369,7 +369,7 @@ $row_n=mysqli_fetch_array($result_n);
 
         </div>
     </div>
-        <!-- VENTANA DE ATENCION INTEGRAL ---->
+        <!------ VENTANA DE ENCUESTA MÉDICA ------>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">

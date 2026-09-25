@@ -491,3 +491,26 @@ ALTER TABLE recien_nacido ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusu
 
 ALTER TABLE patologia ADD FOREIGN KEY (idgrupo_priorizado) REFERENCES grupo_priorizado (idgrupo_priorizado);
 
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (iddepartamento) REFERENCES departamento (iddepartamento);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idred_salud) REFERENCES red_salud (idred_salud);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idatencion_psafci) REFERENCES atencion_psafci (idatencion_psafci);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idnombre) REFERENCES nombre (idnombre);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idtema_encuesta) REFERENCES tema_encuesta (idtema_encuesta);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idrepeticion) REFERENCES repeticion (idrepeticion);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idtipo_consulta) REFERENCES tipo_consulta (idtipo_consulta);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idclasificacion_riesgo_cancer) REFERENCES clasificacion_riesgo_cancer (idclasificacion_riesgo_cancer);
+ALTER TABLE encuesta_psafci ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE respuesta_encuesta ADD FOREIGN KEY (idencuesta_psafci) REFERENCES encuesta_psafci (idencuesta_psafci);
+ALTER TABLE respuesta_encuesta ADD FOREIGN KEY (idpregunta_encuesta) REFERENCES pregunta_encuesta (idpregunta_encuesta);
+ALTER TABLE respuesta_encuesta ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE respuesta_item_cancer ADD FOREIGN KEY (idencuesta_psafci) REFERENCES encuesta_psafci (idencuesta_psafci);
+ALTER TABLE respuesta_item_cancer ADD FOREIGN KEY (iditem_senal_cancer) REFERENCES item_senal_cancer (iditem_senal_cancer);
+ALTER TABLE respuesta_item_cancer ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE pregunta_encuesta ADD FOREIGN KEY (idtema_encuesta) REFERENCES tema_encuesta (idtema_encuesta);
+
+ALTER TABLE item_senal_cancer ADD FOREIGN KEY (idseccion_encuesta) REFERENCES seccion_encuesta (idseccion_encuesta);

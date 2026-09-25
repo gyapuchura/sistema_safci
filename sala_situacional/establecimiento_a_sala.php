@@ -683,7 +683,7 @@ $zoom_c     = "16";
         var lyr_satellite = L.tileLayer(esri_url, {id: 'safci', maxZoom: 18, tileSize: 512, zoomOffset: -1, attribution: esri_attribution});
 
 
-        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>]).bindPopup('<?php echo "Establecimiento : ".$row_est[1];?>');
+        var marker = L.marker([<?php echo $latitud_c;?>, <?php echo $longitud_c;?>]).bindPopup("<?php echo 'Establecimiento : '.$row_est[1];?>");
 
     
         var lg_markers = L.layerGroup([marker]);

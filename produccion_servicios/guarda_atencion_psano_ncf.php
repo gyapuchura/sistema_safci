@@ -188,10 +188,9 @@ if ($ci == '0') {
                 header("Location:mostrar_persona_nhc_mensaje.php");
 
             } else {
-
-
-            
+          
                 header("Location:mensaje_persona_sin_hc.php");
+                
             } 
             }
 

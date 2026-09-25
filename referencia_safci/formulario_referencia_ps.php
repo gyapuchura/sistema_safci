@@ -184,7 +184,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                             <div class="text-center">                          
-                            <a href="../produccion_servicios/mostrar_atencion_psafci.php"><h6 class="text-info"><- VOLVER</h6></a>
+                            <a href="javascript:history.back()"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
                         <h4 class="m-0 font-weight-bold text-primary">FORMULARIO DE REFERENCIA D7</h4>

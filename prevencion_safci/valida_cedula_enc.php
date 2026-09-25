@@ -25,6 +25,13 @@ $idmunicipio_orig    = $row_e[2];
 
 $ci = $_POST["ci"];
 
+
+if ($ci == '0') {
+
+    header("Location:nueva_persona_encuesta.php");
+
+} else {
+
 $sql_n = " SELECT idnombre, ci, nombre, paterno, materno, fecha_nac FROM nombre WHERE ci='$ci' ";
 $result_n = mysqli_query($link,$sql_n);
 if ($row_n = mysqli_fetch_array($result_n)) {
@@ -98,7 +105,9 @@ if ($row_n = mysqli_fetch_array($result_n)) {
 
     } else {   
 
-        header("Location:mensaje_persona_sin_hc.php");
+        header("Location:nueva_persona_encuesta.php");
+    }
+
 }
 
 ?>

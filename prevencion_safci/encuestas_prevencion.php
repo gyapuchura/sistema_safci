@@ -10,6 +10,14 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento, idred_salud FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
+$result_es = mysqli_query($link,$sql_es);
+$row_es = mysqli_fetch_array($result_es);
+
+$idestablecimiento_salud_enc = $row_es[1];
+$iddepartamento_enc          = $row_es[2];
+$idred_salud_enc             = $row_es[3];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -66,7 +74,7 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 <form name="HISTORIA_CLINICA" action="valida_cedula_enc.php" method="post">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">BUSCAR PERSONA POR CÉDULA DE IDENTIDAD</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">BUSCAR PERSONA PARA ENCUESTA POR CÉDULA DE IDENTIDAD</h6>
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
@@ -89,7 +97,108 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                 
                 <!-- /.container-fluid -->
 
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">ENCUESTAS DEL ESTABLECIMIENTO DE SALUD</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>  
+                                            <th>N°</th>                                     
+                                            <th>CODIGO ENCUESTA</th>
+                                            <th>CI - HISTORIA CLÍNICA</th>
+                                            <th>PERSONA ENCUESTADA</th>
+                                            <th>TEMA ENCUESTA</th>
+                                            <th>CLASIFICACIÓN</th>
+                                            <th>MÉDICO ENCUESTADOR</th>
+                                            <th>FECHA/HORA</th>
+                                            <th>ACCIÓN</th>
+                                        </tr>
+                                    </thead>
+                                   <tbody>
+                        <?php
+                        $numero=1;
+                        $sql =" SELECT encuesta_psafci.idencuesta_psafci, encuesta_psafci.codigo, nombre.ci, nombre.nombre, nombre.paterno, nombre.materno, ";
+                        $sql.=" tema_encuesta.tema_encuesta, clasificacion_riesgo_cancer.clasificacion_riesgo_cancer, encuesta_psafci.idatencion_psafci, ";
+                        $sql.=" encuesta_psafci.fecha_registro, encuesta_psafci.hora_registro, encuesta_psafci.idusuario, encuesta_psafci.idestablecimiento_salud, ";
+                        $sql.=" encuesta_psafci.idnombre, nombre.fecha_nac FROM encuesta_psafci, nombre, tema_encuesta, clasificacion_riesgo_cancer  ";
+                        $sql.=" WHERE encuesta_psafci.idnombre=nombre.idnombre AND encuesta_psafci.idtema_encuesta=tema_encuesta.idtema_encuesta  ";
+                        $sql.=" AND encuesta_psafci.idclasificacion_riesgo_cancer=clasificacion_riesgo_cancer.idclasificacion_riesgo_cancer AND encuesta_psafci.idusuario='$idusuario_ss' ORDER BY encuesta_psafci.idencuesta_psafci DESC ";
+                        $result = mysqli_query($link,$sql);
+                        if ($row = mysqli_fetch_array($result)){
+                        mysqli_field_seek($result,0);
+                        while ($field = mysqli_fetch_field($result)){
+                        } do {
 
+                            $fecha_nacimiento = $row[14];
+                            $dia=date("d");
+                            $mes=date("m");
+                            $ano=date("Y");    
+                            $dianaz=date("d",strtotime($fecha_nacimiento));
+                            $mesnaz=date("m",strtotime($fecha_nacimiento));
+                            $anonaz=date("Y",strtotime($fecha_nacimiento));         
+                            if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                            $ano=($ano-1); }      
+                            if ($mesnaz > $mes) {
+                            $ano=($ano-1);} 
+
+                            $edad = ($ano-$anonaz);
+
+                        ?>
+                            <tr>
+                                <td><?php echo $numero;?></td>
+                                <td>
+                                    <a href="../produccion_servicios/imprime_atencion_psafci.php?idatencion_psafci=<?php echo $row[8];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=800,height=900,top=50, left=200, scrollbars=YES'); return false;">
+                                    <?php echo $row[1];?></a>     
+                                </td>
+                                <td><?php echo $row[2];?></td>
+                                <td><?php echo mb_strtoupper($row[3].' '.$row[4].' '.$row[5]);?></td>
+                                <td><?php echo $row[6];?></td>
+                                <td><?php echo $row[7];?></td>
+                                <td>
+                                    <?php 
+                                    $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                                    $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row[11]' ";
+                                    $result_r = mysqli_query($link,$sql_r);
+                                    $row_r = mysqli_fetch_array($result_r);                    
+                                    echo mb_strtoupper($row_r[0]." ".$row_r[1]." ".$row_r[2]);
+                                    ?>
+                                </td>
+                                <td>         
+                                    <?php 
+                                        $fecha_r = explode('-',$row[9]);
+                                        $f_registro = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];?>
+                                    <?php echo $f_registro;?></br><?php echo $row[10];?>  
+                                </td>
+                                <td>
+                                        <form name="ATENCION-PSAFCI" action="valida_encuesta_ps.php" method="post">
+                                            <input name="idencuesta_psafci" type="hidden" value="<?php echo $row[0];?>">
+                                            <input name="idatencion_psafci" type="hidden" value="<?php echo $row[8];?>">
+                                            <input name="idestablecimiento_salud" type="hidden" value="<?php echo $row[12];?>">
+                                            <input name="idnombre_integrante" type="hidden" value="<?php echo $row[13];?>">
+                                            <input name="edad" type="hidden" value="<?php echo $edad;?>">
+                                            <button type="submit" class="btn btn-info btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-hospital"></i>
+                                            </span>
+                                            <span class="text">VER ENCUESTA MÉDICA</span>    
+                                            </button>
+                                        </form>                                                                         
+                                </td>
+                            </tr>
+                                     
+                        <?php
+                        $numero=$numero+1;
+                        }
+                        while ($row = mysqli_fetch_array($result));
+                        } else {
+                        }
+                        ?>
+                            </tbody>
+                        </table>
+                    </div>
                 
                 
 
@@ -149,6 +258,36 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable( {
+                        "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]] ,
+                        "language": {
+                            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+                            "zeroRecords": "No se encontraron resultados en su busqueda",
+                            "searchPlaceholder": "Buscar registros",
+                            "info": "Mostrando registros de _START_ al _END_ de un total de  _TOTAL_ registros",
+                            "infoEmpty": "No existen registros",
+                            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "search": "Buscar:",
+                            "paginate": {
+                                "first":    "Primero",
+                                "last":    "Último",
+                                "next":    "Siguiente",
+                                "previous": "Anterior"
+                            },
+                        }
+                    } );
+                } );
+        </script>
 
     <!-- Page level plugins -->
     <script language="javascript">

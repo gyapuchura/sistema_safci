@@ -71,7 +71,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                     <div class="text-center">                          
 
                     <hr>             
-                    <h4 class="text-info">REGISTRO DE ATENCIÓN INTEGRAL - PSAFCI</h4>
+                    <h4 class="text-info">REGISTRO DE ENCUESTA MÉDICA</h4>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -83,17 +83,17 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-info">ATENCIÓN INTEGRAL SAFCI</h6>
+            <h6 class="m-0 font-weight-bold text-info">ENCUESTA MÉDICA</h6>
         </div>
         <div class="card-body">
 
             <div class="form-group row">    
                 <div class="col-sm-12">
-                <h6 class="text-info">TIPO DE ATENCIÓN SAFCI:</h6>
-                <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
+                <h6 class="text-info">TEMA DE LA ENCUESTA MÉDICA:</h6>
+                <select name="idtema_encuesta" id="idtema_encuesta" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = " SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion !='6' ";
+                $sql_at = " SELECT idtema_encuesta, tema_encuesta FROM tema_encuesta ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);
@@ -109,7 +109,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                 </div>
             </div>
         </div>
-        <div class="card-body" id="tipo_atencion_nfc"></div> 
+        <div class="card-body" id="formulario_encuesta_new"></div> 
         
     
     </div>
@@ -174,7 +174,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
     <script src="../js/datepicker-es.js"></script>
     <script src="../js/funciones.js"></script>
 
-    <script language="javascript">
+ <script language="javascript">
     $(document).ready(function(){
         
         // 1. Obtenemos los datos de la fecha actual (Hoy)
@@ -189,19 +189,19 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
         var minDateHTML5 = anioFormato + '-' + mesFormato + '-01';
         var maxDateHTML5 = anioFormato + '-' + mesFormato + '-' + diaHoy;
 
-        $("#idtipo_atencion").change(function () {
-            $("#idtipo_atencion option:selected").each(function () {
-                var tipo_atencion = $(this).val();
+        $("#idtema_encuesta").change(function () {
+            $("#idtema_encuesta option:selected").each(function () {
+                var tema_encuesta = $(this).val();
                 
-                $.post("tipo_atencion_nfc.php", {tipo_atencion: tipo_atencion}, function(data){
+                $.post("formulario_encuesta_new.php", {tema_encuesta: tema_encuesta}, function(data){
                     
                     // Insertamos el formulario cargado
-                    $("#tipo_atencion_nfc").html(data);
+                    $("#formulario_encuesta_new").html(data);
                     
                     // =======================================================
                     // BLOQUE 1: BLINDAJE DE LA FECHA DE ATENCIÓN
                     // =======================================================
-                    var inputsFecha = $("#tipo_atencion_nfc").find("input[name='fecha_registro'], input[name='fecha1'], #fecha1, #fecha_registro");
+                    var inputsFecha = $("#formulario_encuesta_new").find("input[name='fecha_registro'], input[name='fecha1'], #fecha1, #fecha_registro");
                     
                     if (inputsFecha.length > 0) {
                         inputsFecha.attr('type', 'date');
@@ -217,7 +217,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                     // =======================================================
                     // BLOQUE 2: FLEXIBILIDAD EN AMBOS APELLIDOS
                     // =======================================================
-                    var inputsApellidos = $("#tipo_atencion_nfc").find("input[name='paterno'], input[name='materno']");
+                    var inputsApellidos = $("#formulario_encuesta_new").find("input[name='paterno'], input[name='materno']");
                     
                     if (inputsApellidos.length > 0) {
                         

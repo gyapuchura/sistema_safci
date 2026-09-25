@@ -10,9 +10,12 @@ $idusuario_ss  = $_SESSION['idusuario_ss'];
 $idnombre_ss   = $_SESSION['idnombre_ss'];
 $perfil_ss     = $_SESSION['perfil_ss'];
 
-$idintegrante_cf_ss           = $_SESSION['idintegrante_cf_ss'];
-$idnombre_integrante_ss       = $_SESSION['idnombre_integrante_ss'];
-$edad_ss                      = $_SESSION['edad_ss'];
+$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
+$idnombre_paciente_ss       = $_SESSION['idnombre_paciente_ss'];
+$edad_ss                    = $_SESSION['edad_ss'];
+$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
+$iddepartamento_ss          = $_SESSION['iddepartamento_ss'];
+$idnacion_ss                = $_SESSION['idnacion_ss'];
 
 $sql_es = " SELECT iddato_laboral, idestablecimiento_salud, iddepartamento, idred_salud FROM dato_laboral WHERE idusuario='$idusuario_ss' ORDER BY iddato_laboral DESC LIMIT 1  ";
 $result_es = mysqli_query($link,$sql_es);
@@ -28,7 +31,7 @@ $row_e    = mysqli_fetch_array($result_e);
 
 $idmunicipio_enc = $row_e[2];
 
-$sql_int    = " SELECT idgenero FROM nombre WHERE idnombre ='$idnombre_integrante_ss' ";
+$sql_int    = " SELECT idgenero FROM nombre WHERE idnombre ='$idnombre_paciente_ss' ";
 $result_int = mysqli_query($link,$sql_int);
 $row_int    = mysqli_fetch_array($result_int);
 
@@ -69,7 +72,7 @@ $idclasificacion_riesgo_cancer  = $_POST['idclasificacion_riesgo_cancer'];
 
         $sql0 = " INSERT INTO atencion_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idnombre, edad, idgenero, ";
         $sql0.= " idrepeticion, idtipo_consulta, idtipo_atencion, idnacion, codigo, correlativo, gestion, fecha_registro, hora_registro, idusuario)  ";
-        $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$idnombre_integrante_ss','$edad_ss','$idgenero', ";
+        $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$idnombre_paciente_ss','$edad_ss','$idgenero', ";
         $sql0.= " '$idrepeticion','$idtipo_consulta','6','$idnacion','$codigoa','$correlativoa','$gestion', '$fecha','$hora','$idusuario_ss')";
         $result0 = mysqli_query($link,$sql0);   
         $idatencion_psafci = mysqli_insert_id($link);
@@ -87,7 +90,7 @@ $codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion;
 
     $sql0 = " INSERT INTO encuesta_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, correlativo, codigo, idnombre,";
     $sql0.= " idtema_encuesta, idrepeticion, idtipo_consulta, gestion, idclasificacion_riesgo_cancer, fecha_registro, hora_registro, idusuario) ";
-    $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$idatencion_psafci','$correlativo','$codigo','$idnombre_integrante_ss',";
+    $sql0.= " VALUES ('$iddepartamento_enc','$idred_salud_enc','$idmunicipio_enc','$idestablecimiento_salud_enc','$idatencion_psafci','$correlativo','$codigo','$idnombre_paciente_ss',";
     $sql0.= " '$idtema_encuesta','$idrepeticion','$idtipo_consulta','$gestion','$idclasificacion_riesgo_cancer','$fecha','$hora','$idusuario_ss')";
     $result0 = mysqli_query($link,$sql0); 
     $idencuesta_psafci = mysqli_insert_id($link); 
@@ -97,7 +100,7 @@ $codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion;
 
 
         $sql1 = " INSERT INTO signo_vital_psafci (idatencion_psafci, idnombre, edad, frec_cardiaca, peso, talla, frec_respiratoria, presion_arterial, presion_arterial_d, temperatura, perimetro_cefalico, fecha_registro, hora_registro, idusuario) ";
-        $sql1.= " VALUES ('$idatencion_psafci','$idnombre_integrante_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$perimetro_cefalico','$fecha','$hora','$idusuario_ss') ";
+        $sql1.= " VALUES ('$idatencion_psafci','$idnombre_paciente_ss','$edad_ss','$frec_cardiaca','$peso','$talla','$frec_respiratoria','$presion_arterial','$presion_arterial_d','$temperatura','$perimetro_cefalico','$fecha','$hora','$idusuario_ss') ";
         $result1 = mysqli_query($link,$sql1);
 
 
@@ -123,7 +126,7 @@ $codigo = "MSYD/APS-ENC-".$correlativo."/".$gestion;
     }
 
 
-    header("Location:mostrar_encuesta_prev.php");
+    header("Location:mostrar_encuesta_prev_nhc.php");
 
         /*********** Guarda el registro de encuesta de deteccion del cancer (END) *************/
         ?>
