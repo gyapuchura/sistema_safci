@@ -13,16 +13,9 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idencuesta_psafci_ss       = $_SESSION['idencuesta_psafci_ss'];
 $idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-
-$idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
 $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
 $idnombre_paciente_ss       = $_SESSION['idnombre_paciente_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
-
-$sql_cf =" SELECT idcarpeta_familiar, codigo, familia, fecha_apertura FROM carpeta_familiar WHERE idcarpeta_familiar='$idcarpeta_familiar_ss' ";
-$result_cf=mysqli_query($link,$sql_cf);
-$row_cf=mysqli_fetch_array($result_cf);
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_paciente_ss' ";
 $result_n=mysqli_query($link,$sql_n);
@@ -537,7 +530,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     <div class="form-group row"> 
     <div class="col-sm-4"> 
         <input type="hidden" name="idencuesta_psafci" value="<?php echo $idencuesta_psafci_ss;?>" >
-            
+        <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">
             ELIMINAR ENCUESTA MÉDICA
         </button> 
@@ -567,7 +560,7 @@ $row_ps=mysqli_fetch_array($result_ps);
  <!--  MODAL DE ELIMINACION DE ENCUESTA MEDICA BEGIN ---->
     </div> 
     <div class="col-sm-4"> 
-        <a href="encuesta_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ENCUESTAS</h6></a>
+        <a href="encuestas_prevencion.php"><h6 class="text-success"><- IR A BANDEJA DE ENCUESTAS</h6></a>
     </div> 
     <div class="col-sm-4"> 
 

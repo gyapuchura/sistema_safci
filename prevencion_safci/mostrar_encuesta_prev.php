@@ -736,7 +736,7 @@ $row_ps=mysqli_fetch_array($result_ps);
     <div class="form-group row"> 
     <div class="col-sm-4"> 
         <input type="hidden" name="idencuesta_psafci" value="<?php echo $idencuesta_psafci_ss;?>" >
-            
+        <input type="hidden" name="idatencion_psafci" value="<?php echo $idatencion_psafci_ss;?>" >
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModald">
             ELIMINAR ENCUESTA MÉDICA
         </button> 
@@ -766,7 +766,7 @@ $row_ps=mysqli_fetch_array($result_ps);
  <!--  MODAL DE ELIMINACION DE ENCUESTA MEDICA BEGIN ---->
     </div> 
     <div class="col-sm-4"> 
-        <a href="encuesta_psafci.php"><h6 class="text-success"><- IR A BANDEJA DE ENCUESTAS</h6></a>
+        <a href="encuestas_prevencion.php"><h6 class="text-success"><- IR A BANDEJA DE ENCUESTAS</h6></a>
     </div> 
     <div class="col-sm-4"> 
         <a class="btn btn-primary btn-icon-split" href="../referencia_safci/formulario_referencia_ps.php" >

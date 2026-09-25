@@ -1917,6 +1917,154 @@ $row_n=mysqli_fetch_array($result_n);
 
 
       <!--------------- ATENCIÓN POR TELEMETRRIA ----- END -----------> 
+
+          <?php  break;
+      case 6: ?>
+
+      <!--------------- ENCUESTA MÉDICA ----- BEGIN -----------> 
+
+
+
+<?php
+$sql_enc =" SELECT idencuesta_psafci, idrepeticion, idtipo_consulta, idtema_encuesta, codigo, idclasificacion_riesgo_cancer, fecha_registro FROM encuesta_psafci WHERE idatencion_psafci='$row_at[0]' ";
+$result_enc=mysqli_query($link,$sql_enc);
+$row_enc=mysqli_fetch_array($result_enc);
+
+$sql_tm =" SELECT tema_encuesta FROM tema_encuesta WHERE idtema_encuesta='$row_enc[3]' ";
+$result_tm=mysqli_query($link,$sql_tm);
+$row_tm=mysqli_fetch_array($result_tm);
+
+$sql_cl =" SELECT clasificacion_riesgo_cancer FROM clasificacion_riesgo_cancer WHERE idclasificacion_riesgo_cancer='$row_enc[5]' ";
+$result_cl=mysqli_query($link,$sql_cl);
+$row_cl=mysqli_fetch_array($result_cl);
+?>
+
+    <table width="700" border="0" align="center" cellspacing="0">
+        <tbody>
+          <tr>
+            <td width="100" style="text-align: center; font-family: Arial; font-size: 12px;"></td>
+            <td width="480" style="font-family: Arial; font-size: 12px; text-align: center;">ENCUESTA MÉDICA - <?php echo $row_enc[4];?></td>
+            <td width="100" style="font-family: Arial; font-size: 12px; text-align: center;"></td>
+          </tr>
+      </tbody>
+    </table>
+  
+    <table width="700" border="1" align="center" cellspacing="0">
+        <tbody>
+          <tr>
+            <td width="30" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
+            <td width="450" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_tm[0];?></td>
+            <td width="30" style="font-family: Arial; font-size: 12px; text-align: center;">RESP.</td>
+            <td width="200" style="font-family: Arial; font-size: 12px; text-align: center;"></td>
+          </tr>
+
+        <?php
+            $numero=0;
+            $sql5 =" SELECT pregunta_encuesta.idpregunta_encuesta, pregunta_encuesta.pregunta_encuesta, pregunta_encuesta.pregunta_complementaria, ";
+            $sql5.=" respuesta_encuesta.respuesta, respuesta_encuesta.retroalimentacion FROM pregunta_encuesta, respuesta_encuesta ";
+            $sql5.=" WHERE respuesta_encuesta.idpregunta_encuesta=pregunta_encuesta.idpregunta_encuesta AND respuesta_encuesta.idencuesta_psafci='$row_enc[0]' ";
+            $result5 = mysqli_query($link,$sql5);
+            if ($row5 = mysqli_fetch_array($result5)){
+            mysqli_field_seek($result5,0);
+            while ($field5 = mysqli_fetch_field($result5)){
+            } do { 
+        ?>
+          <tr>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $numero+1;?></td>
+            <td style="font-family: Arial; font-size: 12px;"><?php echo $row5[1];?></td>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $row5[3];?></td>
+            <td style="font-family: Arial; font-size: 12px;"><?php echo $row5[2];?></br><?php echo $row5[4];?></td>
+          </tr>
+
+        <?php 
+        $numero = $numero+1;
+        }
+        while ($row5 = mysqli_fetch_array($result5));
+        } else {
+        } ?>
+
+        </tbody>
+      </table>
+
+        </br>
+              
+      <table width="700" border="1" align="center" cellspacing="0">
+        <tbody>
+          <tr>
+            <td width="30" style="text-align: center; font-family: Arial; font-size: 12px;">N°</td>
+            <td width="300" style="font-family: Arial; font-size: 12px; text-align: center;">OBSERVACIONES</td>
+            <td width="350" style="font-family: Arial; font-size: 12px; text-align: center;">DETERMINACIONES</td>
+
+          </tr>
+
+    <?php
+        $numero6=0;
+        $sql6 =" SELECT seccion_encuesta.idseccion_encuesta, seccion_encuesta.seccion_encuesta FROM respuesta_item_cancer, item_senal_cancer, seccion_encuesta ";
+        $sql6.=" WHERE respuesta_item_cancer.iditem_senal_cancer=item_senal_cancer.iditem_senal_cancer AND item_senal_cancer.idseccion_encuesta=seccion_encuesta.idseccion_encuesta ";
+        $sql6.=" AND respuesta_item_cancer.idencuesta_psafci='$row_enc[0]' GROUP BY seccion_encuesta.idseccion_encuesta ";  
+        $result6 = mysqli_query($link,$sql6);
+        if ($row6 = mysqli_fetch_array($result6)){
+        mysqli_field_seek($result6,0);
+        while ($field6 = mysqli_fetch_field($result6)){
+        } do { 
+    ?>
+          <tr>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;"><?php echo $numero6+1;?></td>
+            <td style="font-family: Arial; font-size: 12px;"><?php echo $row6[1];?></td>
+            <td style="text-align: center; font-family: Arial; font-size: 12px;">
+
+            <?php
+                $numero7=0;
+                $sql7 =" SELECT respuesta_item_cancer.idrespuesta_item_cancer, item_senal_cancer.item_senal_cancer FROM respuesta_item_cancer, item_senal_cancer ";
+                $sql7.=" WHERE respuesta_item_cancer.iditem_senal_cancer=item_senal_cancer.iditem_senal_cancer AND item_senal_cancer.idseccion_encuesta='$row6[0]' ";
+                $sql7.=" AND respuesta_item_cancer.idencuesta_psafci='$row_enc[0]' ";
+                $result7 = mysqli_query($link,$sql7);
+                if ($row7 = mysqli_fetch_array($result7)){
+                mysqli_field_seek($result7,0);
+                while ($field7 = mysqli_fetch_field($result7)){
+                } do { 
+            ?>
+
+                - <?php echo $row7[1];?> 
+
+            <?php 
+                $numero7 = $numero7+1;
+                }
+                while ($row7 = mysqli_fetch_array($result7));
+                } else {
+                } 
+            ?>
+
+            </td>
+          </tr>
+
+    <?php 
+        $numero6 = $numero6+1;
+        }
+        while ($row6 = mysqli_fetch_array($result6));
+        } else {
+        } 
+    ?>
+
+        </tbody>
+      </table>
+
+      </br>
+        
+        <table width="700" border="1" align="center" cellspacing="0">
+        <tbody>
+          <tr>
+            <td width="330" style="font-family: Arial; font-size: 12px; text-align: center;">CLASIFICACIÓN</td>
+            <td width="350" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_cl[0];?></td>
+          </tr>
+          </tbody>
+        </table>
+
+
+
+
+
+      <!--------------- ENCUESTA MÉDICA ----- END -----------> 
           <?php  break; 
           } ?>
 

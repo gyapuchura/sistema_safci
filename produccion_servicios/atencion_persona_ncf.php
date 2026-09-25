@@ -93,7 +93,7 @@ $idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
                 <select name="idtipo_atencion" id="idtipo_atencion" class="form-control" required>
                 <option value="">-SELECCIONE-</option>
                 <?php
-                $sql_at = " SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion ";
+                $sql_at = " SELECT idtipo_atencion, tipo_atencion FROM tipo_atencion WHERE idtipo_atencion !='6' ";
                 $result_at = mysqli_query($link,$sql_at);
                 if ($row_at = mysqli_fetch_array($result_at)){
                 mysqli_field_seek($result_at,0);

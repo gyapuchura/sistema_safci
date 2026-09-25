@@ -78,7 +78,9 @@ if ($ci == '0') {
     $sql_c = " INSERT INTO nombre (paterno, materno, nombre, ci, exp, fecha_nac, complemento, idnacionalidad, idgenero) ";
     $sql_c.= " VALUES ('$paterno','$materno','$nombre','$ci','','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
     $result_c = mysqli_query($link,$sql_c);   
-    $idnombre_paciente_ss = mysqli_insert_id($link);    
+    $idnombre_paciente_ss = mysqli_insert_id($link);  
+      
+    $_SESSION['idnombre_paciente_ss'] = $idnombre_paciente_ss;
 
         $idnacion = '33';
 
