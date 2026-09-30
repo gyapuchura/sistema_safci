@@ -10,8 +10,6 @@ $gestion    = date("Y");
 $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
-
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
         
 ?>
 <!DOCTYPE html>
