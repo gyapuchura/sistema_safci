@@ -92,24 +92,25 @@ $(function () {
 
             <?php
 
-$sql_a =" SELECT COUNT(idintegrante_ap_sano) FROM integrante_ap_sano ";
+$sql_a =" SELECT count(distinct idintegrante_cf) AS total_sanos FROM integrante_ap_sano  ";
 $sql_a.="  ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 $aparentemente_sano = $row_a[0];
 
-$sql_b =" SELECT idintegrante_cf FROM integrante_factor_riesgo GROUP BY idintegrante_cf ";
+$sql_b =" SELECT count(distinct idintegrante_cf) AS total_riesgos FROM integrante_factor_riesgo  ";
 $sql_b.="  ";
 $result_b = mysqli_query($link,$sql_b);
-$factor_riesgo = mysqli_num_rows($result_b);
+$row_b = mysqli_fetch_array($result_b);
+$factor_riesgo =$row_b[0];
 
-$sql_c =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad ";
+$sql_c =" SELECT count(distinct idintegrante_cf) AS total_morbilidad FROM integrante_morbilidad  ";
 $sql_c.="  ";
 $result_c = mysqli_query($link,$sql_c);
 $row_c = mysqli_fetch_array($result_c);
 $morbilidad =$row_c[0];
 
-$sql_d =" SELECT COUNT(idintegrante_discapacidad) FROM integrante_discapacidad ";
+$sql_d =" SELECT count(distinct idintegrante_cf) AS total_discapacitados FROM integrante_discapacidad  ";
 $sql_d.="  ";
 $result_d = mysqli_query($link,$sql_d);
 $row_d = mysqli_fetch_array($result_d);
@@ -332,97 +333,97 @@ $(function () {
             });
 
             <?php
-                $sql_t =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo";
+                $sql_t =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo";
                 $sql_t.="  ";
                 $result_t = mysqli_query($link,$sql_t);
                 $row_t = mysqli_fetch_array($result_t);
                 $total = $row_t[0];
 
-                $sql_a =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='1'";
+                $sql_a =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='1'";
                 $sql_a.="  ";
                 $result_a = mysqli_query($link,$sql_a);
                 $row_a = mysqli_fetch_array($result_a);
                 $sedentarismo = $row_a[0];
 
-                $sql_b =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='2'";
+                $sql_b =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='2'";
                 $sql_b.="  ";
                 $result_b = mysqli_query($link,$sql_b);
                 $row_b = mysqli_fetch_array($result_b);
                 $consume_alcohol = $row_b[0];
 
-                $sql_c =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='3'";
+                $sql_c =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='3'";
                 $sql_c.="  ";
                 $result_c = mysqli_query($link,$sql_c);
                 $row_c = mysqli_fetch_array($result_c);
                 $fumar =$row_c[0];
 
-                $sql_d =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='4'";
+                $sql_d =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='4'";
                 $sql_d.="  ";
                 $result_d = mysqli_query($link,$sql_d);
                 $row_d = mysqli_fetch_array($result_d);
                 $drogas = $row_d[0];
 
-                $sql_e =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='5'";
+                $sql_e =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='5'";
                 $sql_e.="  ";
                 $result_e = mysqli_query($link,$sql_e);
                 $row_e = mysqli_fetch_array($result_e);
                 $promiscuidad = $row_e[0];
 
-                $sql_f =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='6'";
+                $sql_f =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='6'";
                 $sql_f.="  ";
                 $result_f = mysqli_query($link,$sql_f);
                 $row_f = mysqli_fetch_array($result_f);
                 $gaseosas = $row_f[0];
 
-                $sql_g =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='7'";
+                $sql_g =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='7'";
                 $sql_g.="  ";
                 $result_g = mysqli_query($link,$sql_g);
                 $row_g = mysqli_fetch_array($result_g);
                 $frituras =$row_g[0];
 
-                $sql_h =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='8'";
+                $sql_h =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='8'";
                 $sql_h.="  ";
                 $result_h = mysqli_query($link,$sql_h);
                 $row_h = mysqli_fetch_array($result_h);
                 $conservas = $row_h[0];
 
-                $sql_i =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='9'";
+                $sql_i =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='9'";
                 $sql_i.="  ";
                 $result_i = mysqli_query($link,$sql_i);
                 $row_i = mysqli_fetch_array($result_i);
                 $golosinas = $row_i[0];
 
-                $sql_j =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='10'";
+                $sql_j =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='10'";
                 $sql_j.="  ";
                 $result_j = mysqli_query($link,$sql_j);
                 $row_j = mysqli_fetch_array($result_j);
                 $sal = $row_j[0];
 
-                $sql_k =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='11'";
+                $sql_k =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='11'";
                 $sql_k.="  ";
                 $result_k = mysqli_query($link,$sql_k);
                 $row_k = mysqli_fetch_array($result_k);
                 $piezas =$row_k[0];
 
-                $sql_l =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='12'";
+                $sql_l =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='12'";
                 $sql_l.="  ";
                 $result_l = mysqli_query($link,$sql_l);
                 $row_l = mysqli_fetch_array($result_l);
                 $menor = $row_l[0];
 
-                $sql_m =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='13'";
+                $sql_m =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='13'";
                 $sql_m.="  ";
                 $result_m = mysqli_query($link,$sql_m);
                 $row_m = mysqli_fetch_array($result_m);
                 $embarazo = $row_m[0];
 
-                $sql_n =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='14'";
+                $sql_n =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='14'";
                 $sql_n.="  ";
                 $result_n = mysqli_query($link,$sql_n);
                 $row_n = mysqli_fetch_array($result_n);
                 $mayor = $row_n[0];
 
-                $sql_o =" SELECT COUNT(idintegrante_factor_riesgo) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='15'";
+                $sql_o =" SELECT count(distinct idintegrante_cf) FROM integrante_factor_riesgo WHERE idfactor_riesgo_cf='15'";
                 $sql_o.="  ";
                 $result_o = mysqli_query($link,$sql_o);
                 $row_o = mysqli_fetch_array($result_o);
@@ -836,146 +837,146 @@ $(function () {
                 });
             });
             <?php
-                $sql_t =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad ";
+                $sql_t =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad ";
                 $sql_t.="  ";
                 $result_t = mysqli_query($link,$sql_t);
                 $row_t = mysqli_fetch_array($result_t);
-                $total = $row_t[0];
+                $totalm = $row_t[0];
 
-                $sql_a =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='1'";
+                $sql_a =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='1'";
                 $sql_a.="  ";
                 $result_a = mysqli_query($link,$sql_a);
                 $row_a = mysqli_fetch_array($result_a);
                 $tuberculosis = $row_a[0];
 
-                $sql_b =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='2'";
+                $sql_b =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='2'";
                 $sql_b.="  ";
                 $result_b = mysqli_query($link,$sql_b);
                 $row_b = mysqli_fetch_array($result_b);
                 $sexual = $row_b[0];
 
-                $sql_c =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='3'";
+                $sql_c =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='3'";
                 $sql_c.="  ";
                 $result_c = mysqli_query($link,$sql_c);
                 $row_c = mysqli_fetch_array($result_c);
                 $malaria =$row_c[0];
 
-                $sql_d =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='4'";
+                $sql_d =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='4'";
                 $sql_d.="  ";
                 $result_d = mysqli_query($link,$sql_d);
                 $row_d = mysqli_fetch_array($result_d);
                 $lepra = $row_d[0];
 
-                $sql_e =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='5'";
+                $sql_e =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='5'";
                 $sql_e.="  ";
                 $result_e = mysqli_query($link,$sql_e);
                 $row_e = mysqli_fetch_array($result_e);
                 $leishmaniasis = $row_e[0];
 
-                $sql_f =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='6'";
+                $sql_f =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='6'";
                 $sql_f.="  ";
                 $result_f = mysqli_query($link,$sql_f);
                 $row_f = mysqli_fetch_array($result_f);
                 $chagas = $row_f[0];
 
-                $sql_g =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='7'";
+                $sql_g =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='7'";
                 $sql_g.="  ";
                 $result_g = mysqli_query($link,$sql_g);
                 $row_g = mysqli_fetch_array($result_g);
                 $hepatitis =$row_g[0];
 
-                $sql_h =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='8'";
+                $sql_h =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='8'";
                 $sql_h.="  ";
                 $result_h = mysqli_query($link,$sql_h);
                 $row_h = mysqli_fetch_array($result_h);
                 $cardiovascular = $row_h[0];
 
-                $sql_i =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='9'";
+                $sql_i =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='9'";
                 $sql_i.="  ";
                 $result_i = mysqli_query($link,$sql_i);
                 $row_i = mysqli_fetch_array($result_i);
                 $hipertension = $row_i[0];
 
-                $sql_j =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='10'";
+                $sql_j =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='10'";
                 $sql_j.="  ";
                 $result_j = mysqli_query($link,$sql_j);
                 $row_j = mysqli_fetch_array($result_j);
                 $diabetes = $row_j[0];
 
-                $sql_k =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='11'";
+                $sql_k =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='11'";
                 $sql_k.="  ";
                 $result_k = mysqli_query($link,$sql_k);
                 $row_k = mysqli_fetch_array($result_k);
                 $obesidad =$row_k[0];
 
-                $sql_l =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='12'";
+                $sql_l =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='12'";
                 $sql_l.="  ";
                 $result_l = mysqli_query($link,$sql_l);
                 $row_l = mysqli_fetch_array($result_l);
                 $renal = $row_l[0];
 
-                $sql_m =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='13'";
+                $sql_m =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='13'";
                 $sql_m.="  ";
                 $result_m = mysqli_query($link,$sql_m);
                 $row_m = mysqli_fetch_array($result_m);
                 $reumatica = $row_m[0];
 
-                $sql_n =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='14'";
+                $sql_n =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='14'";
                 $sql_n.="  ";
                 $result_n = mysqli_query($link,$sql_n);
                 $row_n = mysqli_fetch_array($result_n);
                 $pulmonar = $row_n[0];
 
-                $sql_o =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='15'";
+                $sql_o =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='15'";
                 $sql_o.="  ";
                 $result_o = mysqli_query($link,$sql_o);
                 $row_o = mysqli_fetch_array($result_o);
                 $autoinmune = $row_o[0];
 
-                $sql_p =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='16'";
+                $sql_p =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='16'";
                 $sql_p.="  ";
                 $result_p = mysqli_query($link,$sql_p);
                 $row_p = mysqli_fetch_array($result_p);
                 $hematologica = $row_p[0];
 
-                $sql_q =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='17'";
+                $sql_q =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='17'";
                 $sql_q.="  ";
                 $result_q = mysqli_query($link,$sql_q);
                 $row_q = mysqli_fetch_array($result_q);
                 $asma = $row_q[0];
 
-                $sql_r =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='18'";
+                $sql_r =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='18'";
                 $sql_r.="  ";
                 $result_r = mysqli_query($link,$sql_r);
                 $row_r = mysqli_fetch_array($result_r);
                 $cancer = $row_r[0];
 
-                $sql_s =" SELECT COUNT(idintegrante_morbilidad) FROM integrante_morbilidad WHERE idmorbilidad_cf='19'";
+                $sql_s =" SELECT count(distinct idintegrante_cf) FROM integrante_morbilidad WHERE idmorbilidad_cf='19'";
                 $sql_s.="  ";
                 $result_s = mysqli_query($link,$sql_s);
                 $row_s = mysqli_fetch_array($result_s);
                 $otra = $row_s[0];
 
 
-                $tuberculosis_p   = ($tuberculosis*100)/$total;
-                $sexual_p         = ($sexual*100)/$total;
-                $malaria_p        = ($malaria*100)/$total;
-                $lepra_p          = ($lepra*100)/$total;
-                $leishmaniasis_p  = ($leishmaniasis*100)/$total;
-                $chagas_p         = ($chagas*100)/$total;
-                $hepatitis_p      = ($hepatitis*100)/$total;
-                $cardiovascular_p = ($cardiovascular*100)/$total;
-                $hipertension_p   = ($hipertension*100)/$total;
-                $diabetes_p       = ($diabetes*100)/$total;
-                $obesidad_p       = ($obesidad*100)/$total;
-                $renal_p          = ($renal*100)/$total;
-                $reumatica_p      = ($reumatica*100)/$total;
-                $pulmonar_p       = ($pulmonar*100)/$total;
-                $autoinmune_p     = ($autoinmune*100)/$total;
-                $hematologica_p   = ($hematologica*100)/$total;
-                $asma_p           = ($asma*100)/$total;
-                $cancer_p         = ($cancer*100)/$total;
-                $otra_p         = ($otra*100)/$total;
+                $tuberculosis_p   = ($tuberculosis*100)/$totalm;
+                $sexual_p         = ($sexual*100)/$totalm;
+                $malaria_p        = ($malaria*100)/$totalm;
+                $lepra_p          = ($lepra*100)/$totalm;
+                $leishmaniasis_p  = ($leishmaniasis*100)/$totalm;
+                $chagas_p         = ($chagas*100)/$totalm;
+                $hepatitis_p      = ($hepatitis*100)/$totalm;
+                $cardiovascular_p = ($cardiovascular*100)/$totalm;
+                $hipertension_p   = ($hipertension*100)/$totalm;
+                $diabetes_p       = ($diabetes*100)/$totalm;
+                $obesidad_p       = ($obesidad*100)/$totalm;
+                $renal_p          = ($renal*100)/$totalm;
+                $reumatica_p      = ($reumatica*100)/$totalm;
+                $pulmonar_p       = ($pulmonar*100)/$totalm;
+                $autoinmune_p     = ($autoinmune*100)/$totalm;
+                $hematologica_p   = ($hematologica*100)/$totalm;
+                $asma_p           = ($asma*100)/$totalm;
+                $cancer_p         = ($cancer*100)/$totalm;
+                $otra_p         = ($otra*100)/$totalm;
 
             ?>
             // Create the chart
@@ -1456,7 +1457,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT COUNT(idintegrante_discapacidad) FROM integrante_discapacidad WHERE idtipo_discapacidad_cf='$row3[0]' AND idnivel_discapacidad_cf='$row2[0]' ";
+$sql_a =" SELECT count(distinct idintegrante_cf) FROM integrante_discapacidad WHERE idtipo_discapacidad_cf='$row3[0]' AND idnivel_discapacidad_cf='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
