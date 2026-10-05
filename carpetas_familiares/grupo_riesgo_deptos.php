@@ -34,7 +34,9 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$sql = " SELECT d.iddepartamento, d.departamento, COUNT(distinct i.idintegrante_cf) as total ";
+$sql.= " FROM integrante_factor_riesgo i, departamento d, carpeta_familiar c WHERE c.iddepartamento=d.iddepartamento ";
+$sql.= " AND c.estado='CONSOLIDADO' AND i.idcarpeta_familiar=c.idcarpeta_familiar AND c.estado='CONSOLIDADO' GROUP BY d.iddepartamento ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -91,7 +93,9 @@ Si no se encontraron resultados
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$sql3 = " SELECT d.iddepartamento, d.departamento, COUNT(distinct i.idintegrante_cf) as total ";
+$sql3.= " FROM integrante_factor_riesgo i, departamento d, carpeta_familiar c WHERE c.iddepartamento=d.iddepartamento ";
+$sql3.= " AND c.estado='CONSOLIDADO' AND i.idcarpeta_familiar=c.idcarpeta_familiar AND c.estado='CONSOLIDADO' GROUP BY d.iddepartamento ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -99,16 +103,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
- 
-<?php
-$sql_a =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar  ";
-$sql_a.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$row3[0]' GROUP BY integrante_factor_riesgo.idintegrante_cf  ";
-$result_a = mysqli_query($link,$sql_a);
-$factor_riesgo = mysqli_num_rows($result_a); 
-?>
 
-<?php  echo $factor_riesgo; ?>
+
+<?php  echo $row3[2]; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
