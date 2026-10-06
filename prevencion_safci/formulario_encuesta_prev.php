@@ -257,6 +257,28 @@ switch ($idtema_encuesta) {
             </div>      
         </div>
         <hr>
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <h6 class="text-info">CRITERIOS PARA LA CLASIFICACIÓN</h6>
+            </div>
+        </div> 
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <h6 class="text-danger">1. POSIBLE CÁNCER </h6>
+                <h6 class="text-danger">Basta con presentar UNO de los signos graves: Fiebre >7 días y/o sudoración importante, cefalea que despierta al niño, dolor óseo progresivo, petequias/sangrados, palidez severa, alteraciones oculares (leucocoria, estrabismo, etc.), ganglios duros >2cm, masa SIN signos de inflamación o hepatomegalia/esplenomegalia.</h6>
+            </div>
+            <div class="col-sm-4">
+                <h6 class="text-warning">2. ALGÚN RIESGO</h6>
+                <h6 class="text-warning">Ausencia de signos rojos, pero con UNO de estos signos: Pérdida de peso/apetito/fatiga en últimos 3 meses, palidez leve, masa CON signos de inflamación, o linfoadenopatía menor a 2.5cm / dolorosa.</h6>
+            </div>
+            <div class="col-sm-4">
+                <h6 class="text-success">3. NO TIENE CÁNCER</h6>
+                <h6 class="text-success">No cumple criterios para clasificarse en ninguna de las anteriores. Asegure inmunizaciones y control de crecimiento y desarrollo.</h6>
+            </div>
+        </div> 
+
+        <hr>
         <div class="form-group row">
             <div class="col-sm-2">
                 <h6 class="text-info">CLASIFICACIÓN</h6>
