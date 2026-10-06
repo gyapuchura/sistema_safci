@@ -39,7 +39,7 @@ $(function () {
             text: 'RESPUESTAS A LA ENCUESTA PREVENTIVA - CÁNCER EN LA NIÑEZ Y LA ADOLESCENCIA - NIVEL NACIONAL'
         },
         subtitle: {
-            text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
+            text: 'Fuente: Sistema Integrado MEDI-APS del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
         },
         xAxis: {
             categories: [
