@@ -9,12 +9,21 @@ $gestion                = date("Y");
 $fecha_r = explode('-',$fecha);
 $f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
 
+$inicio = $_GET['inicio'];
+$finalizacion = $_GET['finalizacion'];
+
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+
 ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>CARACTERISTICAS SOCIOECONÓMICAS - NIVEL NACIONAL</title>
+		<title>RESPUESTAS - ENCUESTA PREVENTIVA - NIVEL NACIONAL</title>
 
 		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
 		<style type="text/css">
@@ -27,7 +36,7 @@ $(function () {
             type: 'column'
         }, 
         title: {
-            text: 'CARACTERÍSTICAS SOCIOECONÓMICAS - NIVEL NACIONAL'
+            text: 'RESPUESTAS A LA ENCUESTA PREVENTIVA - CÁNCER EN LA NIÑEZ Y LA ADOLESCENCIA - NIVEL NACIONAL'
         },
         subtitle: {
             text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
@@ -37,7 +46,7 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT idsocio_economica, socio_economica FROM socio_economica ORDER BY idsocio_economica ";
+$sql = " SELECT idpregunta_encuesta, pregunta_encuesta FROM pregunta_encuesta ORDER BY idpregunta_encuesta ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -75,7 +84,7 @@ Si no se encontraron resultados
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} FAMILIAS </b></td></tr>',
+                '<td style="padding:0"><b>{point.y:.1f}   </b></td></tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -91,7 +100,7 @@ Si no se encontraron resultados
 
             <?php 
 $numero2 = 0;
-$sql2 = " SELECT valor FROM socio_economica_cf GROUP BY valor ";
+$sql2 = " SELECT respuesta FROM respuesta_encuesta GROUP BY respuesta ORDER BY respuesta DESC ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -105,7 +114,7 @@ while ($field2 = mysqli_fetch_field($result2)){
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT idsocio_economica, socio_economica FROM socio_economica ORDER BY idsocio_economica ";
+$sql3 = " SELECT idpregunta_encuesta, pregunta_encuesta FROM pregunta_encuesta ORDER BY idpregunta_encuesta ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -115,7 +124,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
  
 <?php
-$sql_a =" SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row3[0]' AND valor='$row2[0]' ";
+$sql_a =" SELECT COUNT(respuesta) FROM respuesta_encuesta WHERE idpregunta_encuesta='$row3[0]' AND respuesta='$row2[0]' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -167,52 +176,8 @@ Si no se encontraron resultados
 <script src="../js/highcharts.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
-<div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="min-width: 600px; height: 450px; margin: 0 auto"></div>
 
-<table width="646" border="1" align="center" bordercolor="#009999">
-    <tr>
-        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
-        <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">EL HOGAR TIENE:</span></td>
-        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">NO</span></td>
-        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">SI</span></td>
-    </tr>
-<?php
-            $numero = 1;
-            $sql = " SELECT idsocio_economica, socio_economica FROM socio_economica ";
-            $result = mysqli_query($link,$sql);
-            if ($row = mysqli_fetch_array($result)){
-            mysqli_field_seek($result,0);
-            while ($field = mysqli_fetch_field($result)){
-            } do {
-
-            $sql_si = " SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row[0]' AND valor='SI' ";
-            $result_si = mysqli_query($link,$sql_si);
-            $row_si = mysqli_fetch_array($result_si);
-            $res_si = $row_si[0];
-
-            $sql_no = " SELECT COUNT(valor) FROM socio_economica_cf WHERE idsocio_economica='$row[0]' AND valor='NO' ";
-            $result_no = mysqli_query($link,$sql_no);
-            $row_no = mysqli_fetch_array($result_no);
-            $res_no = $row_no[0];
-
-            ?>
-                <tr>
-                    <td width="21" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
-                    <td width="315" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
-                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $res_no;?></td>
-                    <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $res_si;?></td>
-                    </tr> 
-
-                <?php
-                $numero++;                    
-            } while ($row = mysqli_fetch_array($result));
-            } else {
-            /*
-            Si no se encontraron resultados
-            */
-            }
-            ?>
-    </table>
 
 	</body>
 </html>

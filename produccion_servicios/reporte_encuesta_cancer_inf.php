@@ -149,6 +149,16 @@ Si no se encontraron resultados
 
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
+</br>
+
+<div align="center">
+<form action="reporte_encuestas_preventivas_excel.php" method="post">
+    <input type="hidden" name="inicio" value="<?php echo $inicio;?>">
+    <input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
+    <button type="submit">DESCARGAR REPORTE EN EXCEL</button>
+</form>
+</p></div>
+
 <!------------------------------------------------------------------------->
 <!--------- clasificacion de riesgos a nivel nacional --- begin ----------->
 <!------------------------------------------------------------------------->
@@ -170,7 +180,7 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT iddepartamento, departamento FROM departamento ORDER BY iddepartamento";
+$sql = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento";
 $result = mysqli_query($link,$sql);
 $total1 = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -238,7 +248,7 @@ while ($field2 = mysqli_fetch_field($result2)){
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT iddepartamento, departamento FROM departamento ORDER BY iddepartamento ";
+$sql3 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -388,9 +398,12 @@ $numero2++;
 ?>
   </tbody>
 </table>
-</br>
 
-
+<div align="center" style="font-family: Arial;">
+<h4>
+<a href="respuestas_encuesta_prev_cinf.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1400,height=500,scrollbars=YES,top=60,left=600'); return false;">VER RESPUESTAS A PREGUNTAS DE LA ENCUESTA</a>
+</h4>
+</div>
 
 
 	</body>
