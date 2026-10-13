@@ -78,7 +78,7 @@ Si no se encontraron resultados
         yAxis: {
             min: 0,
             title: {
-                text: 'SOCIOECONÓMICAS'
+                text: 'RESPUESTAS A ENCUESTA'
             }
         },
         tooltip: {
@@ -124,7 +124,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
  
 <?php
-$sql_a =" SELECT COUNT(respuesta) FROM respuesta_encuesta WHERE idpregunta_encuesta='$row3[0]' AND respuesta='$row2[0]' ";
+$sql_a =" SELECT COUNT(respuesta) FROM respuesta_encuesta WHERE idpregunta_encuesta='$row3[0]' AND respuesta='$row2[0]' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
 ?>
@@ -145,7 +145,6 @@ Si no se encontraron resultados
 */
 }
 ?>
-
 
         ]
 }
