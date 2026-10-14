@@ -97,7 +97,7 @@ $(function () {
             });
 
             <?php
-$sql_a =" SELECT COUNT(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, carpeta_familiar WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_a =" SELECT COUNT(distinct integrante_ap_sano.idintegrante_cf) FROM integrante_ap_sano, carpeta_familiar WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
 $result_a = mysqli_query($link,$sql_a);
 $row_a = mysqli_fetch_array($result_a);
@@ -109,13 +109,13 @@ $sql_b.=" AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY integra
 $result_b = mysqli_query($link,$sql_b);
 $factor_riesgo = mysqli_num_rows($result_b);
 
-$sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_c =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
 $result_c = mysqli_query($link,$sql_c);
 $row_c = mysqli_fetch_array($result_c);
 $morbilidad =$row_c[0];
 
-$sql_d =" SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql_d =" SELECT COUNT(distinct integrante_discapacidad.idintegrante_cf) FROM integrante_discapacidad, carpeta_familiar WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql_d.="  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
 $result_d = mysqli_query($link,$sql_d);
 $row_d = mysqli_fetch_array($result_d);

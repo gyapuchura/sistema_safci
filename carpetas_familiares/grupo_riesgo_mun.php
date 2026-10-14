@@ -41,10 +41,10 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM integrante_factor_riesgo, carpeta_familiar, municipios ";
-$sql.= " WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio  ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, COUNT(distinct integrante_factor_riesgo.idintegrante_cf) as total  ";
+$sql.= " FROM integrante_factor_riesgo, carpeta_familiar, municipios WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -112,15 +112,15 @@ Si no se encontraron resultados
       
         series: [
 {
-name: 'Integrantes con <?php echo $factor_riesgo;?>',
+name: 'Integrantes con Factores de Riesgo',
 data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM integrante_factor_riesgo, carpeta_familiar ";
-$sql3.= " WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, COUNT(distinct integrante_factor_riesgo.idintegrante_cf) as total  ";
+$sql3.= " FROM integrante_factor_riesgo, carpeta_familiar, municipios WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -128,14 +128,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar  ";
-$sql4.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql4.=" AND carpeta_familiar.idmunicipio='$row3[0]' GROUP BY integrante_factor_riesgo.idintegrante_cf ";
-$result4 = mysqli_query($link,$sql4);
-$factor_riesgo = mysqli_num_rows($result4); 
 ?>
 
-<?php  echo $factor_riesgo; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
@@ -159,7 +154,7 @@ echo "";
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/referencia.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 

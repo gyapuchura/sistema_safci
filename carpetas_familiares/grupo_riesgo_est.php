@@ -41,10 +41,10 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud FROM integrante_factor_riesgo, carpeta_familiar, establecimiento_salud ";
-$sql.= " WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, count(distinct integrante_factor_riesgo.idintegrante_cf) as total ";
+$sql.= " FROM integrante_factor_riesgo, carpeta_familiar, establecimiento_salud WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
 $sql.= " AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud  ";
+$sql.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud ORDER BY total DESC  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -117,25 +117,19 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idestablecimiento_salud FROM integrante_factor_riesgo, carpeta_familiar ";
-$sql3.= " WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql3.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud ";
+$sql3 = " SELECT carpeta_familiar.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, count(distinct integrante_factor_riesgo.idintegrante_cf) as total ";
+$sql3.= " FROM integrante_factor_riesgo, carpeta_familiar, establecimiento_salud WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql3.= " AND carpeta_familiar.idestablecimiento_salud=establecimiento_salud.idestablecimiento_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql3.= " AND carpeta_familiar.idmunicipio='$idmunicipio' GROUP BY carpeta_familiar.idestablecimiento_salud ORDER BY total DESC  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
-
-$sql4 =" SELECT integrante_factor_riesgo.idintegrante_cf FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql4.=" AND carpeta_familiar.idestablecimiento_salud='$row3[0]' GROUP BY integrante_factor_riesgo.idintegrante_cf ";
-$result4 = mysqli_query($link,$sql4);
-$factor_riesgo = mysqli_num_rows($result4); 
 ?>
 
-<?php  echo $factor_riesgo; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
@@ -159,7 +153,7 @@ echo "";
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/referencia.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 

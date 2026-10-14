@@ -47,11 +47,10 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM integrante_morbilidad, carpeta_familiar, municipios ";
-$sql.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql.= " AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY municipios.municipio ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(distinct integrante_morbilidad.idintegrante_cf) as total ";
+$sql.= " FROM integrante_morbilidad, carpeta_familiar, municipios WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -124,25 +123,19 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM integrante_morbilidad, carpeta_familiar ";
-$sql3.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(distinct integrante_morbilidad.idintegrante_cf) as total ";
+$sql3.= " FROM integrante_morbilidad, carpeta_familiar, municipios WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql3.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
-
-$sql4 =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-$sql4.=" AND carpeta_familiar.idmunicipio='$row3[0]' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
@@ -166,7 +159,7 @@ echo "";
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/grupo_tres.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 
@@ -186,19 +179,18 @@ echo "";
  
         </tr>
 
-        <?php
-            $numero2=1;
-            $sql2 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM integrante_morbilidad, carpeta_familiar, municipios ";
-            $sql2.= " WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-            $sql2.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
-            $sql2.= " AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-            $sql2.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY municipios.municipio ";
-            $result2 = mysqli_query($link,$sql2);
-            if ($row2 = mysqli_fetch_array($result2)){
-            mysqli_field_seek($result2,0);
-            while ($field2 = mysqli_fetch_field($result2)){
-            } do {
-            ?>
+    <?php
+        $numero2=1;
+        $sql2 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(distinct integrante_morbilidad.idintegrante_cf) as total ";
+        $sql2.= " FROM integrante_morbilidad, carpeta_familiar, municipios WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+        $sql2.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
+        $sql2.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC  ";
+        $result2 = mysqli_query($link,$sql2);
+        if ($row2 = mysqli_fetch_array($result2)){
+        mysqli_field_seek($result2,0);
+        while ($field2 = mysqli_fetch_field($result2)){
+        } do {
+        ?>
 
 	    <tr>
         <td style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $numero2;?></td>
@@ -206,12 +198,7 @@ echo "";
         
         <td style="font-family: Arial; font-size: 12px; text-align: center;">
             <?php 
-                $sql_h =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-                $sql_h.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='$idmorbilidad_cf' ";
-                $sql_h.=" AND carpeta_familiar.idmunicipio='$row2[0]' ";
-            $result_h = mysqli_query($link,$sql_h);
-            $row_h = mysqli_fetch_array($result_h);
-            $integrantes_cf   = number_format($row_h[0], 0, '.', '.');
+            $integrantes_cf = number_format($row2[2], 0, '.', '.');
             echo $integrantes_cf;?>
         </td>
         <td style="font-family: Arial; font-size: 12px; text-align: center;">
