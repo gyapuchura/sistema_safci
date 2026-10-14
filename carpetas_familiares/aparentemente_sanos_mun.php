@@ -41,10 +41,10 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM integrante_ap_sano, carpeta_familiar, municipios ";
-$sql.= " WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio  ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, COUNT(distinct integrante_ap_sano.idintegrante_cf) as total  ";
+$sql.= " FROM integrante_ap_sano, carpeta_familiar, municipios WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -112,15 +112,15 @@ Si no se encontraron resultados
       
         series: [
 {
-name: 'Integrantes con <?php echo $factor_riesgo;?>',
+name: 'Integrantes APARENTEMENTE SANOS',
 data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM integrante_ap_sano, carpeta_familiar ";
-$sql3.= " WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, COUNT(distinct integrante_ap_sano.idintegrante_cf) as total  ";
+$sql3.= " FROM integrante_ap_sano, carpeta_familiar, municipios WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idmunicipio=municipios.idmunicipio ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -128,14 +128,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT COUNT(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, carpeta_familiar WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql4.=" AND carpeta_familiar.idmunicipio='$row3[0]' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;

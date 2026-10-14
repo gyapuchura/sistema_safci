@@ -128,7 +128,7 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql4 =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql4.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.idarea_influencia='$row3[0]' ";
 $result4 = mysqli_query($link,$sql4);
 $row4 = mysqli_fetch_array($result4); 
@@ -158,7 +158,7 @@ echo "";
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/grupo_tres.js"></script>
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 

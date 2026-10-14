@@ -52,11 +52,11 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM integrante_discapacidad, carpeta_familiar, municipios ";
-$sql.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO' ";
-$sql.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$idtipo_discapacidad_cf' AND integrante_discapacidad.idnivel_discapacidad_cf='$idnivel_discapacidad_cf' ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio  ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(distinct integrante_discapacidad.idintegrante_cf) as total  ";
+$sql.= " FROM integrante_discapacidad, carpeta_familiar, municipios WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO'  ";
+$sql.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$idtipo_discapacidad_cf' AND integrante_discapacidad.idnivel_discapacidad_cf='$idnivel_discapacidad_cf'  ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -113,11 +113,11 @@ Si no se encontraron resultados
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM integrante_discapacidad, carpeta_familiar ";
-$sql3.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
-$sql3.= " AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_discapacidad.idtipo_discapacidad_cf='$idtipo_discapacidad_cf' ";
-$sql3.= " AND integrante_discapacidad.idnivel_discapacidad_cf='$idnivel_discapacidad_cf' ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio  ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(distinct integrante_discapacidad.idintegrante_cf) as total  ";
+$sql3.= " FROM integrante_discapacidad, carpeta_familiar, municipios WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql3.= " AND carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.estado='CONSOLIDADO'  ";
+$sql3.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$idtipo_discapacidad_cf' AND integrante_discapacidad.idnivel_discapacidad_cf='$idnivel_discapacidad_cf'  ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -126,14 +126,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
  
-<?php
-$sql_a =" SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_discapacidad.idnivel_discapacidad_cf='$idnivel_discapacidad_cf' ";
-$sql_a.=" AND integrante_discapacidad.idtipo_discapacidad_cf='$idtipo_discapacidad_cf' AND carpeta_familiar.idmunicipio='$row3[0]' ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-?>
-<?php echo $row_a[0]; ?>
+<?php echo $row3[2]; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
@@ -161,7 +154,7 @@ Si no se encontraron resultados
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/grupo_cuatro.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>

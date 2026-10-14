@@ -40,7 +40,10 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$sql = " SELECT carpeta_familiar.iddepartamento, departamento.departamento, COUNT(integrante_factor_riesgo.idintegrante_cf) as total ";
+$sql.= " FROM integrante_factor_riesgo, carpeta_familiar, departamento WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql.= " AND carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql.= " AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' GROUP BY carpeta_familiar.iddepartamento ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -97,7 +100,10 @@ Si no se encontraron resultados
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$sql3 = " SELECT carpeta_familiar.iddepartamento, departamento.departamento, COUNT(integrante_factor_riesgo.idintegrante_cf) as total ";
+$sql3.= " FROM integrante_factor_riesgo, carpeta_familiar, departamento WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+$sql3.= " AND carpeta_familiar.iddepartamento=departamento.iddepartamento AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql3.= " AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' GROUP BY carpeta_familiar.iddepartamento ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -105,15 +111,8 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
- 
-<?php
-$sql_a =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar  ";
-$sql_a.=" WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$row3[0]' AND integrante_factor_riesgo.idfactor_riesgo_cf='$idfactor_riesgo_cf' ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-?>
-<?php echo $row_a[0]; ?>
+
+<?php echo $row3[2]; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
@@ -142,7 +141,7 @@ Si no se encontraron resultados
 		</script>
 	</head>
 	<body>
-<script src="../js/highcharts.js"></script>
+<script src="../js/referencia.js"></script>
 <script src="../js/modules/exporting.js"></script>
 
 <div id="container" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
