@@ -44,8 +44,9 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idred_salud, red_salud.red_salud FROM red_salud, carpeta_familiar WHERE carpeta_familiar.idred_salud=red_salud.idred_salud ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ORDER BY carpeta_familiar.idred_salud ";
+$sql = " SELECT carpeta_familiar.idred_salud, red_salud.red_salud, count(carpeta_familiar.idcarpeta_familiar) as total ";
+$sql.= " FROM red_salud, carpeta_familiar WHERE carpeta_familiar.idred_salud=red_salud.idred_salud  ";
+$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -118,8 +119,9 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idred_salud FROM red_salud, carpeta_familiar WHERE carpeta_familiar.idred_salud=red_salud.idred_salud ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ORDER BY carpeta_familiar.idred_salud  ";
+$sql3 = " SELECT carpeta_familiar.idred_salud, red_salud.red_salud, count(carpeta_familiar.idcarpeta_familiar) as total ";
+$sql3.= " FROM red_salud, carpeta_familiar WHERE carpeta_familiar.idred_salud=red_salud.idred_salud AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -127,12 +129,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idred_salud='$row3[0]' AND estado='CONSOLIDADO' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
@@ -155,21 +154,18 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idred_salud FROM red_salud, carpeta_familiar WHERE carpeta_familiar.idred_salud=red_salud.idred_salud ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ORDER BY carpeta_familiar.idred_salud  ";
+$sql3 = " SELECT carpeta_familiar.idred_salud, red_salud.red_salud, count(carpeta_familiar.idcarpeta_familiar) as total ";
+$sql3.= " FROM red_salud, carpeta_familiar WHERE carpeta_familiar.idred_salud=red_salud.idred_salud AND carpeta_familiar.estado='' ";
+$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' GROUP BY carpeta_familiar.idred_salud ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
-
-$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idred_salud='$row3[0]' AND estado='' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
