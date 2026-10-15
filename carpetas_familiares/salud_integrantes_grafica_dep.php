@@ -254,9 +254,10 @@ MOSTRAR CUADRO</a></h2>   --->
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="120" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GRUPO DE SALUD</td>
+              <td width="150" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GRUPO DE SALUD</td>
               <td width="80" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIOS</td>
+              <td width="80" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MUNICIPIOS</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">REDES DE SALUD</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ETÁREO</td>
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
@@ -269,9 +270,13 @@ MOSTRAR CUADRO</a></h2>   --->
               <a href="aparentemente_sanos_mun.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=900,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="aparentemente_sanos_red.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_aparentemente_sanos_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
-              VER PIRAMIDE</a>
+              PIRAMIDE</a>
               </td>
 	        </tr>
             <tr>
@@ -282,9 +287,13 @@ MOSTRAR CUADRO</a></h2>   --->
               <a href="grupo_riesgo_mun.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=900,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
+            <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_riesgo_red.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_grupo_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
-              VER PIRAMIDE</a>
+              PIRAMIDE</a>
               </td>
 	        </tr>
             <tr>
@@ -296,8 +305,12 @@ MOSTRAR CUADRO</a></h2>   --->
               MUNICIPIOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_morbilidad_red.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_grupo_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
-              VER PIRAMIDE</a>
+              PIRAMIDE</a>
               </td>
 	        </tr>
             <tr>
@@ -309,8 +322,12 @@ MOSTRAR CUADRO</a></h2>   --->
               MUNICIPIOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_discapacidad_red.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=900,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_grupo_discapacidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
-              VER PIRAMIDE</a>
+              PIRAMIDE</a>
               </td>
 	        </tr>
 	      </tbody>
@@ -391,97 +408,97 @@ $(function () {
             });
 
             <?php
-                $sql_t =" SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_t =" SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_t.="  AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_t = mysqli_query($link,$sql_t);
                 $row_t = mysqli_fetch_array($result_t);
                 $total = $row_t[0];
 
-                $sql_a ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_a ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_a.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='1' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_a = mysqli_query($link,$sql_a);
                 $row_a = mysqli_fetch_array($result_a);
                 $sedentarismo = $row_a[0];
 
-                $sql_b ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_b ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_b.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='2' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_b = mysqli_query($link,$sql_b);
                 $row_b = mysqli_fetch_array($result_b);
                 $consume_alcohol = $row_b[0];
 
-                $sql_c ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_c ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_c.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='3' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_c = mysqli_query($link,$sql_c);
                 $row_c = mysqli_fetch_array($result_c);
                 $fumar =$row_c[0];
 
-                $sql_d ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_d ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_d.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='4' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_d = mysqli_query($link,$sql_d);
                 $row_d = mysqli_fetch_array($result_d);
                 $drogas = $row_d[0];
 
-                $sql_e ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_e ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_e.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='5' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_e = mysqli_query($link,$sql_e);
                 $row_e = mysqli_fetch_array($result_e);
                 $promiscuidad = $row_e[0];
 
-                $sql_f ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_f ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_f.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='6' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_f = mysqli_query($link,$sql_f);
                 $row_f = mysqli_fetch_array($result_f);
                 $gaseosas = $row_f[0];
 
-                $sql_g ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_g ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_g.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='7' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_g = mysqli_query($link,$sql_g);
                 $row_g = mysqli_fetch_array($result_g);
                 $frituras =$row_g[0];
 
-                $sql_h ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_h ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_h.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='8' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_h = mysqli_query($link,$sql_h);
                 $row_h = mysqli_fetch_array($result_h);
                 $conservas = $row_h[0];
 
-                $sql_i ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_i ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_i.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='9' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_i = mysqli_query($link,$sql_i);
                 $row_i = mysqli_fetch_array($result_i);
                 $golosinas = $row_i[0];
 
-                $sql_j ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_j ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_j.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='10' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_j = mysqli_query($link,$sql_j);
                 $row_j = mysqli_fetch_array($result_j);
                 $sal = $row_j[0];
 
-                $sql_k ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_k ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_k.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='11' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_k = mysqli_query($link,$sql_k);
                 $row_k = mysqli_fetch_array($result_k);
                 $piezas =$row_k[0];
 
-                $sql_l ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_l ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_l.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='12' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_l = mysqli_query($link,$sql_l);
                 $row_l = mysqli_fetch_array($result_l);
                 $menor = $row_l[0];
 
-                $sql_m ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_m ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_m.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='13' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_m = mysqli_query($link,$sql_m);
                 $row_m = mysqli_fetch_array($result_m);
                 $embarazo = $row_m[0];
 
-                $sql_n ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_n ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_n.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='14' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_n = mysqli_query($link,$sql_n);
                 $row_n = mysqli_fetch_array($result_n);
                 $mayor = $row_n[0];
 
-                $sql_o ="  SELECT COUNT(integrante_factor_riesgo.idintegrante_factor_riesgo) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_o ="  SELECT COUNT(distinct integrante_factor_riesgo.idintegrante_cf) FROM integrante_factor_riesgo, carpeta_familiar WHERE integrante_factor_riesgo.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_o.="  AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_factor_riesgo.idfactor_riesgo_cf='15' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_o = mysqli_query($link,$sql_o);
                 $row_o = mysqli_fetch_array($result_o);
@@ -581,13 +598,14 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 <a href="cuadro_cf_salud_integrantes_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=60,left=400'); return false;">             
 CUADRO FACTORES DE RIESGO</a></h2> --->
 
-<table width="700" border="1" align="center" cellspacing="0">
+<table width="750" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
-              <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">MUNICIPIOS </td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">REDES DE SALUD</td> 
           <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
 	        </tr>
             <tr>
@@ -598,6 +616,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
+              </td>
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
               </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
@@ -614,6 +636,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
 
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
@@ -629,7 +655,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -644,7 +673,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -659,7 +691,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -674,7 +709,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -689,7 +727,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -704,7 +745,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -719,7 +763,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -734,7 +781,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -749,7 +799,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -764,7 +817,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -779,7 +835,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -794,7 +853,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -809,7 +871,10 @@ CUADRO FACTORES DE RIESGO</a></h2> --->
               <a href="factores_riesgo_cf_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_cf_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -894,121 +959,121 @@ $(function () {
                 });
             });
             <?php
-                $sql_t =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
+                $sql_t =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar  ";
                 $sql_t.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_t = mysqli_query($link,$sql_t);
                 $row_t = mysqli_fetch_array($result_t);
                 $total = $row_t[0];
 
-                $sql_a =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_a =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='1' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_a = mysqli_query($link,$sql_a);
                 $row_a = mysqli_fetch_array($result_a);
                 $tuberculosis = $row_a[0];
 
-                $sql_b =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_b =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_b.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='2' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_b = mysqli_query($link,$sql_b);
                 $row_b = mysqli_fetch_array($result_b);
                 $sexual = $row_b[0];
 
-                $sql_c =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_c =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_c.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='3' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_c = mysqli_query($link,$sql_c);
                 $row_c = mysqli_fetch_array($result_c);
                 $malaria =$row_c[0];
 
-                $sql_d =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_d =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_d.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='4' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_d = mysqli_query($link,$sql_d);
                 $row_d = mysqli_fetch_array($result_d);
                 $lepra = $row_d[0];
 
-                $sql_e =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_e =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_e.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='5' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_e = mysqli_query($link,$sql_e);
                 $row_e = mysqli_fetch_array($result_e);
                 $leishmaniasis = $row_e[0];
 
-                $sql_f =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_f =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_f.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='6' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_f = mysqli_query($link,$sql_f);
                 $row_f = mysqli_fetch_array($result_f);
                 $chagas = $row_f[0];
 
-                $sql_g =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_g =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_g.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='7' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_g = mysqli_query($link,$sql_g);
                 $row_g = mysqli_fetch_array($result_g);
                 $hepatitis =$row_g[0];
 
-                $sql_h =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_h =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_h.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='8' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_h = mysqli_query($link,$sql_h);
                 $row_h = mysqli_fetch_array($result_h);
                 $cardiovascular = $row_h[0];
 
-                $sql_i =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_i =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_i.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='9' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_i = mysqli_query($link,$sql_i);
                 $row_i = mysqli_fetch_array($result_i);
                 $hipertension = $row_i[0];
 
-                $sql_j =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_j =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_j.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='10' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_j = mysqli_query($link,$sql_j);
                 $row_j = mysqli_fetch_array($result_j);
                 $diabetes = $row_j[0];
 
-                $sql_k =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_k =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_k.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='11' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_k = mysqli_query($link,$sql_k);
                 $row_k = mysqli_fetch_array($result_k);
                 $obesidad =$row_k[0];
 
-                $sql_l =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_l =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_l.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='12' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_l = mysqli_query($link,$sql_l);
                 $row_l = mysqli_fetch_array($result_l);
                 $renal = $row_l[0];
 
-                $sql_m =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_m =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_m.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='13' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_m = mysqli_query($link,$sql_m);
                 $row_m = mysqli_fetch_array($result_m);
                 $reumatica = $row_m[0];
 
-                $sql_n =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_n =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_n.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='14' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_n = mysqli_query($link,$sql_n);
                 $row_n = mysqli_fetch_array($result_n);
                 $pulmonar = $row_n[0];
 
-                $sql_o =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_o =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_o.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='15' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_o = mysqli_query($link,$sql_o);
                 $row_o = mysqli_fetch_array($result_o);
                 $autoinmune = $row_o[0];
 
-                $sql_p =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_p =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_p.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='16' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_p = mysqli_query($link,$sql_p);
                 $row_p = mysqli_fetch_array($result_p);
                 $hematologica = $row_p[0];
 
-                $sql_q =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_q =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_q.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='17' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_q = mysqli_query($link,$sql_q);
                 $row_q = mysqli_fetch_array($result_q);
                 $asma = $row_q[0];
 
-                $sql_r =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_r =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_r.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='18' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_r = mysqli_query($link,$sql_r);
                 $row_r = mysqli_fetch_array($result_r);
                 $cancer = $row_r[0];
 
-                $sql_s =" SELECT COUNT(integrante_morbilidad.idintegrante_morbilidad) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
+                $sql_s =" SELECT COUNT(distinct integrante_morbilidad.idintegrante_cf) FROM integrante_morbilidad, carpeta_familiar WHERE integrante_morbilidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar   ";
                 $sql_s.=" AND carpeta_familiar.estado='CONSOLIDADO' AND integrante_morbilidad.idmorbilidad_cf='19' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
                 $result_s = mysqli_query($link,$sql_s);
                 $row_s = mysqli_fetch_array($result_s);
@@ -1116,14 +1181,15 @@ $(function () {
  <a href="cuadro_cf_morbilidad_integrantes_dep.php?iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=500,scrollbars=YES,top=60,left=400'); return false;">             
 CUADRO MORBILIDAD</a></h2>  -->
 
-<table width="700" border="1" align="center" cellspacing="0">
+<table width="750" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
               <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MORBILIDAD</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
-          <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> MUNICIPIOS </td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> REDES DE SALUD </td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
 	        </tr>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">1</td>
@@ -1134,7 +1200,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1149,7 +1218,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1164,7 +1236,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=3" target="_blank" class="Estilo32" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1179,7 +1254,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1194,7 +1272,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1209,7 +1290,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1224,7 +1308,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1239,7 +1326,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1254,7 +1344,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1269,7 +1362,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1284,7 +1380,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1299,7 +1398,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1314,7 +1416,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1329,7 +1434,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1344,7 +1452,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1359,7 +1470,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1374,7 +1488,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1389,7 +1506,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1404,7 +1524,10 @@ CUADRO MORBILIDAD</a></h2>  -->
               <a href="morbilidad_municipios.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
               MUNICIPIOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_redes.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=950,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_dep.php?iddepartamento=<?php echo $iddepartamento;?>&idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1514,7 +1637,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 	?>
 
 <?php
-$sql_a =" SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
+$sql_a =" SELECT COUNT(distinct integrante_discapacidad.idintegrante_cf) FROM integrante_discapacidad, carpeta_familiar WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
 $sql_a.=" AND integrante_discapacidad.idtipo_discapacidad_cf='$row3[0]' AND integrante_discapacidad.idnivel_discapacidad_cf='$row2[0]'  ";
 $sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$iddepartamento'   ";
 $result_a = mysqli_query($link,$sql_a);

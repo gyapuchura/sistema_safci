@@ -53,8 +53,9 @@ $(function () {
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-$sql.= " AND carpeta_familiar.iddepartamento='$iddepartamento' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio ";
+$sql = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(carpeta_familiar.idcarpeta_familiar) as total ";
+$sql.= " FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.iddepartamento='$iddepartamento'  ";
+$sql.= " AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC  ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -127,8 +128,9 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio  ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(carpeta_familiar.idcarpeta_familiar) as total FROM municipios, carpeta_familiar ";
+$sql3.= " WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.iddepartamento='$iddepartamento' AND carpeta_familiar.estado='CONSOLIDADO' ";
+$sql3.= " AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -136,12 +138,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idmunicipio='$row3[0]' AND estado='CONSOLIDADO' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion'";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
@@ -164,21 +163,18 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT carpeta_familiar.idmunicipio FROM municipios, carpeta_familiar WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio ";
-$sql3.= " AND carpeta_familiar.iddepartamento='$iddepartamento' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idmunicipio ORDER BY carpeta_familiar.idmunicipio  ";
+$sql3 = " SELECT carpeta_familiar.idmunicipio, municipios.municipio, count(carpeta_familiar.idcarpeta_familiar) as total FROM municipios, carpeta_familiar ";
+$sql3.= " WHERE carpeta_familiar.idmunicipio=municipios.idmunicipio AND carpeta_familiar.iddepartamento='$iddepartamento' AND carpeta_familiar.estado='' ";
+$sql3.= " AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY carpeta_familiar.idmunicipio ORDER BY total DESC  ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
 mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
-
-$sql4 = " SELECT count(idcarpeta_familiar) FROM carpeta_familiar WHERE idmunicipio='$row3[0]' AND estado='' AND fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
