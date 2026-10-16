@@ -1605,7 +1605,8 @@ Si no se encontraron resultados
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
             }
         },
         series: [
@@ -1731,7 +1732,7 @@ while ($field3 = mysqli_fetch_field($result3)){
             <td width="100">              
               <span style="font-family: Arial; font-size: 12px;">
         <?php
-        $sql_a = " SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar ";
+        $sql_a = " SELECT COUNT(distinct integrante_discapacidad.idintegrante_cf) FROM integrante_discapacidad, carpeta_familiar ";
         $sql_a.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
         $sql_a.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$row3[0]' AND integrante_discapacidad.idnivel_discapacidad_cf='$row2[0]' AND carpeta_familiar.iddepartamento='$iddepartamento' ";
         $result_a = mysqli_query($link,$sql_a);
