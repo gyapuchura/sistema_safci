@@ -94,7 +94,8 @@ Si no se encontraron resultados
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
             }
         },
         series: [
@@ -226,7 +227,8 @@ Si no se encontraron resultados
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
             }
         },
         series: [

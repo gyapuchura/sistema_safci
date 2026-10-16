@@ -5,7 +5,6 @@ date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
 $fecha 					= date("Y-m-d");
 $gestion                = date("Y");
-
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -84,8 +83,10 @@ Si no se encontraron resultados
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
             }
+         
         },
         series: [
 

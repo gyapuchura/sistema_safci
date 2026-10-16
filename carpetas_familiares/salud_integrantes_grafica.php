@@ -192,13 +192,14 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 <div id="grupo_salud" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 
-<table width="700" border="1" align="center" cellspacing="0">
+<table width="750" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="120" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GRUPO DE SALUD</td>
+              <td width="170" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">GRUPO DE SALUD</td>
               <td width="80" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">DEPARTAMENTOS</td>
+              <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">REDES DE SALUD</td>
               <td width="100" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">ETÁREO</td>
 		     <!--- <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">F302A</td>  --->
 	        </tr>
@@ -206,10 +207,14 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">1</td>
               <td style="font-size: 12px; font-family: Arial;">APARENTEMENTE SANOS</td>
-            <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $aparentemente_sano;?> </td>
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $aparentemente_sano;?> </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="aparentemente_sanos_deptos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="aparentemente_sanos_redes.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_aparentemente_sanos_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
@@ -225,6 +230,10 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_riesgo_redes.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_grupo_riesgo_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
@@ -238,6 +247,10 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_morbilidad_redes.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_grupo_morbilidad_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
@@ -249,6 +262,10 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="grupo_discapacidad_deptos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
+              </td>
+              <td style="font-size: 12px; font-family: Arial; text-align: center;">
+              <a href="grupo_discapacidad_redes.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <a href="piramide_grupo_discapacidad_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
@@ -524,14 +541,15 @@ OTROS FACTORES DE RIESGO	<?php echo $otros_p;?>%
 CUADRO FACTORES DE RIESGO</a></h2>  -->
 
 
-	<table width="700" border="1" align="center" cellspacing="0">
+	<table width="750" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">FACTORES DE RIESGO</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
-          <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">DEPARTAMENTOS</td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">REDES DE SALUD</td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
 	        </tr>
             <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">1</td>
@@ -542,7 +560,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -557,7 +578,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -572,7 +596,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -587,7 +614,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -602,7 +632,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -617,7 +650,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -632,7 +668,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -647,7 +686,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -662,7 +704,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -677,7 +722,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -692,7 +740,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -707,7 +758,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -722,7 +776,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -737,7 +794,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -752,7 +812,10 @@ CUADRO FACTORES DE RIESGO</a></h2>  -->
               <a href="factores_riesgo_deptos.php?idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="factores_riesgo_redes.php?idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_factores_riesgo_nal.php?idfactor_riesgo_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
@@ -1060,14 +1123,15 @@ $(function () {
     CUADRO MORBILIDAD</a></h2>  -->
 
 
-    <table width="700" border="1" align="center" cellspacing="0">
+    <table width="750" border="1" align="center" cellspacing="0">
 		  <tbody>
 		    <tr>
 		      <td width="37" style="font-family: Arial; font-size: 12px; color: #2D56CF; text-align: center;">N°</td>
-              <td width="199" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MORBILIDAD</td>
+              <td width="250" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">MORBILIDAD</td>
               <td width="110" style="color: #2D56CF; font-family: Arial; font-size: 12px; text-align: center;">N° DE INTEGRANTES</td>
-		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;"> </td> 
-          <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
+		      <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">DEPARTAMENTOS</td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">REDES DE SALUD</td> 
+              <td width="106" style="color: #2D56CF; font-size: 12px; font-family: Arial; text-align: center;">PIRAMIDE</td> 
 	        </tr>
 		    <tr>
 		      <td style="font-size: 12px; font-family: Arial; text-align: center;">1</td>
@@ -1078,7 +1142,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=1" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1093,7 +1160,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=2" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1108,7 +1178,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=3" target="_blank" class="Estilo32" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=3" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1123,7 +1196,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=4" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1138,7 +1214,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=5" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1153,7 +1232,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=6" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1168,7 +1250,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=7" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1183,7 +1268,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=8" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1198,7 +1286,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=9" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1213,7 +1304,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=10" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1228,7 +1322,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=11" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1243,7 +1340,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=12" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1258,7 +1358,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=13" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1273,7 +1376,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=14" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1288,7 +1394,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=15" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1303,7 +1412,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=16" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1318,7 +1430,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=17" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1333,7 +1448,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=18" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1348,7 +1466,10 @@ $(function () {
               <a href="morbilidad_cf_deptos.php?idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
               DEPARTAMENTOS</a>
               </td>
-
+              <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
+              <a href="morbilidad_cf_redes.php?idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=600'); return false;">             
+              REDES DE SALUD</a>
+              </td>
               <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;">
               <a href="piramide_morbilidad_nal.php?idmorbilidad_cf=19" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=600'); return false;">             
               VER PIRAMIDE</a>
@@ -1425,7 +1546,8 @@ Si no se encontraron resultados
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
             }
         },
         series: [
@@ -1455,13 +1577,14 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
-
-<?php
-$sql_a =" SELECT count(distinct idintegrante_cf) FROM integrante_discapacidad WHERE idtipo_discapacidad_cf='$row3[0]' AND idnivel_discapacidad_cf='$row2[0]' ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-?>
-<?php echo $row_a[0]; ?>
+        <?php
+        $sql_a = " SELECT COUNT(distinct integrante_discapacidad.idintegrante_cf) FROM integrante_discapacidad, carpeta_familiar ";
+        $sql_a.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
+        $sql_a.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$row3[0]' AND integrante_discapacidad.idnivel_discapacidad_cf='$row2[0]' ";
+        $result_a = mysqli_query($link,$sql_a);
+        $row_a = mysqli_fetch_array($result_a);
+        ?>
+            <?php echo $row_a[0]; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
@@ -1550,7 +1673,7 @@ while ($field3 = mysqli_fetch_field($result3)){
             <td width="138 ">              
               <span style="font-family: Arial; font-size: 12px;">
         <?php
-        $sql_a = " SELECT COUNT(integrante_discapacidad.idintegrante_discapacidad) FROM integrante_discapacidad, carpeta_familiar ";
+        $sql_a = " SELECT COUNT(distinct integrante_discapacidad.idintegrante_cf) FROM integrante_discapacidad, carpeta_familiar ";
         $sql_a.= " WHERE integrante_discapacidad.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND carpeta_familiar.estado='CONSOLIDADO'  ";
         $sql_a.= " AND integrante_discapacidad.idtipo_discapacidad_cf='$row3[0]' AND integrante_discapacidad.idnivel_discapacidad_cf='$row2[0]' ";
         $result_a = mysqli_query($link,$sql_a);
