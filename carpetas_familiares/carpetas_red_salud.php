@@ -191,9 +191,9 @@ echo "";
 <script src="../js/modules/exporting.js"></script>
 <script src="../js/modules/drilldown.js"></script>
 
-<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $total3*90;?>px; margin: 0 auto"></div>
+<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo $total*80;?>px; margin: 0 auto"></div>
 
-<span style="font-family: Arial; font-size: 14px;"><h4 align="center">N° de Redes de Salud = <?php echo $total3;?></h4></spam>
+<span style="font-family: Arial; font-size: 14px;"><h4 align="center">N° de Redes de Salud = <?php echo $total;?></h4></spam>
 
 <p>&nbsp;</p>
 </body>
