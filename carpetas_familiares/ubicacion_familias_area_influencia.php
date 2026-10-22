@@ -38,7 +38,7 @@ $zoom_c     = 12;
 
 <body>
 
-<div class="sala"><h3 class="text-center">ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($row1[1]);?></h3></div>  
+<div class="sala"><h3 class="text-center">ÁREA DE INFLUENCIA : <?php echo mb_strtoupper($row1[2].' '.$row1[3]);?></h3></div>  
 
 <div id="mi_mapa" style="width: 100%; height: 850px;"></div>
 
