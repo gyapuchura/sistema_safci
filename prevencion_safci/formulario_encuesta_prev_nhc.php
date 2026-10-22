@@ -339,7 +339,94 @@ switch ($idtema_encuesta) {
                 </form>
                     <!-- Modal -->
 
+<!-- INICIO DE SCRIPT DE AUTOMATIZACIÓN Y SEMAFORIZACIÓN -->
+<script>
+(function() {
+    const selectClasificacion = document.getElementById('idclasificacion_riesgo_cancer');
+    
+    if (!selectClasificacion) {
+        console.error("No se encontró el select de clasificación.");
+        return;
+    }
 
+    function autoClassificar() {
+        let riesgoAlto = false;
+        let riesgoMedio = false;
+
+        // 1. Evaluar Radios (Preguntas Clínicas)
+        const radiosSI = document.querySelectorAll('input[type="radio"][value="SI"]:checked');
+        radiosSI.forEach(radio => {
+            const nombre = radio.name; 
+            // Riesgo Alto: Índices 0, 2, 3, 5 correspondientes a preguntas graves
+            if (nombre === 'respuesta[0]' || nombre === 'respuesta[2]' || nombre === 'respuesta[3]' || nombre === 'respuesta[5]') {
+                riesgoAlto = true;
+            }
+            // Riesgo Medio: Índices 1, 4, 6, 7, 8, 9 correspondientes a síntomas de riesgo medio
+            if (nombre === 'respuesta[1]' || nombre === 'respuesta[4]' || nombre === 'respuesta[6]' || nombre === 'respuesta[7]' || nombre === 'respuesta[8]' || nombre === 'respuesta[9]') {
+                riesgoMedio = true;
+            }
+        });
+
+        // 2. Evaluar Checkboxes usando los IDs exactos de tu Base de Datos
+        const checkboxesMarcados = document.querySelectorAll('input[type="checkbox"][name="iditem_senal_cancer[]"]:checked');
+        checkboxesMarcados.forEach(chk => {
+            // Evaluamos directamente el "value" del checkbox (que es el iditem_senal_cancer)
+            if (chk.value === "3") { 
+                // ID 3 = Palidez Leve -> Riesgo Medio
+                riesgoMedio = true;
+            } else {
+                // Cualquier otro ID (Moretes, Sangrado, Intensa, Ojos, Ganglios, etc.) -> Riesgo Alto
+                riesgoAlto = true;
+            }
+        });
+
+        // 3. Autoselección en el select y Semaforización
+        // (Riesgo alto siempre domina si hay una mezcla de síntomas)
+        if (riesgoAlto) {
+            selectClasificacion.value = "1"; // 1 = POSIBLE CÁNCER O ENFERMEDAD MUY GRAVE
+            selectClasificacion.style.backgroundColor = "#fdf0f0";
+            selectClasificacion.style.color = "#b91817";
+            selectClasificacion.style.fontWeight = "bold";
+        } else if (riesgoMedio) {
+            selectClasificacion.value = "2"; // 2 = ALGÚN RIESGO DE CÁNCER
+            selectClasificacion.style.backgroundColor = "#fff8e1";
+            selectClasificacion.style.color = "#b59545";
+            selectClasificacion.style.fontWeight = "bold";
+        } else {
+            selectClasificacion.value = "3"; // 3 = NO TIENE CÁNCER
+            selectClasificacion.style.backgroundColor = "#e8f5e9";
+            selectClasificacion.style.color = "#28a745";
+            selectClasificacion.style.fontWeight = "bold";
+        }
+    }
+
+    // 4. Delegación de eventos anclada al formulario actual
+    const formulario = document.forms['ENCUESTA_1'] || document.body;
+    formulario.addEventListener('change', function(e) {
+        if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+            autoClassificar();
+        }
+    });
+
+    // 5. Mantener los colores si el médico cambia el select manualmente
+    selectClasificacion.addEventListener('change', function() {
+        if (this.value === "1") { 
+            this.style.backgroundColor = "#fdf0f0"; this.style.color = "#b91817"; this.style.fontWeight = "bold";
+        } else if (this.value === "2") { 
+            this.style.backgroundColor = "#fff8e1"; this.style.color = "#b59545"; this.style.fontWeight = "bold";
+        } else if (this.value === "3") { 
+            this.style.backgroundColor = "#e8f5e9"; this.style.color = "#28a745"; this.style.fontWeight = "bold";
+        } else { 
+            this.style.backgroundColor = "#fff"; this.style.color = "#495057"; this.style.fontWeight = "normal";
+        }
+    });
+
+    // Forzar la evaluación inicial al abrir el panel
+    setTimeout(autoClassificar, 300);
+
+})();
+</script>
+<!-- FIN DE SCRIPT DE AUTOMATIZACIÓN -->
 
   <?php
     break;

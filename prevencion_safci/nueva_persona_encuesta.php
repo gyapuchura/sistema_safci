@@ -230,6 +230,57 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                         // C. Remoción estricta del atributo requerido en AMBOS inputs (Paterno y Materno)
                         inputsApellidos.removeAttr('required');
                     }
+                    // =======================================================
+                    // BLOQUE 3: AUTOMATIZACIÓN Y SEMAFORIZACIÓN (CÁNCER)
+                    // =======================================================
+                    var selectClasificacion = $("#idclasificacion_riesgo_cancer");
+                    
+                    if (selectClasificacion.length > 0) {
+                        function autoClassificar() {
+                            let riesgoAlto = false;
+                            let riesgoMedio = false;
+
+                            // 1. Evaluar Radios (Preguntas Clínicas)
+                            $("#formulario_encuesta_new input[type='radio'][value='SI']:checked").each(function() {
+                                const nombre = $(this).attr('name');
+                                // Índices 0, 2, 3, 5 -> Riesgo Alto
+                                if (nombre === 'respuesta[0]' || nombre === 'respuesta[2]' || nombre === 'respuesta[3]' || nombre === 'respuesta[5]') { riesgoAlto = true; }
+                                // Índices 1, 4, 6, 7, 8, 9 -> Riesgo Medio
+                                if (nombre === 'respuesta[1]' || nombre === 'respuesta[4]' || nombre === 'respuesta[6]' || nombre === 'respuesta[7]' || nombre === 'respuesta[8]' || nombre === 'respuesta[9]') { riesgoMedio = true; }
+                            });
+
+                            // 2. Evaluar Checkboxes usando IDs exactos de la BD (3 = Palidez Leve)
+                            $("#formulario_encuesta_new input[type='checkbox'][name='iditem_senal_cancer[]']:checked").each(function() {
+                                if ($(this).val() === "3") { riesgoMedio = true; } 
+                                else { riesgoAlto = true; }
+                            });
+
+                            // 3. Autoselección en el select y Semaforización
+                            if (riesgoAlto) {
+                                selectClasificacion.val("1").css({"background-color": "#fdf0f0", "color": "#b91817", "font-weight": "bold"});
+                            } else if (riesgoMedio) {
+                                selectClasificacion.val("2").css({"background-color": "#fff8e1", "color": "#b59545", "font-weight": "bold"});
+                            } else {
+                                selectClasificacion.val("3").css({"background-color": "#e8f5e9", "color": "#28a745", "font-weight": "bold"});
+                            }
+                        }
+
+                        // Delegación de eventos usando jQuery (.off evita duplicaciones de memoria en recargas AJAX)
+                        $("#formulario_encuesta_new").off("change.semaforo").on("change.semaforo", "input[type='radio'], input[type='checkbox']", function() {
+                            autoClassificar();
+                        });
+
+                        selectClasificacion.off("change.semaforo").on("change.semaforo", function() {
+                            const val = $(this).val();
+                            if (val === "1") { $(this).css({"background-color": "#fdf0f0", "color": "#b91817", "font-weight": "bold"}); } 
+                            else if (val === "2") { $(this).css({"background-color": "#fff8e1", "color": "#b59545", "font-weight": "bold"}); } 
+                            else if (val === "3") { $(this).css({"background-color": "#e8f5e9", "color": "#28a745", "font-weight": "bold"}); } 
+                            else { $(this).css({"background-color": "#fff", "color": "#495057", "font-weight": "normal"}); }
+                        });
+
+                        // Ejecución inicial para aplicar colores si el formulario ya trae datos por defecto
+                        autoClassificar();
+                    }
                 });
             });
         });
