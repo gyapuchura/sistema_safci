@@ -236,33 +236,75 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     var selectClasificacion = $("#idclasificacion_riesgo_cancer");
                     
                     if (selectClasificacion.length > 0) {
+                        var clasificacionManual = false;
+
+                        // Aviso bajo el select cuando la elección manual no coincide con la guía
+                        var avisoGuia = $("<small>").css({"display": "block", "margin-top": "5px", "color": "#b91817", "font-weight": "bold"});
+                        selectClasificacion.after(avisoGuia);
+
+                        // Clasificación según CUADRO N° 2 de la "Guía de Diagnóstico Oportuno del Cáncer
+                        // en la Niñez y la Adolescencia" (MSyD, Publicación 544, 2024)
+                        // Ítems (iditem_senal_cancer) que por sí solos son POSIBLE CÁNCER
+                        var ITEMS_POSIBLE_CANCER = ["1", "2", "24",              // Moretes, sangrado, petequias
+                                                    "4",                         // Palidez intensa
+                                                    "5", "6", "7", "8", "9", "10", // Anormalidad en los ojos
+                                                    "13", "14", "15", "16", "17", "18", "19", // Signos neurológicos focales / visión
+                                                    "20",                        // Masa palpable abdominal
+                                                    "21", "22",                  // Hepatomegalia / esplenomegalia
+                                                    "23"];                       // Masa en alguna región del cuerpo
+
                         function autoClassificar() {
-                            let riesgoAlto = false;
-                            let riesgoMedio = false;
-
-                            // 1. Evaluar Radios (Preguntas Clínicas)
-                            $("#formulario_encuesta_new input[type='radio'][value='SI']:checked").each(function() {
-                                const nombre = $(this).attr('name');
-                                // Índices 0, 2, 3, 5 -> Riesgo Alto
-                                if (nombre === 'respuesta[0]' || nombre === 'respuesta[2]' || nombre === 'respuesta[3]' || nombre === 'respuesta[5]') { riesgoAlto = true; }
-                                // Índices 1, 4, 6, 7, 8, 9 -> Riesgo Medio
-                                if (nombre === 'respuesta[1]' || nombre === 'respuesta[4]' || nombre === 'respuesta[6]' || nombre === 'respuesta[7]' || nombre === 'respuesta[8]' || nombre === 'respuesta[9]') { riesgoMedio = true; }
+                            // 1. Preguntas respondidas SI, identificadas por su idpregunta_encuesta
+                            const si = {};
+                            $("#formulario_encuesta_new input[name='idpregunta_encuesta[]']").each(function(i) {
+                                si[$(this).val()] = $("#formulario_encuesta_new input[type='radio'][name='respuesta[" + i + "]'][value='SI']").is(":checked");
                             });
 
-                            // 2. Evaluar Checkboxes usando IDs exactos de la BD (3 = Palidez Leve)
+                            // 2. Signos marcados en OBSERVAR Y DETERMINAR
+                            const item = {};
                             $("#formulario_encuesta_new input[type='checkbox'][name='iditem_senal_cancer[]']:checked").each(function() {
-                                if ($(this).val() === "3") { riesgoMedio = true; } 
-                                else { riesgoAlto = true; }
+                                item[$(this).val()] = true;
                             });
+                            const ganglioMayor = !!item["11"]; // Tamaño mayor a 2,5 cm sin dolor ni inflamación
+                            const ganglioDuro  = !!item["12"]; // Consistencia dura y firme mayor a 4 semanas
 
-                            // 3. Autoselección en el select y Semaforización
-                            if (riesgoAlto) {
-                                selectClasificacion.val("1").css({"background-color": "#fdf0f0", "color": "#b91817", "font-weight": "bold"});
-                            } else if (riesgoMedio) {
-                                selectClasificacion.val("2").css({"background-color": "#fff8e1", "color": "#b59545", "font-weight": "bold"});
+                            // POSIBLE CÁNCER
+                            const riesgoAlto =
+                                si["1"] ||                               // Fiebre > 7 días y/o sudoración importante
+                                (si["2"] && (si["3"] || si["4"])) ||     // Cefalea progresiva que despierta al niño y/o con vómitos
+                                (si["5"] && si["6"] && si["7"]) ||       // Dolor óseo en el último mes, progresivo, que interrumpe su actividad
+                                si["10"] ||                              // Cambios en la marcha / detención del desarrollo psicomotor
+                                ITEMS_POSIBLE_CANCER.some(function(id) { return item[id]; }) ||
+                                (ganglioMayor && ganglioDuro);           // Ganglio > 2,5 cm, no doloroso, duro, >= 4 semanas
+
+                            // ALGÚN RIESGO DE CÁNCER
+                            const riesgoMedio =
+                                si["8"] ||                               // Pérdida de apetito, peso o fatiga en los últimos 3 meses
+                                !!item["3"] ||                           // Palidez leve
+                                (ganglioMayor !== ganglioDuro);          // Linfoadenopatía que no cumple todos los criterios de posible cáncer
+
+                            // 1 = POSIBLE CÁNCER, 2 = ALGÚN RIESGO, 3 = NO TIENE CÁNCER
+                            const sugerida = riesgoAlto ? "1" : (riesgoMedio ? "2" : "3");
+
+                            // 3. Autoselección: si el médico eligió la clasificación a mano se respeta y solo se avisa
+                            if (clasificacionManual && selectClasificacion.val() !== "") {
+                                avisoGuia.text(selectClasificacion.val() !== sugerida
+                                    ? "Según la guía corresponde: " + selectClasificacion.find("option[value='" + sugerida + "']").text() + " (clasificación cambiada manualmente)"
+                                    : "");
                             } else {
-                                selectClasificacion.val("3").css({"background-color": "#e8f5e9", "color": "#28a745", "font-weight": "bold"});
+                                clasificacionManual = false;
+                                selectClasificacion.val(sugerida);
+                                avisoGuia.text("");
                             }
+                            pintarSemaforo();
+                        }
+
+                        function pintarSemaforo() {
+                            const val = selectClasificacion.val();
+                            if (val === "1") { selectClasificacion.css({"background-color": "#fdf0f0", "color": "#b91817", "font-weight": "bold"}); }
+                            else if (val === "2") { selectClasificacion.css({"background-color": "#fff8e1", "color": "#b59545", "font-weight": "bold"}); }
+                            else if (val === "3") { selectClasificacion.css({"background-color": "#e8f5e9", "color": "#28a745", "font-weight": "bold"}); }
+                            else { selectClasificacion.css({"background-color": "#fff", "color": "#495057", "font-weight": "normal"}); }
                         }
 
                         // Delegación de eventos usando jQuery (.off evita duplicaciones de memoria en recargas AJAX)
@@ -270,12 +312,11 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                             autoClassificar();
                         });
 
+                        // Si el médico cambia el select manualmente, su elección ya no se sobrescribe.
+                        // Volver a "-SELECCIONE-" reactiva la clasificación automática.
                         selectClasificacion.off("change.semaforo").on("change.semaforo", function() {
-                            const val = $(this).val();
-                            if (val === "1") { $(this).css({"background-color": "#fdf0f0", "color": "#b91817", "font-weight": "bold"}); } 
-                            else if (val === "2") { $(this).css({"background-color": "#fff8e1", "color": "#b59545", "font-weight": "bold"}); } 
-                            else if (val === "3") { $(this).css({"background-color": "#e8f5e9", "color": "#28a745", "font-weight": "bold"}); } 
-                            else { $(this).css({"background-color": "#fff", "color": "#495057", "font-weight": "normal"}); }
+                            clasificacionManual = ($(this).val() !== "");
+                            autoClassificar();
                         });
 
                         // Ejecución inicial para aplicar colores si el formulario ya trae datos por defecto
