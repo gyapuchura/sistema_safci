@@ -388,13 +388,15 @@ map.addLayer(markers);
             mysqli_field_seek($result4,0);
             while ($field4 = mysqli_fetch_field($result4)){
             } do {
-
+           
+    
+            $popup_familia = json_encode('<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>');
 ?>
 
         L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
         {icon:
         <?php if ($row4[8] == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($row4[8] == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($row4[8] == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
-        }).addTo(map).bindPopup('<?php echo '<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'<p></p>Direccion :'.$row4[4].' Nº '.$row4[5].'<p></p>'.$row4[8].'</p>';?>')
+        }).addTo(map).bindPopup(<?php echo $popup_familia;?>)
 
             <?php 
             $numero4++;

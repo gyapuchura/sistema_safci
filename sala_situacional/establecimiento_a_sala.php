@@ -716,7 +716,7 @@ $zoom_c     = "16";
             $sql4.= " ubicacion_cf.avenida_calle, ubicacion_cf.no_puerta, ubicacion_cf.latitud, ubicacion_cf.longitud ";
             $sql4.= " FROM carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND ";
             $sql4.= " carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia ";
-            $sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 50 ";
+            $sql4.= " AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' ORDER BY carpeta_familiar.idcarpeta_familiar DESC LIMIT 100 ";
             $result4 = mysqli_query($link,$sql4);
             $total4 = mysqli_num_rows($result4);
             if ($row4 = mysqli_fetch_array($result4)){
@@ -731,13 +731,13 @@ $zoom_c     = "16";
                 $row_r = mysqli_fetch_array($result_r);
                 $riesgo_cf = $row_r[1];
 
-               $popup_familia = '<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>';
+               $popup_familia = json_encode('<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>');
 
         ?>
         L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
         {icon:
         <?php if ($riesgo_cf == 'FAMILIA CON RIESGO BAJO') {echo "Icono_v"; } else { if ($riesgo_cf == 'FAMILIA CON RIESGO MEDIANO') {echo "Icono_a";} else {if ($riesgo_cf == 'FAMILIA CON RIESGO ALTO') {echo "Icono_r";} else { } } } ?>
-        }).addTo(map).bindPopup('<?php echo $popup_familia;?>')
+        }).addTo(map).bindPopup(<?php echo $popup_familia;?>)
 
             <?php 
             $numero4++;
