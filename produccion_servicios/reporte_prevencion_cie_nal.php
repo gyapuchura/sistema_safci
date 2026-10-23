@@ -442,12 +442,12 @@ Si no se encontraron resultados
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($total*70) + 100;?>px; margin: 0 auto"></div>
 
 <div id="departamentos" style="min-width: 600px; max-width: 850px; height: 350px; margin: 0 auto"></div>
-<div id="patologias" style="min-width: 700px; max-width: 850px; height: 350px; margin: 0 auto"></div>
+<div id="patologias" style="min-width: 900px; max-width: 850px; height: 350px; margin: 0 auto"></div>
 
 <h4 align="center" style="font-family: Arial;">Nº DIAGNÓSTICOS PREVENTIVOS: 
 <?php
 $sql_dgt = " SELECT count(d.iddiagnostico_psafci) FROM diagnostico_psafci d, patologia p ";
-$sql_dgt.= " WHERE d.idpatologia=p.idpatologia AND p.cie LIKE '%Z%' AND d.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$sql_dgt.= " WHERE d.idpatologia=p.idpatologia AND p.cie LIKE '%Z%' AND d.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND p.idpatologia IN ($patologias)  ";
 $result_dgt = mysqli_query($link,$sql_dgt);
 $row_dgt = mysqli_fetch_array($result_dgt);
 echo $row_dgt[0];
