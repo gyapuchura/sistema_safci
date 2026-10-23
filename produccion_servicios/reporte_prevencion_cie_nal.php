@@ -1,0 +1,525 @@
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
+<?php
+date_default_timezone_set('America/La_Paz');
+$fecha_ram      = date("Ymd");
+$fecha          = date("Y-m-d");
+$gestion        = date("Y");
+
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
+$inicio = $_POST['inicio'];
+$finalizacion = $_POST['finalizacion'];
+
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+
+
+$array_patologia = $_POST['idpatologia'];
+
+    if (!empty($array_patologia) && is_array($array_patologia)) {
+
+    $ids_seguros = array_map('intval', $array_patologia);
+
+    $patologias = implode(',', $ids_seguros);
+
+?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>REPORTE DIAGNOSTICOS PREVENTIVOS</title>
+
+        <script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+
+        <script src="../js/highcharts.js"></script>
+        <script src="../js/highcharts-3d.js"></script>
+        <script src="../js/modules/exporting.js"></script>
+    <style type="text/css">
+    ${demo.css}
+            </style>
+            <script type="text/javascript">
+    $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'REPORTE DIAGNÓSTICOS PREVENTIVOS PSAFCI - NACIONAL'
+        },
+        subtitle: {
+            text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
+        },
+        xAxis: {
+            categories: [
+                <?php 
+// CORRECCIÓN: Ordenamos por la cantidad total de diagnósticos de forma DESCENDENTE
+$numero = 0;
+$sql = " SELECT p.idpatologia, p.patologia, p.cie, COUNT(d.iddiagnostico_psafci) as total ";
+$sql.= " FROM diagnostico_psafci d, patologia p, atencion_psafci a ";
+$sql.= " WHERE d.idpatologia=p.idpatologia AND d.idatencion_psafci=a.idatencion_psafci AND p.cie LIKE '%Z%' ";
+$sql.= " AND d.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND p.idpatologia IN ($patologias) ";
+$sql.= " GROUP BY p.idpatologia ORDER BY total DESC ";
+$result = mysqli_query($link,$sql);
+$total = mysqli_num_rows($result);
+ if ($row = mysqli_fetch_array($result)){
+mysqli_field_seek($result,0);
+while ($field = mysqli_fetch_field($result)){
+} do {
+    ?>
+ '<?php  echo $row[1];?> - <?php  echo $row[2];?>'
+<?php 
+$numero++;
+if ($numero == $total) { echo ""; } else { echo ","; }
+} while ($row = mysqli_fetch_array($result));
+}
+?>
+            ],
+            title: { text: null }
+        },
+        yAxis: {
+            min: 0,
+            title: { text: ' Atenciones Preventivas PSAFCI ', align: 'high' },
+            labels: { overflow: 'justify' }
+        },
+        tooltip: { valueSuffix: ' atenciones' },
+        plotOptions: {
+            bar: { dataLabels: { enabled: true } }
+        },
+        legend: {
+            layout: 'vertical', align: 'right', verticalAlign: 'top', x: -40, y: 100, floating: true, borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'), shadow: true
+        },
+        credits: { enabled: false },
+        series: [{
+            name: 'DIAGNÓSTICOS',
+            data: [
+                <?php 
+                // Misma lógica de ordenamiento DESC para la serie de datos
+                mysqli_data_seek($result, 0);
+                $numero3 = 0;
+                while ($row = mysqli_fetch_array($result)) {
+                    echo $row[3];
+                    $numero3++;
+                    if ($numero3 < $total) echo ",";
+                }
+                ?> 
+            ] 
+        }]
+    });
+});
+        </script>
+
+<!---------- grafica de departamentos por porcion CIE 10 --- BEGIN -------->
+
+		<script type="text/javascript">
+$(function () {
+    $('#departamentos').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'ATENCIONES PREVENTIVAS - NACIONAL'
+        },
+        subtitle: {
+            text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
+        },
+        xAxis: {
+            categories: [
+
+                <?php 
+$numero2 = 0;
+$sql2 = " SELECT d.iddepartamento, d.departamento, COUNT(i.iddiagnostico_psafci) as total  ";
+$sql2.= " FROM diagnostico_psafci i, departamento d, atencion_psafci a, patologia p ";
+$sql2.= " WHERE d.iddepartamento=a.iddepartamento AND i.idatencion_psafci=a.idatencion_psafci AND i.idpatologia=p.idpatologia ";
+$sql2.= " AND p.cie LIKE '%Z%' AND i.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY d.iddepartamento ORDER BY total DESC  ";
+$result2 = mysqli_query($link,$sql2);
+$total2 = mysqli_num_rows($result2);
+ if ($row2 = mysqli_fetch_array($result2)){
+mysqli_field_seek($result2,0);
+while ($field2 = mysqli_fetch_field($result2)){
+} do {
+	?>
+
+ '<?php  echo $row2[1];?>'
+
+<?php 
+$numero2++;
+if ($numero2 == $total2) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row2 = mysqli_fetch_array($result2));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'ATENCIONES PREVENTIVAS'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} ATENCIONES </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
+            }
+         
+        },
+        series: [
+
+
+{ name: 'Atenciones Preventivas',
+
+    data: [
+<?php 
+$numero4 = 0;
+$sql4 = " SELECT d.iddepartamento, d.departamento, COUNT(i.iddiagnostico_psafci) as total  ";
+$sql4.= " FROM diagnostico_psafci i, departamento d, atencion_psafci a, patologia p ";
+$sql4.= " WHERE d.iddepartamento=a.iddepartamento AND i.idatencion_psafci=a.idatencion_psafci AND i.idpatologia=p.idpatologia ";
+$sql4.= " AND p.cie LIKE '%Z%' AND i.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY d.iddepartamento ORDER BY total DESC  ";
+$result4 = mysqli_query($link,$sql4);
+$total4 = mysqli_num_rows($result4);
+ if ($row4 = mysqli_fetch_array($result4)){
+mysqli_field_seek($result4,0);
+while ($field4 = mysqli_fetch_field($result4)){
+} do {
+	?>
+ 
+<?php echo $row4[2]; ?>
+
+<?php 
+$numero4++;
+if ($numero4 == $total4) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row4 = mysqli_fetch_array($result4));
+} else {
+}
+?>
+
+        ]
+}
+  
+    ]
+    });
+});
+		</script>
+
+<!---------- grafica de departamentos por porcion CIE 10 --- END -------->
+
+<!---------- grafica por patologias y departamentos CIE 10 --- BEGIN -------->
+
+<script type="text/javascript">
+$(function () {
+    $('#patologias').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'ATENCIONES PREVENTIVAS - NIVEL NACIONAL'
+        },
+        subtitle: {
+            text: 'Fuente: Sistema Integrado MEDI-APS del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
+        },
+        xAxis: {
+            categories: [
+
+                <?php 
+$numero7 = 0;
+$sql7 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento";
+$result7 = mysqli_query($link,$sql7);
+$total7 = mysqli_num_rows($result7);
+ if ($row7 = mysqli_fetch_array($result7)){
+mysqli_field_seek($result7,0);
+while ($field7 = mysqli_fetch_field($result7)){
+} do {
+	?>
+ '<?php  echo $row7[1]; ?>'
+
+<?php 
+$numero7++;
+if ($numero7 == $total7) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row7 = mysqli_fetch_array($result7));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'ATENCIONES PREVENTIVAS - NIVEL NACIONAL'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} ATENCIONES </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
+            }
+        },
+        series: [
+
+<?php 
+$numero2 = 0;
+$sql2 = " SELECT idpatologia, patologia, cie FROM patologia WHERE idpatologia IN ($patologias) ORDER BY idpatologia ";
+$result2 = mysqli_query($link,$sql2);
+$total2 = mysqli_num_rows($result2);
+ if ($row2 = mysqli_fetch_array($result2)){
+mysqli_field_seek($result2,0);
+while ($field2 = mysqli_fetch_field($result2)){
+} do {
+	?>
+
+{ name: '<?php  echo $row2[1]; ?>',
+
+    data: [
+<?php 
+$numero3 = 0;
+$sql3 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$result3 = mysqli_query($link,$sql3);
+$total3 = mysqli_num_rows($result3);
+ if ($row3 = mysqli_fetch_array($result3)){
+mysqli_field_seek($result3,0);
+while ($field3 = mysqli_fetch_field($result3)){
+} do {
+	?>
+
+<?php
+$sql_a =" SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
+$sql_a.=" WHERE  diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.iddepartamento='$row3[0]' ";
+$sql_a.=" AND diagnostico_psafci.idpatologia='$row2[0]' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'";
+
+$result_a = mysqli_query($link,$sql_a);
+$row_a = mysqli_fetch_array($result_a);
+?>
+<?php echo $row_a[0]; ?>
+<?php 
+$numero3++;
+if ($numero3 == $total3) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row3 = mysqli_fetch_array($result3));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+
+
+        ]
+}
+
+<?php 
+$numero2++;
+if ($numero2 == $total2) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row2 = mysqli_fetch_array($result2));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+    
+    ]
+    });
+});
+		</script>
+
+
+
+
+<!---------- grafica por patologias y departamentos CIE 10 --- END -------->
+
+
+</head>
+    <body>
+
+    <style>
+    #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+    .spinner-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #7cb5ec; /* Turquesa corporativo de referencias */
+        border-radius: 50%;
+        animation: girar 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    .texto-loader {
+        color: #7cb5ec;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    body.bloqueado { overflow: hidden; }
+</style>
+<div id="pantalla-carga">
+    <div class="spinner-loader"></div>
+    <div class="texto-loader">Procesando ATENCIONES PREVENTIVAS, por favor espere...</div>
+</div>
+
+<?php
+    // MAGIA BACKEND: Obligamos a Apache/PHP a pintar esto en la pantalla del usuario YA
+    if (ob_get_level() == 0) ob_start();
+    echo str_pad('', 4096); // Hack de 4KB para forzar el vaciado en servidores con GZIP
+    ob_flush();
+    flush();
+?>    
+<div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($total*70) + 100;?>px; margin: 0 auto"></div>
+
+<div id="departamentos" style="min-width: 600px; max-width: 850px; height: 350px; margin: 0 auto"></div>
+<div id="patologias" style="min-width: 700px; max-width: 850px; height: 350px; margin: 0 auto"></div>
+
+<h4 align="center" style="font-family: Arial;">Nº DIAGNÓSTICOS PREVENTIVOS: 
+<?php
+$sql_dgt = " SELECT count(d.iddiagnostico_psafci) FROM diagnostico_psafci d, patologia p ";
+$sql_dgt.= " WHERE d.idpatologia=p.idpatologia AND p.cie LIKE '%Z%' AND d.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$result_dgt = mysqli_query($link,$sql_dgt);
+$row_dgt = mysqli_fetch_array($result_dgt);
+echo $row_dgt[0];
+?>
+</h4>
+<h4 align="center" style="font-family: Arial;"> DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
+
+
+
+<table width="1000" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8" style="font-size: 12px"> N° </span></td>
+        <td width="400" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8">DIAGNÓSTICOS PSAFCI</span></td>
+        <td width="50" bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><span class="Estilo8">CIE</span></td>
+            <?php
+            $sql_d = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento != '10' ORDER BY iddepartamento ";
+            $result_d = mysqli_query($link,$sql_d);
+            while ($row_d = mysqli_fetch_array($result_d)) { ?>
+            <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">
+            <a href="reporte_psafci_diag_depto_dos_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a>
+            </td>
+            <?php } ?>
+            <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">SUB-TOTAL.</td>
+           
+    </tr>
+    <?php
+    // Usamos el mismo resultado ordenado de la consulta inicial para la tabla
+    mysqli_data_seek($result, 0);
+    $numero = 1;
+    while ($row = mysqli_fetch_array($result)) { ?>
+        <tr>
+            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
+            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;">
+                 <a href="patologias_diario_nal_fechas.php?idpatologia=<?php echo $row[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row[2];?></a>
+            </td>
+            <?php
+            mysqli_data_seek($result_d, 0); // Reiniciamos puntero de departamentos
+            while ($row_d = mysqli_fetch_array($result_d)) {
+                $sql_dg = " SELECT count(d.iddiagnostico_psafci) FROM diagnostico_psafci d, atencion_psafci a ";
+                $sql_dg.= " WHERE d.idatencion_psafci=a.idatencion_psafci AND a.iddepartamento='$row_d[0]' ";
+                $sql_dg.= " AND d.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND d.idpatologia = '$row[0]' ";
+                $result_dg = mysqli_query($link,$sql_dg);
+                $row_dg = mysqli_fetch_array($result_dg);
+                echo "<td align='center'>".$row_dg[0]."</td>";
+            }
+            ?>
+            <td bgcolor="#FFFFFF" align="center"><?php echo $row[3];?></td>
+        </tr> 
+        <?php $numero++; } ?>
+</table>
+
+
+<?php }  ?>
+
+<script>
+    // Evitamos que el usuario baje por la página mientras carga
+    document.body.classList.add('bloqueado');
+
+    // Escuchamos el evento 'load', que se dispara solo cuando TODO ha cargado
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('pantalla-carga');
+        if(loader) {
+            // Animación de desvanecimiento
+            loader.style.opacity = '0';
+            setTimeout(function() {
+                loader.style.display = 'none';
+                document.body.classList.remove('bloqueado');
+            }, 500); // Se remueve del DOM tras medio segundo
+        }
+    });
+</script>
+
+</body>
+</html>
