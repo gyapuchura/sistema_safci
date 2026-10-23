@@ -19,7 +19,7 @@ $row1 = mysqli_fetch_array($result1);
 
 $latitud_c  = $row1[6];
 $longitud_c = $row1[7];
-$zoom_c     = 12;
+$zoom_c     = 16;
 
 ?>
 

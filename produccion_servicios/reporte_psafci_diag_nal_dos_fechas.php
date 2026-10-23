@@ -168,6 +168,11 @@ echo $row_dgt[0];
 </h4>
 <h4 align="center" style="font-family: Arial;"> DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
 
+          <h4 align="center" style="font-family: Arial;"><a href="atenciones_preventivas_deptos.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              DEPARTAMENTOS</a></h4>
+
+<form action="reporte_prevencion_cie_nal.php" method="post">
+
 <table width="1000" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8" style="font-size: 12px"> N° </span></td>
@@ -181,7 +186,8 @@ echo $row_dgt[0];
             <a href="reporte_psafci_diag_depto_dos_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a>
             </td>
             <?php } ?>
-            <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">TOTAL DEPTO.</td>
+            <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">SUB-TOTAL.</td>
+            <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">ELEGIR</td>
     </tr>
     <?php
     // Usamos el mismo resultado ordenado de la consulta inicial para la tabla
@@ -205,11 +211,17 @@ echo $row_dgt[0];
                 echo "<td align='center'>".$row_dg[0]."</td>";
             }
             ?>
-            <td bgcolor="#FFFFFF" align="center"><?php echo $row[3]; ?></td>
+            <td bgcolor="#FFFFFF" align="center"><?php echo $row[3];?></td>
+            <td bgcolor="#FFFFFF" align="center"><input type="checkbox" name="idpatologia[]" value="<?php echo $row[0];?>"></td>
         </tr> 
         <?php $numero++; } ?>
 </table>
 
+<input type="hidden" name="inicio" value="<?php echo $inicio;?>">
+<input type="hidden" name="finalizacion" value="<?php echo $finalizacion;?>">
+
+<div align="center"><p><button type="submit">REPORTE POR PATOLOGIAS ESPECÍFICAS</button></p></div>
+</form>
 
 <script>
     // Evitamos que el usuario baje por la página mientras carga
