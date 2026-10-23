@@ -136,7 +136,7 @@ $numero2 = 0;
 $sql2 = " SELECT d.iddepartamento, d.departamento, COUNT(i.iddiagnostico_psafci) as total  ";
 $sql2.= " FROM diagnostico_psafci i, departamento d, atencion_psafci a, patologia p ";
 $sql2.= " WHERE d.iddepartamento=a.iddepartamento AND i.idatencion_psafci=a.idatencion_psafci AND i.idpatologia=p.idpatologia ";
-$sql2.= " AND p.cie LIKE '%Z%' AND i.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY d.iddepartamento ORDER BY total DESC  ";
+$sql2.= " AND p.cie LIKE '%Z%' AND i.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND p.idpatologia IN ($patologias)  GROUP BY d.iddepartamento ORDER BY total DESC  ";
 $result2 = mysqli_query($link,$sql2);
 $total2 = mysqli_num_rows($result2);
  if ($row2 = mysqli_fetch_array($result2)){
@@ -199,7 +199,7 @@ $numero4 = 0;
 $sql4 = " SELECT d.iddepartamento, d.departamento, COUNT(i.iddiagnostico_psafci) as total  ";
 $sql4.= " FROM diagnostico_psafci i, departamento d, atencion_psafci a, patologia p ";
 $sql4.= " WHERE d.iddepartamento=a.iddepartamento AND i.idatencion_psafci=a.idatencion_psafci AND i.idpatologia=p.idpatologia ";
-$sql4.= " AND p.cie LIKE '%Z%' AND i.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY d.iddepartamento ORDER BY total DESC  ";
+$sql4.= " AND p.cie LIKE '%Z%' AND i.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND p.idpatologia IN ($patologias)  GROUP BY d.iddepartamento ORDER BY total DESC  ";
 $result4 = mysqli_query($link,$sql4);
 $total4 = mysqli_num_rows($result4);
  if ($row4 = mysqli_fetch_array($result4)){
