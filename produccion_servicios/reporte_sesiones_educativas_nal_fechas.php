@@ -48,8 +48,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
             categories: [
                 <?php 
 $numero = 0;
-$sql = " SELECT sesion_educativa.idcharla_psafci, charla_psafci.charla_psafci FROM sesion_educativa, charla_psafci  ";
-$sql.= " WHERE sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci AND sesion_educativa.fecha_sesion BETWEEN '$inicio' AND '$finalizacion' GROUP BY sesion_educativa.idcharla_psafci ";
+$sql = " SELECT sesion_educativa.idcharla_psafci, charla_psafci.charla_psafci, count(sesion_educativa.idcharla_psafci) AS total";
+$sql.= " FROM sesion_educativa, charla_psafci WHERE sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci  ";
+$sql.= " AND sesion_educativa.fecha_sesion BETWEEN '$inicio' AND '$finalizacion' GROUP BY sesion_educativa.idcharla_psafci ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -122,8 +123,9 @@ data: [
     
     <?php 
 $numero3 = 0;
-$sql3 = " SELECT sesion_educativa.idcharla_psafci, charla_psafci.charla_psafci FROM sesion_educativa, charla_psafci  ";
-$sql3.= " WHERE sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci AND sesion_educativa.fecha_sesion BETWEEN '$inicio' AND '$finalizacion' GROUP BY sesion_educativa.idcharla_psafci ";
+$sql3 = " SELECT sesion_educativa.idcharla_psafci, charla_psafci.charla_psafci, count(sesion_educativa.idcharla_psafci) AS total";
+$sql3.= " FROM sesion_educativa, charla_psafci WHERE sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci  ";
+$sql3.= " AND sesion_educativa.fecha_sesion BETWEEN '$inicio' AND '$finalizacion' GROUP BY sesion_educativa.idcharla_psafci ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
 if ($row3 = mysqli_fetch_array($result3)){
@@ -131,12 +133,9 @@ mysqli_field_seek($result3,0);
 while ($field3 = mysqli_fetch_field($result3)){
 } do {
 
-$sql4 =" SELECT count(idsesion_educativa) FROM sesion_educativa WHERE idcharla_psafci='$row3[0]' AND fecha_sesion BETWEEN '$inicio' AND '$finalizacion' ";
-$result4 = mysqli_query($link,$sql4);
-$row4 = mysqli_fetch_array($result4); 
 ?>
 
-<?php  echo $row4[0]; ?>
+<?php  echo $row3[2]; ?>
 
 <?php 
 $numero3++;
@@ -245,8 +244,9 @@ echo "";
         </tr>
             <?php
             $numero = 1;
-            $sql = " SELECT sesion_educativa.idcharla_psafci, charla_psafci.charla_psafci FROM sesion_educativa, charla_psafci  ";
-            $sql.= " WHERE sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci AND sesion_educativa.fecha_sesion BETWEEN '$inicio' AND '$finalizacion' GROUP BY sesion_educativa.idcharla_psafci ";
+            $sql = " SELECT sesion_educativa.idcharla_psafci, charla_psafci.charla_psafci, count(sesion_educativa.idcharla_psafci) AS total";
+            $sql.= " FROM sesion_educativa, charla_psafci WHERE sesion_educativa.idcharla_psafci=charla_psafci.idcharla_psafci  ";
+            $sql.= " AND sesion_educativa.fecha_sesion BETWEEN '$inicio' AND '$finalizacion' GROUP BY sesion_educativa.idcharla_psafci ORDER BY total DESC ";
             $result = mysqli_query($link,$sql);
             if ($row = mysqli_fetch_array($result)){
             mysqli_field_seek($result,0);
