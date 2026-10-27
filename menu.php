@@ -632,13 +632,10 @@ while ($field_menu = mysqli_fetch_field($result_menu)){
             <h6 class="collapse-header">ÁREAS TELESALUD:</h6>
             
             <a class="collapse-item" href="../telesalud/telesalud_dashboard.php">CENTRAL DE TELESALUD</a>
-            <a class="collapse-item" href="../telesalud/teleinterconsultas.php">TELEINTERCONSULTAS</br>GENERADAS</a>
-            <a class="collapse-item" href="../telesalud/teleinterconsultas_destino.php">TELEINTERCONSULTAS</br>RESPUESTAS</a>
-            <a class="collapse-item" href="../telesalud/teleconsultas.php">TELECONSULTAS</a>
-            <a class="collapse-item" href="../telesalud/telemetrias.php">TELEMETRÍAS</a>
+            <a class="collapse-item" href="../telesalud/teleinterconsultas.php">TELEMEDICINA</a>
             <a class="collapse-item" href="../telesalud/teleeducacion.php">TELEEDUCACIÓN</a>
             <a class="collapse-item" href="../telesalud/extractostelesalud.php">EXTRACTOS</a>
-   
+
         </div>
     </div>
 </li>
