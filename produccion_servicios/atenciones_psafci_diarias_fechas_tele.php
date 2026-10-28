@@ -32,7 +32,16 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
 $iddepartamento    = isset($_GET['iddepartamento']) ? mysqli_real_escape_string($link, $_GET['iddepartamento']) : '';
 $idmunicipio       = isset($_GET['idmunicipio']) ? mysqli_real_escape_string($link, $_GET['idmunicipio']) : '';
 $idestablecimiento = isset($_GET['idestablecimiento']) ? mysqli_real_escape_string($link, $_GET['idestablecimiento']) : '';
-$idusuario_medico  = isset($_GET['idusuario_medico']) ? mysqli_real_escape_string($link, $_GET['idusuario_medico']) : ''; 
+$idusuario_medico  = isset($_GET['idusuario_medico']) ? mysqli_real_escape_string($link, $_GET['idusuario_medico']) : '';
+
+// Alcance del usuario de Telemedicina: el departamento y municipio de su lugar de trabajo se aplican aunque se cambie la URL
+define('TM_SOLO_ALCANCE', true);
+include("../telesalud/inc_telemedicina.php");
+$tm_f = tm_forzar_alcance($link, ['iddepartamento' => $iddepartamento, 'idmunicipio' => $idmunicipio, 'idestablecimiento' => $idestablecimiento, 'idusuario_medico' => $idusuario_medico], '0');
+$iddepartamento    = mysqli_real_escape_string($link, $tm_f['iddepartamento']);
+$idmunicipio       = mysqli_real_escape_string($link, $tm_f['idmunicipio']);
+$idestablecimiento = mysqli_real_escape_string($link, $tm_f['idestablecimiento']);
+$idusuario_medico  = mysqli_real_escape_string($link, $tm_f['idusuario_medico']);
 
 $filtro_extra = "";
 if($iddepartamento != '') { $filtro_extra .= " AND atencion_psafci.iddepartamento = '$iddepartamento' "; }

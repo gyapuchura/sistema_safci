@@ -96,6 +96,7 @@ $extractos = [
                 <?php include("../top_bar.php"); ?>
 
                 <div class="container-fluid mt-4 px">
+                    <?php tm_cargador('Cargando extractos'); // indicador de carga al ir a otra página ?>
 
                     <!-- ===================== ENCABEZADO ===================== -->
                     <div class="encabezado aparece">

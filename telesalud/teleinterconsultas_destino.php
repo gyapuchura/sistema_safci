@@ -11,6 +11,9 @@ $gestion      = date("Y");
 // Filtros compartidos entre pestañas, navegación en píldora y estilos del diseño
 include("inc_telemedicina.php");
 
+// Caché de 10 minutos: al volver a esta pestaña con los mismos filtros aparece al instante ("Actualizar" la recalcula)
+tm_cache_pantalla();
+
 // =========================================================================
 // FASE 1: PUENTE DE DATOS EN MEMORIA (CATÁLOGOS JSON)
 // =========================================================================
@@ -93,12 +96,11 @@ $total_rechazadas    = $kpi['rechazadas'];
 $total_absoluto      = array_sum($kpi);
 $tasa_efectividad    = ($total_absoluto > 0) ? round(($total_efectivizadas / $total_absoluto) * 100, 1) : 0;
 
-// Periodo anterior de la misma duración (para el indicador ▲▼)
+// Periodo de comparación del indicador ▲▼: mes anterior o gestión anterior (inc_telemedicina.php)
 $dt_ini = new DateTime($inicio);
 $dt_fin = new DateTime($finalizacion);
 $dias_periodo = max(1, (int)$dt_ini->diff($dt_fin)->format('%r%a') + 1);
-$dt_prev_fin = clone $dt_ini; $dt_prev_fin->modify('-1 day');
-$dt_prev_ini = clone $dt_prev_fin; $dt_prev_ini->modify('-' . ($dias_periodo - 1) . ' days');
+list($dt_prev_ini, $dt_prev_fin) = tm_periodo_anterior($dt_ini, $dt_fin); // mismos días del mes anterior, o mismas fechas de la gestión anterior
 $kpi_prev = $contar_estados($dt_prev_ini->format('Y-m-d'), $dt_prev_fin->format('Y-m-d'));
 $total_prev = array_sum($kpi_prev);
 $tasa_prev  = ($total_prev > 0) ? round(($kpi_prev['efectivizadas'] / $total_prev) * 100, 1) : 0;
@@ -166,6 +168,7 @@ $res_ph = mysqli_query($link, "
 if ($res_ph) {
     while ($row = mysqli_fetch_assoc($res_ph)) {
         $pend_hosp[] = [
+            'id'     => $row['id_rec'],
             'nombre' => $row['establecimiento_salud'] ? mb_strtoupper(trim($row['establecimiento_salud'])) : 'ESTABLECIMIENTO NO REGISTRADO',
             'depto'  => $row['departamento'] ? mb_convert_case(mb_strtolower(trim($row['departamento'])), MB_CASE_TITLE) : '',
             'pa' => (int)$row['pa'], 'ev' => (int)$row['ev'], 'max_h' => $row['max_h'] === null ? null : (int)$row['max_h'],
@@ -365,14 +368,14 @@ if ($g_mun != 'null') { $chips[] = ['fa-map-marker-alt', $buscar_nombre($munis, 
 if ($g_est != 'null') { $chips[] = ['fa-hospital', $buscar_nombre($eess, $g_est), $url_sin(['idestablecimiento'])]; }
 if ($g_med != 'null') { $chips[] = ['fa-user-md', $buscar_nombre($medicos, $g_med), $url_sin(['idusuario_medico'])]; }
 
-// Variación contra el periodo anterior. $sentido: 1 = subir es bueno, -1 = subir es malo, 0 = neutral
+// Variación contra el mes o la gestión anterior. $sentido: 1 = subir es bueno, -1 = subir es malo, 0 = neutral
 $variacion = function ($actual, $anterior, $sentido) {
-    if ($anterior == 0 && $actual == 0) { return ['—', 'neutro', 'Sin cambios vs periodo anterior']; }
-    if ($anterior == 0) { return ['Nuevo', $sentido >= 0 ? 'bueno' : 'malo', 'Sin registros en el periodo anterior']; }
+    if ($anterior == 0 && $actual == 0) { return ['—', 'neutro', 'Sin cambios vs ' . tm_etq_anterior(true)]; }
+    if ($anterior == 0) { return ['Nuevo', $sentido >= 0 ? 'bueno' : 'malo', 'Sin registros en ' . tm_etq_anterior(true, true)]; }
     $pct = round((($actual - $anterior) / $anterior) * 100);
-    if ($pct == 0) { return ['0%', 'neutro', 'Igual que el periodo anterior']; }
+    if ($pct == 0) { return ['0%', 'neutro', 'Igual que ' . tm_etq_anterior(true, true)]; }
     $clase = $sentido == 0 ? 'neutro' : ((($pct > 0) == ($sentido > 0)) ? 'bueno' : 'malo');
-    return [($pct > 0 ? '▲ ' : '▼ ') . abs($pct) . '%', $clase, 'Periodo anterior: ' . number_format($anterior)];
+    return [($pct > 0 ? '▲ ' : '▼ ') . abs($pct) . '%', $clase, ucfirst(tm_etq_anterior(true)) . ': ' . number_format($anterior)];
 };
 
 $kpi_tarjetas = [
@@ -457,6 +460,26 @@ foreach ($perfil_bloques as $k => $b) {
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
     <?php tm_estilos(); ?>
+    <style>
+        /* Pendientes: todos los establecimientos en una lista con scroll dentro de la tarjeta oscura (~5 visibles) */
+        .px .oscura .pend-scroll { max-height: 420px; overflow-y: auto; margin-right: -8px; padding-right: 8px; overscroll-behavior: contain;
+            scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .38) transparent; }
+        .px .oscura .pend-scroll::-webkit-scrollbar { width: 6px; }
+        .px .oscura .pend-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .32); border-radius: 6px; }
+        .px .oscura .pend-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, .5); }
+        /* Desvanecido inferior que avisa que hay más filas; desaparece al llegar al final */
+        .px .oscura .pend-scroll.hay-mas { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 46px), transparent);
+            mask-image: linear-gradient(to bottom, #000 calc(100% - 46px), transparent); }
+        .px .oscura .pend-scroll:focus-visible { outline: 2px solid rgba(255, 255, 255, .45); outline-offset: 4px; border-radius: 8px; }
+        .px .oscura .pista-scroll { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 11.5px; color: rgba(255, 255, 255, .78); }
+
+        /* Mapa: las flechas de derivación entre departamentos brillan con un pulso suave */
+        .px .tic-mapa .highcharts-flowmap-series .highcharts-point { filter: drop-shadow(0 0 3px rgba(54, 185, 204, .7)) drop-shadow(0 0 8px rgba(78, 115, 223, .55)); animation: ticBrillo 2.6s ease-in-out infinite; }
+        @keyframes ticBrillo {
+            0%, 100% { opacity: .82; filter: drop-shadow(0 0 2px rgba(54, 185, 204, .6)) drop-shadow(0 0 6px rgba(78, 115, 223, .45)); }
+            50%      { opacity: 1;   filter: drop-shadow(0 0 5px rgba(120, 225, 240, .95)) drop-shadow(0 0 14px rgba(78, 115, 223, .8)); }
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -467,6 +490,7 @@ foreach ($perfil_bloques as $k => $b) {
                 <?php include("../top_bar.php"); ?>
 
                 <div class="container-fluid mt-4 px">
+                    <?php tm_cargador('Cargando respuestas'); // indicador de carga al ir a otra página ?>
 
                     <!-- ===================== ENCABEZADO ===================== -->
                     <div class="encabezado aparece">
@@ -474,7 +498,7 @@ foreach ($perfil_bloques as $k => $b) {
                             <h1>Teleinterconsultas respuestas</h1>
                             <div class="meta">
                                 <span><i class="far fa-calendar-alt mr-1"></i><?php echo $h($texto_periodo); ?> · <?php echo $dias_periodo; ?> día<?php echo $dias_periodo == 1 ? '' : 's'; ?></span>
-                                <span class="d-inline-flex align-items-center" style="gap: 8px;"><span class="punto-vivo" aria-hidden="true"></span> Datos actualizados <?php echo $ahora->format('d/m/Y H:i'); ?></span>
+                                <span class="d-inline-flex align-items-center" style="gap: 8px;" title="Las cifras se guardan 10 minutos para que la pestaña abra al instante al volver a ella"><span class="punto-vivo" aria-hidden="true"></span> Datos de las <?php echo $ahora->format('H:i'); ?> <a href="<?php echo $h($pagina . '?refrescar=1'); ?>" class="btn-actualizar" title="Volver a calcular con los datos más recientes"><i class="fas fa-sync-alt"></i> Actualizar</a></span>
                             </div>
                         </div>
                         <?php tm_nav('respuestas'); ?>
@@ -537,7 +561,7 @@ foreach ($perfil_bloques as $k => $b) {
                             <?php if ($total_absoluto == 0) { ?>
                                 <div class="etq"><i class="far fa-folder-open mr-1"></i> No hay teleinterconsultas para este filtro</div>
                             <?php } foreach ($seg_estados as $s) { if ($s['valor'] <= 0) { continue; } ?>
-                                <div class="seg <?php echo $s['clave']; ?>" data-grow="<?php echo round(max($s['pct'], 6), 2); ?>" style="flex: 0 1 0%;" title="<?php echo $h($s['ayuda']); ?>">
+                                <div class="seg <?php echo $s['clave']; ?>" data-grow="<?php echo round(max($s['pct'], 6), 2); ?>" style="flex: 0 1 0%;" title="<?php echo $h($s['titulo'] . ': ' . number_format($s['valor']) . ' (' . round($s['pct']) . '%) — ' . $s['ayuda']); ?>">
                                     <span class="etq"><i class="fas <?php echo $s['icono']; ?>" aria-hidden="true"></i><?php echo $h($s['titulo']); ?> <b><?php echo number_format($s['valor']); ?></b></span>
                                     <div class="barra"><?php echo round($s['pct']); ?>%</div>
                                 </div>
@@ -583,7 +607,7 @@ foreach ($perfil_bloques as $k => $b) {
                             <?php $cls_tasa = $dif_tasa > 0 ? 'bueno' : ($dif_tasa < 0 ? 'malo' : 'neutro'); ?>
                             <div class="pie-card">
                                 <span><?php echo number_format($total_efectivizadas); ?> de <?php echo number_format($total_absoluto); ?> casos</span>
-                                <span class="delta <?php echo $cls_tasa; ?>" title="Periodo anterior: <?php echo $tasa_prev; ?>%"><?php echo $dif_tasa == 0 ? '— sin cambio' : (($dif_tasa > 0 ? '▲ ' : '▼ ') . abs($dif_tasa) . ' pts'); ?></span>
+                                <span class="delta <?php echo $cls_tasa; ?>" title="<?php echo $h(ucfirst(tm_etq_anterior(true)) . ': ' . $tasa_prev . '%'); ?>"><?php echo $dif_tasa == 0 ? '— sin cambio' : (($dif_tasa > 0 ? '▲ ' : '▼ ') . abs($dif_tasa) . ' pts'); ?></span>
                             </div>
                         </div>
 
@@ -662,20 +686,23 @@ foreach ($perfil_bloques as $k => $b) {
                             <div class="oscura">
                                 <div class="cab">
                                     <h6><i class="fas fa-inbox mr-2" style="opacity: .8;"></i>Bandejas atrasadas</h6>
-                                    <span class="cifra"><?php echo count($pend_lista); ?><small style="font-size: 16px; opacity: .75;">/<?php echo count($pend_hosp); ?></small></span>
+                                    <span class="cifra" title="Establecimientos con pendientes"><?php echo count($pend_hosp); ?></span>
                                 </div>
                                 <?php if (empty($pend_lista)) { ?>
                                     <div class="vacio"><i class="far fa-check-circle" style="font-size: 28px; display: block; margin-bottom: 8px;"></i>Sin pendientes en el periodo</div>
-                                <?php } else { foreach ($pend_lista as $ph) {
+                                <?php } else { tm_contactos_telesalud($link, array_column($pend_hosp, 'id')); // WhatsApp de todos en UNA consulta
+                                    echo '<div class="pend-scroll' . (count($pend_hosp) > 5 ? ' hay-mas' : '') . '" id="pend-scroll" tabindex="0" aria-label="Lista de establecimientos con pendientes">';
+                                    foreach ($pend_hosp as $ph) {
                                     if ($ph['max_h'] === null) { $sc = 'ok'; $stxt = 'sin fecha'; }
                                     else { $sc = $ph['max_h'] < 96 ? 'ok' : ($ph['max_h'] < 192 ? 'naranja' : 'err'); $dd = (int)floor($ph['max_h'] / 24); $stxt = $dd < 1 ? '< 1 día' : $dd . ($dd == 1 ? ' día' : ' días'); } ?>
                                     <div class="fila">
-                                        <span class="ico"><i class="fas fa-hospital"></i></span>
+                                        <?php echo tm_boton_whatsapp($link, $ph, $ph['pa'] . ' por admitir, ' . $ph['ev'] . ' por responder'); ?>
                                         <span class="txt"><b title="<?php echo $h($ph['nombre']); ?>"><?php echo $h($ph['nombre']); ?></b><small><?php echo $ph['pa']; ?> por admitir · <?php echo $ph['ev']; ?> por responder</small></span>
                                         <span class="num"><b><?php echo $ph['pa'] + $ph['ev']; ?></b><small><span class="sem <?php echo $sc; ?>" aria-hidden="true"></span><?php echo $stxt; ?></small></span>
                                     </div>
-                                <?php } } ?>
-                                <?php if (count($pend_hosp) > count($pend_lista)) { ?><div class="mas">+ <?php echo count($pend_hosp) - count($pend_lista); ?> hospitales especialistas más con pendientes</div><?php } ?>
+                                <?php } echo '</div>'; } ?>
+                                <?php if (count($pend_hosp) > 5) { ?><div class="pista-scroll"><i class="fas fa-arrows-alt-v" aria-hidden="true"></i> Desliza para ver los <?php echo count($pend_hosp); ?> hospitales especialistas</div>
+                                <script>(function () { var l = document.getElementById('pend-scroll'); if (!l) return; var f = function () { l.classList.toggle('hay-mas', l.scrollTop + l.clientHeight < l.scrollHeight - 4); }; l.addEventListener('scroll', f, { passive: true }); window.addEventListener('load', f); })();</script><?php } ?>
                             </div>
                             <?php if ($pend_total > 0) { $antig_max_p = max(1, max($antig_total)); ?>
                             <div class="detalle-antig">

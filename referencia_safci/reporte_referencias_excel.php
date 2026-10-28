@@ -32,6 +32,18 @@ $idmunicipio       = isset($_POST['idmunicipio']) ? mysqli_real_escape_string($l
 $idestablecimiento = isset($_POST['idestablecimiento']) ? mysqli_real_escape_string($link, $_POST['idestablecimiento']) : '';
 $idusuario_medico  = isset($_POST['idusuario_medico']) ? mysqli_real_escape_string($link, $_POST['idusuario_medico']) : '';
 
+// Alcance del usuario de Telemedicina: el departamento y municipio de su lugar de trabajo se aplican aunque se cambien los datos enviados
+define('TM_SOLO_ALCANCE', true);
+include("../telesalud/inc_telemedicina.php");
+$tm_f = tm_forzar_alcance($link, ['iddepartamento' => $iddepartamento, 'idmunicipio' => $idmunicipio, 'idestablecimiento' => $idestablecimiento, 'idusuario_medico' => $idusuario_medico], '0');
+$iddepartamento    = mysqli_real_escape_string($link, $tm_f['iddepartamento']);
+$idmunicipio       = mysqli_real_escape_string($link, $tm_f['idmunicipio']);
+$idestablecimiento = mysqli_real_escape_string($link, $tm_f['idestablecimiento']);
+$idusuario_medico  = mysqli_real_escape_string($link, $tm_f['idusuario_medico']);
+
+// Archivo más liviano: sin espacios sobrantes y comprimido durante la descarga (mismo contenido)
+tm_salida_excel_compacta();
+
 // =========================================================================
 // MOTOR DUAL DE BÚSQUEDA (Opción B: Aislamiento Total Corregido)
 // =========================================================================
@@ -92,9 +104,9 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
         <title>REPORTE REFERENCIAS MEDI-APS</title>
         <style type="text/css">
             table { border-collapse: collapse; }
-            .c-cabecera { font-family: Arial; font-size: 12px; color: #ffffff; text-align: center; background-color: #36b9cc; font-weight: bold; padding: 5px; }
-            .c-dato { font-family: Arial; font-size: 11px; text-align: center; background-color: #FFFFFF; }
-            .c-izq { font-family: Arial; font-size: 11px; text-align: left; background-color: #FFFFFF; }
+            .h { font-family: Arial; font-size: 12px; color: #ffffff; text-align: center; background-color: #36b9cc; font-weight: bold; padding: 5px; }
+            .d { font-family: Arial; font-size: 11px; text-align: center; background-color: #FFFFFF; }
+            .i { font-family: Arial; font-size: 11px; text-align: left; background-color: #FFFFFF; }
         </style>
 </head>
 <body>
@@ -104,54 +116,55 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
 <table border="1" align="center" bordercolor="#36b9cc">
     <thead>
         <tr>
-            <td class="c-cabecera">N°</td>
-            <td class="c-cabecera">FECHA DE REGISTRO</td>
-            <td class="c-cabecera">TIPO ATENCIÓN</td>
-            <td class="c-cabecera">CÓDIGO REFERENCIA</td>
-            <td class="c-cabecera">CÓDIGO DE EESS</td>
-            <td class="c-cabecera">DEPARTAMENTO</td>
-            <td class="c-cabecera">RED DE SALUD</td>
-            <td class="c-cabecera">MUNICIPIO</td>
-            <td class="c-cabecera">NIVEL</td>
-            <td class="c-cabecera">ESTABLECIMIENTO ORIGEN</td>
-            <td class="c-cabecera">ESTABLECIMIENTO RECEPTOR</td>
-            <td class="c-cabecera">TIPO</td>
-            <td class="c-cabecera">PROCEDENCIA</td>
-            <td class="c-cabecera">DIAGNÓSTICO 1</td>
-            <td class="c-cabecera">DIAGNÓSTICO 2</td>
-            <td class="c-cabecera">DIAGNÓSTICO 3</td>
+            <td class="h">N°</td>
+            <td class="h">FECHA DE REGISTRO</td>
+            <td class="h">TIPO ATENCIÓN</td>
+            <td class="h">CÓDIGO REFERENCIA</td>
+            <td class="h">CÓDIGO DE EESS</td>
+            <td class="h">DEPARTAMENTO</td>
+            <td class="h">RED DE SALUD</td>
+            <td class="h">MUNICIPIO</td>
+            <td class="h">NIVEL</td>
+            <td class="h">ESTABLECIMIENTO ORIGEN</td>
+            <td class="h">ESTABLECIMIENTO RECEPTOR</td>
+            <td class="h">TIPO</td>
+            <td class="h">PROCEDENCIA</td>
+            <td class="h">DIAGNÓSTICO 1</td>
+            <td class="h">DIAGNÓSTICO 2</td>
+            <td class="h">DIAGNÓSTICO 3</td>
             
-            <td class="c-cabecera" style="background-color: #8e44ad;">D</td>
-            <td class="c-cabecera" style="background-color: #1A237E;">ENT</td>
-            <td class="c-cabecera" style="background-color: #e74a3b;">ET</td>
-            <td class="c-cabecera" style="background-color: #1cc88a;">SI</td>
-            <td class="c-cabecera" style="background-color: #e83e8c;">SM</td>
-            <td class="c-cabecera">OTROS</td>
+            <td class="h" style="background-color: #8e44ad;">D</td>
+            <td class="h" style="background-color: #1A237E;">ENT</td>
+            <td class="h" style="background-color: #e74a3b;">ET</td>
+            <td class="h" style="background-color: #1cc88a;">SI</td>
+            <td class="h" style="background-color: #e83e8c;">SM</td>
+            <td class="h">OTROS</td>
+            <td class="h">ATENCION CANCER</td>
             
-            <td class="c-cabecera">CAPTACIÓN</td>
-            <td class="c-cabecera">MÉDICO OPERATIVO</td>
-            <td class="c-cabecera">CARGO ORGANIZACIONAL</td>
+            <td class="h">CAPTACIÓN</td>
+            <td class="h">MÉDICO OPERATIVO</td>
+            <td class="h">CARGO ORGANIZACIONAL</td>
             
-            <td class="c-cabecera">GRUPO ETAREO</td>
-            <td class="c-cabecera">EDAD</td>
+            <td class="h">GRUPO ETAREO</td>
+            <td class="h">EDAD</td>
             
-            <td class="c-cabecera">ESPECIALIDAD MÉDICA</td>
-            <td class="c-cabecera">CARNET DE IDENTIDAD</td>
-            <td class="c-cabecera">FECHA DE NACIMIENTO</td>
-            <td class="c-cabecera">PERSONA REFERIDA</td>
-            <td class="c-cabecera">GENERO</td>
-            <td class="c-cabecera">TELÉFONO PACIENTE</td>
-            <td class="c-cabecera">NACIÓN</td>
+            <td class="h">ESPECIALIDAD MÉDICA</td>
+            <td class="h">CARNET DE IDENTIDAD</td>
+            <td class="h">FECHA DE NACIMIENTO</td>
+            <td class="h">PERSONA REFERIDA</td>
+            <td class="h">GENERO</td>
+            <td class="h">TELÉFONO PACIENTE</td>
+            <td class="h">NACIÓN</td>
             
-            <td class="c-cabecera">GRUPOS VULNERABLES</td>
-            <td class="c-cabecera">TIC EFECTIVIZADA</td>
+            <td class="h">GRUPOS VULNERABLES</td>
+            <td class="h">TIC EFECTIVIZADA</td>
             
-            <td class="c-cabecera">NUEVO / SEGUIMIENTO</td>
-            <td class="c-cabecera">TIEMPO</td>
-            <td class="c-cabecera">CONTEXTO ATENCIÓN</td>
-            <td class="c-cabecera">TIPO DE TELEINTERCONSULTA</td>
-            <td class="c-cabecera">MEDIO COMUNICACIÓN</td>
-            <td class="c-cabecera">ESTADO/ETAPA</td>
+            <td class="h">NUEVO / SEGUIMIENTO</td>
+            <td class="h">TIEMPO</td>
+            <td class="h">CONTEXTO ATENCIÓN</td>
+            <td class="h">TIPO DE TELEINTERCONSULTA</td>
+            <td class="h">MEDIO COMUNICACIÓN</td>
+            <td class="h">ESTADO/ETAPA</td>
         </tr> 
     </thead>
     <tbody>
@@ -340,6 +353,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             $ref_et = false;
             $ref_sm = false;
             $ref_otros = false;
+            $ref_cancer = false;
 
             $sql_dg = " SELECT p.patologia, p.cie, p.idgrupo_priorizado FROM diagnostico_presuntivo dp INNER JOIN patologia p ON dp.idpatologia=p.idpatologia WHERE dp.idreferencia_hc='{$row[0]}' LIMIT 3";
             $res_dg = mysqli_query($link,$sql_dg);
@@ -352,8 +366,11 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     if ($id_gp == '1') { $ref_ent = true; }
                     elseif ($id_gp == '2') { $ref_et = true; }
                     elseif ($id_gp == '3') { $ref_sm = true; }
-                    else { $ref_otros = true; } 
-                    
+                    else { $ref_otros = true; }
+
+                    // Atención de cáncer: CIE-10 de la lista oncológica de la Central
+                    if (tm_es_oncologico($row_dg[1])) { $ref_cancer = true; }
+
                 } while ($row_dg = mysqli_fetch_array($res_dg));
             }
 
@@ -361,6 +378,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             $txt_ref_et = $ref_et ? "ET" : "";
             $txt_ref_sm = $ref_sm ? "SALUD MATERNA" : "";
             $txt_ref_otros = $ref_otros ? "OTROS" : "";
+            $txt_ref_cancer = $ref_cancer ? "ONCOLÓGICO" : "";
 
             // =========================================================================
             // IMPRESIÓN DE FILA 1 (Solo si pertenece al filtro original)
@@ -368,53 +386,54 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
             if ($mostrar_fila_1) {
                 ?>
                 <tr>
-                    <td class="c-dato"><?php echo $numero;?></td>
-                    <td class="c-dato"><?php $f_l = explode('-',$row[10]); echo isset($f_l[2]) ? $f_l[2].'/'.$f_l[1].'/'.$f_l[0] : ''; ?></td>
-                    <td class="c-dato" style="color: #f7a35c;"><b>REFERENCIA</b></td> 
-                    <td class="c-dato"><b><?php echo $row[1];?></b></td>
-                    <td class="c-dato"><?php echo !empty($row[16]) ? $row[16] : "S/D"; ?></td>
-                    <td class="c-izq"><?php echo mb_strtoupper($row[5]);?></td> 
-                    <td class="c-izq"><?php echo !empty($row[13]) ? mb_strtoupper($row[13]) : "S/D"; ?></td> 
-                    <td class="c-izq"><?php echo mb_strtoupper($row[6]);?></td> 
-                    <td class="c-dato"><?php echo !empty($row[17]) ? mb_strtoupper($row[17]) : "S/D"; ?></td> 
-                    <td class="c-izq"><?php echo mb_strtoupper($row[7]);?></td> 
-                    <td class="c-izq"><?php echo $eess_receptor_inicial; ?></td> 
-                    <td class="c-dato"><?php echo !empty($row[29]) ? mb_strtoupper($row[29]) : "S/D"; ?></td>
+                    <td class="d"><?php echo $numero;?></td>
+                    <td class="d"><?php $f_l = explode('-',$row[10]); echo isset($f_l[2]) ? $f_l[2].'/'.$f_l[1].'/'.$f_l[0] : ''; ?></td>
+                    <td class="d" style="color: #f7a35c;"><b>REFERENCIA</b></td> 
+                    <td class="d"><b><?php echo $row[1];?></b></td>
+                    <td class="d"><?php echo !empty($row[16]) ? $row[16] : "S/D"; ?></td>
+                    <td class="i"><?php echo mb_strtoupper($row[5]);?></td> 
+                    <td class="i"><?php echo !empty($row[13]) ? mb_strtoupper($row[13]) : "S/D"; ?></td> 
+                    <td class="i"><?php echo mb_strtoupper($row[6]);?></td> 
+                    <td class="d"><?php echo !empty($row[17]) ? mb_strtoupper($row[17]) : "S/D"; ?></td> 
+                    <td class="i"><?php echo mb_strtoupper($row[7]);?></td> 
+                    <td class="i"><?php echo $eess_receptor_inicial; ?></td> 
+                    <td class="d"><?php echo !empty($row[29]) ? mb_strtoupper($row[29]) : "S/D"; ?></td>
                     
-                    <td class="c-izq"><?php echo $txt_procedencia; ?></td>
+                    <td class="i"><?php echo $txt_procedencia; ?></td>
                     
-                    <td class="c-izq"><?php echo $diag_origen[0]; ?></td>
-                    <td class="c-izq"><?php echo $diag_origen[1]; ?></td>
-                    <td class="c-izq"><?php echo $diag_origen[2]; ?></td>
+                    <td class="i"><?php echo $diag_origen[0]; ?></td>
+                    <td class="i"><?php echo $diag_origen[1]; ?></td>
+                    <td class="i"><?php echo $diag_origen[2]; ?></td>
                     
-                    <td class="c-dato"><?php echo $indicador_discapacidad; ?></td>
-                    <td class="c-dato"><?php echo $txt_ref_ent; ?></td>
-                    <td class="c-dato"><?php echo $txt_ref_et; ?></td>
-                    <td class="c-dato"><?php echo $indicador_si; ?></td>
-                    <td class="c-dato"><?php echo $txt_ref_sm; ?></td>
-                    <td class="c-dato"><?php echo $txt_ref_otros; ?></td>
+                    <td class="d"><?php echo $indicador_discapacidad; ?></td>
+                    <td class="d"><?php echo $txt_ref_ent; ?></td>
+                    <td class="d"><?php echo $txt_ref_et; ?></td>
+                    <td class="d"><?php echo $indicador_si; ?></td>
+                    <td class="d"><?php echo $txt_ref_sm; ?></td>
+                    <td class="d"><?php echo $txt_ref_otros; ?></td>
+                    <td class="d"><?php echo $txt_ref_cancer; ?></td>
                     
-                    <td class="c-izq"><?php echo $txt_captacion; ?></td>
-                    <td class="c-izq"><?php echo $medico_origen; ?></td>
-                    <td class="c-dato"><?php echo $cargo_origen; ?></td>
-                    <td class="c-dato"><?php echo $grupo_etareo; ?></td>
-                    <td class="c-dato"><?php echo $edad_calculada; ?></td>
-                    <td class="c-izq"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td>
-                    <td class="c-dato"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
-                    <td class="c-dato"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
-                    <td class="c-izq"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
-                    <td class="c-dato"><?php echo $genero_final; ?></td>
-                    <td class="c-dato"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
+                    <td class="i"><?php echo $txt_captacion; ?></td>
+                    <td class="i"><?php echo $medico_origen; ?></td>
+                    <td class="d"><?php echo $cargo_origen; ?></td>
+                    <td class="d"><?php echo $grupo_etareo; ?></td>
+                    <td class="d"><?php echo $edad_calculada; ?></td>
+                    <td class="i"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td>
+                    <td class="d"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
+                    <td class="d"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
+                    <td class="i"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
+                    <td class="d"><?php echo $genero_final; ?></td>
+                    <td class="d"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
                     
-                    <td class="c-izq"><?php echo $txt_nacion; ?></td>
+                    <td class="i"><?php echo $txt_nacion; ?></td>
                     
-                    <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
-                    <td class="c-dato"></td> <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
-                    <td class="c-dato"><?php echo $txt_tiempo; ?></td>
+                    <td class="i"><?php echo $txt_grupos_vulnerables; ?></td> 
+                    <td class="d"></td> <td class="d"><?php echo $txt_seguimiento; ?></td>
+                    <td class="d"><?php echo $txt_tiempo; ?></td>
                     
-                    <td class="c-izq"><?php echo $txt_contexto; ?></td>
-                    <td class="c-dato"><?php echo $txt_tipo_tele; ?></td>
-                    <td class="c-izq"><?php echo $txt_medio_origen; ?></td>
+                    <td class="i"><?php echo $txt_contexto; ?></td>
+                    <td class="d"><?php echo $txt_tipo_tele; ?></td>
+                    <td class="i"><?php echo $txt_medio_origen; ?></td>
                     
                     <?php
                     $txt_estado = trim(mb_strtoupper($row[8]));
@@ -423,7 +442,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                         $txt_estado = 'CONTRARREFERIDA';
                     }
                     ?>
-                    <td class="c-dato"><b><?php echo $txt_estado; ?></b></td>
+                    <td class="d"><b><?php echo $txt_estado; ?></b></td>
                 </tr>
                 <?php
                 $numero++;
@@ -541,6 +560,7 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     $cref_et = false;
                     $cref_sm = false;
                     $cref_otros = false;
+                    $cref_cancer = false;
 
                     $sql_dg2 = " SELECT p.patologia, p.cie, p.idgrupo_priorizado FROM diagnostico_egreso de INNER JOIN patologia p ON de.idpatologia=p.idpatologia WHERE de.idreferencia_hc='{$row[0]}' LIMIT 3";
                     $res_dg2 = mysqli_query($link,$sql_dg2);
@@ -554,7 +574,10 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                             elseif ($id_gp_cref == '2') { $cref_et = true; }
                             elseif ($id_gp_cref == '3') { $cref_sm = true; }
                             else { $cref_otros = true; }
-                            
+
+                            // Atención de cáncer: CIE-10 de la lista oncológica de la Central
+                            if (tm_es_oncologico($row_dg2[1])) { $cref_cancer = true; }
+
                         } while ($row_dg2 = mysqli_fetch_array($res_dg2));
                     }
                     // --- AUDITORÍA DE INTEGRIDAD: AVISO DE DIAGNÓSTICO DE EGRESO VACÍO ---
@@ -567,61 +590,63 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                     $txt_cref_et = $cref_et ? "ET" : "";
                     $txt_cref_sm = $cref_sm ? "SALUD MATERNA" : "";
                     $txt_cref_otros = $cref_otros ? "OTROS" : "";
+                    $txt_cref_cancer = $cref_cancer ? "ONCOLÓGICO" : "";
 
                     // =========================================================================
                     // IMPRESIÓN DE FILA 2 (Solo si pertenece al filtro original)
                     // =========================================================================
                     ?>
                     <tr>
-                        <td class="c-dato"><?php echo $numero;?></td>
-                        <td class="c-dato"><?php echo $f_reg_contra; ?></td>
-                        <td class="c-dato" style="color: #2D56CF;"><b>CONTRARREFERENCIA</b></td> 
-                        <td class="c-dato"><b><?php echo $row[1];?></b></td>
-                        <td class="c-dato"><?php echo $codigo_eess_contra; ?></td>
-                        <td class="c-izq"><?php echo $dpto_contra;?></td>
-                        <td class="c-izq"><?php echo $red_contra;?></td>
-                        <td class="c-izq"><?php echo $mun_contra;?></td>
-                        <td class="c-dato"><?php echo $nivel_contra;?></td>
-                        <td class="c-izq"><?php echo $eess_contra_nombre;?></td> <td class="c-izq"><?php echo mb_strtoupper($row[7]);?></td> <td class="c-dato"><?php echo $tipo_eess_contra;?></td>
+                        <td class="d"><?php echo $numero;?></td>
+                        <td class="d"><?php echo $f_reg_contra; ?></td>
+                        <td class="d" style="color: #2D56CF;"><b>CONTRARREFERENCIA</b></td> 
+                        <td class="d"><b><?php echo $row[1];?></b></td>
+                        <td class="d"><?php echo $codigo_eess_contra; ?></td>
+                        <td class="i"><?php echo $dpto_contra;?></td>
+                        <td class="i"><?php echo $red_contra;?></td>
+                        <td class="i"><?php echo $mun_contra;?></td>
+                        <td class="d"><?php echo $nivel_contra;?></td>
+                        <td class="i"><?php echo $eess_contra_nombre;?></td> <td class="i"><?php echo mb_strtoupper($row[7]);?></td> <td class="d"><?php echo $tipo_eess_contra;?></td>
                         
-                        <td class="c-izq"><?php echo $txt_procedencia; ?></td>
+                        <td class="i"><?php echo $txt_procedencia; ?></td>
                         
-                        <td class="c-izq"><?php echo $diag_contra[0]; ?></td>
-                        <td class="c-izq"><?php echo $diag_contra[1]; ?></td>
-                        <td class="c-izq"><?php echo $diag_contra[2]; ?></td>
+                        <td class="i"><?php echo $diag_contra[0]; ?></td>
+                        <td class="i"><?php echo $diag_contra[1]; ?></td>
+                        <td class="i"><?php echo $diag_contra[2]; ?></td>
                         
-                        <td class="c-dato"><?php echo $indicador_discapacidad; ?></td> 
-                        <td class="c-dato"><?php echo $txt_cref_ent; ?></td>
-                        <td class="c-dato"><?php echo $txt_cref_et; ?></td>
-                        <td class="c-dato"><?php echo $indicador_si; ?></td>
-                        <td class="c-dato"><?php echo $txt_cref_sm; ?></td>
-                        <td class="c-dato"><?php echo $txt_cref_otros; ?></td>
+                        <td class="d"><?php echo $indicador_discapacidad; ?></td> 
+                        <td class="d"><?php echo $txt_cref_ent; ?></td>
+                        <td class="d"><?php echo $txt_cref_et; ?></td>
+                        <td class="d"><?php echo $indicador_si; ?></td>
+                        <td class="d"><?php echo $txt_cref_sm; ?></td>
+                        <td class="d"><?php echo $txt_cref_otros; ?></td>
+                        <td class="d"><?php echo $txt_cref_cancer; ?></td>
                         
-                        <td class="c-izq"><?php echo $txt_captacion; ?></td>
-                        <td class="c-izq"><?php echo $medico_contra_nombre; ?></td>
-                        <td class="c-dato"><?php echo $cargo_contra; ?></td>
-                        <td class="c-dato"><?php echo $grupo_etareo; ?></td>
-                        <td class="c-dato"><?php echo $edad_calculada; ?></td>
-                        <td class="c-izq"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td> 
-                        <td class="c-dato"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
-                        <td class="c-dato"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
-                        <td class="c-izq"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
-                        <td class="c-dato"><?php echo $genero_final; ?></td>
-                        <td class="c-dato"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
+                        <td class="i"><?php echo $txt_captacion; ?></td>
+                        <td class="i"><?php echo $medico_contra_nombre; ?></td>
+                        <td class="d"><?php echo $cargo_contra; ?></td>
+                        <td class="d"><?php echo $grupo_etareo; ?></td>
+                        <td class="d"><?php echo $edad_calculada; ?></td>
+                        <td class="i"><?php echo !empty($row[9]) ? mb_strtoupper($row[9]) : "S/D"; ?></td> 
+                        <td class="d"><?php echo !empty($row[18]) ? $row[18] : "S/D"; ?></td>
+                        <td class="d"><?php if(!empty($row[19]) && $row[19] != '0000-00-00'){ $fn = explode('-', $row[19]); echo $fn[2].'/'.$fn[1].'/'.$fn[0]; } ?></td>
+                        <td class="i"><?php echo mb_strtoupper($row[2]." ".$row[3]." ".$row[4]);?></td>
+                        <td class="d"><?php echo $genero_final; ?></td>
+                        <td class="d"><?php echo !empty($row[21]) ? $row[21] : "S/D"; ?></td>
                         
-                        <td class="c-izq"><?php echo $txt_nacion; ?></td>
+                        <td class="i"><?php echo $txt_nacion; ?></td>
                         
-                        <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
-                        <td class="c-dato"><?php echo $txt_efectivizada_fila2; ?></td> 
+                        <td class="i"><?php echo $txt_grupos_vulnerables; ?></td> 
+                        <td class="d"><?php echo $txt_efectivizada_fila2; ?></td> 
                         
-                        <td class="c-dato"><?php echo $txt_seguimiento; ?></td>
-                        <td class="c-dato"><?php echo $txt_tiempo; ?></td>
+                        <td class="d"><?php echo $txt_seguimiento; ?></td>
+                        <td class="d"><?php echo $txt_tiempo; ?></td>
                         
-                        <td class="c-izq"><?php echo $txt_contexto; ?></td>
-                        <td class="c-dato"><?php echo $txt_tipo_tele; ?></td>
-                        <td class="c-izq"><?php echo $medio_comunicacion_contra; ?></td>
+                        <td class="i"><?php echo $txt_contexto; ?></td>
+                        <td class="d"><?php echo $txt_tipo_tele; ?></td>
+                        <td class="i"><?php echo $medio_comunicacion_contra; ?></td>
                         
-                        <td class="c-dato"><b>CONTRARREFERIDA</b></td>
+                        <td class="d"><b>CONTRARREFERIDA</b></td>
                     </tr>
                     <?php
                     $numero++;

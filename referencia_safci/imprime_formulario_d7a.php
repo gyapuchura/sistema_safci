@@ -53,11 +53,23 @@ $row_ai=mysqli_fetch_array($result_ai);
 <head>
 <meta charset="UTF-8">
 <title>FORMULARIO DE REFERENCIA - D7a</title>
+<style>
+  /****** impresión por defecto en tamaño carta ****/
+  @page { size: letter portrait; margin: 5mm; }
+  @media print {
+    /****** sin zoom: el navegador ajusta solo el formulario al ancho de la hoja ****/
+    body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none; }
+    /****** no partir filas entre hojas ni dejar una barra de título sola al pie ****/
+    tr, img { break-inside: avoid; page-break-inside: avoid; }
+    tr.barra-titulo { break-after: avoid; page-break-after: avoid; }
+  }
+</style>
 </head>
 
 <body>
 
-<table width="900" border="0" align="center">
+<table width="900" border="0" align="center" id="formulario_d7a">
   <tbody>
     <tr>
       <td colspan="3"><table width="902" border="1" cellspacing="0">
@@ -70,7 +82,7 @@ $row_ai=mysqli_fetch_array($result_ai);
                   <td width="471" align="center">
                     <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;">FORMULARIO CONTRARREFERENCIA D7-a</strong></br>
                     <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;"><?php echo $row_ref[6]; ?></strong></td>
-                  <td width="217">&nbsp;</td>
+                  <td width="217" style="text-align: center; font-family: Arial; font-size: 12px;"><a href="#" id="btn_descargar_pdf" class="no-print" onclick="descargarPDF(); return false;">DESCARGAR EN PDF</a></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -382,10 +394,8 @@ $row_ai=mysqli_fetch_array($result_ai);
               </table></td>
             </tr>
             <tr>
-            <td colspan="6" valign="bottom" style="text-align: center; font-size: 12px; font-family: Arial;">FIRMA , SELLO FDEL MÉDICO RESPONSABLE</td>
-            <td colspan="6" valign="top" style="text-align: center; font-size: 12px; font-family: Arial;"><p>&nbsp;</p>
-              <p>&nbsp;</p>
-              <p style="text-align: center">SELLO DEL ESTABLECIMIENTO RECEPTOR</p></td>
+            <td colspan="6" valign="bottom" style="text-align: center; font-size: 12px; font-family: Arial;">FIRMA, SELLO DEL MÉDICO RESPONSABLE</td>
+            <td colspan="6" valign="bottom" style="height: 120px; text-align: center; font-size: 12px; font-family: Arial;">SELLO DEL ESTABLECIMIENTO RECEPTOR</td>
           </tr>
           <tr>
             <td colspan="2" style="text-align: center; font-size: 12px; font-family: Arial;">
@@ -484,12 +494,97 @@ echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" />';
           </tbody>
       </table></td>
     </tr>
-    <tr>
+    <!----- fila vacía de relleno: oculta para que el formulario no agregue una segunda hoja en blanco al imprimir o descargar ------>
+    <tr style="display: none;">
       <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
       <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
       <td style="font-size: 12px; font-family: Arial;">&nbsp;</td>
     </tr>
   </tbody>
 </table>
+
+<!----- descarga en PDF: se genera a partir de esta misma página para que quede idéntica (tamaño carta, con sello) ------>
+<script src="../js/modules/html2canvas.min.js"></script>
+<script src="../js/modules/jspdf.umd.min.js"></script>
+<script>
+/****** las filas que son solo una barra azul de título se marcan para no separarlas de la fila siguiente ****/
+(function () {
+  var filas = document.querySelectorAll('#formulario_d7a tr');
+  for (var i = 0; i < filas.length; i++) {
+    var c = filas[i].cells;
+    if (c.length >= 1 && c[0].getAttribute('bgcolor') && c[0].getAttribute('bgcolor').toUpperCase() == '#466CAD' && c[0].colSpan >= 8)
+      filas[i].classList.add('barra-titulo');
+  }
+})();
+
+/****** alturas (en px de pantalla, desde el inicio del formulario) donde se puede cortar la hoja sin partir ninguna celda ****/
+function cortesPermitidos(formulario) {
+  var base = formulario.getBoundingClientRect().top;
+  var tabla = formulario.querySelector('table');
+  var celdas = [], cortes = [];
+  for (var i = 0; i < tabla.rows.length; i++) {
+    var fila = tabla.rows[i];
+    //no se corta justo debajo de una barra azul de título, para que no quede sola al pie de la hoja
+    if (!fila.classList.contains('barra-titulo'))
+      cortes.push(fila.getBoundingClientRect().bottom - base);
+    for (var j = 0; j < fila.cells.length; j++) {
+      var r = fila.cells[j].getBoundingClientRect();
+      celdas.push([r.top - base, r.bottom - base]);
+    }
+  }
+  return cortes.filter(function (y) {
+    return !celdas.some(function (c) { return c[0] < y - 1 && c[1] > y + 1; });
+  });
+}
+
+function descargarPDF() {
+  var boton = document.getElementById('btn_descargar_pdf');
+  var formulario = document.getElementById('formulario_d7a');
+  boton.textContent = 'GENERANDO PDF...';
+
+  var margen = 5, anchoHoja = 215.9, altoHoja = 279.4;
+  var anchoUtil = anchoHoja - 2*margen, altoUtil = altoHoja - 2*margen;
+  var escala = 3;   //resolución de la captura (unos 330 ppp en la hoja), para que el texto se vea nítido
+  var cortes = cortesPermitidos(formulario);
+
+  html2canvas(formulario, {
+    scale: escala, useCORS: true, backgroundColor: '#ffffff',
+    ignoreElements: function (el) { return el.classList && el.classList.contains('no-print'); }
+  }).then(function (canvas) {
+    var pdf = new jspdf.jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+    var anchoPx = formulario.getBoundingClientRect().width;
+    var altoTotal = canvas.height / escala;
+    var altoHojaPx = altoUtil * anchoPx / anchoUtil;   //alto de una hoja expresado en px del formulario
+    var inicio = 0, primera = true;
+
+    while (inicio < altoTotal - 1) {
+      var fin = Math.min(inicio + altoHojaPx, altoTotal);
+      if (fin < altoTotal) {
+        //se corta en la última fila completa que entra en la hoja
+        var validos = cortes.filter(function (y) { return y > inicio + 20 && y <= fin; });
+        if (validos.length) fin = validos[validos.length - 1];
+      }
+      var trozo = document.createElement('canvas');
+      trozo.width = canvas.width;
+      trozo.height = Math.round((fin - inicio) * escala);
+      var ctx = trozo.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, trozo.width, trozo.height);
+      ctx.drawImage(canvas, 0, Math.round(inicio * escala), canvas.width, trozo.height, 0, 0, canvas.width, trozo.height);
+
+      if (!primera) pdf.addPage();
+      //PNG sin pérdida: el texto queda nítido
+      pdf.addImage(trozo, 'PNG', margen, margen, anchoUtil, (fin - inicio) * anchoUtil / anchoPx, undefined, 'FAST');
+      primera = false;
+      inicio = fin;
+    }
+    pdf.save('formulario_d7a_<?php echo preg_replace('/[^A-Za-z0-9_-]/', '-', $row_ref[6]); ?>.pdf');
+  }).catch(function (e) {
+    alert('No se pudo generar el PDF: ' + e);
+  }).then(function () {
+    boton.textContent = 'DESCARGAR EN PDF';
+  });
+}
+</script>
 </body>
 </html>

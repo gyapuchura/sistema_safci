@@ -47,11 +47,30 @@ $row_n=mysqli_fetch_array($result_n);
 <head>
 <meta charset="UTF-8">
 <title>FORMULARIO DE REFERENCIA - D7</title>
+<style>
+  /****** impresión por defecto en tamaño carta: la tabla de 902px se escala para entrar en el ancho de la hoja ****/
+  @page { size: letter portrait; margin: 5mm; }
+  /****** el sello se superpone centrado en su celda sin agrandar el alto de la fila ****/
+  /****** a los lados se recorta en el borde de la celda: si sobresale del formulario, el navegador achica toda la hoja al imprimir ****/
+  .celda-sello { position: relative; overflow-x: clip; overflow-y: visible; }
+  /****** "caja invisible": el sello cabe en el ancho de su celda y hasta 240px de alto, sin deformarse (sirve para sellos cuadrados o anchos) ****/
+  .sello-flotante { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 100%; max-height: 240px; pointer-events: none; z-index: 2; }
+  /****** el sello del establecimiento se ajusta al recuadro de C1 ****/
+  .sello-eess { max-width: 96%; max-height: 96%; }
+  @media print {
+    /****** sin zoom: el navegador ajusta solo el formulario al ancho de la hoja (con zoom, Chrome lo achicaba dos veces) ****/
+    body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none; }
+    /****** no partir filas entre hojas ni dejar una barra de título sola al pie ****/
+    tr, img { break-inside: avoid; page-break-inside: avoid; }
+    tr.barra-titulo { break-after: avoid; page-break-after: avoid; }
+  }
+</style>
 </head>
 
 <body>
 
-<table width="902" border="0" align="center">
+<table width="902" border="0" align="center" id="formulario_d7">
   <tbody>
     <tr>
       <td colspan="3"><table width="902" border="1" cellspacing="0">
@@ -64,7 +83,7 @@ $row_n=mysqli_fetch_array($result_n);
                   <td width="471" align="center">
                     <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;">FORMULARIO REFERENCIA D7</strong></br>
                     <strong style="font-family: Arial; font-size: 16px; color: #000000; text-align: right;"><?php echo $row_ref[6]; ?></strong></td>
-                  <td width="217">&nbsp;</td>
+                  <td width="217" style="text-align: center; font-family: Arial; font-size: 12px;"><a href="#" id="btn_descargar_pdf" class="no-print" onclick="descargarPDF(); return false;">DESCARGAR EN PDF</a></td>
                   </tr>
                 </tbody>
               </table></td>
@@ -75,7 +94,20 @@ $row_n=mysqli_fetch_array($result_n);
           <tr>
             <td colspan="3" bgcolor="#e7eaf0" style="font-family: Arial; font-size: 12px;">NOMBRE DEL ESTABLECIMIENTO</td>
             <td colspan="6" style="font-family: Arial; font-size: 12px; text-align: center;"><?php echo $row_es[1];?></td>
-            <td colspan="3" bgcolor="#e7eaf0" rowspan="4" style="text-align: center; font-size: 12px; font-family: Arial;">SELLO DEL ESTABLECIMIENTO</td>
+            <td colspan="3" bgcolor="#e7eaf0" rowspan="4" class="celda-sello" style="text-align: center; font-size: 12px; font-family: Arial;">
+              <?php
+                /****** sello del establecimiento que refiere (consulta aparte por si aún no existe la columna sello_eess) ****/
+                $sello_eess = '';
+                $result_sl = @mysqli_query($link," SELECT sello_eess FROM establecimiento_salud WHERE idestablecimiento_salud='$row_ref[4]' AND sello_eess<>'' LIMIT 1 ");
+                if ($result_sl && $row_sl = mysqli_fetch_array($result_sl)) {
+                  $sello_eess = $row_sl[0];
+                }
+                if ($sello_eess != '' && is_file('../'.$sello_eess)) { ?>
+                  <img src="../<?php echo htmlspecialchars($sello_eess);?>" class="sello-flotante sello-eess" alt="Sello del establecimiento"/>
+              <?php } else { ?>
+              SELLO DEL ESTABLECIMIENTO
+              <?php } ?>
+            </td>
             </tr>
           <tr>
             <td colspan="2" bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">NIVEL DEL ESTABLECIMIENTO</td>
@@ -509,7 +541,18 @@ $row_n=mysqli_fetch_array($result_n);
                 echo mb_strtoupper($row_cm[0]);?>
             </td>
             <td bgcolor="#e7eaf0" rowspan="3" style="font-size: 12px; font-family: Arial;">FIRMA Y SELLO</td>
-            <td colspan="4" rowspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
+            <td colspan="4" rowspan="3" class="celda-sello" style="font-size: 12px; font-family: Arial; text-align: center;">
+              <?php
+                /****** sello y firma del médico que envía al paciente (consulta aparte por si aún no existe la columna url_sello) ****/
+                $sello_env = '';
+                $result_se = @mysqli_query($link," SELECT url_sello FROM personal WHERE idusuario='$row_ref[25]' AND url_sello<>'' LIMIT 1 ");
+                if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
+                  $sello_env = $row_se[0];
+                }
+                if ($sello_env != '' && is_file('../'.$sello_env)) { ?>
+                  <img src="../<?php echo htmlspecialchars($sello_env);?>" class="sello-flotante" alt="Sello y firma"/>
+              <?php } else { echo '&nbsp;'; } ?>
+            </td>
             </tr>
           <tr>
             <td bgcolor="#e7eaf0" colspan="4" style="font-size: 12px; font-family: Arial;">NRO. DE TEL./CEL. CONTACTO DEL MÉDICO QUE ENVIÓ</td>
@@ -572,7 +615,10 @@ $row_n=mysqli_fetch_array($result_n);
               <?php 
                 $sql_pc =" SELECT idderiva_referencia_hc, persona_contactada, idvia_comunicacion, recibe_paciente, nombre_ccdes, fecha_admision, hora_admision, idusuario_r, admitido, motivo FROM deriva_referencia_hc WHERE idreferencia_hc='$idreferencia_hc_ss' ORDER BY idderiva_referencia_hc ASC LIMIT 1 ";
                 $result_pc = mysqli_query($link,$sql_pc);
-                $row_pc = mysqli_fetch_array($result_pc);                    
+                $row_pc = mysqli_fetch_array($result_pc);
+                /****** al referir se guarda idusuario_r = médico que refiere (provisional); solo tras la admisión corresponde al receptor ****/
+                $admitida_pc = ($row_pc && $row_pc[8] == 'SI');
+                $idusuario_receptor = $admitida_pc ? $row_pc[7] : '';
                 echo mb_strtoupper($row_pc[1]);?>
             </td>
             <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php if ($row_er[4]=='6') { echo 'X'; } else { } ?></td>
@@ -602,13 +648,15 @@ $row_n=mysqli_fetch_array($result_n);
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">FECHA DE RECEPCIÓN:</td>
             <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
-                $fecha_e = explode('-',$row_pc[5]);
-                $fecha_rec = $fecha_e[2].'/'.$fecha_e[1].'/'.$fecha_e[0];
-                echo $fecha_rec; 
+                if ($admitida_pc) {
+                  $fecha_e = explode('-',$row_pc[5]);
+                  $fecha_rec = $fecha_e[2].'/'.$fecha_e[1].'/'.$fecha_e[0];
+                  echo $fecha_rec;
+                }
               ?>  
             </td>
             <td bgcolor="#e7eaf0" style="font-size: 12px; font-family: Arial;">HORA DE LLEGADA:</td>
-            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row_pc[6];?></td>
+            <td colspan="2" style="font-size: 12px; font-family: Arial; text-align: center;"><?php if ($admitida_pc) { echo $row_pc[6]; } ?></td>
             <td bgcolor="#e7eaf0" colspan="2" style="font-size: 12px; font-family: Arial;">HORA DE RECEPCIÓN:</td>
             <td colspan="3" style="font-size: 12px; font-family: Arial;">&nbsp;</td>
             </tr>
@@ -616,11 +664,13 @@ $row_n=mysqli_fetch_array($result_n);
             <td bgcolor="#e7eaf0" colspan="7" style="font-size: 12px; font-family: Arial;">MÉDICO RESPONSABLE DEL ESTABLECIMIENTO DE SALUD RECEPTOR QUE EVALUA LOS CRITERIOS DE CALIDAD A.J.O.</td>
             <td colspan="5" style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
-                $sql_med =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
-                $sql_med.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$row_pc[7]' ";
-                $result_med = mysqli_query($link,$sql_med);
-                $row_med = mysqli_fetch_array($result_med);                    
-                echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);
+                if ($idusuario_receptor != '') {
+                  $sql_med =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
+                  $sql_med.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='$idusuario_receptor' ";
+                  $result_med = mysqli_query($link,$sql_med);
+                  $row_med = mysqli_fetch_array($result_med);
+                  echo mb_strtoupper($row_med[0]." ".$row_med[1]." ".$row_med[2]);
+                }
               ?>
             </td>
             </tr>
@@ -636,7 +686,18 @@ $row_n=mysqli_fetch_array($result_n);
             <td colspan="6" style="font-size: 12px; font-family: Arial;"><p><?php echo $row_pc[9];?></p></td>
             </tr>
           <tr>
-            <td colspan="6" valign="bottom" style="text-align: center; font-size: 12px; font-family: Arial;">FIRMA , SELLO FDEL MÉDICO RESPONSABLE</td>
+            <td colspan="6" valign="bottom" class="celda-sello" style="text-align: center; font-size: 12px; font-family: Arial;">
+              <?php
+                /****** sello y firma del médico responsable del establecimiento receptor (consulta aparte por si aún no existe la columna url_sello) ****/
+                $sello_med = '';
+                $result_sm = ($idusuario_receptor != '') ? @mysqli_query($link," SELECT url_sello FROM personal WHERE idusuario='$idusuario_receptor' AND url_sello<>'' LIMIT 1 ") : false;
+                if ($result_sm && $row_sm = mysqli_fetch_array($result_sm)) {
+                  $sello_med = $row_sm[0];
+                }
+                if ($sello_med != '' && is_file('../'.$sello_med)) { ?>
+                  <img src="../<?php echo htmlspecialchars($sello_med);?>" class="sello-flotante" alt="Sello y firma"/>
+              <?php } ?>
+              FIRMA , SELLO DEL MÉDICO RESPONSABLE</td>
             <td colspan="6" valign="top" style="text-align: center; font-size: 12px; font-family: Arial;"><table width="489" border="1" cellspacing="0">
               <tbody>
                 <tr>
@@ -762,5 +823,94 @@ echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" />';
     </tr>
   </tbody>
 </table>
+
+<!----- descarga en PDF: se genera a partir de esta misma página para que quede idéntica (tamaño carta, con sellos) ------>
+<script src="../js/modules/html2canvas.min.js"></script>
+<script src="../js/modules/jspdf.umd.min.js"></script>
+<script>
+/****** las filas que son solo una barra azul de título se marcan para no separarlas de la fila siguiente ****/
+(function () {
+  var filas = document.querySelectorAll('#formulario_d7 tr');
+  for (var i = 0; i < filas.length; i++) {
+    var c = filas[i].cells;
+    if (c.length >= 1 && c[0].getAttribute('bgcolor') && c[0].getAttribute('bgcolor').toUpperCase() == '#466CAD' && c[0].colSpan >= 8)
+      filas[i].classList.add('barra-titulo');
+  }
+})();
+
+/****** alturas (en px de pantalla, desde el inicio del formulario) donde se puede cortar la hoja sin partir ninguna celda ****/
+function cortesPermitidos(formulario) {
+  var base = formulario.getBoundingClientRect().top;
+  var tabla = formulario.querySelector('table');
+  var celdas = [], cortes = [];
+  for (var i = 0; i < tabla.rows.length; i++) {
+    var fila = tabla.rows[i];
+    //no se corta justo debajo de una barra azul de título, para que no quede sola al pie de la hoja
+    if (!fila.classList.contains('barra-titulo'))
+      cortes.push(fila.getBoundingClientRect().bottom - base);
+    for (var j = 0; j < fila.cells.length; j++) {
+      var r = fila.cells[j].getBoundingClientRect();
+      celdas.push([r.top - base, r.bottom - base]);
+    }
+  }
+  return cortes.filter(function (y) {
+    return !celdas.some(function (c) { return c[0] < y - 1 && c[1] > y + 1; });
+  });
+}
+
+function descargarPDF() {
+  var boton = document.getElementById('btn_descargar_pdf');
+  var formulario = document.getElementById('formulario_d7');
+  boton.textContent = 'GENERANDO PDF...';
+
+  var margen = 5, anchoHoja = 215.9, altoHoja = 279.4;
+  var anchoUtil = anchoHoja - 2*margen, altoUtil = altoHoja - 2*margen;
+  var escala = 3;   //resolución de la captura (unos 330 ppp en la hoja), para que el texto se vea nítido
+  var cortes = cortesPermitidos(formulario);
+
+  html2canvas(formulario, {
+    scale: escala, useCORS: true, backgroundColor: '#ffffff',
+    ignoreElements: function (el) { return el.classList && el.classList.contains('no-print'); },
+    //html2canvas trata el recorte lateral del sello como recorte total; en la copia se quita para que el sello quede encima de las filas vecinas
+    onclone: function (doc) {
+      var celdas = doc.querySelectorAll('.celda-sello');
+      for (var i = 0; i < celdas.length; i++) celdas[i].style.overflow = 'visible';
+    }
+  }).then(function (canvas) {
+    var pdf = new jspdf.jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+    var anchoPx = formulario.getBoundingClientRect().width;
+    var altoTotal = canvas.height / escala;
+    var altoHojaPx = altoUtil * anchoPx / anchoUtil;   //alto de una hoja expresado en px del formulario
+    var inicio = 0, primera = true;
+
+    while (inicio < altoTotal - 1) {
+      var fin = Math.min(inicio + altoHojaPx, altoTotal);
+      if (fin < altoTotal) {
+        //se corta en la última fila completa que entra en la hoja
+        var validos = cortes.filter(function (y) { return y > inicio + 20 && y <= fin; });
+        if (validos.length) fin = validos[validos.length - 1];
+      }
+      var trozo = document.createElement('canvas');
+      trozo.width = canvas.width;
+      trozo.height = Math.round((fin - inicio) * escala);
+      var ctx = trozo.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, trozo.width, trozo.height);
+      ctx.drawImage(canvas, 0, Math.round(inicio * escala), canvas.width, trozo.height, 0, 0, canvas.width, trozo.height);
+
+      if (!primera) pdf.addPage();
+      //PNG sin pérdida: el texto queda nítido (JPEG lo dejaba borroso)
+      pdf.addImage(trozo, 'PNG', margen, margen, anchoUtil, (fin - inicio) * anchoUtil / anchoPx, undefined, 'FAST');
+      primera = false;
+      inicio = fin;
+    }
+    pdf.save('formulario_d7_<?php echo preg_replace('/[^A-Za-z0-9_-]/', '-', $row_ref[6]); ?>.pdf');
+  }).catch(function (e) {
+    alert('No se pudo generar el PDF: ' + e);
+  }).then(function () {
+    boton.textContent = 'DESCARGAR EN PDF';
+  });
+}
+</script>
 </body>
 </html>

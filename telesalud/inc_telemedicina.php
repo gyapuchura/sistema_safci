@@ -126,6 +126,143 @@ function tm_catalogos($link) {
     return [$deptos, $munis, $eess, tm_medicos($link, $_GET)];
 }
 
+// Periodo de comparación de las flechas ▲▼ (todas las pantallas):
+//   periodo dentro de un solo mes -> los mismos días del MES ANTERIOR (1–27 oct contra 1–27 sep)
+//   cualquier otro periodo        -> las mismas fechas de la GESTIÓN ANTERIOR (ene–oct 2026 contra ene–oct 2025)
+// Si el mes de destino tiene menos días, se usa su último día (31 mar -> 28/29 feb).
+function tm_periodo_anterior(DateTime $ini, DateTime $fin) {
+    $mismo_mes = $ini->format('Y-m') === $fin->format('Y-m');
+    $meses = $mismo_mes ? 1 : 12;
+    $mover = function (DateTime $f) use ($meses) {
+        $y = (int)$f->format('Y'); $m = (int)$f->format('n') - $meses;
+        while ($m < 1) { $m += 12; $y--; }
+        $dias_mes = (int)(new DateTime(sprintf('%04d-%02d-01', $y, $m)))->format('t');
+        return new DateTime(sprintf('%04d-%02d-%02d', $y, $m, min((int)$f->format('j'), $dias_mes)));
+    };
+    $a = $mover($ini); $b = $mover($fin);
+    $mes_corto = ['', 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    $rango = (int)$a->format('j') . ' ' . $mes_corto[(int)$a->format('n')] . ($a->format('Y') !== $b->format('Y') ? ' ' . $a->format('Y') : '')
+        . ' – ' . (int)$b->format('j') . ' ' . $mes_corto[(int)$b->format('n')] . ' ' . $b->format('Y');
+    $GLOBALS['tm_anterior'] = ['etq' => $mismo_mes ? 'mes anterior' : 'gestión anterior', 'rango' => $rango];
+    return [$a, $b];
+}
+// Nombre del periodo de comparación ("mes anterior" / "gestión anterior") y su rango de fechas, para textos y ayudas
+// $articulo = true antepone "el" / "la" ("el mes anterior", "la gestión anterior")
+function tm_etq_anterior($con_rango = false, $articulo = false) {
+    $p = isset($GLOBALS['tm_anterior']) ? $GLOBALS['tm_anterior'] : ['etq' => 'periodo anterior', 'rango' => ''];
+    $art = $articulo ? (strpos($p['etq'], 'gestión') === 0 ? 'la ' : 'el ') : '';
+    return $art . $p['etq'] . ($con_rango && $p['rango'] !== '' ? ' (' . $p['rango'] . ')' : '');
+}
+
+// Caché de 10 minutos de una pantalla completa (Generadas, Respuestas, Teleconsultas, Telemetrías):
+// la primera vez se calcula y se guarda; al volver con los mismos filtros se muestra al instante.
+// La clave es usuario + pantalla + filtros efectivos (ya recortados a su alcance). ?refrescar=1 la recalcula.
+function tm_cache_pantalla($ttl = 600) {
+    $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'medisafci_telemedicina';
+    if (!is_dir($dir)) { @mkdir($dir, 0700, true); }
+    if (!is_dir($dir) || !is_writable($dir)) { unset($_GET['refrescar']); return; } // sin carpeta: funciona igual, sin caché
+    $refrescar = isset($_GET['refrescar']);
+    unset($_GET['refrescar']);
+    $filtros = [];
+    foreach (['fecha_inicio', 'fecha_fin', 'iddepartamento', 'idmunicipio', 'idestablecimiento', 'idusuario_medico'] as $k) { $filtros[$k] = isset($_GET[$k]) ? (string)$_GET[$k] : ''; }
+    $clave = md5(json_encode([basename($_SERVER['SCRIPT_NAME']), isset($_SESSION['idusuario_ss']) ? $_SESSION['idusuario_ss'] : '', $filtros, date('Y-m-d'), 'v2'])); // subir la versión al cambiar el diseño, para no servir copias viejas
+    $archivo = $dir . DIRECTORY_SEPARATOR . $clave . '.html';
+    if (mt_rand(1, 30) === 1) { foreach ((array)glob($dir . DIRECTORY_SEPARATOR . '*.html') as $viejo) { if (is_file($viejo) && time() - filemtime($viejo) > $ttl) { @unlink($viejo); } } }
+    if (!$refrescar && is_file($archivo) && time() - filemtime($archivo) < $ttl) { readfile($archivo); exit; }
+    ob_start(function ($html) use ($archivo) {
+        // Solo se guarda una página completa y sin errores
+        if (stripos($html, '</html>') !== false && !preg_match('/(Fatal error|Warning|Parse error)<\/b>/', $html)) { @file_put_contents($archivo, $html, LOCK_EX); }
+        return $html;
+    });
+}
+
+// Contacto de WhatsApp del Personal Telesalud (cargo 54) del municipio de un establecimiento:
+// primero quien trabaja en ese mismo establecimiento, luego cualquiera del municipio. null si no hay celular registrado.
+// Se resuelven TODOS los establecimientos pedidos en UNA sola consulta (la lista de pendientes puede ser larga).
+function tm_contacto_telesalud($link, $id_est) {
+    $c = tm_contactos_telesalud($link, [$id_est]);
+    return $c[(int)$id_est];
+}
+function tm_contactos_telesalud($link, $ids) {
+    static $cache = [];
+    $faltan = [];
+    foreach ($ids as $id) { $id = (int)$id; if ($id > 0 && !array_key_exists($id, $cache)) { $faltan[$id] = $id; } }
+    if ($faltan) {
+        foreach ($faltan as $id) { $cache[$id] = null; }
+        $res = mysqli_query($link, "SELECT es0.idestablecimiento_salud AS id_est, n.nombre, n.paterno, n.materno, nd.celular
+            FROM establecimiento_salud es0
+            INNER JOIN establecimiento_salud es ON es.idmunicipio = es0.idmunicipio
+            INNER JOIN dato_laboral dl ON dl.idestablecimiento_salud = es.idestablecimiento_salud AND dl.idcargo_organigrama = '54'
+            INNER JOIN personal p ON p.iddato_laboral = dl.iddato_laboral
+            INNER JOIN usuarios u ON u.idusuario = p.idusuario AND u.condicion = 'ACTIVO'
+            INNER JOIN nombre n ON n.idnombre = p.idnombre
+            INNER JOIN nombre_datos nd ON nd.idnombre_datos = p.idnombre_datos
+            WHERE es0.idestablecimiento_salud IN (" . implode(',', $faltan) . ") AND nd.celular REGEXP '[0-9]{7,}'
+            ORDER BY es0.idestablecimiento_salud, (dl.idestablecimiento_salud = es0.idestablecimiento_salud) DESC, p.idpersonal DESC");
+        if ($res) {
+            while ($r = mysqli_fetch_assoc($res)) {
+                $id = (int)$r['id_est'];
+                if ($cache[$id] !== null) { continue; } // ya tiene el mejor contacto (primero el del mismo establecimiento)
+                $num = preg_replace('/\D/', '', $r['celular']);
+                if (strlen($num) === 8) { $num = '591' . $num; } // celular boliviano sin código de país
+                $cache[$id] = ['nombre' => mb_convert_case(mb_strtolower(trim($r['nombre'] . ' ' . $r['paterno'] . ' ' . $r['materno'])), MB_CASE_TITLE),
+                               'celular' => trim($r['celular']), 'wa' => $num];
+            }
+        }
+    }
+    $salida = [];
+    foreach ($ids as $id) { $salida[(int)$id] = isset($cache[(int)$id]) ? $cache[(int)$id] : null; }
+    return $salida;
+}
+
+// Enlace de WhatsApp con un mensaje ya escrito
+function tm_enlace_whatsapp($contacto, $mensaje) {
+    return 'https://wa.me/' . $contacto['wa'] . '?text=' . rawurlencode($mensaje);
+}
+
+// Círculo de una fila de pendientes ("A quién llamar" / "Bandejas atrasadas"): botón de WhatsApp del Personal Telesalud
+// del municipio; si no hay celular registrado, el ícono del hospital de siempre
+function tm_boton_whatsapp($link, $ph, $texto_pendientes) {
+    $c = tm_contacto_telesalud($link, $ph['id']);
+    if ($c === null) {
+        return '<span class="ico" title="Sin Personal Telesalud con celular registrado en este municipio"><i class="fas fa-hospital"></i></span>';
+    }
+    $msg = 'Hola ' . $c['nombre'] . ', le escribo desde Telemedicina MEDI-SAFCI. ' . mb_convert_case(mb_strtolower($ph['nombre']), MB_CASE_TITLE)
+        . ' tiene ' . ($ph['pa'] + $ph['ev']) . ' teleinterconsulta' . (($ph['pa'] + $ph['ev']) == 1 ? '' : 's') . ' pendiente' . (($ph['pa'] + $ph['ev']) == 1 ? '' : 's')
+        . ' (' . $texto_pendientes . '). ¿Nos ayuda a revisarlas? Gracias.';
+    $t = htmlspecialchars('WhatsApp a ' . $c['nombre'] . ' (Personal Telesalud) · ' . $c['celular'], ENT_QUOTES, 'UTF-8');
+    return '<a class="ico wa" href="' . htmlspecialchars(tm_enlace_whatsapp($c, $msg), ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener" title="' . $t . '" aria-label="' . $t . '"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>';
+}
+
+// Indicador de carga con fondo de vidrio sobre el área de contenido (no tapa el menú lateral).
+//   $visible = true: aparece de inmediato (la Central lo envía antes de calcular sus datos y lo oculta al terminar).
+//   Siempre: aparece al salir de la página (menú, pestañas, filtros, Limpiar), mientras el servidor prepara la siguiente.
+function tm_cargador($texto = 'Cargando datos', $visible = false) { ?>
+    <div class="tm-cargando<?php echo $visible ? ' activo' : ''; ?>" id="tm-cargando" role="status" aria-live="polite">
+        <div class="caja vidrio">
+            <span class="anillo" aria-hidden="true"></span>
+            <span class="t"><?php echo htmlspecialchars($texto, ENT_QUOTES, 'UTF-8'); ?>…</span>
+            <span class="s">Preparando la información</span>
+        </div>
+    </div>
+    <script>
+    (function () {
+        var c = document.getElementById('tm-cargando');
+        var ajustar = function () { var sb = document.getElementById('accordionSidebar'); c.style.left = (sb ? Math.max(0, sb.getBoundingClientRect().right) : 0) + 'px'; };
+        var mostrar = function () { ajustar(); c.classList.add('activo'); };
+        var ocultar = function () { c.classList.remove('activo'); };
+        ajustar();
+        window.addEventListener('resize', ajustar);
+        document.addEventListener('DOMContentLoaded', ocultar);
+        window.addEventListener('pageshow', ocultar);            // al volver con "Atrás"
+        window.addEventListener('beforeunload', function () {   // al ir a otra página
+            mostrar();
+            setTimeout(ocultar, 60000);                          // respaldo por si la navegación no ocurre
+        });
+    })();
+    </script>
+<?php }
+
 // Salida compacta de los reportes Excel (tabla HTML con extensión .xls):
 //   1. Viaja comprimida con gzip si el navegador lo acepta (el archivo guardado no cambia, la descarga es mucho menor)
 //   2. Se quitan los espacios y saltos de línea entre etiquetas (casi la mitad del peso del archivo)
@@ -137,14 +274,26 @@ function tm_salida_excel_compacta() {
     ob_start(function ($bloque) use ($etiqueta) { return preg_replace(["/$etiqueta\\s+/", "/\\s+$etiqueta/"], ['$1', '$1'], $bloque); }, 1048576);
 }
 
-// Pantalla para quien no tiene acceso o no tiene su lugar de trabajo cargado (las peticiones AJAX reciben JSON)
+// Pantalla de aviso de Telemedicina (las peticiones AJAX reciben JSON):
+//   'sesion'     -> la sesión expiró: volver a ingresar
+//   'sin_datos'  -> falta el lugar de trabajo actual en Datos laborales
+//   'sin_acceso' -> el perfil no tiene acceso al módulo
 function tm_pantalla_sin_alcance($nivel) {
-    $sin_datos = $nivel === 'sin_datos';
-    $msg = $sin_datos ? 'Para ver Telemedicina, complete sus datos laborales (lugar de trabajo actual).' : 'Su perfil no tiene acceso al módulo de Telemedicina.';
+    $avisos = [
+        'sesion'     => ['fa-user-clock', 'Su sesión ha expirado', 'Por seguridad, la sesión se cerró tras un tiempo sin actividad. Ingrese nuevamente para continuar trabajando en Telemedicina.',
+                         '../index.php', 'fa-sign-in-alt', 'Iniciar sesión nuevamente', 401],
+        'sin_datos'  => ['fa-id-card', 'Complete sus datos laborales', 'Para ver Telemedicina necesitamos conocer su lugar de trabajo actual. Regístrelo en Datos laborales y vuelva a ingresar.',
+                         '../recursos_humanos/datos_laborales_individual.php', 'fa-briefcase', 'Completar datos laborales', 403],
+        'sin_acceso' => ['fa-lock', 'Acceso restringido', 'Su perfil de usuario no tiene acceso al módulo de Telemedicina. Si necesita ingresar, consulte con el administrador del sistema.',
+                         '../administrar_sistema/inicio.php', 'fa-home', 'Volver al inicio', 403],
+    ];
+    $a = isset($avisos[$nivel]) ? $avisos[$nivel] : $avisos['sin_acceso'];
+    while (ob_get_level() > 0) { ob_end_clean(); } // sin avisos de PHP previos encima de la pantalla
+    http_response_code($a[6]);
     if (strpos(basename($_SERVER['SCRIPT_NAME']), 'ajax_') === 0) {
-        http_response_code(403); header('Content-Type: application/json'); echo json_encode(['error' => $msg]); exit;
+        header('Content-Type: application/json'); echo json_encode(['error' => $a[1], 'motivo' => $nivel]); exit;
     }
-    http_response_code(403); ?>
+    header('Cache-Control: no-store'); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -152,18 +301,40 @@ function tm_pantalla_sin_alcance($nivel) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SISTEMA MEDI-SAFCI - Telemedicina</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        @font-face { font-family: 'Outfit'; font-weight: 400; font-display: swap; src: url('../vendor/fonts/outfit/outfit-latin-400-normal.woff2') format('woff2'); }
+        @font-face { font-family: 'Outfit'; font-weight: 500; font-display: swap; src: url('../vendor/fonts/outfit/outfit-latin-500-normal.woff2') format('woff2'); }
+        @font-face { font-family: 'Outfit'; font-weight: 600; font-display: swap; src: url('../vendor/fonts/outfit/outfit-latin-600-normal.woff2') format('woff2'); }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; font-family: 'Outfit', 'Segoe UI', Roboto, Arial, sans-serif; color: #34353d;
+            background-color: #eef2fb;
+            background-image: radial-gradient(900px 520px at 8% 0%, rgba(78, 115, 223, .22), transparent 70%), radial-gradient(700px 480px at 100% 30%, rgba(54, 185, 204, .18), transparent 70%),
+                radial-gradient(800px 600px at 40% 100%, rgba(78, 115, 223, .16), transparent 70%); }
+        .aviso { width: 100%; max-width: 460px; text-align: center; padding: 40px 36px 32px; border-radius: 26px; background: rgba(255, 255, 255, .78);
+            backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2); border: 1px solid rgba(78, 115, 223, .16);
+            box-shadow: 0 24px 60px -24px rgba(78, 115, 223, .45), 0 0 0 1px rgba(54, 185, 204, .12), inset 0 1px 0 rgba(255, 255, 255, .95); animation: entra .45s cubic-bezier(.2, .8, .2, 1) both; }
+        .icono { width: 76px; height: 76px; margin: 0 auto 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #224abe;
+            background: radial-gradient(circle at 30% 25%, #ffffff, rgba(78, 115, 223, .14)); box-shadow: 0 0 0 8px rgba(78, 115, 223, .07), 0 10px 26px -10px rgba(78, 115, 223, .6); }
+        .marca { font-size: 12px; font-weight: 500; letter-spacing: .6px; text-transform: uppercase; color: #36b9cc; margin-bottom: 6px; }
+        h1 { font-size: 24px; font-weight: 600; color: #224abe; margin: 0 0 10px; letter-spacing: -.3px; }
+        p { font-size: 14.5px; line-height: 1.55; color: #5a5c69; margin: 0 0 26px; }
+        .boton { display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px; border-radius: 999px; background: linear-gradient(135deg, #4e73df, #224abe); color: #fff;
+            font-size: 14.5px; font-weight: 500; text-decoration: none; box-shadow: 0 10px 24px -10px rgba(78, 115, 223, .8); transition: transform .2s, box-shadow .2s; }
+        .boton:hover, .boton:focus-visible { transform: translateY(-1px); box-shadow: 0 14px 28px -10px rgba(78, 115, 223, .9); outline: none; color: #fff; }
+        .pie { margin-top: 22px; font-size: 12px; color: #858796; }
+        @keyframes entra { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .aviso { animation: none; } .boton { transition: none; } }
+    </style>
 </head>
-<body class="bg-gradient-primary">
-    <div class="container" style="max-width: 560px; margin-top: 12vh;">
-        <div class="card shadow-lg border-0"><div class="card-body p-5 text-center">
-            <i class="fas <?php echo $sin_datos ? 'fa-id-card' : 'fa-lock'; ?> fa-3x text-primary mb-3"></i>
-            <h5 class="text-gray-900 mb-3">Telemedicina</h5>
-            <p class="text-gray-700"><?php echo htmlspecialchars($msg, ENT_QUOTES, 'UTF-8'); ?></p>
-            <?php if ($sin_datos) { ?><a class="btn btn-primary mb-2" href="../recursos_humanos/datos_laborales_individual.php"><i class="fas fa-briefcase mr-1"></i> Completar datos laborales</a><br><?php } ?>
-            <a href="../administrar_sistema/inicio.php">Volver al inicio</a>
-        </div></div>
-    </div>
+<body>
+    <main class="aviso" role="alert">
+        <div class="icono"><i class="fas <?php echo $a[0]; ?>" aria-hidden="true"></i></div>
+        <div class="marca">MEDI-SAFCI · Telemedicina</div>
+        <h1><?php echo htmlspecialchars($a[1], ENT_QUOTES, 'UTF-8'); ?></h1>
+        <p><?php echo htmlspecialchars($a[2], ENT_QUOTES, 'UTF-8'); ?></p>
+        <a class="boton" href="<?php echo htmlspecialchars($a[3], ENT_QUOTES, 'UTF-8'); ?>"><i class="fas <?php echo $a[4]; ?>" aria-hidden="true"></i> <?php echo htmlspecialchars($a[5], ENT_QUOTES, 'UTF-8'); ?></a>
+        <div class="pie">Ministerio de Salud y Deportes</div>
+    </main>
 </body>
 </html>
 <?php exit;
@@ -171,6 +342,9 @@ function tm_pantalla_sin_alcance($nivel) {
 
 // Otras páginas (p. ej. la Matriz) solo necesitan las funciones de alcance
 if (defined('TM_SOLO_ALCANCE')) { return; }
+
+// Sesión vencida (si cabf.php no alcanzó a redirigir): aviso para volver a ingresar
+if (empty($_SESSION['idusuario_ss']) || empty($_SESSION['perfil_ss'])) { tm_pantalla_sin_alcance('sesion'); }
 
 $tm_alc = tm_alcance($link);
 if (!in_array($tm_alc['nivel'], ['nacional', 'departamental', 'municipal'], true)) { tm_pantalla_sin_alcance($tm_alc['nivel']); }
@@ -305,7 +479,7 @@ function tm_cond_atencion_telemetria() {
 }
 
 // Diagnósticos de TODOS los procesos en una sola tabla (UNION ALL), con las mismas reglas de producción:
-//   proceso · sid (id del servicio) · pac (paciente) · fecha · cie · patologia · idgrupo_priorizado
+//   proceso · sid (id del servicio) · pac (paciente) · fecha · cie · patologia · idgrupo_priorizado · dxid (orden de registro del diagnóstico)
 //   Generadas: diagnóstico presuntivo · Respuestas: diagnóstico de egreso · Teleconsultas/Telemetrías: diagnóstico de la atención
 //   $limitar = true: solo los primeros diagnósticos registrados, como los reportes Excel (3 en referencias, 4 en atenciones)
 function tm_sql_diagnosticos($link, $ini, $fin, $limitar = false) {
@@ -316,19 +490,19 @@ function tm_sql_diagnosticos($link, $ini, $fin, $limitar = false) {
     $lim_e = $limitar ? " AND (SELECT COUNT(*) FROM diagnostico_egreso x WHERE x.idreferencia_hc = dx.idreferencia_hc AND x.iddiagnostico_egreso < dx.iddiagnostico_egreso) < 3" : '';
     $lim_a = $limitar ? " AND (SELECT COUNT(*) FROM diagnostico_teleconsulta x WHERE x.idatencion_psafci = dx.idatencion_psafci AND x.iddiagnostico_teleconsulta < dx.iddiagnostico_teleconsulta) < 4" : '';
     return "
-        SELECT 'generadas' AS proceso, r.idreferencia_hc AS sid, r.idnombre AS pac, r.fecha_registro AS fecha, $cols
+        SELECT 'generadas' AS proceso, r.idreferencia_hc AS sid, r.idnombre AS pac, r.fecha_registro AS fecha, $cols, dx.iddiagnostico_presuntivo AS dxid
         {$d['generadas']['from']} INNER JOIN diagnostico_presuntivo dx ON dx.idreferencia_hc = r.idreferencia_hc INNER JOIN patologia pt ON pt.idpatologia = dx.idpatologia
         WHERE r.fecha_registro BETWEEN '$ini' AND '$fin' AND {$d['generadas']['where']} $lim_p
       UNION ALL
-        SELECT 'respuestas', r.idreferencia_hc, r.idnombre, $fr, $cols
+        SELECT 'respuestas', r.idreferencia_hc, r.idnombre, $fr, $cols, dx.iddiagnostico_egreso
         {$d['respuestas']['from']} INNER JOIN diagnostico_egreso dx ON dx.idreferencia_hc = r.idreferencia_hc INNER JOIN patologia pt ON pt.idpatologia = dx.idpatologia
         WHERE $fr BETWEEN '$ini' AND '$fin' AND {$d['respuestas']['where']} $lim_e
       UNION ALL
-        SELECT 'teleconsultas', a.idatencion_psafci, a.idnombre, a.fecha_registro, $cols
+        SELECT 'teleconsultas', a.idatencion_psafci, a.idnombre, a.fecha_registro, $cols, dx.iddiagnostico_teleconsulta
         FROM atencion_psafci a INNER JOIN diagnostico_teleconsulta dx ON dx.idatencion_psafci = a.idatencion_psafci INNER JOIN patologia pt ON pt.idpatologia = dx.idpatologia
         WHERE a.fecha_registro BETWEEN '$ini' AND '$fin' AND a.idtipo_atencion = '3' {$f['atencion']} $lim_a
       UNION ALL
-        SELECT 'telemetrias', a.idatencion_psafci, a.idnombre, a.fecha_registro, $cols
+        SELECT 'telemetrias', a.idatencion_psafci, a.idnombre, a.fecha_registro, $cols, dx.iddiagnostico_teleconsulta
         FROM atencion_psafci a INNER JOIN diagnostico_teleconsulta dx ON dx.idatencion_psafci = a.idatencion_psafci INNER JOIN patologia pt ON pt.idpatologia = dx.idpatologia
         WHERE a.fecha_registro BETWEEN '$ini' AND '$fin' AND a.idtipo_atencion = '4' AND " . tm_cond_atencion_telemetria() . " {$f['atencion']} $lim_a";
 }
@@ -390,6 +564,25 @@ function tm_es_oncologico($cie) {
     static $lista = null;
     if ($lista === null) { $lista = array_flip(tm_lista_oncologica()); }
     return isset($lista[strtoupper(substr(trim((string)$cie), 0, 3))]);
+}
+// Las mismas reglas de tm_trazadoras() evaluadas en PHP (la Central trae los diagnósticos una sola vez y los clasifica aquí)
+function tm_trazadora_cumple($clave, $cie) {
+    $c = strtoupper(trim((string)$cie));
+    switch ($clave) {
+        case 'oncologico': return tm_es_oncologico($c);
+        case 'renal':      return (bool)preg_match('/^N[0-2][0-9]/', $c);
+        case 'embarazo':   return (bool)preg_match('/^(O[0-9]|Z35)/', $c);
+        case 'diabetes':   return (bool)preg_match('/^E1[0-4]/', $c);
+        case 'hta':        return (bool)preg_match('/^I1[0-5]/', $c);
+    }
+    return false;
+}
+// Desglose oncológico en PHP (igual que tm_sql_tipo_oncologico)
+function tm_tipo_oncologico($cie) {
+    $c = strtoupper(trim((string)$cie));
+    if (preg_match('/^(C|D0)/', $c)) { return 'cancer'; }
+    if (preg_match('/^D(1[0-9]|2[0-9]|3[0-6])/', $c)) { return 'benigno'; }
+    return 'incierto';
 }
 function tm_trazadoras() {
     $onco = "'" . implode("','", tm_lista_oncologica()) . "'";
@@ -487,7 +680,7 @@ function tm_formato_edad($meses) {
 // Variación de la edad promedio en la misma unidad que se muestra (años desde los 2 años, meses antes)
 function tm_variacion_edad($actual, $anterior) {
     if ($actual === null || $anterior === null) { return ['—', 'neutro', 'Sin datos para comparar']; }
-    $tip = 'Periodo anterior: ' . tm_texto_edad_exacta($anterior);
+    $tip = ucfirst(tm_etq_anterior(true)) . ': ' . tm_texto_edad_exacta($anterior);
     $dif = $actual - $anterior;
     if ($actual >= 24) {
         $n = (int)round($dif / 12);
@@ -629,9 +822,10 @@ function tm_estilos() { ?>
 
         /* ---------- Resumen: barra segmentada + cifras grandes ---------- */
         .px .resumen { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 26px; margin-bottom: var(--gap); }
-        .px .segmentos { flex: 1 1 520px; display: flex; gap: 8px; align-items: flex-end; min-width: 0; }
-        .px .seg { min-width: 96px; display: flex; flex-direction: column; gap: 8px; transition: flex-grow .8s cubic-bezier(.2, .8, .2, 1); }
-        .px .seg .etq { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+        .px .segmentos { flex: 1 1 520px; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; min-width: 0; }
+        /* Cada segmento mide al menos lo que su etiqueta: el nombre y la cifra nunca se cortan, aunque la proporción sea pequeña */
+        .px .seg { min-width: max-content; display: flex; flex-direction: column; gap: 8px; transition: flex-grow .8s cubic-bezier(.2, .8, .2, 1); }
+        .px .seg .etq { white-space: nowrap; display: block; }
         .px .seg .etq i { margin-right: 5px; }
         .px .resumen .cifras { margin-left: 12px; }
         .px .seg .etq b { font-weight: 600; color: var(--n-900); }
@@ -709,6 +903,10 @@ function tm_estilos() { ?>
         .px .oscura .fila .txt b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12.5px; font-weight: 500; line-height: 1.3; }
         .px .oscura .fila .txt small { font-size: 11.5px; color: rgba(255, 255, 255, .78); }
         .px .oscura .fila .num { text-align: right; }
+        /* WhatsApp del Personal Telesalud del municipio */
+        .px .oscura .fila a.ico.wa { font-size: 18px; background: rgba(var(--ok-rgb), .22); color: #8af3cd; box-shadow: inset 0 0 0 1px rgba(var(--ok-rgb), .5);
+            text-decoration: none; transition: background var(--t), transform var(--t), box-shadow var(--t), color var(--t); }
+        .px .oscura .fila a.ico.wa:hover, .px .oscura .fila a.ico.wa:focus-visible { background: var(--ok); color: #fff; transform: scale(1.08); box-shadow: 0 0 14px rgba(var(--ok-rgb), .75); outline: none; }
         .px .oscura .fila .num b { display: block; font-size: 18px; font-weight: 400; }
         .px .oscura .fila .num small { font-size: 11px; color: rgba(255, 255, 255, .85); display: inline-flex; align-items: center; gap: 5px; }
         .px .oscura .sem { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
@@ -717,6 +915,17 @@ function tm_estilos() { ?>
         .px .oscura .sem.err { background: var(--err); box-shadow: 0 0 8px rgba(var(--err-rgb), .8); }
         .px .oscura .vacio { margin: auto; text-align: center; color: rgba(255, 255, 255, .85); font-size: 13px; }
         .px .oscura .mas { margin-top: auto; padding-top: 10px; font-size: 12px; color: rgba(255, 255, 255, .8); }
+        /* Lista desplegable con el resto de establecimientos con pendientes */
+        .px .oscura .pend-extra { max-height: 380px; overflow-y: auto; margin-right: -6px; padding-right: 6px; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .35) transparent; }
+        .px .oscura .pend-extra::-webkit-scrollbar { width: 6px; }
+        .px .oscura .pend-extra::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .3); border-radius: 6px; }
+        .px .oscura .pend-extra:not([hidden]) { animation: pxAparece .35s cubic-bezier(.2, .8, .2, 1) both; }
+        .px .oscura .mas-btn { margin-top: auto; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 12px; border: 0; border-radius: 12px;
+            background: rgba(255, 255, 255, .1); color: rgba(255, 255, 255, .92); font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; transition: background var(--t); }
+        .px .oscura .pend-extra + .mas-btn, .px .oscura .fila + .mas-btn { margin-top: 10px; }
+        .px .oscura .mas-btn:hover, .px .oscura .mas-btn:focus-visible { background: rgba(255, 255, 255, .18); outline: none; }
+        .px .oscura .mas-btn i { transition: transform var(--t); }
+        .px .oscura .mas-btn.abierto i { transform: rotate(180deg); }
 
         /* Perfil en acordeón */
         .px .acord { border-top: 1px dashed rgba(var(--p-rgb), .18); }
@@ -807,6 +1016,28 @@ function tm_estilos() { ?>
             .px .mapa-rutas { display: none; }
             .px .segmentos { flex-wrap: wrap; }
         }
-        @media (prefers-reduced-motion: reduce) { .px *, .px *::before, .px *::after { animation: none !important; transition: none !important; } }
+        /* Botón "Actualizar" junto a la hora de los datos (caché de 10 minutos) */
+        .px .btn-actualizar { display: inline-flex; align-items: center; gap: 5px; padding: 3px 11px; border-radius: 999px; font-size: 12px; font-weight: 500;
+            color: var(--p-osc); background: rgba(var(--p-rgb), .08); text-decoration: none; transition: background var(--t); }
+        .px .btn-actualizar:hover { background: rgba(var(--p-rgb), .16); color: var(--p-osc); text-decoration: none; }
+
+        /* ---------- Indicador de carga (vidrio esmerilado sobre el contenido) ---------- */
+        .px .tm-cargando { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1040; display: flex; align-items: center; justify-content: center;
+            background: rgba(238, 242, 251, .42); backdrop-filter: blur(9px) saturate(1.15); -webkit-backdrop-filter: blur(9px) saturate(1.15);
+            opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; }
+        .px .tm-cargando.activo { opacity: 1; visibility: visible; }
+        .px .tm-cargando .caja { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 28px 40px; border-radius: var(--radio);
+            box-shadow: 0 20px 50px -18px rgba(var(--p-rgb), .45), 0 0 0 1px rgba(var(--acc-rgb), .18), inset 0 1px 0 rgba(255, 255, 255, .95); }
+        .px .tm-cargando .anillo { width: 56px; height: 56px; border-radius: 50%;
+            background: conic-gradient(from 0deg, rgba(var(--acc-rgb), 0) 0%, var(--acc) 45%, var(--p) 80%, rgba(var(--p-rgb), 0) 100%);
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 5px));
+            filter: drop-shadow(0 0 8px rgba(var(--acc-rgb), .45)); animation: tmGiro .9s linear infinite; }
+        .px .tm-cargando .t { font-size: 15px; font-weight: 500; color: var(--p-osc); }
+        .px .tm-cargando .s { font-size: 12px; color: var(--n-700); margin-top: -8px; }
+        @keyframes tmGiro { to { transform: rotate(360deg); } }
+
+        @media (prefers-reduced-motion: reduce) { .px *, .px *::before, .px *::after { animation: none !important; transition: none !important; }
+            .px .tm-cargando .anillo { animation: tmGiro 2.4s linear infinite !important; } }
     </style>
 <?php }
