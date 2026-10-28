@@ -17,8 +17,8 @@ $sql_est.= " AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_sa
 $result_est = mysqli_query($link,$sql_est);
 $row_est = mysqli_fetch_array($result_est);
 
-$latitud_c  = $row_cord[1];
-$longitud_c = $row_cord[2];
+$latitud_c  = $row_est[2];
+$longitud_c = $row_est[3];
 $zoom_c     = "16";
 ?>
 
@@ -97,7 +97,7 @@ var familia ={"type":"FeatureCollection","features":[
         $sql5.= "  FROM evaluacion_familiar_cf, carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE  evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
         $sql5.= "  AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
         $sql5.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
-        $sql5.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ORDER BY carpeta_familiar.idcarpeta_familiar DESC   ";
+        $sql5.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ORDER BY carpeta_familiar.idcarpeta_familiar DESC ";
         $result5 = mysqli_query($link,$sql5);
         $total5 = mysqli_num_rows($result5);
         if ($row5 = mysqli_fetch_array($result5)){
@@ -111,6 +111,10 @@ var familia ={"type":"FeatureCollection","features":[
                 $row_r = mysqli_fetch_array($result_r);
                 $riesgo_cf = $row_r[1];
 
+                $famnilia_name = json_encode($row5[1]);
+
+                $calle_familia=json_encode($row5[4].' Nro. '.$row5[5]);
+
             ?>
 
     {"type":"Feature",
@@ -122,11 +126,11 @@ var familia ={"type":"FeatureCollection","features":[
                  "gml_id":"<?php echo 'familia.'.$numero5;?>",
                  "ID":<?php echo $row5[0];?>,
                  "TIPO":"4",
-                 "FAMILY":"<?php echo $row5[1];?>",
+                 "FAMILY":<?php echo json_encode($row5[1]);?>,
                  "UBICACION":"<?php echo $row5[2];?> <?php echo $row5[3];?>",
                  "LAT":<?php echo $row5[6];?>,
                  "LONG":<?php echo $row5[7];?>,
-                 "CALLE":"<?php echo $row5[4];?> <?php echo 'Nº '.$row5[5];?>",
+                 "CALLE":<?php echo json_encode($row5[4].' Nro. '.$row5[5]);?>,
                  "RIESGO_CF":"<?php echo $row5[8];?>"
 
                 }},
@@ -390,7 +394,7 @@ map.addLayer(markers);
             } do {
            
     
-            $popup_familia = json_encode('<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].'  '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$riesgo_cf.'</p>');
+            $popup_familia = json_encode('<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].' '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p>');
 ?>
 
         L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
