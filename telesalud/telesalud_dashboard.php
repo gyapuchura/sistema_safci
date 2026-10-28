@@ -30,116 +30,130 @@ $js_med = $g_med !== '' ? json_encode($g_med) : 'null';
 // Catálogos de los filtros, recortados al alcance del usuario (inc_telemedicina.php)
 list($deptos, $munis, $eess, $medicos) = tm_catalogos($link);
 
-// =========================================================================
-// FASE 2: PRODUCCIÓN (mismas reglas que las pestañas, definidas en inc_telemedicina.php)
-// =========================================================================
+// Periodo actual, periodo de comparación (mes o gestión anterior) y agrupación de la tendencia
 $dt_ini = new DateTime($inicio);
 $dt_fin = new DateTime($finalizacion);
 $dias_periodo = max(1, (int)$dt_ini->diff($dt_fin)->format('%r%a') + 1);
-$dt_prev_fin = clone $dt_ini; $dt_prev_fin->modify('-1 day');
-$dt_prev_ini = clone $dt_prev_fin; $dt_prev_ini->modify('-' . ($dias_periodo - 1) . ' days');
+list($dt_prev_ini, $dt_prev_fin) = tm_periodo_anterior($dt_ini, $dt_fin); // mismos días del mes anterior, o mismas fechas de la gestión anterior
 $agrupar_mes = $dias_periodo > 92;
 
-$prod      = tm_produccion($link, $inicio, $finalizacion, $agrupar_mes ? 'mes' : 'dia');
-$prod_prev = tm_produccion($link, $dt_prev_ini->format('Y-m-d'), $dt_prev_fin->format('Y-m-d'));
-$unicos    = tm_unicos($link, $inicio, $finalizacion);
-$unicos_prev = tm_unicos($link, $dt_prev_ini->format('Y-m-d'), $dt_prev_fin->format('Y-m-d'));
-
-$total_servicios = 0; $total_prev = 0;
-foreach ($prod as $k => $p) { $total_servicios += $p['total']; $total_prev += $prod_prev[$k]['total']; }
-
-// Tendencia: cubetas por día (o por mes si el rango supera 92 días)
-$tend_claves = []; $tend_lbl = [];
-if ($dt_fin >= $dt_ini) {
-    $p_ini = $agrupar_mes ? new DateTime($dt_ini->format('Y-m-01')) : clone $dt_ini;
-    $p_fin = clone $dt_fin; $p_fin->modify('+1 day');
-    foreach (new DatePeriod($p_ini, new DateInterval($agrupar_mes ? 'P1M' : 'P1D'), $p_fin) as $f) {
-        $tend_claves[] = $f->format($agrupar_mes ? 'Y-m' : 'Y-m-d');
-        $tend_lbl[] = $f->format($agrupar_mes ? 'm/Y' : 'd/m');
-    }
-}
-$tend_et = tm_etiquetas_tendencia($tend_lbl, $agrupar_mes);
-$tend_series = [];
-foreach ($tm_procesos as $k => $meta) {
-    $datos = []; foreach ($tend_claves as $c) { $datos[] = isset($prod[$k]['serie'][$c]) ? $prod[$k]['serie'][$c] : 0; }
-    $tend_series[] = ['name' => $meta[0], 'color' => $meta[1], 'data' => $datos];
-}
-$tend_totales = []; foreach ($tend_claves as $i => $c) { $s = 0; foreach ($tend_series as $se) { $s += $se['data'][$i]; } $tend_totales[] = $s; }
-$tend_pico = $tend_totales ? max($tend_totales) : 0;
-$tend_promedio = count($tend_totales) ? round(array_sum($tend_totales) / count($tend_totales), 1) : 0;
-
 // =========================================================================
-// FASE 2B: PERFIL CLÍNICO Y POBLACIONAL (todos los procesos, mismas reglas)
+// FASE 2: CÁLCULO DE LOS DATOS (se ejecuta DESPUÉS de mostrar el indicador de carga; ver más abajo)
+//   Todas las cifras se calculan una vez y se guardan 10 minutos en la sesión del usuario:
+//   al volver a Consolidado con los mismos filtros la página aparece al instante. "Actualizar" fuerza el recálculo.
 // =========================================================================
-$consulta = function ($sql) use ($link) { $res = mysqli_query($link, $sql); $filas = []; if ($res) { while ($x = mysqli_fetch_assoc($res)) { $filas[] = $x; } } return $filas; };
-$sql_dx = tm_sql_diagnosticos($link, $inicio, $finalizacion);
-$serv = "COUNT(DISTINCT CONCAT(pt.proceso, '-', pt.sid))"; // servicios únicos (un servicio con varios diagnósticos cuenta una vez)
+$calcular_central = function () use ($link, $inicio, $finalizacion, $dt_prev_ini, $dt_prev_fin, $agrupar_mes, $deptos) {
+    $consulta = function ($sql) use ($link) { $res = mysqli_query($link, $sql); $filas = []; if ($res) { while ($x = mysqli_fetch_assoc($res)) { $filas[] = $x; } } return $filas; };
 
-// Condiciones trazadoras
-$trazadoras = [];
-foreach (tm_trazadoras() as $k => $t) {
-    $cond = $t[3];
-    $tot = $consulta("SELECT COUNT(DISTINCT pt.pac) AS pac, $serv AS serv FROM ($sql_dx) pt WHERE $cond");
-    $por_proc = []; foreach ($consulta("SELECT pt.proceso, $serv AS serv FROM ($sql_dx) pt WHERE $cond GROUP BY pt.proceso") as $x) { $por_proc[$x['proceso']] = (int)$x['serv']; }
-    $top = $consulta("SELECT pt.cie, pt.patologia, $serv AS serv FROM ($sql_dx) pt WHERE $cond GROUP BY pt.cie, pt.patologia ORDER BY serv DESC LIMIT 3");
-    $desglose = [];
-    if ($k === 'oncologico') { foreach ($consulta("SELECT " . tm_sql_tipo_oncologico() . " AS tipo, COUNT(DISTINCT pt.pac) AS pac FROM ($sql_dx) pt WHERE $cond GROUP BY tipo") as $x) { $desglose[$x['tipo']] = (int)$x['pac']; } }
-    $trazadoras[$k] = ['titulo' => $t[0], 'icono' => $t[1], 'color' => $t[2], 'criterio' => $t[4],
-        'pacientes' => $tot ? (int)$tot[0]['pac'] : 0, 'servicios' => $tot ? (int)$tot[0]['serv'] : 0, 'por_proceso' => $por_proc, 'top' => $top, 'desglose' => $desglose];
-}
+    // Producción (mismas reglas que las pestañas, definidas en inc_telemedicina.php)
+    $prod        = tm_produccion($link, $inicio, $finalizacion, $agrupar_mes ? 'mes' : 'dia');
+    $prod_prev   = tm_produccion($link, $dt_prev_ini->format('Y-m-d'), $dt_prev_fin->format('Y-m-d'));
+    $unicos      = tm_unicos($link, $inicio, $finalizacion);
+    $unicos_prev = tm_unicos($link, $dt_prev_ini->format('Y-m-d'), $dt_prev_fin->format('Y-m-d'));
 
-// Grupo priorizado (reglas de los reportes Excel; un servicio puede pertenecer a varios grupos)
-$nombres_grupo = ['D' => 'Discapacidad', 'ENT' => 'Enfermedades no transmisibles', 'ET' => 'Enfermedades transmisibles', 'SI' => 'Salud infantil', 'SM' => 'Salud materna', 'OTROS' => 'Otros'];
-$grupos = [];
-foreach ($consulta("SELECT pt.grupo, pt.proceso, $serv AS serv FROM (" . tm_sql_grupos($link, $inicio, $finalizacion) . ") pt GROUP BY pt.grupo, pt.proceso") as $x) {
-    $g = $x['grupo'];
-    if (!isset($grupos[$g])) { $grupos[$g] = ['nombre' => $nombres_grupo[$g], 'sigla' => $g === 'OTROS' ? '' : $g, 'total' => 0, 'proc' => []]; }
-    $grupos[$g]['proc'][$x['proceso']] = (int)$x['serv'];
-    $grupos[$g]['total'] += (int)$x['serv'];
-}
-// Base del porcentaje: todos los servicios del periodo (en telemetrías, cada atención)
-$serv_total = $consulta("SELECT $serv AS serv FROM (" . tm_sql_servicios($link, $inicio, $finalizacion) . ") pt");
-$serv_total = $serv_total ? (int)$serv_total[0]['serv'] : 0;
-uasort($grupos, function ($a, $b) { return $b['total'] - $a['total']; });
-$grupo_max = 1; foreach ($grupos as $g) { $grupo_max = max($grupo_max, $g['total']); }
-
-// Pirámide poblacional: pacientes ÚNICOS, edad cumplida a su primera atención del periodo, por sexo
-$grupos_edad = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80+'];
-$piramide = ['h' => array_fill(0, count($grupos_edad), 0), 'm' => array_fill(0, count($grupos_edad), 0)];
-$sin_dato_piramide = 0;
-foreach ($consulta("SELECT g.genero, CASE WHEN n.fecha_nac IS NULL OR n.fecha_nac = '0000-00-00' THEN NULL ELSE TIMESTAMPDIFF(YEAR, n.fecha_nac, u.f) END AS edad
-        FROM (SELECT x.pac, MIN(x.fecha) AS f FROM (" . tm_sql_pacientes($link, $inicio, $finalizacion) . ") x GROUP BY x.pac) u
-        LEFT JOIN nombre n ON n.idnombre = u.pac LEFT JOIN genero g ON g.idgenero = n.idgenero") as $x) {
-    $sexo = mb_strtoupper(trim((string)$x['genero']));
-    if ($x['edad'] === null || (int)$x['edad'] < 0 || ($sexo !== 'MASCULINO' && $sexo !== 'FEMENINO')) { $sin_dato_piramide++; continue; }
-    $i = min(16, (int)floor((int)$x['edad'] / 5));
-    $piramide[$sexo === 'MASCULINO' ? 'h' : 'm'][$i]++;
-}
-$total_h = array_sum($piramide['h']); $total_m = array_sum($piramide['m']);
-
-// Grupos vulnerables (solo se registran en teleconsultas y telemetrías)
-$f_at = tm_filtros_sql($link)['atencion'];
-$vulnerables = $consulta("SELECT gv.grupo_vulnerable AS grupo, COUNT(DISTINCT a.idatencion_psafci) AS n
-    FROM atencion_psafci a INNER JOIN atencion_grupo_vulnerable agv ON agv.idatencion_psafci = a.idatencion_psafci
-    INNER JOIN grupo_vulnerable gv ON gv.idgrupo_vulnerable = agv.idgrupo_vulnerable
-    WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion'
-      AND (a.idtipo_atencion = '3' OR (a.idtipo_atencion = '4' AND " . tm_cond_atencion_telemetria() . ")) $f_at
-    GROUP BY gv.grupo_vulnerable ORDER BY n DESC");
-$vul_ninguna = 0; $vul_lista = [];
-foreach ($vulnerables as $x) { if (mb_strtoupper(trim($x['grupo'])) === 'NINGUNA') { $vul_ninguna = (int)$x['n']; } else { $vul_lista[] = ['nombre' => mb_convert_case(mb_strtolower(trim($x['grupo'])), MB_CASE_TITLE), 'n' => (int)$x['n']]; } }
-$vul_max = 1; foreach ($vul_lista as $x) { $vul_max = max($vul_max, $x['n']); }
-
-// Producción por departamento (cada proceso según su rol: origen, especialista o atención)
-$nom_dep = []; foreach ($deptos as $d) { $nom_dep[(string)$d['id']] = mb_convert_case(mb_strtolower($d['nombre']), MB_CASE_TITLE); }
-$por_dep = [];
-foreach (tm_def_procesos($link) as $clave => $p) {
-    foreach ($consulta("SELECT $p[dep] AS dep, $p[cnt] AS total $p[from] WHERE $p[fecha] BETWEEN '$inicio' AND '$finalizacion' AND $p[where] GROUP BY $p[dep]") as $x) {
-        $id = $x['dep'] === null ? 'sd' : (string)$x['dep'];
-        if (!isset($por_dep[$id])) { $por_dep[$id] = ['nombre' => isset($nom_dep[$id]) ? $nom_dep[$id] : 'Sin departamento', 'total' => 0]; }
-        $por_dep[$id][$clave] = (int)$x['total']; $por_dep[$id]['total'] += (int)$x['total'];
+    // Condiciones trazadoras: los diagnósticos de los 4 procesos se traen UNA sola vez y se clasifican en PHP
+    // (antes: 16 consultas que recalculaban toda la lista de diagnósticos)
+    $trazadoras = [];
+    foreach (tm_trazadoras() as $k => $t) {
+        $trazadoras[$k] = ['titulo' => $t[0], 'icono' => $t[1], 'color' => $t[2], 'criterio' => $t[4],
+            'pac' => [], 'serv' => [], 'proc' => [], 'dx' => [], 'tipo' => []];
     }
-}
-uasort($por_dep, function ($a, $b) { return $b['total'] - $a['total']; });
+    // Orden de registro: así el PRIMER diagnóstico de cada condición en cada servicio llega primero
+    $res_dx = mysqli_query($link, "SELECT pt.proceso, pt.sid, pt.pac, pt.cie, pt.patologia FROM (" . tm_sql_diagnosticos($link, $inicio, $finalizacion) . ") pt ORDER BY pt.proceso, pt.sid, pt.dxid");
+    if ($res_dx) {
+        while ($x = mysqli_fetch_assoc($res_dx)) {
+            $serv_id = $x['proceso'] . '-' . $x['sid'];
+            foreach ($trazadoras as $k => $t) {
+                if (!tm_trazadora_cumple($k, $x['cie'])) { continue; }
+                $trazadoras[$k]['pac'][$x['pac']] = true;
+                $trazadoras[$k]['proc'][$x['proceso']][$serv_id] = true;
+                if ($k === 'oncologico') { $trazadoras[$k]['tipo'][tm_tipo_oncologico($x['cie'])][$x['pac']] = true; }
+                // Lista de diagnósticos: cada servicio se cuenta UNA vez por condición, en su primer diagnóstico de esa condición
+                // (si el diagnóstico 1 es HTA y el 3 es de embarazo, en "Embarazo de riesgo" cuenta el 3; un 2.º de embarazo se ignora)
+                if (isset($trazadoras[$k]['serv'][$serv_id])) { continue; }
+                $trazadoras[$k]['serv'][$serv_id] = true;
+                $dk = trim($x['cie']) . '|' . $x['patologia'];
+                $trazadoras[$k]['dx'][$dk] = (isset($trazadoras[$k]['dx'][$dk]) ? $trazadoras[$k]['dx'][$dk] : 0) + 1;
+            }
+        }
+    }
+    foreach ($trazadoras as $k => $t) {
+        $top = [];
+        foreach ($t['dx'] as $dk => $n) { list($cie, $pat) = explode('|', $dk, 2); $top[] = ['cie' => $cie, 'patologia' => $pat, 'serv' => $n]; }
+        usort($top, function ($a, $b) { return $b['serv'] - $a['serv'] ?: strcmp($a['cie'], $b['cie']); });
+        $visibles = array_slice($top, 0, 8);
+        $otros = array_slice($top, 8);
+        $trazadoras[$k] = ['titulo' => $t['titulo'], 'icono' => $t['icono'], 'color' => $t['color'], 'criterio' => $t['criterio'],
+            'pacientes' => count($t['pac']), 'servicios' => count($t['serv']),
+            'por_proceso' => array_map('count', $t['proc']),
+            'top' => $visibles,
+            // "Otros diagnósticos": el resto, para que la lista sume exactamente los servicios
+            'otros_serv' => array_sum(array_column($otros, 'serv')), 'otros_dx' => count($otros),
+            'desglose' => array_map('count', $t['tipo'])];
+    }
+
+    $serv = "COUNT(DISTINCT CONCAT(pt.proceso, '-', pt.sid))"; // servicios únicos (un servicio con varios diagnósticos cuenta una vez)
+
+    // Grupo priorizado (reglas de los reportes Excel; un servicio puede pertenecer a varios grupos)
+    $nombres_grupo = ['D' => 'Discapacidad', 'ENT' => 'Enfermedades no transmisibles', 'ET' => 'Enfermedades transmisibles', 'SI' => 'Salud infantil', 'SM' => 'Salud materna', 'OTROS' => 'Otros'];
+    $grupos = [];
+    foreach ($consulta("SELECT pt.grupo, pt.proceso, $serv AS serv FROM (" . tm_sql_grupos($link, $inicio, $finalizacion) . ") pt GROUP BY pt.grupo, pt.proceso") as $x) {
+        $g = $x['grupo'];
+        if (!isset($grupos[$g])) { $grupos[$g] = ['nombre' => $nombres_grupo[$g], 'sigla' => $g === 'OTROS' ? '' : $g, 'total' => 0, 'proc' => []]; }
+        $grupos[$g]['proc'][$x['proceso']] = (int)$x['serv'];
+        $grupos[$g]['total'] += (int)$x['serv'];
+    }
+    // Base del porcentaje: todos los servicios del periodo (en telemetrías, cada atención)
+    $serv_total = $consulta("SELECT $serv AS serv FROM (" . tm_sql_servicios($link, $inicio, $finalizacion) . ") pt");
+    $serv_total = $serv_total ? (int)$serv_total[0]['serv'] : 0;
+    uasort($grupos, function ($a, $b) { return $b['total'] - $a['total']; });
+
+    // Pirámide poblacional: beneficiarios ÚNICOS, edad cumplida a su primera atención del periodo, por sexo
+    $piramide = ['h' => array_fill(0, 17, 0), 'm' => array_fill(0, 17, 0)];
+    $sin_dato_piramide = 0;
+    foreach ($consulta("SELECT g.genero, CASE WHEN n.fecha_nac IS NULL OR n.fecha_nac = '0000-00-00' THEN NULL ELSE TIMESTAMPDIFF(YEAR, n.fecha_nac, u.f) END AS edad
+            FROM (SELECT x.pac, MIN(x.fecha) AS f FROM (" . tm_sql_pacientes($link, $inicio, $finalizacion) . ") x GROUP BY x.pac) u
+            LEFT JOIN nombre n ON n.idnombre = u.pac LEFT JOIN genero g ON g.idgenero = n.idgenero") as $x) {
+        $sexo = mb_strtoupper(trim((string)$x['genero']));
+        if ($x['edad'] === null || (int)$x['edad'] < 0 || ($sexo !== 'MASCULINO' && $sexo !== 'FEMENINO')) { $sin_dato_piramide++; continue; }
+        $i = min(16, (int)floor((int)$x['edad'] / 5));
+        $piramide[$sexo === 'MASCULINO' ? 'h' : 'm'][$i]++;
+    }
+
+    // Grupos vulnerables (solo se registran en teleconsultas y telemetrías)
+    $f_at = tm_filtros_sql($link)['atencion'];
+    $vul_ninguna = 0; $vul_lista = [];
+    foreach ($consulta("SELECT gv.grupo_vulnerable AS grupo, COUNT(DISTINCT a.idatencion_psafci) AS n
+        FROM atencion_psafci a INNER JOIN atencion_grupo_vulnerable agv ON agv.idatencion_psafci = a.idatencion_psafci
+        INNER JOIN grupo_vulnerable gv ON gv.idgrupo_vulnerable = agv.idgrupo_vulnerable
+        WHERE a.fecha_registro BETWEEN '$inicio' AND '$finalizacion'
+          AND (a.idtipo_atencion = '3' OR (a.idtipo_atencion = '4' AND " . tm_cond_atencion_telemetria() . ")) $f_at
+        GROUP BY gv.grupo_vulnerable ORDER BY n DESC") as $x) {
+        if (mb_strtoupper(trim($x['grupo'])) === 'NINGUNA') { $vul_ninguna = (int)$x['n']; } else { $vul_lista[] = ['nombre' => mb_convert_case(mb_strtolower(trim($x['grupo'])), MB_CASE_TITLE), 'n' => (int)$x['n']]; }
+    }
+
+    // Producción por departamento (cada proceso según su rol: origen, especialista o atención)
+    $nom_dep = []; foreach ($deptos as $d) { $nom_dep[(string)$d['id']] = mb_convert_case(mb_strtolower($d['nombre']), MB_CASE_TITLE); }
+    $por_dep = [];
+    foreach (tm_def_procesos($link) as $clave => $p) {
+        foreach ($consulta("SELECT $p[dep] AS dep, $p[cnt] AS total $p[from] WHERE $p[fecha] BETWEEN '$inicio' AND '$finalizacion' AND $p[where] GROUP BY $p[dep]") as $x) {
+            $id = $x['dep'] === null ? 'sd' : (string)$x['dep'];
+            if (!isset($por_dep[$id])) { $por_dep[$id] = ['nombre' => isset($nom_dep[$id]) ? $nom_dep[$id] : 'Sin departamento', 'total' => 0]; }
+            $por_dep[$id][$clave] = (int)$x['total']; $por_dep[$id]['total'] += (int)$x['total'];
+        }
+    }
+    uasort($por_dep, function ($a, $b) { return $b['total'] - $a['total']; });
+
+    return compact('prod', 'prod_prev', 'unicos', 'unicos_prev', 'trazadoras', 'grupos', 'serv_total', 'piramide', 'sin_dato_piramide', 'vul_ninguna', 'vul_lista', 'por_dep');
+};
+
+// Caché de la sesión: clave = filtros efectivos (ya recortados al alcance del usuario) + periodo
+$cache_ttl = 600; // 10 minutos
+$cache_clave = md5(json_encode([$inicio, $finalizacion, $g_dep, $g_mun, $g_est, $g_med, 'central-v3']));
+$cache_central = (isset($_SESSION['tm_cache_central']) && is_array($_SESSION['tm_cache_central'])) ? $_SESSION['tm_cache_central'] : [];
+foreach ($cache_central as $ck => $cv) { if (!isset($cv['t']) || time() - $cv['t'] > $cache_ttl) { unset($cache_central[$ck]); } }
+$en_cache = !isset($_GET['refrescar']) && isset($cache_central[$cache_clave]);
+unset($_GET['refrescar']); // que los enlaces de la página (chips) no vuelvan a forzar el recálculo
 
 // =========================================================================
 // FASE 3: PRESENTACIÓN
@@ -160,26 +174,14 @@ if ($g_mun !== '') { $chips[] = ['fa-map-marker-alt', $buscar_nombre($munis, $g_
 if ($g_est !== '') { $chips[] = ['fa-hospital', $buscar_nombre($eess, $g_est), $url_sin(['idestablecimiento'])]; }
 if ($g_med !== '') { $chips[] = ['fa-user-md', $buscar_nombre($medicos, $g_med), $url_sin(['idusuario_medico'])]; }
 
-// Variación contra el periodo anterior (subir = bueno en producción)
+// Variación contra el mes o la gestión anterior (subir = bueno en producción)
 $variacion = function ($actual, $anterior) {
-    if ($anterior == 0 && $actual == 0) { return ['—', 'neutro', 'Sin cambios vs periodo anterior']; }
-    if ($anterior == 0) { return ['Nuevo', 'bueno', 'Sin registros en el periodo anterior']; }
+    if ($anterior == 0 && $actual == 0) { return ['—', 'neutro', 'Sin cambios vs ' . tm_etq_anterior(true)]; }
+    if ($anterior == 0) { return ['Nuevo', 'bueno', 'Sin registros en ' . tm_etq_anterior(true, true)]; }
     $pct = round((($actual - $anterior) / $anterior) * 100);
-    if ($pct == 0) { return ['0%', 'neutro', 'Igual que el periodo anterior']; }
-    return [($pct > 0 ? '▲ ' : '▼ ') . abs($pct) . '%', $pct > 0 ? 'bueno' : 'malo', 'Periodo anterior: ' . number_format($anterior)];
+    if ($pct == 0) { return ['0%', 'neutro', 'Igual que ' . tm_etq_anterior(true, true)]; }
+    return [($pct > 0 ? '▲ ' : '▼ ') . abs($pct) . '%', $pct > 0 ? 'bueno' : 'malo', ucfirst(tm_etq_anterior(true)) . ': ' . number_format($anterior)];
 };
-$v_total = $variacion($total_servicios, $total_prev);
-$v_pac   = $variacion($unicos['pacientes'], $unicos_prev['pacientes']);
-$v_est   = $variacion($unicos['establecimientos'], $unicos_prev['establecimientos']);
-
-// Filas de la tabla de producción
-$filas_prod = [];
-foreach ($tm_procesos as $k => $meta) {
-    $rgb = sscanf($meta[1], "#%02x%02x%02x");
-    $filas_prod[] = ['clave' => $k, 'nombre' => $meta[0], 'color' => $meta[1], 'rgb' => implode(', ', $rgb), 'icono' => $meta[2],
-        'total' => $prod[$k]['total'], 'pacientes' => $prod[$k]['pacientes'], 'pct' => $total_servicios > 0 ? $prod[$k]['total'] / $total_servicios * 100 : 0,
-        'var' => $variacion($prod[$k]['total'], $prod_prev[$k]['total'])];
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -268,6 +270,12 @@ foreach ($tm_procesos as $k => $meta) {
         .px .traz .top-dx div span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .px .traz .top-dx div span small { color: var(--n-700); margin-right: 4px; }
         .px .traz .top-dx div b { font-weight: 600; flex-shrink: 0; }
+        .px .traz .top-dx { gap: 6px; }
+        .px .traz .top-dx div { font-size: 12px; }
+        .px .traz .top-dx .otros-dx { padding-top: 6px; border-top: 1px dotted rgba(var(--p-rgb), .2); color: var(--n-700); }
+        .px .traz .top-dx .otros-dx small { color: var(--n-700); }
+        .px .traz .cifra-fila { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        .px .traz .cifra-etq { font-size: 14px; font-weight: 500; color: var(--n-700); }
         .px .traz .vacio { min-height: 120px; }
 
         /* ---------- Grupo priorizado ---------- */
@@ -301,6 +309,70 @@ foreach ($tm_procesos as $k => $meta) {
             <?php include("../top_bar.php"); ?>
 
             <div class="container-fluid mt-4 px">
+                <?php
+                // Indicador de carga: se envía al navegador ANTES de calcular, así el médico ve que la Central está trabajando
+                tm_cargador('Cargando Central de Telesalud', !$en_cache);
+                if (!$en_cache) { @ob_flush(); @flush(); }
+
+                // =========================================================================
+                // DATOS: desde la caché de la sesión o recién calculados
+                // =========================================================================
+                if ($en_cache) {
+                    $datos_central = $cache_central[$cache_clave]['datos'];
+                    $datos_hora = $cache_central[$cache_clave]['t'];
+                } else {
+                    $datos_central = $calcular_central();
+                    $datos_hora = time();
+                    $cache_central[$cache_clave] = ['t' => $datos_hora, 'datos' => $datos_central];
+                    if (count($cache_central) > 4) { uasort($cache_central, function ($a, $b) { return $b['t'] - $a['t']; }); $cache_central = array_slice($cache_central, 0, 4, true); }
+                }
+                $_SESSION['tm_cache_central'] = $cache_central;
+                extract($datos_central);
+                $hora_datos = (new DateTime('@' . $datos_hora))->setTimezone(new DateTimeZone('America/La_Paz'));
+                $minutos_datos = (int)floor((time() - $datos_hora) / 60);
+
+                // Derivados (rápidos): totales, tendencia, pirámide, variaciones y filas de la tabla
+                $total_servicios = 0; $total_prev = 0;
+                foreach ($prod as $k => $p) { $total_servicios += $p['total']; $total_prev += $prod_prev[$k]['total']; }
+
+                // Tendencia: cubetas por día (o por mes si el rango supera 92 días)
+                $tend_claves = []; $tend_lbl = [];
+                if ($dt_fin >= $dt_ini) {
+                    $p_ini = $agrupar_mes ? new DateTime($dt_ini->format('Y-m-01')) : clone $dt_ini;
+                    $p_fin = clone $dt_fin; $p_fin->modify('+1 day');
+                    foreach (new DatePeriod($p_ini, new DateInterval($agrupar_mes ? 'P1M' : 'P1D'), $p_fin) as $f) {
+                        $tend_claves[] = $f->format($agrupar_mes ? 'Y-m' : 'Y-m-d');
+                        $tend_lbl[] = $f->format($agrupar_mes ? 'm/Y' : 'd/m');
+                    }
+                }
+                $tend_et = tm_etiquetas_tendencia($tend_lbl, $agrupar_mes);
+                $tend_series = [];
+                foreach ($tm_procesos as $k => $meta) {
+                    $datos = []; foreach ($tend_claves as $c) { $datos[] = isset($prod[$k]['serie'][$c]) ? $prod[$k]['serie'][$c] : 0; }
+                    $tend_series[] = ['name' => $meta[0], 'color' => $meta[1], 'data' => $datos];
+                }
+                $tend_totales = []; foreach ($tend_claves as $i => $c) { $s = 0; foreach ($tend_series as $se) { $s += $se['data'][$i]; } $tend_totales[] = $s; }
+                $tend_pico = $tend_totales ? max($tend_totales) : 0;
+                $tend_promedio = count($tend_totales) ? round(array_sum($tend_totales) / count($tend_totales), 1) : 0;
+
+                $grupo_max = 1; foreach ($grupos as $g) { $grupo_max = max($grupo_max, $g['total']); }
+                $grupos_edad = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80+'];
+                $total_h = array_sum($piramide['h']); $total_m = array_sum($piramide['m']);
+                $vul_max = 1; foreach ($vul_lista as $x) { $vul_max = max($vul_max, $x['n']); }
+
+                $v_total = $variacion($total_servicios, $total_prev);
+                $v_pac   = $variacion($unicos['pacientes'], $unicos_prev['pacientes']);
+                $v_est   = $variacion($unicos['establecimientos'], $unicos_prev['establecimientos']);
+
+                // Filas de la tabla de producción
+                $filas_prod = [];
+                foreach ($tm_procesos as $k => $meta) {
+                    $rgb = sscanf($meta[1], "#%02x%02x%02x");
+                    $filas_prod[] = ['clave' => $k, 'nombre' => $meta[0], 'color' => $meta[1], 'rgb' => implode(', ', $rgb), 'icono' => $meta[2],
+                        'total' => $prod[$k]['total'], 'pacientes' => $prod[$k]['pacientes'], 'pct' => $total_servicios > 0 ? $prod[$k]['total'] / $total_servicios * 100 : 0,
+                        'var' => $variacion($prod[$k]['total'], $prod_prev[$k]['total'])];
+                }
+                ?>
 
                 <!-- ===================== ENCABEZADO ===================== -->
                 <div class="encabezado aparece">
@@ -308,14 +380,17 @@ foreach ($tm_procesos as $k => $meta) {
                         <h1>Central de Telesalud</h1>
                         <div class="meta">
                             <span><i class="far fa-calendar-alt mr-1"></i><?php echo $h($texto_periodo); ?> · <?php echo $dias_periodo; ?> día<?php echo $dias_periodo == 1 ? '' : 's'; ?></span>
-                            <span class="d-inline-flex align-items-center" style="gap: 8px;"><span class="punto-vivo" aria-hidden="true"></span> Datos actualizados <?php echo $ahora->format('d/m/Y H:i'); ?></span>
+                            <span class="d-inline-flex align-items-center" style="gap: 8px;" title="Las cifras se guardan 10 minutos para que la Central abra al instante al volver a ella">
+                                <span class="punto-vivo" aria-hidden="true"></span> Datos de las <?php echo $hora_datos->format('H:i'); ?><?php echo $minutos_datos > 0 ? ' (hace ' . $minutos_datos . ' min)' : ''; ?>
+                                <a href="<?php echo $h($pagina . '?refrescar=1'); ?>" class="btn-actualizar" title="Volver a calcular con los datos más recientes"><i class="fas fa-sync-alt"></i> Actualizar</a>
+                            </span>
                         </div>
                     </div>
                     <div class="der">
                         <?php tm_nav($pestana); ?>
                         <form action="valida_busqueda_telesalud.php" method="POST" class="buscador vidrio" role="search">
                             <i class="fas fa-search" aria-hidden="true"></i>
-                            <input type="text" name="ci" placeholder="CI, código PSAFCI, REF o ENC" aria-label="Buscar paciente o caso" required>
+                            <input type="text" name="ci" placeholder="CI, código PSAFCI, REF o ENC" aria-label="Buscar beneficiario o caso" required>
                             <button type="submit">Buscar</button>
                         </form>
                     </div>
@@ -378,7 +453,7 @@ foreach ($tm_procesos as $k => $meta) {
                         <?php if ($total_servicios == 0) { ?>
                             <div class="etq"><i class="far fa-folder-open mr-1"></i> No hay producción para este filtro</div>
                         <?php } foreach ($filas_prod as $fp) { if ($fp['total'] <= 0) { continue; } list($fondo_seg, $texto_seg) = tm_colores_legibles($fp['color']); ?>
-                            <div class="seg cc" data-grow="<?php echo round(max($fp['pct'], 6), 2); ?>" style="flex: 0 1 0%; --cc: <?php echo $fondo_seg; ?>; --cc-txt: <?php echo $texto_seg; ?>;" title="<?php echo $h($fp['nombre']) . ': ' . number_format($fp['total']); ?>">
+                            <div class="seg cc" data-grow="<?php echo round(max($fp['pct'], 6), 2); ?>" style="flex: 0 1 0%; --cc: <?php echo $fondo_seg; ?>; --cc-txt: <?php echo $texto_seg; ?>;" title="<?php echo $h($fp['nombre'] . ': ' . number_format($fp['total']) . ' (' . round($fp['pct']) . '%)'); ?>">
                                 <span class="etq"><i class="fas <?php echo $fp['icono']; ?>" aria-hidden="true"></i><?php echo $h($fp['nombre']); ?> <b><?php echo number_format($fp['total']); ?></b></span>
                                 <div class="barra"><?php echo round($fp['pct']); ?>%</div>
                             </div>
@@ -392,7 +467,7 @@ foreach ($tm_procesos as $k => $meta) {
                         </div>
                         <div class="item">
                             <span class="cifra contador-animado" data-objetivo="<?php echo $unicos['pacientes']; ?>">0</span>
-                            <span class="pie"><span class="pildora-ico"><i class="fas fa-users"></i></span><span class="etq">Pacientes</span>
+                            <span class="pie"><span class="pildora-ico"><i class="fas fa-users"></i></span><span class="etq">Beneficiarios</span>
                                 <span class="delta <?php echo $v_pac[1]; ?>" title="<?php echo $h($v_pac[2]); ?>"><?php echo $h($v_pac[0]); ?></span></span>
                         </div>
                         <div class="item">
@@ -413,7 +488,7 @@ foreach ($tm_procesos as $k => $meta) {
                         <div class="table-responsive">
                             <table class="tabla-prod">
                                 <thead>
-                                    <tr><th>Proceso</th><th class="r">Servicios</th><th>% del total</th><th class="r">Pacientes</th><th class="r">vs periodo anterior</th></tr>
+                                    <tr><th>Proceso</th><th class="r">Servicios</th><th>% del total</th><th class="r">Beneficiarios</th><th class="r">vs <?php echo $h(tm_etq_anterior()); ?></th></tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($filas_prod as $fp) { ?>
@@ -431,7 +506,7 @@ foreach ($tm_procesos as $k => $meta) {
                                         <td><span class="proc"><span class="pildora-ico"><i class="fas fa-layer-group"></i></span>Total</span></td>
                                         <td class="r"><span class="num"><?php echo number_format($total_servicios); ?></span></td>
                                         <td class="pct"><small>100%</small></td>
-                                        <td class="r" title="Pacientes únicos: cada persona se cuenta una sola vez aunque haya usado varios procesos"><?php echo number_format($unicos['pacientes']); ?> <i class="fas fa-info-circle" style="color: var(--p); font-size: 11px;"></i></td>
+                                        <td class="r" title="Beneficiarios únicos: cada persona se cuenta una sola vez aunque haya usado varios procesos"><?php echo number_format($unicos['pacientes']); ?> <i class="fas fa-info-circle" style="color: var(--p); font-size: 11px;"></i></td>
                                         <td class="r"><span class="delta <?php echo $v_total[1]; ?>" title="<?php echo $h($v_total[2]); ?>"><?php echo $h($v_total[0]); ?></span></td>
                                     </tr>
                                 </tfoot>
@@ -475,7 +550,7 @@ foreach ($tm_procesos as $k => $meta) {
                 <!-- ===================== CONDICIONES TRAZADORAS ===================== -->
                 <div class="seccion aparece">
                     <h5>Condiciones trazadoras</h5>
-                    <span>Pacientes con al menos un diagnóstico de la condición, en cualquiera de los 4 procesos</span>
+                    <span>Beneficiarios con al menos un diagnóstico de la condición, en cualquiera de los 4 procesos</span>
                 </div>
                 <div class="grid-5">
                     <?php $ti = 0; foreach ($trazadoras as $k => $t) { $ti++; $rgb_t = implode(', ', sscanf($t['color'], "#%02x%02x%02x")); $suma_proc = array_sum($t['por_proceso']); ?>
@@ -488,8 +563,8 @@ foreach ($tm_procesos as $k => $meta) {
                             <div class="vacio"><i class="fas <?php echo $t['icono']; ?>"></i>Sin casos en el periodo</div>
                         <?php } else { ?>
                         <div>
-                            <span class="cifra contador-animado" data-objetivo="<?php echo $t['pacientes']; ?>">0</span>
-                            <div class="cifra-sub"><?php echo $t['pacientes'] == 1 ? 'paciente' : 'pacientes'; ?> · <?php echo number_format($t['servicios']); ?> <?php echo $t['servicios'] == 1 ? 'servicio' : 'servicios'; ?></div>
+                            <div class="cifra-fila"><span class="cifra contador-animado" data-objetivo="<?php echo $t['pacientes']; ?>">0</span><span class="cifra-etq"><?php echo $t['pacientes'] == 1 ? 'Beneficiario' : 'Beneficiarios'; ?></span></div>
+                            <div class="cifra-sub"><?php echo number_format($t['servicios']); ?> <?php echo $t['servicios'] == 1 ? 'servicio' : 'servicios'; ?></div>
                         </div>
                         <div class="prop" title="Servicios por proceso">
                             <?php foreach ($tm_procesos as $pk => $meta) { if (!empty($t['por_proceso'][$pk])) { ?><span data-ancho="<?php echo round($t['por_proceso'][$pk] / max(1, $suma_proc) * 100, 2); ?>" style="background: <?php echo $meta[1]; ?>;" title="<?php echo $h($meta[0]) . ': ' . $t['por_proceso'][$pk]; ?>"></span><?php } } ?>
@@ -498,7 +573,7 @@ foreach ($tm_procesos as $k => $meta) {
                             <?php foreach ($tm_procesos as $pk => $meta) { if (!empty($t['por_proceso'][$pk])) { ?><span><i style="background: <?php echo $meta[1]; ?>;"></i><?php echo $h($meta[0]); ?> <?php echo $t['por_proceso'][$pk]; ?></span><?php } } ?>
                         </div>
                         <?php if ($k === 'oncologico') { ?>
-                        <div class="desglose-onco" title="Un paciente puede tener diagnósticos de más de un tipo">
+                        <div class="desglose-onco" title="Un beneficiario puede tener diagnósticos de más de un tipo">
                             <div><span><i class="p" style="background: #b8392d;"></i>Cáncer</span><b><?php echo isset($t['desglose']['cancer']) ? $t['desglose']['cancer'] : 0; ?></b></div>
                             <div><span><i class="p" style="background: #fd7e14;"></i>Comportamiento incierto</span><b><?php echo isset($t['desglose']['incierto']) ? $t['desglose']['incierto'] : 0; ?></b></div>
                             <div><span><i class="p" style="background: #858796;"></i>Tumor benigno</span><b><?php echo isset($t['desglose']['benigno']) ? $t['desglose']['benigno'] : 0; ?></b></div>
@@ -507,8 +582,9 @@ foreach ($tm_procesos as $k => $meta) {
                         <div class="top-dx">
                             <span class="etq">Diagnósticos más frecuentes</span>
                             <?php foreach ($t['top'] as $dx) { ?>
-                                <div title="<?php echo $h($dx['cie'] . ' - ' . $dx['patologia']); ?>"><span><small><?php echo $h($dx['cie']); ?></small><?php echo $h(mb_convert_case(mb_strtolower(trim($dx['patologia'])), MB_CASE_TITLE)); ?></span><b><?php echo (int)$dx['serv']; ?></b></div>
+                                <div title="<?php echo $h($dx['cie'] . ' - ' . $dx['patologia'] . ': ' . $dx['serv'] . ($dx['serv'] == 1 ? ' servicio' : ' servicios')); ?>"><span><small><?php echo $h($dx['cie']); ?></small><?php echo $h(mb_convert_case(mb_strtolower(trim($dx['patologia'])), MB_CASE_TITLE)); ?></span><b><?php echo (int)$dx['serv']; ?></b></div>
                             <?php } ?>
+                            <?php if ($t['otros_serv'] > 0) { ?><div class="otros-dx" title="<?php echo $h($t['otros_dx'] . ' diagnóstico' . ($t['otros_dx'] == 1 ? '' : 's') . ' menos frecuente' . ($t['otros_dx'] == 1 ? '' : 's') . ': ' . $t['otros_serv'] . ($t['otros_serv'] == 1 ? ' servicio' : ' servicios')); ?>"><span>Otros diagnósticos <small>(<?php echo $t['otros_dx']; ?>)</small></span><b><?php echo $t['otros_serv']; ?></b></div><?php } ?>
                         </div>
                         <?php } ?>
                     </div>
@@ -519,7 +595,7 @@ foreach ($tm_procesos as $k => $meta) {
                 <div class="grid">
                     <div class="vidrio card-p g-mapa aparece">
                         <div class="cab-card">
-                            <div><h6 class="titulo-card">Pirámide poblacional</h6><div class="sub-card">Pacientes únicos de todos los procesos · edad cumplida a su primera atención del periodo</div></div>
+                            <div><h6 class="titulo-card">Pirámide poblacional</h6><div class="sub-card">Beneficiarios únicos de todos los procesos · edad cumplida a su primera atención del periodo</div></div>
                             <span class="pildora-ico"><i class="fas fa-users"></i></span>
                         </div>
                         <div class="mini-cifras">
@@ -731,7 +807,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const hombres = <?php echo json_encode($piramide['h']); ?>;
     const mujeres = <?php echo json_encode($piramide['m']); ?>;
     if (hombres.every(v => v === 0) && mujeres.every(v => v === 0)) {
-        document.getElementById('grafico-piramide').innerHTML = '<div class="vacio"><i class="fas fa-users"></i>Sin pacientes con fecha de nacimiento y sexo registrados</div>';
+        document.getElementById('grafico-piramide').innerHTML = '<div class="vacio"><i class="fas fa-users"></i>Sin beneficiarios con fecha de nacimiento y sexo registrados</div>';
     } else {
         const maxP = Math.max.apply(null, hombres.concat(mujeres)) || 1;
         Highcharts.chart('grafico-piramide', {
@@ -742,7 +818,7 @@ document.addEventListener("DOMContentLoaded", function() {
             ],
             yAxis: { min: -maxP, max: maxP, allowDecimals: false, labels: { formatter: function () { return Math.abs(this.value); } }, plotLines: [{ value: 0, width: 1, color: 'rgba(90,92,105,0.25)' }] },
             legend: { align: 'left', verticalAlign: 'top', y: -12 },
-            tooltip: { formatter: function () { return '<b>' + this.series.name + ', ' + this.point.category + ' años</b><br>Pacientes: <b>' + Math.abs(this.point.y) + '</b>'; } },
+            tooltip: { formatter: function () { return '<b>' + this.series.name + ', ' + this.point.category + ' años</b><br>Beneficiarios: <b>' + Math.abs(this.point.y) + '</b>'; } },
             plotOptions: { series: { stacking: 'normal', borderWidth: 0, borderRadius: 4, pointPadding: 0.06, groupPadding: 0.04 } },
             series: [
                 { name: 'Hombres', color: '#4e73df', data: hombres.map(v => -v) },

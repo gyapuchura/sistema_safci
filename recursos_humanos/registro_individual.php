@@ -37,6 +37,13 @@ $sql_ad.= " WHERE idnombre='$idnombre_ss' AND idusuario='$idusuario_ss'  ORDER B
 $result_ad = mysqli_query($link,$sql_ad);
 $row_ad = mysqli_fetch_array($result_ad);
 
+/****** sello y firma actual (consulta aparte para no romper la página si aún no existe la columna url_sello) ****/
+$sello_actual = '';
+$result_se = @mysqli_query($link," SELECT url_sello FROM personal WHERE idpersonal='$row[0]' ");
+if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
+    $sello_actual = $row_se[0];
+}
+
 
 
 ?>
@@ -367,7 +374,23 @@ $row_ad = mysqli_fetch_array($result_ad);
                     <div class="col-sm-9">
                     <input type="text" class="form-control" name="item_mds" value="<?php echo $row_l[15];?>" disabled>
                     </div>
-                </div>             
+                </div>
+
+                <hr>
+                </br>
+                <div class="form-group row">
+                    <h5 class="text-primary">4.- SELLO Y FIRMA DEL PROFESIONAL:</h5>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 text-center">
+                    <?php if ($sello_actual != '' && is_file('../'.$sello_actual)) { ?>
+                        <img src="../<?php echo htmlspecialchars($sello_actual);?>?v=<?php echo time();?>" style="max-width:100%; max-height:180px;" alt="Sello y firma">
+                    <?php } else { ?>
+                        <span class="text-muted">Aún no tiene sello y firma registrados. Puede subirlos en ACTUALIZAR REGISTRO PERSONAL.</span>
+                    <?php } ?>
+                    </div>
+                </div>
+
             </br>
             <div class="text-center">  
             <div class="form-group row">

@@ -12,6 +12,9 @@ $gestion      = date("Y");
 // Filtros compartidos entre pestañas, navegación en píldora y estilos del diseño
 include("inc_telemedicina.php");
 
+// Caché de 10 minutos: al volver a esta pestaña con los mismos filtros aparece al instante ("Actualizar" la recalcula)
+tm_cache_pantalla();
+
 // =========================================================================
 // FASE 1: PUENTE DE DATOS Y CAPTURA DE FILTROS
 // =========================================================================
@@ -58,8 +61,7 @@ $resumen_tc = function ($ini, $fin) use ($link, $filtro_extra) {
 $dt_ini = new DateTime($inicio);
 $dt_fin = new DateTime($finalizacion);
 $dias_periodo = max(1, (int)$dt_ini->diff($dt_fin)->format('%r%a') + 1);
-$dt_prev_fin = clone $dt_ini; $dt_prev_fin->modify('-1 day');
-$dt_prev_ini = clone $dt_prev_fin; $dt_prev_ini->modify('-' . ($dias_periodo - 1) . ' days');
+list($dt_prev_ini, $dt_prev_fin) = tm_periodo_anterior($dt_ini, $dt_fin); // mismos días del mes anterior, o mismas fechas de la gestión anterior
 
 $kpi      = $resumen_tc($inicio, $finalizacion);
 $kpi_prev = $resumen_tc($dt_prev_ini->format('Y-m-d'), $dt_prev_fin->format('Y-m-d'));
@@ -212,14 +214,14 @@ if ($g_mun != '') { $chips[] = ['fa-map-marker-alt', $buscar_nombre($munis, $g_m
 if ($g_est != '') { $chips[] = ['fa-hospital', $buscar_nombre($eess, $g_est), $url_sin(['idestablecimiento'])]; }
 if ($g_med != '') { $chips[] = ['fa-user-md', $buscar_nombre($medicos, $g_med), $url_sin(['idusuario_medico'])]; }
 
-// Variación contra el periodo anterior. $sentido: 1 = subir es bueno, -1 = subir es malo, 0 = neutral
+// Variación contra el mes o la gestión anterior. $sentido: 1 = subir es bueno, -1 = subir es malo, 0 = neutral
 $variacion = function ($actual, $anterior, $sentido) {
-    if ($anterior == 0 && $actual == 0) { return ['—', 'neutro', 'Sin cambios vs periodo anterior']; }
-    if ($anterior == 0) { return ['Nuevo', $sentido >= 0 ? 'bueno' : 'malo', 'Sin registros en el periodo anterior']; }
+    if ($anterior == 0 && $actual == 0) { return ['—', 'neutro', 'Sin cambios vs ' . tm_etq_anterior(true)]; }
+    if ($anterior == 0) { return ['Nuevo', $sentido >= 0 ? 'bueno' : 'malo', 'Sin registros en ' . tm_etq_anterior(true, true)]; }
     $pct = round((($actual - $anterior) / $anterior) * 100);
-    if ($pct == 0) { return ['0%', 'neutro', 'Igual que el periodo anterior']; }
+    if ($pct == 0) { return ['0%', 'neutro', 'Igual que ' . tm_etq_anterior(true, true)]; }
     $clase = $sentido == 0 ? 'neutro' : ((($pct > 0) == ($sentido > 0)) ? 'bueno' : 'malo');
-    return [($pct > 0 ? '▲ ' : '▼ ') . abs($pct) . '%', $clase, 'Periodo anterior: ' . number_format($anterior)];
+    return [($pct > 0 ? '▲ ' : '▼ ') . abs($pct) . '%', $clase, ucfirst(tm_etq_anterior(true)) . ': ' . number_format($anterior)];
 };
 // Edad promedio: se calcula en meses cumplidos y se muestra en la unidad adecuada (meses, año y meses, o años)
 $edad_fmt = tm_formato_edad($kpi['edad']);
@@ -318,6 +320,7 @@ foreach ($perfil_bloques as $k => $b) {
                 <?php include("../top_bar.php"); ?>
 
                 <div class="container-fluid mt-4 px">
+                    <?php tm_cargador('Cargando teleconsultas'); // indicador de carga al ir a otra página ?>
 
                     <!-- ===================== ENCABEZADO ===================== -->
                     <div class="encabezado aparece">
@@ -325,7 +328,7 @@ foreach ($perfil_bloques as $k => $b) {
                             <h1>Teleconsultas</h1>
                             <div class="meta">
                                 <span><i class="far fa-calendar-alt mr-1"></i><?php echo $h($texto_periodo); ?> · <?php echo $dias_periodo; ?> día<?php echo $dias_periodo == 1 ? '' : 's'; ?></span>
-                                <span class="d-inline-flex align-items-center" style="gap: 8px;"><span class="punto-vivo" aria-hidden="true"></span> Datos actualizados <?php echo $ahora->format('d/m/Y H:i'); ?></span>
+                                <span class="d-inline-flex align-items-center" style="gap: 8px;" title="Las cifras se guardan 10 minutos para que la pestaña abra al instante al volver a ella"><span class="punto-vivo" aria-hidden="true"></span> Datos de las <?php echo $ahora->format('H:i'); ?> <a href="<?php echo $h($pagina . '?refrescar=1'); ?>" class="btn-actualizar" title="Volver a calcular con los datos más recientes"><i class="fas fa-sync-alt"></i> Actualizar</a></span>
                             </div>
                         </div>
                         <?php tm_nav($pestana); ?>
@@ -388,7 +391,7 @@ foreach ($perfil_bloques as $k => $b) {
                             <?php if ($seg_total == 0) { ?>
                                 <div class="etq"><i class="far fa-folder-open mr-1"></i> No hay teleconsultas con estado registrado para este filtro</div>
                             <?php } foreach ($seg_estados as $s) { if ($s['valor'] <= 0) { continue; } ?>
-                                <div class="seg <?php echo $s['clase']; ?>" data-grow="<?php echo round(max($s['pct'], 6), 2); ?>" style="flex: 0 1 0%;" title="<?php echo $h($s['titulo']) . ': ' . number_format($s['valor']); ?>">
+                                <div class="seg <?php echo $s['clase']; ?>" data-grow="<?php echo round(max($s['pct'], 6), 2); ?>" style="flex: 0 1 0%;" title="<?php echo $h($s['titulo'] . ': ' . number_format($s['valor']) . ' (' . round($s['pct']) . '%)'); ?>">
                                     <span class="etq"><?php echo $h($s['titulo']); ?> <b><?php echo number_format($s['valor']); ?></b></span>
                                     <div class="barra"><?php echo round($s['pct']); ?>%</div>
                                 </div>

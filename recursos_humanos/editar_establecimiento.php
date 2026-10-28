@@ -16,7 +16,14 @@ $sql.= " idtipo_establecimiento, idnivel_establecimiento, idsubsector_salud, idd
 $sql.= " latitud, longitud, idusuario, fecha_registro FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ";
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
- 
+
+/****** sello actual del establecimiento (consulta aparte para no romper la página si falta la columna sello_eess) ****/
+$sello_eess_actual = '';
+$result_se = @mysqli_query($link," SELECT sello_eess FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ");
+if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
+    $sello_eess_actual = $row_se[0];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -388,9 +395,86 @@ $row = mysqli_fetch_array($result);
                     </div>
                 </div>
             </div>
-        </form>         
+        </form>
                    <!-- modal de confirmacion de envio de datos-->
-                
+
+<!---------------- SUBIDA DEL SELLO DEL ESTABLECIMIENTO (PNG SIN FONDO), FORMULARIO APARTE ----------->
+                <hr>
+            <div class="form-group row" id="sello_eess">
+                <div class="col-sm-12 text-left">
+                <h4 class="text-primary">SELLO DEL ESTABLECIMIENTO DE SALUD</h4>
+                </div>
+            </div>
+
+            <?php if (isset($_GET['sello_eess'])) { ?>
+                <?php if ($_GET['sello_eess'] == 'ok') { ?>
+                <div class="alert alert-success">EL SELLO DEL ESTABLECIMIENTO SE GUARDÓ CORRECTAMENTE.</div>
+                <?php } else { ?>
+                <div class="alert alert-danger">NO SE PUDO GUARDAR EL SELLO DEL ESTABLECIMIENTO, VUELVA A INTENTAR CON OTRA IMAGEN.</div>
+                <?php } ?>
+            <?php } ?>
+
+            <form name="SELLO_EESS" id="form_sello_eess" action="subir_sello_eess_mod.php" method="post">
+            <input type="hidden" name="sello_eess_png" id="sello_eess_png">
+            <div class="form-group row text-left">
+                <div class="col-sm-6">
+                <h6 class="text-primary">SUBIR FOTOGRAFÍA DEL SELLO DEL ESTABLECIMIENTO (JPG o PNG):</br></br>1.- Sellar sobre una hoja blanca.</br>2.- Tomar la foto de frente, con buena luz y sin sombras.</br>3.- El sistema quitará el fondo y lo guardará como PNG transparente.</h6>
+                </br>
+                <input type="file" id="file_sello_eess" accept="image/png, image/jpeg, image/webp">
+                </br></br>
+                <h6 class="text-primary">LIMPIEZA DEL FONDO: <span id="nivel_valor_eess">-</span>
+                    <a href="#" id="nivel_auto_eess" class="small ml-2" style="display:none;">(volver a automático)</a></h6>
+                <input type="range" class="custom-range" id="nivel_limpieza_eess" min="0" max="100" value="30" disabled>
+                <small class="text-muted">El sistema elige el valor automáticamente. Súbalo si quedan restos o sombras del papel; bájelo si se borra parte del sello.</small>
+                <div id="aviso_sello_eess" class="alert alert-warning small mt-2" style="display:none;"></div>
+                </div>
+                <div class="col-sm-6">
+                <h6 class="text-primary">VISTA PREVIA (SIN FONDO):</h6>
+                <div class="btn-group btn-group-sm mb-2" role="group" id="vista_sello_eess">
+                    <button type="button" class="btn btn-outline-primary active" data-vista="cuadros">Transparente</button>
+                    <button type="button" class="btn btn-outline-primary" data-vista="blanco">Sobre blanco</button>
+                    <button type="button" class="btn btn-outline-primary" data-vista="original">Foto original</button>
+                </div>
+                <div id="fondo_vista_eess" class="border rounded p-2 text-center" style="min-height:150px; background-color:#fff; background-image:linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%); background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0;">
+                    <canvas id="canvas_sello_eess" style="max-width:100%; display:none;"></canvas>
+                    <img id="img_original_eess" style="max-width:100%; display:none;" alt="Foto original">
+                    <span id="sin_sello_eess" class="text-muted small">Seleccione una imagen para ver la vista previa.</span>
+                </div>
+                <?php if ($sello_eess_actual != '') { ?>
+                </br>
+                <h6 class="text-primary">SELLO ACTUAL DEL ESTABLECIMIENTO:</h6>
+                <img src="../<?php echo htmlspecialchars($sello_eess_actual);?>?v=<?php echo time();?>" style="max-width:100%; max-height:150px;" alt="Sello actual">
+                <?php } ?>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                <a class="btn btn-primary" href="#" id="btn_sello_eess" data-toggle="modal" data-target="#sello_eess_modal">
+                    GUARDAR SELLO DEL ESTABLECIMIENTO
+                </a>
+                </div>
+
+                <div class="modal fade" id="sello_eess_modal" tabindex="-1" role="dialog" aria-labelledby="selloEessModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="selloEessModalLabel">¿ESTA SEGURO DE GUARDAR EL SELLO DEL ESTABLECIMIENTO?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Se guardará la imagen tal como se ve en la vista previa. Si el establecimiento ya tenía un sello registrado, será reemplazado.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" type="submit">CONFIRMAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+<!---------------- FIN SUBIDA DEL SELLO DEL ESTABLECIMIENTO ----------->
+
         <div class="form-group row">
             <div class="col-sm-6">
             </div>
@@ -532,6 +616,135 @@ $row = mysqli_fetch_array($result);
         <script src="../js/jquery.js"></script>
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
+
+    <!-- quitar fondo del sello del establecimiento (se procesa en el navegador y se envía como PNG) -->
+    <script src="../js/sello_sin_fondo.js"></script>
+    <script>
+    (function () {
+        var MAX_LADO = 1000;   // tamaño máximo del sello guardado (px)
+
+        var entrada    = document.getElementById('file_sello_eess');
+        var nivel      = document.getElementById('nivel_limpieza_eess');
+        var nivelValor = document.getElementById('nivel_valor_eess');
+        var nivelAuto  = document.getElementById('nivel_auto_eess');
+        var aviso      = document.getElementById('aviso_sello_eess');
+        var canvas     = document.getElementById('canvas_sello_eess');
+        var imgOrig    = document.getElementById('img_original_eess');
+        var fondoVista = document.getElementById('fondo_vista_eess');
+        var sinSello   = document.getElementById('sin_sello_eess');
+        var botones    = document.querySelectorAll('#vista_sello_eess button');
+        var cuadros    = fondoVista.style.backgroundImage;
+        var prep       = null;
+        var hayResultado = false;
+        var vista      = 'cuadros';
+        var pendiente  = false;
+
+        function mostrarAviso(texto) {
+            aviso.textContent = texto;
+            aviso.style.display = texto ? '' : 'none';
+        }
+
+        function actualizarVista() {
+            fondoVista.style.backgroundImage = vista === 'cuadros' ? cuadros : 'none';
+            imgOrig.style.display  = (vista === 'original' && imgOrig.getAttribute('src')) ? '' : 'none';
+            canvas.style.display   = (vista !== 'original' && hayResultado) ? '' : 'none';
+            sinSello.style.display = (vista === 'original' ? !imgOrig.getAttribute('src') : !hayResultado) ? '' : 'none';
+        }
+
+        /* sin jQuery: esta página carga jQuery dos veces y el segundo reemplaza al primero */
+        for (var i = 0; i < botones.length; i++) {
+            botones[i].addEventListener('click', function () {
+                for (var j = 0; j < botones.length; j++) botones[j].classList.remove('active');
+                this.classList.add('active');
+                vista = this.getAttribute('data-vista');
+                actualizarVista();
+            });
+        }
+
+        entrada.addEventListener('change', function () {
+            var archivo = this.files[0];
+            prep = null;
+            hayResultado = false;
+            nivel.disabled = true;
+            nivelValor.textContent = '-';
+            nivelAuto.style.display = 'none';
+            mostrarAviso('');
+            if (imgOrig.getAttribute('src')) { URL.revokeObjectURL(imgOrig.src); imgOrig.removeAttribute('src'); }
+            sinSello.textContent = 'Seleccione una imagen para ver la vista previa.';
+            actualizarVista();
+            if (!archivo) return;
+            if (!/^image\/(png|jpeg|webp)$/.test(archivo.type)) {
+                alert('Seleccione una imagen JPG o PNG.');
+                this.value = '';
+                return;
+            }
+            sinSello.textContent = 'Procesando imagen...';
+            var img = new Image();
+            img.onload = function () {
+                var escala = Math.min(1, MAX_LADO / Math.max(img.width, img.height));
+                var w = Math.round(img.width * escala), h = Math.round(img.height * escala);
+                var tmp = document.createElement('canvas');
+                tmp.width = w; tmp.height = h;
+                var ctx = tmp.getContext('2d');
+                /* fondo blanco: si el PNG ya trae transparencia no debe tomarse como fondo negro */
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, w, h);
+                ctx.drawImage(img, 0, 0, w, h);
+                prep = SelloSinFondo.preparar(ctx.getImageData(0, 0, w, h));
+                imgOrig.src = img.src;
+                nivel.value = prep.nivelAuto;
+                nivel.disabled = false;
+                if (prep.fondoOscuro) {
+                    mostrarAviso('La foto parece tener fondo oscuro. Para un buen resultado, tome la foto del sello sobre una hoja blanca y con buena luz.');
+                }
+                procesar();
+            };
+            img.onerror = function () {
+                sinSello.textContent = 'No se pudo leer la imagen.';
+            };
+            img.src = URL.createObjectURL(archivo);
+        });
+
+        nivel.addEventListener('input', function () {
+            if (!prep || pendiente) return;
+            pendiente = true;
+            requestAnimationFrame(function () { pendiente = false; procesar(); });
+        });
+
+        nivelAuto.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (!prep) return;
+            nivel.value = prep.nivelAuto;
+            procesar();
+        });
+
+        function procesar() {
+            var valor = parseInt(nivel.value, 10);
+            nivelValor.textContent = valor + (valor == prep.nivelAuto ? ' (automático)' : '');
+            nivelAuto.style.display = valor == prep.nivelAuto ? 'none' : '';
+            var res = SelloSinFondo.generar(prep, valor);
+            hayResultado = !!res;
+            if (res) {
+                canvas.width = res.imageData.width;
+                canvas.height = res.imageData.height;
+                canvas.getContext('2d').putImageData(res.imageData, 0, 0);
+            } else {
+                sinSello.textContent = 'No se detectó el sello, baje el nivel de limpieza.';
+            }
+            actualizarVista();
+        }
+
+        document.getElementById('form_sello_eess').addEventListener('submit', function (e) {
+            if (!prep || !hayResultado) {
+                e.preventDefault();
+                document.querySelector('#sello_eess_modal [data-dismiss="modal"]').click();
+                alert('Primero seleccione la fotografía del sello y revise la vista previa.');
+                return;
+            }
+            document.getElementById('sello_eess_png').value = canvas.toDataURL('image/png');
+        });
+    })();
+    </script>
 </body>
 
 </html>

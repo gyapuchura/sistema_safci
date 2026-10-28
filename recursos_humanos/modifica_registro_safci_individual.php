@@ -30,6 +30,20 @@ $sql_ac = " SELECT idnombre_academico, entidad_academica, gestion FROM nombre_ac
 $sql_ac.= " WHERE idnombre='$idnombre_ss' AND idusuario='$idusuario_ss' ";
 $result_ac = mysqli_query($link,$sql_ac);
 $row_ac = mysqli_fetch_array($result_ac);
+
+/****** documento PDF actual ****/
+$row_doc_url = '';
+$result_doc = mysqli_query($link," SELECT url FROM personal WHERE idpersonal='$row[0]' ");
+if ($result_doc && $row_doc = mysqli_fetch_array($result_doc)) {
+    $row_doc_url = $row_doc[0];
+}
+
+/****** sello y firma actual (consulta aparte para no romper la página si aún no existe la columna url_sello) ****/
+$sello_actual = '';
+$result_se = @mysqli_query($link," SELECT url_sello FROM personal WHERE idpersonal='$row[0]' ");
+if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
+    $sello_actual = $row_se[0];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -820,27 +834,63 @@ $row_ac = mysqli_fetch_array($result_ac);
                 </div>
 
                 <hr>  
-            <div class="form-group row">
+            <div class="form-group row" id="documentacion">
                 <div class="col-sm-6">
                 <h5 class="text-primary">4.- DOCUMENTACIÓN:</h5></br>
                 </div>
                 <div class="col-sm-6">
                 </div>
-            </div>  
+            </div>
 <!---------------- SUBIDA DE DOCUMENTOS PDF A SISTEMA ----------->
 
-            <form name="FORM9" action="subir_documento_safci_mod.php" method="post" enctype="multipart/form-data">
+            <?php if (isset($_GET['documento'])) { ?>
+                <?php if ($_GET['documento'] == 'ok') { ?>
+                <div class="alert alert-success">LOS DOCUMENTOS DE RESPALDO PERSONAL SE SUBIERON CORRECTAMENTE.</div>
+                <?php } else if ($_GET['documento'] == 'vacio') { ?>
+                <div class="alert alert-warning">NO SELECCIONÓ NINGÚN ARCHIVO PDF.</div>
+                <?php } else if ($_GET['documento'] == 'invalido') { ?>
+                <div class="alert alert-danger">EL ARCHIVO DEBE SER UN PDF VÁLIDO DE MÁXIMO 20 MB.</div>
+                <?php } else { ?>
+                <div class="alert alert-danger">NO SE PUDO SUBIR EL DOCUMENTO, VUELVA A INTENTAR.</div>
+                <?php } ?>
+            <?php } ?>
+
+            <form name="FORM9" id="form_documento" action="subir_documento_safci_mod.php" method="post" enctype="multipart/form-data">
             <div class="form-group row">
                 <div class="col-sm-6">
-                <h6 class="text-primary">SUBIR DOCUMENTOS EN UN SOLO ARCHIVO PDF:</br></br>1.- Fotocopia de CI (anverso y reverso)</br>2.- Primer Memorándun de designación.</br>3.- Memorandum actual.</h6>
+                <h6 class="text-primary">SUBIR DOCUMENTOS EN UN SOLO ARCHIVO PDF (MÁXIMO 20 MB):</br></br>1.- Fotocopia de CI (anverso y reverso)</br>2.- Primer Memorándum de designación.</br>3.- Memorándum actual.</h6>
                 </div>
                 <div class="col-sm-6">
+                  <input type="file" name="file" id="file" accept="application/pdf,.pdf" required>
+                <?php if ($row_doc_url != '') { ?>
+                </br></br>
+                <h6 class="text-primary">DOCUMENTO ACTUAL:</h6>
+                <a class="btn btn-outline-info btn-sm" href="#" data-toggle="modal" data-target="#ver_documento">
+                    <i class="fas fa-fw fa-file-pdf"></i> VER DOCUMENTO SUBIDO
+                </a>
 
-                <input type="hidden" name="idpersonal" value="<?php echo $row[0];?>">
-                  <input type="file" name="file" id="file" > 
+                <div class="modal fade" id="ver_documento" tabindex="-1" role="dialog" aria-labelledby="verDocumentoLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document" style="max-width:90%;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="verDocumentoLabel">DOCUMENTACIÓN PERSONAL</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body p-0">
+                                <iframe id="iframe_documento" data-src="../<?php echo htmlspecialchars($row_doc_url);?>" style="width:100%; height:75vh; border:0;"></iframe>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
                 </div>
 
-            </div>  
+            </div>
             <div class="form-group row">
                 <div class="col-sm-6">
                 </div>
@@ -868,13 +918,90 @@ $row_ac = mysqli_fetch_array($result_ac);
                     </div>
                 </div>
             </div>     
-            </form>   
+            </form>
+
+                <hr>
+            <div class="form-group row" id="sello">
+                <div class="col-sm-12">
+                <h5 class="text-primary">5.- SELLO Y FIRMA DEL PROFESIONAL:</h5></br>
+                </div>
+            </div>
+<!---------------- SUBIDA DE SELLO Y FIRMA (PNG SIN FONDO) ----------->
+
+            <?php if (isset($_GET['sello'])) { ?>
+                <?php if ($_GET['sello'] == 'ok') { ?>
+                <div class="alert alert-success">EL SELLO Y FIRMA SE GUARDARON CORRECTAMENTE.</div>
+                <?php } else { ?>
+                <div class="alert alert-danger">NO SE PUDO GUARDAR EL SELLO Y FIRMA, VUELVA A INTENTAR CON OTRA IMAGEN.</div>
+                <?php } ?>
+            <?php } ?>
+
+            <form name="FORM10" id="form_sello" action="subir_sello_safci_mod.php" method="post">
+            <input type="hidden" name="sello_png" id="sello_png">
+            <div class="form-group row">
+                <div class="col-sm-6">
+                <h6 class="text-primary">SUBIR FOTOGRAFÍA DEL SELLO CON SU FIRMA (JPG o PNG):</br></br>1.- Sellar y firmar sobre una hoja blanca.</br>2.- Tomar la foto de frente, con buena luz y sin sombras.</br>3.- El sistema quitará el fondo y lo guardará como PNG transparente.</h6>
+                </br>
+                <input type="file" id="file_sello" accept="image/png, image/jpeg, image/webp">
+                </br></br>
+                <h6 class="text-primary">LIMPIEZA DEL FONDO: <span id="nivel_valor">-</span>
+                    <a href="#" id="nivel_auto" class="small ml-2" style="display:none;">(volver a automático)</a></h6>
+                <input type="range" class="custom-range" id="nivel_limpieza" min="0" max="100" value="30" disabled>
+                <small class="text-muted">El sistema elige el valor automáticamente. Súbalo si quedan restos o sombras del papel; bájelo si se borra parte del sello o la firma.</small>
+                <div id="aviso_sello" class="alert alert-warning small mt-2" style="display:none;"></div>
+                </br>
+                <h6 class="text-primary">ENCUADRE - TAMAÑO DEL SELLO: <span id="tamano_valor">-</span>
+                    <a href="#" id="btn_centrar_sello" class="small ml-2">(centrar)</a></h6>
+                <input type="range" class="custom-range" id="tamano_sello" min="40" max="100" value="88" disabled>
+                <small class="text-muted">El recuadro punteado de la vista previa es el espacio del sello en los formularios impresos. Ajuste el tamaño y arrastre el sello con el mouse (o el dedo) para centrarlo.</small>
+                </div>
+                <div class="col-sm-6">
+                <h6 class="text-primary">VISTA PREVIA (SIN FONDO):</h6>
+                <div class="btn-group btn-group-sm mb-2" role="group" id="vista_sello">
+                    <button type="button" class="btn btn-outline-primary active" data-vista="cuadros">Transparente</button>
+                    <button type="button" class="btn btn-outline-primary" data-vista="blanco">Sobre blanco</button>
+                    <button type="button" class="btn btn-outline-primary" data-vista="original">Foto original</button>
+                </div>
+                <div id="fondo_vista" class="border rounded p-2 text-center" style="min-height:150px; background-color:#fff; background-image:linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%); background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0;">
+                    <canvas id="canvas_sello" style="max-width:100%; display:none; outline:2px dashed #4e73df; cursor:move; touch-action:none;"></canvas>
+                    <img id="img_original" style="max-width:100%; display:none;" alt="Foto original">
+                    <span id="sin_sello" class="text-muted small">Seleccione una imagen para ver la vista previa.</span>
+                </div>
+                <?php if ($sello_actual != '') { ?>
+                </br>
+                <h6 class="text-primary">SELLO Y FIRMA ACTUAL:</h6>
+                <img src="../<?php echo $sello_actual;?>?v=<?php echo time();?>" style="max-width:100%; max-height:150px;" alt="Sello actual">
+                <?php } ?>
+                </div>
+            </div>
             <div class="form-group row">
                 <div class="col-sm-6">
                 </div>
                 <div class="col-sm-6">
+                <a class="btn btn-primary" href="#" id="btn_sello" data-toggle="modal" data-target="#sello_modal">
+                    GUARDAR SELLO Y FIRMA
+                </a>
                 </div>
-            </div>  
+
+                <div class="modal fade" id="sello_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">¿ESTA SEGURO DE GUARDAR EL SELLO Y FIRMA?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Se guardará la imagen tal como se ve en la vista previa. Si ya tenía un sello registrado, será reemplazado.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn btn-primary" type="submit">CONFIRMAR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
 
                     
 <!-- END aqui va el comntenido de la pagina ---->
@@ -924,7 +1051,215 @@ $row_ac = mysqli_fetch_array($result_ac);
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- scripts para calendario -->
-   
+
+    <!-- validar el PDF antes de enviarlo -->
+    <script>
+    /* el PDF se carga solo al abrir la ventana emergente */
+    $('#ver_documento').on('show.bs.modal', function () {
+        var iframe = document.getElementById('iframe_documento');
+        if (!iframe.getAttribute('src')) iframe.setAttribute('src', iframe.getAttribute('data-src'));
+    });
+
+    document.getElementById('form_documento').addEventListener('submit', function (e) {
+        var archivo = document.getElementById('file').files[0];
+        var mensaje = '';
+        if (!archivo) {
+            mensaje = 'Primero seleccione el archivo PDF.';
+        } else if (!/\.pdf$/i.test(archivo.name)) {
+            mensaje = 'El archivo debe ser PDF.';
+        } else if (archivo.size > 20 * 1024 * 1024) {
+            mensaje = 'El archivo supera los 20 MB.';
+        }
+        if (mensaje != '') {
+            e.preventDefault();
+            $('#documento').modal('hide');
+            alert(mensaje);
+        }
+    });
+    </script>
+
+    <!-- quitar fondo del sello y firma (se procesa en el navegador y se envía como PNG) -->
+    <script src="../js/sello_sin_fondo.js"></script>
+    <script>
+    (function () {
+        var MAX_LADO = 1000;   // tamaño máximo del sello guardado (px)
+        /* marco fijo del sello guardado: misma proporción para todos, así se imprimen del mismo tamaño en los formularios */
+        var MARCO_W = 1000, MARCO_H = 900;
+
+        var tamano      = document.getElementById('tamano_sello');
+        var tamanoValor = document.getElementById('tamano_valor');
+        var recorte     = document.createElement('canvas');   // sello sin fondo, recortado a la tinta
+        var despX = 0, despY = 0;                              // desplazamiento del sello dentro del marco (px del marco)
+        var arrastre = null;
+
+        var entrada    = document.getElementById('file_sello');
+        var nivel      = document.getElementById('nivel_limpieza');
+        var nivelValor = document.getElementById('nivel_valor');
+        var nivelAuto  = document.getElementById('nivel_auto');
+        var aviso      = document.getElementById('aviso_sello');
+        var canvas     = document.getElementById('canvas_sello');
+        var imgOrig    = document.getElementById('img_original');
+        var fondoVista = document.getElementById('fondo_vista');
+        var sinSello   = document.getElementById('sin_sello');
+        var cuadros    = fondoVista.style.backgroundImage;
+        var prep       = null;
+        var hayResultado = false;
+        var vista      = 'cuadros';
+        var pendiente  = false;
+
+        function mostrarAviso(texto) {
+            aviso.textContent = texto;
+            aviso.style.display = texto ? '' : 'none';
+        }
+
+        function actualizarVista() {
+            fondoVista.style.backgroundImage = vista === 'cuadros' ? cuadros : 'none';
+            imgOrig.style.display  = (vista === 'original' && imgOrig.getAttribute('src')) ? '' : 'none';
+            canvas.style.display   = (vista !== 'original' && hayResultado) ? '' : 'none';
+            sinSello.style.display = (vista === 'original' ? !imgOrig.getAttribute('src') : !hayResultado) ? '' : 'none';
+        }
+
+        $('#vista_sello button').on('click', function () {
+            $('#vista_sello button').removeClass('active');
+            $(this).addClass('active');
+            vista = $(this).data('vista');
+            actualizarVista();
+        });
+
+        entrada.addEventListener('change', function () {
+            var archivo = this.files[0];
+            prep = null;
+            hayResultado = false;
+            despX = 0; despY = 0;
+            tamano.disabled = true;
+            tamanoValor.textContent = '-';
+            nivel.disabled = true;
+            nivelValor.textContent = '-';
+            nivelAuto.style.display = 'none';
+            mostrarAviso('');
+            if (imgOrig.getAttribute('src')) { URL.revokeObjectURL(imgOrig.src); imgOrig.removeAttribute('src'); }
+            sinSello.textContent = 'Seleccione una imagen para ver la vista previa.';
+            actualizarVista();
+            if (!archivo) return;
+            if (!/^image\/(png|jpeg|webp)$/.test(archivo.type)) {
+                alert('Seleccione una imagen JPG o PNG.');
+                this.value = '';
+                return;
+            }
+            sinSello.textContent = 'Procesando imagen...';
+            var img = new Image();
+            img.onload = function () {
+                var escala = Math.min(1, MAX_LADO / Math.max(img.width, img.height));
+                var w = Math.round(img.width * escala), h = Math.round(img.height * escala);
+                var tmp = document.createElement('canvas');
+                tmp.width = w; tmp.height = h;
+                var ctx = tmp.getContext('2d');
+                /* fondo blanco: si el PNG ya trae transparencia no debe tomarse como fondo negro */
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, w, h);
+                ctx.drawImage(img, 0, 0, w, h);
+                prep = SelloSinFondo.preparar(ctx.getImageData(0, 0, w, h));
+                imgOrig.src = img.src;
+                nivel.value = prep.nivelAuto;
+                nivel.disabled = false;
+                if (prep.fondoOscuro) {
+                    mostrarAviso('La foto parece tener fondo oscuro. Para un buen resultado, tome la foto del sello sobre una hoja blanca y con buena luz.');
+                }
+                procesar();
+            };
+            img.onerror = function () {
+                sinSello.textContent = 'No se pudo leer la imagen.';
+            };
+            img.src = URL.createObjectURL(archivo);
+        });
+
+        nivel.addEventListener('input', function () {
+            if (!prep || pendiente) return;
+            pendiente = true;
+            requestAnimationFrame(function () { pendiente = false; procesar(); });
+        });
+
+        nivelAuto.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (!prep) return;
+            nivel.value = prep.nivelAuto;
+            procesar();
+        });
+
+        function procesar() {
+            var valor = parseInt(nivel.value, 10);
+            nivelValor.textContent = valor + (valor == prep.nivelAuto ? ' (automático)' : '');
+            nivelAuto.style.display = valor == prep.nivelAuto ? 'none' : '';
+            var res = SelloSinFondo.generar(prep, valor);
+            hayResultado = !!res;
+            if (res) {
+                recorte.width = res.imageData.width;
+                recorte.height = res.imageData.height;
+                recorte.getContext('2d').putImageData(res.imageData, 0, 0);
+                tamano.disabled = false;
+                componer();
+            } else {
+                sinSello.textContent = 'No se detectó el sello, baje el nivel de limpieza.';
+            }
+            actualizarVista();
+        }
+
+        /* coloca el sello dentro del marco fijo según el tamaño elegido y el desplazamiento por arrastre */
+        function componer() {
+            var factor = parseInt(tamano.value, 10) / 100;
+            tamanoValor.textContent = tamano.value + ' %';
+            var escala = Math.min(MARCO_W / recorte.width, MARCO_H / recorte.height) * factor;
+            var dw = recorte.width * escala, dh = recorte.height * escala;
+            /* el sello no puede salir del marco */
+            var maxX = (MARCO_W - dw) / 2, maxY = (MARCO_H - dh) / 2;
+            despX = Math.max(-maxX, Math.min(maxX, despX));
+            despY = Math.max(-maxY, Math.min(maxY, despY));
+            canvas.width = MARCO_W;
+            canvas.height = MARCO_H;
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MARCO_W, MARCO_H);
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(recorte, maxX + despX, maxY + despY, dw, dh);
+        }
+
+        tamano.addEventListener('input', function () {
+            if (hayResultado) componer();
+        });
+
+        document.getElementById('btn_centrar_sello').addEventListener('click', function (e) {
+            e.preventDefault();
+            despX = 0; despY = 0;
+            if (hayResultado) componer();
+        });
+
+        /* arrastrar el sello dentro del marco (mouse o dedo) */
+        canvas.addEventListener('pointerdown', function (e) {
+            if (!hayResultado) return;
+            arrastre = { x: e.clientX, y: e.clientY, dx: despX, dy: despY };
+            canvas.setPointerCapture(e.pointerId);
+        });
+        canvas.addEventListener('pointermove', function (e) {
+            if (!arrastre) return;
+            var relacion = MARCO_W / canvas.getBoundingClientRect().width;   // px del marco por px de pantalla
+            despX = arrastre.dx + (e.clientX - arrastre.x) * relacion;
+            despY = arrastre.dy + (e.clientY - arrastre.y) * relacion;
+            componer();
+        });
+        canvas.addEventListener('pointerup', function () { arrastre = null; });
+        canvas.addEventListener('pointercancel', function () { arrastre = null; });
+
+        document.getElementById('form_sello').addEventListener('submit', function (e) {
+            if (!prep || !hayResultado) {
+                e.preventDefault();
+                $('#sello_modal').modal('hide');
+                alert('Primero seleccione la fotografía del sello y revise la vista previa.');
+                return;
+            }
+            document.getElementById('sello_png').value = canvas.toDataURL('image/png');
+        });
+    })();
+    </script>
+
 </body>
 
 </html>

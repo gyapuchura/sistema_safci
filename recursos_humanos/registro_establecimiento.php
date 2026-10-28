@@ -17,6 +17,13 @@ $sql.= " latitud, longitud, idusuario, fecha_registro FROM establecimiento_salud
 $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
+/****** sello actual del establecimiento (consulta aparte para no romper la página si falta la columna sello_eess) ****/
+$sello_eess_actual = '';
+$result_se = @mysqli_query($link," SELECT sello_eess FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud_ss' ");
+if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
+    $sello_eess_actual = $row_se[0];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -312,8 +319,24 @@ $row = mysqli_fetch_array($result);
                 </div>  
                  <hr>
                  <div class="form-group row">
-                <div class="col-sm-12" id="mi_mapa" style="width: 100%; height: 400px;"></div>  
-                </div>  
+                <div class="col-sm-12" id="mi_mapa" style="width: 100%; height: 400px;"></div>
+                </div>
+
+                <hr>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <h4 class="text-primary">SELLO DEL ESTABLECIMIENTO DE SALUD</h4>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 text-center">
+                    <?php if ($sello_eess_actual != '' && is_file('../'.$sello_eess_actual)) { ?>
+                        <img src="../<?php echo htmlspecialchars($sello_eess_actual);?>?v=<?php echo time();?>" style="max-width:100%; max-height:180px;" alt="Sello del establecimiento">
+                    <?php } else { ?>
+                        <span class="text-muted">El establecimiento aún no tiene sello registrado. Puede subirlo en MODIFICAR REGISTRO.</span>
+                    <?php } ?>
+                    </div>
+                </div>
 
                 
     <!-------- begin rejilla --------->   

@@ -26,6 +26,18 @@ $idmunicipio       = isset($_POST['idmunicipio']) ? $_POST['idmunicipio'] : '';
 $idestablecimiento = isset($_POST['idestablecimiento']) ? $_POST['idestablecimiento'] : '';
 $idusuario_medico  = isset($_POST['idusuario_medico']) ? $_POST['idusuario_medico'] : '';
 
+// Alcance del usuario de Telemedicina: el departamento y municipio de su lugar de trabajo se aplican aunque se cambien los datos enviados
+define('TM_SOLO_ALCANCE', true);
+include("../telesalud/inc_telemedicina.php");
+$tm_f = tm_forzar_alcance($link, ['iddepartamento' => (string)$iddepartamento, 'idmunicipio' => (string)$idmunicipio, 'idestablecimiento' => (string)$idestablecimiento, 'idusuario_medico' => (string)$idusuario_medico], '0');
+$iddepartamento    = mysqli_real_escape_string($link, $tm_f['iddepartamento']);
+$idmunicipio       = mysqli_real_escape_string($link, $tm_f['idmunicipio']);
+$idestablecimiento = mysqli_real_escape_string($link, $tm_f['idestablecimiento']);
+$idusuario_medico  = mysqli_real_escape_string($link, $tm_f['idusuario_medico']);
+
+// Archivo más liviano: sin espacios sobrantes y comprimido durante la descarga (mismo contenido)
+tm_salida_excel_compacta();
+
 $filtro_extra = "";
 if($iddepartamento != '') { $filtro_extra .= " AND a.iddepartamento = '$iddepartamento' "; }
 if($idmunicipio != '') { $filtro_extra .= " AND a.idmunicipio = '$idmunicipio' "; }
@@ -55,7 +67,8 @@ $equipos_orden_estricto = array(
     "Camara Multiproposito",
     "Glucometro",
     "Monitor Materno Fetal",
-    "Monitor Multiparametrico básico"
+    "Monitor Multiparametrico básico",
+    "Otros dispositivos" // se muestra, pero NO suma en TELEMETRIAS
 );
 
 // Diccionario inverso para buscar en la base de datos por el nombre estandarizado
@@ -87,7 +100,8 @@ $mapeo_db = array(
     'MONITOR MATERNO FETAL'           => 'Monitor Materno Fetal',
     'MONITOR MULTIPARAMETRICO BASICO' => 'Monitor Multiparametrico básico',
     'MONITOR MULTIPARAMÉTRICO BÁSICO' => 'Monitor Multiparametrico básico',
-    'MONITOR MULTIPARAMETRICO BÁSICO' => 'Monitor Multiparametrico básico'
+    'MONITOR MULTIPARAMETRICO BÁSICO' => 'Monitor Multiparametrico básico',
+    'OTROS DISPOSITIVOS'              => 'Otros dispositivos'
 );
 
 ?>
@@ -98,10 +112,10 @@ $mapeo_db = array(
         <title>REPORTE TELESALUD</title>
         <style type="text/css">
             table { border-collapse: collapse; }
-            .c-cabecera { font-family: Arial; font-size: 12px; color: #ffffff; text-align: center; background-color: #2D56CF; font-weight: bold; padding: 5px; }
-            .c-dato { font-family: Arial; font-size: 11px; text-align: center; background-color: #FFFFFF; }
-            .c-izq { font-family: Arial; font-size: 11px; text-align: left; background-color: #FFFFFF; }
-            .c-azul { font-family: Arial; font-size: 11px; text-align: center; background-color: #E1F5FE; color: #0D47A1; }
+            .h { font-family: Arial; font-size: 12px; color: #ffffff; text-align: center; background-color: #2D56CF; font-weight: bold; padding: 5px; }
+            .d { font-family: Arial; font-size: 11px; text-align: center; background-color: #FFFFFF; }
+            .i { font-family: Arial; font-size: 11px; text-align: left; background-color: #FFFFFF; }
+            .a { font-family: Arial; font-size: 11px; text-align: center; background-color: #E1F5FE; color: #0D47A1; }
         </style>
 </head>
 <body>
@@ -110,59 +124,60 @@ $mapeo_db = array(
 <table width="100%" border="1" align="center" bordercolor="#009999">
     <thead>
         <tr>
-            <td class="c-cabecera">N°</td>
-            <td class="c-cabecera">FECHA DE ATENCIÓN</td>
-            <td class="c-cabecera">TIPO ATENCIÓN</td>
-            <td class="c-cabecera">CÓDIGO ATENCIÓN</td>
-            <td class="c-cabecera">CÓDIGO DE EESS</td>
-            <td class="c-cabecera">DEPARTAMENTO</td>
-            <td class="c-cabecera">MUNICIPIO</td>
-            <td class="c-cabecera">NIVEL</td>
-            <td class="c-cabecera">ESTABLECIMIENTO</td>
-            <td class="c-cabecera">TIPO</td>
-            <td class="c-cabecera">PROCEDENCIA</td>
-            <td class="c-cabecera">DIAGNÓSTICO 1</td>
-            <td class="c-cabecera">DIAGNÓSTICO 2</td>
-            <td class="c-cabecera">DIAGNÓSTICO 3</td>
-            <td class="c-cabecera">DIAGNÓSTICO 4</td>
+            <td class="h">N°</td>
+            <td class="h">FECHA DE ATENCIÓN</td>
+            <td class="h">TIPO ATENCIÓN</td>
+            <td class="h">CÓDIGO ATENCIÓN</td>
+            <td class="h">CÓDIGO DE EESS</td>
+            <td class="h">DEPARTAMENTO</td>
+            <td class="h">MUNICIPIO</td>
+            <td class="h">NIVEL</td>
+            <td class="h">ESTABLECIMIENTO</td>
+            <td class="h">TIPO</td>
+            <td class="h">PROCEDENCIA</td>
+            <td class="h">DIAGNÓSTICO 1</td>
+            <td class="h">DIAGNÓSTICO 2</td>
+            <td class="h">DIAGNÓSTICO 3</td>
+            <td class="h">DIAGNÓSTICO 4</td>
             
-            <td class="c-cabecera" style="background-color: #8e44ad;">D</td>
-            <td class="c-cabecera" style="background-color: #1A237E;">ENT</td>
-            <td class="c-cabecera" style="background-color: #e74a3b;">ET</td>
-            <td class="c-cabecera" style="background-color: #1cc88a;">SI</td>
-            <td class="c-cabecera" style="background-color: #e83e8c;">SM</td>
-            <td class="c-cabecera">OTROS</td>
+            <td class="h" style="background-color: #8e44ad;">D</td>
+            <td class="h" style="background-color: #1A237E;">ENT</td>
+            <td class="h" style="background-color: #e74a3b;">ET</td>
+            <td class="h" style="background-color: #1cc88a;">SI</td>
+            <td class="h" style="background-color: #e83e8c;">SM</td>
+            <td class="h">OTROS</td>
+            <td class="h">ATENCION CANCER</td>
 
-            <td class="c-cabecera">CAPTACIÓN</td>
-            <td class="c-cabecera">MÉDICO OPERATIVO</td>
-            <td class="c-cabecera">CARGO ORGANIZACIONAL</td>
+            <td class="h">CAPTACIÓN</td>
+            <td class="h">MÉDICO OPERATIVO</td>
+            <td class="h">CARGO ORGANIZACIONAL</td>
             
-            <td class="c-cabecera">GRUPO ETAREO</td>
-            <td class="c-cabecera">EDAD</td>
+            <td class="h">GRUPO ETAREO</td>
+            <td class="h">EDAD</td>
             
-            <td class="c-cabecera">ESPECIALIDAD MÉDICA</td>
-            <td class="c-cabecera">CARNET DE IDENTIDAD</td>
-            <td class="c-cabecera">FECHA DE NACIMIENTO</td>
-            <td class="c-cabecera">PERSONA ATENDIDA</td>
-            <td class="c-cabecera">GENERO</td>
-            <td class="c-cabecera">TELÉFONO PACIENTE</td>
-            <td class="c-cabecera">NACIÓN</td>
+            <td class="h">ESPECIALIDAD MÉDICA</td>
+            <td class="h">CARNET DE IDENTIDAD</td>
+            <td class="h">FECHA DE NACIMIENTO</td>
+            <td class="h">PERSONA ATENDIDA</td>
+            <td class="h">GENERO</td>
+            <td class="h">TELÉFONO PACIENTE</td>
+            <td class="h">NACIÓN</td>
             
-            <td class="c-cabecera">GRUPOS VULNERABLES</td>
+            <td class="h">GRUPOS VULNERABLES</td>
             
-            <td class="c-cabecera">NUEVO / SEGUIMIENTO</td>
-            <td class="c-cabecera">TIEMPO</td>
+            <td class="h">NUEVO / SEGUIMIENTO</td>
+            <td class="h">TIEMPO</td>
             <!-- FASE DE MEJORA: Se eliminó la columna CONSULTA/VISITA -->
-            <td class="c-cabecera">CONTEXTO ATENCIÓN</td>
-            <td class="c-cabecera">MEDIO COMUNICACIÓN</td>
-            <td class="c-cabecera">ESTADO DEL PACIENTE</td>
+            <td class="h">CONTEXTO ATENCIÓN</td>
+            <td class="h">MEDIO COMUNICACIÓN</td>
+            <td class="h">ESTADO DEL PACIENTE</td>
             <?php
             // ENCABEZADOS DE TELEMETRÍA FIJOS
             foreach ($equipos_orden_estricto as $equipo) {
-                echo "<td class='c-cabecera'>" . $equipo . "</td>";
+                echo "<td class='h'>" . $equipo . "</td>";
             }
             ?>
-            <td class="c-cabecera">TELEMETRIAS</td>
+            <td class="h">TELEMETRIAS</td>
         </tr> 
     </thead>
     <tbody>
@@ -275,6 +290,7 @@ $mapeo_db = array(
         $aten_et = false;
         $aten_sm = false;
         $aten_otros = false;
+        $aten_cancer = false;
 
         $sql_dg = " SELECT p.patologia, p.cie, p.idgrupo_priorizado FROM diagnostico_teleconsulta dt INNER JOIN patologia p ON dt.idpatologia=p.idpatologia WHERE dt.idatencion_psafci='{$row_te['idatencion_psafci']}' LIMIT 4";
         $res_dg = mysqli_query($link,$sql_dg);
@@ -289,8 +305,11 @@ $mapeo_db = array(
                 if ($id_gp == '1') { $aten_ent = true; }
                 elseif ($id_gp == '2') { $aten_et = true; }
                 elseif ($id_gp == '3') { $aten_sm = true; }
-                else { $aten_otros = true; } 
-                
+                else { $aten_otros = true; }
+
+                // Atención de cáncer: CIE-10 de la lista oncológica de la Central
+                if (tm_es_oncologico($row_dg[1])) { $aten_cancer = true; }
+
             } while ($row_dg = mysqli_fetch_array($res_dg));
         }
 
@@ -298,6 +317,7 @@ $mapeo_db = array(
         $txt_aten_et = $aten_et ? "ET" : "";
         $txt_aten_sm = $aten_sm ? "SALUD MATERNA" : "";
         $txt_aten_otros = $aten_otros ? "OTROS" : "";
+        $txt_aten_cancer = $aten_cancer ? "ONCOLÓGICO" : "";
 
         // =========================================================================
         // ESTANDARIZACIÓN TEXTUAL (TIPO ORACIÓN Y TIPO TÍTULO)
@@ -319,43 +339,44 @@ $mapeo_db = array(
 
         ?>
         <tr>
-            <td class="c-dato"><?php echo $numero_te;?></td>
-            <td class="c-dato"> 
+            <td class="d"><?php echo $numero_te;?></td>
+            <td class="d"> 
                 <?php 
                 $fecha_r = explode('-',$row_te['fecha_registro']);
                 echo isset($fecha_r[2]) ? $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0] : ''; ?>
             </td> 
-            <td class="c-dato"><?php echo $row_te['tipo_atencion']?></td> 
-            <td class="c-dato"><?php echo $row_te['codigo']?></td> 
+            <td class="d"><?php echo $row_te['tipo_atencion']?></td> 
+            <td class="d"><?php echo $row_te['codigo']?></td> 
             
-            <td class="c-dato">
+            <td class="d">
                 <?php 
                 $codigo_eess = isset($row_te['codigo_establecimiento']) ? trim($row_te['codigo_establecimiento']) : (isset($row_te[29]) ? trim($row_te[29]) : '');
                 echo ($codigo_eess !== '') ? $codigo_eess : "S/D"; 
                 ?>
             </td> 
 
-            <td class="c-izq"><?php echo mb_strtoupper($row_te['departamento']);?></td> 
-            <td class="c-izq"><?php echo mb_strtoupper($row_te['municipio']);?></td> 
-            <td class="c-dato"><?php echo mb_strtoupper($row_te['nivel_establecimiento']);?></td> 
-            <td class="c-izq"><?php echo mb_strtoupper($row_te['establecimiento_salud']);?></td> 
-            <td class="c-dato"><?php echo mb_strtoupper($row_te['tipo_establecimiento']);?></td> 
-            <td class="c-izq"><?php echo $txt_procedencia;?></td> 
+            <td class="i"><?php echo mb_strtoupper($row_te['departamento']);?></td> 
+            <td class="i"><?php echo mb_strtoupper($row_te['municipio']);?></td> 
+            <td class="d"><?php echo mb_strtoupper($row_te['nivel_establecimiento']);?></td> 
+            <td class="i"><?php echo mb_strtoupper($row_te['establecimiento_salud']);?></td> 
+            <td class="d"><?php echo mb_strtoupper($row_te['tipo_establecimiento']);?></td> 
+            <td class="i"><?php echo $txt_procedencia;?></td> 
             
-            <td class="c-izq"><?php echo $diag_array[0]; ?></td>
-            <td class="c-izq"><?php echo $diag_array[1]; ?></td>
-            <td class="c-izq"><?php echo $diag_array[2]; ?></td>
-            <td class="c-izq"><?php echo $diag_array[3]; ?></td>
+            <td class="i"><?php echo $diag_array[0]; ?></td>
+            <td class="i"><?php echo $diag_array[1]; ?></td>
+            <td class="i"><?php echo $diag_array[2]; ?></td>
+            <td class="i"><?php echo $diag_array[3]; ?></td>
             
-            <td class="c-dato"><?php echo $indicador_discapacidad; ?></td>
-            <td class="c-dato"><?php echo $txt_aten_ent; ?></td>
-            <td class="c-dato"><?php echo $txt_aten_et; ?></td>
-            <td class="c-dato"><?php echo $indicador_si; ?></td>
-            <td class="c-dato"><?php echo $txt_aten_sm; ?></td>
-            <td class="c-dato"><?php echo $txt_aten_otros; ?></td>
+            <td class="d"><?php echo $indicador_discapacidad; ?></td>
+            <td class="d"><?php echo $txt_aten_ent; ?></td>
+            <td class="d"><?php echo $txt_aten_et; ?></td>
+            <td class="d"><?php echo $indicador_si; ?></td>
+            <td class="d"><?php echo $txt_aten_sm; ?></td>
+            <td class="d"><?php echo $txt_aten_otros; ?></td>
+            <td class="d"><?php echo $txt_aten_cancer; ?></td>
             
-            <td class="c-izq"><?php echo $txt_captacion; ?></td> 
-            <td class="c-izq"> 
+            <td class="i"><?php echo $txt_captacion; ?></td> 
+            <td class="i"> 
               <?php 
                 $sql_r =" SELECT nombre.nombre, nombre.paterno, nombre.materno FROM usuarios, nombre WHERE  ";
                 $sql_r.=" usuarios.idnombre=nombre.idnombre AND usuarios.idusuario='{$row_te['idusuario']}' ";
@@ -364,7 +385,7 @@ $mapeo_db = array(
                     echo mb_strtoupper($row_r[0]." " . $row_r[1]." ".$row_r[2]);
                 } ?>
             </td> 
-            <td class="c-dato">
+            <td class="d">
               <?php 
                 $cargo_operativo = "-";
                 $sql_c =" SELECT cargo_organigrama.cargo_organigrama FROM usuarios, dato_laboral, cargo_organigrama ";
@@ -377,30 +398,30 @@ $mapeo_db = array(
                 echo $cargo_operativo; 
               ?>
             </td>
-            <td class="c-dato"><?php echo $grupo_etareo; ?></td> 
-            <td class="c-dato"><?php echo $edad_calculada; ?></td> 
-            <td class="c-izq"><?php echo $especialidad_display; ?></td> 
-            <td class="c-dato"><?php echo $row_te['ci']?></td> 
-            <td class="c-dato">
+            <td class="d"><?php echo $grupo_etareo; ?></td> 
+            <td class="d"><?php echo $edad_calculada; ?></td> 
+            <td class="i"><?php echo $especialidad_display; ?></td> 
+            <td class="d"><?php echo $row_te['ci']?></td> 
+            <td class="d">
                 <?php 
                 if(!empty($row_te['fecha_nac']) && $row_te['fecha_nac'] != '0000-00-00'){
                     $fecha_n_partes = explode('-', $row_te['fecha_nac']);
                     echo isset($fecha_n_partes[2]) ? $fecha_n_partes[2].'/'.$fecha_n_partes[1].'/'.$fecha_n_partes[0] : '';
                 } ?>
             </td> 
-            <td class="c-izq"><?php echo mb_strtoupper($row_te['nombre'].' '.$row_te['paterno'].' '.$row_te['materno']);?></td> 
-            <td class="c-dato"><?php echo $genero_final; ?></td> 
-            <td class="c-dato"><?php echo $row_te['telefono_paciente']?></td> 
+            <td class="i"><?php echo mb_strtoupper($row_te['nombre'].' '.$row_te['paterno'].' '.$row_te['materno']);?></td> 
+            <td class="d"><?php echo $genero_final; ?></td> 
+            <td class="d"><?php echo $row_te['telefono_paciente']?></td> 
             
-            <td class="c-izq"><?php echo $txt_nacion; ?></td> 
+            <td class="i"><?php echo $txt_nacion; ?></td> 
             
-            <td class="c-izq"><?php echo $txt_grupos_vulnerables; ?></td> 
+            <td class="i"><?php echo $txt_grupos_vulnerables; ?></td> 
             
-            <td class="c-dato"><?php echo $txt_seguimiento; ?></td> 
-            <td class="c-dato"><?php echo $tiempo_display; ?></td> 
-            <td class="c-izq"><?php echo $contexto_display; ?></td> 
-            <td class="c-izq"><?php echo $medio_display; ?></td> 
-            <td class="c-izq"><?php echo $estado_display; ?></td> 
+            <td class="d"><?php echo $txt_seguimiento; ?></td> 
+            <td class="d"><?php echo $tiempo_display; ?></td> 
+            <td class="i"><?php echo $contexto_display; ?></td> 
+            <td class="i"><?php echo $medio_display; ?></td> 
+            <td class="i"><?php echo $estado_display; ?></td> 
             
             <?php
             // Lógica para extraer los equipos del paciente y asignarlos a un array temporal
@@ -421,18 +442,18 @@ $mapeo_db = array(
             // Llenado de columnas usando la matriz estricta ($equipos_orden_estricto)
             foreach ($equipos_orden_estricto as $equipo_columna) {
                 if (in_array($equipo_columna, $equipos_paciente)) {
-                    echo "<td class='c-dato'>" . $equipo_columna . "</td>";
+                    echo "<td class='d'>" . $equipo_columna . "</td>";
                     
-                    // Sumamos para la columna total (excluyendo Mon.Signos y Estetoscopio)
-                    if ($equipo_columna != "Monitor de signos vitales" && $equipo_columna != "Estetoscopio digital") {
+                    // Sumamos para la columna total (excluyendo Mon.Signos, Estetoscopio y Otros dispositivos)
+                    if ($equipo_columna != "Monitor de signos vitales" && $equipo_columna != "Estetoscopio digital" && $equipo_columna != "Otros dispositivos") {
                         $total_telemetrias_fila++;
                     }
                 } else {
-                    echo "<td class='c-dato'></td>";
+                    echo "<td class='d'></td>";
                 }
             }
             ?>
-            <td class="c-azul">
+            <td class="a">
                 <?php echo $total_telemetrias_fila; ?>
             </td> 
         </tr>

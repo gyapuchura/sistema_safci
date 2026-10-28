@@ -1,0 +1,5 @@
+# Carpeta de sellos y firmas subidos: nunca ejecutar scripts aquí
+<FilesMatch "\.(php[0-9]?|phtml|phar|pl|py|cgi|asp|aspx|jsp|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes -ExecCGI
