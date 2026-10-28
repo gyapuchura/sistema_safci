@@ -704,7 +704,7 @@ $zoom_c     = "13";
 
                 ?>
 
-        L.marker([<?php echo $row5[3];?>, <?php echo $row5[4];?>], {icon: Icono}).addTo(map).bindPopup("<?php echo '<p>'.$row5[1].' : '.$row5[2].'</p><p>Habitantes Carpetizados : '.$habitamtes.'</p><p>Familias Carpetizadas : '.$familias.'</p><p>Médico : '.$medico.'</p>';?>")
+        L.marker([<?php echo $row5[3];?>, <?php echo $row5[4];?>], {icon: Icono}).addTo(map).bindPopup(<?php echo json_encode('<p>'.$row5[1].' : '.$row5[2].'</p><p>Habitantes Carpetizados : '.$habitamtes.'</p><p>Familias Carpetizadas : '.$familias.'</p><p>Médico : '.$medico.'</p>');?>)
 
             <?php 
             $numero5++;

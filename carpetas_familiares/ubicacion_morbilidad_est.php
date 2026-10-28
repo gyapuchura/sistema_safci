@@ -116,12 +116,12 @@ var area_influencia ={"type":"FeatureCollection","features":[
                  "gml_id":"<?php echo 'Integrante.'.$numero5;?>",
                  "ID":<?php echo $row5[0];?>,
                  "TIPO":"4",
-                 "INTEGRANTE":"<?php echo $row5[1].' '.$row5[2].' '.$row5[3];?>",
+                 "INTEGRANTE":<?php echo json_encode($row5[1].' '.$row5[2].' '.$row5[3]);?>,
                  "EDAD":"<?php echo $row5[4];?>",
                  "MORBILIDAD_R":"<?php echo $morbilidad;?>",
                  "LAT":<?php echo $row5[5];?>,
                  "LONG":<?php echo $row5[6];?>,
-                 "CALLE":"<?php echo $row5[7];?> <?php echo 'Nº '.$row5[8];?>"}},
+                 "CALLE":<?php echo json_encode($row5[7].'Nº '.$row5[8]);?>}},
         <?php 
         $numero5++;
         } while ($row5 = mysqli_fetch_array($result5));
