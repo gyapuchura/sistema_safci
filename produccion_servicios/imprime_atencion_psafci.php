@@ -19,12 +19,35 @@ $result = mysqli_query($link,$sql);
 $row = mysqli_fetch_array($result);
 
 ?>
-<table width="680" border="0" align="center">
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ATENCIÓN PSAFCI - <?php echo $row[1];?></title>
+<style>
+  /****** impresión por defecto en tamaño carta ****/
+  @page { size: letter portrait; margin: 5mm; }
+  /****** mientras se genera el PDF se ocultan las filas que no van impresas, así lo medido coincide con la captura ****/
+  .generando-pdf tr.no-print { display: none; }
+  @media print {
+    body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none; }
+    /****** no partir filas entre hojas ni dejar un título de sección solo al pie ****/
+    tr, img { break-inside: avoid; page-break-inside: avoid; }
+    tr.barra-titulo { break-after: avoid; page-break-after: avoid; }
+  }
+</style>
+</head>
+
+<body>
+
+<table width="680" border="0" align="center" id="formulario_atencion">
   <tbody>
     <tr>
       <td width="166"><img src="../implementacion_safci/mds_logo.jpg" width="193" height="85" alt=""/></td>
       <td width="323" style="text-align: center; font-family: Arial; font-size: 16px;"><p>ATENCIÓN PSAFCI</p>
-      <p>CÓDIGO : <?php echo $row[1];?></p></td>
+      <p>CÓDIGO : <?php echo $row[1];?></p>
+      <p style="font-size: 12px;"><a href="#" id="btn_descargar_pdf" class="no-print" onclick="descargarPDF(); return false;">DESCARGAR EN PDF</a></p></td>
       <td width="177" style="text-align: center"><img src="../implementacion_safci/logo_safci_doc.png" width="116" height="84" alt=""/></td>
     </tr>
     <tr>
@@ -136,8 +159,8 @@ $row = mysqli_fetch_array($result);
     <?php
         $sql_cf =" SELECT idintegrante_cf, idcarpeta_familiar FROM integrante_cf WHERE idnombre ='$row[19]' ";
         $result_cf=mysqli_query($link,$sql_cf);
-        if ($row_cf=mysqli_fetch_array($result_cf)) { ?> 
-    <tr>
+        if ($row_cf=mysqli_fetch_array($result_cf)) { ?>
+    <tr class="no-print">
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">
         <a href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row_cf[1];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1300,height=800,top=50, left=400, scrollbars=YES'); return false;">        
       CARPETA FAMILIAR</a> - 
@@ -146,7 +169,7 @@ $row = mysqli_fetch_array($result);
       </td>
     </tr>
     <?php } else { ?>
-    <tr>
+    <tr class="no-print">
       <td colspan="3" style="font-family: Arial; font-size: 14px; text-align: center;">
         <a href="imprime_historia_clinica_ps.php?idnombre_integrante=<?php echo $row[19];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1000,height=1000,top=50, left=400, scrollbars=YES'); return false;">        
       HISTORIA CLÍNICA</a></br>
@@ -998,7 +1021,105 @@ echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" />';
       </td>
     </tr>
 
-    
+
   </tbody>
 </table>
+
+<!----- descarga en PDF: se genera a partir de esta misma página para que quede idéntica (tamaño carta) ------>
+<script src="../js/modules/html2canvas.min.js"></script>
+<script src="../js/modules/jspdf.umd.min.js"></script>
+<script>
+/****** las filas que son solo un título de sección se marcan para no separarlas de la fila siguiente ****/
+(function () {
+  var filas = document.getElementById('formulario_atencion').tBodies[0].rows;
+  for (var i = 0; i < filas.length; i++) {
+    var c = filas[i].cells;
+    if (c.length == 1 && c[0].colSpan == 3 && !c[0].querySelector('table') && c[0].textContent.replace(/\s| /g, '') != '')
+      filas[i].classList.add('barra-titulo');
+  }
+})();
+
+/****** alturas (en px de pantalla, desde el inicio del formulario) donde se puede cortar la hoja sin partir ninguna celda ****/
+function cortesPermitidos(formulario) {
+  var base = formulario.getBoundingClientRect().top;
+  var filas = formulario.querySelectorAll('tr');
+  var celdas = [], cortes = [];
+  for (var i = 0; i < filas.length; i++) {
+    var fila = filas[i];
+    if (fila.classList.contains('no-print')) continue;
+    //no se corta justo debajo de un título de sección, para que no quede solo al pie de la hoja
+    if (!fila.classList.contains('barra-titulo'))
+      cortes.push(fila.getBoundingClientRect().bottom - base);
+    for (var j = 0; j < fila.cells.length; j++) {
+      //las celdas que contienen otra tabla no cuentan: se puede cortar entre las filas de la tabla interna
+      if (fila.cells[j].querySelector('table')) continue;
+      var r = fila.cells[j].getBoundingClientRect();
+      celdas.push([r.top - base, r.bottom - base]);
+    }
+  }
+  return cortes.filter(function (y) {
+    return !celdas.some(function (c) { return c[0] < y - 1 && c[1] > y + 1; });
+  });
+}
+
+function descargarPDF() {
+  var boton = document.getElementById('btn_descargar_pdf');
+  var formulario = document.getElementById('formulario_atencion');
+  boton.textContent = 'GENERANDO PDF...';
+  document.body.classList.add('generando-pdf');
+
+  var margen = 5, anchoHoja = 215.9, altoHoja = 279.4;
+  var anchoUtil = anchoHoja - 2*margen, altoUtil = altoHoja - 2*margen;
+  var escala = 3;   //resolución de la captura, para que el texto se vea nítido
+  var cortes = cortesPermitidos(formulario);
+
+  html2canvas(formulario, {
+    scale: escala, useCORS: true, backgroundColor: '#ffffff',
+    onclone: function (doc) {
+      //en el PDF los enlaces (establecimiento) se muestran como texto normal
+      var enlaces = doc.querySelectorAll('#formulario_atencion a');
+      for (var i = 0; i < enlaces.length; i++) { enlaces[i].style.color = '#000000'; enlaces[i].style.textDecoration = 'none'; }
+      //el botón se oculta sin quitarle su espacio, para no mover las alturas medidas
+      var botones = doc.querySelectorAll('a.no-print');
+      for (var j = 0; j < botones.length; j++) botones[j].style.visibility = 'hidden';
+    }
+  }).then(function (canvas) {
+    var pdf = new jspdf.jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+    var anchoPx = formulario.getBoundingClientRect().width;
+    var altoTotal = canvas.height / escala;
+    var altoHojaPx = altoUtil * anchoPx / anchoUtil;   //alto de una hoja expresado en px del formulario
+    var inicio = 0, primera = true;
+
+    while (inicio < altoTotal - 1) {
+      var fin = Math.min(inicio + altoHojaPx, altoTotal);
+      if (fin < altoTotal) {
+        //se corta en la última fila completa que entra en la hoja
+        var validos = cortes.filter(function (y) { return y > inicio + 20 && y <= fin; });
+        if (validos.length) fin = validos[validos.length - 1];
+      }
+      var trozo = document.createElement('canvas');
+      trozo.width = canvas.width;
+      trozo.height = Math.round((fin - inicio) * escala);
+      var ctx = trozo.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, trozo.width, trozo.height);
+      ctx.drawImage(canvas, 0, Math.round(inicio * escala), canvas.width, trozo.height, 0, 0, canvas.width, trozo.height);
+
+      if (!primera) pdf.addPage();
+      //PNG sin pérdida: el texto queda nítido
+      pdf.addImage(trozo, 'PNG', margen, margen, anchoUtil, (fin - inicio) * anchoUtil / anchoPx, undefined, 'FAST');
+      primera = false;
+      inicio = fin;
+    }
+    pdf.save('atencion_psafci_<?php echo preg_replace('/[^A-Za-z0-9_-]/', '-', $row[1]); ?>.pdf');
+  }).catch(function (e) {
+    alert('No se pudo generar el PDF: ' + e);
+  }).then(function () {
+    document.body.classList.remove('generando-pdf');
+    boton.textContent = 'DESCARGAR EN PDF';
+  });
+}
+</script>
+</body>
+</html>
 

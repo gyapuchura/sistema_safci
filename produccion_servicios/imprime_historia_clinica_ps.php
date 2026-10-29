@@ -24,13 +24,25 @@ $row_n=mysqli_fetch_array($result_n);
 <head>
 <meta charset="UTF-8">
 <title>HISTORIA CLINICA</title>
+<style>
+  /****** impresión por defecto en tamaño carta ****/
+  @page { size: letter portrait; margin: 5mm; }
+  @media print {
+    body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none; }
+    /****** no partir filas entre hojas ni dejar un título de sección solo al pie ****/
+    tr, img { break-inside: avoid; page-break-inside: avoid; }
+    tr.barra-titulo { break-after: avoid; page-break-after: avoid; }
+  }
+</style>
 </head>
 <body>
-<table width="900" border="0" align="center">
+<table width="900" border="0" align="center" id="formulario_hc">
   <tbody>
     <tr>
       <td width="197"><img src="../implementacion_safci/mds_logo.jpg" width="193" height="85" alt=""/></td>
-      <td width="546"><p style="text-align: center; font-family: Arial; font-size: 24px;"><strong>HISTORIA CLÍNICA</strong></p></td>
+      <td width="546"><p style="text-align: center; font-family: Arial; font-size: 24px;"><strong>HISTORIA CLÍNICA</strong></p>
+      <p style="text-align: center; font-family: Arial; font-size: 12px;"><a href="#" id="btn_descargar_pdf" class="no-print" onclick="descargarPDF(); return false;">DESCARGAR EN PDF</a></p></td>
       <td width="151"><img src="../implementacion_safci/logo_safci_doc.png" width="126" height="84" alt=""/></br>
       </br><span style="font-family: Arial; font-size: 9px;">Código R.A. - SALUD INE 101/2010</span></td>
     </tr>
@@ -2098,5 +2110,101 @@ $row_cl=mysqli_fetch_array($result_cl);
 
   </tbody>
 </table>
+
+<!----- descarga en PDF: se genera a partir de esta misma página para que quede idéntica (tamaño carta) ------>
+<script src="../js/modules/html2canvas.min.js"></script>
+<script src="../js/modules/jspdf.umd.min.js"></script>
+<script>
+/****** las filas que son solo títulos de sección (celdas con fondo negro) se marcan para no separarlas de la fila siguiente ****/
+(function () {
+  var filas = document.getElementById('formulario_hc').querySelectorAll('tr');
+  for (var i = 0; i < filas.length; i++) {
+    var c = filas[i].cells, negras = 0;
+    for (var j = 0; j < c.length; j++)
+      if ((c[j].getAttribute('bgcolor') || '').toLowerCase() == '#000000') negras++;
+    if (c.length && negras == c.length)
+      filas[i].classList.add('barra-titulo');
+  }
+})();
+
+/****** alturas (en px de pantalla, desde el inicio del formulario) donde se puede cortar la hoja sin partir ninguna celda ****/
+function cortesPermitidos(formulario) {
+  var base = formulario.getBoundingClientRect().top;
+  var filas = formulario.querySelectorAll('tr');
+  var celdas = [], cortes = [];
+  for (var i = 0; i < filas.length; i++) {
+    var fila = filas[i];
+    if (fila.classList.contains('no-print')) continue;
+    //no se corta justo debajo de un título de sección, para que no quede solo al pie de la hoja
+    if (!fila.classList.contains('barra-titulo'))
+      cortes.push(fila.getBoundingClientRect().bottom - base);
+    for (var j = 0; j < fila.cells.length; j++) {
+      //las celdas que contienen otra tabla no cuentan: se puede cortar entre las filas de la tabla interna
+      if (fila.cells[j].querySelector('table')) continue;
+      var r = fila.cells[j].getBoundingClientRect();
+      celdas.push([r.top - base, r.bottom - base]);
+    }
+  }
+  return cortes.filter(function (y) {
+    return !celdas.some(function (c) { return c[0] < y - 1 && c[1] > y + 1; });
+  });
+}
+
+function descargarPDF() {
+  var boton = document.getElementById('btn_descargar_pdf');
+  var formulario = document.getElementById('formulario_hc');
+  boton.textContent = 'GENERANDO PDF...';
+
+  var margen = 5, anchoHoja = 215.9, altoHoja = 279.4;
+  var anchoUtil = anchoHoja - 2*margen, altoUtil = altoHoja - 2*margen;
+  var escala = 3;   //resolución de la captura, para que el texto se vea nítido
+  var cortes = cortesPermitidos(formulario);
+
+  html2canvas(formulario, {
+    scale: escala, useCORS: true, backgroundColor: '#ffffff',
+    onclone: function (doc) {
+      //en el PDF los enlaces (formularios d7 / d7a) se muestran como texto normal
+      var enlaces = doc.querySelectorAll('#formulario_hc a');
+      for (var i = 0; i < enlaces.length; i++) { enlaces[i].style.color = '#000000'; enlaces[i].style.textDecoration = 'none'; }
+      //el botón se oculta sin quitarle su espacio, para no mover las alturas medidas
+      var botones = doc.querySelectorAll('a.no-print');
+      for (var j = 0; j < botones.length; j++) botones[j].style.visibility = 'hidden';
+    }
+  }).then(function (canvas) {
+    var pdf = new jspdf.jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+    var anchoPx = formulario.getBoundingClientRect().width;
+    var altoTotal = canvas.height / escala;
+    var altoHojaPx = altoUtil * anchoPx / anchoUtil;   //alto de una hoja expresado en px del formulario
+    var inicio = 0, primera = true;
+
+    while (inicio < altoTotal - 1) {
+      var fin = Math.min(inicio + altoHojaPx, altoTotal);
+      if (fin < altoTotal) {
+        //se corta en la última fila completa que entra en la hoja
+        var validos = cortes.filter(function (y) { return y > inicio + 20 && y <= fin; });
+        if (validos.length) fin = validos[validos.length - 1];
+      }
+      var trozo = document.createElement('canvas');
+      trozo.width = canvas.width;
+      trozo.height = Math.round((fin - inicio) * escala);
+      var ctx = trozo.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, trozo.width, trozo.height);
+      ctx.drawImage(canvas, 0, Math.round(inicio * escala), canvas.width, trozo.height, 0, 0, canvas.width, trozo.height);
+
+      if (!primera) pdf.addPage();
+      //PNG sin pérdida: el texto queda nítido
+      pdf.addImage(trozo, 'PNG', margen, margen, anchoUtil, (fin - inicio) * anchoUtil / anchoPx, undefined, 'FAST');
+      primera = false;
+      inicio = fin;
+    }
+    pdf.save('historia_clinica_<?php echo preg_replace('/[^A-Za-z0-9_-]/', '-', $row_n[4]); ?>.pdf');
+  }).catch(function (e) {
+    alert('No se pudo generar el PDF: ' + e);
+  }).then(function () {
+    boton.textContent = 'DESCARGAR EN PDF';
+  });
+}
+</script>
 </body>
 </html>
