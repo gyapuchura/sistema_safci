@@ -116,7 +116,7 @@ var familia ={"type":"FeatureCollection","features":[
                   "coordinates":[<?php echo $row5[7];?>,<?php echo $row5[6];?>]},
       "geometry_name":"the_geom",
       "properties":{"fid":<?php echo $numero5;?>,
-                 "gml_id":"<?php echo 'familia.'.$numero5;?>",
+                 "gml_id":<?php echo json_encode('familia.'.$numero5);?>,
                  "ID":<?php echo $row5[0];?>,
                  "TIPO":"4",
                  "FAMILY":<?php echo json_encode($row5[1]);?>,

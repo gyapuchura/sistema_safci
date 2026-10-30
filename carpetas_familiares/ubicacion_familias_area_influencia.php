@@ -122,7 +122,7 @@ var familia ={"type":"FeatureCollection","features":[
                  "ID":<?php echo $row5[0];?>,
                  "TIPO":"4",
                  "FAMILY":<?php echo json_encode($row5[1]);?>,
-                 "UBICACION":"<?php echo $row5[2];?> <?php echo $row5[3];?>",
+                 "UBICACION":<?php echo json_encode($row5[2].' '.$row5[3]);?>,
                  "LAT":<?php echo $row5[6];?>,
                  "LONG":<?php echo $row5[7];?>,
                  "CALLE":<?php echo json_encode($row5[4].' Nro. '.$row5[5]);?>,
@@ -389,7 +389,7 @@ map.addLayer(markers);
             } do {
            
     
-            $popup_familia = json_encode('<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].' '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p>');
+            $popup_familia = json_encode('<p>FAMILIA: '.$row4[1].'</p><p>'.$row4[2].' '.$row4[3].'</p><p>Direccion :'.$row4[4].' Nº '.$row4[5].'</p><p>'.$row4[8]);
 ?>
 
         L.marker([<?php echo $row4[6];?>, <?php echo $row4[7];?>], 
