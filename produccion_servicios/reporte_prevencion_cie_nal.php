@@ -442,7 +442,8 @@ Si no se encontraron resultados
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($total*70) + 100;?>px; margin: 0 auto"></div>
 
 <div id="departamentos" style="min-width: 600px; max-width: 850px; height: 350px; margin: 0 auto"></div>
-<div id="patologias" style="min-width: 900px; max-width: 850px; height: 350px; margin: 0 auto"></div>
+
+<div id="patologias" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
 
 <h4 align="center" style="font-family: Arial;">Nº DIAGNÓSTICOS PREVENTIVOS: 
 <?php
