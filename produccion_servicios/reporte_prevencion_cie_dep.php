@@ -195,7 +195,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: 'ATENCIONES PREVENTIVAS - DEPARTAMENTO'
+            text: 'ATENCIONES PREVENTIVAS - <?php echo $row_dep[1];?> '
         },
         subtitle: {
             text: 'Fuente: REGISTRO SISTEMA MEDI-SAFCI'
@@ -362,7 +362,7 @@ echo ",";
 
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($numero3*60) + 150;?>px; margin: 0 auto"></div>
 
-<div id="municipios" style="min-width: 600px; max-width: 850px; height: 350px; margin: 0 auto"></div>
+<div id="municipios" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
 
 <h4 align="center" style="font-family: Arial;">DIAGNÓSTICOS PREVENTIVOS DEPARTAMENTO : <?php echo $row_dep[1];?> = 
                 <?php
