@@ -779,7 +779,7 @@ while ($field_menu = mysqli_fetch_field($result_menu)){
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities_pr"
         aria-expanded="true" aria-controls="collapseUtilities_pr">
         <i class="fas fa-users"></i>   
-        <span>PROMOCIÓN DE LA SALUD </br> PSAFCI</span>
+        <span>PROMOCIÓN DE LA SALUD</span>
     </a>
     <div id="collapseUtilities_pr" class="collapse" aria-labelledby="headingUtilities"
         data-parent="#accordionSidebar">
@@ -787,6 +787,7 @@ while ($field_menu = mysqli_fetch_field($result_menu)){
             <h6 class="collapse-header">SECCIONES:</h6>
           
             <a class="collapse-item" href="../promocion_safci/sesiones_educativas.php">SESIONES</br>EDUCATIVAS</a>
+            <a class="collapse-item" href="../promocion_safci/teleeducacion.php">TELEEDUCACIÓN</a>
 
 
     <?php	

@@ -70,7 +70,8 @@ function tm_candado($clave) {
     return tm_es_fijo($clave) ? ' <i class="fas fa-lock" style="font-size: 9px; opacity: .7;" aria-hidden="true"></i>' : '';
 }
 
-// Médicos con producción de telesalud (o Personal Telesalud que trabaja ahí) en el lugar de los filtros elegidos
+// Médicos con producción de telesalud (teleinterconsultas, teleconsultas, telemetrías, teleeducación)
+// o Personal Telesalud que trabaja ahí, en el lugar de los filtros elegidos
 function tm_medicos($link, $f) {
     static $cache = [];
     $clave = (isset($f['iddepartamento']) ? $f['iddepartamento'] : '') . '|' . (isset($f['idmunicipio']) ? $f['idmunicipio'] : '') . '|' . (isset($f['idestablecimiento']) ? $f['idestablecimiento'] : '');
@@ -79,6 +80,11 @@ function tm_medicos($link, $f) {
     foreach (['iddepartamento' => 'x.dep', 'idmunicipio' => 'x.mun', 'idestablecimiento' => 'x.est'] as $k => $col) {
         if (isset($f[$k]) && $f[$k] !== '') { $w .= " AND $col = '" . mysqli_real_escape_string($link, (string)$f[$k]) . "'"; }
     }
+    // Teleeducación también es producción de telesalud: quien registra sesiones aparece en la lista
+    // (solo si la tabla ya existe, para no romper la lista antes de instalar base_datos/teleeducacion.sql)
+    static $hay_te = null;
+    if ($hay_te === null) { $rt = mysqli_query($link, "SHOW TABLES LIKE 'teleeducacion'"); $hay_te = $rt && mysqli_num_rows($rt) > 0; }
+    $union_te = $hay_te ? " UNION SELECT te.idusuario, te.iddepartamento, te.idmunicipio, te.idestablecimiento_salud FROM teleeducacion te" : '';
     $sql = "SELECT u.idusuario, n.nombre, n.paterno, n.materno FROM (
             SELECT r.idusuario AS u, r.iddepartamento AS dep, r.idmunicipio AS mun, r.idestablecimiento_salud AS est FROM referencia_hc r
           UNION SELECT d.idusuario_r, es.iddepartamento, es.idmunicipio, es.idestablecimiento_salud FROM deriva_referencia_hc d INNER JOIN establecimiento_salud es ON es.idestablecimiento_salud = d.idestablecimiento_salud_r
@@ -86,6 +92,7 @@ function tm_medicos($link, $f) {
           UNION SELECT p.idusuario, es.iddepartamento, es.idmunicipio, es.idestablecimiento_salud FROM personal p INNER JOIN dato_laboral dl ON dl.iddato_laboral = p.iddato_laboral
                 INNER JOIN establecimiento_salud es ON es.idestablecimiento_salud = dl.idestablecimiento_salud INNER JOIN usuarios ua ON ua.idusuario = p.idusuario
                 WHERE dl.idcargo_organigrama = '54' AND ua.condicion = 'ACTIVO'
+          $union_te
         ) x INNER JOIN usuarios u ON u.idusuario = x.u INNER JOIN nombre n ON n.idnombre = u.idnombre
         WHERE 1 = 1 $w GROUP BY u.idusuario, n.nombre, n.paterno, n.materno ORDER BY n.nombre, n.paterno, n.materno";
     $lista = [];
