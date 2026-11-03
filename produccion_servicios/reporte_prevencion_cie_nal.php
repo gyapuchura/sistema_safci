@@ -21,6 +21,9 @@ $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
 
 $array_patologia = $_POST['idpatologia'];
 
+$pat_serializada = serialize($array_patologia);
+$pat_codificada = urlencode($pat_serializada);
+
     if (!empty($array_patologia) && is_array($array_patologia)) {
 
     $ids_seguros = array_map('intval', $array_patologia);
@@ -468,7 +471,7 @@ echo $row_dgt[0];
             $result_d = mysqli_query($link,$sql_d);
             while ($row_d = mysqli_fetch_array($result_d)) { ?>
             <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">
-            <a href="reporte_psafci_diag_depto_dos_fechas.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a>
+            <a href="reporte_prevencion_cie_dep.php?iddepartamento=<?php echo $row_d[0];?>&inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>&patologias=<?php echo $pat_codificada;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1420,height=820,scrollbars=YES,top=50,left=200'); return false;"><?php echo $row_d[1] ?></a>
             </td>
             <?php } ?>
             <td width="200" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;">SUB-TOTAL.</td>
