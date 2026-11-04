@@ -305,7 +305,162 @@ echo ",";
 
 <!---------- grafica de municipios por porcion CIE 10 --- END -------->
 
+<!---------- grafica por patologias y municipios CIE 10 --- BEGIN -------->
 
+<script type="text/javascript">
+$(function () {
+    $('#patologias').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'ATENCIONES PREVENTIVAS - <?php echo $row_dep[1];?>'
+        },
+        subtitle: {
+            text: 'Fuente: Sistema Integrado MEDI-APS del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
+        },
+        xAxis: {
+            categories: [
+
+                <?php 
+$numero7 = 0;
+$sql7 = " SELECT atencion_psafci.idmunicipio, municipios.municipio FROM diagnostico_psafci, atencion_psafci, municipios  ";
+$sql7.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio=municipios.idmunicipio ";
+$sql7.= " AND diagnostico_psafci.idpatologia IN ($patologias) AND atencion_psafci.iddepartamento='$iddepartamento'  ";
+$sql7.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'  GROUP BY atencion_psafci.idmunicipio ";
+$result7 = mysqli_query($link,$sql7);
+$total7 = mysqli_num_rows($result7);
+ if ($row7 = mysqli_fetch_array($result7)){
+mysqli_field_seek($result7,0);
+while ($field7 = mysqli_fetch_field($result7)){
+} do {
+	?>
+ '<?php  echo $row7[1]; ?>'
+
+<?php 
+$numero7++;
+if ($numero7 == $total7) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row7 = mysqli_fetch_array($result7));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'ATENCIONES PREVENTIVAS - <?php echo $row_dep[1];?>'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} ATENCIONES </b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
+            }
+        },
+        series: [
+
+<?php 
+$numero2 = 0;
+$sql2 = " SELECT idpatologia, patologia, cie FROM patologia WHERE idpatologia IN ($patologias) ORDER BY idpatologia ";
+$result2 = mysqli_query($link,$sql2);
+$total2 = mysqli_num_rows($result2);
+ if ($row2 = mysqli_fetch_array($result2)){
+mysqli_field_seek($result2,0);
+while ($field2 = mysqli_fetch_field($result2)){
+} do {
+	?>
+
+{ name: '<?php  echo $row2[1]; ?>',
+
+    data: [
+<?php 
+$numero3 = 0;
+$sql3 = " SELECT atencion_psafci.idmunicipio, municipios.municipio FROM diagnostico_psafci, atencion_psafci, municipios  ";
+$sql3.= " WHERE diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio=municipios.idmunicipio ";
+$sql3.= " AND diagnostico_psafci.idpatologia IN ($patologias) AND atencion_psafci.iddepartamento='$iddepartamento'  ";
+$sql3.= " AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'  GROUP BY atencion_psafci.idmunicipio ";
+$result3 = mysqli_query($link,$sql3);
+$total3 = mysqli_num_rows($result3);
+ if ($row3 = mysqli_fetch_array($result3)){
+mysqli_field_seek($result3,0);
+while ($field3 = mysqli_fetch_field($result3)){
+} do {
+	?>
+
+<?php
+$sql_a =" SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, atencion_psafci ";
+$sql_a.=" WHERE  diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND atencion_psafci.idmunicipio='$row3[0]' ";
+$sql_a.=" AND diagnostico_psafci.idpatologia='$row2[0]' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'";
+
+$result_a = mysqli_query($link,$sql_a);
+$row_a = mysqli_fetch_array($result_a);
+?>
+<?php echo $row_a[0]; ?>
+<?php 
+$numero3++;
+if ($numero3 == $total3) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row3 = mysqli_fetch_array($result3));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+
+
+        ]
+}
+
+<?php 
+$numero2++;
+if ($numero2 == $total2) {
+echo "";
+}
+else {
+echo ",";
+}
+} while ($row2 = mysqli_fetch_array($result2));
+} else {
+echo "";
+/*
+Si no se encontraron resultados
+*/
+}
+?>
+    
+    ]
+    });
+});
+
+</script>
+
+<!---------- grafica por patologias y municipios CIE 10 --- END -------->
 
 </head>
     <body>
@@ -361,9 +516,11 @@ echo ",";
 ?>  
 
 <div id="container" style="min-width: 310px; max-width: 850px; height: <?php echo ($numero3*60) + 150;?>px; margin: 0 auto"></div>
-
+</br>
 <div id="municipios" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
-
+</br>
+<div id="patologias" style="min-width: 510px; height: 400px; margin: 0 auto"></div>
+</br>
 <h4 align="center" style="font-family: Arial;">DIAGNÓSTICOS PREVENTIVOS DEPARTAMENTO : <?php echo $row_dep[1];?> = 
                 <?php
                 $sql_dgto = " SELECT count(diagnostico_psafci.iddiagnostico_psafci) FROM diagnostico_psafci, patologia, atencion_psafci ";
