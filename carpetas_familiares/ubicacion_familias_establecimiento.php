@@ -97,7 +97,7 @@ var familia ={"type":"FeatureCollection","features":[
         $sql5.= "  FROM evaluacion_familiar_cf, carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE  evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
         $sql5.= "  AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
         $sql5.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
-        $sql5.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' ORDER BY carpeta_familiar.idcarpeta_familiar DESC ";
+        $sql5.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar='FAMILIA CON RIESGO MEDIANO' AND evaluacion_familiar_cf.evaluacion_familiar !='' GROUP BY carpeta_familiar.idcarpeta_familiar ORDER BY carpeta_familiar.idcarpeta_familiar DESC ";
         $result5 = mysqli_query($link,$sql5);
         $total5 = mysqli_num_rows($result5);
         if ($row5 = mysqli_fetch_array($result5)){
@@ -385,7 +385,7 @@ map.addLayer(markers);
             $sql4.= "  FROM evaluacion_familiar_cf, carpeta_familiar, area_influencia, tipo_area_influencia, ubicacion_cf WHERE  evaluacion_familiar_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
             $sql4.= "  AND ubicacion_cf.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar AND  carpeta_familiar.idarea_influencia=area_influencia.idarea_influencia ";
             $sql4.= "  AND area_influencia.idtipo_area_influencia=tipo_area_influencia.idtipo_area_influencia AND carpeta_familiar.estado='CONSOLIDADO' AND ubicacion_cf.ubicacion_actual='SI' ";
-            $sql4.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar !='FAMILIA CON RIESGO MEDIANO' ORDER BY carpeta_familiar.idcarpeta_familiar DESC   ";
+            $sql4.= "  AND carpeta_familiar.idestablecimiento_salud='$idestablecimiento_salud' AND evaluacion_familiar_cf.evaluacion_familiar !='FAMILIA CON RIESGO MEDIANO' AND evaluacion_familiar_cf.evaluacion_familiar !='' GROUP BY carpeta_familiar.idcarpeta_familiar ORDER BY carpeta_familiar.idcarpeta_familiar DESC   ";
             $result4 = mysqli_query($link,$sql4);
             $total4 = mysqli_num_rows($result4);
             if ($row4 = mysqli_fetch_array($result4)){
