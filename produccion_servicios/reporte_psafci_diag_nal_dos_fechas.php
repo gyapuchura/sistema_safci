@@ -168,8 +168,10 @@ echo $row_dgt[0];
 </h4>
 <h4 align="center" style="font-family: Arial;"> DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
 
-          <h4 align="center" style="font-family: Arial;"><a href="atenciones_preventivas_deptos.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+        <h4 align="center" style="font-family: Arial;"><a href="atenciones_preventivas_deptos.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a></h4>
+        <h4 align="center" style="font-family: Arial;"><a href="piramide_atenciones_nal.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=850,scrollbars=YES,top=60,left=500'); return false;">             
+              POBLACIÓN BENEFICARIA</a></h4>
 
 <form action="reporte_prevencion_cie_nal.php" method="post">
 

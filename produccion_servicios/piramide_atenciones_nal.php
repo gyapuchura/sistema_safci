@@ -1,0 +1,316 @@
+<?php include("../cabf.php");?>
+<?php include("../inc.config.php");?>
+<?php
+date_default_timezone_set('America/La_Paz');
+$fecha_ram	    = date("Ymd");
+$fecha 		    = date("Y-m-d");
+$gestion        = date("Y");
+
+$fecha_r = explode('-',$fecha);
+$f_emision = $fecha_r[2].'/'.$fecha_r[1].'/'.$fecha_r[0];
+
+$inicio = $_GET['inicio'];
+$finalizacion = $_GET['finalizacion'];
+
+$fecha_i = explode('-',$inicio);
+$f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
+
+$fecha_f = explode('-',$finalizacion);
+$f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
+
+$sqlav = " SELECT count(idatencion_psafci) FROM atencion_psafci WHERE fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+$resultav = mysqli_query($link,$sqlav);
+$rowav = mysqli_fetch_array($resultav);
+
+$regulador = $rowav[0]/10;
+
+?>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>POBLACION BENEFICIARIA</title>
+
+		<script type="text/javascript" src="../sala_situacional/jquery.min.js"></script>
+        <script src="../js/piramide.js"></script>
+        <script src="../js/modules/exporting.js"></script>
+		<style type="text/css">
+        ${demo.css}
+		</style>
+
+		<script type="text/javascript">
+        $(function () {
+            var categories = [
+                    <?php
+                    $numero = 0;
+                    $sql = " SELECT idgrupo_etareo_cf, grupo_etareo_cf FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";
+                    $result = mysqli_query($link,$sql);
+                    $total = mysqli_num_rows($result);
+                    if ($row = mysqli_fetch_array($result)){
+                    mysqli_field_seek($result,0);
+                    while ($field = mysqli_fetch_field($result)){
+                    } do {
+                    ?>
+                    '<?php echo $row[1];?>'
+
+                        <?php    
+                        $numero++;
+                        if ($numero == $total) { echo "";} else {echo ",";}
+
+                    } while ($row = mysqli_fetch_array($result));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>
+        ];
+    $(document).ready(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'POBLACIÓN BENEFICIARIA - ATENCIONES PREVENTIVAS'
+            },
+            subtitle: {
+                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
+            },
+            xAxis: [{
+                categories: categories,
+                reversed: false,
+                labels: {
+                    step: 0
+                }
+            }, { // mirror axis on right side
+                opposite: true,
+                reversed: false,
+                categories: categories,
+                linkedTo: 0,
+                labels: {
+                    step: 1
+                }
+            }],
+            yAxis: {
+                title: {
+                    text: null
+                },
+                labels: {
+                    formatter: function () {
+                        return (Math.abs(this.value) / 100) + 'x100';
+                    }
+                },
+                min: -<?php echo $regulador;?>,
+                max: <?php echo $regulador;?>
+            },
+
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + ',  ' + this.point.category + '</b><br/>' +
+                        'Beneficiarios: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                }
+            },
+
+            series: [{
+                name: 'MASCULINO',
+                data: [
+                    <?php
+                    $numero2 = 0;
+                    $sql2 = " SELECT idgrupo_etareo_cf, grupo_etareo_cf, min, max FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";
+                    $result2 = mysqli_query($link,$sql2);
+                    $total2 = mysqli_num_rows($result2);
+                    if ($row2 = mysqli_fetch_array($result2)){
+                    mysqli_field_seek($result2,0);
+                    while ($field2 = mysqli_fetch_field($result2)){
+                    } do {
+                    ?>
+
+                    <?php
+                    $sql_ma = "  SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                    $sql_ma.= "  AND nombre.idgenero='2' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'   ";
+                    $sql_ma.= "  AND atencion_psafci.edad BETWEEN '$row2[2]' AND '$row2[3]' ";
+                    $result_ma = mysqli_query($link,$sql_ma);
+                    $row_ma = mysqli_fetch_array($result_ma);
+                    $cifra_masculino = $row_ma[0];
+                    ?>
+                                <?php echo "-".$cifra_masculino; ?>
+
+                        <?php    
+                        $numero2++;
+                        if ($numero2 == $total2) { echo "";} else {echo ",";}
+
+                    } while ($row2 = mysqli_fetch_array($result2));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>                   
+                ]
+            }, {
+                name: 'FEMENINO',
+                data: [
+                    <?php
+                        $numero3 = 0;
+                        $sql3 = " SELECT idgrupo_etareo_cf, grupo_etareo_cf, min, max FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";
+                        $result3 = mysqli_query($link,$sql3);
+                        $total3 = mysqli_num_rows($result3);
+                        if ($row3 = mysqli_fetch_array($result3)){
+                        mysqli_field_seek($result3,0);
+                        while ($field3 = mysqli_fetch_field($result3)){
+                        } do {
+                        ?>
+                        <?php
+                        $sql_fe = " SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_fe.= " AND nombre.idgenero='1' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                        $sql_fe.= " AND atencion_psafci.edad BETWEEN '$row3[2]' AND '$row3[3]' ";
+                        $result_fe = mysqli_query($link,$sql_fe);
+                        $row_fe = mysqli_fetch_array($result_fe);
+                        $cifra_femenino = $row_fe[0];
+                        ?>
+                                    <?php echo $cifra_femenino; ?>
+
+                            <?php    
+                            $numero3++;
+                            if ($numero3 == $total3) { echo "";} else {echo ",";}
+
+                        } while ($row3 = mysqli_fetch_array($result3));
+                        } else {
+                        /*
+                        Si no se encontraron resultados
+                        */
+                        }
+                        ?>                   
+                ]
+            }]
+        });
+    });
+
+});
+		</script>
+	</head>
+	<body>
+
+    <style>
+    #pantalla-carga {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        z-index: 9999999;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+    .spinner-loader {
+        width: 60px;
+        height: 60px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #7cb5ec; /* Turquesa corporativo de referencias */
+        border-radius: 50%;
+        animation: girar 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    .texto-loader {
+        color: #7cb5ec;
+        font-size: 18px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    @keyframes girar {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    body.bloqueado { overflow: hidden; }
+</style>
+<div id="pantalla-carga">
+    <div class="spinner-loader"></div>
+    <div class="texto-loader">Procesando POBLACIÓN BENEFICIARIA, por favor espere...</div>
+</div>
+
+<?php
+    // MAGIA BACKEND: Obligamos a Apache/PHP a pintar esto en la pantalla del usuario YA
+    if (ob_get_level() == 0) ob_start();
+    echo str_pad('', 4096); // Hack de 4KB para forzar el vaciado en servidores con GZIP
+    ob_flush();
+    flush();
+?>    
+
+<div id="container" style="min-width: 410px; max-width: 800px; height: 600px; margin: 0 auto"></div>
+
+<table width="446" border="1" align="center" bordercolor="#009999">
+    <tr>
+        <td width="21" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo8 Estilo1 Estilo2">GRUPO ETÁREO</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">MASCULINO</span></td>
+        <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">FEMENINO</span></td>
+    </tr>
+<?php
+                    $numero = 1;
+                    $sql = " SELECT idgrupo_etareo_cf, grupo_etareo_cf, min, max FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";                 
+                    $result = mysqli_query($link,$sql);
+                    if ($row = mysqli_fetch_array($result)){
+                    mysqli_field_seek($result,0);
+                    while ($field = mysqli_fetch_field($result)){
+                    } do {
+
+                        $sql_m = " SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_m.= " AND nombre.idgenero='2' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                        $sql_m.= " AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
+                        $result_m = mysqli_query($link,$sql_m);
+                        $row_m = mysqli_fetch_array($result_m);
+
+                        $sql_f = " SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_f.= " AND nombre.idgenero='1' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
+                        $sql_f.= " AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
+                        $result_f = mysqli_query($link,$sql_f);
+                        $row_f = mysqli_fetch_array($result_f);
+                    ?>
+                        <tr>
+                            <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
+                            <td align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row_m[0];?></td>
+                            <td bgcolor="#FFFFFF" align="center" style="font-family: Arial; font-size: 12px;"><?php echo $row_f[0];?></td>
+                            </tr> 
+
+                        <?php
+                        $numero++;                    
+                    } while ($row = mysqli_fetch_array($result));
+                    } else {
+                    /*
+                    Si no se encontraron resultados
+                    */
+                    }
+                    ?>
+            </table>
+
+<script>
+    // Evitamos que el usuario baje por la página mientras carga
+    document.body.classList.add('bloqueado');
+
+    // Escuchamos el evento 'load', que se dispara solo cuando TODO ha cargado
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('pantalla-carga');
+        if(loader) {
+            // Animación de desvanecimiento
+            loader.style.opacity = '0';
+            setTimeout(function() {
+                loader.style.display = 'none';
+                document.body.classList.remove('bloqueado');
+            }, 500); // Se remueve del DOM tras medio segundo
+        }
+    });
+</script>
+	</body>
+</html>

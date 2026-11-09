@@ -241,6 +241,10 @@ echo "";
 
 <h4 align="center" style="font-family: Arial;">DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
 <h4 align="center" style="font-family: Arial;">MUNICIPIOS</h4>
+
+<h4 align="center" style="font-family: Arial;"><a href="piramide_atenciones_dep.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>&iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=850,scrollbars=YES,top=60,left=500'); return false;">             
+POBLACIÓN BENEFICARIA</a></h4>
+
 <table width="1400" border="1" align="center" bordercolor="#009999">
     <tr>
         <td width="50" bgcolor="#FFFFFF" style="font-family: Arial;"><span class="Estilo8 Estilo1 Estilo2" style="font-size: 12px"> N° </span></td>
