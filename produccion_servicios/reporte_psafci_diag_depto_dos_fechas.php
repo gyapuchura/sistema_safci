@@ -240,7 +240,9 @@ echo "";
 </h4>
 
 <h4 align="center" style="font-family: Arial;">DEL <?php echo $f_inicio;?> AL <?php echo $f_finalizacion;?></h4>
-<h4 align="center" style="font-family: Arial;">MUNICIPIOS</h4>
+
+<h4 align="center" style="font-family: Arial;"><a href="atenciones_preventivas_mun.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>&iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+MUNICIPIOS</a></h4>
 
 <h4 align="center" style="font-family: Arial;"><a href="piramide_atenciones_dep.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>&iddepartamento=<?php echo $iddepartamento;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=850,scrollbars=YES,top=60,left=500'); return false;">             
 POBLACIÓN BENEFICARIA</a></h4>
