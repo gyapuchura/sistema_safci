@@ -279,11 +279,11 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               <td style="font-size: 12px; font-family: Arial;">CON FACTORES DE RIESGO</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $factor_riesgo;?> </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="grupo_riesgo_deptos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="grupo_riesgo_deptos_fecha.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="piramide_grupo_riesgo_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="piramide_grupo_riesgo_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>
@@ -292,11 +292,11 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               <td style="font-size: 12px; font-family: Arial;">CON MORBILIDAD</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $morbilidad;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="grupo_morbilidad_deptos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="grupo_morbilidad_deptos_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="piramide_grupo_morbilidad_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="piramide_grupo_morbilidad_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>
@@ -305,11 +305,11 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               <td style="font-size: 12px; font-family: Arial;">CON DISCAPACIDAD</td>
 		      <td style="font-size: 12px; color: #2D56CF; font-family: Arial; text-align: center;"><?php echo $discapacidad;?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="grupo_discapacidad_deptos.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="grupo_discapacidad_deptos_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=1000,height=450,scrollbars=YES,top=60,left=500'); return false;">             
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="piramide_grupo_discapacidad_nal.php" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="piramide_grupo_discapacidad_nal.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>
