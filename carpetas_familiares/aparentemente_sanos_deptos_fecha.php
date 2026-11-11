@@ -14,7 +14,6 @@ $f_inicio = $fecha_i[2].'/'.$fecha_i[1].'/'.$fecha_i[0];
 
 $fecha_f = explode('-',$finalizacion);
 $f_finalizacion = $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[0];
-
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -43,7 +42,10 @@ $(function () {
 
                 <?php 
 $numero = 0;
-$sql = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$sql = " SELECT d.iddepartamento, d.departamento, COUNT(i.idintegrante_ap_sano) as total  ";
+$sql.= " FROM integrante_ap_sano i, departamento d, carpeta_familiar c ";
+$sql.= " WHERE d.iddepartamento=c.iddepartamento AND i.idcarpeta_familiar=c.idcarpeta_familiar ";
+$sql.= " AND c.estado='CONSOLIDADO' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY d.iddepartamento ORDER BY total DESC ";
 $result = mysqli_query($link,$sql);
 $total = mysqli_num_rows($result);
  if ($row = mysqli_fetch_array($result)){
@@ -51,6 +53,7 @@ mysqli_field_seek($result,0);
 while ($field = mysqli_fetch_field($result)){
 } do {
 	?>
+
  '<?php  echo $row[1];?>'
 
 <?php 
@@ -89,8 +92,10 @@ Si no se encontraron resultados
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: { enabled: true } 
             }
+         
         },
         series: [
 
@@ -100,7 +105,10 @@ Si no se encontraron resultados
     data: [
 <?php 
 $numero3 = 0;
-$sql3 = " SELECT iddepartamento, departamento FROM departamento WHERE iddepartamento !='10' ORDER BY iddepartamento ";
+$sql3 = " SELECT d.iddepartamento, d.departamento, COUNT(i.idintegrante_ap_sano) as total  ";
+$sql3.= " FROM integrante_ap_sano i, departamento d, carpeta_familiar c ";
+$sql3.= " WHERE d.iddepartamento=c.iddepartamento AND i.idcarpeta_familiar=c.idcarpeta_familiar ";
+$sql3.= " AND c.estado='CONSOLIDADO' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' GROUP BY d.iddepartamento ORDER BY total DESC ";
 $result3 = mysqli_query($link,$sql3);
 $total3 = mysqli_num_rows($result3);
  if ($row3 = mysqli_fetch_array($result3)){
@@ -109,14 +117,7 @@ while ($field3 = mysqli_fetch_field($result3)){
 } do {
 	?>
  
-<?php
-$sql_a =" SELECT COUNT(integrante_ap_sano.idintegrante_ap_sano) FROM integrante_ap_sano, carpeta_familiar  ";
-$sql_a.=" WHERE integrante_ap_sano.idcarpeta_familiar=carpeta_familiar.idcarpeta_familiar ";
-$sql_a.=" AND carpeta_familiar.estado='CONSOLIDADO' AND carpeta_familiar.iddepartamento='$row3[0]' AND carpeta_familiar.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-$result_a = mysqli_query($link,$sql_a);
-$row_a = mysqli_fetch_array($result_a);
-?>
-<?php echo $row_a[0]; ?>
+<?php echo $row3[2]; ?>
 <?php 
 $numero3++;
 if ($numero3 == $total3) {
@@ -130,11 +131,9 @@ echo ",";
 }
 ?>
 
-
         ]
 }
-
-    
+  
     ]
     });
 });

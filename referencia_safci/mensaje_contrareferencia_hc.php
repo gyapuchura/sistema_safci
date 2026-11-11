@@ -1,5 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("inc_contrareferencia.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
@@ -9,23 +10,43 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idderiva_referencia_hc_ss  = $_SESSION['idderiva_referencia_hc_ss'];
-$idreferencia_hc_ss         = $_SESSION['idreferencia_hc_ss'];
+// El caso llega por la URL desde guarda_contrareferencia.php y se verifica en la base:
+// debe existir el tramo de contrarreferencia enviado DESDE el establecimiento del usuario.
+$idreferencia_hc_ss = isset($_GET['idref']) ? (int)$_GET['idref'] : 0;
+$adjunto_fallido    = (isset($_GET['adj']) && $_GET['adj'] === '0');
 
-$idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-$idcarpeta_familiar_ss      = $_SESSION['idcarpeta_familiar_ss'];
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idintegrante_cf_ss         = $_SESSION['idintegrante_cf_ss'];
-$idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
+$row = null;
+$codigo_referencia = '';
+if ($idreferencia_hc_ss > 0) {
+    $eess_usuario = cr_eess_usuario($link, $idusuario_ss);
+    $tramo = cr_fila($link,
+        "SELECT d.idestablecimiento_salud_r, r.codigo
+           FROM deriva_referencia_hc d
+     INNER JOIN referencia_hc r ON r.idreferencia_hc = d.idreferencia_hc
+          WHERE d.idreferencia_hc = ? AND d.idestablecimiento_salud_o = ? AND r.idestado_referencia = '2'
+       ORDER BY d.idderiva_referencia_hc DESC LIMIT 1",
+        'ii', array($idreferencia_hc_ss, $eess_usuario));
 
-$idestablecimiento_destino_ss = $_SESSION['idestablecimiento_destino_ss'];
-
-    $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
-    $sql.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
-    $sql.=" WHERE establecimiento_salud.idsubsector_salud=subsector_salud.idsubsector_salud AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
-    $sql.=" AND establecimiento_salud.idmunicipio=municipios.idmunicipio  AND establecimiento_salud.idtipo_establecimiento=tipo_establecimiento.idtipo_establecimiento AND establecimiento_salud.idestablecimiento_salud = '$idestablecimiento_destino_ss' ";
-    $result = mysqli_query($link,$sql);
-    $row = mysqli_fetch_array($result);
+    if ($tramo) {
+        $codigo_referencia = $tramo['codigo'];
+        $row = cr_fila($link,
+            "SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento,
+                    tipo_establecimiento.tipo_establecimiento, subsector_salud.subsector_salud, municipios.municipio, departamento.departamento
+               FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios
+              WHERE establecimiento_salud.idsubsector_salud = subsector_salud.idsubsector_salud
+                AND establecimiento_salud.idnivel_establecimiento = nivel_establecimiento.idnivel_establecimiento
+                AND establecimiento_salud.iddepartamento = departamento.iddepartamento
+                AND establecimiento_salud.idmunicipio = municipios.idmunicipio
+                AND establecimiento_salud.idtipo_establecimiento = tipo_establecimiento.idtipo_establecimiento
+                AND establecimiento_salud.idestablecimiento_salud = ?",
+            'i', array((int)$tramo['idestablecimiento_salud_r']));
+        if ($row) {
+            $row = array_values($row); // mismo acceso por posición que antes: $row[1], $row[2]...
+        }
+    }
+}
+$caso_valido = ($row !== null);
+$h = function ($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); };
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -81,19 +102,28 @@ $idestablecimiento_destino_ss = $_SESSION['idestablecimiento_destino_ss'];
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                       
-                    <hr>                     
+                    <hr>
+                    <?php if ($caso_valido) { ?>
                     <h4 class="text-success">SE HA CONTRARREFERIDO AL PACIENTE</h4>
                     <h4 class="text-success">AL ESTABLECIMIENTO ORIGEN:</h4>
-                    <h4 class="text-secundary">"<?php echo $row[1];?>"</h4>
-                    <h4 class="text-secundary"><?php echo $row[2];?></h4>
-                    <h4 class="text-secundary"><?php echo $row[3];?> - <?php echo $row[4];?></h4>
+                    <h4 class="text-secundary">"<?php echo $h($row[1]);?>"</h4>
+                    <h4 class="text-secundary"><?php echo $h($row[2]);?></h4>
+                    <h4 class="text-secundary"><?php echo $h($row[3]);?> - <?php echo $h($row[4]);?></h4>
+                    <h5 class="text-primary">CÓDIGO DE REFERENCIA: <?php echo $h($codigo_referencia);?></h5>
+                    <?php if ($adjunto_fallido) { ?>
+                    <div class="alert alert-warning mt-3">La contrarreferencia se registró, pero el archivo adjunto no se pudo guardar. Comuníquese con el administrador si necesita adjuntarlo.</div>
+                    <?php } ?>
                     </br>
-                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo $idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=1000,top=50, left=600, scrollbars=YES'); return false;">                        
+                        <a class="btn btn-success btn-icon-split" href="../referencia_safci/imprime_formulario_d7a.php?idreferencia_hc=<?php echo (int)$idreferencia_hc_ss;?>" target="_blank" onClick="window.open(this.href, this.target, 'width=900,height=1000,top=50, left=600, scrollbars=YES'); return false;">
                         <span class="icon text-white-50">
                             <i class="fas fa-book"></i>
                         </span>
                         <span class="text">IMPRIMIR FORMULARIO D7-a</span>
-                        </a> 
+                        </a>
+                    <?php } else { ?>
+                    <h4 class="text-danger">NO SE ENCONTRÓ LA CONTRARREFERENCIA</h4>
+                    <p class="text-gray-800">No hay una contrarreferencia registrada desde su establecimiento para este caso.<br>Revise la bandeja de admitidos.</p>
+                    <?php } ?>
                     </br>
                     </br>
                     <a href="admitidos_referencia.php"><h6>IR A BANDEJA DE ADMITIDOS -></h6></a>

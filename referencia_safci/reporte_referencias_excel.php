@@ -68,7 +68,10 @@ if($idestablecimiento != '') {
 }
 if($idusuario_medico != '') { 
     $filtro_origen .= " AND referencia_hc.idusuario = '$idusuario_medico' "; 
-    $filtro_destino .= " AND EXISTS (SELECT 1 FROM diagnostico_egreso de WHERE de.idreferencia_hc = referencia_hc.idreferencia_hc AND de.idusuario = '$idusuario_medico') ";
+    // Especialista = quien ADMITIÓ el caso en el establecimiento receptor (igual que el formulario D7 y la Central de Telesalud).
+    // Se incluye también al que guardó el diagnóstico de egreso solo como respaldo; la decisión final por fila se toma más abajo en PHP.
+    $filtro_destino .= " AND (EXISTS (SELECT 1 FROM deriva_referencia_hc dm WHERE dm.idreferencia_hc = referencia_hc.idreferencia_hc AND dm.idestablecimiento_salud_r = referencia_hc.idestablecimiento_receptor AND dm.admitido = 'SI' AND dm.idusuario_r = '$idusuario_medico') ";
+    $filtro_destino .= "      OR EXISTS (SELECT 1 FROM diagnostico_egreso de WHERE de.idreferencia_hc = referencia_hc.idreferencia_hc AND de.idusuario = '$idusuario_medico')) ";
     $hay_filtros = true;
 }
 
@@ -207,6 +210,8 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                 EXISTS (SELECT 1 FROM diagnostico_egreso de WHERE de.idreferencia_hc = referencia_hc.idreferencia_hc AND de.fecha_registro BETWEEN '$inicio' AND '$finalizacion')
             ) ";
     $sql.=" AND referencia_hc.idestado_referencia = '2' ";
+    // Excluir RECHAZADAS (calificación NO/NO/NO): no cuentan como producción (misma regla que la Central de Telesalud)
+    $sql.=" AND NOT (UPPER(TRIM(IFNULL(referencia_hc.adecuada,''))) = 'NO' AND UPPER(TRIM(IFNULL(referencia_hc.justificada,''))) = 'NO' AND UPPER(TRIM(IFNULL(referencia_hc.oportuna,''))) = 'NO') ";
     $sql.=" AND EXISTS (SELECT 1 FROM deriva_referencia_hc der_req WHERE der_req.idreferencia_hc = referencia_hc.idreferencia_hc AND der_req.admitido = 'SI' AND der_req.idestablecimiento_salud_r = referencia_hc.idestablecimiento_receptor) ";
     $sql.=" $filtro_extra ";
     $sql.=" ORDER BY referencia_hc.fecha_registro ASC, referencia_hc.hora_registro ASC "; 
@@ -519,6 +524,21 @@ $f_finalizacion = isset($fecha_f[2]) ? $fecha_f[2].'/'.$fecha_f[1].'/'.$fecha_f[
                             $fr = explode('-', $row_fb['fecha_deriva']);
                             $f_reg_contra = isset($fr[2]) ? $fr[2].'/'.$fr[1].'/'.$fr[0] : '';
                         }
+                    }
+                }
+                // -------------------------------------
+
+                // --- MÉDICO ESPECIALISTA REAL: quien ADMITIÓ el caso en el establecimiento receptor ---
+                // diagnostico_egreso.idusuario solo indica qué usuario tenía la sesión al guardar la contrarreferencia
+                // (puede ser otra persona que la transcribió). El especialista responsable es idusuario_r de la fila
+                // de derivación admitida en el receptor, igual que en el formulario D7 y la Central de Telesalud.
+                // Si no existe o coincide con el médico que refirió (dato provisional), se conserva el valor anterior.
+                $sql_adm = "SELECT idusuario_r FROM deriva_referencia_hc WHERE idreferencia_hc='{$row[0]}' AND idestablecimiento_salud_r='{$id_eess_especialista}' AND admitido='SI' ORDER BY idderiva_referencia_hc ASC LIMIT 1";
+                $res_adm = mysqli_query($link, $sql_adm);
+                if ($res_adm && $row_adm = mysqli_fetch_array($res_adm)) {
+                    $id_admite = trim((string)$row_adm['idusuario_r']);
+                    if ($id_admite !== '' && $id_admite !== '0' && $id_admite != $row[12]) {
+                        $id_usuario_especialista = $id_admite;
                     }
                 }
                 // -------------------------------------
