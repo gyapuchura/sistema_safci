@@ -1054,7 +1054,7 @@ $txt_genero = $txt_genero ? $txt_genero['genero'] : '';
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
                                         <!-- Siempre envía SI al marcarse; viene marcada de entrada solo si el motivo de referencia es 5 (POR TELESALUD). Sin marcar = NO. -->
-                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="SI" <?php if ($row_ref[21]=='5') { echo 'checked'; } ?> disabled>
+                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="SI" <?php if ($row_ref[21]=='5') { echo 'checked'; } ?> >
                                     </div>   
                                 </div> 
 
