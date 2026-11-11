@@ -427,6 +427,11 @@ if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
                 <input type="range" class="custom-range" id="nivel_limpieza_eess" min="0" max="100" value="30" disabled>
                 <small class="text-muted">El sistema elige el valor automáticamente. Súbalo si quedan restos o sombras del papel; bájelo si se borra parte del sello.</small>
                 <div id="aviso_sello_eess" class="alert alert-warning small mt-2" style="display:none;"></div>
+                </br>
+                <h6 class="text-primary">ENCUADRE - TAMAÑO DEL SELLO: <span id="tamano_valor_eess">-</span>
+                    <a href="#" id="btn_centrar_sello_eess" class="small ml-2">(centrar)</a></h6>
+                <input type="range" class="custom-range" id="tamano_sello_eess" min="40" max="100" value="88" disabled>
+                <small class="text-muted">El recuadro punteado de la vista previa es el espacio del sello en los formularios impresos. Ajuste el tamaño y arrastre el sello con el mouse (o el dedo) para centrarlo.</small>
                 </div>
                 <div class="col-sm-6">
                 <h6 class="text-primary">VISTA PREVIA (SIN FONDO):</h6>
@@ -436,7 +441,7 @@ if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
                     <button type="button" class="btn btn-outline-primary" data-vista="original">Foto original</button>
                 </div>
                 <div id="fondo_vista_eess" class="border rounded p-2 text-center" style="min-height:150px; background-color:#fff; background-image:linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%); background-size:20px 20px; background-position:0 0,0 10px,10px -10px,-10px 0;">
-                    <canvas id="canvas_sello_eess" style="max-width:100%; display:none;"></canvas>
+                    <canvas id="canvas_sello_eess" style="max-width:100%; display:none; outline:2px dashed #4e73df; cursor:move; touch-action:none;"></canvas>
                     <img id="img_original_eess" style="max-width:100%; display:none;" alt="Foto original">
                     <span id="sin_sello_eess" class="text-muted small">Seleccione una imagen para ver la vista previa.</span>
                 </div>
@@ -622,6 +627,14 @@ if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
     <script>
     (function () {
         var MAX_LADO = 1000;   // tamaño máximo del sello guardado (px)
+        /* marco fijo del sello guardado: misma proporción para todos, así se imprimen del mismo tamaño en los formularios */
+        var MARCO_W = 1000, MARCO_H = 900;
+
+        var tamano      = document.getElementById('tamano_sello_eess');
+        var tamanoValor = document.getElementById('tamano_valor_eess');
+        var recorte     = document.createElement('canvas');   // sello sin fondo, recortado a la tinta
+        var despX = 0, despY = 0;                              // desplazamiento del sello dentro del marco (px del marco)
+        var arrastre = null;
 
         var entrada    = document.getElementById('file_sello_eess');
         var nivel      = document.getElementById('nivel_limpieza_eess');
@@ -665,6 +678,9 @@ if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
             var archivo = this.files[0];
             prep = null;
             hayResultado = false;
+            despX = 0; despY = 0;
+            tamano.disabled = true;
+            tamanoValor.textContent = '-';
             nivel.disabled = true;
             nivelValor.textContent = '-';
             nivelAuto.style.display = 'none';
@@ -725,14 +741,60 @@ if ($result_se && $row_se = mysqli_fetch_array($result_se)) {
             var res = SelloSinFondo.generar(prep, valor);
             hayResultado = !!res;
             if (res) {
-                canvas.width = res.imageData.width;
-                canvas.height = res.imageData.height;
-                canvas.getContext('2d').putImageData(res.imageData, 0, 0);
+                recorte.width = res.imageData.width;
+                recorte.height = res.imageData.height;
+                recorte.getContext('2d').putImageData(res.imageData, 0, 0);
+                tamano.disabled = false;
+                componer();
             } else {
                 sinSello.textContent = 'No se detectó el sello, baje el nivel de limpieza.';
             }
             actualizarVista();
         }
+
+        /* coloca el sello dentro del marco fijo según el tamaño elegido y el desplazamiento por arrastre */
+        function componer() {
+            var factor = parseInt(tamano.value, 10) / 100;
+            tamanoValor.textContent = tamano.value + ' %';
+            var escala = Math.min(MARCO_W / recorte.width, MARCO_H / recorte.height) * factor;
+            var dw = recorte.width * escala, dh = recorte.height * escala;
+            /* el sello no puede salir del marco */
+            var maxX = (MARCO_W - dw) / 2, maxY = (MARCO_H - dh) / 2;
+            despX = Math.max(-maxX, Math.min(maxX, despX));
+            despY = Math.max(-maxY, Math.min(maxY, despY));
+            canvas.width = MARCO_W;
+            canvas.height = MARCO_H;
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, MARCO_W, MARCO_H);
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(recorte, maxX + despX, maxY + despY, dw, dh);
+        }
+
+        tamano.addEventListener('input', function () {
+            if (hayResultado) componer();
+        });
+
+        document.getElementById('btn_centrar_sello_eess').addEventListener('click', function (e) {
+            e.preventDefault();
+            despX = 0; despY = 0;
+            if (hayResultado) componer();
+        });
+
+        /* arrastrar el sello dentro del marco (mouse o dedo) */
+        canvas.addEventListener('pointerdown', function (e) {
+            if (!hayResultado) return;
+            arrastre = { x: e.clientX, y: e.clientY, dx: despX, dy: despY };
+            canvas.setPointerCapture(e.pointerId);
+        });
+        canvas.addEventListener('pointermove', function (e) {
+            if (!arrastre) return;
+            var relacion = MARCO_W / canvas.getBoundingClientRect().width;   // px del marco por px de pantalla
+            despX = arrastre.dx + (e.clientX - arrastre.x) * relacion;
+            despY = arrastre.dy + (e.clientY - arrastre.y) * relacion;
+            componer();
+        });
+        canvas.addEventListener('pointerup', function () { arrastre = null; });
+        canvas.addEventListener('pointercancel', function () { arrastre = null; });
 
         document.getElementById('form_sello_eess').addEventListener('submit', function (e) {
             if (!prep || !hayResultado) {

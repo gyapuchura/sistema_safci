@@ -309,7 +309,7 @@ GRUPO IV  DISCAPACIDAD	<?php echo $grupo_4;?>%
               DEPARTAMENTOS</a>
               </td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
-              <a href="piramide_grupo_discapacidad_nal.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
+              <a href="piramide_grupo_discapacidad_nal_fechas.php?inicio=<?php echo $inicio;?>&finalizacion=<?php echo $finalizacion;?>" target="_blank" class="Estilo12" onClick="window.open(this.href, this.target, 'width=800,height=800,scrollbars=YES,top=60,left=500'); return false;">             
               VER PIRAMIDE</a>
               </td>
 	        </tr>

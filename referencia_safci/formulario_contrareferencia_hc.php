@@ -1,5 +1,7 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("inc_contrareferencia.php"); ?>
+<?php include("../comun/inc_cie10.php"); ?>
 <?php
 // Desactiva todos los avisos de PHP
 error_reporting(E_ALL ^ E_NOTICE);
@@ -15,13 +17,22 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$idderiva_referencia_hc_ss  = $_SESSION['idderiva_referencia_hc_ss'];
-$idreferencia_hc_ss         = $_SESSION['idreferencia_hc_ss'];
+// El caso se identifica por el token de la URL (generado en valida_contrareferencia_hc.php),
+// no por las variables de sesión, que otra pestaña podría haber cambiado.
+$token_contraref = isset($_GET['t']) ? (string)$_GET['t'] : '';
+$ctx_contraref   = cr_token_leer($token_contraref);
+if ($ctx_contraref === null) {
+    header("Location:admitidos_referencia.php");
+    exit();
+}
 
-$idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
-$edad_ss                    = $_SESSION['edad_ss'];
+$idderiva_referencia_hc_ss  = (int)$ctx_contraref['idderiva_referencia_hc'];
+$idreferencia_hc_ss         = (int)$ctx_contraref['idreferencia_hc'];
+
+$idatencion_psafci_ss       = (int)$ctx_contraref['idatencion_psafci'];
+$idestablecimiento_salud_ss = (int)$ctx_contraref['idestablecimiento_salud'];
+$idnombre_integrante_ss     = (int)$ctx_contraref['idnombre_integrante'];
+$edad_ss                    = (int)$ctx_contraref['edad'];
 
 $sql_ref =" SELECT idreferencia_hc, iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idatencion_psafci, codigo, idnombre, ";
 $sql_ref.=" discapacidad, nombre_acompanante, idparentesco_acomp, celular_acompanante, tel_establecimiento, estuvo_internado, dias_internacion, ";
@@ -34,14 +45,32 @@ $sql_e    = " SELECT iddepartamento, idred_salud, idmunicipio FROM establecimien
 $result_e = mysqli_query($link,$sql_e);
 $row_e    = mysqli_fetch_array($result_e);
 
-$iddepartamento = $row_e[0]; 
+$iddepartamento = $row_e[0];
 $idred_salud    = $row_e[1];
 $idmunicipio    = $row_e[2];
+
+// Nombres que se muestran (antes se armaban listas completas de catálogos solo para mostrar uno)
+$txt_eess = cr_fila($link,
+    "SELECT e.establecimiento_salud, d.departamento, m.municipio, r.red_salud
+       FROM establecimiento_salud e
+  LEFT JOIN departamento d ON d.iddepartamento = e.iddepartamento
+  LEFT JOIN municipios   m ON m.idmunicipio    = e.idmunicipio
+  LEFT JOIN red_salud    r ON r.idred_salud    = e.idred_salud
+      WHERE e.idestablecimiento_salud = ?",
+    'i', array((int)$row_ref[20]));
+if (!$txt_eess) {
+    $txt_eess = array('establecimiento_salud' => '', 'departamento' => '', 'municipio' => '', 'red_salud' => '');
+}
+$txt_parentesco = cr_fila($link, "SELECT parentesco FROM parentesco WHERE idparentesco = ?", 'i', array((int)$row_ref[10]));
+$txt_parentesco = $txt_parentesco ? $txt_parentesco['parentesco'] : '';
 
 
 $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
 $result_n=mysqli_query($link,$sql_n);
 $row_n=mysqli_fetch_array($result_n);
+
+$txt_genero = cr_fila($link, "SELECT genero FROM genero WHERE idgenero = ?", 'i', array((int)$row_n[7]));
+$txt_genero = $txt_genero ? $txt_genero['genero'] : '';
 
     $fecha_nacimiento = $row_n[5];
     $dia = date("d");
@@ -77,7 +106,6 @@ $row_n=mysqli_fetch_array($result_n);
 
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/boton_mic.css">
 <style>
         /* ================= ESTILOS MÓDULO MULTIMEDIA SAFCI ================= */
@@ -129,8 +157,7 @@ $row_n=mysqli_fetch_array($result_n);
             font-size: 12px; cursor: pointer; display: flex;
             align-items: center; justify-content: center; transition: background 0.2s;
         }
-        .btn-remove:hover { background-color: #e74a3b; transform: scale(1.1); }
-        /* =================================================================== */
+        .btn-remove:hover { background-color: #e74a3b; transform: scale(1.1); }        /* =================================================================== */
     </style>
 </head>
 
@@ -167,17 +194,17 @@ $row_n=mysqli_fetch_array($result_n);
                             <a href="../referencia_safci/admitidos_referencia.php"><h6 class="text-info"><- VOLVER</h6></a>
                             <hr>  
                         <div class="text-center">
-                        <h4 class="m-0 font-weight-bold text-primary">FORMULARIO D7A - CONTRAREFERENCIA</h4>
-                        <h4 class="m-0 font-weight-bold text-primary"><?php echo $row_ref[6]; ?></h4>
+                        <h4 class="m-0 font-weight-bold text-primary">FORMULARIO D7A - CONTRARREFERENCIA</h4>
+                        <h4 class="m-0 font-weight-bold text-primary"><?php echo cr_h($row_ref[6]); ?></h4>
                         </div>
                     </div>
                     <div class="card-body">
 
                      <form name="GUARDA_CONTRAREFERENCIA" action="guarda_contrareferencia.php" method="post" enctype="multipart/form-data" class="needs-validation" novalidate> <!-- Modificado -->
-                        <input name="idatencion_psafci" type="hidden" value="<?php echo $row_ref[5];?>">
+                        <input name="token_contraref" type="hidden" value="<?php echo htmlspecialchars($token_contraref, ENT_QUOTES, 'UTF-8');?>">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">DATOS DEL ESTABLECIMIENTO DE SALUD QUE CONTRAREFIERE</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">DATOS DEL ESTABLECIMIENTO DE SALUD QUE CONTRARREFIERE</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">
@@ -185,23 +212,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="text-primary">DEPARTAMENTO:</h6>
                                 </div>
                                 <div class="col-sm-9">
-                                <select name="iddepartamento"  id="iddepartamento" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT iddepartamento, departamento FROM departamento ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$iddepartamento) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control" value="<?php echo cr_h($txt_eess['departamento']);?>" disabled>
 
                                 </div>
                             </div>
@@ -211,23 +222,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="text-primary">MUNICIPIO:</h6>
                                 </div>
                                 <div class="col-sm-9">
-                                <select name="idmunicipio"  id="idmunicipio" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT idmunicipio, municipio FROM municipios ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idmunicipio) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control" value="<?php echo cr_h($txt_eess['municipio']);?>" disabled>
                                 </div>
                             </div>
 
@@ -236,23 +231,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="text-primary">RED DE SALUD:</h6>
                                 </div>
                                 <div class="col-sm-9">
-                                <select name="idred_salud"  id="idred_salud" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT idred_salud, red_salud FROM red_salud ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$idred_salud) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control" value="<?php echo cr_h($txt_eess['red_salud']);?>" disabled>
                                 </div>
                             </div>
 
@@ -261,23 +240,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
                                 </div>
                                 <div class="col-sm-9">
-                                <select name="idestablecimiento_salud"  id="idestablecimiento_salud" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT idestablecimiento_salud, establecimiento_salud FROM establecimiento_salud ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ref[20]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control" value="<?php echo cr_h($txt_eess['establecimiento_salud']);?>" disabled>
                                 </div>
                             </div>                            
                             </div>
@@ -291,17 +254,17 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">                               
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">ADECUADA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ref[26];?>" 
+                                    <input type="text" class="form-control" value="<?php echo cr_h($row_ref[26]);?>"
                                     name="adecuada" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">JUSTIFICADA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ref[27];?>" 
+                                    <input type="text" class="form-control" value="<?php echo cr_h($row_ref[27]);?>"
                                     name="justificada" disabled>
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">OPORTUNA :</h6>
-                                    <input type="text" class="form-control" value="<?php echo $row_ref[28];?>" 
+                                    <input type="text" class="form-control" value="<?php echo cr_h($row_ref[28]);?>"
                                     name="oportuna" disabled>
                                     </div>
                                 </div>
@@ -318,53 +281,35 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">                               
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">CÉDULA DE IDENTIDAD:</h6>
-                                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[4]);?>"
                                         name="ci" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                                        name="nombre" disabled>                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[1]);?>"
+                                        name="nombre" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                                        name="paterno" disabled >                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[2]);?>"
+                                        name="paterno" disabled >
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                                        name="materno" disabled>                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[3]);?>"
+                                        name="materno" disabled>
                                     </div>
                                 </div>
 
-                                <div class="form-group row">  
+                                <div class="form-group row">
                                 <div class="col-sm-3">
                                 <h6 class="text-primary">GÉNERO</h6>
-
-                                <select name="idgenero"  id="idgenero" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT idgenero, genero FROM genero ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
-
-                                </div>  
+                                <input type="text" class="form-control" value="<?php echo cr_h($txt_genero);?>" disabled>
+                                </div>
                                 <div class="col-sm-3">
                                 <h6 class="text-primary">FECHA DE NACIMIENTO:</h6>
-                                    <input type="date"  class="form-control" 
-                                        placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
+                                    <input type="date"  class="form-control"
+                                        placeholder="ingresar fecha" name="fecha_nac" value="<?php echo cr_h($row_n[5]);?>" disabled>
                                 </div>   
                                 
                                 <div class="col-sm-2">
@@ -400,30 +345,30 @@ $row_n=mysqli_fetch_array($result_n);
                                <div class="form-group row">                               
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">ESTADO CIVIL:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[1];?>" 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row4[1]);?>"
                                         name="" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NIVEL DE INSTRUCCIÓN:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[2];?>"
-                                        name="" disabled>                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row4[2]);?>"
+                                        name="" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PROFESIÓN:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[3];?>"             
-                                        name="" disabled >                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row4[3]);?>"
+                                        name="" disabled >
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">OCUPACIÓN:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[4];?>" 
-                                        name="" disabled>                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row4[4]);?>"
+                                        name="" disabled>
                                     </div>
 
                                 </div>
-                                <div class="form-group row"> 
+                                <div class="form-group row">
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">CONTRIBUYE AL SUSTENTO FAMILIAR:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row4[5];?>" 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row4[5]);?>"
                                         name="" disabled>                
                                     </div>
                                     <div class="col-sm-4">
@@ -437,11 +382,11 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-warning">VER CARPETA FAMILIAR:</h6>
-                                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo $row_cf[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
+                                    <a class="btn btn-warning btn-icon-split" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo (int)$row_cf[0];?>" target="_blank" onClick="window.open(this.href, this.target, 'width=1400,height=800,top=50, left=200, scrollbars=YES'); return false;">              
                                     <span class="icon text-white-50">
                                         <i class="fas fa-file"></i>
                                     </span>
-                                    <span class="text"><?php echo $row_cf[1];?></span></a> 
+                                    <span class="text"><?php echo cr_h($row_cf[1]);?></span></a>
                                     </div>
                                 </div> 
                                 <?php
@@ -470,8 +415,8 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_ref[8];?>"             
-                                        name="discapacidad" disabled > 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_ref[8]);?>"
+                                        name="discapacidad" disabled >
                                     </div>
                                     <?php  if ($row_ref[8]=='SI') { 
                                        $sql_ds =" SELECT tipo_discapacidad_cf.tipo_discapacidad_cf, nivel_discapacidad_cf.nivel_discapacidad_cf FROM discapacidad_ref, tipo_discapacidad_cf, nivel_discapacidad_cf ";
@@ -482,12 +427,12 @@ $row_n=mysqli_fetch_array($result_n);
                                         ?>
                                     <div class="col-sm-4">
                                         <h6 class="text-primary">TIPO DE DISCAPACIDAD:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_ds[0];?>"             
-                                        name="tipo_discapacidad" disabled > 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_ds[0]);?>"
+                                        name="tipo_discapacidad" disabled >
                                     </div>
                                     <div class="col-sm-4">
                                         <h6 class="text-primary">NIVEL DE DISCAPACIDAD:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_ds[1];?>"             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_ds[1]);?>"
                                         name="nivel_discapacidad" disabled > 
                                     </div>
                                     <?php } else {  ?>
@@ -501,39 +446,23 @@ $row_n=mysqli_fetch_array($result_n);
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_ref[9];?>" 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_ref[9]);?>"
                                         name="nombre_acompanante" disabled>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
-                                        <select name="idparentesco_acomp"  id="idparentesco_acomp" class="form-control" disabled >
-                                        <option selected>Seleccione</option>
-                                        <?php
-                                        $sqlv = " SELECT idparentesco, parentesco FROM parentesco ";
-                                        $resultv = mysqli_query($link,$sqlv);
-                                        if ($rowv = mysqli_fetch_array($resultv)){
-                                        mysqli_field_seek($resultv,0);
-                                        while ($fieldv = mysqli_fetch_field($resultv)){
-                                        } do {
-                                        ?>
-                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_ref[10]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                        <?php
-                                        } while ($rowv = mysqli_fetch_array($resultv));
-                                        } else {
-                                        }
-                                        ?>
-                                        </select>
+                                        <input type="text" class="form-control" value="<?php echo cr_h($txt_parentesco);?>" disabled>
                                     </div>
                                 </div>
                                 <div class="form-group row">   <!-- Modificado -->                            
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_ref[11];?>"             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_ref[11]);?>"             
                                         name="celular_acompanante" disabled>                
                                     </div>
                                     <div class="col-sm-4">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_ref[12];?>"             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_ref[12]);?>"             
                                         name="tel_establecimiento" disabled >                
                                     </div>
                                     <div class="col-sm-4">
@@ -567,17 +496,17 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TALLA </br>[Centímetros]:</h6>
                                         <input type="number" min="20" max="280" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 280) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 20) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En Centímetros"
-                                            name="talla" value="<?php echo $row_se[1];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 280 cm</div> 
+                                            name="talla" value="<?php echo cr_h($row_se[1]);?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 20 a 280 cm</div> 
                                     </div>                             
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PESO </br>[kg]:</h6>
                                         <input type="number" step="any" min="0.2" max="650" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 650) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0.2) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En kilogramos"              
-                                            name="peso" value="<?php echo $row_se[2];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0.2 a 650 kg</div> 
+                                            name="peso" value="<?php echo cr_h($row_se[2]);?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0.2 a 650 kg</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">TEMPERATURA</br>[°C]:</h6>
                                         <input type="number" step="any" min="10" max="47" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();" oninput="if(this.value > 47) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 10) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="En grados celsius"
-                                            name="temperatura" value="<?php echo $row_se[3];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 10°C a 47°C</div> 
+                                            name="temperatura" value="<?php echo cr_h($row_se[3]);?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 10°C a 47°C</div> 
                                     </div>
 
                                 </div>
@@ -586,25 +515,25 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA CARDIACA </br>[lpm]:</h6>
                                         <input type="number" min="0" max="350" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 350) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" 
-                                            name="frec_cardiaca" value="<?php echo $row_se[4];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 350 lpm</div> 
+                                            name="frec_cardiaca" value="<?php echo cr_h($row_se[4]);?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 350 lpm</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" 
-                                            name="frec_respiratoria" value="<?php echo $row_se[5];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div> 
+                                            name="frec_respiratoria" value="<?php echo cr_h($row_se[5]);?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 80 cpm</div> 
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>
                                         <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"
-                                            name="saturacion" value="<?php echo $row_se[8];?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div> 
+                                            name="saturacion" value="<?php echo cr_h($row_se[8]);?>" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0% a 100%</div> 
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRESIÓN ARTERIAL</br>[mmHg]:</h6>
                                         <input type="number" min="0" max="300" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 300) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"              
-                                            name="presion_arterial" value="<?php echo $row_se[6];?>"  placeholder="Sistólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 300 (Sistólica)</div> 
+                                            name="presion_arterial" value="<?php echo cr_h($row_se[6]);?>"  placeholder="Sistólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 300 (Sistólica)</div> 
                                         </br>
                                         <input type="number" min="0" max="200" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 200) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control"              
-                                            name="presion_arterial_d" value="<?php echo $row_se[7];?>" placeholder="Diastólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200 (Diastólica)</div> 
+                                            name="presion_arterial_d" value="<?php echo cr_h($row_se[7]);?>" placeholder="Diastólica" value="" required> <div class="invalid-feedback" style="margin-top: 5px;">Permitido: 0 a 200 (Diastólica)</div> 
                                     </div>
 
                                 </div>
@@ -619,8 +548,9 @@ $row_n=mysqli_fetch_array($result_n);
 
                                 <?php
                                 $numero_dg=0;
-                                $sql_dg =" SELECT iddiagnostico_presuntivo, diagnostico_presuntivo, idpatologia FROM diagnostico_presuntivo ";
-                                $sql_dg.=" WHERE idreferencia_hc='$idreferencia_hc_ss' ";
+                                $sql_dg =" SELECT dp.iddiagnostico_presuntivo, dp.diagnostico_presuntivo, dp.idpatologia, p.patologia, p.cie ";
+                                $sql_dg.=" FROM diagnostico_presuntivo dp LEFT JOIN patologia p ON p.idpatologia = dp.idpatologia ";
+                                $sql_dg.=" WHERE dp.idreferencia_hc='$idreferencia_hc_ss' ";
                                 $result_dg = mysqli_query($link,$sql_dg);
                                 if ($row_dg = mysqli_fetch_array($result_dg)){
                                 mysqli_field_seek($result_dg,0);
@@ -628,27 +558,11 @@ $row_n=mysqli_fetch_array($result_n);
                                 } do { ?> 
                                 <div class="form-group row">                               
                                     <div class="col-sm-6">
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo_in" disabled><?php echo $row_dg[1];?></textarea>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo_in" disabled><?php echo cr_h($row_dg[1]);?></textarea>
                                     </div>
                                     <div class="col-sm-6">
                                         <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <select name="idpatologia_in"  id="idpatologia_in" class="form-control" disabled >
-                                        <option selected>Seleccione</option>
-                                        <?php
-                                        $sqlv = " SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia ";
-                                        $resultv = mysqli_query($link,$sqlv);
-                                        if ($rowv = mysqli_fetch_array($resultv)){
-                                        mysqli_field_seek($resultv,0);
-                                        while ($fieldv = mysqli_fetch_field($resultv)){
-                                        } do {
-                                        ?>
-                                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_dg[2]) echo "selected";?> ><?php echo $rowv[1];?> - <?php echo $rowv[2];?></option>
-                                        <?php
-                                        } while ($rowv = mysqli_fetch_array($resultv));
-                                        } else {
-                                        }
-                                        ?>
-                                        </select>
+                                        <input type="text" class="form-control" value="<?php echo ($row_dg[3] !== null) ? cr_h($row_dg[3] . ' - ' . $row_dg[4]) : 'Seleccione';?>" disabled>
                                     </div>
                                 </div>
 
@@ -693,32 +607,32 @@ $row_n=mysqli_fetch_array($result_n);
                             <div class="form-group row">  
                             <div class="col-sm-2">
                             <h6 class="text-primary">F.U.M. </br>[fecha]</h6>
-                                <input type="date" class="form-control" value="<?php echo $row_g[1]?>"
+                                <input type="date" class="form-control" value="<?php echo cr_h($row_g[1]);?>"
                                     name="fecha_fum" disabled>                
                             </div>                             
                             <div class="col-sm-2">
                             <h6 class="text-primary">G</br>[Gestaciones]:</h6>
-                                <input type="number" class="form-control" placeholder="Nº Gestaciones" value="<?php echo $row_a[1]?>"         
+                                <input type="number" class="form-control" placeholder="Nº Gestaciones" value="<?php echo cr_h($row_a[1]);?>"         
                                     name="gestaciones" value="" disabled>                
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">P</br>[Partos]:</h6>
-                                <input type="number" class="form-control" placeholder="Nº Partos" value="<?php echo $row_a[2]?>"
+                                <input type="number" class="form-control" placeholder="Nº Partos" value="<?php echo cr_h($row_a[2]);?>"
                                     name="partos" placeholder="" value="" disabled>                
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">A</br>[Abortos]:</h6>
-                                <input type="number" class="form-control" placeholder="Nº Abortos" value="<?php echo $row_a[3]?>"
+                                <input type="number" class="form-control" placeholder="Nº Abortos" value="<?php echo cr_h($row_a[3]);?>"
                                     name="abortos" value="" disabled>                
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">C</br>[Cesáreas]:</h6>
-                                <input type="number" class="form-control" placeholder="Nº Cesáreas" value="<?php echo $row_a[4]?>"
+                                <input type="number" class="form-control" placeholder="Nº Cesáreas" value="<?php echo cr_h($row_a[4]);?>"
                                     name="cesareas" placeholder="" value="0" disabled>                
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">F.P.P.</br>[fecha]</h6>
-                                <input type="date" class="form-control" value="<?php echo $row_g[2]?>"
+                                <input type="date" class="form-control" value="<?php echo cr_h($row_g[2]);?>"
                                     name="fecha_fpp" disabled>                
                             </div>
                         </div>
@@ -746,23 +660,23 @@ $row_n=mysqli_fetch_array($result_n);
                         <div class="form-group row">
                             <div class="col-sm-2">
                             <h6 class="text-primary">R.P.M. </br>[hrs.]:</h6> 
-                                <input type="time" class="form-control" value="<?php echo $row_p[1]?>"
+                                <input type="time" class="form-control" value="<?php echo cr_h($row_p[1]);?>"
                                     name="hora_rpm" value="0" disabled>                
                             </div> 
                             <div class="col-sm-2">
                             <h6 class="text-primary">F.C.F.</h6>
                                 <input type="number" class="form-control"              
-                                    name="frecuencia_fcf"  placeholder="" value="<?php echo $row_ca[1]?>" disabled>               
+                                    name="frecuencia_fcf"  placeholder="" value="<?php echo cr_h($row_ca[1]);?>" disabled>               
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">Nº CONTROLES</br>PRENATALES</h6>
                                 <input type="number" class="form-control"              
-                                    name="controles_prenatales"  placeholder="" value="<?php echo $row_g[3]?>" disabled>               
+                                    name="controles_prenatales"  placeholder="" value="<?php echo cr_h($row_g[3]);?>" disabled>               
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">MADURACIÓN PULMONAR:</h6>
-                            SI <input type="radio" name="maduracion_pulmonar" value="SI" <?php if ($row_p[2] =='NO') { echo 'checked'; } ?> disabled> </br> 
-                            NO <input type="radio" name="maduracion_pulmonar" value="NO" <?php if ($row_p[2] =='SI') { echo 'checked'; } ?> disabled> 
+                            SI <input type="radio" name="maduracion_pulmonar" value="SI" <?php if ($row_p[2] =='SI') { echo 'checked'; } ?> disabled> </br>
+                            NO <input type="radio" name="maduracion_pulmonar" value="NO" <?php if ($row_p[2] =='NO') { echo 'checked'; } ?> disabled>
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">PARTO:</h6>
@@ -788,32 +702,35 @@ $row_n=mysqli_fetch_array($result_n);
                             </div>                             
                             <div class="col-sm-2">
                             <h6 class="text-primary">FECHA DEL PARTO</br>[Fecha]:</h6>
-                                <input type="date" class="form-control" value="<?php echo $row_p[4]?>"             
+                                <input type="date" class="form-control" value="<?php echo cr_h($row_p[4]);?>"             
                                     name="fecha_parto"  disabled>                
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">HORA DEL PARTO</br>[hrs]:</h6>
-                                <input type="time" class="form-control" value="<?php echo $row_p[5]?>" 
+                                <input type="time" class="form-control" value="<?php echo cr_h($row_p[5]);?>" 
                                     name="hora_parto" disabled>                
                             </div>
                             <?php
-                                $sql_rn =" SELECT idrecien_nacido, liq_amniotico, peso_rn, talla_rn, pc_rn, pt_rn, apgar_uno, apgar_cinco, indice_choque, criterio_sofa, edad_gestacional, idgenero FROM recien_nacido WHERE idgestacion='$row_g[0]' ORDER BY idrecien_nacido DESC LIMIT 1 ";
+                                // [11] = sexo del recién nacido; [12] = su nombre; [13] = clasificación peso/edad gestacional (ADECUADO/PEQUEÑO/GRANDE)
+                                $sql_rn =" SELECT rn.idrecien_nacido, rn.liq_amniotico, rn.peso_rn, rn.talla_rn, rn.pc_rn, rn.pt_rn, rn.apgar_uno, rn.apgar_cinco, rn.indice_choque, rn.criterio_sofa, rn.edad_gestacional, rn.idgenero, ";
+                                $sql_rn.=" g.genero, pe.peso_eg FROM recien_nacido rn LEFT JOIN genero g ON g.idgenero = rn.idgenero LEFT JOIN peso_eg pe ON pe.idpeso_eg = rn.idpeso_eg ";
+                                $sql_rn.=" WHERE rn.idgestacion='$row_g[0]' ORDER BY rn.idrecien_nacido DESC LIMIT 1 ";
                                 $result_rn = mysqli_query($link,$sql_rn);
                                 $row_rn = mysqli_fetch_array($result_rn);
                             ?>
                             <div class="col-sm-2">
                             <h6 class="text-primary">EDAD GESTACIONAL</br>[Semanas]:</h6>
-                                <input type="number" class="form-control" value="<?php echo $row_rn[10];?>""
+                                <input type="number" class="form-control" value="<?php echo cr_h($row_rn[10]);?>"
                                     name="edad_gestacional" disabled>                 
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">LÍQUIDO AMNIÓTICO:</br></h6> 
-                                <input type="text" name="liq_amniotico" value="<?php echo $row_rn[1];?>" disabled>             
+                                <input type="text" name="liq_amniotico" value="<?php echo cr_h($row_rn[1]);?>" disabled>             
                             </div> 
                             <div class="col-sm-2">
                             <h6 class="text-primary">PESO</br>[gramos]</h6>
                                 <input type="number" class="form-control"              
-                                    name="peso_rn" value="<?php echo $row_rn[2];?>" disabled>               
+                                    name="peso_rn" value="<?php echo cr_h($row_rn[2]);?>" disabled>               
                             </div>
                         </div>
                     
@@ -821,27 +738,27 @@ $row_n=mysqli_fetch_array($result_n);
                             <div class="col-sm-2">
                             <h6 class="text-primary">TALLA</br>[centímetros]</h6>
                                 <input type="number" class="form-control"              
-                                    name="talla_rn" value="<?php echo $row_rn[3];?>" disabled>               
+                                    name="talla_rn" value="<?php echo cr_h($row_rn[3]);?>" disabled>               
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">P.C.:</br>[perimetro]</h6>
                                 <input type="number" class="form-control"              
-                                    name="pc_rn" value="<?php echo $row_rn[4];?>" disabled>  
+                                    name="pc_rn" value="<?php echo cr_h($row_rn[4]);?>" disabled>  
                             </div>
                             <div class="col-sm-2">
                             <h6 class="text-primary">P.T.:</br>[perimetro]</h6>
                                 <input type="number" class="form-control"              
-                                    name="pt_rn" value="<?php echo $row_rn[5];?>" disabled>  
+                                    name="pt_rn" value="<?php echo cr_h($row_rn[5]);?>" disabled>  
                             </div>
                             <div class="col-sm-3">
                             <h6 class="text-primary">APGAR:</br>[Primer Minuto]</h6>
                                 <input type="number" class="form-control"              
-                                    name="apgar_uno" value="<?php echo $row_rn[6];?>" disabled>  
+                                    name="apgar_uno" value="<?php echo cr_h($row_rn[6]);?>" disabled>  
                             </div>
                             <div class="col-sm-3">
                             <h6 class="text-primary">APGAR:</br>[5 minutos]</h6>
                                 <input type="number" class="form-control"              
-                                    name="apgar_cinco" value="<?php echo $row_rn[7];?>" disabled>  
+                                    name="apgar_cinco" value="<?php echo cr_h($row_rn[7]);?>" disabled>  
                             </div>
                         </div>
 
@@ -849,52 +766,20 @@ $row_n=mysqli_fetch_array($result_n);
                             <div class="col-sm-3">
                             <h6 class="text-primary">INDICE DE CHOQUE:</br>[indice]</h6>
                                 <input type="number" class="form-control"              
-                                    name="indice_choque" value="<?php echo $row_rn[8];?>" disabled>               
+                                    name="indice_choque" value="<?php echo cr_h($row_rn[8]);?>" disabled>               
                             </div>
                             <div class="col-sm-3">
                             <h6 class="text-primary">CRITERIOS SOFA:</br>[indice]</h6>
                                 <input type="number" class="form-control"              
-                                    name="criterio_sofa" value="<?php echo $row_rn[9];?>" disabled>  
+                                    name="criterio_sofa" value="<?php echo cr_h($row_rn[9]);?>" disabled>  
                             </div>
                             <div class="col-sm-3">
                             <h6 class="text-primary">SEXO </br> RECIÉN NACIDO</h6>
-                                <select name="idgenero" id="idgenero" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT idgenero, genero FROM genero ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_rn[11]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control" value="<?php echo cr_h($row_rn[12]);?>" disabled>
                             </div>
                             <div class="col-sm-3">
                             <h6 class="text-primary">PESO/EDAD GESTACIONAL</h6>
-                                <select name="idpeso_eg" id="idpeso_eg" class="form-control" disabled >
-                                    <option selected>Seleccione</option>
-                                    <?php
-                                    $sqlv = " SELECT idpeso_eg, peso_eg FROM peso_eg ";
-                                    $resultv = mysqli_query($link,$sqlv);
-                                    if ($rowv = mysqli_fetch_array($resultv)){
-                                    mysqli_field_seek($resultv,0);
-                                    while ($fieldv = mysqli_fetch_field($resultv)){
-                                    } do {
-                                    ?>
-                                    <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_rn[11]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                                    <?php
-                                    } while ($rowv = mysqli_fetch_array($resultv));
-                                    } else {
-                                    }
-                                    ?>
-                                </select>
+                                <input type="text" class="form-control" value="<?php echo cr_h($row_rn[13]);?>" disabled>
                             </div>
                         </div>
                     </div>
@@ -918,7 +803,7 @@ $row_n=mysqli_fetch_array($result_n);
 
 <!-------------- ANTECDENTES OBSTETRICOS - END --------------->
 
-<!-------------- ARCHIVOS ADJUNTOS CONTRAREFERENCIA - BEGIN --------------->
+<!-------------- ARCHIVOS ADJUNTOS CONTRARREFERENCIA - BEGIN --------------->
 
    <?php 
                         $archivo_referencia_mostrar = "";
@@ -926,7 +811,7 @@ $row_n=mysqli_fetch_array($result_n);
                         $res_adj_mostrar = mysqli_query($link, $sql_adj_mostrar);
                         if ($res_adj_mostrar && mysqli_num_rows($res_adj_mostrar) > 0) {
                             $row_adj_mostrar = mysqli_fetch_assoc($res_adj_mostrar);
-                            $archivo_referencia_mostrar = $row_adj_mostrar['file_ref'];
+                            $archivo_referencia_mostrar = basename((string)$row_adj_mostrar['file_ref']); // solo el nombre, nunca una ruta
                         }
 
                         // Verificamos que el archivo exista en la carpeta física
@@ -947,21 +832,21 @@ $row_n=mysqli_fetch_array($result_n);
                                             <button class="btn btn-sm btn-outline-success shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorMostrar" aria-expanded="false" aria-controls="visorMostrar">
                                                 <i class="fas fa-eye"></i> VER / OCULTAR
                                             </button>
-                                            <a href="../files_ref/<?php echo $archivo_referencia_mostrar; ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
+                                            <a href="../files_ref/<?php echo rawurlencode($archivo_referencia_mostrar); ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
                                                 <i class="fas fa-expand-arrows-alt"></i> PANTALLA COMPLETA
                                             </a>
                                         </div>
                                     </div>
                                     <div class="collapse mt-3" id="visorMostrar">
                                         <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden; background-color: #eaecf4;">
-                                            <iframe src="../files_ref/<?php echo $archivo_referencia_mostrar; ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                                            <iframe src="../files_ref/<?php echo rawurlencode($archivo_referencia_mostrar); ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         <?php } ?>
 
-<!-------------- ARCHIVOS ADJUNTOS CONTRAREFERENCIA - END --------------->
+<!-------------- ARCHIVOS ADJUNTOS CONTRARREFERENCIA - END --------------->
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -979,24 +864,9 @@ $row_n=mysqli_fetch_array($result_n);
                                         <input type="text" class="form-control buscador-cie-inteligente" placeholder="Buscar enfermedad (escriba aquí)..." data-target="idpatologia_0" autocomplete="off"> 
                                         <div class="lista-flotante-cie" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; width: 95%; max-height: 200px; overflow-y: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 4px;"></div> 
 
-                                        <select name="idpatologia[0]" id="idpatologia_0" class="form-control" required style="display: none;"> <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
-                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar un diagnóstico CIE-10.</div> 
+                                        <!-- ID del CIE-10 elegido en el buscador (lo que recibe guarda_contrareferencia.php) -->
+                                        <input type="hidden" name="idpatologia[0]" id="idpatologia_0" value="" required>
+                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar un diagnóstico CIE-10.</div>
                                     </div>
                                 </div>
 
@@ -1010,23 +880,8 @@ $row_n=mysqli_fetch_array($result_n);
                                         <input type="text" class="form-control buscador-cie-inteligente" placeholder="Buscar enfermedad (escriba aquí)..." data-target="idpatologia_1" autocomplete="off"> 
                                         <div class="lista-flotante-cie" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; width: 95%; max-height: 200px; overflow-y: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 4px;"></div> 
 
-                                        <select name="idpatologia[1]" id="idpatologia_1" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
+                                        <div class="invalid-feedback" style="margin-top: 5px;">Este diagnóstico tiene texto pero no tiene CIE-10. Seleccione un CIE-10 de la lista o borre el texto.</div>
+                                        <input type="hidden" name="idpatologia[1]" id="idpatologia_1" value="">
                                     </div>
                                 </div>
 
@@ -1040,23 +895,8 @@ $row_n=mysqli_fetch_array($result_n);
                                         <input type="text" class="form-control buscador-cie-inteligente" placeholder="Buscar enfermedad (escriba aquí)..." data-target="idpatologia_2" autocomplete="off"> 
                                         <div class="lista-flotante-cie" style="display: none; position: absolute; background: white; border: 1px solid #ccc; z-index: 1000; width: 95%; max-height: 200px; overflow-y: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); border-radius: 4px;"></div> 
 
-                                        <select name="idpatologia[2]" id="idpatologia_2" class="form-control" style="display: none;"> <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
+                                        <div class="invalid-feedback" style="margin-top: 5px;">Este diagnóstico tiene texto pero no tiene CIE-10. Seleccione un CIE-10 de la lista o borre el texto.</div>
+                                        <input type="hidden" name="idpatologia[2]" id="idpatologia_2" value="">
                                     </div>
                                 </div>
 
@@ -1150,7 +990,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">OBSERVACIONES / RECOMENDACIONES A LA CONTARREFERENCIA</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">OBSERVACIONES / RECOMENDACIONES A LA CONTRARREFERENCIA</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">  <!-- Modificado la seccion-->                             
@@ -1164,7 +1004,7 @@ $row_n=mysqli_fetch_array($result_n);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTO DE SALUD AL QUE SE REALIZA LA CONTRAREFERENCIA</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">ESTABLECIMIENTO DE SALUD AL QUE SE REALIZA LA CONTRARREFERENCIA</h6>
                             </div>
                                 <?php
                                 $sql_est =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
@@ -1174,29 +1014,28 @@ $row_n=mysqli_fetch_array($result_n);
                                 $result_est = mysqli_query($link,$sql_est);
                                 $row_est = mysqli_fetch_array($result_est);
                                 ?>
-                                <input type="hidden" name="idestablecimiento_destino" value="<?php echo $row_ref[4];?>">
                             <div class="card-body">
                                 <div class="form-group row">   
                                     <div class="col-sm-4">  
                                         <h6 class="text-primary">ESTABLECIMIENTO DE SALUD:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_est[1];?> "             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_est[1]);?> "             
                                         name="establecimiento_salud" disabled > 
                                     </div>  
                                     <div class="col-sm-4">  
                                         <h6 class="text-primary">MUNICIPIO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_est[5];?>"             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_est[5]);?>"             
                                         name="municipio" disabled > 
                                     </div> 
                                     <div class="col-sm-4">  
                                         <h6 class="text-primary">NIVEL DEL ESTABLECIMIENTO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_est[2];?>"             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_est[2]);?>"             
                                         name="nivel_establecimiento" disabled > 
                                     </div>  
                                 </div> 
                                 <div class="form-group row">   
                                     <div class="col-sm-3">  
                                         <h6 class="text-primary">TIPO DE ESTABLECIMIENTO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_est[3];?>"             
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_est[3]);?>"             
                                         name="tipo_establecimiento" disabled > 
                                     </div>  
                                     <div class="col-sm-3">  
@@ -1205,7 +1044,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         $sql_rs =" SELECT red_salud FROM red_salud WHERE idred_salud='$row_ref[2]' ";
                                         $result_rs = mysqli_query($link,$sql_rs);
                                         $row_rs = mysqli_fetch_array($result_rs);
-                                        echo $row_rs[0];?>"  name="establecimiento_salud" disabled > 
+                                        echo cr_h($row_rs[0]);?>"  name="establecimiento_salud" disabled > 
                                     </div> 
                                     <div class="col-sm-3">  
                                         <h6 class="text-primary">SE CONTACTO AL ESTABLECIMIENTO:</h6>
@@ -1214,7 +1053,8 @@ $row_n=mysqli_fetch_array($result_n);
                                     </div> 
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
-                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="<?php if ($row_ref[21]=='5') { echo 'SI'; } else { echo 'NO';}?>" <?php if ($row_ref[21]=='5') { echo 'checked'; } else { echo '';}?> >
+                                        <!-- Siempre envía SI al marcarse; viene marcada de entrada solo si el motivo de referencia es 5 (POR TELESALUD). Sin marcar = NO. -->
+                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="SI" <?php if ($row_ref[21]=='5') { echo 'checked'; } ?> disabled>
                                     </div>   
                                 </div> 
 
@@ -1244,17 +1084,26 @@ $row_n=mysqli_fetch_array($result_n);
 
                                     <div class="col-sm-4">
                                         <h6 class="text-primary" id="titulo-atencion-sitio">ATENCIÓN EN SITIO:</h6>
-                                        SI <input type="radio" name="atencion_sitio" id="sitio_si" value="SI" disabled> <br>
-                                        NO <input type="radio" name="atencion_sitio" id="sitio_no" value="NO" checked disabled>  
+                                        <label for="sitio_si" style="cursor: help; margin-bottom: 0; font-size: inherit; font-weight: inherit; display: inline;" data-toggle="tooltip" data-placement="right"
+                                               title="Marque SI cuando el especialista indica que el paciente continúe su tratamiento en su establecimiento de origen (resuelto a distancia, sin traslado).">
+                                        SI <input type="radio" name="atencion_sitio" id="sitio_si" value="SI" disabled></label> <br>
+                                        <label for="sitio_no" style="cursor: help; margin-bottom: 0; font-size: inherit; font-weight: inherit; display: inline;" data-toggle="tooltip" data-placement="right"
+                                               title="Marque NO cuando el especialista indica la referencia física del paciente (traslado presencial al establecimiento receptor).">
+                                        NO <input type="radio" name="atencion_sitio" id="sitio_no" value="NO" checked disabled></label>
                                     </div>
 
                                     <div class="col-sm-4">
                                         <h6 class="text-primary" id="titulo-tipo-tele">TIPO DE TELEINTERCONSULTA:</h6>
                                         <select name="idtipo_teleinterconsulta" id="idtipo_teleinterconsulta_contra" class="form-control" disabled>
                                             <option value="">-SELECCIONE-</option>
-                                            <option value="1">Telediagnóstico Médico</option>
-                                            <option value="2">Telediscusión</option>
-                                            <option value="3">Teleemergencia</option>
+                                            <?php
+                                            // Opciones desde el catálogo tipo_teleinterconsulta.
+                                            // El ID 1 (NINGUNO) es el valor que se guarda cuando NO es por Telesalud, por eso no se ofrece aquí.
+                                            $result_tt = mysqli_query($link, "SELECT idtipo_teleinterconsulta, tipo_teleinterconsulta FROM tipo_teleinterconsulta WHERE idtipo_teleinterconsulta <> 1 ORDER BY idtipo_teleinterconsulta");
+                                            while ($result_tt && $row_tt = mysqli_fetch_array($result_tt)) {
+                                                echo '<option value="'.(int)$row_tt[0].'">'.htmlspecialchars($row_tt[1], ENT_QUOTES, 'UTF-8').'</option>';
+                                            }
+                                            ?>
                                         </select>
                                         <div class="invalid-feedback">Debe seleccionar el tipo.</div>
                                     </div>
@@ -1262,7 +1111,7 @@ $row_n=mysqli_fetch_array($result_n);
                                 <hr>
                                 <div class="form-group row"> <!-- Modificado toda la seccion-->  
                                     <div class="col-sm-6">  
-                                        <h6 class="text-primary">CONTACTO DEL ESTABLECIMIENTO DE SALUD QUE RECIBE LA CONTRAREFERENCIA:</h6>  <!-- Modificado, se corrige recibe-->
+                                        <h6 class="text-primary">CONTACTO DEL ESTABLECIMIENTO DE SALUD QUE RECIBE LA CONTRARREFERENCIA:</h6>  <!-- Modificado, se corrige recibe-->
                                         <input type="text" class="form-control" value=""             
                                         name="contacto_contraref" required > 
                                         <div class="invalid-feedback" style="margin-top: 5px;">Debe indicar el contacto del establecimiento.</div> </div> 
@@ -1293,7 +1142,7 @@ $row_n=mysqli_fetch_array($result_n);
                                             <i class="fas fa-cloud-upload-alt dropzone-icon"></i>
                                             <h6 class="font-weight-bold text-secondary mb-1">Arrastre sus archivos aquí</h6>
                                             <p class="text-muted small mb-0">o haga clic para examinar el dispositivo</p>
-                                            <p class="text-xs text-info mt-1 font-weight-bold mb-0">Formatos permitidos: JPG, JPEG, PNG, PDF</p>
+                                            <p class="text-xs text-info mt-1 font-weight-bold mb-0">Formatos permitidos: JPG, JPEG, PNG, PDF &middot; Tamaño máximo total: <?php echo cr_limite_adjunto_mb(); ?> MB</p>
                                             <input type="file" id="input_archivos_contra" multiple accept="image/jpeg, image/png, application/pdf" style="display: none;">
                                         </div>
 
@@ -1313,14 +1162,17 @@ $row_n=mysqli_fetch_array($result_n);
                           
                     </div>
 
-                            <div class="text-center">   
-                                <div class="form-group row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#examplemodal_f">
-                                        REGISTRAR CONTRAREFERENCIA
-                                        </button>  
-                                    </div>                              
-                                </div>                            
+                            <!-- Botón de registro: en su lugar normal; pasa a flotar (mismo tamaño) solo después de
+                                 intentar registrar con campos pendientes, para no tener que bajar hasta aquí otra vez -->
+                            <style>
+                                #barra-registrar.flotante { position: fixed; bottom: 16px; z-index: 1030; pointer-events: none; margin: 0; }
+                                #barra-registrar.flotante button { pointer-events: auto; box-shadow: 0 .5rem 1rem rgba(58,59,69,.25); }
+                            </style>
+                            <div id="espacio-barra-registrar" style="height: 70px; display: none;"></div>
+                            <div id="barra-registrar" class="text-center mb-3">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#examplemodal_f">
+                                REGISTRAR CONTRARREFERENCIA
+                                </button>
                             </div>
 
                             <!-- modal de confirmacion de envio de datos-->
@@ -1328,20 +1180,20 @@ $row_n=mysqli_fetch_array($result_n);
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h5 class="modal-title" id="examplemodal_fLabel">REGISTRAR CONTRAREFERENCIA</h5>
+                                            <h5 class="modal-title" id="examplemodal_fLabel">REGISTRAR CONTRARREFERENCIA</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                             </button>
                                             </div>
                                             <div class="modal-body">
                                                 
-                                                Esta seguro de Registrar la CONTRAREFERENCIA?
+                                                Esta seguro de Registrar la CONTRARREFERENCIA?
                                                 posteriormente no se podran realizar cambios.
 
                                             </div>
                                             <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
-                                            <button type="button" id="btn-confirmar-registro" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button> ``` <!-- Modificado -->    
+                                            <button type="button" id="btn-confirmar-registro" class="btn btn-primary pull-center">CONFIRMAR REGISTRO</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1405,12 +1257,48 @@ $row_n=mysqli_fetch_array($result_n);
     <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- scripts para calendario -->
-        <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+    <!-- Dictado por voz (iniciarDictado) -->
         <script src="../js/funciones.js"></script>
+
+    <!-- Buscador CIE-10 compartido (catálogo desde comun/ajax_cie10.php, en caché del navegador) -->
+        <script src="../comun/buscador_cie10.js"></script>
+        <script>BuscadorCIE10.iniciar('<?php echo cie10_url_catalogo($link); ?>');</script>
+
+    <!-- Mensajes de ayuda al pasar el mouse (ej. ATENCIÓN EN SITIO) -->
+        <script>if (window.jQuery && jQuery.fn.tooltip) { jQuery(function ($) { $('[data-toggle="tooltip"]').tooltip(BuscadorCIE10.tooltipVidrio); }); }</script>
+
+    <!-- Botón REGISTRAR flotante: se activa al intentar registrar con campos pendientes;
+         queda centrado sobre la tarjeta del formulario (no sobre toda la pantalla) -->
+        <script>
+            (function () {
+                var barra   = document.getElementById('barra-registrar');
+                var espacio = document.getElementById('espacio-barra-registrar');
+                var form    = document.querySelector('form[name="GUARDA_CONTRAREFERENCIA"]');
+                var zona    = form ? (form.closest('.card') || form) : null;
+                var activo  = false;
+                if (!barra || !zona) return;
+
+                function alinear() {
+                    if (!activo) return;
+                    var r = zona.getBoundingClientRect();
+                    barra.style.left  = r.left + 'px';
+                    barra.style.width = r.width + 'px';
+                }
+
+                window.activarBotonFlotante = function () {
+                    if (activo) return;
+                    activo = true;
+                    barra.classList.add('flotante');
+                    if (espacio) espacio.style.display = 'block';
+                    alinear();
+                    window.addEventListener('resize', alinear);
+                    if (window.ResizeObserver) { new ResizeObserver(alinear).observe(zona); }   // ej. al ocultar/mostrar el menú lateral
+                    document.querySelectorAll('#sidebarToggle, #sidebarToggleTop').forEach(function (b) {
+                        b.addEventListener('click', function () { setTimeout(alinear, 350); });
+                    });
+                };
+            })();
+        </script>
 
 <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -1556,8 +1444,8 @@ $row_n=mysqli_fetch_array($result_n);
                             if (valor === '' || !el.checkValidity()) {
                                 hayErrores = true;
                                 
-                                // 👉 CASO ESPECIAL: Si falla el Select oculto del CIE-10, pintamos el Input Visual
-                                if (el.style.display === 'none' && el.id && el.id.includes('idpatologia')) {
+                                // CASO ESPECIAL: Si falla el Select oculto del CIE-10, pintamos el Input Visual
+                                if ((el.type === 'hidden' || el.style.display === 'none') && el.id && el.id.includes('idpatologia')) {
                                     var inputVisual = document.querySelector('input[data-target="' + el.id + '"]');
                                     if (inputVisual) {
                                         inputVisual.classList.add('is-invalid');
@@ -1570,7 +1458,7 @@ $row_n=mysqli_fetch_array($result_n);
                                         if (!primerInvalido) primerInvalido = inputVisual;
                                     }
                                 } 
-                                // 👉 CASO NORMAL: Campos visibles que no se llenaron
+                                // CASO NORMAL: Campos visibles que no se llenaron
                                 else if (el.type !== 'hidden' && el.style.display !== 'none') {
                                     el.classList.add('is-invalid');
                                     el.style.setProperty('border', '2px solid #dc3545', 'important');
@@ -1585,9 +1473,52 @@ $row_n=mysqli_fetch_array($result_n);
                                 }
                             }
                         });
-                        
+
+                        // DIAGNÓSTICOS 2 Y 3 (opcionales): si tienen texto, deben tener CIE-10 elegido de la lista
+                        ['1', '2'].forEach(function(n) {
+                            var texto  = document.getElementById('diagnostico_egreso_' + n);
+                            var select = document.getElementById('idpatologia_' + n);
+                            if (texto && select && texto.value.trim() !== '' && select.value === '') {
+                                hayErrores = true;
+                                var inputVisual = document.querySelector('input[data-target="idpatologia_' + n + '"]');
+                                if (inputVisual) {
+                                    inputVisual.classList.add('is-invalid');
+                                    inputVisual.style.setProperty('border', '2px solid #dc3545', 'important');
+                                    var fbDx = select.parentNode.querySelector('.invalid-feedback');
+                                    if (fbDx) fbDx.style.setProperty('display', 'block', 'important');
+                                    if (!primerInvalido) primerInvalido = inputVisual;
+                                }
+                            }
+                        });
+
+                        // ADJUNTOS: esperar a que terminen de prepararse / no enviar si fallaron
+                        if (!hayErrores && window.estadoAdjuntosContra === 'procesando') {
+                            hayErrores = true;
+                            alert('Los archivos adjuntos todavía se están preparando. Espere unos segundos y vuelva a presionar REGISTRAR.');
+                            if (!primerInvalido) primerInvalido = document.getElementById('dropzone_contra');
+                        } else if (!hayErrores && window.estadoAdjuntosContra === 'error') {
+                            hayErrores = true;
+                            alert('Hay un problema con los archivos adjuntos. Quite el último archivo agregado o vuelva a adjuntarlos.');
+                            if (!primerInvalido) primerInvalido = document.getElementById('dropzone_contra');
+                        }
+
+                        // TAMAÑO DEL ADJUNTO: límite de la aplicación (y nunca mayor al que acepta el servidor)
+                        var limiteAdjunto = <?php echo (int)cr_limite_adjunto(); ?>;
+                        var pdfOculto = document.getElementById('pdf_final_oculto_contra');
+                        if (!hayErrores && limiteAdjunto > 0 && pdfOculto && pdfOculto.files && pdfOculto.files.length > 0
+                            && pdfOculto.files[0].size > limiteAdjunto) {
+                            hayErrores = true;
+                            alert('Los archivos adjuntos suman ' + (pdfOculto.files[0].size / 1048576).toFixed(1) +
+                                  ' MB y el máximo permitido es ' + (limiteAdjunto / 1048576).toFixed(1) +
+                                  ' MB. Quite algunos archivos o use fotos de menor tamaño.');
+                            if (!primerInvalido) primerInvalido = document.getElementById('dropzone_contra');
+                        }
+
                         // ACCIONES FINALES
                         if (hayErrores) {
+                            // Desde ahora el botón REGISTRAR flota, para volver a intentar sin bajar hasta el final
+                            if (window.activarBotonFlotante) window.activarBotonFlotante();
+
                             // Cerramos el modal usando múltiples métodos por seguridad
                             try {
                                 var btnCancelar = document.querySelector('#examplemodal_f [data-dismiss="modal"]');
@@ -1627,121 +1558,11 @@ $row_n=mysqli_fetch_array($result_n);
                     });
                 }
 
-                // 3. CANDADO DE INTEGRIDAD VISUAL PARA DIAGNÓSTICOS CIE-10 (Solo Egreso)
-                var buscadores = document.querySelectorAll('.buscador-cie-inteligente');
-                buscadores.forEach(function(input) {
-                    var targetId = input.getAttribute('data-target');
-                    var selectOriginal = document.getElementById(targetId);
-                    var listaFlotante = input.nextElementSibling; 
-                    
-                    if(!selectOriginal) return;
-                    
-                    // Obtenemos todas las opciones válidas del select oculto original
-                    var opciones = Array.from(selectOriginal.options).filter(opt => opt.value !== "");
-                    
-                    // Escuchamos lo que el médico escribe
-                    input.addEventListener('input', function() {
-                        if (this.readOnly) return; 
-                        
-                        // EFECTO MAGIA: Borrar rojo si empiezan a buscar un diagnóstico
-                        this.classList.remove('is-invalid');
-                        this.style.border = '';
-                        var fb = selectOriginal.parentNode.querySelector('.invalid-feedback');
-                        if (fb) fb.style.display = '';
-
-                        var term = this.value.toLowerCase().trim();
-                        listaFlotante.innerHTML = ''; 
-                        
-                        if (term === '') {
-                            listaFlotante.style.display = 'none';
-                            selectOriginal.value = ''; 
-                            return;
-                        }
-                        
-                        // Buscamos coincidencias de texto
-                        var coincidencias = opciones.filter(opt => opt.text.toLowerCase().includes(term));
-                        
-                        if (coincidencias.length > 0) {
-                            listaFlotante.style.display = 'block'; 
-                            // Mostramos máximo 100 resultados para no colapsar la pantalla
-                            coincidencias.slice(0, 100).forEach(function(opt) { 
-                                var item = document.createElement('div');
-                                item.textContent = opt.text;
-                                item.style.padding = '8px 12px';
-                                item.style.cursor = 'pointer';
-                                item.style.borderBottom = '1px solid #eaecf4';
-                                item.style.fontSize = '0.9rem';
-                                item.style.color = '#5a5c69';
-                                
-                                // Efecto de iluminación al pasar el mouse (Hover)
-                                item.addEventListener('mouseenter', function() { this.style.backgroundColor = '#eaecf4'; this.style.color = '#2e59d9'; });
-                                item.addEventListener('mouseleave', function() { this.style.backgroundColor = 'transparent'; this.style.color = '#5a5c69'; });
-                                
-                                // Al hacer clic en una enfermedad
-                                item.addEventListener('mousedown', function(e) {
-                                    e.preventDefault(); 
-                                    input.value = opt.text; // Mostramos el texto en el input visual
-                                    selectOriginal.value = opt.value; // Guardamos el código real en el select oculto
-                                    listaFlotante.style.display = 'none'; 
-
-                                    // Aplicamos el Candado Visual (Color azul y bloqueado)
-                                    input.readOnly = true;
-                                    input.style.backgroundColor = '#eaecf4';
-                                    input.style.color = '#2e59d9';
-                                    input.style.cursor = 'not-allowed';
-                                    input.title = "Doble clic o presione Borrar (Backspace) para cambiar el diagnóstico";
-                                });
-                                listaFlotante.appendChild(item);
-                            });
-                        } else {
-                            listaFlotante.style.display = 'none';
-                        }
-                    });
-
-                    // Función maestra para quitar el candado si se equivocaron
-                    function desbloquearCIE() {
-                        if (input.readOnly) {
-                            input.readOnly = false;
-                            input.value = '';
-                            selectOriginal.value = '';
-                            input.style.backgroundColor = '';
-                            input.style.color = '';
-                            input.style.cursor = 'text';
-                            input.removeAttribute('title');
-                            input.focus();
-                        }
-                    }
-
-                    // Permitir borrar con tecla Backspace o Suprimir
-                    input.addEventListener('keydown', function(e) {
-                        if (input.readOnly) {
-                            if (e.key === 'Backspace' || e.key === 'Delete') { 
-                                e.preventDefault(); 
-                                desbloquearCIE(); 
-                            } else if (e.key !== 'Tab') { 
-                                e.preventDefault(); 
-                            }
-                        }
-                    });
-
-                    // Permitir borrar con doble clic del mouse
-                    input.addEventListener('dblclick', desbloquearCIE);
-
-                    // Si el médico da clic afuera sin elegir nada, limpiamos la basura
-                    input.addEventListener('blur', function() {
-                        setTimeout(function() {
-                            listaFlotante.style.display = 'none';
-                            if (!input.readOnly) { 
-                                input.value = ''; 
-                                selectOriginal.value = ''; 
-                            }
-                        }, 200);
-                    });
-                });
+                // 3. BUSCADOR CIE-10: ahora en ../comun/buscador_cie10.js (se inicia al final de la página)
             });
 
         </script>
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="../vendor/pdf-lib/pdf-lib-1.17.1.min.js"></script>
         
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -1786,14 +1607,87 @@ $row_n=mysqli_fetch_array($result_n);
                     if (e.target.files.length > 0) procesarArchivosNuevos(e.target.files);
                 });
 
-                function procesarArchivosNuevos(files) {
-                    Array.from(files).forEach(file => {
-                        if (file.type === 'application/pdf' || file.type.startsWith('image/')) {
-                            archivosAdjuntos.push(file);
-                        } else {
-                            alert('El formato del archivo "' + file.name + '" no es válido.');
-                        }
+                // Estado de los adjuntos para el botón de registro: 'listo' | 'procesando' | 'error'
+                window.estadoAdjuntosContra = 'listo';
+                let generacionPDF = 0;
+
+                // Tipo REAL del archivo según sus primeros bytes (no por la extensión)
+                function tipoReal(bytes) {
+                    if (bytes.length >= 5 && bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46 && bytes[4] === 0x2D) return 'pdf'; // %PDF-
+                    if (bytes.length >= 8 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return 'png';
+                    if (bytes.length >= 3 && bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) return 'jpg';
+                    return null;
+                }
+
+                // ¿El navegador puede dibujar la imagen? (detecta imágenes cortadas o dañadas)
+                function imagenVisualizable(file) {
+                    if (window.createImageBitmap) {
+                        return createImageBitmap(file)
+                            .then(bmp => { const ok = bmp.width > 0 && bmp.height > 0; if (bmp.close) bmp.close(); return ok; })
+                            .catch(() => false);
+                    }
+                    // Navegadores antiguos: decodificar con <img> (máximo 15 s de espera)
+                    return new Promise(resolve => {
+                        const url = URL.createObjectURL(file);
+                        const img = new Image();
+                        const fin = (ok) => { clearTimeout(t); URL.revokeObjectURL(url); resolve(ok); };
+                        const t = setTimeout(() => fin(true), 15000);
+                        img.onload = () => fin(img.naturalWidth > 0 && img.naturalHeight > 0);
+                        img.onerror = () => fin(false);
+                        img.src = url;
                     });
+                }
+
+                // Revisa un archivo: devuelve {file, tipo, bytes} o {error: 'motivo'}
+                async function revisarArchivo(file) {
+                    let bytes;
+                    try { bytes = new Uint8Array(await file.arrayBuffer()); }
+                    catch (e) { return { error: 'no se pudo leer el archivo' }; }
+                    if (bytes.length === 0) return { error: 'el archivo está vacío' };
+
+                    const tipo = tipoReal(bytes);
+                    if (!tipo) return { error: 'formato no válido o archivo dañado (solo JPG, PNG o PDF)' };
+
+                    if (tipo === 'pdf') {
+                        try {
+                            const doc = await PDFLib.PDFDocument.load(bytes);
+                            if (doc.getPageCount() === 0) return { error: 'el PDF no tiene páginas' };
+                        } catch (e) {
+                            const msg = String(e && e.message || e);
+                            if (/encrypt/i.test(msg)) return { error: 'el PDF está protegido con contraseña' };
+                            return { error: 'el PDF está dañado o no se puede abrir' };
+                        }
+                    } else {
+                        if (!(await imagenVisualizable(file))) return { error: 'la imagen está dañada o no se puede visualizar' };
+                        try {
+                            const prueba = await PDFLib.PDFDocument.create();
+                            if (tipo === 'png') await prueba.embedPng(bytes); else await prueba.embedJpg(bytes);
+                        } catch (e) {
+                            return { error: 'la imagen está dañada o no se puede convertir a PDF' };
+                        }
+                    }
+                    return { file: file, tipo: tipo, bytes: bytes };
+                }
+
+                async function procesarArchivosNuevos(files) {
+                    const lista = Array.from(files);
+                    if (lista.length === 0) return;
+                    if (typeof PDFLib === 'undefined') {
+                        alert('No se pudo cargar el componente de adjuntos. Recargue la página e intente nuevamente.');
+                        return;
+                    }
+                    window.estadoAdjuntosContra = 'procesando';
+                    const rechazados = [];
+                    for (const file of lista) {
+                        const r = await revisarArchivo(file);
+                        if (r.error) rechazados.push('• ' + file.name + ': ' + r.error);
+                        else archivosAdjuntos.push(r);
+                    }
+                    inputArchivos.value = ''; // permite volver a elegir el mismo archivo
+                    if (rechazados.length > 0) {
+                        alert('Los siguientes archivos NO se adjuntaron:\n\n' + rechazados.join('\n') +
+                              '\n\nVerifique que se abran correctamente en su equipo y vuelva a adjuntarlos.');
+                    }
                     renderizarGaleriaYGenerarPDF();
                 }
 
@@ -1803,18 +1697,22 @@ $row_n=mysqli_fetch_array($result_n);
                 }
 
                 async function renderizarGaleriaYGenerarPDF() {
+                    const miGeneracion = ++generacionPDF;
                     previewGallery.innerHTML = '';
-                    
+
                     if (archivosAdjuntos.length === 0) {
                         btnPrevisualizar.style.display = 'none';
                         $('#visorColapsableFormContra').collapse('hide');
                         visorPdf.src = '';
                         inputOcultoPDF.files = (new DataTransfer()).files;
+                        window.estadoAdjuntosContra = 'listo';
                         return;
                     }
+                    window.estadoAdjuntosContra = 'procesando';
 
                     // Renderizar miniaturas en HTML
-                    archivosAdjuntos.forEach((file, index) => {
+                    archivosAdjuntos.forEach((adj, index) => {
+                        const file = adj.file;
                         const divItem = document.createElement('div');
                         divItem.className = 'preview-item';
                         
@@ -1827,11 +1725,11 @@ $row_n=mysqli_fetch_array($result_n);
                         spanName.className = 'file-name';
                         spanName.textContent = file.name;
 
-                        if (file.type.startsWith('image/')) {
+                        if (adj.tipo === 'png' || adj.tipo === 'jpg') {
                             const img = document.createElement('img');
                             img.src = URL.createObjectURL(file);
                             divItem.appendChild(img);
-                        } else if (file.type === 'application/pdf') {
+                        } else if (adj.tipo === 'pdf') {
                             const iconPdf = document.createElement('div');
                             iconPdf.style.display = 'flex'; iconPdf.style.alignItems = 'center';
                             iconPdf.style.justifyContent = 'center'; iconPdf.style.height = '100%';
@@ -1853,16 +1751,16 @@ $row_n=mysqli_fetch_array($result_n);
                         const { PDFDocument } = PDFLib;
                         const pdfDoc = await PDFDocument.create();
 
-                        for (const file of archivosAdjuntos) {
-                            const arrayBuffer = await file.arrayBuffer();
+                        for (const adj of archivosAdjuntos) {
+                            const arrayBuffer = adj.bytes;   // ya revisado al adjuntarlo
 
-                            if (file.type === 'application/pdf') {
+                            if (adj.tipo === 'pdf') {
                                 const loadedPdf = await PDFDocument.load(arrayBuffer);
                                 const pages = await pdfDoc.copyPages(loadedPdf, loadedPdf.getPageIndices());
                                 pages.forEach(page => pdfDoc.addPage(page));
-                            } else if (file.type.startsWith('image/')) {
-                                let image = (file.type === 'image/png') 
-                                    ? await pdfDoc.embedPng(arrayBuffer) 
+                            } else {
+                                let image = (adj.tipo === 'png')
+                                    ? await pdfDoc.embedPng(arrayBuffer)
                                     : await pdfDoc.embedJpg(arrayBuffer);
 
                                 if (image) {
@@ -1880,19 +1778,32 @@ $row_n=mysqli_fetch_array($result_n);
                         }
 
                         const pdfBytes = await pdfDoc.save();
+                        if (miGeneracion !== generacionPDF) return; // llegó un cambio más reciente
                         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                        
+
                         // Cargar en el Iframe para la vista previa
                         visorPdf.src = URL.createObjectURL(blob);
-                        
+
                         // Inyectarlo en el input para que lo envíe el FORM
-                        const fileFinal = new File([blob], "Adjuntos_Contrareferencia.pdf", { type: "application/pdf" });
+                        const fileFinal = new File([blob], "Adjuntos_Contrarreferencia.pdf", { type: "application/pdf" });
                         const dataTransfer = new DataTransfer();
                         dataTransfer.items.add(fileFinal);
                         inputOcultoPDF.files = dataTransfer.files;
+                        window.estadoAdjuntosContra = 'listo';
+
+                        // Aviso inmediato si el total supera el límite (también se vuelve a revisar al registrar)
+                        const LIMITE_ADJUNTO = <?php echo (int)cr_limite_adjunto(); ?>;
+                        if (LIMITE_ADJUNTO > 0 && blob.size > LIMITE_ADJUNTO) {
+                            alert('Los archivos adjuntos suman ' + (blob.size / 1048576).toFixed(1) + ' MB y el máximo permitido es ' +
+                                  (LIMITE_ADJUNTO / 1048576).toFixed(1) + ' MB.\n\nQuite algún archivo (botón rojo X de la miniatura) o use fotos de menor tamaño.');
+                        }
 
                     } catch (error) {
-                        console.error("Error al generar PDF de contrareferencia:", error);
+                        if (miGeneracion !== generacionPDF) return;
+                        console.error("Error al generar PDF de contrarreferencia:", error);
+                        inputOcultoPDF.files = (new DataTransfer()).files; // no enviar un PDF a medias
+                        window.estadoAdjuntosContra = 'error';
+                        alert('No se pudieron preparar los archivos adjuntos. Quite el último archivo agregado e intente nuevamente.');
                     }
                 }
             });
