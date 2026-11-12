@@ -137,9 +137,9 @@ $regulador = $rowav[0]/10;
                     ?>
 
                     <?php
-                    $sql_ma = "  SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
-                    $sql_ma.= "  AND nombre.idgenero='2' AND atencion_psafci.iddepartamento='$iddepartamento' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion'   ";
-                    $sql_ma.= "  AND atencion_psafci.edad BETWEEN '$row2[2]' AND '$row2[3]' ";
+                    $sql_ma = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                    $sql_ma.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' AND atencion_psafci.iddepartamento='$iddepartamento' ";
+                    $sql_ma.= " AND nombre.idgenero='2' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row2[2]' AND '$row2[3]' ";
                     $result_ma = mysqli_query($link,$sql_ma);
                     $row_ma = mysqli_fetch_array($result_ma);
                     $cifra_masculino = $row_ma[0];
@@ -172,9 +172,10 @@ $regulador = $rowav[0]/10;
                         } do {
                         ?>
                         <?php
-                        $sql_fe = " SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
-                        $sql_fe.= " AND nombre.idgenero='1' AND atencion_psafci.iddepartamento='$iddepartamento' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-                        $sql_fe.= " AND atencion_psafci.edad BETWEEN '$row3[2]' AND '$row3[3]' ";
+
+                        $sql_fe = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_fe.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' AND atencion_psafci.iddepartamento='$iddepartamento' ";
+                        $sql_fe.= " AND nombre.idgenero='1' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row3[2]' AND '$row3[3]' ";
                         $result_fe = mysqli_query($link,$sql_fe);
                         $row_fe = mysqli_fetch_array($result_fe);
                         $cifra_femenino = $row_fe[0];
@@ -261,7 +262,7 @@ $regulador = $rowav[0]/10;
         <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">MASCULINO</span></td>
         <td width="115" align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><span class="Estilo7">FEMENINO</span></td>
     </tr>
-<?php
+                <?php
                     $numero = 1;
                     $sql = " SELECT idgrupo_etareo_cf, grupo_etareo_cf, min, max FROM grupo_etareo_cf ORDER BY idgrupo_etareo_cf ";                 
                     $result = mysqli_query($link,$sql);
@@ -270,18 +271,18 @@ $regulador = $rowav[0]/10;
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                        $sql_m = " SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
-                        $sql_m.= " AND nombre.idgenero='2' AND atencion_psafci.iddepartamento='$iddepartamento' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-                        $sql_m.= " AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
+                        $sql_m = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_m.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' AND atencion_psafci.iddepartamento='$iddepartamento' ";
+                        $sql_m.= " AND nombre.idgenero='2' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
                         $result_m = mysqli_query($link,$sql_m);
                         $row_m = mysqli_fetch_array($result_m);
 
-                        $sql_f = " SELECT count(atencion_psafci.idatencion_psafci) FROM atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
-                        $sql_f.= " AND nombre.idgenero='1' AND atencion_psafci.iddepartamento='$iddepartamento' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' ";
-                        $sql_f.= " AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
+                        $sql_f = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_f.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' AND atencion_psafci.iddepartamento='$iddepartamento' ";
+                        $sql_f.= " AND nombre.idgenero='1' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
                         $result_f = mysqli_query($link,$sql_f);
                         $row_f = mysqli_fetch_array($result_f);
-                    ?>
+                ?>
                         <tr>
                             <td bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $numero;?></td>
                             <td align="center" bgcolor="#FFFFFF" style="font-family: Arial; font-size: 12px;"><?php echo $row[1];?></td>
