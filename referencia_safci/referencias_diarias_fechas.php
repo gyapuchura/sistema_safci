@@ -815,9 +815,10 @@ Si no se encontraron resultados
               <td style="font-size: 12px; font-family: Arial; text-align: center;"><?php echo $row[7];?></td>
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
               <?php 
-                $sql_er =" SELECT establecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud='$row[14]' ";
+                $sql_er =" SELECT establecimiento_salud.establecimiento_salud, departamento.departamento FROM establecimiento_salud, departamento ";
+                $sql_er.=" WHERE establecimiento_salud.iddepartamento=departamento.iddepartamento AND establecimiento_salud.idestablecimiento_salud='$row[14]' ";
                 $result_er = mysqli_query($link,$sql_er);
-                if($row_er = mysqli_fetch_array($result_er)) { echo $row_er[0]; }
+                if($row_er = mysqli_fetch_array($result_er)) { echo $row_er[0].'</br>('.$row_er[1].')'; }
               ?>
               </td>     
               <td style="font-size: 12px; font-family: Arial; text-align: center;">
