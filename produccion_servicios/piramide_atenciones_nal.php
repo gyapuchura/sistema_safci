@@ -74,7 +74,7 @@ $regulador = $rowav[0]/10;
                 text: 'POBLACIÓN BENEFICIARIA - ATENCIONES PREVENTIVAS'
             },
             subtitle: {
-                text: 'Fuente: Sistema Medi-Safci al <?php echo $f_emision;?>'
+                text: 'Fuente: Sistema Integrado MEDI-SAFCI del <?php echo $f_inicio;?> al <?php echo $f_finalizacion;?>'
             },
             xAxis: [{
                 categories: categories,
@@ -131,9 +131,9 @@ $regulador = $rowav[0]/10;
                     } do {
                     ?>
                     <?php
-                    $sql_ma = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                    $sql_ma = " SELECT count(distinct atencion_psafci.idnombre) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
                     $sql_ma.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' ";
-                    $sql_ma.= " AND nombre.idgenero='2' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row2[2]' AND '$row2[3]'  ";
+                    $sql_ma.= " AND nombre.idgenero='2' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row2[2]' AND '$row2[3]' ";
                     $result_ma = mysqli_query($link,$sql_ma);
                     $row_ma = mysqli_fetch_array($result_ma);
                     $cifra_masculino = $row_ma[0];
@@ -165,9 +165,9 @@ $regulador = $rowav[0]/10;
                         } do {
                         ?>
                         <?php
-                        $sql_fe = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_fe = " SELECT count(distinct atencion_psafci.idnombre) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
                         $sql_fe.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' ";
-                        $sql_fe.= " AND nombre.idgenero='1' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row3[2]' AND '$row3[3]' ";
+                        $sql_fe.= " AND nombre.idgenero='1' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row3[2]' AND '$row3[3]' ";
                         $result_fe = mysqli_query($link,$sql_fe);
                         $row_fe = mysqli_fetch_array($result_fe);
                         $cifra_femenino = $row_fe[0];
@@ -263,15 +263,15 @@ $regulador = $rowav[0]/10;
                     while ($field = mysqli_fetch_field($result)){
                     } do {
 
-                        $sql_m = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_m = " SELECT count(distinct atencion_psafci.idnombre) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
                         $sql_m.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' ";
-                        $sql_m.= " AND nombre.idgenero='2' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
+                        $sql_m.= " AND nombre.idgenero='2' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
                         $result_m = mysqli_query($link,$sql_m);
                         $row_m = mysqli_fetch_array($result_m);
 
-                        $sql_f = " SELECT count(atencion_psafci.idatencion_psafci) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
+                        $sql_f = " SELECT count(distinct atencion_psafci.idnombre) FROM diagnostico_psafci, patologia, atencion_psafci, nombre WHERE atencion_psafci.idnombre=nombre.idnombre ";
                         $sql_f.= " AND diagnostico_psafci.idatencion_psafci=atencion_psafci.idatencion_psafci AND diagnostico_psafci.idpatologia=patologia.idpatologia AND patologia.cie LIKE '%Z%' ";
-                        $sql_f.= " AND nombre.idgenero='1' AND atencion_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
+                        $sql_f.= " AND nombre.idgenero='1' AND diagnostico_psafci.fecha_registro BETWEEN '$inicio' AND '$finalizacion' AND atencion_psafci.edad BETWEEN '$row[2]' AND '$row[3]' ";
                         $result_f = mysqli_query($link,$sql_f);
                         $row_f = mysqli_fetch_array($result_f);
                     ?>
