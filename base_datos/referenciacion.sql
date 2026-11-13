@@ -514,3 +514,5 @@ ALTER TABLE respuesta_item_cancer ADD FOREIGN KEY (idusuario) REFERENCES usuario
 ALTER TABLE pregunta_encuesta ADD FOREIGN KEY (idtema_encuesta) REFERENCES tema_encuesta (idtema_encuesta);
 
 ALTER TABLE item_senal_cancer ADD FOREIGN KEY (idseccion_encuesta) REFERENCES seccion_encuesta (idseccion_encuesta);
+
+ALTER TABLE nombre_correccion ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);

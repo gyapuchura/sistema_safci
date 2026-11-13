@@ -1,5 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("../comun/inc_persona.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
@@ -11,8 +12,31 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
-$ci  = $_POST['ci'];
-          
+// Misma búsqueda que historias clínicas (comun/inc_persona.php): todas las personas con ese CI;
+// complemento y fecha de nacimiento solo ordenan/resaltan.
+// POST (desde buscar_persona_cf.php) -> se guarda la búsqueda en un token y se redirige a ?b=token,
+// así la página se puede recargar después de corregir datos (ventana de corrección).
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Por CI o, con modo=nombre, por nombres y apellidos (personas sin CI)
+    $r = per_buscar_desde_post($link, $_POST, 'cf');
+    if ($r['error'] !== '') {
+        header("Location:buscar_persona_cf.php?e=" . $r['error']);
+        exit();
+    }
+    $token = per_token_crear($r['ctx']);
+    header("Location:persona_encontrada.php?b=" . $token);
+    exit();
+}
+
+$token = isset($_GET['b']) ? (string)$_GET['b'] : '';
+$ctx   = per_token_leer($token);
+if ($ctx === null || !isset($ctx['tipo']) || $ctx['tipo'] !== 'cf') {
+    header("Location:buscar_persona_cf.php");
+    exit();
+}
+$por_nombre = isset($ctx['modo']) && $ctx['modo'] === 'nombre';
+$personas   = per_personas_contexto($link, $ctx);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,6 +57,7 @@ $ci  = $_POST['ci'];
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
+    <?php echo per_css_tarjetas(); ?>
 
 </head>
 
@@ -68,7 +93,8 @@ $ci  = $_POST['ci'];
                     <div class="col-lg-12">
                     <div class="p-3">               
                     <div class="text-center">                          
-                    <a href="buscar_persona_cf.php"><h6 class="text-info"><- VOLVER</h6></a>
+                    <!-- ?b=: el formulario vuelve con lo que se había escrito -->
+                    <a href="buscar_persona_cf.php?b=<?php echo per_h($token); ?>"><h6 class="text-info"><- VOLVER</h6></a>
                     <hr> 
                     </div>
 <!-- END Del TITULO de la pagina ---->
@@ -79,127 +105,19 @@ $ci  = $_POST['ci'];
                 <div class="col-lg-12">  
                     <div class="p-2"> 
 
-            <div class="text-center">                                     
-                <h4 class="text-info">RESULTADO DE LA BÚSQUEDA:</h4>                    
-            </div>
-          
-     <!-------- BUCLE PERSONAS ENCONTRADAS CON CEDULA IGUAL PERO CON DIFERENTE COMPLEMENTO (Begin) --------->   
+            <?php echo per_encabezado_contexto($ctx, $personas, 'Elija la persona que corresponde para modificar sus datos.', 'info'); ?>
 
+     <!-------- PERSONAS ENCONTRADAS CON EL MISMO CI (tarjeta compartida con historias clínicas: comun/inc_persona.php) --------->
 
-
-    <?php
-    $numero=1;
-    $sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero, complemento FROM nombre WHERE ci ='$ci' ";
-    $result_n = mysqli_query($link,$sql_n);
-    if ($row_n = mysqli_fetch_array($result_n)){
-    mysqli_field_seek($result_n,0);
-    while ($field_n = mysqli_fetch_field($result_n)){
-    } do {
-    ?>
-
-    <form name="BUSQUEDA_PERSONA" action="valida_persona_ci.php" method="post">
-        <input type="hidden" name="idnombre" value="<?php echo $row_n[0];?>">
-
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-info">PERSONA ENCONTRADA:</h6>
-            </div>
-            <div class="card-body">
-
-              <div class="form-group row">                               
-                    <div class="col-sm-2">
-                    <h6 class="text-info">N° CÉDULA:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
-                         name="ci" disabled>
-                    </div>
-                    <div class="col-sm-1">
-                    <h6 class="text-info">COMP.:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[8];?>" 
-                         name="complemento" disabled>
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">NOMBRES:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                         name="nombre" disabled>                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">PRIMER APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                         name="paterno" disabled >                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                         name="materno" disabled>                
-                    </div>
-                </div>
-
-                <div class="form-group row">  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">GÉNERO</h6>
-
-                    <select name="idgenero"  id="idgenero" class="form-control" disabled >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idgenero, genero FROM genero ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
-                        <input type="date"  class="form-control" 
-                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" disabled>
-                    </div>   
-                    
-                    <div class="col-sm-3">
-                    <h6 class="text-info">EDAD:</h6>
-                    <?php 
-                        $fecha_nacimiento = $row_n[5];
-                        $dia = date("d");
-                        $mes = date("m");
-                        $ano = date("Y");    
-                        $dianaz = date("d",strtotime($fecha_nacimiento));
-                        $mesnaz = date("m",strtotime($fecha_nacimiento));
-                        $anonaz = date("Y",strtotime($fecha_nacimiento));         
-                        if (($mesnaz == $mes) && ($dianaz > $dia)) {
-                        $ano=($ano-1); }      
-                        if ($mesnaz > $mes) {
-                        $ano=($ano-1);}       
-                        $edad=($ano-$anonaz);                      
-                    ?>
-                        <input type="number" class="form-control" value="<?php echo $edad;?>" 
-                         name="edad_actual" disabled>
-                    </div>
-                    <div class="col-sm-3">
-                    </br>
-                        <button type="submit" class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <span class="text">MODIFICAR DATOS PERSONALES</span>    
-                        </button>
-                    </form>
-                    </div>
-                </div>  
-            </div>     
-        </div> 
-            <?php
-            $numero=$numero+1;
-            }
-            while ($row_n = mysqli_fetch_array($result_n));
-            } else { ?>
+    <?php if ($personas) {
+        foreach ($personas as $p) {
+            $botones = '<button type="button" class="btn btn-info btn-icon-split" data-toggle="modal" data-target="#modalCorregir' . (int)$p['idnombre'] . '">'
+                     . '<span class="icon text-white-50"><i class="fas fa-user-edit"></i></span>'
+                     . '<span class="text">MODIFICAR DATOS PERSONALES</span></button>';
+            echo per_tarjeta_persona($p, array('color' => 'info', 'ultima_atencion' => false, 'botones' => $botones));
+            echo per_modal_correccion($link, $p, $token, 'info');
+        }
+    } else { ?>
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -209,14 +127,21 @@ $ci  = $_POST['ci'];
 
                 <div class="form-group row">                               
                     <div class="col-sm-12">
-                    <h6 class="text-danger">EL NÚMERO DE CÉDULA NO SE ENCUENTRA REGISTRADO EN SISTEMA</h6>
+                    <h6 class="text-danger"><?php
+                        if ($por_nombre && !empty($ctx['ci_no_encontrado'])) {
+                            echo 'NO EXISTE NINGUNA PERSONA REGISTRADA CON LA CÉDULA ' . (int)$ctx['ci_no_encontrado'] . ' NI CON ESOS NOMBRES Y APELLIDOS';
+                        } elseif ($por_nombre) {
+                            echo 'NO EXISTE NINGUNA PERSONA REGISTRADA CON ESOS NOMBRES Y APELLIDOS';
+                        } else {
+                            echo 'EL NÚMERO DE CÉDULA NO SE ENCUENTRA REGISTRADO EN SISTEMA';
+                        } ?></h6>
             
                     </div>
                 </div>
                 <div class="form-group row">                               
                     <div class="col-sm-12">
                     <h6 class="text-danger"></h6>
-                    <a href="buscar_persona_cf.php"><h6 class="text-info">CONTINUAR -></h6></a>
+                    <a href="buscar_persona_cf.php?b=<?php echo per_h($token); ?>"><h6 class="text-info">CONTINUAR -></h6></a>
                     </div>
                 </div>
               
@@ -242,6 +167,9 @@ $ci  = $_POST['ci'];
             </div>   
         </div> 
     </div>
+<!-- Botón para volver al inicio (sb-admin-2) -->
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -284,5 +212,11 @@ $ci  = $_POST['ci'];
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
 
+    <!-- Ventanas de corrección compartidas con historias clínicas (comun/inc_persona.php) -->
+        <?php echo per_js_complemento(); ?>
+        <!-- Resultados de 5 en 5 (antes de per_js_correccion) -->
+        <?php echo per_js_paginacion(5); ?>
+        <?php echo per_js_correccion('../comun/corregir_persona.php', 'persona_encontrada.php', 'buscar_persona_cf.php'); ?>
+
 </body>
-</html>s
+</html>

@@ -4,7 +4,8 @@
  *   produccion_servicios/persona_encontrada_hc.php  (token tipo 'hc')
  *   carpetas_familiares/persona_encontrada.php      (token tipo 'cf')
  * Solo acepta personas que pertenecen a la búsqueda del token (b).
- * Estados: ok | sin_cambios | error | advertencia (parece otra persona: el usuario puede continuar).
+ * Estados: ok | sin_cambios | error | advertencia (el usuario puede continuar)
+ *          | bloqueado (convierte a una persona con carpeta/atenciones en otra: no se guarda).
  */
 include("../cabf.php");
 include("../inc.config.php");
@@ -27,7 +28,7 @@ $modulos  = array('hc' => 'historias_clinicas', 'cf' => 'carpetas_familiares');
 $ctx      = per_token_leer(isset($_POST['b']) ? (string)$_POST['b'] : '');
 $idnombre = isset($_POST['idnombre']) ? (int)$_POST['idnombre'] : 0;
 if (!per_token_permite($ctx, $idnombre) || !isset($ctx['tipo'], $modulos[$ctx['tipo']])) {
-    responder(array('estado' => 'error', 'expirado' => true, 'errores' => array('La búsqueda expiró. Vuelva a buscar por cédula.')));
+    responder(array('estado' => 'error', 'expirado' => true, 'errores' => array('La búsqueda expiró. Vuelva a buscar.')));
 }
 
 $aceptar = isset($_POST['aceptar_advertencia']) && $_POST['aceptar_advertencia'] === 'SI';

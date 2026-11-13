@@ -9,6 +9,11 @@ $idusuario_ss  =  $_SESSION['idusuario_ss'];
 $idnombre_ss   =  $_SESSION['idnombre_ss'];
 $perfil_ss     =  $_SESSION['perfil_ss'];
 
+$ci_buscado  = isset($_GET['ci']) ? (int)$_GET['ci'] : 0;   // CI que no se encontró (valida_cedula_hc.php)
+$por_nombre  = isset($_GET['nom']);                          // búsqueda por nombres y apellidos sin resultados
+// Token de la búsqueda: "volver" muestra el formulario con lo que se había escrito
+$volver = 'historias_clinicas.php' . (isset($_GET['b']) && preg_match('/^[a-f0-9]{32}$/', (string)$_GET['b']) ? '?b=' . $_GET['b'] : '');
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -65,12 +70,33 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <div class="p-3">               
                     <div class="text-center">   
                     
-                    <hr>                     
-                    <h4 class="text-primary">PERSONA SIN REGISTRO DE HISTORIA CLINICA </h4>
-                    <h4 class="text-primary">YA QUE NO HA SIDO CARPETIZADA!</h4>
+                    <a href="<?php echo $volver; ?>"><h6 class="text-primary"><- VOLVER</h6></a>
+                    <hr>
+                    <h4 class="text-primary">PERSONA NO ENCONTRADA</h4>
+                    <p class="mb-1">
+                        <?php if ($por_nombre && $ci_buscado > 0) { ?>
+                        No existe ninguna persona registrada con la cédula <b><?php echo $ci_buscado; ?></b> ni con esos nombres y apellidos.
+                        <?php } elseif ($por_nombre) { ?>
+                        No existe ninguna persona registrada con esos nombres y apellidos.
+                        <?php } elseif ($ci_buscado > 0) { ?>
+                        No existe ninguna persona registrada con la cédula <b><?php echo $ci_buscado; ?></b>.
+                        <?php } else { ?>
+                        No existe ninguna persona registrada con esa cédula.
+                        <?php } ?>
+                    </p>
+                    <p class="text-muted small"><?php echo $por_nombre
+                        ? 'Verifique cómo están escritos los nombres y apellidos (pruebe solo con el primer nombre). Si no aparece, inicie la atención registrándolo como paciente nuevo.'
+                        : 'Verifique el número con el paciente. Si es correcto, inicie la atención registrándolo como paciente nuevo.'; ?></p>
                     </br>
-                    <a href="historias_clinicas.php"><h6>IR A BUSQUEDA DE HISTORIA CLÍNICA -></h6></a>
-                    <h4><?php echo "";?></h4>
+                    <!-- Misma entrada que el menú "ATENCIÓN PERSONA NO CARPETIZADA": carga el establecimiento del usuario y abre atencion_persona_ncf.php -->
+                    <a href="valida_persona_ncf.php" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50"><i class="fas fa-user-plus"></i></span>
+                        <span class="text">INICIAR ATENCIÓN COMO PACIENTE NUEVO</span>
+                    </a>
+                    <a href="<?php echo $volver; ?>" class="btn btn-light btn-icon-split ml-2">
+                        <span class="icon text-gray-600"><i class="fas fa-search"></i></span>
+                        <span class="text">VOLVER A BUSCAR</span>
+                    </a>
                     </div>
 <!-- END Del TITULO de la pagina ---->
 
