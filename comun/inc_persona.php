@@ -10,11 +10,17 @@
  * Reglas:
  *   - Búsqueda por CI: devuelve TODAS las personas con ese número. Complemento y fecha de
  *     nacimiento solo ordenan/resaltan (los datos antiguos no son confiables como filtro).
+ *   - Formulario único (per_form_busqueda): cédula, o nombres + un apellido (un solo apellido se busca
+ *     como primero y como segundo), o nombres + fecha de nacimiento si no tiene apellidos. Nombres
+ *     "empieza con", apellidos completos; máximo PER_MAX_RESULTADOS. Si la cédula no existe y escribieron nombres, se busca por nombres.
+ *   - La tarjeta enlaza a la carpeta familiar más reciente de la persona.
  *   - Complemento válido: 2 caracteres, un número y una letra en cualquier orden (1K, K1; "1-K" se guarda 1K).
  *     Lo demás (LP, CBBA, 0, SN, "-") no es complemento: si es un departamento se sugiere en EXPEDIDO.
- *   - Corrección: nombres/apellidos con cambio grande, cambio de CI o CI+complemento ya usado por otra
- *     persona => advertencia "parece otra persona; ¿continuar?". Si el usuario continúa se guarda.
- *     Fecha de nacimiento y género se corrigen sin advertencia. Todo cambio queda en nombre_correccion.
+ *   - Corrección (per_revisar_cambio): convertir la ficha en OTRA persona (nombres distintos o los dos
+ *     apellidos distintos) se BLOQUEA si está en una carpeta familiar o tiene atenciones, o si además
+ *     cambia el CI por otro totalmente distinto. Un apellido distinto, CI totalmente distinto o
+ *     CI+complemento ya usado => advertencia "¿continuar?". Asignar CI a quien tenía 0, corregir 1-2
+ *     dígitos, letras, fecha de nacimiento y género: sin aviso. Todo cambio queda en nombre_correccion.
  *   - Consultas preparadas sin depender de mysqlnd (no usa get_result).
  *
  * SQL: base_datos/correccion_persona.sql
@@ -295,8 +301,134 @@ function per_buscar_ci($link, $ci, $complemento = '', $fecha_nac = '', array $id
         $params = array_merge($params, $ids_extra);
     }
     $sql .= " ORDER BY n.idnombre LIMIT " . PER_MAX_RESULTADOS;
-    $personas = per_filas($link, $sql, $types, $params);
+    return per_completar_personas($link, per_filas($link, $sql, $types, $params), $complemento, $fecha_nac);
+}
 
+/** Columnas de nombre que usan las tarjetas. */
+function per_columnas_persona()
+{
+    return "n.idnombre, n.nombre, n.paterno, n.materno, n.ci, n.complemento, n.exp, n.fecha_nac,
+            n.idgenero, n.idnacionalidad, g.genero";
+}
+
+/** ¿Alcanzan los datos para buscar por nombres? Nombres + un apellido, o nombres + fecha (sin apellidos). */
+function per_criterio_nombre_valido($nombre, $paterno, $materno, $fecha_nac)
+{
+    return per_mayus($nombre) !== '' && (per_mayus($paterno) !== '' || per_mayus($materno) !== '' || $fecha_nac !== '');
+}
+
+/**
+ * Búsqueda por nombres y apellidos (personas sin CI, p. ej. recién nacidos registrados con CI 0,
+ * o que no recuerdan su número). Nombres: "empieza con" (JUAN encuentra JUAN CARLOS); apellidos:
+ * completos (LAURA no encuentra LAURAYZA). Mayúsculas y tildes no importan (colación de la tabla).
+ *   - Dos apellidos: deben coincidir los dos.
+ *   - Un solo apellido (en cualquier casilla): se busca en esa columna y también en la otra cuando
+ *     la persona tiene esa otra vacía (quien tiene un apellido está guardado unas veces como primero
+ *     y otras como segundo).
+ *   - Sin apellidos: nombres + fecha de nacimiento (la fecha filtra).
+ * Con apellidos la fecha no filtra: ordena primero a quienes coinciden.
+ * Devuelve array('personas' => [...] (máximo PER_MAX_RESULTADOS), 'total' => cantidad real).
+ */
+function per_buscar_nombre($link, $nombre, $paterno, $materno, $fecha_nac = '')
+{
+    $nombre  = per_mayus($nombre);
+    $paterno = per_mayus($paterno);
+    $materno = per_mayus($materno);
+    if (!per_criterio_nombre_valido($nombre, $paterno, $materno, $fecha_nac)) {
+        return array('personas' => array(), 'total' => 0);
+    }
+    // Nombres: "empieza con" (JUAN encuentra JUAN CARLOS). Apellidos: el apellido completo
+    // (LAURA no encuentra LAURAYZA). En ambos casos también si el dato antiguo quedó con un espacio al inicio.
+    $like = function ($col, $texto) {
+        if ($col !== 'n.nombre') {
+            return array("($col = ? OR $col = ?)", array($texto, ' ' . $texto));
+        }
+        $t = addcslashes($texto, '\\%_') . '%';
+        return array("($col LIKE ? OR $col LIKE ?)", array($t, ' ' . $t));
+    };
+    // Cada rama: lista de condiciones [sql, params]; las ramas se unen con UNION.
+    // Primero va la condición de paterno para aprovechar el índice (paterno, nombre).
+    $ramas = array();
+    $nom   = $like('n.nombre', $nombre);
+    if ($paterno !== '' && $materno !== '') {
+        $ramas[] = array($like('n.paterno', $paterno), $nom, $like('n.materno', $materno));
+    } elseif ($paterno !== '') {
+        $ramas[] = array($like('n.paterno', $paterno), $nom);
+        $ramas[] = array(array("n.paterno = ''", array()), $nom, $like('n.materno', $paterno));
+        $ramas[] = array(array("n.paterno IS NULL", array()), $nom, $like('n.materno', $paterno));
+    } elseif ($materno !== '') {
+        $ramas[] = array($like('n.materno', $materno), $nom);
+        $ramas[] = array($like('n.paterno', $materno), $nom, array("(n.materno IS NULL OR n.materno = '')", array()));
+    } else {
+        $ramas[] = array($nom, array("n.fecha_nac = ?", array($fecha_nac)));
+    }
+
+    $partes = array();
+    $params = array();
+    foreach ($ramas as $condiciones) {
+        $sql = array();
+        foreach ($condiciones as $c) {
+            $sql[]  = $c[0];
+            $params = array_merge($params, $c[1]);
+        }
+        $partes[] = "SELECT n.idnombre FROM nombre n WHERE " . implode(' AND ', $sql);
+    }
+    $types = str_repeat('s', count($params));
+
+    // 1) Solo los idnombre (consulta directa: unida a otra tabla, MariaDB elige un plan muy lento)
+    $ids = array();
+    foreach (per_filas($link, implode(' UNION ', $partes), $types, $params) as $f) {
+        $ids[] = (int)$f['idnombre'];
+    }
+    $total = count($ids);
+    if ($total === 0) {
+        return array('personas' => array(), 'total' => 0);
+    }
+
+    // Primero quien coincide en fecha de nacimiento; luego el nombre exacto; luego alfabético
+    $orden_types  = 's';
+    $orden_params = array($nombre);
+    $orden = "(n.nombre = ?) DESC, n.paterno, n.materno, n.nombre";
+    if ($fecha_nac !== '') {
+        $orden        = "(n.fecha_nac = ?) DESC, " . $orden;
+        $orden_types  = 's' . $orden_types;
+        array_unshift($orden_params, $fecha_nac);
+    }
+    // 2) Datos de esas personas (por clave primaria), ordenados; máximo PER_MAX_RESULTADOS
+    $filas = per_filas($link,
+        "SELECT " . per_columnas_persona() . "
+           FROM nombre n
+      LEFT JOIN genero g ON g.idgenero = n.idgenero
+          WHERE n.idnombre IN (" . implode(',', $ids) . ")
+       ORDER BY $orden
+          LIMIT " . PER_MAX_RESULTADOS,
+        $orden_types, $orden_params);
+
+    return array('personas' => per_completar_personas($link, $filas, '', $fecha_nac), 'total' => $total);
+}
+
+/** Personas por idnombre (para volver a mostrar una búsqueda ya hecha, con los datos corregidos). */
+function per_personas_ids($link, array $ids, $complemento = '', $fecha_nac = '')
+{
+    $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
+    if (!$ids) {
+        return array();
+    }
+    $filas = per_filas($link,
+        "SELECT " . per_columnas_persona() . "
+           FROM nombre n
+      LEFT JOIN genero g ON g.idgenero = n.idgenero
+          WHERE n.idnombre IN (" . implode(',', array_fill(0, count($ids), '?')) . ")",
+        str_repeat('i', count($ids)), $ids);
+    return per_completar_personas($link, $filas, $complemento, $fecha_nac);
+}
+
+/**
+ * Completa las filas de nombre con lo que muestran las tarjetas (edad, última atención, carpeta,
+ * coincidencias, posible duplicado) y las ordena: coincidencias primero, luego quien tiene atenciones/carpeta.
+ */
+function per_completar_personas($link, array $personas, $complemento = '', $fecha_nac = '')
+{
     $comp_buscado = per_complemento_limpio($complemento);
     $claves = array();
     foreach ($personas as $i => $p) {
@@ -307,19 +439,21 @@ function per_buscar_ci($link, $ci, $complemento = '', $fecha_nac = '', array $id
               WHERE a.idnombre = ?
            ORDER BY a.idatencion_psafci DESC LIMIT 1",
             'i', array((int)$p['idnombre']));
+        // Si la persona está en más de una carpeta se muestra la más reciente (la vigente)
         $cf = per_fila($link,
-            "SELECT cf.codigo
+            "SELECT cf.idcarpeta_familiar, cf.codigo
                FROM integrante_cf i
          INNER JOIN carpeta_familiar cf ON cf.idcarpeta_familiar = i.idcarpeta_familiar
               WHERE i.idnombre = ?
-           ORDER BY i.idintegrante_cf LIMIT 1",
+           ORDER BY i.idintegrante_cf DESC LIMIT 1",
             'i', array((int)$p['idnombre']));
 
         $p['edad']                 = per_edad($p['fecha_nac']);
         $p['ci_texto']             = per_ci_texto($p);
         $p['ultima_fecha']         = $ult ? $ult['fecha_registro'] : '';
         $p['ultimo_eess']          = $ult ? $ult['establecimiento_salud'] : '';
-        $p['carpeta']              = $cf ? $cf['codigo'] : '';
+        $p['carpeta']              = $cf ? (string)$cf['codigo'] : '';
+        $p['idcarpeta_familiar']   = $cf ? (int)$cf['idcarpeta_familiar'] : 0;
         $p['coincide_complemento'] = $comp_buscado !== '' && per_complemento_limpio($p['complemento']) === $comp_buscado;
         $p['coincide_fecha']       = $fecha_nac !== '' && $p['fecha_nac'] === $fecha_nac;
         $p['busco_complemento']    = $comp_buscado !== '';   // el usuario ingresó complemento (para avisar si no coincide)
@@ -347,6 +481,220 @@ function per_buscar_ci($link, $ci, $complemento = '', $fecha_nac = '', array $id
         return strcmp((string)$b['ultima_fecha'], (string)$a['ultima_fecha']);
     });
     return $personas;
+}
+
+/**
+ * Hace la búsqueda del formulario único (per_form_busqueda) y devuelve el contexto que se guarda
+ * en el token. Mismo uso en historias clínicas y carpetas.
+ *   - Con cédula: busca por cédula. Si nadie la tiene y escribieron nombres, busca por nombres
+ *     (ctx['ci_no_encontrado'] = cédula buscada).
+ *   - Sin cédula: nombres + un apellido, o nombres + fecha de nacimiento.
+ * Devuelve array('error' => ''|'datos', 'ctx' => array, 'personas' => array).
+ */
+function per_buscar_desde_post($link, array $post, $tipo)
+{
+    $fecha_nac = isset($post['fecha_nac']) ? trim((string)$post['fecha_nac']) : '';
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha_nac)) {
+        $fecha_nac = '';
+    }
+    $ci          = isset($post['ci']) ? (int)preg_replace('/\D/', '', (string)$post['ci']) : 0;
+    $complemento = per_complemento_limpio(isset($post['complemento']) ? $post['complemento'] : '');
+    $nombre      = per_mayus(isset($post['nombre']) ? $post['nombre'] : '');
+    $paterno     = per_mayus(isset($post['paterno']) ? $post['paterno'] : '');
+    $materno     = per_mayus(isset($post['materno']) ? $post['materno'] : '');
+    $por_nombre  = per_criterio_nombre_valido($nombre, $paterno, $materno, $fecha_nac);
+
+    if ($ci > 0) {
+        $personas = per_buscar_ci($link, $ci, $complemento, $fecha_nac);
+        if ($personas || !$por_nombre) {
+            $ids = array();
+            foreach ($personas as $p) {
+                $ids[] = (int)$p['idnombre'];
+            }
+            return array('error' => '', 'personas' => $personas, 'ctx' => array(
+                'tipo' => $tipo, 'modo' => 'ci', 'ci' => $ci, 'complemento' => $complemento, 'fecha_nac' => $fecha_nac, 'ids' => $ids,
+            ));
+        }
+        // Nadie con esa cédula: se busca por los nombres que también escribieron
+    } elseif (!$por_nombre) {
+        return array('error' => 'datos', 'ctx' => null, 'personas' => array());
+    }
+
+    $r   = per_buscar_nombre($link, $nombre, $paterno, $materno, $fecha_nac);
+    $ids = array();
+    foreach ($r['personas'] as $p) {
+        $ids[] = (int)$p['idnombre'];
+    }
+    return array('error' => '', 'personas' => $r['personas'], 'ctx' => array(
+        'tipo' => $tipo, 'modo' => 'nombre', 'nombre' => $nombre, 'paterno' => $paterno, 'materno' => $materno,
+        'ci' => 0, 'ci_no_encontrado' => $ci, 'complemento' => '', 'fecha_nac' => $fecha_nac,
+        'total' => $r['total'], 'ids' => $ids,
+    ));
+}
+
+/** Vuelve a consultar las personas de una búsqueda guardada (refleja correcciones). */
+function per_personas_contexto($link, array $ctx)
+{
+    if (empty($ctx['ids'])) {
+        return array();
+    }
+    if (isset($ctx['modo']) && $ctx['modo'] === 'nombre') {
+        return per_personas_ids($link, $ctx['ids'], '', $ctx['fecha_nac']);
+    }
+    // ids: personas de esta búsqueda aunque se les haya corregido el CI
+    $personas = per_buscar_ci($link, $ctx['ci'], $ctx['complemento'], $ctx['fecha_nac'], $ctx['ids']);
+    return array_values(array_filter($personas, function ($p) use ($ctx) {
+        return in_array((int)$p['idnombre'], $ctx['ids'], true);
+    }));
+}
+
+/** Encabezado del resultado según el tipo de búsqueda. */
+function per_encabezado_contexto(array $ctx, array $personas, $instruccion, $color = 'info')
+{
+    if (isset($ctx['modo']) && $ctx['modo'] === 'nombre') {
+        return per_resultado_encabezado_nombre($ctx, $personas, $instruccion, $color);
+    }
+    return per_resultado_encabezado($ctx['ci'], $ctx['complemento'], $ctx['fecha_nac'], $personas, $instruccion, $color);
+}
+
+/**
+ * Formulario único de búsqueda de personas (mismo en historias clínicas y carpetas), en una fila:
+ * cédula, complemento, nombres, apellidos, fecha de nacimiento. Muestra los avisos ?e= de la página.
+ * $accion: página que recibe el POST; $titulo: título del recuadro.
+ */
+function per_form_busqueda($accion, $titulo, $color = 'primary')
+{
+    $c = per_h($color);
+    $e = isset($_GET['e']) ? (string)$_GET['e'] : '';
+    $avisos = array(
+        'exp'   => 'La búsqueda expiró. Vuelva a buscar.',
+        'datos' => 'Ingrese el número de cédula, o los nombres con al menos un apellido (si la persona no tiene apellidos, los nombres y la fecha de nacimiento).',
+    );
+    $avisos['ci']  = $avisos['datos'];   // enlaces antiguos
+    $avisos['nom'] = $avisos['datos'];
+
+    // Al volver desde el resultado (?b=token) se muestra lo que se había escrito
+    $v   = array('ci' => '', 'complemento' => '', 'nombre' => '', 'paterno' => '', 'materno' => '', 'fecha_nac' => '');
+    $ctx = isset($_GET['b']) ? per_token_leer((string)$_GET['b']) : null;
+    if ($ctx) {
+        foreach ($v as $k => $x) {
+            $v[$k] = isset($ctx[$k]) ? (string)$ctx[$k] : '';
+        }
+        if (!empty($ctx['ci_no_encontrado'])) {
+            $v['ci'] = (string)$ctx['ci_no_encontrado'];
+        }
+        if ($v['ci'] === '0') {
+            $v['ci'] = '';
+        }
+    }
+    $v = array_map('per_h', $v);
+    ob_start();
+    ?>
+    <style>
+        /* Una fila: campos cortos (complemento, fecha) angostos; nombres y apellidos anchos */
+        .busqueda-persona .campo h6 { font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* Ejemplo del complemento (1K) claro: que no parezca un dato ya escrito */
+        .busqueda-persona [name="complemento"]::placeholder { color: #c5c7d4; opacity: 1; }
+        @media (min-width: 992px) {
+            .busqueda-persona .c-ci   { flex: 0 0 13%; max-width: 13%; }
+            .busqueda-persona .c-comp { flex: 0 0 7%;  max-width: 7%; }
+            .busqueda-persona .c-nom  { flex: 0 0 21%; max-width: 21%; }
+            .busqueda-persona .c-ap   { flex: 0 0 17%; max-width: 17%; }
+            .busqueda-persona .c-fn   { flex: 0 0 14%; max-width: 14%; }
+            .busqueda-persona .c-btn  { flex: 0 0 11%; max-width: 11%; }
+        }
+    </style>
+    <form action="<?php echo per_h($accion); ?>" method="post" class="busqueda-persona"<?php
+        // Rellenado al volver: cédula anterior (si el médico la cambia, se borran los demás datos)
+        if ($ctx && $v['ci'] !== '') { echo ' data-ci-anterior="' . $v['ci'] . '"'; } ?>>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-<?php echo $c; ?>"><?php echo per_h($titulo); ?></h6>
+        </div>
+        <div class="card-body">
+            <?php if (isset($avisos[$e])) { ?>
+            <div class="alert alert-warning py-2"><?php echo per_h($avisos[$e]); ?></div>
+            <?php } ?>
+            <div class="form-row">
+                <div class="col-12 col-md-6 c-ci campo mb-2">
+                    <h6 class="text-<?php echo $c; ?>" title="Número de cédula de identidad">N° CÉDULA:</h6>
+                    <input type="number" name="ci" id="ci" min="1" class="form-control" value="<?php echo $v['ci']; ?>">
+                </div>
+                <div class="col-12 col-md-6 c-comp campo mb-2">
+                    <h6 class="text-<?php echo $c; ?>" title="Complemento: solo si el carnet lo tiene (1234567-1K). No es el departamento.">COMPL.:</h6>
+                    <input type="text" name="complemento" maxlength="3" class="form-control" placeholder="1K"
+                           title="Solo si el carnet lo tiene (1234567-1K). No es el departamento." value="<?php echo $v['complemento']; ?>">
+                </div>
+                <div class="col-12 col-md-4 c-nom campo mb-2">
+                    <h6 class="text-<?php echo $c; ?>">NOMBRES:</h6>
+                    <input type="text" name="nombre" maxlength="45" class="form-control" value="<?php echo $v['nombre']; ?>">
+                </div>
+                <div class="col-12 col-md-4 c-ap campo mb-2">
+                    <h6 class="text-<?php echo $c; ?>">PRIMER APELLIDO:</h6>
+                    <input type="text" name="paterno" maxlength="45" class="form-control" value="<?php echo $v['paterno']; ?>">
+                </div>
+                <div class="col-12 col-md-4 c-ap campo mb-2">
+                    <h6 class="text-<?php echo $c; ?>">SEGUNDO APELLIDO:</h6>
+                    <input type="text" name="materno" maxlength="45" class="form-control" value="<?php echo $v['materno']; ?>">
+                </div>
+                <div class="col-12 col-md-6 c-fn campo mb-2">
+                    <h6 class="text-<?php echo $c; ?>" title="Fecha de nacimiento">F. NACIMIENTO:</h6>
+                    <input type="date" name="fecha_nac" max="<?php echo date('Y-m-d'); ?>" class="form-control" value="<?php echo $v['fecha_nac']; ?>">
+                </div>
+                <div class="col-12 col-md-6 c-btn campo mb-2">
+                    <h6>&nbsp;</h6>
+                    <button type="submit" class="btn btn-<?php echo $c; ?> btn-block">BUSCAR</button>
+                </div>
+            </div>
+            <small class="text-muted">
+                De preferencia busque por <b>cédula</b>. Sin cédula (por ejemplo, recién nacidos): nombres y al menos un apellido;
+                si no tiene apellidos, nombres y fecha de nacimiento.
+            </small>
+        </div>
+    </div>
+    </form>
+    <script>
+    // Cédula, o nombres + (un apellido o fecha de nacimiento). Se revisa al pulsar BUSCAR y al escribir;
+    // el servidor también lo exige.
+    document.querySelectorAll('.busqueda-persona').forEach(function (f) {
+        var ci = f.querySelector('[name="ci"]'), nom = f.querySelector('[name="nombre"]'), p = f.querySelector('[name="paterno"]'),
+            m = f.querySelector('[name="materno"]'), fn = f.querySelector('[name="fecha_nac"]');
+        function revisar() {
+            [ci, nom, p].forEach(function (x) { x.setCustomValidity(''); });
+            if (ci.value.trim() !== '') return;
+            if (nom.value.trim() === '') {
+                ci.setCustomValidity('Ingrese el número de cédula o los nombres de la persona.');
+            } else if (p.value.trim() === '' && m.value.trim() === '' && fn.value === '') {
+                p.setCustomValidity('Ingrese al menos un apellido. Si la persona no tiene apellidos, ingrese la fecha de nacimiento.');
+            }
+        }
+        f.querySelector('button[type="submit"]').addEventListener('click', revisar);
+        f.addEventListener('input', revisar);
+
+        // Al volver con una búsqueda anterior: si cambian la cédula es otro paciente, así que se borran
+        // complemento, nombres, apellidos y fecha que venían de esa búsqueda (no se mezclan dos pacientes).
+        // Si solo agregan datos sin tocar la cédula, se mantienen.
+        var anterior = f.getAttribute('data-ci-anterior');
+        if (anterior) {
+            ci.addEventListener('input', function () {
+                if (!anterior || ci.value.trim() === '' || ci.value.trim() === anterior) return;
+                ['complemento', 'nombre', 'paterno', 'materno', 'fecha_nac'].forEach(function (k) { f.querySelector('[name="' + k + '"]').value = ''; });
+                anterior = null;   // una sola vez: después puede escribir los nombres que quiera
+                revisar();
+            });
+        }
+    });
+    // Los datos de "volver" se muestran una sola vez: se quita ?b= (y ?e=) de la dirección,
+    // así al actualizar la página (F5) el formulario queda vacío.
+    if (window.history && history.replaceState && /[?&](b|e)=/.test(location.search)) {
+        var u = new URL(location.href);
+        u.searchParams.delete('b');
+        u.searchParams.delete('e');
+        history.replaceState(null, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams.toString() : '') + u.hash);
+    }
+    </script>
+    <?php
+    return ob_get_clean();
 }
 
 /* ------------------------------------------------------------------ */
@@ -462,20 +810,90 @@ function per_valor_texto($campo, $valor)
     return (string)$valor;
 }
 
-/** Mensajes de "parece otra persona". */
-function per_advertencias($link, $idnombre, array $antes, array $nuevo)
+/**
+ * Tipo de cambio del CI:
+ *   igual    sin cambio
+ *   asigna   no tenía CI (0/vacío) y se le pone uno: niño que saca su carnet
+ *   tipeo    1 o 2 dígitos distintos: error de escritura
+ *   distinto un número totalmente diferente
+ *   borra    tenía CI y se deja vacío
+ */
+function per_tipo_cambio_ci($ci_antes, $ci_nuevo)
 {
-    $adv = array();
-    $et  = per_etiquetas();
+    if ($ci_antes === $ci_nuevo) {
+        return 'igual';
+    }
+    if ($ci_antes === '') {
+        return 'asigna';
+    }
+    if ($ci_nuevo === '') {
+        return 'borra';
+    }
+    return levenshtein($ci_antes, $ci_nuevo) <= 2 ? 'tipeo' : 'distinto';
+}
+
+/** ¿La persona está en una carpeta familiar o tiene atenciones? (sus datos no se pueden reemplazar por otra persona) */
+function per_vinculos($link, $idnombre)
+{
+    $cf = per_fila($link, "SELECT idintegrante_cf FROM integrante_cf WHERE idnombre = ? LIMIT 1", 'i', array((int)$idnombre));
+    $at = per_fila($link, "SELECT idatencion_psafci FROM atencion_psafci WHERE idnombre = ? LIMIT 1", 'i', array((int)$idnombre));
+    return array('carpeta' => (bool)$cf, 'atencion' => (bool)$at);
+}
+
+/**
+ * Regla "parece otra persona" (protege carpetas familiares e historias clínicas).
+ * Devuelve array('bloqueos' => [], 'motivo' => '', 'advertencias' => []):
+ *   - bloqueos (no se guarda, ni aceptando): cambian los NOMBRES o los dos apellidos por otros distintos y
+ *     la persona está en una carpeta / tiene atenciones, o además cambia el CI por uno totalmente distinto.
+ *   - advertencias (puede continuar): un apellido distinto, CI totalmente distinto o borrado,
+ *     CI+complemento que ya usa otra persona; o cambio de nombres en una ficha sin carpeta ni atenciones.
+ *   - sin aviso: asignar CI a quien tenía 0, corregir 1-2 dígitos, corregir letras, fecha y género.
+ */
+function per_revisar_cambio($link, $idnombre, array $antes, array $nuevo)
+{
+    $et     = per_etiquetas();
+    $grande = array();
     foreach (array('nombre', 'paterno', 'materno') as $c) {
         if (per_cambio_grande_texto($antes[$c], $nuevo[$c])) {
-            $adv[] = $et[$c] . ': "' . $antes[$c] . '" → "' . ($nuevo[$c] === '' ? '(vacío)' : $nuevo[$c]) . '"';
+            $grande[$c] = $et[$c] . ': "' . $antes[$c] . '" → "' . ($nuevo[$c] === '' ? '(vacío)' : $nuevo[$c]) . '"';
         }
     }
     $ci_antes = per_valor_texto('ci', $antes['ci']);
     $ci_nuevo = per_valor_texto('ci', $nuevo['ci']);
-    if ($ci_antes !== '' && $ci_antes !== $ci_nuevo) {
-        $adv[] = $et['ci'] . ': ' . $ci_antes . ' → ' . ($ci_nuevo === '' ? '(vacío)' : $ci_nuevo);
+    $tipo_ci  = per_tipo_cambio_ci($ci_antes, $ci_nuevo);
+    $texto_ci = $et['ci'] . ': ' . $ci_antes . ' → ' . ($ci_nuevo === '' ? '(vacío)' : $ci_nuevo);
+
+    // Otra persona = nombres distintos, o los dos apellidos distintos (un solo apellido puede ser un reconocimiento)
+    $otra_persona = isset($grande['nombre']) || count($grande) >= 2;
+    if ($otra_persona) {
+        $v = per_vinculos($link, $idnombre);
+        $ci_tambien = ($tipo_ci === 'distinto' || $tipo_ci === 'borra');
+        if ($v['carpeta'] || $v['atencion'] || $ci_tambien) {
+            $bloqueos = array_values($grande);
+            if ($ci_tambien) {
+                $bloqueos[] = $texto_ci;
+            }
+            if ($v['carpeta'] && $v['atencion']) {
+                $donde = 'pertenece a una carpeta familiar y tiene atenciones registradas';
+            } elseif ($v['carpeta']) {
+                $donde = 'pertenece a una carpeta familiar';
+            } elseif ($v['atencion']) {
+                $donde = 'tiene atenciones registradas';
+            } else {
+                $donde = '';
+            }
+            $motivo = $donde !== ''
+                ? 'Esta persona ' . $donde . '. Si se reemplazan sus datos por los de otra persona, esa otra persona quedaría '
+                  . ($v['carpeta'] ? 'dentro de la familia' : '') . ($v['carpeta'] && $v['atencion'] ? ' y ' : '')
+                  . ($v['atencion'] ? 'con la historia clínica de esta' : '') . '.'
+                : 'Se están cambiando a la vez los nombres y el número de cédula: eso es registrar a otra persona.';
+            return array('bloqueos' => $bloqueos, 'motivo' => $motivo, 'advertencias' => array());
+        }
+    }
+
+    $adv = array_values($grande);
+    if ($tipo_ci === 'distinto' || $tipo_ci === 'borra') {
+        $adv[] = $texto_ci;
     }
     // Solo si cambia CI o complemento: los duplicados que ya existían no deben impedir corregir un nombre
     $cambia_id = ($ci_antes !== $ci_nuevo) || (per_complemento_limpio($antes['complemento']) !== $nuevo['complemento']);
@@ -489,12 +907,14 @@ function per_advertencias($link, $idnombre, array $antes, array $nuevo)
             }
         }
     }
-    return $adv;
+    return array('bloqueos' => array(), 'motivo' => '', 'advertencias' => $adv);
 }
 
 /**
  * Valida y guarda la corrección de una persona.
- * Devuelve array('estado' => 'ok' | 'sin_cambios' | 'error' | 'advertencia', 'errores' => [], 'advertencias' => [], 'cambios' => [])
+ * Devuelve array('estado' => 'ok' | 'sin_cambios' | 'error' | 'advertencia' | 'bloqueado',
+ *                'errores' => [], 'advertencias' => [], 'bloqueos' => [], 'motivo' => '', 'cambios' => [])
+ * 'bloqueado' no se puede saltar con $aceptar_advertencia.
  */
 function per_guardar_correccion($link, $idnombre, array $post, $aceptar_advertencia, $modulo, $idusuario)
 {
@@ -528,7 +948,11 @@ function per_guardar_correccion($link, $idnombre, array $post, $aceptar_adverten
         return array('estado' => 'sin_cambios');
     }
 
-    $advertencias = per_advertencias($link, $idnombre, $antes, $nuevo);
+    $revision = per_revisar_cambio($link, $idnombre, $antes, $nuevo);
+    if ($revision['bloqueos']) {
+        return array('estado' => 'bloqueado', 'bloqueos' => $revision['bloqueos'], 'motivo' => $revision['motivo']);
+    }
+    $advertencias = $revision['advertencias'];
     if ($advertencias && !$aceptar_advertencia) {
         return array('estado' => 'advertencia', 'advertencias' => $advertencias, 'cambios' => $cambios);
     }
@@ -778,6 +1202,13 @@ function per_modal_correccion($link, array $p, $token, $color = 'primary')
                         <p class="small text-muted mb-2">Corrija errores de escritura o datos incompletos. Los cambios quedan registrados con su usuario.</p>
                         <?php echo per_form_campos($link, $p, 'text-' . $color, (string)$id); ?>
                         <div class="alert alert-danger d-none caja-errores"></div>
+                        <div class="alert alert-danger d-none caja-bloqueo">
+                            <b><i class="fas fa-ban"></i> No se puede guardar: esto parece otra persona.</b>
+                            <ul class="mb-1 lista-bloqueos"></ul>
+                            <span class="texto-motivo"></span>
+                            <b>Si es otra persona, regístrela como nueva.</b> Si es la misma persona, corrija solo los datos mal escritos.
+                            <div class="mt-1"><button type="button" class="btn btn-sm btn-secondary btn-revisar">REVISAR</button></div>
+                        </div>
                         <div class="alert alert-warning d-none caja-advertencia">
                             <b><i class="fas fa-exclamation-triangle"></i> Este cambio parece otra persona.</b>
                             <ul class="mb-1 lista-advertencias"></ul>
@@ -794,6 +1225,82 @@ function per_modal_correccion($link, array $p, $token, $color = 'primary')
             </div>
         </div>
     </div>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * Paginación de las tarjetas de resultados (5 por página), con el mismo diseño que las tablas
+ * DataTables del sistema (p. ej. produccion_servicios/atenciones_psafci.php): texto "Mostrando…" a la
+ * izquierda y "Anterior 1 2 … Siguiente" a la derecha. Requiere dataTables.bootstrap4.min.css.
+ * Solo aparece con más de $por_pagina resultados. Con ?ok=idnombre (después de corregir) abre la página
+ * de esa persona. Imprimir ANTES de per_js_correccion.
+ */
+function per_js_paginacion($por_pagina = 5)
+{
+    ob_start();
+    ?>
+    <script>
+    (function () {
+        var POR_PAGINA = <?php echo (int)$por_pagina; ?>;
+        var tarjetas = Array.prototype.slice.call(document.querySelectorAll('.tarjeta-persona'));
+        if (tarjetas.length <= POR_PAGINA) return;
+        var paginas = Math.ceil(tarjetas.length / POR_PAGINA), actual = 0;
+
+        // Mismo marcado que DataTables + Bootstrap 4
+        var caja = document.createElement('div');
+        caja.className = 'dataTables_wrapper dt-bootstrap4 paginacion-personas mb-4';
+        caja.innerHTML = '<div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" role="status" aria-live="polite"></div></div>'
+                       + '<div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers"><ul class="pagination"></ul></div></div></div>';
+        var ultima = tarjetas[tarjetas.length - 1];
+        ultima.parentNode.insertBefore(caja, ultima.nextSibling);
+        var info = caja.querySelector('.dataTables_info'), lista = caja.querySelector('.pagination');
+
+        // Botones numéricos como DataTables (máximo 7, con "…")
+        function numeros() {
+            var r = [], i;
+            if (paginas <= 7) { for (i = 0; i < paginas; i++) r.push(i); }
+            else if (actual <= 3) { for (i = 0; i < 5; i++) r.push(i); r.push('…', paginas - 1); }
+            else if (actual >= paginas - 4) { r.push(0, '…'); for (i = paginas - 5; i < paginas; i++) r.push(i); }
+            else { r.push(0, '…', actual - 1, actual, actual + 1, '…', paginas - 1); }
+            return r;
+        }
+        function boton(texto, pagina, clase, deshabilitado, activo) {
+            return '<li class="paginate_button page-item ' + clase + (deshabilitado ? ' disabled' : '') + (activo ? ' active' : '') + '">'
+                 + '<a href="#" class="page-link"' + (pagina === null ? '' : ' data-pagina="' + pagina + '"') + '>' + texto + '</a></li>';
+        }
+        function mostrar(p, subir) {
+            actual = Math.max(0, Math.min(paginas - 1, p));
+            tarjetas.forEach(function (t, i) { t.style.display = Math.floor(i / POR_PAGINA) === actual ? '' : 'none'; });
+            var desde = actual * POR_PAGINA + 1, hasta = Math.min(tarjetas.length, desde + POR_PAGINA - 1);
+            info.textContent = 'Mostrando personas de ' + desde + ' al ' + hasta + ' de un total de ' + tarjetas.length + ' personas';
+            var h = boton('Anterior', actual - 1, 'previous', actual === 0, false);
+            numeros().forEach(function (n) { h += n === '…' ? boton('…', null, '', true, false) : boton(n + 1, n, '', false, n === actual); });
+            h += boton('Siguiente', actual + 1, 'next', actual === paginas - 1, false);
+            lista.innerHTML = h;
+            if (subir) {
+                // Al inicio de los resultados
+                var primera = tarjetas[actual * POR_PAGINA];
+                var y = primera.getBoundingClientRect().top + window.pageYOffset - 90;
+                window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+            }
+        }
+        lista.addEventListener('click', function (e) {
+            var a = e.target.closest('a');
+            if (!a) return;
+            e.preventDefault();
+            if (a.parentNode.classList.contains('disabled') || a.parentNode.classList.contains('active') || !a.hasAttribute('data-pagina')) return;
+            mostrar(parseInt(a.getAttribute('data-pagina'), 10), true);
+        });
+
+        // Después de corregir (?ok=id): la página donde está esa persona
+        var ok = new URLSearchParams(window.location.search).get('ok'), inicial = 0;
+        if (ok) {
+            tarjetas.forEach(function (t, i) { if (t.id === 'persona' + ok) inicial = Math.floor(i / POR_PAGINA); });
+        }
+        mostrar(inicial, false);
+    })();
+    </script>
     <?php
     return ob_get_clean();
 }
@@ -847,7 +1354,7 @@ function per_js_correccion($url_guardar, $pagina, $url_expirado)
 
         function enviar(form, aceptar) {
             form.querySelector('[name="aceptar_advertencia"]').value = aceptar ? 'SI' : 'NO';
-            ['.caja-errores', '.caja-advertencia'].forEach(function (s) { mostrar(form.querySelector(s), false); });
+            ['.caja-errores', '.caja-advertencia', '.caja-bloqueo'].forEach(function (s) { mostrar(form.querySelector(s), false); });
             var botones = form.querySelectorAll('.btn-guardar, .btn-continuar');
             botones.forEach(function (b) { b.disabled = true; });
             jQuery.ajax({ url: CFG.guardar, method: 'POST', data: jQuery(form).serialize(), dataType: 'json' })
@@ -867,7 +1374,14 @@ function per_js_correccion($url_guardar, $pagina, $url_expirado)
                         botones = [];   // quedan deshabilitados hasta recargar
                         return;
                     }
-                    if (r.estado === 'advertencia') {
+                    if (r.estado === 'bloqueado') {
+                        // Protege la carpeta familiar / historia clínica: no hay "continuar"
+                        var lb = form.querySelector('.lista-bloqueos'), hb = '';
+                        (r.bloqueos || []).forEach(function (a) { hb += '<li>' + esc(a) + '</li>'; });
+                        lb.innerHTML = hb;
+                        form.querySelector('.texto-motivo').textContent = (r.motivo || '') + ' ';
+                        mostrar(form.querySelector('.caja-bloqueo'), true);
+                    } else if (r.estado === 'advertencia') {
                         var l = form.querySelector('.lista-advertencias'), html = '';
                         (r.advertencias || []).forEach(function (a) { html += '<li>' + esc(a) + '</li>'; });
                         l.innerHTML = html;
@@ -896,7 +1410,7 @@ function per_js_correccion($url_guardar, $pagina, $url_expirado)
             var t = e.target.closest ? e.target.closest('.btn-continuar, .btn-revisar, [data-toggle="modal"]') : null;
             if (!t) return;
             if (t.classList.contains('btn-continuar')) { enviar(t.closest('form'), true); }
-            else if (t.classList.contains('btn-revisar')) { mostrar(t.closest('.caja-advertencia'), false); }
+            else if (t.classList.contains('btn-revisar')) { mostrar(t.closest('.caja-advertencia, .caja-bloqueo'), false); }
             else {
                 // Al abrir: centrada sobre la zona de datos (horizontal) y en el centro vertical de la pantalla
                 var m = document.querySelector(t.getAttribute('data-target'));
@@ -1021,6 +1535,61 @@ function per_resultado_encabezado($ci, $complemento, $fecha_nac, array $personas
     return ob_get_clean();
 }
 
+/** Encabezado del resultado de la búsqueda por nombres y apellidos. */
+function per_resultado_encabezado_nombre(array $ctx, array $personas, $instruccion, $color = 'info')
+{
+    $c        = per_h($color);
+    $cantidad = count($personas);
+    $total    = isset($ctx['total']) ? (int)$ctx['total'] : $cantidad;
+    $hay_fn   = false;
+    foreach ($personas as $p) {
+        $hay_fn = $hay_fn || $p['coincide_fecha'];
+    }
+    $datos = array('Nombres: <b>' . per_h($ctx['nombre']) . '</b>');
+    if ($ctx['paterno'] !== '' || $ctx['materno'] !== '') {
+        $datos[] = 'Apellidos: <b>' . per_h(trim($ctx['paterno'] . ' ' . $ctx['materno'])) . '</b>';
+    } else {
+        $datos[] = '<small class="text-muted">sin apellidos</small>';
+    }
+    if ($ctx['fecha_nac'] !== '') {
+        $datos[] = 'Fecha de nacimiento: <b>' . per_h(date('d/m/Y', strtotime($ctx['fecha_nac']))) . '</b>';
+    }
+    ob_start();
+    ?>
+    <div class="text-center">
+        <h4 class="text-<?php echo $c; ?>">RESULTADO DE LA BÚSQUEDA:</h4>
+        <p class="mb-1"><?php echo implode(' &middot; ', $datos); ?></p>
+        <?php if (!empty($ctx['ci_no_encontrado'])) { ?>
+        <div class="alert alert-info text-left mx-auto my-2" style="max-width: 820px;">
+            <i class="fas fa-info-circle"></i>
+            La cédula <b><?php echo (int)$ctx['ci_no_encontrado']; ?></b> no está registrada; se muestran las personas con los nombres que escribió.
+            Si es la persona correcta, puede registrarle la cédula corrigiendo sus datos.
+        </div>
+        <?php } ?>
+        <?php if ($total > $cantidad) { ?>
+        <div class="alert alert-warning text-left mx-auto my-2" style="max-width: 820px;">
+            <i class="fas fa-exclamation-triangle"></i>
+            Se encontraron <b><?php echo (int)$total; ?> personas</b>; se muestran las primeras <?php echo (int)$cantidad; ?>.
+            Para encontrar a la persona correcta agregue el segundo apellido o la fecha de nacimiento.
+        </div>
+        <?php } ?>
+        <?php if ($cantidad > 0 && $ctx['fecha_nac'] !== '' && !$hay_fn) { ?>
+        <div class="alert alert-danger text-left mx-auto my-2" style="max-width: 820px;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <b>Atención:</b> ninguna persona con esos nombres <b>coincide</b> con la fecha de nacimiento que ingresó.
+            Verifique con el paciente antes de continuar: puede ser un error en los datos registrados (corríjalos) o una persona diferente.
+        </div>
+        <?php } elseif ($cantidad > 0 && $total <= $cantidad) { ?>
+        <p class="text-muted small">
+            <?php echo $cantidad === 1 ? 'Se encontró 1 persona.' : 'Se encontraron ' . (int)$cantidad . ' personas.'; ?>
+            <?php echo per_h($instruccion); ?>
+        </p>
+        <?php } ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
 /**
  * Tarjeta de una persona encontrada (fila de per_buscar_ci).
  * $op: color ('info'|'primary'), ultima_atencion (bool), botones (HTML ya escapado del módulo),
@@ -1043,7 +1612,8 @@ function per_tarjeta_persona(array $p, array $op = array())
     }
     if ($editar !== '') {
         // Enlace discreto para corregir datos (debajo)
-        $enlaces[] = '<a href="#" class="small font-weight-bold text-warning enlace-editar" data-toggle="modal" data-target="#' . per_h($editar) . '"'
+        // Azul (text-primary); el amarillo lo usa la insignia de la carpeta familiar
+        $enlaces[] = '<a href="#" class="small font-weight-bold text-primary enlace-editar" data-toggle="modal" data-target="#' . per_h($editar) . '"'
                    . ' title="Corregir errores de escritura o datos incompletos"><i class="fas fa-edit"></i> Corregir datos</a>';
     }
     $comp     = per_complemento_limpio($p['complemento']);
@@ -1066,7 +1636,16 @@ function per_tarjeta_persona(array $p, array $op = array())
                 <?php if (!empty($p['busco_complemento']) && !$p['coincide_complemento']) { ?><span class="badge badge-danger"><i class="fas fa-times"></i> No coincide complemento</span><?php } ?>
                 <?php if (!empty($p['busco_fecha']) && !$p['coincide_fecha']) { ?><span class="badge badge-danger"><i class="fas fa-times"></i> No coincide fecha de nacimiento</span><?php } ?>
                 <?php if ($p['posible_duplicado']) { ?><span class="badge badge-warning" title="Hay otro registro con los mismos nombres, apellidos y fecha de nacimiento">Posible registro duplicado</span><?php } ?>
-                <?php if ($p['carpeta'] !== '') { ?><span class="badge badge-info">Carpeta <?php echo per_h($p['carpeta']); ?></span><?php } ?>
+                <?php if ($p['carpeta'] !== '' && !empty($p['idcarpeta_familiar'])) {
+                    // Mismo aspecto; abre la carpeta familiar (la más reciente) como en los reportes de carpetas ?>
+                    <a class="badge badge-warning enlace-carpeta" href="../carpetas_familiares/imprime_carpeta_familiar.php?idcarpeta_familiar=<?php echo (int)$p['idcarpeta_familiar']; ?>"
+                       target="_blank" title="Ver la carpeta familiar"
+                       onclick="window.open(this.href, this.target, 'width=1400,height=800,top=50,left=200,scrollbars=YES'); return false;">Carpeta <?php echo per_h($p['carpeta']); ?></a>
+                <?php } elseif ($p['carpeta'] !== '') { ?><span class="badge badge-warning">Carpeta <?php echo per_h($p['carpeta']); ?></span><?php
+                } else {
+                    // No es integrante de ninguna carpeta: se indica para que no parezca que falta el enlace ?>
+                    <span class="badge badge-secondary" title="La persona no es integrante de ninguna carpeta familiar">Sin carpeta familiar</span>
+                <?php } ?>
             </div>
         </div>
         <div class="card-body">

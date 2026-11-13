@@ -1,5 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("../comun/inc_persona.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
@@ -13,9 +14,13 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
 
 $idnombre_persona_ss  = $_SESSION['idnombre_persona_ss'];
 
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero, complemento FROM nombre WHERE idnombre='$idnombre_persona_ss' ";
-$result_n=mysqli_query($link,$sql_n);
-$row_n=mysqli_fetch_array($result_n);
+$persona = per_fila($link,
+    "SELECT idnombre, nombre, paterno, materno, ci, complemento, exp, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre = ?",
+    'i', array((int)$idnombre_persona_ss));
+if (!$persona) {
+    header("Location:buscar_persona_cf.php");
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -82,94 +87,12 @@ $row_n=mysqli_fetch_array($result_n);
                     <h4 class="text-info">MODIFICAR DATOS PERSONALES:</h4>                    
                 </div>
 
-                <form name="MODIFICA_PERSONA_REG" action="guarda_modificacion_persona.php" method="post">       
+                <form name="MODIFICA_PERSONA_REG" action="guarda_modificacion_persona.php" method="post">
+                <input type="hidden" name="idnombre_form" value="<?php echo (int)$persona['idnombre']; ?>">
                 
                 <hr> 
-                <div class="form-group row">                               
-
-                    <div class="col-sm-2">
-                    <h6 class="text-info">N° CÉDULA:</h6>
-                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
-                         name="ci" >
-                    </div>
-                    <div class="col-sm-1">
-                    <h6 class="text-info">COMP.:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[8];?>" 
-                         name="complemento" >
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">NOMBRES:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                         name="nombre" >                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">PRIMER APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                         name="paterno"  >                
-                    </div>
-                    <div class="col-sm-3">
-                    <h6 class="text-info">SEGUNDO APELLIDO:</h6>
-                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                         name="materno" >                
-                    </div>
-                </div>
-
-                <div class="form-group row">  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">GÉNERO</h6>
-
-                    <select name="idgenero"  id="idgenero" class="form-control"  >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idgenero, genero FROM genero ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[7]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>  
-                    <div class="col-sm-3">
-                    <h6 class="text-info">FECHA DE NACIMIENTO:</h6>
-                        <input type="date"  class="form-control" 
-                            placeholder="ingresar fecha" name="fecha_nac" value="<?php echo $row_n[5];?>" >
-                    </div>   
-                    
-                    <div class="col-sm-3">
-                    <h6 class="text-info">NACIONALIDAD</h6>
-
-                    <select name="idnacionalidad"  id="idnacionalidad" class="form-control"  >
-                        <option selected>Seleccione</option>
-                        <?php
-                        $sqlv = " SELECT idnacionalidad, nacionalidad FROM nacionalidad ";
-                        $resultv = mysqli_query($link,$sqlv);
-                        if ($rowv = mysqli_fetch_array($resultv)){
-                        mysqli_field_seek($resultv,0);
-                        while ($fieldv = mysqli_fetch_field($resultv)){
-                        } do {
-                        ?>
-                        <option value="<?php echo $rowv[0];?>" <?php if ($rowv[0]==$row_n[6]) echo "selected";?> ><?php echo $rowv[1];?></option>
-                        <?php
-                        } while ($rowv = mysqli_fetch_array($resultv));
-                        } else {
-                        }
-                        ?>
-                    </select>
-
-                    </div>  
-                    <div class="col-sm-3">
-                    <!--- <h6 class="text-info"> </h6>
-                    <a href="modificar_paciente.php" class="text-info" >MODIFICAR DATOS PERSONALES</a> --->
-                    </div>
-                </div>  
+                <!-- Campos compartidos con historias clínicas (comun/inc_persona.php): complemento validado, expedido de lista -->
+                <?php echo per_form_campos($link, $persona, 'text-info'); ?>
                 <hr>
                 <div class="text-center">
                 <div class="form-group row">
@@ -265,6 +188,7 @@ $row_n=mysqli_fetch_array($result_n);
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/datepicker-es.js"></script>
         <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
+        <?php echo per_js_complemento(); ?>
 
     
 </body>

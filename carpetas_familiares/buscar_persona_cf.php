@@ -1,5 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("../comun/inc_persona.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
@@ -63,28 +64,8 @@ $perfil_ss     =  $_SESSION['perfil_ss'];
                     <h1 class="h3 mb-2 text-gray-800">BÚSQUEDA DE PERSONAS</h1>
                     <p class="mb-4">En esta seccion se puede encontrar a PERSONAS REGISTRADAS por el PROGRAMA NACIONAL SAFCI - MI SALUD a NIVEL NACIOANL.</p>
 
-                <form name="BUSCA_PERSONA" action="persona_encontrada.php" method="post">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">BUSCAR PERSONA POR CÉDULA DE IDENTIDAD</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <div class="col-sm-3">
-                            <h6 class="text-primary">NÚMERO DE CEDULA:</h6>
-                            </div>
-                            <div class="col-sm-3">
-                           <input type="number" name="ci" id="ci" class="form-control">
-                            </div>
-                            <div class="col-sm-3">
-                            <button type="submit" class="btn btn-primary">BUSCAR POR CÉDULA</button>
-                            </div>
-                            <div class="col-sm-3">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </form>
+                <!-- Búsqueda única por cédula o por nombres y apellidos (comun/inc_persona.php, igual que en historias clínicas) -->
+                <?php echo per_form_busqueda('persona_encontrada.php', 'BUSCAR PERSONA', 'primary'); ?>
 
 
     
