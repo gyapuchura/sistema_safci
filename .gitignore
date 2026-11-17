@@ -4,7 +4,8 @@ eventos_safci/temp/
 inc.config.php
 inc.config-sample.php
 .DS_Store
-files_ref
+files_ref/*
+!files_ref/.htaccess
 referencia_safci/temp/
 files_sello
 files_sello_EESS

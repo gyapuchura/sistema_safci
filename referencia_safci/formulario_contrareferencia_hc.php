@@ -832,14 +832,14 @@ $txt_genero = $txt_genero ? $txt_genero['genero'] : '';
                                             <button class="btn btn-sm btn-outline-success shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorMostrar" aria-expanded="false" aria-controls="visorMostrar">
                                                 <i class="fas fa-eye"></i> VER / OCULTAR
                                             </button>
-                                            <a href="../files_ref/<?php echo rawurlencode($archivo_referencia_mostrar); ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
+                                            <a href="../comun/ver_adjunto.php?f=<?php echo rawurlencode($archivo_referencia_mostrar); ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
                                                 <i class="fas fa-expand-arrows-alt"></i> PANTALLA COMPLETA
                                             </a>
                                         </div>
                                     </div>
                                     <div class="collapse mt-3" id="visorMostrar">
                                         <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden; background-color: #eaecf4;">
-                                            <iframe src="../files_ref/<?php echo rawurlencode($archivo_referencia_mostrar); ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                                            <iframe src="../comun/ver_adjunto.php?f=<?php echo rawurlencode($archivo_referencia_mostrar); ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                                         </div>
                                     </div>
                                 </div>
@@ -1054,7 +1054,7 @@ $txt_genero = $txt_genero ? $txt_genero['genero'] : '';
                                     <div class="col-sm-3"></br>  
                                         <h6 class="text-primary">POR TELESALUD:</h6>
                                         <!-- Siempre envía SI al marcarse; viene marcada de entrada solo si el motivo de referencia es 5 (POR TELESALUD). Sin marcar = NO. -->
-                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="SI" <?php if ($row_ref[21]=='5') { echo 'checked'; } ?> >
+                                        <input type="checkbox" id="check-telesalud" name="por_telesalud" value="SI" <?php if ($row_ref[21]=='5') { echo 'checked'; } ?>>
                                     </div>   
                                 </div> 
 
@@ -1263,6 +1263,16 @@ $txt_genero = $txt_genero ? $txt_genero['genero'] : '';
     <!-- Buscador CIE-10 compartido (catálogo desde comun/ajax_cie10.php, en caché del navegador) -->
         <script src="../comun/buscador_cie10.js"></script>
         <script>BuscadorCIE10.iniciar('<?php echo cie10_url_catalogo($link); ?>');</script>
+
+    <!-- Aviso de cierre de sesión por inactividad (la sesión se renueva sola mientras el médico trabaja) -->
+        <script src="../comun/sesion_aviso.js"></script>
+        <script>
+            SesionAviso.iniciar({
+                idusuario: <?php echo (int)$_SESSION['idusuario_ss']; ?>,
+                limiteServidor: <?php echo (int)ini_get('session.gc_maxlifetime'); ?>,
+                formularioRecuperable: false
+            });
+        </script>
 
     <!-- Mensajes de ayuda al pasar el mouse (ej. ATENCIÓN EN SITIO) -->
         <script>if (window.jQuery && jQuery.fn.tooltip) { jQuery(function ($) { $('[data-toggle="tooltip"]').tooltip(BuscadorCIE10.tooltipVidrio); }); }</script>

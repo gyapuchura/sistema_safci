@@ -22,8 +22,10 @@
  *     CI+complemento ya usado => advertencia "¿continuar?". Asignar CI a quien tenía 0, corregir 1-2
  *     dígitos, letras, fecha de nacimiento y género: sin aviso. Todo cambio queda en nombre_correccion.
  *   - Consultas preparadas sin depender de mysqlnd (no usa get_result).
+ *   - Paciente nuevo con una cédula que ya tiene otra persona (per_ncf_*): se permite si el médico confirma
+ *     que es otra persona y sus datos no se parecen a ninguna registrada; queda en persona_ci_conflicto.
  *
- * SQL: base_datos/correccion_persona.sql
+ * SQL: base_datos/correccion_persona.sql, base_datos/persona_ci_conflicto.sql
  */
 
 if (!defined('PER_TOKEN_TTL')) {
@@ -513,6 +515,8 @@ function per_buscar_desde_post($link, array $post, $tipo)
             }
             return array('error' => '', 'personas' => $personas, 'ctx' => array(
                 'tipo' => $tipo, 'modo' => 'ci', 'ci' => $ci, 'complemento' => $complemento, 'fecha_nac' => $fecha_nac, 'ids' => $ids,
+                // lo que escribieron (no se usa para buscar): "volver" y precarga de paciente nuevo
+                'nombre' => $nombre, 'paterno' => $paterno, 'materno' => $materno,
             ));
         }
         // Nadie con esa cédula: se busca por los nombres que también escribieron
@@ -1714,4 +1718,274 @@ function per_pagina($titulo, $html_cuerpo, $clase_titulo = 'text-danger')
     </html>
     <?php
     exit();
+}
+
+/* ------------------------------------------------------------------ */
+/* Paciente nuevo con una cédula que ya tiene otra persona              */
+/* (produccion_servicios: guarda_*_ncf.php, atencion_persona_ncf.php,   */
+/*  ncf_verificar_ci.php, ncf_otra_persona.php, mostrar_persona_*_mensaje.php) */
+/* ------------------------------------------------------------------ */
+
+/** Guardados de "persona no carpetizada": únicos destinos permitidos al reenviar una atención. */
+function per_ncf_archivos()
+{
+    return array(
+        'guarda_atencion_pmorbilidad_ncf.php' => 'ATENCIÓN POR MORBILIDAD',
+        'guarda_atencion_psano_ncf.php'       => 'ATENCIÓN PREVENTIVA',
+        'guarda_teleconsulta_ncf.php'         => 'TELECONSULTA',
+        'guarda_telemetria_ncf.php'           => 'TELEMETRÍA',
+    );
+}
+
+/** El médico confirmó que su paciente NO es ninguna de las personas registradas con esa cédula. */
+function per_ncf_confirmar_otra($ci)
+{
+    $ci = (int)$ci;
+    if ($ci > 0) {
+        $_SESSION['ncf_ci_otra'][$ci] = time();
+    }
+}
+
+function per_ncf_confirmada_otra($ci)
+{
+    $ci = (int)$ci;
+    return $ci > 0 && !empty($_SESSION['ncf_ci_otra'][$ci]) && (time() - (int)$_SESSION['ncf_ci_otra'][$ci]) <= PER_TOKEN_TTL;
+}
+
+function per_ncf_olvidar_confirmacion($ci)
+{
+    unset($_SESSION['ncf_ci_otra'][(int)$ci]);
+}
+
+/** Datos personales del formulario de paciente nuevo, normalizados. */
+function per_ncf_datos(array $post)
+{
+    $fn = isset($post['fecha_nac']) ? trim((string)$post['fecha_nac']) : '';
+    return array(
+        'ci'          => isset($post['ci']) ? (int)preg_replace('/\D/', '', (string)$post['ci']) : 0,
+        'complemento' => per_complemento_limpio(isset($post['complemento']) ? $post['complemento'] : ''),
+        'nombre'      => per_mayus(isset($post['nombre']) ? $post['nombre'] : ''),
+        'paterno'     => per_mayus(isset($post['paterno']) ? $post['paterno'] : ''),
+        'materno'     => per_mayus(isset($post['materno']) ? $post['materno'] : ''),
+        'fecha_nac'   => preg_match('/^\d{4}-\d{2}-\d{2}$/', $fn) ? $fn : '',
+    );
+}
+
+/** Dos textos iguales salvo 1-2 letras (MAMNI / MAMANI), sin tildes. */
+function per_textos_parecidos($a, $b)
+{
+    $a = per_sin_tildes($a);
+    $b = per_sin_tildes($b);
+    if ($a === '' || $b === '') {
+        return false;
+    }
+    return $a === $b || levenshtein($a, $b) <= (min(strlen($a), strlen($b)) >= 5 ? 2 : 1);
+}
+
+/**
+ * ¿Los datos escritos parecen de la persona registrada? (entonces no se crea otra: sería un duplicado)
+ * Mismo primer nombre (o nombres casi iguales) y además un apellido en común (en cualquier columna)
+ * o la misma fecha de nacimiento.
+ */
+function per_parece_misma_persona(array $reg, array $nuevo)
+{
+    $na = per_sin_tildes($reg['nombre']);
+    $nb = per_sin_tildes($nuevo['nombre']);
+    if ($na === '' || $nb === '') {
+        return false;
+    }
+    $primero_a = explode(' ', $na)[0];
+    $primero_b = explode(' ', $nb)[0];
+    if ($primero_a !== $primero_b && !per_textos_parecidos($na, $nb)) {
+        return false;
+    }
+    if ($nuevo['fecha_nac'] !== '' && (string)$reg['fecha_nac'] === $nuevo['fecha_nac']) {
+        return true;
+    }
+    foreach (array($reg['paterno'], $reg['materno']) as $a) {
+        foreach (array($nuevo['paterno'], $nuevo['materno']) as $b) {
+            if (per_textos_parecidos($a, $b)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * Revisa la cédula del formulario de paciente nuevo al guardar (guarda_*_ncf.php). Devuelve 'accion':
+ *   libre      CI 0 o nadie tiene esa cédula: el guardado sigue como siempre.
+ *   nuevo      otras personas tienen esa cédula, el médico confirmó que es otra persona y los datos no
+ *              se parecen a ninguna: se crea la persona nueva con esa cédula (anotar con per_ncf_registrar_conflicto).
+ *   existente  es (o puede ser) una persona registrada; idnombre_existente = la que más se parece.
+ *              Si no hubo confirmación, la atención llenada queda en sesión para el botón
+ *              "No es esta persona" (per_ncf_aviso_pendiente) y no se pierde.
+ */
+function per_ncf_revisar_ci($link, array $post, $archivo)
+{
+    $d = per_ncf_datos($post);
+    $r = array('accion' => 'libre', 'ci' => $d['ci'], 'complemento' => $d['complemento'],
+               'idnombre_existente' => 0, 'ids' => array(), 'modulo' => $archivo);
+    if ($d['ci'] <= 0) {
+        return $r;
+    }
+    // Si esta revisión falla, el guardado sigue exactamente como antes (accion 'libre': el código original decide)
+    try {
+        $regs = per_filas($link,
+            "SELECT idnombre, nombre, paterno, materno, fecha_nac FROM nombre WHERE ci = ? ORDER BY idnombre LIMIT " . PER_MAX_RESULTADOS,
+            'i', array($d['ci']));
+    } catch (Throwable $e) {
+        error_log('[per_ncf_revisar_ci] ci=' . $d['ci'] . ': ' . $e->getMessage());
+        return $r;
+    }
+    if (!$regs) {
+        return $r;
+    }
+    unset($_SESSION['ncf_pendiente']);
+    foreach ($regs as $p) {
+        $r['ids'][] = (int)$p['idnombre'];
+    }
+    // Los datos coinciden con alguien: es esa persona (no se duplica aunque haya confirmado)
+    foreach ($regs as $p) {
+        if (per_parece_misma_persona($p, $d)) {
+            per_ncf_olvidar_confirmacion($d['ci']);
+            $r['accion'] = 'existente';
+            $r['idnombre_existente'] = (int)$p['idnombre'];
+            return $r;
+        }
+    }
+    if (per_ncf_confirmada_otra($d['ci'])) {
+        per_ncf_olvidar_confirmacion($d['ci']);
+        $r['accion'] = 'nuevo';
+        return $r;
+    }
+    $r['accion'] = 'existente';
+    $r['idnombre_existente'] = $r['ids'][0];
+    if (isset(per_ncf_archivos()[$archivo])) {
+        $_SESSION['ncf_pendiente'] = array(
+            'post' => $post, 'archivo' => $archivo, 'ci' => $d['ci'], 'ids' => $r['ids'],
+            'clave' => bin2hex(random_bytes(16)), 'creado' => time(),
+        );
+    }
+    return $r;
+}
+
+/** Anota la persona nueva creada con una cédula que ya tenían otras (para revisión). No interrumpe el guardado. */
+function per_ncf_registrar_conflicto($link, array $r, $idnombre_nuevo, $idusuario)
+{
+    if (!isset($r['accion']) || $r['accion'] !== 'nuevo' || (int)$idnombre_nuevo <= 0) {
+        return;
+    }
+    try {
+        $eess = per_fila($link, "SELECT idestablecimiento_salud FROM dato_laboral WHERE idusuario = ? ORDER BY iddato_laboral DESC LIMIT 1", 'i', array((int)$idusuario));
+        per_ejecutar($link,
+            "INSERT INTO persona_ci_conflicto (ci, complemento, idnombre_nuevo, idnombre_existente, modulo, idusuario,
+                    idestablecimiento_salud, fecha_registro, hora_registro)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            'isissiiss',
+            array((int)$r['ci'], $r['complemento'], (int)$idnombre_nuevo, mb_substr(implode(',', $r['ids']), 0, 255, 'UTF-8'),
+                  mb_substr($r['modulo'], 0, 60, 'UTF-8'), (int)$idusuario, $eess ? (int)$eess['idestablecimiento_salud'] : null,
+                  date('Y-m-d'), date('H:i:s')));
+    } catch (Throwable $e) {
+        error_log("[persona_ci_conflicto] ci={$r['ci']} idnombre_nuevo=$idnombre_nuevo: " . $e->getMessage());
+    }
+}
+
+/** Atención llenada que quedó pendiente porque la cédula ya era de otra persona ($idnombre: solo si es una de ellas). */
+function per_ncf_pendiente($idnombre = 0)
+{
+    $p = isset($_SESSION['ncf_pendiente']) ? $_SESSION['ncf_pendiente'] : null;
+    if (!is_array($p) || !isset($p['creado']) || (time() - $p['creado']) > PER_TOKEN_TTL) {
+        return null;
+    }
+    if ($idnombre && !in_array((int)$idnombre, $p['ids'], true)) {
+        return null;
+    }
+    return $p;
+}
+
+/**
+ * Recuadro "¿No es su paciente?" para las páginas a las que llega el guardado cuando la cédula ya existe
+ * (mostrar_persona_nhc_mensaje.php, mostrar_persona_hc_mensaje.php, ...). Si es otra persona, guarda
+ * la atención ya llenada como paciente nuevo (ncf_otra_persona.php). Vacío si no hay nada pendiente.
+ */
+function per_ncf_aviso_pendiente($link, $idnombre = 0)
+{
+    $p = per_ncf_pendiente($idnombre);
+    if (!$p) {
+        return '';
+    }
+    $d    = per_ncf_datos($p['post']);
+    $tipo = per_ncf_archivos()[$p['archivo']];
+    $ci   = $d['ci'] . ($d['complemento'] !== '' ? '-' . $d['complemento'] : '');
+    $fn   = $d['fecha_nac'] !== '' ? ', nacido(a) el ' . date('d/m/Y', strtotime($d['fecha_nac'])) : '';
+    // Quiénes tienen esa cédula (para comparar con el paciente)
+    $ids  = array_slice($p['ids'], 0, 5);
+    $regs = $ids ? per_filas($link,
+        "SELECT idnombre, nombre, paterno, materno, ci, complemento, fecha_nac FROM nombre WHERE idnombre IN (" . implode(',', array_fill(0, count($ids), '?')) . ")",
+        str_repeat('i', count($ids)), $ids) : array();
+    ob_start();
+    ?>
+    <div class="card border-left-warning shadow mb-4 text-left">
+        <div class="card-body">
+            <h6 class="font-weight-bold text-warning mb-2"><i class="fas fa-exclamation-triangle"></i> ¿NO ES SU PACIENTE?</h6>
+            <p class="mb-1">
+                Usted llenó una <b><?php echo per_h($tipo); ?></b> para <b><?php echo per_h(per_nombre_completo($d)); ?></b>
+                (C.I. <?php echo per_h($ci); ?><?php echo per_h($fn); ?>), pero esa cédula ya está registrada a nombre de:
+            </p>
+            <ul class="mb-2">
+                <?php foreach ($regs as $r) { ?>
+                <li><b><?php echo per_h(per_nombre_completo($r) !== '' ? per_nombre_completo($r) : '(sin nombre)'); ?></b>
+                    — C.I. <?php echo per_h(per_ci_texto($r)); ?><?php
+                    echo ($r['fecha_nac'] && $r['fecha_nac'] !== '0000-00-00') ? ', nacido(a) el ' . per_h(date('d/m/Y', strtotime($r['fecha_nac']))) : ''; ?></li>
+                <?php } ?>
+            </ul>
+            <ul class="small mb-3 pl-3">
+                <li>Si <b>es la misma persona</b>: registre la atención en esta página; se asociará a sus datos.</li>
+                <li>Si <b>es otra persona</b>: guarde la atención que ya llenó registrándolo como <b>paciente nuevo</b> con la misma cédula.
+                    Quedará anotado para que se revise cuál de los dos registros tiene la cédula equivocada.</li>
+            </ul>
+            <form method="post" action="ncf_otra_persona.php" class="d-inline"
+                  onsubmit="return confirm('¿Confirma que <?php echo per_h(addslashes(per_nombre_completo($d))); ?> NO es la persona registrada con la cédula <?php echo per_h($ci); ?>?\n\nSe guardará la atención registrándolo como paciente nuevo con esa cédula.');">
+                <input type="hidden" name="clave" value="<?php echo per_h($p['clave']); ?>">
+                <button type="submit" class="btn btn-warning btn-icon-split">
+                    <span class="icon text-white-50"><i class="fas fa-user-plus"></i></span>
+                    <span class="text">NO ES ESTA PERSONA: GUARDAR COMO PACIENTE NUEVO</span>
+                </button>
+            </form>
+            <?php if ($d['complemento'] === '') { ?>
+            <small class="text-muted d-block mt-2">Si el carnet del paciente tiene complemento (por ejemplo 1234567-1K), regístrelo: es lo que diferencia a dos personas con el mismo número.</small>
+            <?php } ?>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/** Datos de la búsqueda para precargar el formulario de paciente nuevo (valida_persona_ncf.php?b=). */
+function per_ncf_precarga_guardar(array $ctx, $confirmado)
+{
+    $ci = (isset($ctx['modo']) && $ctx['modo'] === 'nombre') ? (int)$ctx['ci_no_encontrado'] : (int)$ctx['ci'];
+    $_SESSION['ncf_precarga'] = array(
+        'ci'          => $ci > 0 ? (string)$ci : '',
+        'complemento' => isset($ctx['complemento']) ? (string)$ctx['complemento'] : '',
+        'nombre'      => isset($ctx['nombre']) ? (string)$ctx['nombre'] : '',
+        'paterno'     => isset($ctx['paterno']) ? (string)$ctx['paterno'] : '',
+        'materno'     => isset($ctx['materno']) ? (string)$ctx['materno'] : '',
+        'fecha_nac'   => isset($ctx['fecha_nac']) ? (string)$ctx['fecha_nac'] : '',
+        'confirmado'  => (bool)$confirmado,
+        'creado'      => time(),
+    );
+}
+
+/** Se usa una sola vez (atencion_persona_ncf.php): al actualizar la página el formulario queda vacío. */
+function per_ncf_precarga_tomar()
+{
+    $p = isset($_SESSION['ncf_precarga']) ? $_SESSION['ncf_precarga'] : null;
+    unset($_SESSION['ncf_precarga']);
+    if (!is_array($p) || (time() - $p['creado']) > PER_TOKEN_TTL) {
+        return null;
+    }
+    unset($p['creado']);
+    return $p;
 }

@@ -15,6 +15,11 @@
  *
  * Inicio:
  *   BuscadorCIE10.iniciar(urlCatalogo [, { selector: '.buscador-cie-inteligente', maxResultados: 30 }]);
+ *
+ * Reglas de sexo/edad (opcional; ver cie10_reglas_sexo_edad() en inc_cie10.php):
+ *   BuscadorCIE10.iniciar(url, { reglas: [...], paciente: { genero: 1|2, edad: 34 } });
+ *   Los diagnósticos que no corresponden al paciente se muestran en gris, con el motivo, y no se pueden elegir.
+ *   Sin la opción "reglas" el buscador funciona igual que siempre.
  */
 (function (window, document) {
     'use strict';
@@ -23,6 +28,8 @@
         '.lista-flotante-cie .cie-item{padding:8px 12px;cursor:pointer;border-bottom:1px solid #eaecf4;font-size:.9rem;color:#5a5c69}' +
         '.lista-flotante-cie .cie-item:hover,.lista-flotante-cie .cie-item.activo{background-color:#eaecf4;color:#2e59d9}' +
         '.lista-flotante-cie .cie-mensaje{padding:8px 12px;font-size:.85rem}' +
+        '.lista-flotante-cie .cie-item.cie-no-aplica,.lista-flotante-cie .cie-item.cie-no-aplica:hover,.lista-flotante-cie .cie-item.cie-no-aplica.activo{color:#b7b9cc;background-color:#fafafa;cursor:not-allowed}' +
+        '.lista-flotante-cie .cie-motivo{display:block;font-size:.75rem;color:#e74a3b;margin-top:2px}' +
         // Globo de ayuda con efecto vidrio (reemplaza el fondo negro por defecto de Bootstrap)
         '.tooltip.tooltip-vidrio{opacity:1}' +
         '.tooltip.tooltip-vidrio .tooltip-inner{background:rgba(255,255,255,.78);color:#3a3b45;border:1px solid rgba(78,115,223,.35);' +
@@ -41,6 +48,8 @@
     var cargando = null;     // promesa en curso
     var urlCatalogo = '';
     var maxResultados = 30;
+    var reglas = null;       // reglas de sexo/edad (opcional)
+    var paciente = null;     // { genero, edad } del paciente del formulario
 
     var MSG_BLOQUEADO = 'Para borrar o cambiar este diagnóstico haga doble clic (o presione la tecla Borrar)';
 
@@ -73,7 +82,8 @@
             .then(function (filas) {
                 catalogo = filas.map(function (f) {
                     var texto = f[1] + ' - ' + f[2];
-                    return { id: String(f[0]), texto: texto, norm: normalizar(texto), cie: normalizar(f[2]) };
+                    var categoria = String(f[2]).toUpperCase().replace(/[^A-Z0-9]/g, '').substr(0, 3);
+                    return { id: String(f[0]), texto: texto, norm: normalizar(texto), cie: normalizar(f[2]), categoria: categoria };
                 });
                 return catalogo;
             })
@@ -97,7 +107,37 @@
             else if (p.norm.indexOf(t) === 0) porInicio.push(p);  // nombre que empieza con lo escrito
             else resto.push(p);
         }
-        return porCodigo.concat(porInicio, resto).slice(0, maxResultados);
+        var todos = porCodigo.concat(porInicio, resto);
+        if (reglas) {
+            // primero los que corresponden al paciente; los que no, al final (en gris)
+            var validos = [], noAplican = [];
+            todos.forEach(function (p) { (motivoRestriccion(p) ? noAplican : validos).push(p); });
+            todos = validos.concat(noAplican);
+        }
+        return todos.slice(0, maxResultados);
+    }
+
+    // Motivo por el que el diagnóstico no corresponde al paciente ('' si corresponde).
+    // Mismo criterio y textos que cie10_motivo_restriccion() en inc_cie10.php.
+    function motivoRestriccion(p) {
+        if (!reglas || !paciente || !p.categoria || p.categoria.length < 3) return '';
+        var genero = parseInt(paciente.genero, 10);
+        var edad = (paciente.edad === null || paciente.edad === undefined || paciente.edad === '') ? null : parseInt(paciente.edad, 10);
+        for (var i = 0; i < reglas.length; i++) {
+            var r = reglas[i];
+            if (p.categoria < r.desde || p.categoria > r.hasta) continue;
+            if ((genero === 1 || genero === 2) && genero !== parseInt(r.genero, 10)) {
+                return r.grupo + ': diagnóstico exclusivo de ' + (parseInt(r.genero, 10) === 1 ? 'mujeres' : 'hombres') +
+                       ' y el paciente es de sexo ' + (genero === 1 ? 'femenino' : 'masculino') + '.';
+            }
+            if (edad !== null && !isNaN(edad) &&
+                ((r.edad_min !== null && edad < r.edad_min) || (r.edad_max !== null && edad > r.edad_max))) {
+                return r.grupo + ': solo corresponde de ' + r.edad_min + ' a ' + r.edad_max +
+                       ' años y el paciente tiene ' + edad + ' años.';
+            }
+            return '';
+        }
+        return '';
     }
 
     function prepararBuscador(input) {
@@ -133,6 +173,14 @@
                 item.className = 'cie-item';
                 item.setAttribute('data-idx', idx);
                 item.textContent = p.texto;
+                var motivo = motivoRestriccion(p);
+                if (motivo) {
+                    item.className = 'cie-item cie-no-aplica';
+                    var m = document.createElement('span');
+                    m.className = 'cie-motivo';
+                    m.textContent = 'No corresponde. ' + motivo;
+                    item.appendChild(m);
+                }
                 frag.appendChild(item);
             });
             lista.appendChild(frag);
@@ -150,6 +198,7 @@
         }
 
         function elegir(p) {
+            if (motivoRestriccion(p)) return;   // no corresponde al paciente: no se puede elegir
             input.value = p.texto;   // texto visible
             campoId.value = p.id;    // ID real que se guarda
             lista.style.display = 'none';
@@ -244,6 +293,10 @@
         opciones = opciones || {};
         urlCatalogo = url;
         if (opciones.maxResultados) maxResultados = opciones.maxResultados;
+        if (opciones.reglas && opciones.reglas.length && opciones.paciente) {
+            reglas = opciones.reglas;
+            paciente = opciones.paciente;
+        }
 
         if (!document.getElementById('buscador-cie10-estilos')) {
             var st = document.createElement('style');
