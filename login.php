@@ -1,9 +1,14 @@
 <?php
 session_start();
-//	SE BORRA LOS ELEMENTOS DE LA VARIABLE SESSION
-$_SESSION = array();
-//	SE DESTRUYE LAS SESIONES EXISTENTES
-session_destroy();
+// Si ya hay una sesión activa NO se destruye: abrir esta página en otra pestaña cerraba la sesión
+// en todas las pestañas (y se perdían los formularios a medio llenar). Se ofrece continuar o ingresar con otro usuario.
+$sesion_activa = !empty($_SESSION['idusuario_ss']) && !empty($_SESSION['idnombre_ss']) && !empty($_SESSION['perfil_ss']);
+$usuario_activo = ($sesion_activa && isset($_SESSION['usuario_ss'])) ? htmlspecialchars((string)$_SESSION['usuario_ss'], ENT_QUOTES, 'UTF-8') : '';
+if (!$sesion_activa) {
+    //	SIN SESIÓN VÁLIDA: SE LIMPIA CUALQUIER RESTO DE SESIÓN ANTERIOR
+    $_SESSION = array();
+    session_destroy();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -50,6 +55,16 @@ session_destroy();
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Ingreso a Sistema</h1>
                                     </div>
+                                    <?php if ($sesion_activa) { ?>
+                                    <!-- Sesión ya abierta en este navegador: no se cierra al abrir esta página -->
+                                    <div class="text-center">
+                                        <p class="text-gray-800 mb-1">Ya tiene una sesión abierta en este navegador como:</p>
+                                        <p class="h5 text-primary font-weight-bold mb-4"><?php echo $usuario_activo; ?></p>
+                                        <a href="administrar_sistema/inicio.php" class="btn btn-primary btn-user btn-block">CONTINUAR EN EL SISTEMA</a>
+                                        <a href="salir.php" class="btn btn-outline-secondary btn-user btn-block">INGRESAR CON OTRO USUARIO</a>
+                                        <p class="small text-muted mt-3 mb-0">Ingresar con otro usuario cierra la sesión actual en todas las pestañas abiertas.</p>
+                                    </div>
+                                    <?php } else { ?>
                                     <form class="user" method="post" action="validacion.php" >
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
@@ -73,6 +88,7 @@ session_destroy();
                                         <hr>
 
                                     </form>
+                                    <?php } ?>
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="index.php">IR A LA PÁGINA DE INICIO</a>

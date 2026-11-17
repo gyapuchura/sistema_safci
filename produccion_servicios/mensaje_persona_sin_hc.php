@@ -1,5 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("../comun/inc_persona.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram				= date("Ymd");
@@ -13,6 +14,8 @@ $ci_buscado  = isset($_GET['ci']) ? (int)$_GET['ci'] : 0;   // CI que no se enco
 $por_nombre  = isset($_GET['nom']);                          // búsqueda por nombres y apellidos sin resultados
 // Token de la búsqueda: "volver" muestra el formulario con lo que se había escrito
 $volver = 'historias_clinicas.php' . (isset($_GET['b']) && preg_match('/^[a-f0-9]{32}$/', (string)$_GET['b']) ? '?b=' . $_GET['b'] : '');
+// Viene del guardado de paciente nuevo: la cédula ya era de otra persona (sin atenciones ni carpeta)
+$aviso_ncf = ($ci_buscado === 0 && !$por_nombre) ? per_ncf_aviso_pendiente($link) : '';
 
 ?>
 <!DOCTYPE html>
@@ -72,9 +75,11 @@ $volver = 'historias_clinicas.php' . (isset($_GET['b']) && preg_match('/^[a-f0-9
                     
                     <a href="<?php echo $volver; ?>"><h6 class="text-primary"><- VOLVER</h6></a>
                     <hr>
-                    <h4 class="text-primary">PERSONA NO ENCONTRADA</h4>
+                    <h4 class="text-primary"><?php echo $aviso_ncf !== '' ? 'LA CÉDULA YA ESTÁ REGISTRADA' : 'PERSONA NO ENCONTRADA'; ?></h4>
                     <p class="mb-1">
-                        <?php if ($por_nombre && $ci_buscado > 0) { ?>
+                        <?php if ($aviso_ncf !== '') { ?>
+                        La cédula que escribió ya pertenece a otra persona registrada en el sistema. Revise el recuadro de abajo.
+                        <?php } elseif ($por_nombre && $ci_buscado > 0) { ?>
                         No existe ninguna persona registrada con la cédula <b><?php echo $ci_buscado; ?></b> ni con esos nombres y apellidos.
                         <?php } elseif ($por_nombre) { ?>
                         No existe ninguna persona registrada con esos nombres y apellidos.
@@ -84,15 +89,18 @@ $volver = 'historias_clinicas.php' . (isset($_GET['b']) && preg_match('/^[a-f0-9
                         No existe ninguna persona registrada con esa cédula.
                         <?php } ?>
                     </p>
+                    <?php if ($aviso_ncf === '') { ?>
                     <p class="text-muted small"><?php echo $por_nombre
                         ? 'Verifique cómo están escritos los nombres y apellidos (pruebe solo con el primer nombre). Si no aparece, inicie la atención registrándolo como paciente nuevo.'
                         : 'Verifique el número con el paciente. Si es correcto, inicie la atención registrándolo como paciente nuevo.'; ?></p>
                     </br>
-                    <!-- Misma entrada que el menú "ATENCIÓN PERSONA NO CARPETIZADA": carga el establecimiento del usuario y abre atencion_persona_ncf.php -->
-                    <a href="valida_persona_ncf.php" class="btn btn-primary btn-icon-split">
+                    <!-- Misma entrada que el menú "ATENCIÓN PERSONA NO CARPETIZADA": carga el establecimiento del usuario y abre atencion_persona_ncf.php
+                         (?b=: el formulario se abre con la cédula, nombres y fecha que se buscaron) -->
+                    <a href="valida_persona_ncf.php<?php echo isset($_GET['b']) && preg_match('/^[a-f0-9]{32}$/', (string)$_GET['b']) ? '?b=' . $_GET['b'] : ''; ?>" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50"><i class="fas fa-user-plus"></i></span>
                         <span class="text">INICIAR ATENCIÓN COMO PACIENTE NUEVO</span>
                     </a>
+                    <?php } ?>
                     <a href="<?php echo $volver; ?>" class="btn btn-light btn-icon-split ml-2">
                         <span class="icon text-gray-600"><i class="fas fa-search"></i></span>
                         <span class="text">VOLVER A BUSCAR</span>
@@ -101,6 +109,8 @@ $volver = 'historias_clinicas.php' . (isset($_GET['b']) && preg_match('/^[a-f0-9
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
+<!-- La cédula del paciente nuevo ya era de otra persona (sin atenciones ni carpeta): guardar la atención llenada como paciente nuevo -->
+<?php echo $aviso_ncf; ?>
 
                 <div class="form-group row">
                     <div class="col-sm-6">

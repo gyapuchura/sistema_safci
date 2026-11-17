@@ -841,14 +841,14 @@ $row_n=mysqli_fetch_array($result_n);
                                             <button class="btn btn-sm btn-outline-success shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorMostrar" aria-expanded="false" aria-controls="visorMostrar">
                                                 <i class="fas fa-eye"></i> VER / OCULTAR
                                             </button>
-                                            <a href="../files_ref/<?php echo $archivo_referencia_mostrar; ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
+                                            <a href="../comun/ver_adjunto.php?f=<?php echo rawurlencode($archivo_referencia_mostrar); ?>" target="_blank" class="btn btn-sm btn-success shadow-sm">
                                                 <i class="fas fa-expand-arrows-alt"></i> PANTALLA COMPLETA
                                             </a>
                                         </div>
                                     </div>
                                     <div class="collapse mt-3" id="visorMostrar">
                                         <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden; background-color: #eaecf4;">
-                                            <iframe src="../files_ref/<?php echo $archivo_referencia_mostrar; ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                                            <iframe src="../comun/ver_adjunto.php?f=<?php echo rawurlencode($archivo_referencia_mostrar); ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                                         </div>
                                     </div>
                                 </div>
@@ -881,14 +881,14 @@ $row_n=mysqli_fetch_array($result_n);
                                             <button class="btn btn-sm btn-outline-info shadow-sm mr-2" type="button" data-toggle="collapse" data-target="#visorContraMostrar" aria-expanded="false" aria-controls="visorContraMostrar">
                                                 <i class="fas fa-eye"></i> VER / OCULTAR
                                             </button>
-                                            <a href="../files_ref/<?php echo $archivo_contra_mostrar; ?>" target="_blank" class="btn btn-sm btn-info shadow-sm">
+                                            <a href="../comun/ver_adjunto.php?f=<?php echo rawurlencode($archivo_contra_mostrar); ?>" target="_blank" class="btn btn-sm btn-info shadow-sm">
                                                 <i class="fas fa-expand-arrows-alt"></i> PANTALLA COMPLETA
                                             </a>
                                         </div>
                                     </div>
                                     <div class="collapse mt-3" id="visorContraMostrar">
                                         <div class="embed-responsive" style="height: 500px; border: 1px solid #d1d3e2; border-radius: 8px; overflow: hidden; background-color: #eaecf4;">
-                                            <iframe src="../files_ref/<?php echo $archivo_contra_mostrar; ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                                            <iframe src="../comun/ver_adjunto.php?f=<?php echo rawurlencode($archivo_contra_mostrar); ?>" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
                                         </div>
                                     </div>
                                 </div>

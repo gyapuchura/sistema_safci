@@ -16,6 +16,29 @@ $idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
 $edad_ss                    = $_SESSION['edad_ss'];
 $idestablecimiento_salud_r_ss = $_SESSION['idestablecimiento_salud_r_ss'];
 
+// La referencia que se muestra llega en la URL (guarda_referencia.php); solo si la registró este usuario.
+// La sesión se actualiza con ESA referencia para que "MOSTRAR REGISTRO" abra la correcta.
+$aviso_duplicado = isset($_GET['dup']);
+$aviso_adjunto   = isset($_GET['adj']) && $_GET['adj'] === '0';
+if (isset($_GET['idref']) && (int)$_GET['idref'] > 0) {
+    $st_ref = mysqli_prepare($link, "SELECT idreferencia_hc, idnombre, idatencion_psafci, idestablecimiento_receptor, codigo FROM referencia_hc WHERE idreferencia_hc = ? AND idusuario = ?");
+    $idref_get = (int)$_GET['idref'];
+    $idusu_get = (int)$idusuario_ss;
+    mysqli_stmt_bind_param($st_ref, 'ii', $idref_get, $idusu_get);
+    mysqli_stmt_execute($st_ref);
+    mysqli_stmt_bind_result($st_ref, $r_id, $r_nombre, $r_atencion, $r_receptor, $r_codigo);
+    if (mysqli_stmt_fetch($st_ref)) {
+        $idreferencia_hc_ss           = $r_id;
+        $idestablecimiento_salud_r_ss = $r_receptor;
+        $_SESSION['idreferencia_hc_ss']           = $r_id;
+        $_SESSION['idnombre_integrante_ss']       = $r_nombre;
+        $_SESSION['idatencion_psafci_ss']         = $r_atencion;
+        $_SESSION['idestablecimiento_salud_r_ss'] = $r_receptor;
+    }
+    mysqli_stmt_close($st_ref);
+}
+$idestablecimiento_salud_r_ss = (int)$idestablecimiento_salud_r_ss;
+
     $sql =" SELECT establecimiento_salud.idestablecimiento_salud, establecimiento_salud.establecimiento_salud, nivel_establecimiento.nivel_establecimiento, tipo_establecimiento.tipo_establecimiento,";
     $sql.=" subsector_salud.subsector_salud, municipios.municipio, departamento.departamento FROM establecimiento_salud, subsector_salud, nivel_establecimiento, tipo_establecimiento, departamento, municipios ";
     $sql.=" WHERE establecimiento_salud.idsubsector_salud=subsector_salud.idsubsector_salud AND establecimiento_salud.idnivel_establecimiento=nivel_establecimiento.idnivel_establecimiento AND establecimiento_salud.iddepartamento=departamento.iddepartamento ";
@@ -82,10 +105,16 @@ $idestablecimiento_salud_r_ss = $_SESSION['idestablecimiento_salud_r_ss'];
                     <hr>                     
                     <h4 class="text-success">SE HA REFERIDO AL PACIENTE</h4>
                     <h4 class="text-success">AL ESTABLECIMIENTO RECEPTOR:</h4>
-                    <h4 class="text-secundary">"<?php echo $row[1];?>"</h4>
-                    <h4 class="text-secundary"><?php echo $row[2];?></h4>
-                    <h4 class="text-secundary"><?php echo $row[3];?> - <?php echo $row[4];?></h4>
+                    <h4 class="text-secundary">"<?php echo htmlspecialchars((string)$row[1], ENT_QUOTES, 'UTF-8');?>"</h4>
+                    <h4 class="text-secundary"><?php echo htmlspecialchars((string)$row[2], ENT_QUOTES, 'UTF-8');?></h4>
+                    <h4 class="text-secundary"><?php echo htmlspecialchars((string)$row[3], ENT_QUOTES, 'UTF-8');?> - <?php echo htmlspecialchars((string)$row[4], ENT_QUOTES, 'UTF-8');?></h4>
                     <h4 class="text-warning">AÚN SE DEBE ESPERAR LA ADMISIÓN AL MISMO</h4>
+                    <?php if ($aviso_duplicado) { ?>
+                    <div class="alert alert-info mt-3 mb-0">Esta referencia ya había sido registrada; no se volvió a registrar.</div>
+                    <?php } ?>
+                    <?php if ($aviso_adjunto) { ?>
+                    <div class="alert alert-warning mt-3 mb-0">La referencia se registró, pero el archivo adjunto no se pudo guardar. Comuníquese con el administrador si necesita adjuntarlo.</div>
+                    <?php } ?>
                     </br>
                     <a href="mostrar_referencia_hc.php"><h6>MOSTRAR REGISTRO DE LA REFERENCIA -></h6></a>
                     <h4><?php echo "";?></h4>

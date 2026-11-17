@@ -1,44 +1,43 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("inc_referencia.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
-$fecha_ram	= date("Ymd");
-$fecha 		= date("Y-m-d");
-$hora       = date("H:i");
-$gestion    = date("Y");
 
-$idusuario_ss  =  $_SESSION['idusuario_ss'];
-$idnombre_ss   =  $_SESSION['idnombre_ss'];
-$perfil_ss     =  $_SESSION['perfil_ss'];
+$idusuario_ss  = (int)$_SESSION['idusuario_ss'];
+$idnombre_ss   = $_SESSION['idnombre_ss'];
+$perfil_ss     = $_SESSION['perfil_ss'];
 
+// Paciente y atención que llegan al abrir el formulario
+$idatencion_psafci_ss   = isset($_SESSION['idatencion_psafci_ss']) ? (int)$_SESSION['idatencion_psafci_ss'] : 0;
+$idnombre_integrante_ss = isset($_SESSION['idnombre_integrante_ss']) ? (int)$_SESSION['idnombre_integrante_ss'] : 0;
+$edad_ss                = isset($_SESSION['edad_ss']) ? $_SESSION['edad_ss'] : 0;
 
-$idatencion_psafci_ss       = $_SESSION['idatencion_psafci_ss'];
-$idestablecimiento_salud_ss = $_SESSION['idestablecimiento_salud_ss'];
-$idnombre_integrante_ss     = $_SESSION['idnombre_integrante_ss'];
-$edad_ss                    = $_SESSION['edad_ss'];
+// La atención debe pertenecer al paciente: si no coinciden, la sesión mezcló datos de dos pacientes
+// (por ejemplo, otra pestaña abierta) y no se permite elaborar la referencia.
+$pac  = ref_paciente($link, $idnombre_integrante_ss);
+$aten = cr_fila($link, "SELECT idatencion_psafci, idnombre FROM atencion_psafci WHERE idatencion_psafci = ?", 'i', array($idatencion_psafci_ss));
+if (!$pac || !$aten || (int)$aten['idnombre'] !== $idnombre_integrante_ss) {
+    error_log("[referencia] formulario con paciente/atencion inconsistente n=$idnombre_integrante_ss a=$idatencion_psafci_ss usuario=$idusuario_ss");
+    ref_aviso("No se pudo confirmar a qué paciente corresponde la atención, por eso no se abrió el formulario de referencia.\n"
+            . "Vuelva a abrir la atención del paciente y presione nuevamente el botón de referencia.\n"
+            . "Si tiene abiertas otras pestañas con otros pacientes, ciérrelas antes.", 'Aviso del Sistema');
+}
 
-$sql_n =" SELECT idnombre, nombre, paterno, materno, ci, fecha_nac, idnacionalidad, idgenero FROM nombre WHERE idnombre='$idnombre_integrante_ss' ";
-$result_n=mysqli_query($link,$sql_n);
-$row_n=mysqli_fetch_array($result_n);
+// Datos del paciente con los mismos índices de antes: 0 idnombre, 1 nombre, 2 paterno, 3 materno, 4 ci,
+// 5 fecha_nac, 6 idnacionalidad, 7 idgenero
+$row_n = array_values($pac);
+$edad  = ref_edad($row_n[5], $edad_ss);   // calculada de la fecha de nacimiento
 
-    $fecha_nacimiento = $row_n[5];
-    $dia = date("d");
-    $mes = date("m");
-    $ano = date("Y");    
-    $dianaz = date("d",strtotime($fecha_nacimiento));
-    $mesnaz = date("m",strtotime($fecha_nacimiento));
-    $anonaz = date("Y",strtotime($fecha_nacimiento));         
-    if (($mesnaz == $mes) && ($dianaz > $dia)) {
-    $ano=($ano-1); }      
-    if ($mesnaz > $mes) {
-    $ano=($ano-1);}  
+// El establecimiento de origen es el de trabajo del usuario: se revisa al abrir (no al guardar),
+// para que el médico no llene todo el formulario y recién al registrar se entere del problema.
+$eess_origen = cr_eess_usuario($link, $idusuario_ss);
+if ($eess_origen <= 0 || !cr_fila($link, "SELECT idestablecimiento_salud FROM establecimiento_salud WHERE idestablecimiento_salud = ?", 'i', array($eess_origen))) {
+    ref_aviso("Su usuario no tiene un establecimiento de trabajo registrado, por eso no se puede elaborar la referencia.\nComuníquese con el administrador.", 'Aviso del Sistema');
+}
 
-    $edad = ($ano-$anonaz);  
-        
-$sql_ps =" SELECT idatencion_psafci, idrepeticion, idtipo_consulta, idtipo_atencion, codigo, fecha_registro FROM atencion_psafci WHERE idatencion_psafci='$idatencion_psafci_ss' ";
-$result_ps=mysqli_query($link,$sql_ps);
-$row_ps=mysqli_fetch_array($result_ps);
-
+// Token del formulario: fija paciente, atención y usuario hasta que se registre la referencia
+$ref_token = ref_token_crear($idnombre_integrante_ss, $idatencion_psafci_ss, $idusuario_ss, $edad);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -58,10 +57,8 @@ $row_ps=mysqli_fetch_array($result_ps);
     <link rel="stylesheet" href="../css/jquery-ui.min.css">
     <link rel="stylesheet" href="../css/boton_mic.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-
     <style>
-        /* Estilos del Drag & Drop Premium adaptado al color primario del sistema */
+        /* Zona para arrastrar o seleccionar archivos adjuntos */
         .dropzone-safci {
             border: 2px dashed #4e73df;
             border-radius: 10px;
@@ -85,7 +82,7 @@ $row_ps=mysqli_fetch_array($result_ps);
         }
         .dropzone-safci:hover .dropzone-icon { color: #4e73df; }
         
-        /* Cuadrícula organizada para las miniaturas de los archivos */
+        /* Miniaturas de los archivos adjuntos */
         .preview-grid {
             display: flex;
             flex-wrap: wrap;
@@ -127,7 +124,7 @@ $row_ps=mysqli_fetch_array($result_ps);
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        /* Botón elegante "X" flotante para eliminar miniaturas individualmente */
+        /* Botón para quitar un archivo adjunto */
         .btn-remove-thumb {
             position: absolute;
             top: 5px;
@@ -153,15 +150,13 @@ $row_ps=mysqli_fetch_array($result_ps);
             background: #be2617;
         }
         
-        /* Visor PDF integrado de última generación */
+        /* Vista previa del PDF de adjuntos */
         #visor_pdf_final {
-            #visor_pdf_final {
             width: 100%;
             height: 550px;
             border: 1px solid #d1d3e2;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
         }
     </style>
 
@@ -177,8 +172,7 @@ $row_ps=mysqli_fetch_array($result_ps);
         <div id="content">
 
             <?php include("../top_bar.php"); ?>
-            <body class="bg-gradient-primary">
-                
+
             <div class="container">
                     </br>
                 <div class="card shadow mb-4">
@@ -192,7 +186,9 @@ $row_ps=mysqli_fetch_array($result_ps);
                     </div>
                     <div class="card-body">
 
-                     <form name="GUARDA_REFERENCIA" id="form_referencia" action="guarda_referencia.php" method="post" class="needs-validation" enctype="multipart/form-data" novalidate> 
+                     <form name="GUARDA_REFERENCIA" id="form_referencia" action="guarda_referencia.php" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                        <!-- Token del formulario: paciente y atención fijados al abrirlo (lo valida guarda_referencia.php) -->
+                        <input type="hidden" name="ref_token" value="<?php echo cr_h($ref_token);?>">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
   
@@ -203,23 +199,23 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">                               
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">CÉDULA DE IDENTIDAD:</h6>
-                                        <input type="number" class="form-control" value="<?php echo $row_n[4];?>" 
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[4]);?>"
                                         name="ci" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">NOMBRES:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_n[1];?>"
-                                        name="nombre" disabled>                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[1]);?>"
+                                        name="nombre" disabled>
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">PRIMER APELLIDO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_n[2];?>"             
-                                        name="paterno" disabled >                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[2]);?>"
+                                        name="paterno" disabled >
                                     </div>
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SEGUNDO APELLIDO:</h6>
-                                        <input type="text" class="form-control" value="<?php echo $row_n[3];?>" 
-                                        name="materno" disabled>                
+                                        <input type="text" class="form-control" value="<?php echo cr_h($row_n[3]);?>"
+                                        name="materno" disabled>            
                                     </div>
                                 </div>
 
@@ -254,7 +250,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 
                                 <div class="col-sm-2">
                                 <h6 class="text-primary">EDAD:</h6>
-                                    <input type="number" class="form-control" value="<?php echo $edad_ss;?>" 
+                                    <input type="number" class="form-control" value="<?php echo (int)$edad;?>"
                                     name="edad_actual" disabled>
                                 </div>
                                 <div class="col-sm-4">
@@ -356,7 +352,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                 <div class="form-group row">  
                                     <div class="col-sm-4">                             
                                     <h6 class="text-primary">PERSONA CON DISCAPACIDAD:</h6>
-                                    <select name="discapacidad" id="discapacidad" class="form-control" required> <!-- Modificado se volvio obligatorio-->
+                                    <select name="discapacidad" id="discapacidad" class="form-control" required>
                                         <option value="">Seleccione</option>
                                         <option value="NO">NO</option>
                                         <option value="SI">SI</option>
@@ -371,7 +367,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">NOMBRE DEL ACOMPAÑANTE:</h6>
                                         <input type="text" class="form-control" value="" 
-                                        name="nombre_acompanante" required>
+                                        name="nombre_acompanante" maxlength="100" required>
                                     </div>
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">PARENTESCO:</h6>
@@ -397,13 +393,13 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ACOMPAÑANTE:</h6>
                                         <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
-                                        name="celular_acompanante">                
+                                        name="celular_acompanante" maxlength="45">              
                                     </div>
 
                                     <div class="col-sm-6">
                                     <h6 class="text-primary">TEL/CEL DEL ESTABLECIMIENTO DE SALUD:</h6>
                                         <input type="text" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="form-control" value=""             
-                                        name="tel_establecimiento" required >                
+                                        name="tel_establecimiento" maxlength="45" required >              
                                     </div>
                                 </div>
                                 
@@ -415,9 +411,10 @@ $row_ps=mysqli_fetch_array($result_ps);
                         $sql_se.=" descripcion_alergia, imc FROM signo_vital_psafci WHERE idnombre ='$idnombre_integrante_ss' ORDER BY idsigno_vital_psafci DESC LIMIT 1 ";
                         $result_se = mysqli_query($link,$sql_se);
                         $row_se = mysqli_fetch_array($result_se);
-                        ?> 
+                        if (!$row_se) { $row_se = array_fill(0, 13, ''); }   // paciente sin signos vitales registrados
+                        ?>
 
-                        <div class="card shadow mb-4"> <!-- Modificado toda la seccion -->
+                        <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">2.- DATOS CLÍNICOS Y SIGNOS VITALES</h6>
                             </div>
@@ -450,7 +447,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     </div>
                                 </div>
 
-                                <?php  if ($edad_ss > '5') {  //******* PARA MAYOR DE 5 ANOS */ ?>
+                                <?php  if ($edad > 5) {  // Mayores de 5 años: incluye presión arterial ?>
                             
                                 <div class="form-group row">
                                     <div class="col-sm-3">
@@ -495,7 +492,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <h6 class="text-primary">DESCRIPCIÓN DE LA ALÉRGIA</h6>
                                     <textarea class="form-control" rows="3" name="descripcion_alergia" id="descripcion_alergia" placeholder="Escriba o utilice el botón de dictado por voz" ></textarea>
                                     
-                                    <div class="invalid-feedback">Debe especificar a qué es alérgico.</div> <!-- Modificado, agregado de aqui para abajo -->
+                                    <div class="invalid-feedback">Debe especificar a qué es alérgico.</div>
                                     
                                     <button type="button" class="btn-mic" onclick="iniciarDictado('descripcion_alergia')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
@@ -507,13 +504,13 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">FRECUENCIA RESPIRATORIA </br>[cpm]:</h6> 
                                         <input type="number" min="0" max="80" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 80) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Ciclos por minuto"
-                                            name="frec_respiratoria" value="" required>                
+                                            name="frec_respiratoria" value="<?php echo cr_h($row_se[5]);?>" required>              
                                         <div class="invalid-feedback">Permitido: 0 a 80 cpm</div>
                                     </div> 
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">SATURACIÓN</br>[% O2]:</h6>   
                                         <input type="number" min="0" max="100" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 100) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 0) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="% de O2"
-                                            name="saturacion" value="" required>             
+                                            name="saturacion" value="<?php echo cr_h($row_se[8]);?>" required>           
                                         <div class="invalid-feedback">Permitido: 0% a 100%</div>
                                     </div>
                                     <div class="col-sm-3">
@@ -530,7 +527,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">GLASGOW:</br> </h6>
                                         <input type="number" min="3" max="15" onkeydown="if(['e', 'E', '+', '-', '.', ','].includes(event.key)) event.preventDefault();" oninput="if(this.value > 15) { this.value = ''; this.classList.add('is-invalid'); } else { this.classList.remove('is-invalid'); }" onblur="if(this.value !== '' && this.value < 3) { this.value = ''; this.classList.add('is-invalid'); }" class="form-control" placeholder="Glasgow"
-                                            name="glascow" value="" required>                
+                                            name="glascow" value="<?php echo cr_h($row_se[9]);?>" required>              
                                         <div class="invalid-feedback">Permitido: 3 a 15</div>
                                     </div>  
                                     <div class="col-sm-3">
@@ -547,7 +544,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                             <?php } ?>
 
-                        <?php  if ($row_n[7] == '1' && $edad > '12') {  //******* PARA MUJERES MAYORES A 12 AÑOS EN ESTADO DE EMBARAZO O NACIMIENTO */ ?>
+                        <?php  if ($row_n[7] == '1' && $edad >= 10) {  // Mujeres desde 10 años: pregunta de embarazo (mismo rango que los diagnósticos de embarazo) ?>
                         <hr>                              
                         <div class="form-group row">
                             <div class="col-sm-6">
@@ -585,8 +582,8 @@ $row_ps=mysqli_fetch_array($result_ps);
                                     <div class="col-sm-3">
                                     <h6 class="text-primary">DÍAS DE INTERNACIÓN:</h6>
                                         <input type="number" class="form-control" value="" placeholder="Nº de Días"            
-                                        name="dias_internacion" min="1" > <!-- Modificado -->
-                                        <div class="invalid-feedback">Indique los días de internación.</div>  <!-- Modificado -->               
+                                        name="dias_internacion" min="1" >
+                                        <div class="invalid-feedback">Indique los días de internación.</div>               
                                     </div>
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-3"></div>
@@ -656,110 +653,38 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                             <div class="card-body">
                                 
-                                <div class="form-group row">                               
+                                <!-- Diagnósticos: el 1 es obligatorio (CIE-10); el 2 y el 3 son opcionales, pero si tienen texto deben tener CIE-10.
+                                     El buscador es el mismo de la contrarreferencia (catálogo en caché) y no muestra como elegibles
+                                     los diagnósticos que no corresponden al sexo o la edad del paciente. -->
+                                <?php for ($n = 0; $n < 3; $n++) { ?>
+                                <div class="form-group row">
                                     <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[0]" id="diagnostico_presuntivo[0]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde" ></textarea>  <!-- Modificado, no es necesario que este sea obligatorio-->
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[0]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>    
+                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO <?php echo $n + 1; ?></h6>
+                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[<?php echo $n; ?>]" id="diagnostico_presuntivo[<?php echo $n; ?>]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
+                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[<?php echo $n; ?>]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10<?php if ($n === 0) { ?> <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span><?php } ?></h6>
                                         <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[0]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off" required>
-                                            <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia_<?php echo $n; ?>" placeholder="Escriba para buscar patología o código CIE-10..." autocomplete="off">
+                                            <div class="lista-flotante-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 220px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
                                         </div>
-                                        <select name="idpatologia[0]" id="idpatologia[0]" style="display: none;"> <!-- Modificado se quito required-->
-                                        <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
+                                        <!-- ID del CIE-10 elegido (lo que recibe guarda_referencia.php, mismo nombre de siempre) -->
+                                        <input type="hidden" name="idpatologia[<?php echo $n; ?>]" id="idpatologia_<?php echo $n; ?>" value=""<?php echo $n === 0 ? ' required' : ''; ?>>
+                                        <?php if ($n === 0) { ?>
+                                        <div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar de la lista el CIE-10 del diagnóstico principal.</div>
+                                        <?php } else { ?>
+                                        <div class="invalid-feedback" style="margin-top: 5px;">Este diagnóstico tiene texto pero no tiene CIE-10. Seleccione un CIE-10 de la lista o borre el texto.</div>
+                                        <?php } ?>
                                     </div>
                                 </div>
-
-                                <div class="form-group row">                               
-                                    <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[1]" id="diagnostico_presuntivo[1]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[1]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>   
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[1]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
-                                            <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
-                                        </div>
-                                        <select name="idpatologia[1]" id="idpatologia[1]" style="display: none;">
-                                        <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">                               
-                                    <div class="col-sm-6">
-                                    <h6 class="m-0 font-weight-bold text-primary">DIAGNÓSTICO DIAGNÓSTICO ESPECÍFICO </h6>
-                                    <textarea class="form-control" rows="3" name="diagnostico_presuntivo[2]" id="diagnostico_presuntivo[2]" placeholder="Escriba o utilice el botón de dictado por voz si corresponde"></textarea>
-                                    <button type="button" class="btn-mic" onclick="iniciarDictado('diagnostico_presuntivo[2]')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg></button>      
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h6 class="m-0 font-weight-bold text-primary">CIE - 10</h6>
-                                        <div style="position: relative;">
-                                            <input type="text" class="form-control buscador-cie-inteligente" data-target="idpatologia[2]" placeholder="Escriba para buscar patología o CIE-10..." autocomplete="off">
-                                            <div class="lista-resultados-cie" style="display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #d1d3e2; border-radius: 0.35rem; width: 100%; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
-                                        </div>
-                                        <select name="idpatologia[2]"  id="idpatologia[2]" style="display: none;">
-                                        <option value="">-SELECCIONE-</option>
-                                        <?php
-                                        $numero=1;
-                                        $sql1 = "SELECT idpatologia, patologia, cie FROM patologia ORDER BY patologia";
-                                        $result1 = mysqli_query($link,$sql1);
-                                        if ($row1 = mysqli_fetch_array($result1)){
-                                        mysqli_field_seek($result1,0);
-                                        while ($field1 = mysqli_fetch_field($result1)){
-                                        } do {
-                                        echo "<option value=".$row1[0].">".$row1[1]." - ".$row1[2]."</option>";
-                                        $numero=$numero+1;
-                                        } while ($row1 = mysqli_fetch_array($result1));
-                                        } else {
-                                        echo "No se encontraron resultados!";
-                                        }
-                                        ?>
-                                        </select>
-                                    </div>
-                                </div>
+                                <?php } ?>
 
                             </div>
 
                         </div>
 
-                        <div class="card shadow mb-4"> <!-- Modificado para que aparezca el asterizo y se marque de rojo al no ser llenado ya que es obligatorio-->
+                        <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">6.- TRATAMIENTO</h6>
                             </div>
@@ -792,7 +717,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                             </div>
                         </div>
 
-                        <div class="card shadow mb-4"> <!-- Modificado toda la seccion al igual que el tratamiento para que aparezca el asterizco-->
+                        <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">8.- CONSENTIMIENTO</h6>
                             </div>
@@ -827,7 +752,7 @@ $row_ps=mysqli_fetch_array($result_ps);
 
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">9.- ESTABLECIMIENTO RECEPTOR</h6> <!-- Modificado toda la seccion-->
+                                <h6 class="m-0 font-weight-bold text-primary">9.- ESTABLECIMIENTO RECEPTOR</h6>
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">   
@@ -867,7 +792,7 @@ $row_ps=mysqli_fetch_array($result_ps);
                                             <i class="fas fa-cloud-upload-alt dropzone-icon" style="font-size: 2.5rem; margin-bottom: 5px;"></i>
                                             <h6 class="font-weight-bold text-secondary mb-1">Arrastre sus archivos aquí</h6>
                                             <p class="text-muted small mb-0">o haga clic para examinar el dispositivo</p>
-                                            <p class="text-xs text-primary mt-1 font-weight-bold mb-0">Formatos permitidos: JPG, JPEG, PNG, PDF</p>
+                                            <p class="text-xs text-primary mt-1 font-weight-bold mb-0">Formatos permitidos: JPG, JPEG, PNG, PDF &middot; Tamaño máximo total: <?php echo cr_limite_adjunto_mb(); ?> MB</p>
                                             <input type="file" id="input_archivos" multiple accept="image/jpeg, image/png, application/pdf" style="display: none;">
                                         </div>
 
@@ -907,9 +832,9 @@ $row_ps=mysqli_fetch_array($result_ps);
                                             </button>
                                             </div>
                                             <div class="modal-body">
-                                                
+
                                                 Esta seguro de Registrar la Referencia?
-                                                posteriormenete no se podran realizar cambios.
+                                                posteriormente no se podran realizar cambios.
 
                                             </div>
                                             <div class="modal-footer">
@@ -953,841 +878,760 @@ $row_ps=mysqli_fetch_array($result_ps);
                         </div> 
     </div> 
 </div>       
-<script src="../vendor/jquery/jquery.min.js"></script>
+    <!-- Librerías base (jQuery se carga una sola vez para que los componentes de Bootstrap funcionen) -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <script src="../js/sb-admin-2.min.js"></script>
 
-    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Dictado por voz (iniciarDictado) -->
+    <script src="../js/funciones.js"></script>
 
-    <script src="../js/jquery.js"></script>
-        <script src="../js/jquery-ui.min.js"></script>
-        <script src="../js/datepicker-es.js"></script>
-        <script>$("#fecha1").datepicker($.datepicker.regional[ "es" ]);</script>
-        <script src="../js/funciones.js"></script>
+    <!-- Unión de adjuntos en un solo PDF (copia local, no depende de internet) -->
+    <script src="../vendor/pdf-lib/pdf-lib-1.17.1.min.js"></script>
 
-  <script>
-            // LÓGICA: AJAX + Buscador Flotante con Bloqueo de Integridad
-			$(document).ready(function(){
-				var consulta;
-				var inputBusqueda = $("#busqueda");
-				var listaFlotante = $("#lista-flotante-eess");
-				var selectResultado = $("#resultado");
+    <!-- Buscador CIE-10 compartido con la contrarreferencia (catálogo en caché del navegador).
+         Con las reglas de sexo y edad, los diagnósticos que no corresponden al paciente no se pueden elegir. -->
+    <script src="../comun/buscador_cie10.js"></script>
+    <script>
+        BuscadorCIE10.iniciar('<?php echo cie10_url_catalogo($link); ?>', {
+            reglas: <?php echo json_encode(cie10_reglas_sexo_edad(), JSON_UNESCAPED_UNICODE); ?>,
+            paciente: { genero: <?php echo (int)$row_n[7]; ?>, edad: <?php echo (int)$edad; ?> }
+        });
+    </script>
 
-				inputBusqueda.keyup(function(e){
-                    // Si el candado está puesto, no buscamos nada
-                    if($(this).prop('readonly')) return;
+    <!-- Aviso de cierre de sesión por inactividad (la sesión se renueva sola mientras el médico trabaja) -->
+    <script src="../comun/sesion_aviso.js"></script>
+    <script>
+        SesionAviso.iniciar({
+            idusuario: <?php echo (int)$idusuario_ss; ?>,
+            limiteServidor: <?php echo (int)ini_get('session.gc_maxlifetime'); ?>,
+            formularioRecuperable: true
+        });
+    </script>
 
-					consulta = inputBusqueda.val();
-					
-					if(consulta.trim() === '') {
-					    listaFlotante.hide();
-					    selectResultado.empty();
-                        selectResultado.val('');
-					    return;
-					}
+    <script>
+        // ESTABLECIMIENTO RECEPTOR: búsqueda por nombre; se debe elegir de la lista.
+        // Una vez elegido queda bloqueado; para cambiarlo: doble clic o tecla Borrar / Suprimir.
+        $(document).ready(function () {
+            var inputBusqueda  = $("#busqueda");
+            var listaFlotante  = $("#lista-flotante-eess");
+            var selectResultado = $("#resultado");
 
-					$.ajax({
-						type: "POST",
-						url: "buscar_establecimiento.php",
-						data: "b="+consulta,
-						dataType: "html",
-						beforeSend: function(){
-							listaFlotante.show().html("<div style='padding: 10px; text-align: center; color: #858796;'><img src='ajax-loader.gif' style='width:20px;' alt='...'/> Buscando...</div>");
-						},
-						error: function(){
-							listaFlotante.show().html("<div style='padding: 10px; color: #e74a3b;'>Error en la conexión</div>");
-						},
-						success: function(data){
-							selectResultado.empty().append(data);
-							listaFlotante.empty();
-							var opciones = selectResultado.find('option');
+            inputBusqueda.keyup(function () {
+                if ($(this).prop('readonly')) return;
 
-                            if(opciones.length === 0 || (opciones.length === 1 && opciones.val() === '')) {
-                                listaFlotante.show().html("<div style='padding: 10px; color: #858796;'>No se encontraron establecimientos</div>");
-                                return;
-                            }
+                var consulta = inputBusqueda.val();
+                if (consulta.trim() === '') {
+                    listaFlotante.hide();
+                    selectResultado.empty();
+                    selectResultado.val('');
+                    return;
+                }
 
-                            opciones.each(function() {
-                                var valorID = $(this).val();
-                                var textoEESS = $(this).text().replace(/\s+/g, ' ').trim();
-                                
-                                if(valorID !== "") {
-                                    var item = $("<div class='item-eess'></div>").text(textoEESS);
-                                    
-                                    item.css({
-                                        'padding': '8px 12px', 'cursor': 'pointer',
-                                        'border-bottom': '1px solid #eaecf4', 'font-size': '0.9rem', 'color': '#5a5c69'
-                                    });
-                                    
-                                    item.hover(
-                                        function() { $(this).css({'background-color': '#eaecf4', 'color': '#2e59d9'}); },
-                                        function() { $(this).css({'background-color': 'transparent', 'color': '#5a5c69'}); }
-                                    );
-                                    
-                                    // EL CLICK MÁGICO Y EL BLOQUEO
-                                    item.mousedown(function(e) {
-                                        e.preventDefault();
-                                        inputBusqueda.val(textoEESS); 
-                                        selectResultado.val(valorID); 
-                                        listaFlotante.hide(); 
-                                        
-                                        // 🔒 ACTIVAR EL CANDADO
-                                        inputBusqueda.prop('readonly', true);
-                                        inputBusqueda.css({'background-color': '#eaecf4', 'color': '#2e59d9', 'cursor': 'not-allowed'});
-                                        inputBusqueda.attr('title', 'Doble clic o presione Borrar (Backspace) para cambiar el establecimiento');
-                                        
-                                        // Disparamos la carga de especialidades
-                                        selectResultado.trigger('change'); 
-                                    });
-                                    
-                                    listaFlotante.append(item);
-                                }
+                $.ajax({
+                    type: "POST",
+                    url: "buscar_establecimiento.php",
+                    data: { b: consulta },
+                    dataType: "html",
+                    beforeSend: function () {
+                        listaFlotante.show().html("<div style='padding: 10px; text-align: center; color: #858796;'><img src='ajax-loader.gif' style='width:20px;' alt='...'/> Buscando...</div>");
+                    },
+                    error: function () {
+                        listaFlotante.show().html("<div style='padding: 10px; color: #e74a3b;'>No se pudo realizar la búsqueda. Revise su conexión.</div>");
+                    },
+                    success: function (data) {
+                        selectResultado.empty().append(data);
+                        listaFlotante.empty();
+                        var opciones = selectResultado.find('option');
+
+                        if (opciones.length === 0 || (opciones.length === 1 && opciones.val() === '')) {
+                            listaFlotante.show().html("<div style='padding: 10px; color: #858796;'>No se encontraron establecimientos</div>");
+                            return;
+                        }
+
+                        opciones.each(function () {
+                            var valorID = $(this).val();
+                            var textoEESS = $(this).text().replace(/\s+/g, ' ').trim();
+                            if (valorID === "") return;
+
+                            var item = $("<div class='item-eess'></div>").text(textoEESS);
+                            item.css({
+                                'padding': '8px 12px', 'cursor': 'pointer',
+                                'border-bottom': '1px solid #eaecf4', 'font-size': '0.9rem', 'color': '#5a5c69'
                             });
-						}
-					});
-				});
+                            item.hover(
+                                function () { $(this).css({'background-color': '#eaecf4', 'color': '#2e59d9'}); },
+                                function () { $(this).css({'background-color': 'transparent', 'color': '#5a5c69'}); }
+                            );
 
-                // 🔓 LÓGICA DE DESBLOQUEO Y LIMPIEZA
-                function desbloquearEESS() {
-                    if (inputBusqueda.prop('readonly')) {
-                        inputBusqueda.prop('readonly', false);
+                            // Elegir el establecimiento (mousedown para que no se adelante el blur)
+                            item.mousedown(function (e) {
+                                e.preventDefault();
+                                inputBusqueda.val(textoEESS);
+                                selectResultado.val(valorID);
+                                listaFlotante.hide();
+
+                                inputBusqueda.prop('readonly', true);
+                                inputBusqueda.css({'background-color': '#eaecf4', 'color': '#2e59d9', 'cursor': 'not-allowed'});
+                                inputBusqueda.attr('title', 'Doble clic o presione Borrar (Backspace) para cambiar el establecimiento');
+                                inputBusqueda.removeClass('is-invalid').css('border', '');
+
+                                // Carga el motivo y la especialidad del establecimiento elegido
+                                selectResultado.trigger('change');
+                            });
+
+                            listaFlotante.append(item);
+                        });
+                    }
+                });
+            });
+
+            // Quitar el establecimiento elegido para buscar otro
+            function desbloquearEESS() {
+                if (inputBusqueda.prop('readonly')) {
+                    inputBusqueda.prop('readonly', false);
+                    inputBusqueda.val('');
+                    selectResultado.val('');
+                    inputBusqueda.css({'background-color': '', 'color': '', 'font-weight': 'normal', 'cursor': 'text'});
+                    inputBusqueda.removeAttr('title');
+                    $("#especialidad_eess").empty();
+                    inputBusqueda.focus();
+                }
+            }
+
+            inputBusqueda.keydown(function (e) {
+                if ($(this).prop('readonly')) {
+                    if (e.which === 8 || e.which === 46) {          // Borrar / Suprimir
+                        e.preventDefault();
+                        desbloquearEESS();
+                    } else if (e.which !== 9) {                    // se permite Tab para avanzar
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            inputBusqueda.dblclick(function () {
+                desbloquearEESS();
+            });
+
+            // Si sale del campo sin elegir de la lista, lo escrito se borra (solo vale un establecimiento de la lista)
+            inputBusqueda.blur(function () {
+                setTimeout(function () {
+                    listaFlotante.hide();
+                    if (!inputBusqueda.prop('readonly')) {
                         inputBusqueda.val('');
                         selectResultado.val('');
-                        inputBusqueda.css({'background-color': '', 'color': '', 'font-weight': 'normal', 'cursor': 'text'});
-                        inputBusqueda.removeAttr('title');
-                        $("#especialidad_eess").empty(); // Oculta las especialidades inferiores
-                        inputBusqueda.focus(); // Le devuelve el cursor al médico
+                        $("#especialidad_eess").empty();
                     }
-                }
+                }, 200);
+            });
+        });
+    </script>
 
-                // Desbloqueo por teclado (Retroceso o Suprimir)
-                inputBusqueda.keydown(function(e) {
-                    if ($(this).prop('readonly')) {
-                        if (e.which === 8 || e.which === 46) {
-                            e.preventDefault(); 
-                            desbloquearEESS();
-                        } else if (e.which !== 9) { // 9 es Tabulador (dejamos que el tab funcione para navegar)
-                            e.preventDefault(); // Bloquear cualquier otra tecla para no ensuciar
-                        }
-                    }
-                });
-
-                // Desbloqueo por ratón (Doble Clic)
-                inputBusqueda.dblclick(function(e) {
-                    desbloquearEESS();
-                });
-
-                // Validación de Blur (Limpiaparabrisas)
-                inputBusqueda.blur(function() {
-                    setTimeout(function() {
-                        listaFlotante.hide();
-                        // Si se sale de la casilla y NO tiene puesto el candado, significa 
-                        // que escribió algo pero nunca le dio clic a la lista. Es basura, la borramos.
-                        if (!inputBusqueda.prop('readonly')) {
-                            inputBusqueda.val('');
-                            selectResultado.val('');
-                            $("#especialidad_eess").empty();
-                        }
-                    }, 200);
-                });
-			});
-	    </script>
-
-        <script language="javascript"> 
-            $(document).ready(function(){
+    <script>
+        // DATOS PERINATALES: al responder la pregunta de embarazo se cargan los campos correspondientes
+        $(document).ready(function () {
             $("#datos_perinatales").change(function () {
-                        $("#datos_perinatales option:selected").each(function () {
-                            datos_perinatales=$(this).val();
-                        $.post("datos_perinatales.php", {datos_perinatales:datos_perinatales}, function(data){
-                        $("#datos_embarazo").html(data);
-                        });
-                    });
-            })
+                var datos_perinatales = $(this).val();
+                $.post("datos_perinatales.php", { datos_perinatales: datos_perinatales }, function (data) {
+                    $("#datos_embarazo").html(data);
+                });
             });
-        </script>
+        });
+    </script>
 
-        <script> 
-            // LÓGICA: AJAX Discapacidad + Maquillaje Visual (Corregido)
-            $(document).ready(function(){
-                $("#discapacidad").change(function () {
-                    $("#discapacidad option:selected").each(function () {
-                        var discapacidad = $(this).val();
-                        
-                        $.post("persona_discapacidad.php", {discapacidad: discapacidad}, function(data){
-                            
-                            // 1. Inyectamos el HTML que trae PHP
-                            $("#persona_discapacidad").html(data);
-                            
-                            // 2. Buscamos SOLO los campos que TÚ ya hiciste obligatorios (con required)
-                            $("#persona_discapacidad select[required], #persona_discapacidad input[required]").each(function() {
-                                var campoActual = $(this);
-                                var contenedor = campoActual.closest('[class*="col-sm-"]');
-                                var titulo = contenedor.find('h6');
-                                
-                                // A) Inyectar Asterisco rojo visual si no lo tiene
-                                if(titulo.length > 0 && !titulo.attr('data-asterisco')) {
-                                    titulo.append(' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>');
-                                    titulo.attr('data-asterisco', 'true');
-                                }
-                                
-                                // B) Inyectar texto rojo oculto (invalid-feedback)
-                                if(contenedor.find('.invalid-feedback').length === 0) {
-                                    var nombreCampo = "esta opción";
-                                    if(campoActual.attr('name') === 'idtipo_discapacidad') nombreCampo = "el tipo de discapacidad";
-                                    if(campoActual.attr('name') === 'idnivel_discapacidad') nombreCampo = "el nivel de discapacidad";
-                                    
-                                    campoActual.after('<div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar ' + nombreCampo + '.</div>');
-                                }
-                            });
-                            
-                        });
+    <script>
+        // DISCAPACIDAD: si es SI se cargan el tipo y el nivel (obligatorios), con su asterisco y mensaje de ayuda
+        $(document).ready(function () {
+            $("#discapacidad").change(function () {
+                var discapacidad = $(this).val();
+                $.post("persona_discapacidad.php", { discapacidad: discapacidad }, function (data) {
+                    $("#persona_discapacidad").html(data);
+
+                    $("#persona_discapacidad select[required], #persona_discapacidad input[required]").each(function () {
+                        var campoActual = $(this);
+                        var contenedor = campoActual.closest('[class*="col-sm-"]');
+                        var titulo = contenedor.find('h6');
+
+                        if (titulo.length > 0 && !titulo.attr('data-asterisco')) {
+                            titulo.append(' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>');
+                            titulo.attr('data-asterisco', 'true');
+                        }
+
+                        if (contenedor.find('.invalid-feedback').length === 0) {
+                            var nombreCampo = "esta opción";
+                            if (campoActual.attr('name') === 'idtipo_discapacidad') nombreCampo = "el tipo de discapacidad";
+                            if (campoActual.attr('name') === 'idnivel_discapacidad') nombreCampo = "el nivel de discapacidad";
+                            campoActual.after('<div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar ' + nombreCampo + '.</div>');
+                        }
                     });
                 });
             });
-        </script>
+        });
+    </script>
 
-        <script> 
-            // LÓGICA: AJAX Especialidades + Inyección Dinámica + Limpieza
-            $(document).ready(function(){
-                $("#resultado").change(function () {
-                    // Usamos tu método original que nunca falla para leer el select
-                    $("#resultado option:selected").each(function () {
-                        var establecimiento_salud = $(this).val();
-                        
-                        $.post("establecimiento_salud_especialidad.php", {establecimiento_salud: establecimiento_salud}, function(data){
-                            
-                            // 1. Inyectamos el HTML que trae PHP
-                            $("#especialidad_eess").html(data);
-                            
-                            // 2. La Magia: Pintar asteriscos, textos de error y LIMPIAR TEXTO
-                            $("#especialidad_eess select[required]").each(function() {
-                                var selectActual = $(this);
-                                var contenedor = selectActual.parent(); 
-                                var titulo = contenedor.find('h6');
-                                
-                                if(titulo.length > 0) {
-                                    // 👉 TRUCO: Borramos cualquier número entre corchetes (ej. [933]) que traiga PHP
-                                    var textoLimpio = titulo.html().replace(/\s*\[\d+\]/g, '');
-                                    titulo.html(textoLimpio);
-                                    
-                                    // A) Inyectar Asterisco rojo si no lo tiene
-                                    if(!titulo.attr('data-asterisco')) {
-                                        titulo.append(' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>');
-                                        titulo.attr('data-asterisco', 'true');
-                                    }
-                                }
-                                
-                                // B) Inyectar texto rojo oculto (invalid-feedback)
-                                if(contenedor.find('.invalid-feedback').length === 0) {
-                                    var nombreCampo = selectActual.attr('name') === 'idmotivo_referencia' ? 'el motivo' : 'la especialidad';
-                                    selectActual.after('<div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar ' + nombreCampo + '.</div>');
-                                }
-                            });
-                            
-                        });
-                    });
-                });
-            });
-        </script>
-        
-        <script>
-            // LÓGICA: Validación Táctica y Fuerza Bruta (Nivel Máximo)
-            document.addEventListener('DOMContentLoaded', function() {
-                
-                // 1. Apuntamos EXCLUSIVAMENTE a tu formulario principal para evitar confusiones
-                var form = document.querySelector('form[name="GUARDA_REFERENCIA"]');
-                var btnConfirmar = document.getElementById('btn-confirmar-registro');
-                
-                if (form && btnConfirmar) {
-                    btnConfirmar.addEventListener('click', function(e) {
-                        e.preventDefault(); 
-                        
-                        var hayErrores = false;
-                        var primerInvalido = null;
-                        
-                        // 2. Limpiamos alertas previas de toda la pantalla
-                        form.querySelectorAll('.is-invalid').forEach(function(el) {
-                            el.classList.remove('is-invalid');
-                            el.style.border = ''; 
-                        });
-                        form.querySelectorAll('.invalid-feedback').forEach(function(el) {
-                            el.style.display = ''; 
-                        });
-                        
-                        // 3. REVISIÓN MANUAL CAMPO POR CAMPO (A prueba de balas)
-                        var elementosObligatorios = form.querySelectorAll('input[required], select[required], textarea[required]');
-                        
-                        elementosObligatorios.forEach(function(el) {
-                            // Si el campo está vacío, solo tiene espacios, o es inválido
-                            if (!el.value || el.value.trim() === '' || !el.checkValidity()) {
-                                hayErrores = true;
-                                
-                                // Si el campo está a la vista del médico (Tratamiento, Hospital, Consentimiento)
-                                if (el.type !== 'hidden' && el.style.display !== 'none') {
-                                    
-                                    // A) Inyectamos el borde rojo sin que nada pueda borrarlo (!important)
-                                    el.classList.add('is-invalid');
-                                    el.style.setProperty('border', '2px solid #dc3545', 'important');
-                                    
-                                    // B) Obligamos a que el texto de ayuda rojo aparezca sí o sí
-                                    var contenedor = el.parentNode;
-                                    var feedback = contenedor.querySelector('.invalid-feedback');
-                                    if (feedback) {
-                                        feedback.style.setProperty('display', 'block', 'important');
-                                    }
-                                    
-                                    // C) Guardamos el primer error para viajar hacia él
-                                    if (!primerInvalido) primerInvalido = el;
-                                }
+    <script>
+        // MOTIVO Y ESPECIALIDAD: se cargan según el establecimiento receptor elegido
+        $(document).ready(function () {
+            $("#resultado").change(function () {
+                var establecimiento_salud = $(this).val();
+                if (!establecimiento_salud) return;
+
+                $.post("establecimiento_salud_especialidad.php", { establecimiento_salud: establecimiento_salud }, function (data) {
+                    $("#especialidad_eess").html(data);
+
+                    $("#especialidad_eess select[required]").each(function () {
+                        var selectActual = $(this);
+                        var contenedor = selectActual.parent();
+                        var titulo = contenedor.find('h6');
+
+                        if (titulo.length > 0) {
+                            // Se quitan del título los códigos internos entre corchetes (ej. [933])
+                            titulo.html(titulo.html().replace(/\s*\[\d+\]/g, ''));
+
+                            if (!titulo.attr('data-asterisco')) {
+                                titulo.append(' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>');
+                                titulo.attr('data-asterisco', 'true');
                             }
-                        });
-                        
-                        // 4. ACCIONES FINALES
-                        if (hayErrores) {
-                            // Cerramos el modal usando múltiples métodos por seguridad
-                            try {
-                                var btnCancelar = document.querySelector('#examplemodal_f [data-dismiss="modal"]');
-                                if (btnCancelar) btnCancelar.click();
-                                $('#examplemodal_f').modal('hide'); 
-                            } catch(err) {}
-                            
-                            // Esperamos que desaparezca el cuadro gris y viajamos al error
-                            setTimeout(function() {
-                                document.body.classList.remove('modal-open');
-                                document.body.style.paddingRight = '';
-                                
-                                if (primerInvalido) {
-                                    primerInvalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                    try { primerInvalido.focus({ preventScroll: true }); } catch(e) { primerInvalido.focus(); }
-                                }
-                            }, 400);
-                            
-                        } else {
-                            // TODO ESTÁ PERFECTO: Bloqueamos y guardamos
-                            btnConfirmar.innerHTML = "GUARDANDO...";
-                            btnConfirmar.disabled = true;
-                            form.submit(); 
+                        }
+
+                        if (contenedor.find('.invalid-feedback').length === 0) {
+                            var nombreCampo = selectActual.attr('name') === 'idmotivo_referencia' ? 'el motivo' : 'la especialidad';
+                            selectActual.after('<div class="invalid-feedback" style="margin-top: 5px;">Debe seleccionar ' + nombreCampo + '.</div>');
                         }
                     });
-                    
-                    // 5. EFECTO MAGIA: Borrar el rojo individualmente cuando el médico empieza a escribir
-                    form.addEventListener('input', function(e) {
-                        if (e.target.hasAttribute('required') && e.target.value.trim() !== '') {
-                            e.target.classList.remove('is-invalid');
-                            e.target.style.border = '';
-                            var feedback = e.target.parentNode.querySelector('.invalid-feedback');
-                            if (feedback) feedback.style.display = '';
-                        }
-                    });
-                    form.addEventListener('change', function(e) {
-                        if (e.target.hasAttribute('required') && e.target.value.trim() !== '') {
-                            e.target.classList.remove('is-invalid');
-                            e.target.style.border = '';
-                            var feedback = e.target.parentNode.querySelector('.invalid-feedback');
-                            if (feedback) feedback.style.display = '';
-                        }
-                    });
-                }
+                });
             });
-        </script>
+        });
+    </script>
 
-        <script>
-            // LÓGICA: Autocompletado CIE-10 con Bloqueo de Integridad
-            document.addEventListener('DOMContentLoaded', function() {
-                var buscadores = document.querySelectorAll('.buscador-cie-inteligente');
-                
-                buscadores.forEach(function(input) {
-                    var targetId = input.getAttribute('data-target');
-                    var selectOriginal = document.getElementById(targetId);
-                    var listaFlotante = input.nextElementSibling; 
-                    
-                    var opciones = Array.from(selectOriginal.options).filter(function(opt) {
-                        return opt.value !== ""; 
-                    });
-                    
-                    input.addEventListener('input', function() {
-                        if (this.readOnly) return; // Si el candado está puesto, no buscamos
+    <script>
+        // VALIDACIÓN ANTES DE REGISTRAR
+        // Revisa los campos obligatorios, los diagnósticos y los adjuntos; marca en rojo lo pendiente y lleva al primero.
+        // Si todo está correcto, confirma que la sesión siga abierta y envía el formulario.
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.querySelector('form[name="GUARDA_REFERENCIA"]');
+            var btnConfirmar = document.getElementById('btn-confirmar-registro');
+            if (!form || !btnConfirmar) return;
 
-                        var term = this.value.toLowerCase().trim();
-                        listaFlotante.innerHTML = ''; 
-                        
-                        if (term === '') {
-                            listaFlotante.style.display = 'none';
-                            selectOriginal.value = ''; 
-                            return;
+            var TEXTO_BOTON = btnConfirmar.innerHTML;
+
+            function marcarInvalido(el, feedbackDesde) {
+                el.classList.add('is-invalid');
+                el.style.setProperty('border', '2px solid #dc3545', 'important');
+                var contenedor = feedbackDesde || el.parentNode;
+                var feedback = contenedor ? contenedor.querySelector('.invalid-feedback') : null;
+                if (feedback) feedback.style.setProperty('display', 'block', 'important');
+            }
+
+            function cerrarModal() {
+                try {
+                    var btnCancelar = document.querySelector('#examplemodal_f [data-dismiss="modal"]');
+                    if (btnCancelar) btnCancelar.click();
+                    $('#examplemodal_f').modal('hide');
+                } catch (err) { }
+            }
+
+            function restaurarBoton() {
+                btnConfirmar.disabled = false;
+                btnConfirmar.innerHTML = TEXTO_BOTON;
+            }
+
+            // Al volver con el botón ATRÁS del navegador, el botón queda habilitado otra vez
+            window.addEventListener('pageshow', restaurarBoton);
+
+            btnConfirmar.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                var hayErrores = false;
+                var primerInvalido = null;
+
+                // 1. Limpiar marcas anteriores
+                form.querySelectorAll('.is-invalid').forEach(function (el) {
+                    el.classList.remove('is-invalid');
+                    el.style.border = '';
+                });
+                form.querySelectorAll('.invalid-feedback').forEach(function (el) {
+                    el.style.display = '';
+                });
+
+                // 2. Campos obligatorios (los deshabilitados no se revisan)
+                var obligatorios = form.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled]), textarea[required]:not([disabled])');
+                obligatorios.forEach(function (el) {
+                    var valor = el.value ? el.value.trim() : '';
+                    if (valor !== '' && el.checkValidity()) return;
+                    hayErrores = true;
+
+                    if (el.type === 'hidden' && el.id && el.id.indexOf('idpatologia_') === 0) {
+                        // CIE-10 (campo oculto): se marca el buscador visible
+                        var visual = document.querySelector('input[data-target="' + el.id + '"]');
+                        if (visual) {
+                            marcarInvalido(visual, el.parentNode);
+                            if (!primerInvalido) primerInvalido = visual;
                         }
-                        
-                        var coincidencias = opciones.filter(function(opt) {
-                            return opt.text.toLowerCase().includes(term);
-                        });
-                        
-                        if (coincidencias.length > 0) {
-                            listaFlotante.style.display = 'block'; 
-                            
-                            coincidencias.slice(0, 100).forEach(function(opt) { 
-                                var item = document.createElement('div');
-                                item.textContent = opt.text;
-                                item.style.padding = '8px 12px';
-                                item.style.cursor = 'pointer';
-                                item.style.borderBottom = '1px solid #eaecf4';
-                                item.style.fontSize = '0.9rem';
-                                item.style.color = '#5a5c69';
-                                
-                                item.addEventListener('mouseenter', function() { this.style.backgroundColor = '#eaecf4'; this.style.color = '#2e59d9'; });
-                                item.addEventListener('mouseleave', function() { this.style.backgroundColor = 'transparent'; this.style.color = '#5a5c69'; });
-                                
-                                // EL CLICK MÁGICO Y EL BLOQUEO
-                                item.addEventListener('mousedown', function(e) {
-                                    e.preventDefault(); 
-                                    input.value = opt.text; 
-                                    selectOriginal.value = opt.value; 
-                                    listaFlotante.style.display = 'none'; 
-
-                                    // 🔒 ACTIVAR EL CANDADO
-                                    input.readOnly = true;
-                                    input.style.backgroundColor = '#eaecf4';
-                                    input.style.color = '#2e59d9';
-                                    input.style.fontWeight = 'normal';
-                                    input.style.cursor = 'not-allowed';
-                                    input.title = "Doble clic o presione Borrar (Backspace) para cambiar el diagnóstico";
-                                });
-                                
-                                listaFlotante.appendChild(item);
-                            });
-                        } else {
-                            listaFlotante.style.display = 'none';
-                        }
-                    });
-
-                    // 🔓 LÓGICA DE DESBLOQUEO Y LIMPIEZA
-                    function desbloquearCIE() {
-                        if (input.readOnly) {
-                            input.readOnly = false;
-                            input.value = '';
-                            selectOriginal.value = '';
-                            input.style.backgroundColor = '';
-                            input.style.color = '';
-                            input.style.fontWeight = 'normal';
-                            input.style.cursor = 'text';
-                            input.removeAttribute('title');
-                            input.focus();
-                        }
+                    } else if (el.type !== 'hidden' && el.style.display !== 'none') {
+                        marcarInvalido(el);
+                        if (!primerInvalido) primerInvalido = el;
                     }
-
-                    // Desbloqueo por teclado
-                    input.addEventListener('keydown', function(e) {
-                        if (input.readOnly) {
-                            if (e.key === 'Backspace' || e.key === 'Delete') {
-                                e.preventDefault();
-                                desbloquearCIE();
-                            } else if (e.key !== 'Tab') { // Permitimos usar Tab
-                                e.preventDefault(); // Bloqueamos todo lo demás
-                            }
-                        }
-                    });
-
-                    // Desbloqueo por ratón
-                    input.addEventListener('dblclick', function(e) {
-                        desbloquearCIE();
-                    });
-
-                    // Limpiaparabrisas al perder el foco
-                    input.addEventListener('blur', function() {
-                        setTimeout(function() {
-                            listaFlotante.style.display = 'none';
-                            
-                            // Si NO está bloqueado y el médico sale de la casilla, 
-                            // significa que nunca le dio clic a la lista. Borramos lo escrito.
-                            if (!input.readOnly) {
-                                input.value = '';
-                                selectOriginal.value = '';
-                            }
-                        }, 200);
-                    });
                 });
-            });
-        </script>
 
-        <script>
-            // LÓGICA: Asteriscos automáticos para campos obligatorios AGREGADO NUEVO
-            document.addEventListener('DOMContentLoaded', function() {
-                // 1. Buscamos todos los campos que el sistema reconoce como obligatorios
-                var elementosObligatorios = document.querySelectorAll('input[required], select[required], textarea[required]');
-                
-                elementosObligatorios.forEach(function(el) {
-                    // 2. Ignoramos campos que nosotros hayamos ocultado (como tus select del buscador)
-                    if(el.style.display !== 'none' && el.type !== 'hidden') {
-                        // 3. Buscamos el contenedor donde está encerrado el campo
-                        var contenedor = el.closest('[class*="col-sm-"]'); 
-                        if(contenedor) {
-                            // 4. Buscamos el título (la etiqueta h6)
-                            var titulo = contenedor.querySelector('h6');
-                            // 5. Le inyectamos el asterisco sutilmente
-                            if(titulo && !titulo.hasAttribute('data-asterisco')) {
-                                titulo.innerHTML += ' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                                titulo.setAttribute('data-asterisco', 'true');
-                            }
+                // 3. Diagnósticos 2 y 3 (opcionales): si tienen texto, deben tener CIE-10 elegido de la lista
+                [1, 2].forEach(function (n) {
+                    var texto = document.getElementById('diagnostico_presuntivo[' + n + ']');
+                    var oculto = document.getElementById('idpatologia_' + n);
+                    if (texto && oculto && texto.value.trim() !== '' && oculto.value === '') {
+                        hayErrores = true;
+                        var visual = document.querySelector('input[data-target="idpatologia_' + n + '"]');
+                        if (visual) {
+                            marcarInvalido(visual, oculto.parentNode);
+                            if (!primerInvalido) primerInvalido = visual;
                         }
                     }
                 });
-            });
-        </script>
 
-        <script>
-            // LÓGICA: Campos Condicionales Automáticos
-            document.addEventListener('DOMContentLoaded', function() {
-                
-                // Función maestra para vincular un Radio Button con un Campo Objetivo
-                function vincularCondicional(nameRadio, nameCampo, valorCondicion) {
-                    var radios = document.querySelectorAll('input[name="' + nameRadio + '"]');
-                    var campo = document.querySelector('[name="' + nameCampo + '"]');
-                    
-                    if (radios.length > 0 && campo) {
-                        var contenedor = campo.closest('[class*="col-sm-"]');
-                        var titulo = contenedor ? contenedor.querySelector('h6') : null;
+                // 3b. Establecimiento receptor: debe estar elegido de la lista (no basta con el texto escrito;
+                //     ej. al volver con ATRÁS el navegador puede conservar el texto pero no la selección)
+                var busqueda = document.getElementById('busqueda');
+                var resultado = document.getElementById('resultado');
+                if (busqueda && resultado && !resultado.value) {
+                    hayErrores = true;
+                    marcarInvalido(busqueda);
+                    if (!primerInvalido) primerInvalido = busqueda;
+                }
 
-                        function evaluarCondicion() {
-                            var seleccionado = document.querySelector('input[name="' + nameRadio + '"]:checked');
-                            
-                            if (seleccionado && seleccionado.value === valorCondicion) {
-                                // 1. Hacer el campo obligatorio para la Validación Oficial
-                                campo.setAttribute('required', 'true');
-                                
-                                // 2. Dibujar el asterisco rojo mágicamente si no lo tiene
-                                if (titulo && !titulo.hasAttribute('data-asterisco-dinamico')) {
-                                    titulo.innerHTML += ' <span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
-                                    titulo.setAttribute('data-asterisco-dinamico', 'true');
-                                }
-                            } else {
-                                // 1. Quitar la obligatoriedad
-                                campo.removeAttribute('required');
-                                
-                                // 2. Quitar los bordes rojos si el médico había cometido un error y se arrepiente
-                                campo.classList.remove('is-invalid');
-                                campo.style.border = '';
-                                
-                                // 3. PROTECCIÓN ANTI-FANTASMAS: Si escribió algo y luego marcó "NO", borramos el texto.
-                                campo.value = '';
-                                
-                                // 4. Desaparecer el asterisco
-                                if (titulo && titulo.hasAttribute('data-asterisco-dinamico')) {
-                                    var ast = titulo.querySelector('.ast-dinamico');
-                                    if (ast) ast.remove();
-                                    titulo.removeAttribute('data-asterisco-dinamico');
-                                }
-                            }
+                // 3c. Persona con discapacidad = SI: tipo y nivel deben estar cargados y elegidos
+                var discapacidad = document.getElementById('discapacidad');
+                if (discapacidad && discapacidad.value === 'SI') {
+                    var faltanCampos = false;
+                    ['idtipo_discapacidad', 'idnivel_discapacidad'].forEach(function (nombre) {
+                        var sel = form.querySelector('select[name="' + nombre + '"]');
+                        if (!sel) { faltanCampos = true; return; }
+                        if (!sel.value) {
+                            hayErrores = true;
+                            marcarInvalido(sel);
+                            if (!primerInvalido) primerInvalido = sel;
                         }
-
-                        // Escuchamos cada vez que el médico hace clic en los radios (SI o NO)
-                        radios.forEach(function(radio) {
-                            radio.addEventListener('change', evaluarCondicion);
-                        });
-                        
-                        // Evaluamos una vez al cargar la página por si "SI" ya venía marcado por defecto
-                        evaluarCondicion();
+                    });
+                    if (faltanCampos) {
+                        hayErrores = true;
+                        $(discapacidad).trigger('change');   // se vuelven a cargar tipo y nivel
+                        marcarInvalido(discapacidad);
+                        if (!primerInvalido) primerInvalido = discapacidad;
                     }
                 }
 
-                // Inyectamos la magia a nuestros dos casos específicos:
-                vincularCondicional('estuvo_internado', 'dias_internacion', 'SI');
-                vincularCondicional('alergia', 'descripcion_alergia', 'SI');
-                
-            });
-        </script>
-
-
-        <script>
-            document.addEventListener('DOMContentLoaded', async function() {
-                let archivosAdjuntos = [];
-                const dropzone = document.getElementById('dropzone');
-                const inputArchivos = document.getElementById('input_archivos');
-                const previewGallery = document.getElementById('preview-gallery');
-                const btnPrevisualizar = document.getElementById('btn-previsualizar-pdf');
-                const visorPdf = document.getElementById('visor_pdf_final');
-                const inputOcultoPDF = document.getElementById('pdf_final_oculto');
-
-                // --- GESTIÓN DE EVENTOS DRAG & DROP (ARRASTRAR Y SOLTAR) ---
-                dropzone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropzone.classList.add('dragover');
-                });
-                dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-                dropzone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropzone.classList.remove('dragover');
-                    manejarArchivos(e.dataTransfer.files);
-                });
-                inputArchivos.addEventListener('change', (e) => manejarArchivos(e.target.files));
-
-                // --- MANEJO CENTRAL DE ARCHIVOS SUBIDOS ---
-                function manejarArchivos(files) {
-                    Array.from(files).forEach(file => {
-                        // Filtro estricto de tipos MIME por motivos de ciberseguridad
-                        if (file.type.match('image/image') || file.type.match('image/jpeg') || file.type.match('image/png') || file.type.match('application/pdf')) {
-                            // Validación anti-duplicados (Evita procesar el mismo archivo dos veces)
-                            if (!archivosAdjuntos.some(a => a.name === file.name && a.size === file.size)) {
-                                archivosAdjuntos.push(file);
-                                renderizarMiniatura(file, archivosAdjuntos.length - 1);
-                            }
-                        } else {
-                            alert("Filtro de Seguridad: El formato del archivo no es soportado por el sistema SAFCI. Solo use imágenes JPG, PNG o documentos PDF.");
-                        }
-                    });
-                    inputArchivos.value = ''; // Reseteo del input selector para cargas consecutivas
-                    actualizarEstadoInterfaz();
-                    generarPDFFinalEnMemoria(); // Genera y unifica de inmediato en segundo plano
+                // 4. Adjuntos: deben estar listos y no superar el tamaño máximo
+                var dropzone = document.getElementById('dropzone');
+                if (!hayErrores && window.estadoAdjuntosRef === 'procesando') {
+                    hayErrores = true;
+                    alert('Los archivos adjuntos todavía se están preparando. Espere unos segundos y vuelva a presionar CONFIRMAR REGISTRO.');
+                    if (!primerInvalido) primerInvalido = dropzone;
+                } else if (!hayErrores && window.estadoAdjuntosRef === 'error') {
+                    hayErrores = true;
+                    alert('Hay un problema con los archivos adjuntos. Quite el último archivo agregado o vuelva a adjuntarlos.');
+                    if (!primerInvalido) primerInvalido = dropzone;
+                }
+                var limiteAdjunto = <?php echo (int)cr_limite_adjunto(); ?>;
+                var pdfOculto = document.getElementById('pdf_final_oculto');
+                if (!hayErrores && limiteAdjunto > 0 && pdfOculto && pdfOculto.files && pdfOculto.files.length > 0
+                    && pdfOculto.files[0].size > limiteAdjunto) {
+                    hayErrores = true;
+                    alert('Los archivos adjuntos suman ' + (pdfOculto.files[0].size / 1048576).toFixed(1) +
+                          ' MB y el máximo permitido es ' + (limiteAdjunto / 1048576).toFixed(1) +
+                          ' MB. Quite algunos archivos o use fotos de menor tamaño.');
+                    if (!primerInvalido) primerInvalido = dropzone;
                 }
 
-                // --- RENDERIZACIÓN DE MINIATURAS CON ELIMINACIÓN ASÍNCRONA ---
-                function renderizarMiniatura(file, index) {
+                // 5. Con errores: cerrar la confirmación y llevar al primer campo pendiente
+                if (hayErrores) {
+                    cerrarModal();
+                    setTimeout(function () {
+                        document.body.classList.remove('modal-open');
+                        document.body.style.paddingRight = '';
+                        if (primerInvalido) {
+                            primerInvalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            try { primerInvalido.focus({ preventScroll: true }); } catch (err) { primerInvalido.focus(); }
+                        }
+                    }, 400);
+                    return;
+                }
+
+                // 6. Todo correcto: confirmar que la sesión siga abierta (si no, se avisa sin perder lo escrito) y enviar
+                btnConfirmar.disabled = true;
+                btnConfirmar.innerHTML = 'VERIFICANDO...';
+                var verificacion = window.SesionAviso ? SesionAviso.verificar() : Promise.resolve(true);
+                verificacion.then(function (sesionActiva) {
+                    if (!sesionActiva) {
+                        restaurarBoton();
+                        cerrarModal();
+                        return;
+                    }
+                    btnConfirmar.innerHTML = 'GUARDANDO...';
+                    form.submit();
+                });
+            });
+
+            // Al corregir un campo marcado en rojo, la marca desaparece
+            function limpiarMarca(e) {
+                if (e.target.hasAttribute('required') && e.target.value.trim() !== '') {
+                    e.target.classList.remove('is-invalid');
+                    e.target.style.border = '';
+                    var feedback = e.target.parentNode.querySelector('.invalid-feedback');
+                    if (feedback) feedback.style.display = '';
+                }
+            }
+            form.addEventListener('input', limpiarMarca);
+            form.addEventListener('change', limpiarMarca);
+        });
+    </script>
+
+    <script>
+        // ASTERISCO ROJO en los títulos de los campos obligatorios visibles
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[required], select[required], textarea[required]').forEach(function (el) {
+                if (el.style.display === 'none' || el.type === 'hidden') return;
+                var contenedor = el.closest('[class*="col-sm-"]');
+                if (!contenedor) return;
+                var titulo = contenedor.querySelector('h6');
+                if (titulo && !titulo.hasAttribute('data-asterisco')) {
+                    titulo.innerHTML += ' <span style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
+                    titulo.setAttribute('data-asterisco', 'true');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // CAMPO CONDICIONAL: los días de internación son obligatorios solo si ESTUVO INTERNADO = SI.
+        // Si se cambia a NO, el valor escrito se borra.
+        document.addEventListener('DOMContentLoaded', function () {
+            function vincularCondicional(nameRadio, nameCampo, valorCondicion) {
+                var radios = document.querySelectorAll('input[name="' + nameRadio + '"]');
+                var campo = document.querySelector('[name="' + nameCampo + '"]');
+                if (radios.length === 0 || !campo) return;
+
+                var contenedor = campo.closest('[class*="col-sm-"]');
+                var titulo = contenedor ? contenedor.querySelector('h6') : null;
+
+                function evaluarCondicion() {
+                    var seleccionado = document.querySelector('input[name="' + nameRadio + '"]:checked');
+                    if (seleccionado && seleccionado.value === valorCondicion) {
+                        campo.setAttribute('required', 'true');
+                        if (titulo && !titulo.hasAttribute('data-asterisco-dinamico')) {
+                            titulo.innerHTML += ' <span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio">*</span>';
+                            titulo.setAttribute('data-asterisco-dinamico', 'true');
+                        }
+                    } else {
+                        campo.removeAttribute('required');
+                        campo.classList.remove('is-invalid');
+                        campo.style.border = '';
+                        campo.value = '';
+                        if (titulo && titulo.hasAttribute('data-asterisco-dinamico')) {
+                            var ast = titulo.querySelector('.ast-dinamico');
+                            if (ast) ast.remove();
+                            titulo.removeAttribute('data-asterisco-dinamico');
+                        }
+                    }
+                }
+
+                radios.forEach(function (radio) { radio.addEventListener('change', evaluarCondicion); });
+                evaluarCondicion();
+            }
+
+            vincularCondicional('estuvo_internado', 'dias_internacion', 'SI');
+        });
+    </script>
+
+    <script>
+        // ARCHIVOS ADJUNTOS (fotografías, laboratorios, ecografías)
+        // Cada archivo se revisa al agregarlo (formato real, que se pueda abrir); todos se unen en un solo PDF
+        // en el navegador, que es el que se envía. Tamaño máximo total: el indicado en la zona de arrastre.
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropzone         = document.getElementById('dropzone');
+            const inputArchivos    = document.getElementById('input_archivos');
+            const previewGallery   = document.getElementById('preview-gallery');
+            const inputOcultoPDF   = document.getElementById('pdf_final_oculto');
+            const visorPdf         = document.getElementById('visor_pdf_final');
+            const btnPrevisualizar = document.getElementById('btn-previsualizar-pdf');
+            const LIMITE_ADJUNTO   = <?php echo (int)cr_limite_adjunto(); ?>;
+
+            let archivosAdjuntos = [];
+            let generacionPDF = 0;
+
+            // Estado para la validación al registrar: 'listo' | 'procesando' | 'error'
+            window.estadoAdjuntosRef = 'listo';
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(function (ev) {
+                dropzone.addEventListener(ev, function (e) { e.preventDefault(); e.stopPropagation(); }, false);
+            });
+            ['dragenter', 'dragover'].forEach(function (ev) {
+                dropzone.addEventListener(ev, function () { dropzone.classList.add('dragover'); }, false);
+            });
+            ['dragleave', 'drop'].forEach(function (ev) {
+                dropzone.addEventListener(ev, function () { dropzone.classList.remove('dragover'); }, false);
+            });
+
+            dropzone.addEventListener('drop', function (e) {
+                if (e.dataTransfer.files.length > 0) procesarArchivosNuevos(e.dataTransfer.files);
+            });
+            inputArchivos.addEventListener('change', function (e) {
+                if (e.target.files.length > 0) procesarArchivosNuevos(e.target.files);
+            });
+
+            // Tipo real del archivo según sus primeros bytes (no por la extensión)
+            function tipoReal(bytes) {
+                if (bytes.length >= 5 && bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46 && bytes[4] === 0x2D) return 'pdf';
+                if (bytes.length >= 8 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return 'png';
+                if (bytes.length >= 3 && bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) return 'jpg';
+                return null;
+            }
+
+            // ¿El navegador puede dibujar la imagen? (detecta imágenes cortadas o dañadas)
+            function imagenVisualizable(file) {
+                if (window.createImageBitmap) {
+                    return createImageBitmap(file)
+                        .then(function (bmp) { const ok = bmp.width > 0 && bmp.height > 0; if (bmp.close) bmp.close(); return ok; })
+                        .catch(function () { return false; });
+                }
+                return new Promise(function (resolve) {
+                    const url = URL.createObjectURL(file);
+                    const img = new Image();
+                    const t = setTimeout(function () { fin(true); }, 15000);
+                    function fin(ok) { clearTimeout(t); URL.revokeObjectURL(url); resolve(ok); }
+                    img.onload = function () { fin(img.naturalWidth > 0 && img.naturalHeight > 0); };
+                    img.onerror = function () { fin(false); };
+                    img.src = url;
+                });
+            }
+
+            // Revisa un archivo: devuelve {file, tipo, bytes} o {error: 'motivo'}
+            async function revisarArchivo(file) {
+                let bytes;
+                try { bytes = new Uint8Array(await file.arrayBuffer()); }
+                catch (e) { return { error: 'no se pudo leer el archivo' }; }
+                if (bytes.length === 0) return { error: 'el archivo está vacío' };
+
+                const tipo = tipoReal(bytes);
+                if (!tipo) return { error: 'formato no válido o archivo dañado (solo JPG, PNG o PDF)' };
+
+                if (tipo === 'pdf') {
+                    try {
+                        const doc = await PDFLib.PDFDocument.load(bytes);
+                        if (doc.getPageCount() === 0) return { error: 'el PDF no tiene páginas' };
+                    } catch (e) {
+                        const msg = String(e && e.message || e);
+                        if (/encrypt/i.test(msg)) return { error: 'el PDF está protegido con contraseña' };
+                        return { error: 'el PDF está dañado o no se puede abrir' };
+                    }
+                } else {
+                    if (!(await imagenVisualizable(file))) return { error: 'la imagen está dañada o no se puede visualizar' };
+                    try {
+                        const prueba = await PDFLib.PDFDocument.create();
+                        if (tipo === 'png') await prueba.embedPng(bytes); else await prueba.embedJpg(bytes);
+                    } catch (e) {
+                        return { error: 'la imagen está dañada o no se puede convertir a PDF' };
+                    }
+                }
+                return { file: file, tipo: tipo, bytes: bytes };
+            }
+
+            async function procesarArchivosNuevos(files) {
+                const lista = Array.from(files);
+                if (lista.length === 0) return;
+                if (typeof PDFLib === 'undefined') {
+                    alert('No se pudo cargar el componente de adjuntos. Recargue la página e intente nuevamente.');
+                    return;
+                }
+                window.estadoAdjuntosRef = 'procesando';
+                const rechazados = [];
+                for (const file of lista) {
+                    if (archivosAdjuntos.some(function (a) { return a.file.name === file.name && a.file.size === file.size; })) continue; // ya adjuntado
+                    const r = await revisarArchivo(file);
+                    if (r.error) rechazados.push('- ' + file.name + ': ' + r.error);
+                    else archivosAdjuntos.push(r);
+                }
+                inputArchivos.value = ''; // permite volver a elegir el mismo archivo
+                if (rechazados.length > 0) {
+                    alert('Los siguientes archivos NO se adjuntaron:\n\n' + rechazados.join('\n') +
+                          '\n\nVerifique que se abran correctamente en su equipo y vuelva a adjuntarlos.');
+                }
+                renderizarGaleriaYGenerarPDF();
+            }
+
+            function eliminarArchivo(index) {
+                archivosAdjuntos.splice(index, 1);
+                renderizarGaleriaYGenerarPDF();
+            }
+
+            async function renderizarGaleriaYGenerarPDF() {
+                const miGeneracion = ++generacionPDF;
+                previewGallery.innerHTML = '';
+
+                if (archivosAdjuntos.length === 0) {
+                    btnPrevisualizar.style.display = 'none';
+                    $('#visorColapsableForm').collapse('hide');
+                    visorPdf.src = '';
+                    inputOcultoPDF.files = (new DataTransfer()).files;
+                    window.estadoAdjuntosRef = 'listo';
+                    return;
+                }
+                window.estadoAdjuntosRef = 'procesando';
+
+                // Miniaturas
+                archivosAdjuntos.forEach(function (adj, index) {
                     const div = document.createElement('div');
                     div.className = 'thumb-item';
-                    div.setAttribute('data-index', index);
 
-                    // Creación del gatillo de eliminación individual (La opción "X")
-                    const btnDelete = document.createElement('button');
-                    btnDelete.className = 'btn-remove-thumb';
-                    btnDelete.innerHTML = '<i class="fas fa-times"></i>';
-                    btnDelete.onclick = (e) => {
-                        e.stopPropagation();
-                        eliminarArchivoColeccion(file.name);
-                    };
-
-                    // Enrutamiento de previsualización según tipo de archivo
-                    if (file.type.includes('image')) {
+                    if (adj.tipo === 'png' || adj.tipo === 'jpg') {
                         const img = document.createElement('img');
-                        img.src = URL.createObjectURL(file);
+                        img.src = URL.createObjectURL(adj.file);
                         div.appendChild(img);
-                    } else if (file.type === 'application/pdf') {
-                        div.innerHTML = `<i class="fas fa-file-pdf thumb-pdf-icon"></i>`;
-                    }
-
-                    const nameEtiqueta = document.createElement('div');
-                    nameEtiqueta.className = 'thumb-name';
-                    nameEtiqueta.innerText = file.name;
-
-                    div.appendChild(btnDelete);
-                    div.appendChild(nameEtiqueta);
-                    previewGallery.appendChild(div);
-                }
-
-                function eliminarArchivoColeccion(nombreArchivo) {
-                    archivosAdjuntos = archivosAdjuntos.filter(file => file.name !== nombreArchivo);
-                    previewGallery.innerHTML = ''; // Limpieza total del contenedor de miniaturas
-                    archivosAdjuntos.forEach((file, index) => renderizarMiniatura(file, index)); // Re-mapeo limpio
-                    actualizarEstadoInterfaz();
-                    generarPDFFinalEnMemoria(); // Regeneración del PDF resultante sin el archivo descartado
-                }
-
-                function actualizarEstadoInterfaz() {
-                    if (archivosAdjuntos.length > 0) {
-                        btnPrevisualizar.style.display = 'inline-block';
                     } else {
-                        btnPrevisualizar.style.display = 'none';
-                        $('#visorColapsableForm').collapse('hide'); // Ocultar acordeón si se vacía la galería
-                        visorPdf.src = '';
-                        // Reiniciar el input de archivos ocultos si el médico vacía la lista
-                        const dt = new DataTransfer();
-                        inputOcultoPDF.files = dt.files;
+                        div.innerHTML = '<i class="fas fa-file-pdf thumb-pdf-icon"></i>';
                     }
-                }
 
-                // --- UNIFICACIÓN DE BINARIOS EN MEMORIA RAM (CLIENT-SIDE PROCESSING VIA PDF-LIB) ---
-                async function generarPDFFinalEnMemoria() {
-                    if (archivosAdjuntos.length === 0) return;
-                    
-                    try {
-                        // 1. Escudo anti-fallos de internet
-                        if (typeof PDFLib === 'undefined') {
-                            alert("⚠️ ERROR: La librería PDF-Lib no cargó. Revisa tu conexión a internet.");
-                            return;
+                    const btnQuitar = document.createElement('button');
+                    btnQuitar.type = 'button';
+                    btnQuitar.className = 'btn-remove-thumb';
+                    btnQuitar.title = 'Quitar este archivo';
+                    btnQuitar.innerHTML = '<i class="fas fa-times"></i>';
+                    btnQuitar.onclick = function (e) { e.stopPropagation(); eliminarArchivo(index); };
+
+                    const nombre = document.createElement('div');
+                    nombre.className = 'thumb-name';
+                    nombre.textContent = adj.file.name;
+
+                    div.appendChild(btnQuitar);
+                    div.appendChild(nombre);
+                    previewGallery.appendChild(div);
+                });
+
+                btnPrevisualizar.style.display = 'inline-block';
+
+                // Unión de todos los archivos en un solo PDF
+                try {
+                    const pdfDoc = await PDFLib.PDFDocument.create();
+                    for (const adj of archivosAdjuntos) {
+                        if (adj.tipo === 'pdf') {
+                            const cargado = await PDFLib.PDFDocument.load(adj.bytes);
+                            const paginas = await pdfDoc.copyPages(cargado, cargado.getPageIndices());
+                            paginas.forEach(function (p) { pdfDoc.addPage(p); });
+                        } else {
+                            const imagen = (adj.tipo === 'png') ? await pdfDoc.embedPng(adj.bytes) : await pdfDoc.embedJpg(adj.bytes);
+                            const pagina = pdfDoc.addPage([595.28, 841.89]);   // tamaño A4
+                            const ancho = pagina.getWidth(), alto = pagina.getHeight();
+                            const dims = imagen.scaleToFit(ancho - 40, alto - 40);
+                            pagina.drawImage(imagen, {
+                                x: ancho / 2 - dims.width / 2,
+                                y: alto / 2 - dims.height / 2,
+                                width: dims.width,
+                                height: dims.height
+                            });
                         }
-
-                        const pdfDoc = await PDFLib.PDFDocument.create();
-
-                        for (let file of archivosAdjuntos) {
-                            const arrayBuffer = await file.arrayBuffer();
-
-                            if (file.type === 'application/pdf') {
-                                const loadedPdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                                const copiedPages = await pdfDoc.copyPages(loadedPdf, loadedPdf.getPageIndices());
-                                copiedPages.forEach((page) => pdfDoc.addPage(page));
-                            } else if (file.type.includes('image')) {
-                                let imagenObj;
-                                if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
-                                    imagenObj = await pdfDoc.embedJpg(arrayBuffer);
-                                } else if (file.type === 'image/png') {
-                                    imagenObj = await pdfDoc.embedPng(arrayBuffer);
-                                }
-
-                                const page = pdfDoc.addPage([595.28, 841.89]); 
-                                const { width, height } = page.getSize();
-                                const scale = Math.min(width / imagenObj.width, height / imagenObj.height) * 0.9;
-                                const dims = imagenObj.scale(scale);
-
-                                page.drawImage(imagenObj, {
-                                    x: page.getWidth() / 2 - dims.width / 2,
-                                    y: page.getHeight() / 2 - dims.height / 2,
-                                    width: dims.width,
-                                    height: dims.height,
-                                });
-                            }
-                        }
-
-                        const pdfBytes = await pdfDoc.save();
-                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                        
-                        // 2. Escudo de diagnóstico de XAMPP
-                        const sizeMB = blob.size / (1024 * 1024);
-                        if (sizeMB > 2) {
-                            alert("⚠️ ATENCIÓN: El PDF que generaste pesa " + sizeMB.toFixed(2) + " MB.\n\nXAMPP por defecto solo permite subir archivos de máximo 2 MB. Si al guardar te sale que 'No hay archivo', debes aumentar el upload_max_filesize en tu archivo php.ini.");
-                        }
-
-                        const blobUrl = URL.createObjectURL(blob);
-                        
-                        const fileFinal = new File([blob], "Adjuntos_Referencia.pdf", { type: "application/pdf" });
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(fileFinal);
-                        inputOcultoPDF.files = dataTransfer.files;
-
-                        visorPdf.src = blobUrl;
-
-                    } catch (error) {
-                        console.error("Error crítico:", error);
-                        alert("⚠️ ERROR FATAL AL CREAR EL PDF: " + error.message + "\nIntenta subir una imagen más pequeña o en otro formato.");
                     }
+
+                    const pdfBytes = await pdfDoc.save();
+                    if (miGeneracion !== generacionPDF) return;   // hubo un cambio más reciente
+                    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+
+                    visorPdf.src = URL.createObjectURL(blob);
+
+                    const archivoFinal = new File([blob], "Adjuntos_Referencia.pdf", { type: "application/pdf" });
+                    const dt = new DataTransfer();
+                    dt.items.add(archivoFinal);
+                    inputOcultoPDF.files = dt.files;
+                    window.estadoAdjuntosRef = 'listo';
+
+                    // Aviso inmediato si supera el límite (también se revisa al registrar)
+                    if (LIMITE_ADJUNTO > 0 && blob.size > LIMITE_ADJUNTO) {
+                        alert('Los archivos adjuntos suman ' + (blob.size / 1048576).toFixed(1) + ' MB y el máximo permitido es ' +
+                              (LIMITE_ADJUNTO / 1048576).toFixed(1) + ' MB.\n\nQuite algún archivo (botón rojo X de la miniatura) o use fotos de menor tamaño.');
+                    }
+                } catch (error) {
+                    if (miGeneracion !== generacionPDF) return;
+                    console.error('Error al preparar los adjuntos de la referencia:', error);
+                    inputOcultoPDF.files = (new DataTransfer()).files;   // no enviar un PDF incompleto
+                    window.estadoAdjuntosRef = 'error';
+                    alert('No se pudieron preparar los archivos adjuntos. Quite el último archivo agregado e intente nuevamente.');
                 }
-            });
-        </script>
-<script>
-$(document).ready(function() {
-    
-    // 1. Identificamos los campos con los nombres exactos de tu HTML
-    const nameAcompanante = 'nombre_acompanante'; 
-    const nameParentesco  = 'idparentesco_acomp'; 
-    const nameCelular     = 'celular_acompanante';
-
-    function evaluarObligatoriedadAcompanante() {
-        let campoNombre = $('input[name="' + nameAcompanante + '"]');
-        let campoParentesco = $('select[name="' + nameParentesco + '"]');
-        let campoCelular = $('input[name="' + nameCelular + '"]');
-
-        if (campoNombre.length > 0) {
-            // Si el médico escribió algo (y no solo espacios vacíos)
-            if (campoNombre.val().trim().length > 0) {
-                
-                // 1. DESBLOQUEAMOS los campos para permitir escribir
-                campoParentesco.prop('disabled', false);
-                campoCelular.prop('disabled', false);
-
-                // 2. Los hacemos obligatorios
-                campoParentesco.prop('required', true);
-                campoCelular.prop('required', true);
-                
-                // 3. Dibujamos los asteriscos rojos
-                añadirAsterisco(campoParentesco);
-                añadirAsterisco(campoCelular);
-                
-            } else {
-                
-                // 1. BLOQUEAMOS los campos (se pondrán en gris)
-                campoParentesco.prop('disabled', true);
-                campoCelular.prop('disabled', true);
-
-                // 2. LIMPIEZA ANTI-FANTASMAS: Borramos lo que haya adentro por si se arrepintió
-                campoParentesco.val('');
-                campoCelular.val('');
-
-                // 3. Quitamos la obligación y las alertas rojas de error
-                campoParentesco.prop('required', false).removeClass('is-invalid');
-                campoCelular.prop('required', false).removeClass('is-invalid');
-                
-                // 4. Borramos los asteriscos
-                quitarAsterisco(campoParentesco);
-                quitarAsterisco(campoCelular);
             }
-        }
-    }
+        });
+    </script>
 
-    function añadirAsterisco(elemento) {
-        let titulo = elemento.closest('div[class*="col-sm-"]').find('h6, label');
-        if (titulo.length > 0 && titulo.find('.ast-dinamico').length === 0) {
-            titulo.append('<span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio"> *</span>');
-        }
-    }
+    <script>
+        // ACOMPAÑANTE: parentesco y teléfono se habilitan y son obligatorios solo si se escribió el nombre del acompañante.
+        // Si se borra el nombre, esos campos se vacían y se bloquean.
+        $(document).ready(function () {
+            const nameAcompanante = 'nombre_acompanante';
+            const nameParentesco  = 'idparentesco_acomp';
+            const nameCelular     = 'celular_acompanante';
 
-    function quitarAsterisco(elemento) {
-        let titulo = elemento.closest('div[class*="col-sm-"]').find('h6, label');
-        if (titulo.length > 0) {
-            titulo.find('.ast-dinamico').remove();
-        }
-    }
+            function evaluarObligatoriedadAcompanante() {
+                let campoNombre = $('input[name="' + nameAcompanante + '"]');
+                let campoParentesco = $('select[name="' + nameParentesco + '"]');
+                let campoCelular = $('input[name="' + nameCelular + '"]');
+                if (campoNombre.length === 0) return;
 
-    // Escuchamos cada vez que el médico teclea en el nombre en tiempo real
-    $(document).off('input', 'input[name="' + nameAcompanante + '"]').on('input', 'input[name="' + nameAcompanante + '"]', function() {
-        evaluarObligatoriedadAcompanante();
-    });
-
-    // Ejecutamos una vez al iniciar la página para que nazcan bloqueados
-    setTimeout(evaluarObligatoriedadAcompanante, 300);
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    
-    // =====================================================================
-    // LÓGICA CONDICIONAL PARA ALERGIAS
-    // =====================================================================
-    function evaluarAlergia() {
-        // Obtenemos qué opción está marcada actualmente (SI o NO)
-        let opcionMarcada = $('input[name="alergia"]:checked').val();
-        
-        // Seleccionamos los elementos con los que interactuaremos
-        let campoDescripcion = $('#descripcion_alergia');
-        let contenedor = campoDescripcion.closest('.col-sm-6');
-        let titulo = contenedor.find('h6.text-primary');
-        let botonMic = contenedor.find('.btn-mic');
-
-        if (opcionMarcada === 'SI') {
-            // 1. DESBLOQUEAR Y HACER OBLIGATORIO
-            campoDescripcion.prop('disabled', false).prop('required', true);
-            
-            // 2. MOSTRAR EL MICRÓFONO
-            botonMic.show();
-
-            // 3. DIBUJAR ASTERISCO ROJO (Si no lo tiene ya)
-            if (titulo.find('.ast-dinamico').length === 0) {
-                titulo.append('<span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio"> *</span>');
+                if (campoNombre.val().trim().length > 0) {
+                    campoParentesco.prop('disabled', false).prop('required', true);
+                    campoCelular.prop('disabled', false).prop('required', true);
+                    anadirAsterisco(campoParentesco);
+                    anadirAsterisco(campoCelular);
+                } else {
+                    campoParentesco.prop('disabled', true).val('').prop('required', false).removeClass('is-invalid');
+                    campoCelular.prop('disabled', true).val('').prop('required', false).removeClass('is-invalid');
+                    quitarAsterisco(campoParentesco);
+                    quitarAsterisco(campoCelular);
+                }
             }
-        } else {
-            // 1. BLOQUEAR, QUITAR OBLIGACIÓN Y LIMPIAR (Anti-fantasmas)
-            campoDescripcion.prop('disabled', true).prop('required', false).removeClass('is-invalid');
-            campoDescripcion.val(''); // Borra el texto si el doctor escribió algo y luego se arrepintió
-            
-            // 2. OCULTAR EL MICRÓFONO (Para que no intente dictar en un campo bloqueado)
-            botonMic.hide();
 
-            // 3. QUITAR ASTERISCO ROJO
-            titulo.find('.ast-dinamico').remove();
-        }
-    }
+            function anadirAsterisco(elemento) {
+                let titulo = elemento.closest('div[class*="col-sm-"]').find('h6, label');
+                if (titulo.length > 0 && titulo.find('.ast-dinamico').length === 0) {
+                    titulo.append('<span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio"> *</span>');
+                }
+            }
 
-    // Escuchamos el cambio en las opciones de "SI / NO" de Alergias
-    $(document).off('change', 'input[name="alergia"]').on('change', 'input[name="alergia"]', function() {
-        evaluarAlergia();
-    });
+            function quitarAsterisco(elemento) {
+                let titulo = elemento.closest('div[class*="col-sm-"]').find('h6, label');
+                if (titulo.length > 0) titulo.find('.ast-dinamico').remove();
+            }
 
-    // Ejecutamos la función apenas carga la pantalla.
-    // Como tu HTML tiene "NO" marcado por defecto, la caja nacerá bloqueada mágicamente.
-    setTimeout(evaluarAlergia, 200);
+            $(document).off('input', 'input[name="' + nameAcompanante + '"]').on('input', 'input[name="' + nameAcompanante + '"]', evaluarObligatoriedadAcompanante);
+            setTimeout(evaluarObligatoriedadAcompanante, 300);
+        });
+    </script>
 
-});
-</script>
+    <script>
+        // ALERGIAS: la descripción se habilita y es obligatoria solo si ALERGIAS = SI (también el dictado por voz).
+        // Si se cambia a NO, la descripción se borra y se bloquea.
+        $(document).ready(function () {
+            function evaluarAlergia() {
+                let opcionMarcada = $('input[name="alergia"]:checked').val();
+                let campoDescripcion = $('#descripcion_alergia');
+                let contenedor = campoDescripcion.closest('.col-sm-6');
+                let titulo = contenedor.find('h6.text-primary');
+                let botonMic = contenedor.find('.btn-mic');
+
+                if (opcionMarcada === 'SI') {
+                    campoDescripcion.prop('disabled', false).prop('required', true);
+                    botonMic.show();
+                    if (titulo.find('.ast-dinamico').length === 0) {
+                        titulo.append('<span class="ast-dinamico" style="color: #e74a3b; font-size: 1.1em; font-weight: bold;" title="Campo obligatorio"> *</span>');
+                    }
+                } else {
+                    campoDescripcion.prop('disabled', true).prop('required', false).removeClass('is-invalid');
+                    campoDescripcion.val('');
+                    botonMic.hide();
+                    titulo.find('.ast-dinamico').remove();
+                }
+            }
+
+            $(document).off('change', 'input[name="alergia"]').on('change', 'input[name="alergia"]', evaluarAlergia);
+            setTimeout(evaluarAlergia, 200);
+        });
+    </script>
 
 </body>
 </html>

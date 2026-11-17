@@ -1,5 +1,6 @@
 <?php include("../cabf.php"); ?>
 <?php include("../inc.config.php"); ?>
+<?php include("../comun/inc_persona.php"); ?>
 <?php
 date_default_timezone_set('America/La_Paz');
 $fecha_ram	= date("Ymd");
@@ -90,6 +91,8 @@ $row_n=mysqli_fetch_array($result_n);
 <!-- END Del TITULO de la pagina ---->
 
 <!-- BEGIN aqui va el comntenido de la pagina ---->
+<!-- Si no es esta persona: guardar la atención ya llenada como paciente nuevo con la misma cédula (comun/inc_persona.php) -->
+<?php echo per_ncf_aviso_pendiente($link, $idnombre_integrante_ss); ?>
 
             <div class="card shadow mb-4">
                 <div class="card-header py-3">

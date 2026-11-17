@@ -1,5 +1,6 @@
 <?php include("../cabf.php");?>
 <?php include("../inc.config.php");?>
+<?php include("../comun/inc_persona.php");?>
 <?php
 date_default_timezone_set('America/La_Paz');
 
@@ -66,7 +67,14 @@ $correlativo = $rowm[0]+1;
 
 $codigo = "PSAFCI-ATENCION-".$correlativo."/".$gestion;
 
-if ($ci == '0') {
+/* Cédula que ya tiene otra persona (comun/inc_persona.php per_ncf_revisar_ci):
+ *   nuevo     -> el médico confirmó que es otra persona: se crea con esa cédula (rama de abajo) y se anota
+ *   existente -> se va a la persona que más se parece; la atención llenada queda pendiente para "No es esta persona" */
+$ncf_ci = per_ncf_revisar_ci($link, $_POST, 'guarda_atencion_pmorbilidad_ncf.php');
+$ncf_id = (int)$ncf_ci['idnombre_existente'];
+if ($ncf_ci['accion'] === 'nuevo') { $ci = (string)$ncf_ci['ci']; }
+
+if ($ci == '0' || $ncf_ci['accion'] === 'nuevo') {
 
     $fecha_nacimiento = $fecha_nac;
     $dia=date("d");
@@ -86,6 +94,7 @@ if ($ci == '0') {
     $sql_c.= " VALUES ('$paterno','$materno','$nombre','$ci','','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
     $result_c = mysqli_query($link,$sql_c);   
     $idnombre_paciente = mysqli_insert_id($link);
+    per_ncf_registrar_conflicto($link, $ncf_ci, $idnombre_paciente, $idusuario_ss);   // solo si accion = nuevo
 
 
         $sql0 = " INSERT INTO atencion_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idnombre, edad, idgenero, ";
@@ -129,7 +138,7 @@ if ($ci == '0') {
 
 } else {
     
-    $sql_n  = " SELECT idnombre, ci, nombre, paterno, materno, fecha_nac FROM nombre WHERE ci='$ci' ";
+    $sql_n  = " SELECT idnombre, ci, nombre, paterno, materno, fecha_nac FROM nombre WHERE ci='$ci' ORDER BY (idnombre = $ncf_id) DESC, idnombre ";
     $result_n = mysqli_query($link,$sql_n);
     if ($row_n = mysqli_fetch_array($result_n)) {
         
@@ -208,6 +217,7 @@ if ($ci == '0') {
     $sql_c.= " VALUES ('$paterno','$materno','$nombre','$ci','','$fecha_nac','$complemento','$idnacionalidad','$idgenero') ";
     $result_c = mysqli_query($link,$sql_c);   
     $idnombre_paciente = mysqli_insert_id($link);
+    per_ncf_registrar_conflicto($link, $ncf_ci, $idnombre_paciente, $idusuario_ss);   // solo si accion = nuevo
 
 
         $sql0 = " INSERT INTO atencion_psafci (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idnombre, edad, idgenero, ";

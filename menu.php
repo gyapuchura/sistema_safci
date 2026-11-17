@@ -18,15 +18,59 @@
         padding-bottom: 0.4rem !important;
         margin-bottom: 0 !important;
     }
+
+    /* 4. Logo del Ministerio en la cabecera de la barra lateral */
+    /* Se mantiene la altura original de la cabecera; solo se reduce el relleno para que el logo use ese espacio */
+    .sidebar .sidebar-brand {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+    /* Cápsula de vidrio translúcido (opción B) para el logo con letras blancas */
+    .sidebar .sidebar-brand .brand-logo-full {
+        width: 100%;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 3px 14px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
+        border: 1px solid rgba(255,255,255,.45);
+        box-shadow: 0 4px 14px rgba(10,30,90,.35), inset 0 1px 0 rgba(255,255,255,.5);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+    }
+    .sidebar .sidebar-brand .brand-logo-full img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    /* El escudo solo se ve cuando la barra está contraída */
+    .sidebar .sidebar-brand .sidebar-brand-icon { display: none; }
+    @media (min-width: 768px) {
+        .sidebar.toggled .sidebar-brand .sidebar-brand-icon { display: block; }
+    }
+    @media (max-width: 767.98px) {
+        .sidebar .sidebar-brand .sidebar-brand-icon { display: block; }
+    }
 </style>
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../administrar_sistema/inicio.php">
-    <div class="sidebar-brand-icon rotate-n-15">
-    <i class="fas fa-fw fa-folder"></i>   
+    <!-- Barra contraída: solo el escudo -->
+    <div class="sidebar-brand-icon">
+        <img src="../img/logo_ministerio.png" alt="Ministerio de Salud y Deportes"
+             style="height:45px; width:45px; object-fit:contain; background:#fff; border-radius:50%; padding:2px;">
     </div>
-    <div class="sidebar-brand-text mx-3">OPCIONES DE SISTEMA MEDI-APS</div>
+    <!-- Barra expandida: logo horizontal completo -->
+    <div class="sidebar-brand-text brand-logo-full">
+        <img src="../img/logo_ministerio_aps_blanco.png" alt="Ministerio de Salud y Deportes">
+    </div>
 </a>
 
 <!-- Divider -->
@@ -72,7 +116,7 @@
 
 <!-- Heading -->
 <div class="sidebar-heading">
-   ÁREA DE IMPLEMENTACIÓN SAFCI
+   OPCIONES DEL SISTEMA MEDI - APS
 </div>
 
 <!-- Nav Item - Pages Collapse Menu -->

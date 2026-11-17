@@ -101,6 +101,29 @@ $por_nombre = isset($ctx['modo']) && $ctx['modo'] === 'nombre';
                 <div class="card-body text-center">
                     <span class="text-gray-700">¿Ninguna de estas personas es el paciente? <?php echo $por_nombre ? 'Verifique cómo están escritos los nombres y apellidos.' : 'Verifique el número de cédula.'; ?></span>
                     <a href="historias_clinicas.php?b=<?php echo per_h($token); ?>" class="ml-2">Volver a buscar -></a>
+                    <?php if ($personas) {
+                        // Paciente nuevo (valida_persona_ncf.php?b=): el formulario se abre con lo buscado. Por cédula,
+                        // queda confirmado que es otra persona con la misma cédula (comun/inc_persona.php per_ncf_*).
+                        $ci_ctx = $por_nombre ? 0 : (int)$ctx['ci'];
+                        $pregunta = count($personas) === 1
+                            ? '¿Confirma que su paciente NO es la persona mostrada?'
+                            : '¿Confirma que su paciente NO es ninguna de las personas mostradas?';
+                        $msj = $ci_ctx > 0
+                            ? $pregunta . '\n\nSe registrará como paciente nuevo con la misma cédula ' . $ci_ctx . '.'
+                            : $pregunta . '\n\nSe abrirá el registro de atención como paciente nuevo.';
+                        ?>
+                    <div class="mt-3">
+                        <a href="valida_persona_ncf.php?b=<?php echo per_h($token); ?>" class="btn btn-outline-primary btn-icon-split"
+                           onclick="return confirm('<?php echo per_h($msj); ?>');">
+                            <span class="icon"><i class="fas fa-user-plus"></i></span>
+                            <span class="text"><?php echo count($personas) === 1 ? 'NO ES MI PACIENTE' : 'NINGUNA ES MI PACIENTE'; ?>: REGISTRAR COMO PACIENTE NUEVO</span>
+                        </a>
+                        <?php if ($ci_ctx > 0) { ?>
+                        <small class="d-block text-muted mt-2">Use esta opción solo si los datos (nombres, apellidos, fecha de nacimiento) son de otra persona.
+                            Si es el mismo paciente con algún dato mal escrito, use <b>Corregir datos</b>.</small>
+                        <?php } ?>
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
 
