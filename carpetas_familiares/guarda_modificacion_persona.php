@@ -28,7 +28,10 @@ if ($idnombre_form !== $idnombre_persona_ss) {
 }
 
 $aceptar = isset($_POST['aceptar_advertencia']) && $_POST['aceptar_advertencia'] === 'SI';
-$r = per_guardar_correccion($link, $idnombre_persona_ss, $_POST, $aceptar, 'carpetas_familiares', $idusuario_ss);
+// "Corregir de todas formas": solo se acepta si el perfil en sesión es ADMINISTRADOR (se verifica en inc_persona.php)
+$forzar  = isset($_POST['forzar']) && $_POST['forzar'] === 'SI';
+$r = per_guardar_correccion($link, $idnombre_persona_ss, $_POST, $aceptar, 'carpetas_familiares', $idusuario_ss, $forzar);
+$campos_form = array('idnombre_form', 'ci', 'complemento', 'exp', 'nombre', 'paterno', 'materno', 'fecha_nac', 'idgenero', 'idnacionalidad');
 
 if ($r['estado'] === 'ok' || $r['estado'] === 'sin_cambios') {
     header("Location:mensaje_mod_success.php");
@@ -45,15 +48,31 @@ if ($r['estado'] === 'error') {
 }
 
 if ($r['estado'] === 'bloqueado') {
-    // Protege la carpeta familiar / historia clínica: no se ofrece continuar
-    $html = '<p>Los siguientes cambios convierten a esta persona en otra:</p><ul>';
+    // Protege la carpeta familiar / historia clínica: no se ofrece continuar (solo un administrador)
+    $html = '<p>Cambios que no se pueden guardar:</p><ul>';
     foreach ($r['bloqueos'] as $b) {
         $html .= '<li>' . per_h($b) . '</li>';
     }
     $html .= '</ul><p>' . per_h($r['motivo']) . '</p>';
-    $html .= '<p><b>Si es otra persona, regístrela como nueva.</b> Si es la misma persona, corrija solo los datos mal escritos.</p>';
-    $html .= '<p class="text-center mb-0"><a href="javascript:history.back()" class="btn btn-secondary">VOLVER AL FORMULARIO</a></p>';
-    per_pagina('No se puede guardar: esto parece otra persona', $html);
+    if (!empty($r['forzable'])) {
+        $html .= '<p><b>Si es otra persona, regístrela como nueva.</b> Si es la misma persona, corrija solo los datos mal escritos.</p>';
+    }
+    if (!empty($r['forzable']) && !empty($r['es_admin'])) {
+        $html .= '<form action="guarda_modificacion_persona.php" method="post" class="text-center mb-0">';
+        foreach ($campos_form as $campo) {
+            $valor = isset($_POST[$campo]) ? (string)$_POST[$campo] : '';
+            $html .= '<input type="hidden" name="' . $campo . '" value="' . per_h($valor) . '">';
+        }
+        $html .= '<input type="hidden" name="aceptar_advertencia" value="SI"><input type="hidden" name="forzar" value="SI">';
+        $html .= '<a href="javascript:history.back()" class="btn btn-secondary mr-2">VOLVER AL FORMULARIO</a>';
+        $html .= '<button type="submit" class="btn btn-danger">ADMINISTRADOR: CORREGIR DE TODAS FORMAS</button></form>';
+    } else {
+        if (!empty($r['forzable'])) {
+            $html .= '<p class="small">Si está seguro de que es la misma persona, solicite la corrección a un administrador.</p>';
+        }
+        $html .= '<p class="text-center mb-0"><a href="javascript:history.back()" class="btn btn-secondary">VOLVER AL FORMULARIO</a></p>';
+    }
+    per_pagina(!empty($r['titulo']) ? rtrim($r['titulo'], '.') : 'No se puede guardar: esto parece otra persona', $html);
 }
 
 // Advertencia: confirmar reenviando los mismos datos
@@ -63,7 +82,7 @@ foreach ($r['advertencias'] as $a) {
 }
 $html .= '</ul><p class="font-weight-bold">¿Desea continuar de todos modos?</p>';
 $html .= '<form action="guarda_modificacion_persona.php" method="post" class="text-center">';
-foreach (array('idnombre_form', 'ci', 'complemento', 'exp', 'nombre', 'paterno', 'materno', 'fecha_nac', 'idgenero', 'idnacionalidad') as $campo) {
+foreach ($campos_form as $campo) {
     $valor = isset($_POST[$campo]) ? (string)$_POST[$campo] : '';
     $html .= '<input type="hidden" name="' . $campo . '" value="' . per_h($valor) . '">';
 }

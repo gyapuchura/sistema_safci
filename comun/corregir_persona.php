@@ -5,7 +5,8 @@
  *   carpetas_familiares/persona_encontrada.php      (token tipo 'cf')
  * Solo acepta personas que pertenecen a la búsqueda del token (b).
  * Estados: ok | sin_cambios | error | advertencia (el usuario puede continuar)
- *          | bloqueado (convierte a una persona con carpeta/atenciones en otra: no se guarda).
+ *          | bloqueado (convierte a una persona con carpeta/atenciones en otra: no se guarda;
+ *            un ADMINISTRADOR puede reenviar con forzar=SI si el bloqueo es forzable).
  */
 include("../cabf.php");
 include("../inc.config.php");
@@ -32,9 +33,11 @@ if (!per_token_permite($ctx, $idnombre) || !isset($ctx['tipo'], $modulos[$ctx['t
 }
 
 $aceptar = isset($_POST['aceptar_advertencia']) && $_POST['aceptar_advertencia'] === 'SI';
+// "Corregir de todas formas": per_guardar_correccion solo lo acepta si el perfil en sesión es ADMINISTRADOR
+$forzar  = isset($_POST['forzar']) && $_POST['forzar'] === 'SI';
 
 try {
-    $r = per_guardar_correccion($link, $idnombre, $_POST, $aceptar, $modulos[$ctx['tipo']], (int)$_SESSION['idusuario_ss']);
+    $r = per_guardar_correccion($link, $idnombre, $_POST, $aceptar, $modulos[$ctx['tipo']], (int)$_SESSION['idusuario_ss'], $forzar);
 } catch (Throwable $e) {
     error_log("[corregir_persona] idnombre=$idnombre: " . $e->getMessage());
     $r = array('estado' => 'error', 'errores' => array('No se pudo guardar la corrección. Intente nuevamente.'));

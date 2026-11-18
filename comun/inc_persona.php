@@ -16,11 +16,14 @@
  *   - La tarjeta enlaza a la carpeta familiar más reciente de la persona.
  *   - Complemento válido: 2 caracteres, un número y una letra en cualquier orden (1K, K1; "1-K" se guarda 1K).
  *     Lo demás (LP, CBBA, 0, SN, "-") no es complemento: si es un departamento se sugiere en EXPEDIDO.
- *   - Corrección (per_revisar_cambio): convertir la ficha en OTRA persona (nombres distintos o los dos
- *     apellidos distintos) se BLOQUEA si está en una carpeta familiar o tiene atenciones, o si además
- *     cambia el CI por otro totalmente distinto. Un apellido distinto, CI totalmente distinto o
- *     CI+complemento ya usado => advertencia "¿continuar?". Asignar CI a quien tenía 0, corregir 1-2
- *     dígitos, letras, fecha de nacimiento y género: sin aviso. Todo cambio queda en nombre_correccion.
+ *   - Corrección (per_revisar_cambio), comparando palabra por palabra: convertir la ficha en OTRA persona
+ *     (ninguna palabra en común en los nombres, o los dos apellidos distintos) se BLOQUEA si está en una
+ *     carpeta familiar o tiene atenciones, o si además cambia el CI por otro totalmente distinto; un
+ *     ADMINISTRADOR puede corregir de todas formas. Menor de 3 años con otro nombre (Registro Civil) =>
+ *     advertencia. Un apellido distinto, CI totalmente distinto o CI+complemento ya usado => advertencia
+ *     "¿continuar?". Sin aviso: letras, completar/quitar un nombre, otro orden, apellidos intercambiados,
+ *     nombre provisional (RN, BEBE...) -> real, asignar CI a quien tenía 0, corregir 1-2 dígitos, fecha y
+ *     género. Nombre real -> provisional: no se permite. Todo cambio queda en nombre_correccion.
  *   - Consultas preparadas sin depender de mysqlnd (no usa get_result).
  *   - Paciente nuevo con una cédula que ya tiene otra persona (per_ncf_*): se permite si el médico confirma
  *     que es otra persona y sus datos no se parecen a ninguna registrada; queda en persona_ci_conflicto.
@@ -32,6 +35,7 @@ if (!defined('PER_TOKEN_TTL')) {
     define('PER_TOKEN_TTL', 14400);   // 4 horas de vigencia de una búsqueda abierta
     define('PER_MAX_TOKENS', 30);     // búsquedas abiertas que se recuerdan por usuario
     define('PER_MAX_RESULTADOS', 50);
+    define('PER_EDAD_NOMBRE_TENTATIVO', 3);   // menores de esta edad: el nombre pudo cambiar en el Registro Civil
 }
 
 /* ------------------------------------------------------------------ */
@@ -780,10 +784,70 @@ function per_validar($link, array $d)
     return $e;
 }
 
+/** ¿Es el perfil ADMINISTRADOR? (puede corregir aunque la regla lo bloquee; queda en la bitácora) */
+function per_es_admin()
+{
+    return isset($_SESSION['perfil_ss']) && $_SESSION['perfil_ss'] === 'ADMINISTRADOR';
+}
+
 /**
- * ¿El cambio de un nombre/apellido parece otra persona?
- * Se acepta: corregir letras (MAMNI -> MAMANI), completar (JUAN -> JUAN CARLOS), tildes, llenar un vacío.
- * Se advierte: borrar el dato o reemplazarlo por algo distinto (MAMANI -> FLORES).
+ * ¿Es un nombre provisional de recién nacido o "sin nombre"? RN, R/N, R.N., RN (M), RN DE MARIA, RECIEN NACIDO/A,
+ * BEBE, BB, NENE, NENA, NIÑO, NIÑA, HIJO, HIJA (solos o seguidos de DE/M/F...), S/N, SN, NN, N/N, SIN NOMBRE, X.
+ * La Ñ se respeta: NINA es un nombre real, NIÑA no.
+ */
+function per_nombre_provisional($texto)
+{
+    $t = strtr(per_mayus($texto), array('Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U', 'Ü' => 'U'));
+    if ($t === '') {
+        return false;
+    }
+    $t = preg_replace('/[.\/\-]/u', '', $t);                       // R/N, R.N., S/N, N/N
+    $t = trim(preg_replace('/\s+/u', ' ', preg_replace('/[^A-ZÑ ]+/u', ' ', $t)));   // RN (M) -> RN M
+    if ($t === '' || in_array($t, array('X', 'XX', 'XXX', 'SIN NOMBRE', 'SINNOMBRE', 'NONATO'), true)) {
+        return true;
+    }
+    $w = explode(' ', $t);
+    if (in_array($w[0], array('RN', 'NN', 'SN', 'RECIEN'), true)) {
+        return true;
+    }
+    $bebe  = array('BEBE', 'BEBITO', 'BEBITA', 'BB', 'NENE', 'NENA', 'NIÑO', 'NIÑA', 'HIJO', 'HIJA', 'WAWA', 'GUAGUA');
+    $sigue = array('DE', 'M', 'F', 'MASCULINO', 'FEMENINO', 'FEMENINA', 'VARON', 'MUJER', 'RN');
+    return in_array($w[0], $bebe, true) && (count($w) === 1 || in_array($w[1], $sigue, true));
+}
+
+/** Palabras de un nombre/apellido para comparar (sin tildes; sin DE, DEL, LA, VIUDA...). */
+function per_palabras($texto)
+{
+    $t = preg_replace('/[^A-Z ]+/', ' ', per_sin_tildes($texto));
+    $vacias = array('DE', 'DEL', 'LA', 'LAS', 'LOS', 'Y', 'VDA', 'VIUDA');
+    $r = array();
+    foreach (preg_split('/\s+/', trim($t)) as $p) {
+        if ($p !== '' && !in_array($p, $vacias, true)) {
+            $r[] = $p;
+        }
+    }
+    return $r;
+}
+
+/** Misma palabra con un error de escritura: 1 letra en palabras de hasta 5 letras, 2 en las más largas. */
+function per_palabra_parecida($a, $b)
+{
+    if ($a === $b) {
+        return true;
+    }
+    $min = min(strlen($a), strlen($b));
+    if ($min < 3) {
+        return false;
+    }
+    $d = levenshtein($a, $b);
+    return $min <= 5 ? $d <= 1 : $d <= 2;
+}
+
+/**
+ * ¿El cambio de un nombre/apellido parece otra persona? Se compara palabra por palabra.
+ * Se acepta: corregir letras (MAMNI -> MAMANI), completar o quitar un nombre (ANGEL -> ANGEL DANIEL),
+ * otro orden (CARMEN SABINA -> SABINA CARMEN), palabras juntas/separadas, tildes, llenar un vacío.
+ * Es cambio grande: borrar el dato o que no quede ninguna palabra en común (ANGEL -> DANIEL, MAMANI -> FLORES).
  */
 function per_cambio_grande_texto($antes, $despues)
 {
@@ -795,11 +859,85 @@ function per_cambio_grande_texto($antes, $despues)
     if ($b === '') {
         return true;
     }
-    if (strpos($b, $a) !== false || strpos($a, $b) !== false) {
-        return false;
+    // Completar o quitar: un texto contiene al otro (J -> JUAN solo si empieza igual)
+    $ca = preg_replace('/[^A-Z]/', '', $a);
+    $cb = preg_replace('/[^A-Z]/', '', $b);
+    if ($ca !== '' && $cb !== '') {
+        $corto = strlen($ca) <= strlen($cb) ? $ca : $cb;
+        $largo = strlen($ca) <= strlen($cb) ? $cb : $ca;
+        if (strpos($largo, $corto) !== false && (strlen($corto) >= 3 || strpos($largo, $corto) === 0)) {
+            return false;
+        }
     }
-    $dist = levenshtein($a, $b);
-    return $dist > 2 && ($dist / max(strlen($a), strlen($b))) > 0.4;
+    // Al menos una palabra en común (en cualquier orden, con errores de escritura)
+    foreach (per_palabras($a) as $x) {
+        foreach (per_palabras($b) as $y) {
+            if (per_palabra_parecida($x, $y)) {
+                return false;
+            }
+        }
+    }
+    // Palabras juntas o separadas con algún error (MARIADEL CARMEN -> MARIA DEL CARMEN)
+    if ($ca !== '' && $cb !== '') {
+        $d = levenshtein($ca, $cb);
+        if ($d <= 2 && $d / max(strlen($ca), strlen($cb)) <= 0.2) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/** Mismo nombre/apellido (vacío solo es igual a vacío). */
+function per_mismo_texto($a, $b)
+{
+    $a = per_sin_tildes($a);
+    $b = per_sin_tildes($b);
+    if ($a === '' || $b === '') {
+        return $a === $b;
+    }
+    return !per_cambio_grande_texto($a, $b);
+}
+
+/** Fecha igual o casi igual: hasta 31 días de diferencia o un solo dígito distinto. */
+function per_fecha_casi_igual($a, $b)
+{
+    $a = (string)$a;
+    $b = (string)$b;
+    if ($a === $b) {
+        return true;
+    }
+    if (levenshtein($a, $b) <= 1) {
+        return true;
+    }
+    $fa = DateTime::createFromFormat('Y-m-d', $a);
+    $fb = DateTime::createFromFormat('Y-m-d', $b);
+    return $fa && $fb && (int)$fa->diff($fb)->days <= 31;
+}
+
+/** Otro integrante de la misma carpeta familiar con ese nombre (para no convertir a un niño en su hermano). */
+function per_integrante_con_nombre($link, $idnombre, $nombre)
+{
+    $buscado = per_palabras($nombre);
+    sort($buscado);
+    if (!$buscado) {
+        return null;
+    }
+    $filas = per_filas($link,
+        "SELECT DISTINCT n.idnombre, n.nombre, n.paterno, n.materno
+           FROM integrante_cf i
+           JOIN integrante_cf o ON o.idcarpeta_familiar = i.idcarpeta_familiar AND o.idnombre <> i.idnombre
+           JOIN nombre n ON n.idnombre = o.idnombre
+          WHERE i.idnombre = ?
+          LIMIT 300",
+        'i', array((int)$idnombre));
+    foreach ($filas as $f) {
+        $p = per_palabras($f['nombre']);
+        sort($p);
+        if ($p === $buscado) {
+            return $f;
+        }
+    }
+    return null;
 }
 
 /** Valor tal como se compara/guarda en la bitácora. */
@@ -846,22 +984,50 @@ function per_vinculos($link, $idnombre)
 
 /**
  * Regla "parece otra persona" (protege carpetas familiares e historias clínicas).
- * Devuelve array('bloqueos' => [], 'motivo' => '', 'advertencias' => []):
- *   - bloqueos (no se guarda, ni aceptando): cambian los NOMBRES o los dos apellidos por otros distintos y
- *     la persona está en una carpeta / tiene atenciones, o además cambia el CI por uno totalmente distinto.
+ * Devuelve array('bloqueos' => [], 'motivo' => '', 'advertencias' => [], 'forzable' => bool, 'titulo' => ''):
+ *   - nombre real -> provisional (RN, BEBE, S/N...): no se permite a nadie (forzable = false).
+ *   - bloqueos (no se guarda, ni aceptando; solo un ADMINISTRADOR puede corregir de todas formas): no queda
+ *     ninguna palabra en común en los NOMBRES, o cambian los dos apellidos, y la persona está en una carpeta /
+ *     tiene atenciones, o además cambia el CI por uno totalmente distinto.
+ *   - menor de PER_EDAD_NOMBRE_TENTATIVO años con otro nombre (pudo cambiar en el Registro Civil): advertencia,
+ *     salvo que también cambie mucho la fecha de nacimiento o el nombre nuevo sea de otro integrante de su carpeta.
  *   - advertencias (puede continuar): un apellido distinto, CI totalmente distinto o borrado,
  *     CI+complemento que ya usa otra persona; o cambio de nombres en una ficha sin carpeta ni atenciones.
- *   - sin aviso: asignar CI a quien tenía 0, corregir 1-2 dígitos, corregir letras, fecha y género.
+ *   - sin aviso: nombre provisional -> nombre real, corregir letras, completar/quitar un nombre, otro orden,
+ *     apellidos intercambiados, asignar CI a quien tenía 0, corregir 1-2 dígitos, fecha y género.
  */
 function per_revisar_cambio($link, $idnombre, array $antes, array $nuevo)
 {
-    $et     = per_etiquetas();
+    $et = per_etiquetas();
+    $linea = function ($c) use ($et, $antes, $nuevo) {
+        return $et[$c] . ': "' . $antes[$c] . '" → "' . ($nuevo[$c] === '' ? '(vacío)' : $nuevo[$c]) . '"';
+    };
+
+    // Un nombre real no se reemplaza por uno provisional: solo se perdería información
+    $prov_antes = per_nombre_provisional($antes['nombre']);
+    if (!$prov_antes && per_mayus($antes['nombre']) !== '' && per_nombre_provisional($nuevo['nombre'])) {
+        return array('bloqueos' => array($linea('nombre')), 'forzable' => false, 'advertencias' => array(),
+                     'titulo' => 'No se puede guardar este cambio.',
+                     'motivo' => 'No se puede reemplazar el nombre registrado por un nombre provisional (RN, BEBE, S/N...). '
+                               . 'Si el nombre está mal escrito, corríjalo; si es otro paciente, regístrelo como nuevo.');
+    }
+
     $grande = array();
     foreach (array('nombre', 'paterno', 'materno') as $c) {
+        // Nombre provisional (RN, BEBE...) -> nombre real: es completar el dato
+        if ($c === 'nombre' && $prov_antes) {
+            continue;
+        }
         if (per_cambio_grande_texto($antes[$c], $nuevo[$c])) {
-            $grande[$c] = $et[$c] . ': "' . $antes[$c] . '" → "' . ($nuevo[$c] === '' ? '(vacío)' : $nuevo[$c]) . '"';
+            $grande[$c] = $linea($c);
         }
     }
+    // Apellidos intercambiados (primero <-> segundo): es la misma persona
+    if ((isset($grande['paterno']) || isset($grande['materno']))
+        && per_mismo_texto($antes['paterno'], $nuevo['materno']) && per_mismo_texto($antes['materno'], $nuevo['paterno'])) {
+        unset($grande['paterno'], $grande['materno']);
+    }
+
     $ci_antes = per_valor_texto('ci', $antes['ci']);
     $ci_nuevo = per_valor_texto('ci', $nuevo['ci']);
     $tipo_ci  = per_tipo_cambio_ci($ci_antes, $ci_nuevo);
@@ -869,11 +1035,34 @@ function per_revisar_cambio($link, $idnombre, array $antes, array $nuevo)
 
     // Otra persona = nombres distintos, o los dos apellidos distintos (un solo apellido puede ser un reconocimiento)
     $otra_persona = isset($grande['nombre']) || count($grande) >= 2;
+
+    // Menor de 3 años: el nombre pudo cambiar al inscribirlo en el Registro Civil
+    $aviso_menor = '';
+    $extra       = array();
+    $motivo_menor = '';
+    if ($otra_persona && isset($grande['nombre']) && count($grande) < 3) {
+        $fn   = per_edad($antes['fecha_nac']) !== '' ? $antes['fecha_nac'] : $nuevo['fecha_nac'];
+        $edad = per_edad($fn);
+        if ($edad !== '' && $edad < PER_EDAD_NOMBRE_TENTATIVO) {
+            $hermano = per_integrante_con_nombre($link, $idnombre, $nuevo['nombre']);
+            if (!per_fecha_casi_igual(per_valor_texto('fecha_nac', $antes['fecha_nac']), $nuevo['fecha_nac'])) {
+                $extra[] = $linea('fecha_nac');
+                $motivo_menor = 'Cambian a la vez el nombre y la fecha de nacimiento: parece otro niño (por ejemplo, un hermano).';
+            } elseif ($hermano) {
+                $motivo_menor = '"' . per_nombre_completo($hermano) . '" ya es integrante de la misma carpeta familiar.';
+            } else {
+                $otra_persona = false;
+                $aviso_menor  = 'Es un menor de ' . PER_EDAD_NOMBRE_TENTATIVO . ' años: el nombre puede haber cambiado al inscribirlo '
+                              . 'en el Registro Civil. Verifique con el certificado de nacimiento.';
+            }
+        }
+    }
+
     if ($otra_persona) {
         $v = per_vinculos($link, $idnombre);
         $ci_tambien = ($tipo_ci === 'distinto' || $tipo_ci === 'borra');
         if ($v['carpeta'] || $v['atencion'] || $ci_tambien) {
-            $bloqueos = array_values($grande);
+            $bloqueos = array_merge(array_values($grande), $extra);
             if ($ci_tambien) {
                 $bloqueos[] = $texto_ci;
             }
@@ -891,11 +1080,18 @@ function per_revisar_cambio($link, $idnombre, array $antes, array $nuevo)
                   . ($v['carpeta'] ? 'dentro de la familia' : '') . ($v['carpeta'] && $v['atencion'] ? ' y ' : '')
                   . ($v['atencion'] ? 'con la historia clínica de esta' : '') . '.'
                 : 'Se están cambiando a la vez los nombres y el número de cédula: eso es registrar a otra persona.';
-            return array('bloqueos' => $bloqueos, 'motivo' => $motivo, 'advertencias' => array());
+            if ($motivo_menor !== '') {
+                $motivo = $motivo_menor . ' ' . $motivo;
+            }
+            return array('bloqueos' => $bloqueos, 'motivo' => $motivo, 'advertencias' => array(), 'forzable' => true,
+                         'titulo' => 'No se puede guardar: esto parece otra persona.');
         }
     }
 
-    $adv = array_values($grande);
+    $adv = array_merge(array_values($grande), $extra);
+    if ($aviso_menor !== '') {
+        $adv[] = $aviso_menor;
+    }
     if ($tipo_ci === 'distinto' || $tipo_ci === 'borra') {
         $adv[] = $texto_ci;
     }
@@ -911,16 +1107,18 @@ function per_revisar_cambio($link, $idnombre, array $antes, array $nuevo)
             }
         }
     }
-    return array('bloqueos' => array(), 'motivo' => '', 'advertencias' => $adv);
+    return array('bloqueos' => array(), 'motivo' => '', 'advertencias' => $adv, 'forzable' => true, 'titulo' => '');
 }
 
 /**
  * Valida y guarda la corrección de una persona.
  * Devuelve array('estado' => 'ok' | 'sin_cambios' | 'error' | 'advertencia' | 'bloqueado',
- *                'errores' => [], 'advertencias' => [], 'bloqueos' => [], 'motivo' => '', 'cambios' => [])
- * 'bloqueado' no se puede saltar con $aceptar_advertencia.
+ *                'errores' => [], 'advertencias' => [], 'bloqueos' => [], 'motivo' => '', 'titulo' => '',
+ *                'forzable' => bool, 'es_admin' => bool, 'cambios' => [])
+ * 'bloqueado' no se puede saltar con $aceptar_advertencia. Solo con $forzar y perfil ADMINISTRADOR (se verifica
+ * aquí, en el servidor), y si el bloqueo es forzable; queda en la bitácora con advertencia_aceptada = SI.
  */
-function per_guardar_correccion($link, $idnombre, array $post, $aceptar_advertencia, $modulo, $idusuario)
+function per_guardar_correccion($link, $idnombre, array $post, $aceptar_advertencia, $modulo, $idusuario, $forzar = false)
 {
     $idnombre = (int)$idnombre;
     $antes = per_fila($link,
@@ -953,11 +1151,17 @@ function per_guardar_correccion($link, $idnombre, array $post, $aceptar_adverten
     }
 
     $revision = per_revisar_cambio($link, $idnombre, $antes, $nuevo);
+    $forzado = false;
     if ($revision['bloqueos']) {
-        return array('estado' => 'bloqueado', 'bloqueos' => $revision['bloqueos'], 'motivo' => $revision['motivo']);
+        $forzable = !empty($revision['forzable']);
+        if (!($forzable && $forzar && per_es_admin())) {
+            return array('estado' => 'bloqueado', 'bloqueos' => $revision['bloqueos'], 'motivo' => $revision['motivo'],
+                         'titulo' => $revision['titulo'], 'forzable' => $forzable, 'es_admin' => per_es_admin());
+        }
+        $forzado = true;   // corrección autorizada por un administrador
     }
     $advertencias = $revision['advertencias'];
-    if ($advertencias && !$aceptar_advertencia) {
+    if ($advertencias && !$aceptar_advertencia && !$forzado) {
         return array('estado' => 'advertencia', 'advertencias' => $advertencias, 'cambios' => $cambios);
     }
 
@@ -966,7 +1170,7 @@ function per_guardar_correccion($link, $idnombre, array $post, $aceptar_adverten
 
     $eess = per_fila($link, "SELECT idestablecimiento_salud FROM dato_laboral WHERE idusuario = ? ORDER BY iddato_laboral DESC LIMIT 1", 'i', array((int)$idusuario));
     $eess = $eess ? (int)$eess['idestablecimiento_salud'] : null;
-    $marca = $advertencias ? 'SI' : 'NO';
+    $marca = ($advertencias || $forzado) ? 'SI' : 'NO';
     $fecha = date('Y-m-d');
     $hora  = date('H:i:s');
 
@@ -1196,6 +1400,7 @@ function per_modal_correccion($link, array $p, $token, $color = 'primary')
                     <input type="hidden" name="b" value="<?php echo per_h($token); ?>">
                     <input type="hidden" name="idnombre" value="<?php echo $id; ?>">
                     <input type="hidden" name="aceptar_advertencia" value="NO">
+                    <input type="hidden" name="forzar" value="NO">
                     <div class="modal-header" title="Arrastre para mover la ventana">
                         <h6 class="modal-title font-weight-bold text-<?php echo per_h($color); ?> m-0">
                             CORREGIR DATOS PERSONALES
@@ -1207,11 +1412,15 @@ function per_modal_correccion($link, array $p, $token, $color = 'primary')
                         <?php echo per_form_campos($link, $p, 'text-' . $color, (string)$id); ?>
                         <div class="alert alert-danger d-none caja-errores"></div>
                         <div class="alert alert-danger d-none caja-bloqueo">
-                            <b><i class="fas fa-ban"></i> No se puede guardar: esto parece otra persona.</b>
+                            <b><i class="fas fa-ban"></i> <span class="titulo-bloqueo">No se puede guardar: esto parece otra persona.</span></b>
                             <ul class="mb-1 lista-bloqueos"></ul>
                             <span class="texto-motivo"></span>
-                            <b>Si es otra persona, regístrela como nueva.</b> Si es la misma persona, corrija solo los datos mal escritos.
-                            <div class="mt-1"><button type="button" class="btn btn-sm btn-secondary btn-revisar">REVISAR</button></div>
+                            <span class="texto-otra-persona"><b>Si es otra persona, regístrela como nueva.</b> Si es la misma persona, corrija solo los datos mal escritos.</span>
+                            <div class="small mt-1 d-none texto-pedir-admin">Si está seguro de que es la misma persona, solicite la corrección a un administrador.</div>
+                            <div class="mt-1">
+                                <button type="button" class="btn btn-sm btn-secondary btn-revisar">REVISAR</button>
+                                <button type="button" class="btn btn-sm btn-danger btn-forzar ml-1 d-none" title="Solo administradores. Queda registrado con su usuario.">ADMINISTRADOR: CORREGIR DE TODAS FORMAS</button>
+                            </div>
                         </div>
                         <div class="alert alert-warning d-none caja-advertencia">
                             <b><i class="fas fa-exclamation-triangle"></i> Este cambio parece otra persona.</b>
@@ -1356,10 +1565,11 @@ function per_js_correccion($url_guardar, $pagina, $url_expirado)
             if (x) x.click();
         }
 
-        function enviar(form, aceptar) {
+        function enviar(form, aceptar, forzar) {
             form.querySelector('[name="aceptar_advertencia"]').value = aceptar ? 'SI' : 'NO';
+            form.querySelector('[name="forzar"]').value = forzar ? 'SI' : 'NO';
             ['.caja-errores', '.caja-advertencia', '.caja-bloqueo'].forEach(function (s) { mostrar(form.querySelector(s), false); });
-            var botones = form.querySelectorAll('.btn-guardar, .btn-continuar');
+            var botones = form.querySelectorAll('.btn-guardar, .btn-continuar, .btn-forzar');
             botones.forEach(function (b) { b.disabled = true; });
             jQuery.ajax({ url: CFG.guardar, method: 'POST', data: jQuery(form).serialize(), dataType: 'json' })
                 .done(function (r) {
@@ -1379,11 +1589,15 @@ function per_js_correccion($url_guardar, $pagina, $url_expirado)
                         return;
                     }
                     if (r.estado === 'bloqueado') {
-                        // Protege la carpeta familiar / historia clínica: no hay "continuar"
+                        // Protege la carpeta familiar / historia clínica: no hay "continuar" (solo un administrador)
                         var lb = form.querySelector('.lista-bloqueos'), hb = '';
                         (r.bloqueos || []).forEach(function (a) { hb += '<li>' + esc(a) + '</li>'; });
                         lb.innerHTML = hb;
+                        form.querySelector('.titulo-bloqueo').textContent = r.titulo || 'No se puede guardar: esto parece otra persona.';
                         form.querySelector('.texto-motivo').textContent = (r.motivo || '') + ' ';
+                        mostrar(form.querySelector('.texto-otra-persona'), !!r.forzable);
+                        mostrar(form.querySelector('.texto-pedir-admin'), !!r.forzable && !r.es_admin);
+                        mostrar(form.querySelector('.btn-forzar'), !!r.forzable && !!r.es_admin);
                         mostrar(form.querySelector('.caja-bloqueo'), true);
                     } else if (r.estado === 'advertencia') {
                         var l = form.querySelector('.lista-advertencias'), html = '';
@@ -1408,12 +1622,13 @@ function per_js_correccion($url_guardar, $pagina, $url_expirado)
             if (!f.classList || !f.classList.contains('form-corregir-persona')) return;
             e.preventDefault();
             if (!f.checkValidity()) { f.reportValidity(); return; }
-            enviar(f, false);
+            enviar(f, false, false);
         });
         document.addEventListener('click', function (e) {
-            var t = e.target.closest ? e.target.closest('.btn-continuar, .btn-revisar, [data-toggle="modal"]') : null;
+            var t = e.target.closest ? e.target.closest('.btn-continuar, .btn-forzar, .btn-revisar, [data-toggle="modal"]') : null;
             if (!t) return;
-            if (t.classList.contains('btn-continuar')) { enviar(t.closest('form'), true); }
+            if (t.classList.contains('btn-continuar')) { enviar(t.closest('form'), true, false); }
+            else if (t.classList.contains('btn-forzar')) { enviar(t.closest('form'), true, true); }
             else if (t.classList.contains('btn-revisar')) { mostrar(t.closest('.caja-advertencia, .caja-bloqueo'), false); }
             else {
                 // Al abrir: centrada sobre la zona de datos (horizontal) y en el centro vertical de la pantalla
