@@ -33,9 +33,9 @@ if ($latitud == '' || $longitud == '') {
     header("Location:mensaje_sin_coordenadas_influencia_mun.php");
 }  
 else {
-        $sql8 = " INSERT INTO area_influencia (iddepartamento, idred_salud, idestablecimiento_salud, idtipo_area_influencia, area_influencia, idnacion, habitantes, ";
+        $sql8 = " INSERT INTO area_influencia (iddepartamento, idred_salud, idestablecimiento_salud, idmunicipio, idtipo_area_influencia, area_influencia, idnacion, habitantes, ";
         $sql8.= " familias, distancia, latitud, longitud, fecha_registro, idusuario)";
-        $sql8.= " VALUES ('$iddepartamento_ss','$idred_salud_ss','$idestablecimiento_salud_ss','$idtipo_area_influencia','$area_influencia','$idnacion','$habitantes', ";
+        $sql8.= " VALUES ('$iddepartamento_ss','$idred_salud_ss','$idestablecimiento_salud_ss','$idmunicipio_ss','$idtipo_area_influencia','$area_influencia','$idnacion','$habitantes', ";
         $sql8.= " '$familias','$distancia','$latitud','$longitud','$fecha','$idusuario_ss')";
         $result8 = mysqli_query($link,$sql8);  
         $idarea_influencia = mysqli_insert_id($link);
