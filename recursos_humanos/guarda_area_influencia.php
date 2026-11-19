@@ -25,14 +25,18 @@ $distancia               = $link->real_escape_string($_POST['distancia']);
 $latitud                 = $_POST['latitud']; 
 $longitud                = $_POST['longitud']; 
 
+$sql7 = " SELECT idmunicipio FROM establecimiento_salud WHERE idestablecimiento_salud='$idestablecimiento_salud'";
+$result7 = mysqli_query($link,$sql7);
+$row7 = mysqli_fetch_array($result7);
+
 if ($latitud == '' || $longitud == '') {
     
     header("Location:mensaje_sin_coordenadas_influencia.php");
 }  
 else {
-        $sql8 = " INSERT INTO area_influencia (iddepartamento, idred_salud, idestablecimiento_salud, idtipo_area_influencia, area_influencia, idnacion, habitantes, ";
+        $sql8 = " INSERT INTO area_influencia (iddepartamento, idred_salud, idmunicipio, idestablecimiento_salud, idtipo_area_influencia, area_influencia, idnacion, habitantes, ";
         $sql8.= " familias, distancia, latitud, longitud, fecha_registro, idusuario)";
-        $sql8.= " VALUES ('$iddepartamento','$idred_salud','$idestablecimiento_salud','$idtipo_area_influencia','$area_influencia','$idnacion','$habitantes', ";
+        $sql8.= " VALUES ('$iddepartamento','$idred_salud','$row7[0]','$idestablecimiento_salud','$idtipo_area_influencia','$area_influencia','$idnacion','$habitantes', ";
         $sql8.= " '$familias','$distancia','$latitud','$longitud','$fecha','$idusuario_ss')";
         $result8 = mysqli_query($link,$sql8);  
         $idarea_influencia = mysqli_insert_id($link);

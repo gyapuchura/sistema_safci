@@ -518,3 +518,5 @@ ALTER TABLE item_senal_cancer ADD FOREIGN KEY (idseccion_encuesta) REFERENCES se
 ALTER TABLE nombre_correccion ADD FOREIGN KEY (idestablecimiento_salud) REFERENCES establecimiento_salud (idestablecimiento_salud);
 
 ALTER TABLE persona_ci_conflicto ADD FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario);
+
+ALTER TABLE area_influencia ADD FOREIGN KEY (idmunicipio) REFERENCES municipios (idmunicipio);
